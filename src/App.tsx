@@ -1,5 +1,5 @@
 import { useEffect, type ReactNode } from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import Lenis from 'lenis';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
@@ -11,10 +11,25 @@ import Platforms from './pages/Platforms';
 import PostDetail from './pages/PostDetail';
 import Calendar from './pages/Calendar';
 import PostComposer from './pages/PostComposer';
+import Profile from './pages/Profile';
+import Posts from './pages/Posts';
 import LoginCard from './components/auth/LoginCard';
 import RegisterCard from './components/auth/RegisterCard';
 
 gsap.registerPlugin(ScrollTrigger);
+
+function ScrollToTop() {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    const lenis = (window as Window & { __lenis?: Lenis }).__lenis;
+    if (lenis) {
+      lenis.scrollTo(0, { immediate: true });
+    } else {
+      window.scrollTo(0, 0);
+    }
+  }, [pathname]);
+  return null;
+}
 
 function LenisProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
@@ -45,6 +60,7 @@ export default function App() {
   return (
     <LenisProvider>
       <BrowserRouter>
+        <ScrollToTop />
         <Routes>
           {/* Dashboard app */}
           <Route path="/" element={<DashboardLayout />}>
@@ -52,10 +68,12 @@ export default function App() {
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="analytics" element={<Analytics />} />
             <Route path="platforms" element={<Platforms />} />
+            <Route path="posts" element={<Posts />} />
             <Route path="posts/:id" element={<PostDetail />} />
             <Route path="calendar" element={<Calendar />} />
             <Route path="composer" element={<PostComposer />} />
             <Route path="settings" element={<Dashboard />} />
+            <Route path="profile" element={<Profile />} />
           </Route>
 
           {/* Auth */}

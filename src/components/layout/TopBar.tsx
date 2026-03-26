@@ -36,11 +36,6 @@ export default function TopBar({ title, subtitle, actions }: TopBarProps) {
         <button className="w-9 h-9 flex items-center justify-center rounded-full text-[#988d9c] hover:text-white hover:bg-[#201f1f] transition-all">
           <span className="material-symbols-outlined" style={{ fontSize: 20 }}>notifications</span>
         </button>
-        <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-[#d394ff] to-[#9400e4] p-[1px] shrink-0">
-          <div className="w-full h-full rounded-full bg-[#1a1919] flex items-center justify-center">
-            <span className="material-symbols-outlined text-[#d394ff]" style={{ fontSize: 14 }}>person</span>
-          </div>
-        </div>
       </div>
     </header>
   );

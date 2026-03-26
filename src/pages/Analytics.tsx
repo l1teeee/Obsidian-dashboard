@@ -3,6 +3,7 @@ import LineChart from '../components/analytics/LineChart';
 import BarChart from '../components/analytics/BarChart';
 import PlatformStatCard from '../components/analytics/PlatformStatCard';
 import TopPostsTable from '../components/analytics/TopPostsTable';
+import WorldMap from '../components/analytics/WorldMap';
 import { useAnalytics } from '../hooks/useAnalytics';
 
 export default function Analytics() {
@@ -55,8 +56,11 @@ export default function Analytics() {
           ))}
         </div>
 
-        {/* Top Posts Table */}
-        <TopPostsTable posts={data.topPosts} />
+        {/* Audience Geography + Top Posts */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <WorldMap />
+          <TopPostsTable posts={data.topPosts} />
+        </div>
       </div>
     </div>
   );
