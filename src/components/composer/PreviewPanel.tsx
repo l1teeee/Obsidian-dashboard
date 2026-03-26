@@ -27,7 +27,7 @@ export default function PreviewPanel({
   onTabChange,
 }: PreviewPanelProps) {
   return (
-    <section className="w-1/2 bg-[#0e0e0e] flex flex-col items-center justify-center p-8 relative overflow-hidden">
+    <section className="w-full bg-[#0e0e0e] flex flex-col items-center justify-center p-4 md:p-8 relative overflow-hidden min-h-0">
       <div className="absolute -top-20 -right-20 w-80 h-80 bg-[#d394ff]/5 blur-[100px] rounded-full pointer-events-none" />
       <div className="absolute -bottom-20 -left-20 w-80 h-80 bg-[#9400e4]/5 blur-[100px] rounded-full pointer-events-none" />
 

@@ -1,4 +1,5 @@
 import { PLATFORM_REGISTRY, type PlatformId } from '../../domain/entities/Platform';
+import SocialBrandIcon from '../shared/SocialBrandIcon';
 
 interface PlatformFilterProps {
   activePlatforms: PlatformId[];
@@ -26,7 +27,7 @@ export default function PlatformFilter({ activePlatforms, onToggle }: PlatformFi
             ].join(' ')}
             style={active ? { background: p.color + '22', borderColor: p.color + '60', color: p.color } : {}}
           >
-            <span className="material-symbols-outlined" style={{ fontSize: 13 }}>{p.icon}</span>
+            <SocialBrandIcon platformId={id} size={13} />
             {p.name}
             {active && (
               <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ background: p.color }} />

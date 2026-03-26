@@ -1,19 +1,26 @@
 import type { PlatformBreakdown } from '../../domain/entities/Analytics';
+import SocialBrandIcon from '../shared/SocialBrandIcon';
 
 interface PlatformStatCardProps {
   stat: PlatformBreakdown;
 }
 
-export default function PlatformStatCard({ stat: p }: PlatformStatCardProps) {
-  const isInstagram = p.name === 'Instagram';
+function getCardBg(id: string): string {
+  if (id === 'instagram') return 'bg-gradient-to-tr from-[#f09433] via-[#e6683c] to-[#bc1888]';
+  if (id === 'linkedin')  return 'bg-[#0A66C2]';
+  if (id === 'facebook')  return 'bg-[#1877F2]';
+  if (id === 'twitter')   return 'bg-[#000000]';
+  if (id === 'tiktok')    return 'bg-gradient-to-br from-[#010101] via-[#69C9D0] to-[#EE1D52]';
+  if (id === 'youtube')   return 'bg-[#FF0000]';
+  return 'bg-[#4c4450]';
+}
 
+export default function PlatformStatCard({ stat: p }: PlatformStatCardProps) {
   return (
     <div data-platform-stat className="glass-card p-6 rounded-3xl border border-[#4c4450]/5">
       <div className="flex items-center gap-3 mb-6">
-        <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${isInstagram ? 'bg-gradient-to-tr from-yellow-400 via-red-500 to-purple-600' : p.platformId === 'linkedin' ? 'bg-[#0077b5]' : 'bg-[#1877f2]'}`}>
-          <span className="material-symbols-outlined text-white text-[18px]">
-            {p.platformId === 'instagram' ? 'camera' : p.platformId === 'linkedin' ? 'work' : 'group'}
-          </span>
+        <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${getCardBg(p.platformId)}`}>
+          <SocialBrandIcon platformId={p.platformId} size={18} />
         </div>
         <div>
           <h4 className="font-bold text-sm text-white">{p.name}</h4>

@@ -1,8 +1,34 @@
+import { useState } from 'react';
 import TopBar from '../components/layout/TopBar';
 import { usePlatforms } from '../hooks/usePlatforms';
+import SocialBrandIcon from '../components/shared/SocialBrandIcon';
+import AddPlatformModal from '../components/platforms/AddPlatformModal';
+import type { PlatformId } from '../domain/entities/Platform';
+
+function getIconBg(id: string): string {
+  switch (id) {
+    case 'instagram': return 'bg-gradient-to-tr from-[#f09433] via-[#e6683c] to-[#bc1888]';
+    case 'facebook':  return 'bg-[#1877F2]';
+    case 'linkedin':  return 'bg-[#0A66C2]';
+    case 'twitter':   return 'bg-[#000000]';
+    case 'tiktok':    return 'bg-gradient-to-br from-[#010101] via-[#69C9D0] to-[#EE1D52]';
+    case 'youtube':   return 'bg-[#FF0000]';
+    case 'pinterest': return 'bg-[#E60023]';
+    default:          return 'bg-[#4c4450]';
+  }
+}
 
 export default function Platforms() {
   const { platforms, pageRef } = usePlatforms();
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const connectedIds = platforms.map((p) => p.id as PlatformId);
+
+  function handleConnect(id: PlatformId) {
+    // TODO: wire to real connect logic / repository
+    console.log('Connect platform:', id);
+    setModalOpen(false);
+  }
 
   return (
     <div ref={pageRef}>
@@ -10,7 +36,10 @@ export default function Platforms() {
         title="Platforms"
         subtitle="Connection Manager"
         actions={
-          <button className="bg-[#e4b9ff] hover:bg-[#e2b5ff] text-[#2f004d] px-4 py-1.5 rounded-xl text-xs font-bold transition-all active:scale-95">
+          <button
+            onClick={() => setModalOpen(true)}
+            className="bg-[#e4b9ff] hover:bg-[#e2b5ff] text-[#2f004d] px-4 py-1.5 rounded-xl text-xs font-bold transition-all active:scale-95"
+          >
             Add New Connection
           </button>
         }
@@ -34,21 +63,18 @@ export default function Platforms() {
         </header>
 
         {/* Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
           {platforms.map((p) => {
-            const isInstagram  = p.id === 'instagram';
-            const needsReauth  = p.status === 'needs-reauth';
-            const isConnected  = p.status === 'connected';
-            const iconBg       = isInstagram
-              ? 'bg-gradient-to-tr from-[#f09433] via-[#e6683c] to-[#bc1888]'
-              : p.id === 'linkedin' ? 'bg-[#0077b5]' : 'bg-[#1877f2]';
-            const statusClass  = isConnected
+            const needsReauth = p.status === 'needs-reauth';
+            const isConnected = p.status === 'connected';
+            const iconBg      = getIconBg(p.id);
+            const statusClass = isConnected
               ? 'bg-green-500/10 text-green-400'
               : 'bg-yellow-500/10 text-yellow-400';
-            const statusLabel  = isConnected ? 'Connected' : 'Needs Re-auth';
-            const userOpacity  = needsReauth ? 'opacity-60' : '';
-            const btnLabel     = needsReauth ? 'Reconnect Now' : 'Disconnect Platform';
-            const btnClass     = needsReauth
+            const statusLabel = isConnected ? 'Connected' : 'Needs Re-auth';
+            const userOpacity = needsReauth ? 'opacity-60' : '';
+            const btnLabel    = needsReauth ? 'Reconnect Now' : 'Disconnect Platform';
+            const btnClass    = needsReauth
               ? 'bg-[#d394ff] text-[#5e2388] font-bold hover:brightness-110 shadow-lg shadow-[#d394ff]/10'
               : 'border border-[#4c4450]/30 text-[#e5e2e1] hover:bg-[#ffb4ab]/10 hover:border-[#ffb4ab]/20 hover:text-[#ffb4ab]';
 
@@ -58,19 +84,24 @@ export default function Platforms() {
                 data-platform-card
                 className="glass-card rounded-3xl p-8 border border-[#4c4450]/10 hover:border-[#d394ff]/30 transition-all duration-500 group relative overflow-hidden"
               >
-                <div className="absolute -top-24 -right-24 w-48 h-48 rounded-full blur-[60px] transition-colors" style={{ background: `${p.color}0d` }} />
+                <div
+                  className="absolute -top-24 -right-24 w-48 h-48 rounded-full blur-[60px] transition-colors pointer-events-none"
+                  style={{ background: `${p.color}1a` }}
+                />
 
                 <div className="flex justify-between items-start mb-10">
                   <div className="flex items-center gap-4">
-                    <div className={`w-14 h-14 rounded-2xl ${iconBg} flex items-center justify-center text-white shadow-lg`}>
-                      <span className="material-symbols-outlined text-[28px]">{p.icon}</span>
+                    <div className={`w-14 h-14 rounded-2xl ${iconBg} flex items-center justify-center shadow-lg shrink-0`}>
+                      <SocialBrandIcon platformId={p.id} size={28} />
                     </div>
                     <div>
                       <h3 className="font-headline text-xl font-bold text-white tracking-tight">{p.name}</h3>
-                      <span className={`px-2 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider ${statusClass}`}>{statusLabel}</span>
+                      <span className={`px-2 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider ${statusClass}`}>
+                        {statusLabel}
+                      </span>
                     </div>
                   </div>
-                  <button className="w-10 h-10 rounded-full border border-[#4c4450]/20 flex items-center justify-center hover:bg-[#2a2a2a] transition-colors">
+                  <button className="w-10 h-10 rounded-full border border-[#4c4450]/20 flex items-center justify-center hover:bg-[#2a2a2a] transition-colors shrink-0">
                     <span className="material-symbols-outlined text-[#988d9c] text-[18px]">more_vert</span>
                   </button>
                 </div>
@@ -79,8 +110,8 @@ export default function Platforms() {
                   <div className="w-10 h-10 rounded-full bg-[#2a2a2a] flex items-center justify-center shrink-0">
                     <span className="material-symbols-outlined text-[#988d9c] text-[16px]">person</span>
                   </div>
-                  <div>
-                    <p className="text-sm font-semibold text-white">{p.handle}</p>
+                  <div className="min-w-0">
+                    <p className="text-sm font-semibold text-white truncate">{p.handle}</p>
                     <p className="font-mono text-[10px] text-[#988d9c]">{p.syncInfo}</p>
                   </div>
                 </div>
@@ -89,7 +120,9 @@ export default function Platforms() {
                   <p className="text-[10px] uppercase tracking-widest font-bold text-[#988d9c]">Permissions</p>
                   <div className="flex flex-wrap gap-2">
                     {p.permissions.map((perm) => (
-                      <span key={perm} className="px-3 py-1 rounded-full bg-[#4c4450]/10 text-[#cfc2d2] text-[11px]">{perm}</span>
+                      <span key={perm} className="px-3 py-1 rounded-full bg-[#4c4450]/10 text-[#cfc2d2] text-[11px]">
+                        {perm}
+                      </span>
                     ))}
                   </div>
                 </div>
@@ -104,14 +137,15 @@ export default function Platforms() {
           {/* Add Platform */}
           <div
             data-add-card
-            className="rounded-3xl p-8 border-2 border-dashed border-[#4c4450]/20 flex flex-col items-center justify-center text-center gap-4 group hover:border-[#d394ff]/40 hover:bg-[#d394ff]/5 transition-all cursor-pointer"
+            onClick={() => setModalOpen(true)}
+            className="rounded-3xl p-8 border-2 border-dashed border-[#4c4450]/20 flex flex-col items-center justify-center text-center gap-4 group hover:border-[#d394ff]/40 hover:bg-[#d394ff]/5 transition-all cursor-pointer min-h-[200px]"
           >
             <div className="w-16 h-16 rounded-full bg-[#201f1f] flex items-center justify-center group-hover:scale-110 transition-transform">
               <span className="material-symbols-outlined text-[#988d9c] group-hover:text-[#d394ff] text-[28px]">add</span>
             </div>
             <div>
               <h4 className="text-white font-bold">Add Platform</h4>
-              <p className="text-[#988d9c] text-xs mt-1">TikTok, Twitter, or Pinterest</p>
+              <p className="text-[#988d9c] text-xs mt-1">Pinterest, Snapchat & more</p>
             </div>
           </div>
         </div>
@@ -134,6 +168,13 @@ export default function Platforms() {
           </div>
         </footer>
       </main>
+
+      <AddPlatformModal
+        open={modalOpen}
+        connectedIds={connectedIds}
+        onClose={() => setModalOpen(false)}
+        onConnect={handleConnect}
+      />
     </div>
   );
 }

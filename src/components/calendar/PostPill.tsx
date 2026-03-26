@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { PLATFORM_REGISTRY } from '../../domain/entities/Platform';
+import SocialBrandIcon from '../shared/SocialBrandIcon';
 import StatusBadge from '../shared/StatusBadge';
 import type { CalendarPost } from '../../domain/entities/CalendarPost';
 
@@ -27,7 +28,7 @@ export default function PostPill({ post, compact = false }: PostPillProps) {
       className="flex items-center gap-2 px-3 py-2 rounded-xl border border-[#4c4450]/10 bg-[#1c1b1b] hover:bg-[#201f1f] hover:border-[#d394ff]/20 transition-all group"
     >
       <div className="w-5 h-5 rounded-lg flex items-center justify-center shrink-0" style={{ background: p.color }}>
-        <span className="material-symbols-outlined text-white" style={{ fontSize: 11 }}>{p.icon}</span>
+        <SocialBrandIcon platformId={post.platform} size={11} />
       </div>
       <div className="flex-1 min-w-0">
         <p className="text-xs font-semibold text-white truncate leading-tight">{post.title}</p>

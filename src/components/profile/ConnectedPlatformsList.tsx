@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom';
+import SocialBrandIcon from '../shared/SocialBrandIcon';
 import type { ConnectedPlatformEntry } from '../../domain/entities/Profile';
 
 interface ConnectedPlatformsListProps {
@@ -29,7 +30,7 @@ export default function ConnectedPlatformsList({ platforms }: ConnectedPlatforms
             <div key={p.platformId} className="px-8 py-4 flex items-center justify-between hover:bg-white/[0.02] transition-colors">
               <div className="flex items-center gap-3">
                 <div className="w-8 h-8 rounded-xl flex items-center justify-center text-white shrink-0" style={{ background: p.color }}>
-                  <span className="material-symbols-outlined text-[14px]">{p.icon}</span>
+                  <SocialBrandIcon platformId={p.platformId} size={14} />
                 </div>
                 <div>
                   <p className="text-sm font-semibold text-white">{p.name}</p>

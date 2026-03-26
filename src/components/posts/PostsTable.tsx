@@ -5,6 +5,7 @@ import { PLATFORM_REGISTRY } from '../../domain/entities/Platform';
 import type { PostAction } from '../../hooks/usePosts';
 import StatusBadge from '../shared/StatusBadge';
 import PlatformIcon from '../shared/PlatformIcon';
+import SocialBrandIcon from '../shared/SocialBrandIcon';
 
 interface PostsTableProps {
   posts:     CalendarPost[];
@@ -79,7 +80,7 @@ export default function PostsTable({ posts, onAction }: PostsTableProps) {
                   <td className="px-6 py-4">
                     <Link to={`/posts/${post.id}`} className="flex items-center gap-3">
                       <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style={{ background: p.color }}>
-                        <span className="material-symbols-outlined text-white" style={{ fontSize: 14 }}>{p.icon}</span>
+                        <SocialBrandIcon platformId={post.platform} size={14} />
                       </div>
                       <div className="min-w-0">
                         <p className="text-sm font-semibold text-white truncate max-w-[240px] group-hover:text-[#d394ff] transition-colors">
@@ -127,7 +128,7 @@ export default function PostsTable({ posts, onAction }: PostsTableProps) {
                 className="flex items-center gap-4 p-4 hover:bg-[#201f1f] transition-all"
               >
                 <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style={{ background: p.color }}>
-                  <span className="material-symbols-outlined text-white" style={{ fontSize: 16 }}>{p.icon}</span>
+                  <SocialBrandIcon platformId={post.platform} size={16} />
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-semibold text-white truncate">{post.title}</p>
