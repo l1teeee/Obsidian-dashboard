@@ -28,7 +28,8 @@
       "Bash(npx tsc:*)",
       "Bash(python3 -c \":*)",
       "Bash(git:*)",
-      "Bash(node -e \"require\\(''react-simple-maps''\\); console.log\\(''ok''\\)\")"
+      "Bash(node -e \"require\\(''react-simple-maps''\\); console.log\\(''ok''\\)\")",
+      "Bash(npm i:*)"
     ]
   }
 }
