@@ -16,6 +16,8 @@ interface PostsTableProps {
 const TABLE_HEADERS = ['Content', 'Platform', 'Status', 'Date', 'Time', 'Actions'];
 
 function ActionButtons({ post, view, onAction }: { post: CalendarPost; view: PostsView; onAction: PostsTableProps['onAction'] }) {
+  if (post.status === 'draft') return null;
+
   if (view === 'inactive') {
     return (
       <div className="flex items-center gap-1.5">
@@ -101,11 +103,14 @@ export default function PostsTable({ posts, view, onAction }: PostsTableProps) {
           </thead>
           <tbody className="divide-y divide-[#4c4450]/5">
             {posts.map(post => {
-              const p = PLATFORM_REGISTRY[post.platform];
+              const p       = PLATFORM_REGISTRY[post.platform];
+              const postHref = post.status === 'draft'
+                ? `/composer/${post.id}`
+                : `/posts/${post.id}`;
               return (
                 <tr key={post.id} className="hover:bg-white/[0.03] transition-colors group">
                   <td className="px-6 py-4">
-                    <Link to={`/posts/${post.id}`} className="flex items-center gap-3">
+                    <Link to={postHref} className="flex items-center gap-3">
                       <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style={{ background: p.color }}>
                         <SocialBrandIcon platformId={post.platform} size={14} />
                       </div>
@@ -118,13 +123,13 @@ export default function PostsTable({ posts, view, onAction }: PostsTableProps) {
                     </Link>
                   </td>
                   <td className="px-6 py-4">
-                    <Link to={`/posts/${post.id}`} className="flex items-center gap-2">
+                    <Link to={postHref} className="flex items-center gap-2">
                       <PlatformIcon platformId={post.platform} size={22} rounded="rounded-md" />
                       <span className="text-xs text-[#cfc2d2]">{p.name}</span>
                     </Link>
                   </td>
                   <td className="px-6 py-4">
-                    <Link to={`/posts/${post.id}`}>
+                    <Link to={postHref}>
                       <StatusBadge status={post.status} />
                     </Link>
                   </td>
@@ -147,11 +152,14 @@ export default function PostsTable({ posts, view, onAction }: PostsTableProps) {
       {/* Mobile cards */}
       <div className="md:hidden space-y-3">
         {posts.map(post => {
-          const p = PLATFORM_REGISTRY[post.platform];
+          const p         = PLATFORM_REGISTRY[post.platform];
+          const postHref  = post.status === 'draft'
+            ? `/composer/${post.id}`
+            : `/posts/${post.id}`;
           return (
             <div key={post.id} className="glass-card rounded-2xl border border-[#4c4450]/5 overflow-hidden">
               <Link
-                to={`/posts/${post.id}`}
+                to={postHref}
                 className="flex items-center gap-4 p-4 hover:bg-[#201f1f] transition-all"
               >
                 <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style={{ background: p.color }}>

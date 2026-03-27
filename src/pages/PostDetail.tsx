@@ -12,30 +12,36 @@ import StatusBadge from '../components/shared/StatusBadge';
 import { usePostDetail } from '../hooks/usePostDetail';
 import * as postsService from '../services/posts.service';
 import type { PostStatus } from '../domain/entities/Post';
+import type { PlatformId } from '../domain/entities/Platform';
+import { PLATFORM_REGISTRY } from '../domain/entities/Platform';
+import { MockPostRepository } from '../infrastructure/repositories/MockPostRepository';
 
 type DetailAction = 'activate' | 'deactivate' | 'delete' | null;
 
+// Placeholder mock analytics (Phase 3/4 pending — no real metrics from API yet)
+const MOCK_ANALYTICS = new MockPostRepository().getById('88291')!;
+
+function formatDate(iso: string | null | undefined): string {
+  if (!iso) return '—';
+  return new Date(iso).toLocaleString('en-US', {
+    month: 'short', day: 'numeric', year: 'numeric',
+    hour: 'numeric', minute: '2-digit',
+  });
+}
+
 export default function PostDetail() {
-  const { post, resolvedId, pageRef, handleBack } = usePostDetail();
+  const { apiPost, loading, notFound, resolvedId, pageRef, handleBack } = usePostDetail();
   const navigate     = useNavigate();
   const menuRef      = useRef<HTMLDivElement>(null);
   const [menuOpen,   setMenuOpen]   = useState(false);
   const [action,     setAction]     = useState<DetailAction>(null);
   const [submitting, setSubmitting] = useState(false);
   const [postStatus, setPostStatus] = useState<PostStatus | null>(null);
-  const [statusLoading, setStatusLoading] = useState(true);
 
-  // Fetch real status from API
+  // Sync status from apiPost
   useEffect(() => {
-    if (!resolvedId) return;
-    let cancelled = false;
-    setStatusLoading(true);
-    postsService.getById(resolvedId)
-      .then(p => { if (!cancelled) setPostStatus(p.status as PostStatus); })
-      .catch(() => { if (!cancelled) setPostStatus(null); })
-      .finally(() => { if (!cancelled) setStatusLoading(false); });
-    return () => { cancelled = true; };
-  }, [resolvedId]);
+    if (apiPost) setPostStatus(apiPost.status as PostStatus);
+  }, [apiPost]);
 
   // Close menu on outside click
   useEffect(() => {
@@ -98,6 +104,39 @@ export default function PostDetail() {
     },
   };
 
+  // Build display post from real API data + mock analytics placeholder
+  const displayPlatform: PlatformId =
+    apiPost?.platform && apiPost.platform in PLATFORM_REGISTRY
+      ? (apiPost.platform as PlatformId)
+      : 'instagram';
+
+  const displayPost = {
+    ...MOCK_ANALYTICS,
+    id:       resolvedId,
+    platform: displayPlatform,
+    caption:  apiPost?.caption ?? '(no caption)',
+    imageUrl: apiPost?.media_urls?.[0] ?? MOCK_ANALYTICS.imageUrl,
+    date:     formatDate(apiPost?.published_at ?? apiPost?.scheduled_at ?? apiPost?.created_at),
+  };
+
+  if (loading) {
+    return (
+      <div ref={pageRef} className="flex items-center justify-center h-64">
+        <span className="text-[#988d9c] text-sm animate-pulse">Loading post…</span>
+      </div>
+    );
+  }
+
+  if (notFound) {
+    return (
+      <div ref={pageRef} className="flex flex-col items-center justify-center h-64 gap-3">
+        <span className="material-symbols-outlined text-[#988d9c] text-4xl">find_in_page</span>
+        <p className="text-[#988d9c] text-sm">Post not found.</p>
+        <button onClick={handleBack} className="text-xs text-[#d394ff] hover:underline">Go back</button>
+      </div>
+    );
+  }
+
   return (
     <div ref={pageRef}>
       <TopBar
@@ -113,10 +152,7 @@ export default function PostDetail() {
               Back
             </button>
 
-            {/* Live status badge */}
-            {!statusLoading && postStatus && (
-              <StatusBadge status={postStatus} />
-            )}
+            {postStatus && <StatusBadge status={postStatus} />}
 
             <button className="bg-[#e4b9ff] text-[#2f004d] px-5 py-1.5 rounded-xl text-xs font-bold active:scale-95 transition-transform">
               Export Report
@@ -173,11 +209,11 @@ export default function PostDetail() {
       <div className="p-6 md:p-10 max-w-7xl mx-auto space-y-8 md:space-y-10">
         <section className="grid grid-cols-12 gap-6 md:gap-10">
           <div className="col-span-12 lg:col-span-5">
-            <PostPreviewCard post={post} />
+            <PostPreviewCard post={displayPost} />
           </div>
           <div className="col-span-12 lg:col-span-7 space-y-6 md:space-y-8">
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-              {post.metrics.map((m, i) => (
+              {displayPost.metrics.map((m, i) => (
                 <MetricCard key={m.label} metric={m} index={i} />
               ))}
             </div>
@@ -187,7 +223,7 @@ export default function PostDetail() {
                 Performance Benchmark
               </h3>
               <div className="space-y-6">
-                {post.benchmarks.map(b => (
+                {displayPost.benchmarks.map(b => (
                   <BenchmarkBar key={b.label} benchmark={b} />
                 ))}
               </div>
@@ -197,10 +233,10 @@ export default function PostDetail() {
 
         <section className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <SentimentRing />
-          <VisualIntelligence tags={post.tags} />
+          <VisualIntelligence tags={displayPost.tags} />
         </section>
 
-        <CommentList comments={post.comments} commentsCount={post.metrics[1]?.value ?? '0'} />
+        <CommentList comments={displayPost.comments} commentsCount={displayPost.metrics[1]?.value ?? '0'} />
       </div>
 
       {action && (

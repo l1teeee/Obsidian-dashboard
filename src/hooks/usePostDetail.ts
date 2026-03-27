@@ -1,19 +1,33 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import gsap from 'gsap';
-import { MockPostRepository } from '../infrastructure/repositories/MockPostRepository';
-import type { PostRecord } from '../domain/entities/Post';
+import * as postsService from '../services/posts.service';
+import type { ApiPost } from '../services/posts.service';
 
 export function usePostDetail() {
-  const navigate = useNavigate();
-  const { id }   = useParams<{ id: string }>();
-  const pageRef  = useRef<HTMLDivElement>(null);
+  const navigate   = useNavigate();
+  const { id }     = useParams<{ id: string }>();
+  const pageRef    = useRef<HTMLDivElement>(null);
+  const resolvedId = id ?? '';
 
-  const repo:       MockPostRepository = new MockPostRepository();
-  const post:       PostRecord         = repo.getById(id ?? '') ?? (repo.getById('88291') as PostRecord);
-  const resolvedId: string             = id ?? '88291';
+  const [apiPost,  setApiPost]  = useState<ApiPost | null>(null);
+  const [loading,  setLoading]  = useState(true);
+  const [notFound, setNotFound] = useState(false);
 
   useEffect(() => {
+    if (!resolvedId) return;
+    let cancelled = false;
+    setLoading(true);
+    setNotFound(false);
+    postsService.getById(resolvedId)
+      .then(p  => { if (!cancelled) setApiPost(p); })
+      .catch(() => { if (!cancelled) setNotFound(true); })
+      .finally(() => { if (!cancelled) setLoading(false); });
+    return () => { cancelled = true; };
+  }, [resolvedId]);
+
+  useEffect(() => {
+    if (loading || !apiPost) return;
     const ctx = gsap.context(() => {
       gsap.from('[data-post-img]',   { scale: 1.04, opacity: 0, duration: 0.7, ease: 'power3.out' });
       gsap.from('[data-metric]',     { y: 16, opacity: 0, duration: 0.45, stagger: 0.07, ease: 'power2.out', delay: 0.2 });
@@ -31,9 +45,9 @@ export function usePostDetail() {
     }, pageRef.current!);
 
     return () => ctx.revert();
-  }, [id]);
+  }, [loading, apiPost]);
 
   const handleBack = () => navigate(-1);
 
-  return { post, resolvedId, pageRef, handleBack };
+  return { apiPost, loading, notFound, resolvedId, pageRef, handleBack };
 }

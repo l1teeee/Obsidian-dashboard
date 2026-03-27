@@ -1,9 +1,12 @@
 import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
+import { useInactivityTimer } from './hooks/useInactivityTimer';
+import SessionWarningModal from './components/shared/SessionWarningModal';
 import { BrowserRouter, Routes, Route, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import Lenis from 'lenis';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 
+import { Toaster } from 'sileo';
 import { AuthProvider } from './contexts/AuthContext';
 import { WorkspaceProvider, useWorkspace } from './contexts/WorkspaceContext';
 import { useAuth } from './hooks/useAuth';
@@ -102,6 +105,44 @@ function WorkspaceGuard({ children }: { children: ReactNode }) {
   return <>{children}</>;
 }
 
+function SessionGuard() {
+  const { isAuthenticated, logout } = useAuth();
+  const navigate = useNavigate();
+  // Keep modal in DOM briefly after showWarning→false so exit animation plays
+  const [mounted, setMounted] = useState(false);
+
+  const handleLogout = useCallback(async () => {
+    await logout();
+    navigate('/login', { replace: true });
+  }, [logout, navigate]);
+
+  const { showWarning, countdown, keepAlive } = useInactivityTimer({
+    enabled:  isAuthenticated,
+    onLogout: handleLogout,
+  });
+
+  useEffect(() => {
+    if (showWarning) {
+      setMounted(true);
+    } else {
+      // Wait for exit animation (400ms) then unmount
+      const id = setTimeout(() => setMounted(false), 400);
+      return () => clearTimeout(id);
+    }
+  }, [showWarning]);
+
+  if (!mounted) return null;
+
+  return (
+    <SessionWarningModal
+      visible={showWarning}
+      countdown={countdown}
+      onKeepAlive={keepAlive}
+      onLogout={handleLogout}
+    />
+  );
+}
+
 export default function App() {
   const [transition, setTransition] = useState(false);
   const triggerTransition = useCallback(() => setTransition(true),  []);
@@ -111,7 +152,19 @@ export default function App() {
     <AuthProvider>
       <WorkspaceProvider>
         <LenisProvider>
+          <Toaster
+            position="bottom-center"
+            options={{
+              fill:   '#c5d247',
+              styles: {
+                title:       'text-[#1a1f00]!',
+                description: 'text-[#3a4700]!',
+                badge:       'bg-[#1a1f00]! border-[#1a1f00]! text-[#c5d247]!',
+              },
+            }}
+          />
           <BrowserRouter>
+            <SessionGuard />
             <ScrollToTop />
             <TransitionDetector onTrigger={triggerTransition} />
             <RouteTransition active={transition} onDone={doneTransition} />
@@ -137,7 +190,8 @@ export default function App() {
                   <Route path="posts"      element={<Posts />} />
                   <Route path="posts/:id"  element={<PostDetail />} />
                   <Route path="calendar"   element={<Calendar />} />
-                  <Route path="composer"   element={<PostComposer />} />
+                  <Route path="composer"      element={<PostComposer />} />
+                  <Route path="composer/:id" element={<PostComposer />} />
                   <Route path="settings"     element={<Settings />} />
                   <Route path="ai-settings" element={<AISettings />} />
                   <Route path="profile"     element={<Profile />} />

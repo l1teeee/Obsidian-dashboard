@@ -21,7 +21,7 @@ interface AuthCtx {
   user:            AuthUser | null;
   isAuthenticated: boolean;
   isLoading:       boolean;
-  login:    (email: string, password: string) => Promise<{ isFirstLogin: boolean }>;
+  login:    (email: string, password: string, rememberMe?: boolean) => Promise<{ isFirstLogin: boolean }>;
   register: (email: string, password: string, name: string) => Promise<{ isFirstLogin: boolean }>;
   logout:   () => Promise<void>;
 }
@@ -43,7 +43,7 @@ function decodeUser(token: string): AuthUser | null {
 
 function applyTokenPair(tokens: authService.TokenPair): void {
   setAccessToken(tokens.accessToken);
-  localStorage.setItem('obs_refresh_token', tokens.refreshToken);
+  // refreshToken is in an httpOnly cookie set by the server — nothing to store here
 }
 
 // ─── Provider ─────────────────────────────────────────────────────────────────
@@ -74,8 +74,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return () => window.removeEventListener('auth:session-expired', handle);
   }, []);
 
-  const login = useCallback(async (email: string, password: string) => {
-    const tokens = await authService.login(email, password);
+  const login = useCallback(async (email: string, password: string, rememberMe?: boolean) => {
+    const tokens = await authService.login(email, password, rememberMe);
     applyTokenPair(tokens);
     setUser(decodeUser(tokens.accessToken));
     return { isFirstLogin: tokens.isFirstLogin };

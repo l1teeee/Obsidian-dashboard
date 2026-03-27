@@ -4,21 +4,39 @@ import gsap from 'gsap';
 import { useGSAP } from '../../hooks/useGSAP';
 import { useAuth } from '../../hooks/useAuth';
 
+// Reusable eye toggle SVG
+function EyeIcon({ open }: { open: boolean }) {
+  return open ? (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/>
+      <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/>
+      <line x1="1" y1="1" x2="23" y2="23"/>
+    </svg>
+  ) : (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+      <circle cx="12" cy="12" r="3"/>
+    </svg>
+  );
+}
+
 export default function LoginCard() {
   const navigate = useNavigate();
   const { login } = useAuth();
 
-  const [email,    setEmail]    = useState('');
-  const [password, setPassword] = useState('');
-  const [error,    setError]    = useState<string | null>(null);
-  const [loading,  setLoading]  = useState(false);
+  const [email,      setEmail]      = useState('');
+  const [password,   setPassword]   = useState('');
+  const [showPass,   setShowPass]   = useState(false);
+  const [rememberMe, setRememberMe] = useState(true);
+  const [error,      setError]      = useState<string | null>(null);
+  const [loading,    setLoading]    = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
     setLoading(true);
     try {
-      const { isFirstLogin } = await login(email, password);
+      const { isFirstLogin } = await login(email, password, rememberMe);
       navigate(isFirstLogin ? '/create-workspace' : '/dashboard');
     } catch (err) {
       const code = (err as { code?: string }).code;
@@ -101,8 +119,48 @@ export default function LoginCard() {
           </h1>
         </div>
 
+        {/* Social sign-in */}
+        <div data-login-field className="space-y-3 mb-6">
+          <button
+            type="button"
+            disabled
+            title="Coming soon"
+            className="w-full flex items-center justify-center gap-3 rounded-[0.875rem] border border-[#494847]/30 bg-white/[0.03] px-4 py-3 text-sm font-medium text-[#e5e2e1]/60 cursor-not-allowed opacity-50 transition-all"
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+              <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+              <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+              <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/>
+              <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+            </svg>
+            Continue with Google
+            <span className="ml-auto text-[0.65rem] font-semibold uppercase tracking-wider text-[#adaaaa]/30">Soon</span>
+          </button>
+
+          <button
+            type="button"
+            disabled
+            title="Coming soon"
+            className="w-full flex items-center justify-center gap-3 rounded-[0.875rem] border border-[#494847]/30 bg-white/[0.03] px-4 py-3 text-sm font-medium text-[#e5e2e1]/60 cursor-not-allowed opacity-50 transition-all"
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="#1877F2">
+              <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+            </svg>
+            Continue with Facebook
+            <span className="ml-auto text-[0.65rem] font-semibold uppercase tracking-wider text-[#adaaaa]/30">Soon</span>
+          </button>
+
+          <div className="flex items-center gap-3 pt-1">
+            <div className="h-px flex-1 bg-[#494847]/20" />
+            <span className="text-[0.6875rem] font-medium text-[#adaaaa]/30 uppercase tracking-widest">or</span>
+            <div className="h-px flex-1 bg-[#494847]/20" />
+          </div>
+        </div>
+
         {/* Form */}
         <form className="space-y-5" onSubmit={(e) => { void handleSubmit(e); }}>
+
+          {/* Email */}
           <div data-login-field className="space-y-2">
             <label className="block text-[0.6875rem] font-semibold uppercase tracking-[0.18em] text-[#adaaaa]/60">
               Email
@@ -114,10 +172,12 @@ export default function LoginCard() {
               autoComplete="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              disabled={loading}
               className="w-full rounded-[0.875rem] border border-[#494847]/30 bg-white/[0.03] px-4 py-3.5 text-sm text-[#e5e2e1] placeholder:text-[#adaaaa]/35 transition-all duration-300 focus:border-[#d394ff]/40 focus:outline-none focus:ring-1 focus:ring-[#d394ff]/20"
             />
           </div>
 
+          {/* Password */}
           <div data-login-field className="space-y-2">
             <div className="flex items-center justify-between">
               <label className="block text-[0.6875rem] font-semibold uppercase tracking-[0.18em] text-[#adaaaa]/60">
@@ -127,18 +187,57 @@ export default function LoginCard() {
                 Forgot password?
               </a>
             </div>
-            <input
-              type="password"
-              placeholder="••••••••••••"
-              required
-              autoComplete="current-password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full rounded-[0.875rem] border border-[#494847]/30 bg-white/[0.03] px-4 py-3.5 text-sm text-[#e5e2e1] placeholder:text-[#adaaaa]/35 transition-all duration-300 focus:border-[#d394ff]/40 focus:outline-none focus:ring-1 focus:ring-[#d394ff]/20"
-            />
+            <div className="relative">
+              <input
+                type={showPass ? 'text' : 'password'}
+                placeholder="••••••••••••"
+                required
+                autoComplete="current-password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                disabled={loading}
+                className="w-full rounded-[0.875rem] border border-[#494847]/30 bg-white/[0.03] px-4 py-3.5 pr-11 text-sm text-[#e5e2e1] placeholder:text-[#adaaaa]/35 transition-all duration-300 focus:border-[#d394ff]/40 focus:outline-none focus:ring-1 focus:ring-[#d394ff]/20"
+              />
+              <button
+                type="button"
+                tabIndex={-1}
+                onClick={() => setShowPass(v => !v)}
+                className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#adaaaa]/40 transition-colors duration-200 hover:text-[#d394ff]"
+              >
+                <EyeIcon open={showPass} />
+              </button>
+            </div>
           </div>
 
-          {/* Error message */}
+          {/* Remember me */}
+          <div data-login-field className="flex items-center gap-2.5">
+            <button
+              type="button"
+              role="checkbox"
+              aria-checked={rememberMe}
+              onClick={() => setRememberMe(v => !v)}
+              className={`relative h-4.5 w-4.5 shrink-0 rounded-[5px] border transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#d394ff]/40 ${
+                rememberMe
+                  ? 'border-[#d394ff] bg-[#d394ff]'
+                  : 'border-[#494847]/50 bg-white/[0.03] hover:border-[#d394ff]/50'
+              }`}
+              style={{ width: 18, height: 18 }}
+            >
+              {rememberMe && (
+                <svg className="absolute inset-0 m-auto" width="10" height="10" viewBox="0 0 10 10" fill="none">
+                  <path d="M1.5 5L4 7.5L8.5 2.5" stroke="#4a0076" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              )}
+            </button>
+            <span
+              className="cursor-pointer select-none text-[0.8125rem] text-[#adaaaa]/60 transition-colors hover:text-[#adaaaa]/80"
+              onClick={() => setRememberMe(v => !v)}
+            >
+              Keep me signed in for 7 days
+            </span>
+          </div>
+
+          {/* Error */}
           {error && (
             <p className="rounded-xl border border-red-500/20 bg-red-500/10 px-4 py-2.5 text-[0.8125rem] text-red-400">
               {error}
