@@ -10,6 +10,7 @@ interface ConfirmModalProps {
   variant?:      Variant;
   icon?:         string;
   note?:         string;
+  disabled?:     boolean;
   onConfirm:     () => void;
   onClose:       () => void;
 }
@@ -22,7 +23,7 @@ const VARIANT_STYLES: Record<Variant, { icon: string; btn: string; iconColor: st
 };
 
 export default function ConfirmModal({
-  title, message, confirmLabel, variant = 'primary', icon, note, onConfirm, onClose,
+  title, message, confirmLabel, variant = 'primary', icon, note, disabled, onConfirm, onClose,
 }: ConfirmModalProps) {
   const overlayRef = useRef<HTMLDivElement>(null);
   const cardRef    = useRef<HTMLDivElement>(null);
@@ -89,7 +90,8 @@ export default function ConfirmModal({
           </button>
           <button
             onClick={handleConfirm}
-            className={`flex-1 py-2.5 rounded-xl text-sm font-bold transition-all ${v.btn}`}
+            disabled={disabled}
+            className={`flex-1 py-2.5 rounded-xl text-sm font-bold transition-all disabled:opacity-50 disabled:pointer-events-none ${v.btn}`}
           >
             {confirmLabel}
           </button>

@@ -2,19 +2,42 @@ import { Link } from 'react-router-dom';
 import { format } from 'date-fns';
 import type { CalendarPost } from '../../domain/entities/CalendarPost';
 import { PLATFORM_REGISTRY } from '../../domain/entities/Platform';
-import type { PostAction } from '../../hooks/usePosts';
+import type { PostAction, PostsView } from '../../hooks/usePosts';
 import StatusBadge from '../shared/StatusBadge';
 import PlatformIcon from '../shared/PlatformIcon';
 import SocialBrandIcon from '../shared/SocialBrandIcon';
 
 interface PostsTableProps {
-  posts:     CalendarPost[];
-  onAction:  (type: PostAction, post: CalendarPost) => void;
+  posts:    CalendarPost[];
+  view:     PostsView;
+  onAction: (type: PostAction, post: CalendarPost) => void;
 }
 
 const TABLE_HEADERS = ['Content', 'Platform', 'Status', 'Date', 'Time', 'Actions'];
 
-function ActionButtons({ post, onAction }: { post: CalendarPost; onAction: PostsTableProps['onAction'] }) {
+function ActionButtons({ post, view, onAction }: { post: CalendarPost; view: PostsView; onAction: PostsTableProps['onAction'] }) {
+  if (view === 'inactive') {
+    return (
+      <div className="flex items-center gap-1.5">
+        <button
+          onClick={e => { e.stopPropagation(); e.preventDefault(); onAction('activate', post); }}
+          title="Activate"
+          className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-[#c5d247]/10 border border-[#c5d247]/20 text-[#c5d247] text-[10px] font-bold uppercase tracking-wider hover:bg-[#c5d247]/20 transition-all"
+        >
+          <span className="material-symbols-outlined" style={{ fontSize: 12 }}>play_circle</span>
+          Activate
+        </button>
+        <button
+          onClick={e => { e.stopPropagation(); e.preventDefault(); onAction('delete', post); }}
+          title="Delete permanently"
+          className="w-7 h-7 flex items-center justify-center rounded-lg border border-transparent text-[#988d9c] hover:bg-[#ffb4ab]/10 hover:border-[#ffb4ab]/20 hover:text-[#ffb4ab] transition-all"
+        >
+          <span className="material-symbols-outlined" style={{ fontSize: 14 }}>delete_forever</span>
+        </button>
+      </div>
+    );
+  }
+
   return (
     <div className="flex items-center gap-1.5">
       {post.status === 'failed' && (
@@ -38,22 +61,26 @@ function ActionButtons({ post, onAction }: { post: CalendarPost; onAction: Posts
         </button>
       )}
       <button
-        onClick={e => { e.stopPropagation(); e.preventDefault(); onAction('delete', post); }}
-        title="Delete"
-        className="w-7 h-7 flex items-center justify-center rounded-lg bg-[#ffb4ab]/0 border border-transparent text-[#988d9c] hover:bg-[#ffb4ab]/10 hover:border-[#ffb4ab]/20 hover:text-[#ffb4ab] transition-all"
+        onClick={e => { e.stopPropagation(); e.preventDefault(); onAction('deactivate', post); }}
+        title="Deactivate"
+        className="w-7 h-7 flex items-center justify-center rounded-lg border border-transparent text-[#988d9c] hover:bg-[#ffd166]/10 hover:border-[#ffd166]/20 hover:text-[#ffd166] transition-all"
       >
-        <span className="material-symbols-outlined" style={{ fontSize: 14 }}>delete</span>
+        <span className="material-symbols-outlined" style={{ fontSize: 14 }}>pause_circle</span>
       </button>
     </div>
   );
 }
 
-export default function PostsTable({ posts, onAction }: PostsTableProps) {
+export default function PostsTable({ posts, view, onAction }: PostsTableProps) {
   if (posts.length === 0) {
     return (
       <div className="glass-card rounded-3xl border border-[#4c4450]/5 p-16 flex flex-col items-center justify-center gap-3">
-        <span className="material-symbols-outlined text-[#353534]" style={{ fontSize: 48 }}>article</span>
-        <p className="text-[#988d9c] text-sm">No posts found.</p>
+        <span className="material-symbols-outlined text-[#353534]" style={{ fontSize: 48 }}>
+          {view === 'inactive' ? 'inventory_2' : 'article'}
+        </span>
+        <p className="text-[#988d9c] text-sm">
+          {view === 'inactive' ? 'No inactive posts.' : 'No posts found.'}
+        </p>
       </div>
     );
   }
@@ -108,7 +135,7 @@ export default function PostsTable({ posts, onAction }: PostsTableProps) {
                     {post.time}
                   </td>
                   <td className="px-6 py-4">
-                    <ActionButtons post={post} onAction={onAction} />
+                    <ActionButtons post={post} view={view} onAction={onAction} />
                   </td>
                 </tr>
               );
@@ -138,9 +165,8 @@ export default function PostsTable({ posts, onAction }: PostsTableProps) {
                 </div>
                 <StatusBadge status={post.status} size="xs" />
               </Link>
-              {/* Mobile action bar */}
               <div className="flex items-center gap-2 px-4 pb-3 border-t border-[#4c4450]/5 pt-2">
-                <ActionButtons post={post} onAction={onAction} />
+                <ActionButtons post={post} view={view} onAction={onAction} />
               </div>
             </div>
           );

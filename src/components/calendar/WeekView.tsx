@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom';
 import { format, startOfWeek, endOfWeek, eachDayOfInterval, isSameDay, isToday } from 'date-fns';
 import { PLATFORM_REGISTRY } from '../../domain/entities/Platform';
-import StatusBadge from '../shared/StatusBadge';
 import type { CalendarPost } from '../../domain/entities/CalendarPost';
 
 interface WeekViewProps {
@@ -67,18 +66,12 @@ export default function WeekView({ current, posts }: WeekViewProps) {
                   <Link
                     key={p.id}
                     to={`/posts/${p.id}`}
-                    className="block p-2 rounded-xl border transition-all hover:scale-[1.02]"
-                    style={{ background: pl.color + '12', borderColor: pl.color + '40' }}
+                    className="block rounded-lg overflow-hidden transition-all hover:brightness-125"
+                    style={{ background: pl.color + '18', borderLeft: `2px solid ${pl.color}` }}
                   >
-                    <div className="flex items-center gap-1.5 mb-1">
-                      <div className="w-4 h-4 rounded-md flex items-center justify-center shrink-0" style={{ background: pl.color }}>
-                        <span className="material-symbols-outlined text-white" style={{ fontSize: 10 }}>{pl.icon}</span>
-                      </div>
-                      <span className="text-[9px] font-mono text-[#988d9c]">{p.time}</span>
-                    </div>
-                    <p className="text-[10px] font-semibold text-white leading-tight line-clamp-2">{p.title}</p>
-                    <div className="mt-1">
-                      <StatusBadge status={p.status} size="xs" />
+                    <div className="px-1.5 py-1">
+                      <p className="text-[8px] font-mono leading-none mb-0.5" style={{ color: pl.color }}>{p.time}</p>
+                      <p className="text-[9px] font-semibold text-white leading-tight truncate">{p.title}</p>
                     </div>
                   </Link>
                 );

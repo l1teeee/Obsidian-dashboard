@@ -3,8 +3,6 @@ interface BarChartProps {
   barDays:    string[];
 }
 
-const MAX_VALUE = 100;
-
 export default function BarChart({ barHeights, barDays }: BarChartProps) {
   const peak = Math.max(...barHeights);
 
@@ -19,7 +17,7 @@ export default function BarChart({ barHeights, barDays }: BarChartProps) {
       <div className="flex items-end justify-between gap-2 px-1" style={{ height: 200 }}>
         {barHeights.map((h, i) => {
           const isPeak   = h === peak;
-          const heightPx = Math.round((h / MAX_VALUE) * 200);
+          const heightPx = Math.round((h / peak) * 180);
           return (
             <div key={i} className="flex-1 flex flex-col items-center justify-end gap-1.5 h-full">
               {/* Value label */}
@@ -37,8 +35,8 @@ export default function BarChart({ barHeights, barDays }: BarChartProps) {
                   height:     heightPx,
                   background: isPeak
                     ? 'linear-gradient(180deg, #d394ff 0%, #9b40e8 100%)'
-                    : 'linear-gradient(180deg, rgba(211,148,255,0.55) 0%, rgba(150,80,220,0.35) 100%)',
-                  boxShadow: isPeak ? '0 0 12px rgba(211,148,255,0.35)' : undefined,
+                    : 'linear-gradient(180deg, #a05fd4 0%, #6b2fa0 100%)',
+                  boxShadow: isPeak ? '0 0 16px rgba(211,148,255,0.45)' : undefined,
                 }}
               />
             </div>

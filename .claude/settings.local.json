@@ -29,7 +29,12 @@
       "Bash(python3 -c \":*)",
       "Bash(git:*)",
       "Bash(node -e \"require\\(''react-simple-maps''\\); console.log\\(''ok''\\)\")",
-      "Bash(npm i:*)"
+      "Bash(npm i:*)",
+      "Bash(find C:/Users/aleja -name *.md -path *proyectos*)",
+      "Bash(find C:/Users/aleja -name *.md -path *vault*)",
+      "Bash(ls C:/Proyects/obsidian-dashboard/.env*)",
+      "Read(//c/Proyects/obsidian-backend/**)",
+      "Bash(echo \"EXIT:$?\")"
     ]
   }
 }

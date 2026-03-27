@@ -11,7 +11,7 @@ const STATUS_FILTERS: { label: string; value: PostStatus | 'all'; color: string 
   { label: 'All',       value: 'all',       color: '#988d9c' },
   { label: 'Published', value: 'published', color: '#c5d247' },
   { label: 'Scheduled', value: 'scheduled', color: '#d394ff' },
-  { label: 'Failed',    value: 'failed',    color: '#ffb4ab' },
+  { label: 'Draft',     value: 'draft',     color: '#adaaaa' },
 ];
 
 const PLATFORM_FILTERS: { value: PlatformId | 'all'; label: string; color?: string }[] = [
@@ -23,22 +23,33 @@ const PLATFORM_FILTERS: { value: PlatformId | 'all'; label: string; color?: stri
 
 export default function Posts() {
   const {
-    filteredPosts, search, setSearch,
+    filteredPosts, inactiveCount,
+    view, setView,
+    search, setSearch,
     statusFilter, setStatusFilter,
     platformFilter, setPlatformFilter,
     pendingAction, requestAction, cancelAction, confirmAction,
     pageRef,
   } = usePosts();
 
-  const isPublished = pendingAction?.post.status === 'published';
-
   const MODAL_CONFIG = {
+    activate: {
+      title:        'Activate post',
+      message:      `"${pendingAction?.post.title}" will be moved back to drafts and become active again.`,
+      confirmLabel: 'Activate',
+      variant:      'success' as const,
+    },
+    deactivate: {
+      title:        'Deactivate post',
+      message:      `"${pendingAction?.post.title}" will be moved to the Inactive tab and removed from active tracking.`,
+      note:         'You can permanently delete it from the Inactive section.',
+      confirmLabel: 'Deactivate',
+      variant:      'warning' as const,
+    },
     delete: {
       title:        'Delete post',
-      message:      `You're about to remove "${pendingAction?.post.title}" from your dashboard.`,
-      note:         isPublished
-        ? 'This post has already been published. Removing it here won\'t delete it from the social network — it will only be excluded from metrics tracking and reporting.'
-        : undefined,
+      message:      `"${pendingAction?.post.title}" will be permanently deleted.`,
+      note:         'This action cannot be undone. The post will be marked as deleted for audit purposes but will no longer appear anywhere.',
       confirmLabel: 'Delete',
       variant:      'danger' as const,
     },
@@ -51,7 +62,7 @@ export default function Posts() {
     retry: {
       title:        'Retry post',
       message:      `"${pendingAction?.post.title}" will be queued again for publishing.`,
-      note:         'Posts can fail due to expired tokens, API rate limits, unsupported media formats, or a temporary platform outage. Make sure your account is still connected before retrying.',
+      note:         'Make sure your account is still connected before retrying.',
       confirmLabel: 'Retry',
       variant:      'warning' as const,
     },
@@ -74,12 +85,42 @@ export default function Posts() {
 
       <div className="p-6 md:p-8 max-w-[1600px] mx-auto space-y-5">
 
-        {/* Header */}
+        {/* Header + search */}
         <div data-posts-header className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div>
-            <h2 className="font-headline text-2xl font-bold text-white tracking-tight">All Posts</h2>
-            <p className="text-[#988d9c] text-xs mt-0.5">{filteredPosts.length} post{filteredPosts.length !== 1 ? 's' : ''}</p>
+          <div className="flex items-center gap-3">
+            {/* View tabs */}
+            <div className="flex items-center gap-1 bg-[#1c1b1b] border border-[#4c4450]/15 rounded-xl p-1">
+              <button
+                onClick={() => setView('active')}
+                className={[
+                  'px-3 py-1.5 rounded-lg text-xs font-bold transition-all',
+                  view === 'active'
+                    ? 'bg-[#d394ff]/15 text-[#d394ff] border border-[#d394ff]/25'
+                    : 'text-[#988d9c] hover:text-white',
+                ].join(' ')}
+              >
+                Active
+              </button>
+              <button
+                onClick={() => setView('inactive')}
+                className={[
+                  'px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5',
+                  view === 'inactive'
+                    ? 'bg-[#ffd166]/10 text-[#ffd166] border border-[#ffd166]/25'
+                    : 'text-[#988d9c] hover:text-white',
+                ].join(' ')}
+              >
+                Inactive
+                {inactiveCount > 0 && (
+                  <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-full ${view === 'inactive' ? 'bg-[#ffd166]/20 text-[#ffd166]' : 'bg-[#4c4450]/30 text-[#988d9c]'}`}>
+                    {inactiveCount}
+                  </span>
+                )}
+              </button>
+            </div>
+            <p className="text-[#988d9c] text-xs">{filteredPosts.length} post{filteredPosts.length !== 1 ? 's' : ''}</p>
           </div>
+
           {/* Search */}
           <div className="relative">
             <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[#988d9c]" style={{ fontSize: 16 }}>search</span>
@@ -92,58 +133,55 @@ export default function Posts() {
           </div>
         </div>
 
-        {/* Filters */}
-        <div data-posts-filters className="flex flex-wrap gap-4">
-          {/* Status pills */}
-          <div className="flex items-center gap-2 flex-wrap">
-            {STATUS_FILTERS.map(({ label, value, color }) => {
-              const active = statusFilter === value;
-              return (
-                <button
-                  key={value}
-                  onClick={() => setStatusFilter(value)}
-                  className={[
-                    'px-3 py-1.5 rounded-xl border text-xs font-semibold transition-all',
-                    active ? 'border-transparent' : 'bg-transparent border-[#4c4450]/20 text-[#988d9c] hover:border-[#4c4450]/40 hover:text-white',
-                  ].join(' ')}
-                  style={active ? { background: color + '22', borderColor: color + '60', color } : {}}
-                >
-                  {label}
-                </button>
-              );
-            })}
+        {/* Filters — only shown in active view */}
+        {view === 'active' && (
+          <div data-posts-filters className="flex flex-wrap gap-4">
+            <div className="flex items-center gap-2 flex-wrap">
+              {STATUS_FILTERS.map(({ label, value, color }) => {
+                const active = statusFilter === value;
+                return (
+                  <button
+                    key={value}
+                    onClick={() => setStatusFilter(value)}
+                    className={[
+                      'px-3 py-1.5 rounded-xl border text-xs font-semibold transition-all',
+                      active ? 'border-transparent' : 'bg-transparent border-[#4c4450]/20 text-[#988d9c] hover:border-[#4c4450]/40 hover:text-white',
+                    ].join(' ')}
+                    style={active ? { background: color + '22', borderColor: color + '60', color } : {}}
+                  >
+                    {label}
+                  </button>
+                );
+              })}
+            </div>
+            <div className="w-px bg-[#4c4450]/20 hidden sm:block" />
+            <div className="flex items-center gap-2 flex-wrap">
+              {PLATFORM_FILTERS.map(({ value, label, color }) => {
+                const active = platformFilter === value;
+                return (
+                  <button
+                    key={value}
+                    onClick={() => setPlatformFilter(value)}
+                    className={[
+                      'px-3 py-1.5 rounded-xl border text-xs font-semibold transition-all',
+                      active && color  ? 'border-transparent' : '',
+                      active && !color ? 'bg-[#d394ff]/10 border-[#d394ff]/30 text-[#d394ff]' : '',
+                      !active ? 'bg-transparent border-[#4c4450]/20 text-[#988d9c] hover:border-[#4c4450]/40 hover:text-white' : '',
+                    ].join(' ')}
+                    style={active && color ? { background: color + '22', borderColor: color + '60', color } : {}}
+                  >
+                    {label}
+                  </button>
+                );
+              })}
+            </div>
           </div>
-
-          <div className="w-px bg-[#4c4450]/20 hidden sm:block" />
-
-          {/* Platform pills */}
-          <div className="flex items-center gap-2 flex-wrap">
-            {PLATFORM_FILTERS.map(({ value, label, color }) => {
-              const active = platformFilter === value;
-              return (
-                <button
-                  key={value}
-                  onClick={() => setPlatformFilter(value)}
-                  className={[
-                    'px-3 py-1.5 rounded-xl border text-xs font-semibold transition-all',
-                    active && color  ? 'border-transparent' : '',
-                    active && !color ? 'bg-[#d394ff]/10 border-[#d394ff]/30 text-[#d394ff]' : '',
-                    !active ? 'bg-transparent border-[#4c4450]/20 text-[#988d9c] hover:border-[#4c4450]/40 hover:text-white' : '',
-                  ].join(' ')}
-                  style={active && color ? { background: color + '22', borderColor: color + '60', color } : {}}
-                >
-                  {label}
-                </button>
-              );
-            })}
-          </div>
-        </div>
+        )}
 
         {/* Table */}
         <div data-posts-table>
-          <PostsTable posts={filteredPosts} onAction={requestAction} />
+          <PostsTable posts={filteredPosts} view={view} onAction={requestAction} />
         </div>
-
       </div>
 
       {/* Confirm modal */}

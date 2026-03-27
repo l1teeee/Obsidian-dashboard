@@ -1,13 +1,33 @@
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import gsap from 'gsap';
 import { useGSAP } from '../../hooks/useGSAP';
+import { useAuth } from '../../hooks/useAuth';
 
 export default function LoginCard() {
   const navigate = useNavigate();
+  const { login } = useAuth();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [email,    setEmail]    = useState('');
+  const [password, setPassword] = useState('');
+  const [error,    setError]    = useState<string | null>(null);
+  const [loading,  setLoading]  = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    navigate('/dashboard');
+    setError(null);
+    setLoading(true);
+    try {
+      const { isFirstLogin } = await login(email, password);
+      navigate(isFirstLogin ? '/create-workspace' : '/dashboard');
+    } catch (err) {
+      const code = (err as { code?: string }).code;
+      setError(code === 'INVALID_CREDENTIALS'
+        ? 'Invalid email or password'
+        : 'Something went wrong. Please try again.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const containerRef = useGSAP<HTMLDivElement>(() => {
@@ -19,18 +39,17 @@ export default function LoginCard() {
     });
 
     gsap.set('[data-login-eyebrow]', { opacity: 0, y: 10 });
-    gsap.set('[data-login-title]', { opacity: 0, y: 10 });
-    gsap.set('[data-login-field]', { opacity: 0, y: 10 });
-    gsap.set('[data-login-btn]', { opacity: 0, y: 10 });
-    gsap.set('[data-login-footer]', { opacity: 0, y: 8 });
+    gsap.set('[data-login-title]',   { opacity: 0, y: 10 });
+    gsap.set('[data-login-field]',   { opacity: 0, y: 10 });
+    gsap.set('[data-login-btn]',     { opacity: 0, y: 10 });
+    gsap.set('[data-login-footer]',  { opacity: 0, y: 8  });
 
     const tl = gsap.timeline({ defaults: { ease: 'power2.out' }, delay: 0.15 });
-
     tl.to('[data-login-eyebrow]', { opacity: 1, y: 0, duration: 0.38 })
-      .to('[data-login-title]', { opacity: 1, y: 0, duration: 0.42 }, '-=0.22')
-      .to('[data-login-field]', { opacity: 1, y: 0, duration: 0.35, stagger: 0.08 }, '-=0.2')
-      .to('[data-login-btn]', { opacity: 1, y: 0, duration: 0.35 }, '-=0.12')
-      .to('[data-login-footer]', { opacity: 1, y: 0, duration: 0.3 }, '-=0.14');
+      .to('[data-login-title]',   { opacity: 1, y: 0, duration: 0.42 }, '-=0.22')
+      .to('[data-login-field]',   { opacity: 1, y: 0, duration: 0.35, stagger: 0.08 }, '-=0.2')
+      .to('[data-login-btn]',     { opacity: 1, y: 0, duration: 0.35 }, '-=0.12')
+      .to('[data-login-footer]',  { opacity: 1, y: 0, duration: 0.3  }, '-=0.14');
   }, []);
 
   return (
@@ -83,7 +102,7 @@ export default function LoginCard() {
         </div>
 
         {/* Form */}
-        <form className="space-y-5" onSubmit={handleSubmit}>
+        <form className="space-y-5" onSubmit={(e) => { void handleSubmit(e); }}>
           <div data-login-field className="space-y-2">
             <label className="block text-[0.6875rem] font-semibold uppercase tracking-[0.18em] text-[#adaaaa]/60">
               Email
@@ -91,6 +110,10 @@ export default function LoginCard() {
             <input
               type="email"
               placeholder="you@example.com"
+              required
+              autoComplete="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               className="w-full rounded-[0.875rem] border border-[#494847]/30 bg-white/[0.03] px-4 py-3.5 text-sm text-[#e5e2e1] placeholder:text-[#adaaaa]/35 transition-all duration-300 focus:border-[#d394ff]/40 focus:outline-none focus:ring-1 focus:ring-[#d394ff]/20"
             />
           </div>
@@ -107,16 +130,28 @@ export default function LoginCard() {
             <input
               type="password"
               placeholder="••••••••••••"
+              required
+              autoComplete="current-password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               className="w-full rounded-[0.875rem] border border-[#494847]/30 bg-white/[0.03] px-4 py-3.5 text-sm text-[#e5e2e1] placeholder:text-[#adaaaa]/35 transition-all duration-300 focus:border-[#d394ff]/40 focus:outline-none focus:ring-1 focus:ring-[#d394ff]/20"
             />
           </div>
 
+          {/* Error message */}
+          {error && (
+            <p className="rounded-xl border border-red-500/20 bg-red-500/10 px-4 py-2.5 text-[0.8125rem] text-red-400">
+              {error}
+            </p>
+          )}
+
           <button
             data-login-btn
             type="submit"
-            className="mt-2 w-full rounded-2xl bg-[#d394ff] px-6 py-3.5 text-sm font-bold text-[#4a0076] transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_0_40px_rgba(211,148,255,0.28)] active:scale-[0.98]"
+            disabled={loading}
+            className="mt-2 w-full rounded-2xl bg-[#d394ff] px-6 py-3.5 text-sm font-bold text-[#4a0076] transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_0_40px_rgba(211,148,255,0.28)] active:scale-[0.98] disabled:opacity-60 disabled:pointer-events-none"
           >
-            Sign in
+            {loading ? 'Signing in…' : 'Sign in'}
           </button>
         </form>
 

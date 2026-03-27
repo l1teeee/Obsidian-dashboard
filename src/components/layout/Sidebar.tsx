@@ -2,22 +2,33 @@ import { useEffect, useRef, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import gsap from 'gsap';
 import { useLayout } from '../../contexts/LayoutContext';
+import { useWorkspace } from '../../contexts/WorkspaceContext';
+import Modal from '../shared/Modal';
 
 const NAV_ITEMS = [
   { to: '/dashboard', icon: 'dashboard',     label: 'Dashboard' },
   { to: '/posts',     icon: 'article',        label: 'Posts' },
-  { to: '/calendar',  icon: 'calendar_month', label: 'Calendar' },
   { to: '/analytics', icon: 'monitoring',    label: 'Analytics' },
+  { to: '/calendar',  icon: 'calendar_month', label: 'Calendar' },
   { to: '/platforms', icon: 'hub',           label: 'Platforms' },
 ];
 
 export default function Sidebar() {
   const { isOpen, toggle } = useLayout();
+  const { workspaces, active, switchWorkspace, createWorkspace } = useWorkspace();
   const navigate    = useNavigate();
   const brandRef    = useRef<HTMLDivElement>(null);
   const navRefs     = useRef<(HTMLAnchorElement | null)[]>([]);
-  const bottomRef   = useRef<HTMLDivElement>(null);   // used for GSAP + click-outside
-  const [menuOpen, setMenuOpen] = useState(false);
+  const bottomRef   = useRef<HTMLDivElement>(null);
+  const wsRef       = useRef<HTMLDivElement>(null);
+  const wsNameRef   = useRef<HTMLSpanElement>(null);
+  const prevActiveId = useRef<string | null>(null);
+  const [menuOpen, setMenuOpen]       = useState(false);
+  const [wsOpen, setWsOpen]           = useState(false);
+  const [creating, setCreating]       = useState(false);
+  const [newName, setNewName]         = useState('');
+  const [logoutModal, setLogoutModal] = useState(false);
+  const atLimit = workspaces.length >= 5;
 
   // Entrance animation — desktop only
   useEffect(() => {
@@ -41,20 +52,61 @@ export default function Sidebar() {
     return () => { tl.kill(); };
   }, []);
 
-  // Close dropdown on outside click
+  // Close dropdowns on outside click
   useEffect(() => {
-    if (!menuOpen) return;
+    if (!menuOpen && !wsOpen) return;
     const handler = (e: MouseEvent) => {
-      if (bottomRef.current && !bottomRef.current.contains(e.target as Node)) {
-        setMenuOpen(false);
-      }
+      if (menuOpen && bottomRef.current && !bottomRef.current.contains(e.target as Node)) setMenuOpen(false);
+      if (wsOpen   && wsRef.current    && !wsRef.current.contains(e.target as Node))     setWsOpen(false);
     };
     document.addEventListener('mousedown', handler);
     return () => document.removeEventListener('mousedown', handler);
-  }, [menuOpen]);
+  }, [menuOpen, wsOpen]);
+
+  // Animate workspace button + name on switch
+  useEffect(() => {
+    if (prevActiveId.current === null) {
+      prevActiveId.current = active?.id ?? null;
+      return;
+    }
+    if (prevActiveId.current === active?.id) return;
+    prevActiveId.current = active?.id ?? null;
+
+    // Glow flash on the button
+    const btn = wsRef.current?.querySelector('button');
+    if (btn) {
+      gsap.fromTo(btn,
+        { boxShadow: '0 0 0px rgba(211,148,255,0)' },
+        { boxShadow: '0 0 18px rgba(211,148,255,0.45)', duration: 0.2, ease: 'power2.out',
+          onComplete: () => { gsap.to(btn, { boxShadow: '0 0 0px rgba(211,148,255,0)', duration: 0.4, ease: 'power2.in' }); } },
+      );
+    }
+
+    // Name slide in
+    if (wsNameRef.current) {
+      gsap.fromTo(wsNameRef.current,
+        { opacity: 0, y: -6 },
+        { opacity: 1, y: 0, duration: 0.3, ease: 'power2.out' },
+      );
+    }
+  }, [active?.id]);
+
+  const handleCreateWs = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newName.trim()) return;
+    createWorkspace(newName.trim());
+    setNewName('');
+    setCreating(false);
+    setWsOpen(false);
+  };
 
   const handleLogout = () => {
     setMenuOpen(false);
+    setLogoutModal(true);
+  };
+
+  const confirmLogout = () => {
+    setLogoutModal(false);
     navigate('/login');
   };
 
@@ -65,6 +117,7 @@ export default function Sidebar() {
   };
 
   return (
+    <>
     <aside className={[
       'fixed left-0 top-0 h-full flex flex-col py-8 z-50',
       'bg-[#0e0e0e] border-r border-[#4c4450]/15',
@@ -87,6 +140,99 @@ export default function Sidebar() {
           'w-2.5 h-2.5 rounded-full bg-[#d394ff] shrink-0 shadow-[0_0_8px_rgba(211,148,255,0.7)] transition-all duration-300',
           isOpen ? 'hidden' : 'hidden lg:block',
         ].join(' ')} />
+      </div>
+
+      {/* Workspace switcher */}
+      <div ref={wsRef} className="relative mb-3">
+        <button
+          onClick={() => setWsOpen(v => !v)}
+          title={!isOpen ? (active?.name ?? 'Workspace') : undefined}
+          className={[
+            'w-full flex items-center rounded-xl border transition-all duration-300 py-2',
+            isOpen ? 'px-3 gap-2.5' : 'px-3 lg:justify-center lg:px-0',
+            wsOpen
+              ? 'bg-[#d394ff]/10 border-[#d394ff]/25'
+              : 'bg-[#1a1a1a] border-[#4c4450]/15 hover:border-[#d394ff]/20',
+          ].join(' ')}
+        >
+          <div className="w-6 h-6 rounded-md bg-gradient-to-tr from-[#d394ff] to-[#9400e4] flex items-center justify-center shrink-0">
+            <span className="material-symbols-outlined text-white" style={{ fontSize: 13 }}>workspaces</span>
+          </div>
+          <span ref={wsNameRef} className={[
+            'flex-1 text-left text-xs font-bold text-white truncate transition-all duration-300',
+            isOpen ? 'max-w-[130px] opacity-100' : 'max-w-0 opacity-0',
+          ].join(' ')}>
+            {active?.name ?? 'No workspace'}
+          </span>
+          <span className={[
+            'material-symbols-outlined text-[#988d9c] shrink-0 transition-all duration-300',
+            isOpen ? 'opacity-100' : 'opacity-0 w-0',
+            wsOpen ? '[transform:rotate(180deg)]' : '',
+          ].join(' ')} style={{ fontSize: 14 }}>
+            expand_more
+          </span>
+        </button>
+
+        {/* Workspace dropdown */}
+        {wsOpen && isOpen && (
+          <div className="absolute top-full left-0 mt-1.5 w-full bg-[#1c1b1b] rounded-2xl border border-[#4c4450]/20 shadow-[0_8px_40px_rgba(0,0,0,0.6)] z-[100] overflow-hidden py-1.5">
+            {workspaces.map(ws => (
+              <button
+                key={ws.id}
+                onClick={() => { switchWorkspace(ws.id); setWsOpen(false); }}
+                className={[
+                  'flex items-center gap-2.5 w-full px-3.5 py-2.5 text-xs transition-colors text-left',
+                  ws.id === active?.id
+                    ? 'text-[#d394ff] bg-[#d394ff]/8'
+                    : 'text-[#cfc2d2] hover:text-white hover:bg-white/[0.04]',
+                ].join(' ')}
+              >
+                <span className="material-symbols-outlined" style={{ fontSize: 14, fontVariationSettings: ws.id === active?.id ? "'FILL' 1" : "'FILL' 0" }}>
+                  workspaces
+                </span>
+                <span className="flex-1 truncate font-semibold">{ws.name}</span>
+                {ws.id === active?.id && (
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#d394ff] shrink-0" />
+                )}
+              </button>
+            ))}
+
+            <div className="h-px bg-[#4c4450]/20 mx-3 my-1" />
+
+            {creating ? (
+              <form onSubmit={handleCreateWs} className="px-2 pb-2 pt-1 flex flex-col gap-2">
+                <input
+                  autoFocus
+                  value={newName}
+                  onChange={e => setNewName(e.target.value)}
+                  placeholder="Workspace name…"
+                  className="w-full bg-[#131313] border border-[#4c4450]/30 rounded-lg px-3 py-2 text-xs text-white placeholder:text-[#4c4450] focus:outline-none focus:border-[#d394ff]/40 transition-all"
+                />
+                <div className="flex gap-2">
+                  <button type="submit" disabled={!newName.trim()} className="flex-1 py-1.5 rounded-lg bg-[#d394ff] text-[#131313] font-bold text-[10px] disabled:opacity-40 hover:bg-[#e0a8ff] transition-all">
+                    Create
+                  </button>
+                  <button type="button" onClick={() => { setCreating(false); setNewName(''); }} className="px-3 py-1.5 rounded-lg border border-[#4c4450]/20 text-[10px] text-[#988d9c] hover:text-white transition-colors">
+                    Cancel
+                  </button>
+                </div>
+              </form>
+            ) : atLimit ? (
+              <div className="flex items-center gap-2 w-full px-3.5 py-2.5 text-xs text-[#4c4450] cursor-not-allowed select-none">
+                <span className="material-symbols-outlined" style={{ fontSize: 14 }}>lock</span>
+                Limit reached (5/5)
+              </div>
+            ) : (
+              <button
+                onClick={() => setCreating(true)}
+                className="flex items-center gap-2 w-full px-3.5 py-2.5 text-xs text-[#988d9c] hover:text-white hover:bg-white/[0.04] transition-colors"
+              >
+                <span className="material-symbols-outlined" style={{ fontSize: 14 }}>add</span>
+                New Workspace
+              </button>
+            )}
+          </div>
+        )}
       </div>
 
       {/* Nav */}
@@ -220,5 +366,33 @@ export default function Sidebar() {
 
       </div>
     </aside>
+
+    {/* Logout confirmation modal */}
+    <Modal open={logoutModal} onClose={() => setLogoutModal(false)} maxWidth="max-w-sm">
+      <div className="p-8">
+        <div className="w-12 h-12 rounded-2xl bg-[#ffb4ab]/10 border border-[#ffb4ab]/20 flex items-center justify-center mb-5">
+          <span className="material-symbols-outlined text-[#ffb4ab]" style={{ fontSize: 22 }}>logout</span>
+        </div>
+        <h2 className="text-xl font-headline font-extrabold tracking-tight text-white mb-1">Log out?</h2>
+        <p className="text-sm text-[#988d9c] mb-7">
+          You'll be redirected to the login screen. Your workspaces and data will be saved.
+        </p>
+        <div className="flex flex-col gap-2.5">
+          <button
+            onClick={confirmLogout}
+            className="w-full py-3 rounded-xl bg-[#ffb4ab] text-[#131313] font-bold text-sm hover:bg-[#ffccc7] transition-all"
+          >
+            Yes, log out
+          </button>
+          <button
+            onClick={() => setLogoutModal(false)}
+            className="w-full py-3 rounded-xl border border-[#4c4450]/20 text-sm font-semibold text-[#cfc2d2] hover:bg-[#201f1f] hover:text-white transition-all"
+          >
+            Cancel
+          </button>
+        </div>
+      </div>
+    </Modal>
+    </>
   );
 }

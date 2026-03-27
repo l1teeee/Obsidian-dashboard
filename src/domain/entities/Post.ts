@@ -1,6 +1,6 @@
 import type { PlatformId } from './Platform';
 
-export type PostStatus = 'published' | 'scheduled' | 'failed';
+export type PostStatus = 'published' | 'scheduled' | 'draft' | 'failed' | 'inactive' | 'deleted';
 
 export interface PostSummary {
   id:       string;

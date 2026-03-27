@@ -1,9 +1,30 @@
+import { useEffect, useRef } from 'react';
 import { Outlet } from 'react-router-dom';
+import gsap from 'gsap';
 import Sidebar from './Sidebar';
 import { LayoutProvider, useLayout } from '../../contexts/LayoutContext';
+import { useWorkspace } from '../../contexts/WorkspaceContext';
 
 function Layout() {
   const { isOpen, toggle, close } = useLayout();
+  const { active } = useWorkspace();
+  const mainRef       = useRef<HTMLElement>(null);
+  const prevActiveRef = useRef<string | undefined>(undefined);
+
+  useEffect(() => {
+    // Skip the initial mount — only animate on actual switches
+    if (prevActiveRef.current === undefined) {
+      prevActiveRef.current = active?.id;
+      return;
+    }
+    if (prevActiveRef.current === active?.id) return;
+    prevActiveRef.current = active?.id;
+
+    gsap.fromTo(mainRef.current,
+      { opacity: 0.35, filter: 'blur(2px)' },
+      { opacity: 1,    filter: 'blur(0px)', duration: 0.38, ease: 'power2.out' },
+    );
+  }, [active?.id]);
 
   return (
     <div className="min-h-screen bg-[#131313]">
@@ -34,7 +55,7 @@ function Layout() {
       />
 
       {/* Main content — on desktop always has margin (either 240px or 64px) */}
-      <main className={`transition-[margin] duration-300 min-h-screen ${isOpen ? 'lg:ml-[240px]' : 'lg:ml-[64px]'}`}>
+      <main ref={mainRef} className={`transition-[margin] duration-300 min-h-screen ${isOpen ? 'lg:ml-[240px]' : 'lg:ml-[64px]'}`}>
         <Outlet />
       </main>
     </div>

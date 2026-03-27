@@ -2,8 +2,18 @@ import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { CHANNELS } from '../domain/entities/Composer';
 import type { ChannelId } from '../domain/entities/Composer';
+import * as postsService from '../services/posts.service';
 
-export function useComposer() {
+// Maps frontend channel IDs to backend platform values
+const PLATFORM_MAP: Record<ChannelId, string> = {
+  ig: 'meta',
+  li: 'linkedin',
+  fb: 'meta',
+};
+
+export type ActionType = 'draft' | 'publish' | 'schedule';
+
+export function useComposer(onSuccess?: (type: ActionType, names: string) => void) {
   const pageRef      = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -13,12 +23,13 @@ export function useComposer() {
   const [previewTab,       setPreviewTab]       = useState<ChannelId>('ig');
   const [scheduleDate,     setScheduleDate]     = useState<Date>(() => {
     const d = new Date();
-    d.setDate(d.getDate() + 7);
+    d.setDate(d.getDate() + 1);
     d.setHours(9, 15, 0, 0);
     return d;
   });
-  const [toast,           setToast]           = useState<string | null>(null);
+  const [toast,        setToast]        = useState<string | null>(null);
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     return () => { if (mediaPreview) URL.revokeObjectURL(mediaPreview); };
@@ -58,28 +69,53 @@ export function useComposer() {
     setTimeout(() => setToast(null), 3000);
   };
 
-  const handleAction = (type: 'draft' | 'publish' | 'schedule') => {
-    const names   = selectedChannels.map(id => CHANNELS.find(c => c.id === id)?.label).join(', ');
-    const dateStr = scheduleDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-    const timeStr = scheduleDate.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
-    if (type === 'draft')    showToast('Draft saved successfully');
-    if (type === 'publish')  showToast(`Post published to ${names}`);
-    if (type === 'schedule') showToast(`Scheduled for ${dateStr} at ${timeStr} on ${names}`);
+  const handleAction = async (type: ActionType) => {
+    setIsSubmitting(true);
+    try {
+      const statusMap = {
+        draft:    'draft',
+        publish:  'published',
+        schedule: 'scheduled',
+      } as const;
+
+      await Promise.all(
+        selectedChannels.map(channelId =>
+          postsService.create({
+            platform:     PLATFORM_MAP[channelId],
+            post_type:    'post',
+            caption:      caption || undefined,
+            status:       statusMap[type],
+            scheduled_at: type === 'schedule' ? scheduleDate.toISOString() : undefined,
+          })
+        )
+      );
+
+      const names = selectedChannels.map(id => CHANNELS.find(c => c.id === id)?.label).join(', ');
+      if (onSuccess) {
+        onSuccess(type, names);
+      } else {
+        const dateStr = scheduleDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+        const timeStr = scheduleDate.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+        if (type === 'draft')    showToast('Draft saved successfully');
+        if (type === 'publish')  showToast(`Post published to ${names}`);
+        if (type === 'schedule') showToast(`Scheduled for ${dateStr} at ${timeStr} on ${names}`);
+      }
+    } catch (err) {
+      showToast(`Error: ${(err as Error).message}`);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return {
-    caption,
-    setCaption,
-    mediaPreview,
-    setMediaPreview,
+    caption,        setCaption,
+    mediaPreview,   setMediaPreview,
     selectedChannels,
-    previewTab,
-    setPreviewTab,
-    scheduleDate,
-    setScheduleDate,
+    previewTab,     setPreviewTab,
+    scheduleDate,   setScheduleDate,
     toast,
-    showSuggestions,
-    setShowSuggestions,
+    showSuggestions, setShowSuggestions,
+    isSubmitting,
     toggleChannel,
     handleFileChange,
     handleAction,
