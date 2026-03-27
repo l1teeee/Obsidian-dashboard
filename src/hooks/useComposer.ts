@@ -4,7 +4,6 @@ import { CHANNELS } from '../domain/entities/Composer';
 import type { ChannelId } from '../domain/entities/Composer';
 import * as postsService from '../services/posts.service';
 
-// Maps frontend channel IDs to backend platform values
 const PLATFORM_MAP: Record<ChannelId, string> = {
   ig: 'meta',
   li: 'linkedin',
@@ -13,27 +12,40 @@ const PLATFORM_MAP: Record<ChannelId, string> = {
 
 export type ActionType = 'draft' | 'publish' | 'schedule';
 
+export interface MediaItem {
+  previewUrl: string;   // blob URL — for display only
+  sourceUrl?: string;   // original URL (DALL-E) — stored in media_urls
+}
+
+const MAX_MEDIA = 10;
+
 export function useComposer(onSuccess?: (type: ActionType, names: string) => void) {
   const pageRef      = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const [caption,          setCaption]         = useState('');
-  const [mediaPreview,     setMediaPreview]     = useState<string | null>(null);
+  const [caption,         setCaption]         = useState('');
+  const [mediaItems,      setMediaItems]       = useState<MediaItem[]>([]);
   const [selectedChannels, setSelectedChannels] = useState<ChannelId[]>(['ig']);
-  const [previewTab,       setPreviewTab]       = useState<ChannelId>('ig');
-  const [scheduleDate,     setScheduleDate]     = useState<Date>(() => {
+  const [previewTab,      setPreviewTab]       = useState<ChannelId>('ig');
+  const [scheduleDate,    setScheduleDate]     = useState<Date>(() => {
     const d = new Date();
     d.setDate(d.getDate() + 1);
     d.setHours(9, 15, 0, 0);
     return d;
   });
-  const [toast,        setToast]        = useState<string | null>(null);
+  const [toast,           setToast]           = useState<string | null>(null);
   const [showSuggestions, setShowSuggestions] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitting,    setIsSubmitting]    = useState(false);
 
+  // Revoke blob URLs on unmount
   useEffect(() => {
-    return () => { if (mediaPreview) URL.revokeObjectURL(mediaPreview); };
-  }, [mediaPreview]);
+    return () => {
+      mediaItems.forEach(item => {
+        if (item.previewUrl.startsWith('blob:')) URL.revokeObjectURL(item.previewUrl);
+      });
+    };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -58,10 +70,31 @@ export function useComposer(onSuccess?: (type: ActionType, names: string) => voi
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    if (mediaPreview) URL.revokeObjectURL(mediaPreview);
-    setMediaPreview(URL.createObjectURL(file));
+    const files = Array.from(e.target.files ?? []);
+    if (!files.length) return;
+    setMediaItems(prev => {
+      const remaining = MAX_MEDIA - prev.length;
+      const toAdd     = files.slice(0, remaining).map(f => ({ previewUrl: URL.createObjectURL(f) }));
+      return [...prev, ...toAdd];
+    });
+    // Reset input so same files can be selected again
+    if (fileInputRef.current) fileInputRef.current.value = '';
+  };
+
+  /** Called when DALL-E generates an image */
+  const handleAIImageGenerated = (blobUrl: string, sourceUrl: string) => {
+    setMediaItems(prev => {
+      if (prev.length >= MAX_MEDIA) return prev;
+      return [...prev, { previewUrl: blobUrl, sourceUrl }];
+    });
+  };
+
+  const removeMedia = (index: number) => {
+    setMediaItems(prev => {
+      const item = prev[index];
+      if (item && item.previewUrl.startsWith('blob:')) URL.revokeObjectURL(item.previewUrl);
+      return prev.filter((_, i) => i !== index);
+    });
   };
 
   const showToast = (msg: string) => {
@@ -78,12 +111,18 @@ export function useComposer(onSuccess?: (type: ActionType, names: string) => voi
         schedule: 'scheduled',
       } as const;
 
+      // Only include real HTTP URLs (not blob/data URLs — those are local previews only)
+      const mediaUrls = mediaItems
+        .map(i => i.sourceUrl)
+        .filter((u): u is string => !!u && u.startsWith('http'));
+
       await Promise.all(
         selectedChannels.map(channelId =>
           postsService.create({
             platform:     PLATFORM_MAP[channelId],
             post_type:    'post',
             caption:      caption || undefined,
+            media_urls:   mediaUrls.length ? mediaUrls : undefined,
             status:       statusMap[type],
             scheduled_at: type === 'schedule' ? scheduleDate.toISOString() : undefined,
           })
@@ -108,16 +147,18 @@ export function useComposer(onSuccess?: (type: ActionType, names: string) => voi
   };
 
   return {
-    caption,        setCaption,
-    mediaPreview,   setMediaPreview,
+    caption,           setCaption,
+    mediaItems,
     selectedChannels,
-    previewTab,     setPreviewTab,
-    scheduleDate,   setScheduleDate,
+    previewTab,        setPreviewTab,
+    scheduleDate,      setScheduleDate,
     toast,
-    showSuggestions, setShowSuggestions,
+    showSuggestions,   setShowSuggestions,
     isSubmitting,
     toggleChannel,
     handleFileChange,
+    handleAIImageGenerated,
+    removeMedia,
     handleAction,
     pageRef,
     fileInputRef,

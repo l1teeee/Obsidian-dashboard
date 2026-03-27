@@ -6,11 +6,12 @@ import { useWorkspace } from '../../contexts/WorkspaceContext';
 import Modal from '../shared/Modal';
 
 const NAV_ITEMS = [
-  { to: '/dashboard', icon: 'dashboard',     label: 'Dashboard' },
-  { to: '/posts',     icon: 'article',        label: 'Posts' },
-  { to: '/analytics', icon: 'monitoring',    label: 'Analytics' },
-  { to: '/calendar',  icon: 'calendar_month', label: 'Calendar' },
-  { to: '/platforms', icon: 'hub',           label: 'Platforms' },
+  { to: '/dashboard',   icon: 'dashboard',     label: 'Dashboard' },
+  { to: '/posts',       icon: 'article',       label: 'Posts' },
+  { to: '/analytics',   icon: 'monitoring',    label: 'Analytics' },
+  { to: '/calendar',    icon: 'calendar_month', label: 'Calendar' },
+  { to: '/platforms',   icon: 'hub',           label: 'Platforms' },
+  { to: '/ai-settings', icon: 'auto_awesome',  label: 'AI Settings' },
 ];
 
 export default function Sidebar() {

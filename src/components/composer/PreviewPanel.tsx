@@ -13,7 +13,7 @@ const ICONS: Record<ChannelId, React.ComponentType<{ size?: number }>> = {
 
 interface PreviewPanelProps {
   caption:          string;
-  mediaPreview:     string | null;
+  mediaPreviews:    string[];
   selectedChannels: ChannelId[];
   previewTab:       ChannelId;
   onTabChange:      (id: ChannelId) => void;
@@ -21,7 +21,7 @@ interface PreviewPanelProps {
 
 export default function PreviewPanel({
   caption,
-  mediaPreview,
+  mediaPreviews,
   selectedChannels,
   previewTab,
   onTabChange,
@@ -57,17 +57,19 @@ export default function PreviewPanel({
         data-phone-mockup
         className="w-[300px] h-[590px] rounded-[3rem] border-[8px] border-[#353534] shadow-[0_40px_100px_rgba(0,0,0,0.6)] relative z-10 overflow-hidden"
       >
-        {/* Notch */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-5 bg-[#353534] rounded-b-2xl z-20" />
 
-        {previewTab === 'ig' && <IGPreview caption={caption} mediaPreview={mediaPreview} />}
-        {previewTab === 'li' && <LIPreview caption={caption} mediaPreview={mediaPreview} />}
-        {previewTab === 'fb' && <FBPreview caption={caption} mediaPreview={mediaPreview} />}
+        {previewTab === 'ig' && <IGPreview caption={caption} mediaPreviews={mediaPreviews} />}
+        {previewTab === 'li' && <LIPreview caption={caption} mediaPreviews={mediaPreviews} />}
+        {previewTab === 'fb' && <FBPreview caption={caption} mediaPreviews={mediaPreviews} />}
       </div>
 
       <div className="mt-6 flex items-center gap-2 px-4 py-2 rounded-full bg-[#201f1f]/50 border border-[#4c4450]/10 z-10">
         <span className="w-2 h-2 rounded-full bg-[#d394ff] animate-pulse" />
         <span className="text-[10px] font-bold uppercase tracking-widest text-[#988d9c]">Real-time Preview</span>
+        {mediaPreviews.length > 1 && (
+          <span className="text-[10px] text-[#d394ff] font-bold">{mediaPreviews.length} images</span>
+        )}
       </div>
     </section>
   );

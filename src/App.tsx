@@ -19,6 +19,7 @@ import PostComposer from './pages/PostComposer';
 import Profile from './pages/Profile';
 import Posts from './pages/Posts';
 import Settings from './pages/Settings';
+import AISettings from './pages/AISettings';
 import CreateWorkspace from './pages/CreateWorkspace';
 import LoginCard from './components/auth/LoginCard';
 import RegisterCard from './components/auth/RegisterCard';
@@ -137,8 +138,9 @@ export default function App() {
                   <Route path="posts/:id"  element={<PostDetail />} />
                   <Route path="calendar"   element={<Calendar />} />
                   <Route path="composer"   element={<PostComposer />} />
-                  <Route path="settings"   element={<Settings />} />
-                  <Route path="profile"    element={<Profile />} />
+                  <Route path="settings"     element={<Settings />} />
+                  <Route path="ai-settings" element={<AISettings />} />
+                  <Route path="profile"     element={<Profile />} />
                 </Route>
               </Routes>
             </WorkspaceGuard>

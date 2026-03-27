@@ -34,7 +34,11 @@ export default function PostComposer() {
       const overlay = overlayRef.current;
       const circle  = circleRef.current;
       const path    = checkRef.current;
-      if (!overlay || !circle || !path) return;
+      if (!overlay || !circle || !path) {
+        // Fallback: refs not ready, navigate directly
+        navigate('/posts');
+        return;
+      }
 
       const circleLen = circle.getTotalLength?.() ?? 163;
       const pathLen   = path.getTotalLength?.() ?? 30;
@@ -57,13 +61,15 @@ export default function PostComposer() {
   }, [navigate]);
 
   const {
-    caption, setCaption, mediaPreview, setMediaPreview,
+    caption, setCaption, mediaItems,
     selectedChannels, previewTab, setPreviewTab,
     scheduleDate, setScheduleDate, toast,
     showSuggestions, setShowSuggestions,
-    toggleChannel, handleFileChange, handleAction,
+    toggleChannel, handleFileChange, handleAIImageGenerated, removeMedia, handleAction,
     pageRef, fileInputRef, isSubmitting,
   } = useComposer(playSuccess);
+
+  const mediaPreviews = mediaItems.map(i => i.previewUrl);
 
   const [mobileTab, setMobileTab] = useState<MobileTab>('edit');
 
@@ -190,10 +196,11 @@ export default function PostComposer() {
                 <div className="max-w-xl mx-auto space-y-6">
                   <ChannelSelector selectedChannels={selectedChannels} onToggle={toggleChannel} />
                   <MediaUpload
-                    mediaPreview={mediaPreview}
+                    mediaItems={mediaItems}
                     fileInputRef={fileInputRef}
-                    onRemove={() => { setMediaPreview(null); if (fileInputRef.current) fileInputRef.current.value = ''; }}
+                    onRemove={removeMedia}
                     onFileChange={handleFileChange}
+                    onAIImageGenerated={handleAIImageGenerated}
                   />
                   <CaptionEditor
                     caption={caption}
@@ -228,7 +235,7 @@ export default function PostComposer() {
             <div className={`w-full md:w-1/2 min-h-0 ${mobileTab === 'edit' ? 'hidden md:flex' : 'flex'}`}>
               <PreviewPanel
                 caption={caption}
-                mediaPreview={mediaPreview}
+                mediaPreviews={mediaPreviews}
                 selectedChannels={selectedChannels}
                 previewTab={previewTab}
                 onTabChange={setPreviewTab}
