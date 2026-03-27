@@ -34,7 +34,17 @@
       "Bash(find C:/Users/aleja -name *.md -path *vault*)",
       "Bash(ls C:/Proyects/obsidian-dashboard/.env*)",
       "Read(//c/Proyects/obsidian-backend/**)",
-      "Bash(echo \"EXIT:$?\")"
+      "Bash(echo \"EXIT:$?\")",
+      "Bash(find /c/Proyects/obsidian-backend/src -name *.ts)",
+      "WebSearch",
+      "Bash(npx:*)",
+      "Bash(grep -r \"upload\\\\|multipart\\\\|storage\\\\|s3\\\\|cloudinary\" C:/Proyects/obsidian-backend/src --include=*.ts -l)",
+      "Bash(npm audit:*)",
+      "Bash(npm uninstall:*)",
+      "Bash(grep -r \"cors\\\\|helmet\\\\|rateLimit\\\\|helmet\" C:Proyectsobsidian-backendsrc --include=*.ts)",
+      "Bash(xargs cat:*)",
+      "Bash(grep -r \"localStorage\\\\|sessionStorage\" C:Proyectsobsidian-dashboardsrc --include=*.ts --include=*.tsx)",
+      "Bash(node:*)"
     ]
   }
 }

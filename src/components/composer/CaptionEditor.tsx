@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react';
 import { CHAR_LIMITS, CHAR_IDEAL } from '../../domain/entities/Composer';
 import type { ChannelId } from '../../domain/entities/Composer';
+import type { MediaItem } from '../../hooks/useComposer';
 import { getInspiration } from '../../services/ai.service';
 import { useWorkspace } from '../../contexts/WorkspaceContext';
 
@@ -8,6 +9,7 @@ interface CaptionEditorProps {
   caption:             string;
   selectedChannels:    ChannelId[];
   showSuggestions:     boolean;
+  mediaItems:          MediaItem[];
   onCaptionChange:     (val: string) => void;
   onToggleSuggestions: () => void;
 }
@@ -35,10 +37,40 @@ const STATUS_META: Record<TrafficLight, { color: string; label: string }> = {
   'too-long':  { color: '#ef4444', label: 'Too long'  },
 };
 
+const MAX_IMAGE_BYTES = 2 * 1024 * 1024; // 2 MB — skip larger blobs to keep payload small
+
+/** Convert a blob: or http: URL to a data: base64 URL safe to send to the API */
+async function toSendableUrl(item: MediaItem): Promise<string | null> {
+  // Prefer the stored HTTP source URL (DALL-E / already uploaded)
+  if (item.sourceUrl?.startsWith('http')) return item.sourceUrl;
+
+  // For blob URLs: fetch, check size, then convert to base64
+  if (item.previewUrl.startsWith('blob:')) {
+    try {
+      const blob = await fetch(item.previewUrl).then(r => r.blob());
+      if (blob.size > MAX_IMAGE_BYTES) return null;   // skip — too large for inline payload
+      const reader = new FileReader();
+      return await new Promise<string>((resolve, reject) => {
+        reader.onload  = () => resolve(reader.result as string);
+        reader.onerror = reject;
+        reader.readAsDataURL(blob);
+      });
+    } catch {
+      return null;
+    }
+  }
+
+  // Direct HTTP preview URL (loaded draft with no sourceUrl)
+  if (item.previewUrl.startsWith('http')) return item.previewUrl;
+
+  return null;
+}
+
 export default function CaptionEditor({
   caption,
   selectedChannels,
   showSuggestions,
+  mediaItems,
   onCaptionChange,
   onToggleSuggestions,
 }: CaptionEditorProps) {
@@ -52,18 +84,32 @@ export default function CaptionEditor({
   const inputRef = useRef<HTMLInputElement>(null);
 
   const primaryPlatform = CHANNEL_TO_PLATFORM[selectedChannels[0] ?? 'ig'];
-  const hasResults = captions.length > 0;
+  const hasResults      = captions.length > 0;
+
+  // Images that can be sent for vision analysis (max 4)
+  const imageItems = mediaItems.slice(0, 4);
+  const hasImages  = imageItems.length > 0;
 
   async function handleGenerate() {
     const trimmed = topic.trim();
-    if (!trimmed || loading) return;
+    if (!trimmed && !hasImages) return;
+    if (loading) return;
+
     setLoading(true);
     setError(null);
     try {
+      // Resolve all images to sendable URLs concurrently
+      let resolvedImageUrls: string[] = [];
+      if (hasImages) {
+        const results = await Promise.all(imageItems.map(toSendableUrl));
+        resolvedImageUrls = results.filter((u): u is string => u !== null);
+      }
+
       const result = await getInspiration({
-        topic:       trimmed,
+        topic:       trimmed || undefined,
         platform:    primaryPlatform,
         workspaceId: active?.id,
+        imageUrls:   resolvedImageUrls.length > 0 ? resolvedImageUrls : undefined,
       });
       setCaptions(result.captions);
       setHashtags(result.hashtags);
@@ -123,6 +169,30 @@ export default function CaptionEditor({
               )}
             </div>
 
+            {/* Image analysis badge */}
+            {hasImages && (
+              <div className="flex items-center gap-2 px-2.5 py-2 rounded-xl bg-[#d394ff]/8 border border-[#d394ff]/15">
+                <div className="flex -space-x-1.5 shrink-0">
+                  {imageItems.slice(0, 3).map((item, i) => (
+                    <img
+                      key={i}
+                      src={item.previewUrl}
+                      alt=""
+                      className="w-6 h-6 rounded-md object-cover border border-[#1c1b1b]"
+                    />
+                  ))}
+                  {imageItems.length > 3 && (
+                    <div className="w-6 h-6 rounded-md bg-[#d394ff]/20 border border-[#1c1b1b] flex items-center justify-center">
+                      <span className="text-[8px] font-bold text-[#d394ff]">+{imageItems.length - 3}</span>
+                    </div>
+                  )}
+                </div>
+                <p className="text-[10px] text-[#d394ff]/80 leading-tight">
+                  <span className="font-bold">{imageItems.length} image{imageItems.length > 1 ? 's' : ''}</span> will be analyzed by GPT-4o Vision
+                </p>
+              </div>
+            )}
+
             {/* Topic input */}
             <div className="flex gap-2">
               <input
@@ -131,18 +201,21 @@ export default function CaptionEditor({
                 value={topic}
                 onChange={e => setTopic(e.target.value)}
                 onKeyDown={handleKeyDown}
-                placeholder="What's your post about? e.g. summer launch, mindset shift, new product…"
+                placeholder={hasImages
+                  ? 'Optional: add context, mood, or message…'
+                  : 'What\'s your post about? e.g. summer launch, mindset shift…'
+                }
                 className="flex-1 bg-[#252525] border border-[#4c4450]/40 rounded-xl px-3 py-2 text-xs text-[#e5e2e1] placeholder:text-[#988d9c]/50 focus:outline-none focus:border-[#d394ff]/50 focus:ring-1 focus:ring-[#d394ff]/20 transition-all"
               />
               <button
                 onClick={handleGenerate}
-                disabled={!topic.trim() || loading}
+                disabled={(!topic.trim() && !hasImages) || loading}
                 className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-[#d394ff]/15 text-[#d394ff] text-[10px] font-bold uppercase tracking-wider hover:bg-[#d394ff]/25 disabled:opacity-40 disabled:cursor-not-allowed transition-all active:scale-95 shrink-0"
               >
                 <span className={`material-symbols-outlined text-[13px] ${loading ? 'animate-spin' : ''}`}>
                   {loading ? 'progress_activity' : hasResults ? 'refresh' : 'bolt'}
                 </span>
-                {loading ? 'Generating…' : hasResults ? 'Regenerate' : 'Generate'}
+                {loading ? 'Analyzing…' : hasResults ? 'Regenerate' : 'Generate'}
               </button>
             </div>
 
@@ -152,6 +225,12 @@ export default function CaptionEditor({
             {/* Loading skeletons */}
             {loading && (
               <div className="flex flex-col gap-2">
+                {hasImages && (
+                  <p className="text-[10px] text-[#d394ff]/60 px-1 flex items-center gap-1.5 animate-pulse">
+                    <span className="material-symbols-outlined text-[12px]">image_search</span>
+                    Reading your images…
+                  </p>
+                )}
                 {[1, 2, 3].map(i => <div key={i} className="h-10 rounded-xl bg-[#d394ff]/5 animate-pulse" />)}
                 <div className="h-6 w-3/4 rounded-full bg-[#d394ff]/5 animate-pulse mt-1" />
               </div>
@@ -211,7 +290,10 @@ export default function CaptionEditor({
             {/* Empty state */}
             {!loading && !hasResults && !error && (
               <p className="text-[10px] text-[#988d9c]/50 px-1 pb-1">
-                Enter your topic and hit Generate. ChatGPT will write 3 captions + trending hashtags using your AI Settings context.
+                {hasImages
+                  ? 'Hit Generate — GPT-4o will analyze your images and write 3 captions using your AI Settings.'
+                  : 'Enter your topic and hit Generate. ChatGPT will write 3 captions + trending hashtags using your AI Settings context.'
+                }
               </p>
             )}
           </div>
@@ -219,44 +301,39 @@ export default function CaptionEditor({
       </div>
 
       {/* Textarea */}
-      <div className="relative">
-        <textarea
-          value={caption}
-          onChange={e => onCaptionChange(e.target.value)}
-          className="w-full h-28 bg-[#1c1b1b] border border-[#4c4450]/30 rounded-2xl p-4 pb-12 text-sm text-[#e5e2e1] focus:ring-2 focus:ring-[#d394ff]/20 focus:border-[#d394ff] outline-none transition-all placeholder:text-[#988d9c]/50 resize-none leading-relaxed"
-          placeholder="Write your caption…"
-        />
+      <textarea
+        value={caption}
+        onChange={e => onCaptionChange(e.target.value)}
+        className="w-full h-28 bg-[#1c1b1b] border border-[#4c4450]/30 rounded-2xl p-4 text-sm text-[#e5e2e1] focus:ring-2 focus:ring-[#d394ff]/20 focus:border-[#d394ff] outline-none transition-all placeholder:text-[#988d9c]/50 resize-none leading-relaxed"
+        placeholder="Write your caption…"
+      />
 
-        {/* Per-channel indicators */}
-        <div className="absolute bottom-3 left-4 right-4 flex items-center gap-3 flex-wrap">
-          {selectedChannels.map(chId => {
-            const limit            = CHAR_LIMITS[chId];
-            const status           = getStatus(caption.length, chId);
-            const { color, label } = STATUS_META[status];
-            const pct              = Math.min(caption.length / limit, 1);
+      {/* Per-channel length indicators — below the textarea */}
+      <div className="flex items-center gap-4 flex-wrap px-1">
+        {selectedChannels.map(chId => {
+          const limit            = CHAR_LIMITS[chId];
+          const status           = getStatus(caption.length, chId);
+          const { color, label } = STATUS_META[status];
+          const pct              = Math.min(caption.length / limit, 1);
 
-            return (
-              <div key={chId} className="flex items-center gap-2">
-                <span
-                  className="w-2 h-2 rounded-full shrink-0 transition-colors duration-300"
-                  style={{ background: color, boxShadow: `0 0 6px ${color}99` }}
+          return (
+            <div key={chId} className="flex items-center gap-2">
+              <span
+                className="w-2 h-2 rounded-full shrink-0 transition-colors duration-300"
+                style={{ background: color, boxShadow: `0 0 6px ${color}99` }}
+              />
+              <span className="text-[10px] font-bold uppercase tracking-wider" style={{ color }}>
+                {chId.toUpperCase()} · {label}
+              </span>
+              <div className="h-[2px] w-12 rounded-full bg-[#353534] overflow-hidden">
+                <div
+                  className="h-full rounded-full transition-all duration-150"
+                  style={{ width: `${pct * 100}%`, background: color }}
                 />
-                <span className="text-[10px] font-mono leading-none" style={{ color }}>
-                  {chId.toUpperCase()} {caption.length}/{limit}
-                </span>
-                <span className="text-[9px] font-bold uppercase tracking-wider" style={{ color }}>
-                  · {label}
-                </span>
-                <div className="h-[2px] w-10 rounded-full bg-[#353534] overflow-hidden">
-                  <div
-                    className="h-full rounded-full transition-all duration-150"
-                    style={{ width: `${pct * 100}%`, background: color }}
-                  />
-                </div>
               </div>
-            );
-          })}
-        </div>
+            </div>
+          );
+        })}
       </div>
     </div>
   );

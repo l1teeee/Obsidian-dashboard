@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect, useCallback } from 'react';
+import { useRef, useState, useEffect, useCallback, useMemo } from 'react';
 import gsap from 'gsap';
 import * as postsService from '../services/posts.service';
 import type { CalendarPost } from '../domain/entities/CalendarPost';
@@ -93,15 +93,19 @@ export function usePosts() {
     return () => ctx.revert();
   }, []);
 
-  const activePosts = allPosts.filter(p => p.status !== 'inactive' && p.status !== 'deleted');
+  const activePosts  = useMemo(
+    () => allPosts.filter(p => p.status !== 'inactive' && p.status !== 'deleted'),
+    [allPosts],
+  );
   const displayPosts = view === 'active' ? activePosts : inactivePosts;
 
-  const filteredPosts = displayPosts.filter(p => {
-    const matchesSearch   = p.title.toLowerCase().includes(search.toLowerCase());
+  const lowerSearch   = useMemo(() => search.toLowerCase(), [search]);
+  const filteredPosts = useMemo(() => displayPosts.filter(p => {
+    const matchesSearch   = p.title.toLowerCase().includes(lowerSearch);
     const matchesStatus   = statusFilter   === 'all' || p.status   === statusFilter;
     const matchesPlatform = platformFilter === 'all' || p.platform === platformFilter;
     return matchesSearch && matchesStatus && matchesPlatform;
-  });
+  }), [displayPosts, lowerSearch, statusFilter, platformFilter]);
 
   const requestAction = (type: PostAction, post: CalendarPost) => setPendingAction({ type, post });
   const cancelAction  = () => setPendingAction(null);

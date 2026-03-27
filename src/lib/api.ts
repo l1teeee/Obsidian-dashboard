@@ -1,4 +1,4 @@
-const BASE = (import.meta.env.VITE_API_URL as string | undefined) ?? '/api';
+const BASE = (import.meta.env.VITE_API_URL as string | undefined) ?? 'http://localhost:3000';
 
 let _accessToken: string | null = null;
 let _refreshing: Promise<string | null> | null = null;
@@ -12,32 +12,27 @@ export function getAccessToken(): string | null {
 }
 
 // ─── Token refresh ────────────────────────────────────────────────────────────
+// Refresh token lives in an httpOnly cookie — it is sent automatically by the
+// browser when credentials: 'include' is set. We never touch it from JS.
 
 async function callRefresh(): Promise<string | null> {
-  const rt = localStorage.getItem('obs_refresh_token');
-  if (!rt) return null;
-
   try {
     const res = await fetch(`${BASE}/auth/refresh`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ refreshToken: rt }),
+      method:      'POST',
+      credentials: 'include',     // sends the httpOnly refresh-token cookie
     });
 
-    type RefreshResp = { success: boolean; data: { accessToken: string; refreshToken: string } };
+    type RefreshResp = { success: boolean; data: { accessToken: string } };
     const json = (await res.json()) as RefreshResp;
 
     if (!res.ok || !json.success) {
-      localStorage.removeItem('obs_refresh_token');
       _accessToken = null;
       return null;
     }
 
     _accessToken = json.data.accessToken;
-    localStorage.setItem('obs_refresh_token', json.data.refreshToken);
     return _accessToken;
   } catch {
-    localStorage.removeItem('obs_refresh_token');
     _accessToken = null;
     return null;
   }
@@ -73,13 +68,21 @@ export async function apiFetch<T>(
   _retry = true,
 ): Promise<ApiResponse<T>> {
   const headers: Record<string, string> = {
-    'Content-Type': 'application/json',
+    // Set Content-Type only for JSON bodies. FormData bodies must NOT have it
+    // set manually — the browser adds it automatically with the multipart boundary.
+    ...(options.body !== undefined && !(options.body instanceof FormData)
+      ? { 'Content-Type': 'application/json' }
+      : {}),
     ...(options.headers as Record<string, string> | undefined),
   };
 
   if (_accessToken) headers['Authorization'] = `Bearer ${_accessToken}`;
 
-  const res = await fetch(`${BASE}${path}`, { ...options, headers });
+  const res = await fetch(`${BASE}${path}`, {
+    ...options,
+    headers,
+    credentials: 'include',   // always send cookies (httpOnly refresh token)
+  });
 
   type RawResp = ApiResponse<T> & { error?: { code: string; message: string } };
   const json = (await res.json()) as RawResp;

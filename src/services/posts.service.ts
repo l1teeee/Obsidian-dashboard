@@ -39,6 +39,7 @@ export interface UpdatePostPayload {
   status?:       string;
   caption?:      string;
   scheduled_at?: string;
+  media_urls?:   string[];
 }
 
 export async function getAll(params: GetPostsParams = {}): Promise<PostsPage> {

@@ -5,6 +5,7 @@ interface FBPreviewProps {
 
 function MediaGrid({ images }: { images: string[] }) {
   const count = images.length;
+
   if (count === 0) {
     return (
       <div className="w-full aspect-video bg-[#f0f2f5] flex items-center justify-center border-t border-b border-[#e4e6eb]">
@@ -39,38 +40,21 @@ function MediaGrid({ images }: { images: string[] }) {
     );
   }
 
-  // 4 images: 2x2 grid
-  // 5+ images: top row 1 big + right 2 stacked, bottom row 2 + overlay
-  if (count === 4) {
-    return (
-      <div className="grid grid-cols-2 gap-0.5" style={{ aspectRatio: '1/1' }}>
-        {images.slice(0, 4).map((src, i) => (
-          <img key={i} src={src} className="w-full h-full object-cover" alt="" style={{ aspectRatio: '1/1' }} />
-        ))}
-      </div>
-    );
-  }
-
-  // 5+: 2 rows — top: 1 large + 1; bottom: 2 + "+N more"
-  const extra = count - 5;
+  // 4+ images: 2×2 grid, "+N more" overlay on last cell — same as LinkedIn
+  const shown = images.slice(0, 4);
+  const extra = count - 4;
   return (
-    <div className="flex flex-col gap-0.5" style={{ aspectRatio: '4/3' }}>
-      <div className="flex gap-0.5 flex-1">
-        <img src={images[0]} className="w-3/5 object-cover" alt="" />
-        <img src={images[1]} className="flex-1 object-cover" alt="" />
-      </div>
-      <div className="flex gap-0.5 flex-1">
-        <img src={images[2]} className="flex-1 object-cover" alt="" />
-        <img src={images[3]} className="flex-1 object-cover" alt="" />
-        <div className="relative flex-1 overflow-hidden">
-          <img src={images[4]} className="w-full h-full object-cover" alt="" />
-          {extra > 0 && (
+    <div className="grid grid-cols-2 gap-0.5" style={{ aspectRatio: '1/1' }}>
+      {shown.map((src, i) => (
+        <div key={i} className="relative overflow-hidden">
+          <img src={src} className="w-full h-full object-cover" alt="" />
+          {i === 3 && extra > 0 && (
             <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
               <span className="text-white text-lg font-bold">+{extra}</span>
             </div>
           )}
         </div>
-      </div>
+      ))}
     </div>
   );
 }

@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import gsap from 'gsap';
+import { sileo } from 'sileo';
 import TopBar from '../components/layout/TopBar';
 import ChannelSelector from '../components/composer/ChannelSelector';
 import MediaUpload from '../components/composer/MediaUpload';
@@ -19,14 +20,27 @@ const ACTION_COPY: Record<ActionType, { eyebrow: string; title: string; sub: str
 };
 
 export default function PostComposer() {
-  const navigate     = useNavigate();
-  const overlayRef   = useRef<HTMLDivElement>(null);
-  const circleRef    = useRef<SVGCircleElement>(null);
-  const checkRef     = useRef<SVGPathElement>(null);
-  const [done, setDone]     = useState(false);
+  const navigate       = useNavigate();
+  const { id: editId } = useParams<{ id?: string }>();
+  const overlayRef     = useRef<HTMLDivElement>(null);
+  const circleRef      = useRef<SVGCircleElement>(null);
+  const checkRef       = useRef<SVGPathElement>(null);
+  const [done,       setDone]       = useState(false);
   const [actionMeta, setActionMeta] = useState<{ type: ActionType; names: string } | null>(null);
 
+  const [isSavingDraft, setIsSavingDraft] = useState(false);
+
   const playSuccess = useCallback((type: ActionType, names: string) => {
+    // Drafts: Sileo notification only — no animation, stay in composer
+    if (type === 'draft') {
+      sileo.success({
+        title:       'Saved to drafts',
+        description: `Your post has been saved · ${names}`,
+      });
+      return;
+    }
+
+    // Publish / Schedule: full GSAP success animation → navigate to /posts
     setActionMeta({ type, names });
     setDone(true);
 
@@ -35,7 +49,6 @@ export default function PostComposer() {
       const circle  = circleRef.current;
       const path    = checkRef.current;
       if (!overlay || !circle || !path) {
-        // Fallback: refs not ready, navigate directly
         navigate('/posts');
         return;
       }
@@ -61,16 +74,58 @@ export default function PostComposer() {
   }, [navigate]);
 
   const {
-    caption, setCaption, mediaItems,
+    caption, handleCaptionChange, mediaItems,
     selectedChannels, previewTab, setPreviewTab,
     scheduleDate, setScheduleDate, toast,
     showSuggestions, setShowSuggestions,
     toggleChannel, handleFileChange, handleAIImageGenerated, removeMedia, handleAction,
-    pageRef, fileInputRef, isSubmitting,
-  } = useComposer(playSuccess);
+    autoSaveDraft, hasContent, isDirty,
+    isScheduleMode, setIsScheduleMode,
+    pageRef, fileInputRef, isSubmitting, draftLoading,
+  } = useComposer(playSuccess, editId);
+
+  // Stable refs so the cleanup effect always sees current values
+  const isDirtyRef  = useRef(isDirty);
+  const doneRef     = useRef(done);
+  const autoSaveRef = useRef(autoSaveDraft);
+  useEffect(() => { isDirtyRef.current  = isDirty;      }, [isDirty]);
+  useEffect(() => { doneRef.current     = done;         }, [done]);
+  useEffect(() => { autoSaveRef.current = autoSaveDraft; }, [autoSaveDraft]);
+
+  // Auto-save on unmount — only when the user actually made changes
+  useEffect(() => {
+    return () => {
+      if (isDirtyRef.current && !doneRef.current) {
+        autoSaveRef.current().catch(() => {});
+        sileo.success({
+          title:       'Draft saved',
+          description: 'Your post was automatically saved to drafts.',
+        });
+      }
+    };
+  }, []);
+
+  // "Save Draft" button: save silently + show Sileo notification, stay in composer
+  const handleSaveDraft = async () => {
+    if (isSubmitting || isSavingDraft) return;
+    setIsSavingDraft(true);
+    try {
+      await autoSaveDraft();
+      sileo.success({
+        title:       'Saved to drafts',
+        description: 'Your post has been saved and can be edited anytime.',
+      });
+    } catch {
+      sileo.error({
+        title:       'Could not save draft',
+        description: 'Check your connection and try again.',
+      });
+    } finally {
+      setIsSavingDraft(false);
+    }
+  };
 
   const mediaPreviews = mediaItems.map(i => i.previewUrl);
-
   const [mobileTab, setMobileTab] = useState<MobileTab>('edit');
 
   useEffect(() => {
@@ -90,11 +145,9 @@ export default function PostComposer() {
         style={{ display: 'none' }}
         className="absolute inset-0 z-[200] flex-col items-center justify-center bg-[#0e0e0e] text-center px-6"
       >
-        {/* Ambient orbs */}
         <div data-orb-a className="pointer-events-none absolute -left-40 -top-40 h-[500px] w-[500px] rounded-full bg-[#d394ff]/10 blur-[120px] opacity-60" />
         <div data-orb-b className="pointer-events-none absolute -bottom-40 -right-40 h-[420px] w-[420px] rounded-full bg-[#9400e4]/10 blur-[100px] opacity-60" />
 
-        {/* Animated icon */}
         <div data-check-wrap className="mb-8">
           {meta && (
             <div className="w-20 h-20 rounded-3xl bg-[#d394ff]/10 border border-[#d394ff]/20 flex items-center justify-center mb-6 mx-auto">
@@ -104,66 +157,53 @@ export default function PostComposer() {
             </div>
           )}
           <svg width="90" height="90" viewBox="0 0 90 90" fill="none" className="-mt-2">
-            <circle
-              ref={circleRef}
-              cx="45" cy="45" r="40"
-              stroke="#d394ff" strokeWidth="2"
-              strokeLinecap="round"
-              fill="rgba(211,148,255,0.04)"
-            />
-            <path
-              ref={checkRef}
-              d="M28 46L40 58L63 34"
-              stroke="#d394ff" strokeWidth="3"
-              strokeLinecap="round" strokeLinejoin="round"
-            />
+            <circle ref={circleRef} cx="45" cy="45" r="40" stroke="#d394ff" strokeWidth="2" strokeLinecap="round" fill="rgba(211,148,255,0.04)" />
+            <path   ref={checkRef}  d="M28 46L40 58L63 34" stroke="#d394ff" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </div>
 
-        {/* Text */}
         {meta && (
           <div className="space-y-2">
             <p data-success-line className="text-[0.6875rem] font-bold uppercase tracking-[0.24em] text-[#d394ff]/70">
-              {meta.eyebrow}
-              {actionMeta?.names ? ` · ${actionMeta.names}` : ''}
+              {meta.eyebrow}{actionMeta?.names ? ` · ${actionMeta.names}` : ''}
             </p>
-            <h2 data-success-line className="font-headline text-3xl font-extrabold tracking-tight text-white">
-              {meta.title}
-            </h2>
-            <p data-success-line className="text-sm text-[#adaaaa]/60 mt-2">
-              {meta.sub}
-            </p>
+            <h2 data-success-line className="font-headline text-3xl font-extrabold tracking-tight text-white">{meta.title}</h2>
+            <p data-success-line className="text-sm text-[#adaaaa]/60 mt-2">{meta.sub}</p>
           </div>
         )}
       </div>
 
+      {/* ── Draft loading ── */}
+      {draftLoading && (
+        <div className="flex-1 flex items-center justify-center">
+          <span className="text-[#988d9c] text-sm animate-pulse">Loading draft…</span>
+        </div>
+      )}
+
       {/* ── Normal composer UI ── */}
-      {!done && (
+      {!done && !draftLoading && (
         <>
           <TopBar
-            title="Post Composer"
+            title={editId ? 'Edit Draft' : 'Post Composer'}
             actions={
               <div className="flex items-center gap-2 md:gap-3">
                 <button
-                  onClick={() => handleAction('draft')}
-                  disabled={isSubmitting}
-                  className="hidden sm:block text-sm font-medium text-[#988d9c] hover:text-white transition-colors disabled:opacity-40"
+                  onClick={handleSaveDraft}
+                  disabled={isSubmitting || isSavingDraft || !isDirty || !hasContent}
+                  className="hidden sm:flex items-center gap-1.5 text-sm font-medium text-[#988d9c] hover:text-white transition-colors disabled:opacity-40"
                 >
-                  Save Draft
+                  {isSavingDraft
+                    ? <span className="material-symbols-outlined text-[14px] animate-spin">progress_activity</span>
+                    : <span className="material-symbols-outlined text-[14px]">draft</span>
+                  }
+                  {isSavingDraft ? 'Saving…' : 'Save Draft'}
                 </button>
                 <button
-                  onClick={() => handleAction('publish')}
-                  disabled={isSubmitting}
-                  className="hidden sm:block text-sm font-medium border border-[#4c4450]/30 hover:border-[#d394ff] transition-all rounded-xl px-4 py-2 active:scale-95 text-[#e5e2e1] disabled:opacity-40"
-                >
-                  Publish
-                </button>
-                <button
-                  onClick={() => handleAction('schedule')}
-                  disabled={isSubmitting}
+                  onClick={() => handleAction(isScheduleMode ? 'schedule' : 'publish')}
+                  disabled={isSubmitting || isSavingDraft}
                   className="text-sm font-semibold bg-[#d394ff] text-[#5e2388] rounded-xl px-4 md:px-6 py-2 shadow-[0_0_20px_rgba(211,148,255,0.2)] hover:shadow-[0_0_30px_rgba(211,148,255,0.4)] transition-all active:scale-95 disabled:opacity-60"
                 >
-                  {isSubmitting ? 'Saving…' : 'Schedule'}
+                  {isSubmitting ? 'Saving…' : isScheduleMode ? 'Schedule' : 'Publish'}
                 </button>
               </div>
             }
@@ -206,26 +246,34 @@ export default function PostComposer() {
                     caption={caption}
                     selectedChannels={selectedChannels}
                     showSuggestions={showSuggestions}
-                    onCaptionChange={val => { setCaption(val); setShowSuggestions(false); }}
+                    mediaItems={mediaItems}
+                    onCaptionChange={val => { handleCaptionChange(val); setShowSuggestions(false); }}
                     onToggleSuggestions={() => setShowSuggestions(p => !p)}
                   />
-                  <SchedulePicker scheduleDate={scheduleDate} onDateChange={setScheduleDate} />
+                  <SchedulePicker
+                    scheduleDate={scheduleDate}
+                    isScheduleMode={isScheduleMode}
+                    caption={caption}
+                    selectedChannels={selectedChannels}
+                    onDateChange={setScheduleDate}
+                    onScheduleToggle={setIsScheduleMode}
+                  />
 
                   {/* Mobile actions */}
                   <div className="flex gap-3 md:hidden pb-4">
                     <button
-                      onClick={() => handleAction('draft')}
-                      disabled={isSubmitting}
+                      onClick={handleSaveDraft}
+                      disabled={isSubmitting || isSavingDraft || !isDirty || !hasContent}
                       className="flex-1 py-3 rounded-xl border border-[#4c4450]/30 text-sm font-medium text-[#988d9c] hover:text-white transition-colors disabled:opacity-40"
                     >
-                      Save Draft
+                      {isSavingDraft ? 'Saving…' : 'Save Draft'}
                     </button>
                     <button
-                      onClick={() => handleAction('publish')}
-                      disabled={isSubmitting}
+                      onClick={() => handleAction(isScheduleMode ? 'schedule' : 'publish')}
+                      disabled={isSubmitting || isSavingDraft}
                       className="flex-1 py-3 rounded-xl border border-[#4c4450]/30 text-sm font-medium text-[#e5e2e1] hover:border-[#d394ff] transition-all disabled:opacity-40"
                     >
-                      Publish
+                      {isScheduleMode ? 'Schedule' : 'Publish'}
                     </button>
                   </div>
                 </div>
@@ -243,7 +291,7 @@ export default function PostComposer() {
             </div>
           </div>
 
-          {/* Toast (errors only) */}
+          {/* Error toast */}
           {toast && (
             <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-[100] flex items-center gap-3 px-6 py-3.5 rounded-2xl bg-[#201f1f] border border-[#d394ff]/30 shadow-[0_0_40px_rgba(211,148,255,0.2)]">
               <span className="material-symbols-outlined text-[#d394ff]" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
@@ -252,6 +300,7 @@ export default function PostComposer() {
           )}
         </>
       )}
+
     </div>
   );
 }

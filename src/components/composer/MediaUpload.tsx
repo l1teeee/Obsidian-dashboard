@@ -154,23 +154,46 @@ export default function MediaUpload({
           {mediaItems.map((item, i) => (
             <div key={i} className="relative group aspect-square rounded-xl overflow-hidden bg-[#1c1b1b]">
               <img src={item.previewUrl} className="w-full h-full object-cover" alt="" />
+
+              {/* Upload in progress overlay */}
+              {item.uploading && (
+                <div className="absolute inset-0 bg-black/60 flex flex-col items-center justify-center gap-1">
+                  <span className="material-symbols-outlined text-white text-[20px] animate-spin">progress_activity</span>
+                  <span className="text-[8px] text-white/80 font-bold uppercase tracking-wider">Uploading…</span>
+                </div>
+              )}
+
+              {/* Upload error overlay */}
+              {item.uploadError && !item.uploading && (
+                <div className="absolute inset-0 bg-red-900/70 flex flex-col items-center justify-center gap-1 p-1">
+                  <span className="material-symbols-outlined text-red-300 text-[18px]">cloud_off</span>
+                  <span className="text-[7px] text-red-200 font-bold text-center leading-tight">Upload failed</span>
+                </div>
+              )}
+
               {/* AI badge */}
-              {item.sourceUrl && (
+              {!item.uploading && item.sourceUrl && !item.uploadError && (
                 <div className="absolute top-1 left-1 bg-[#d394ff]/80 rounded-md px-1 py-0.5">
                   <span className="text-[7px] font-bold text-[#131313] uppercase tracking-wide">AI</span>
                 </div>
               )}
+
               {/* Index badge */}
-              <div className="absolute top-1 right-1 bg-black/50 rounded-full w-4 h-4 flex items-center justify-center">
-                <span className="text-[8px] font-bold text-white">{i + 1}</span>
-              </div>
-              {/* Remove button */}
-              <button
-                onClick={() => onRemove(i)}
-                className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"
-              >
-                <span className="material-symbols-outlined text-white text-[22px]">delete</span>
-              </button>
+              {!item.uploading && (
+                <div className="absolute top-1 right-1 bg-black/50 rounded-full w-4 h-4 flex items-center justify-center">
+                  <span className="text-[8px] font-bold text-white">{i + 1}</span>
+                </div>
+              )}
+
+              {/* Remove button — disabled while uploading */}
+              {!item.uploading && (
+                <button
+                  onClick={() => onRemove(i)}
+                  className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"
+                >
+                  <span className="material-symbols-outlined text-white text-[22px]">delete</span>
+                </button>
+              )}
             </div>
           ))}
 

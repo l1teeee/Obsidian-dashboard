@@ -19,9 +19,10 @@ export async function generateImage(payload: GenerateImagePayload): Promise<Gene
 }
 
 export interface InspirePayload {
-  topic:        string;
+  topic?:       string;
   platform?:    string;
   workspaceId?: string;
+  imageUrls?:   string[];
 }
 
 export interface InspireResult {
@@ -31,6 +32,26 @@ export interface InspireResult {
 
 export async function getInspiration(payload: InspirePayload): Promise<InspireResult> {
   const res = await apiFetch<InspireResult>('/ai/inspire', {
+    method: 'POST',
+    body:   JSON.stringify(payload),
+  });
+  return res.data;
+}
+
+export interface SuggestTimePayload {
+  caption?:  string;
+  platforms: string[];
+}
+
+export interface SuggestTimeResult {
+  hour:      number;
+  minute:    number;
+  dayOffset: number;
+  reason:    string;
+}
+
+export async function suggestScheduleTime(payload: SuggestTimePayload): Promise<SuggestTimeResult> {
+  const res = await apiFetch<SuggestTimeResult>('/ai/suggest-time', {
     method: 'POST',
     body:   JSON.stringify(payload),
   });
