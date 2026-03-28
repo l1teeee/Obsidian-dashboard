@@ -11,9 +11,16 @@ export function getAccessToken(): string | null {
   return _accessToken;
 }
 
+// ─── Session indicator ────────────────────────────────────────────────────────
+// obs_rt  is httpOnly — invisible to JS but sent automatically by the browser.
+// obs_sid is a non-httpOnly presence flag ("1") set by the server alongside
+// obs_rt. We read it to avoid calling /auth/refresh when there is no session,
+// preventing unnecessary network requests for unauthenticated visitors.
+export function hasSessionCookie(): boolean {
+  return document.cookie.split(';').some(c => c.trim().startsWith('obs_sid='));
+}
+
 // ─── Token refresh ────────────────────────────────────────────────────────────
-// Refresh token lives in an httpOnly cookie — it is sent automatically by the
-// browser when credentials: 'include' is set. We never touch it from JS.
 
 async function callRefresh(): Promise<string | null> {
   try {
