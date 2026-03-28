@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
 import { useInactivityTimer } from './hooks/useInactivityTimer';
-import SessionWarningModal from './components/shared/SessionWarningModal';
+import SessionWarningModal   from './components/shared/SessionWarningModal';
+import CompleteProfileModal  from './components/auth/CompleteProfileModal';
 import { BrowserRouter, Routes, Route, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import Lenis from 'lenis';
 import gsap from 'gsap';
@@ -105,6 +106,15 @@ function WorkspaceGuard({ children }: { children: ReactNode }) {
   return <>{children}</>;
 }
 
+// Shows the profile-completion overlay whenever the user is authenticated
+// but hasn't filled in their name / role / country yet.
+function ProfileGate() {
+  const { user, isAuthenticated, isLoading } = useAuth();
+  if (isLoading || !isAuthenticated || !user) return null;
+  if (user.profileCompleted) return null;
+  return <CompleteProfileModal />;
+}
+
 function SessionGuard() {
   const { isAuthenticated, logout } = useAuth();
   const navigate = useNavigate();
@@ -164,6 +174,7 @@ export default function App() {
             }}
           />
           <BrowserRouter>
+            <ProfileGate />
             <SessionGuard />
             <ScrollToTop />
             <TransitionDetector onTrigger={triggerTransition} />

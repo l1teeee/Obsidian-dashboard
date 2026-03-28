@@ -276,40 +276,46 @@ export default function Sidebar() {
       {/* ── Bottom: user card + menu ── */}
       <div ref={bottomRef} className="mt-4 relative">
 
-        {/* Desktop floating dropdown — appears above the card */}
-        {menuOpen && (
-          <div className="hidden lg:flex flex-col absolute bottom-full left-0 mb-2 w-full min-w-[200px] bg-[#1c1b1b] rounded-2xl border border-[#4c4450]/20 shadow-[0_8px_40px_rgba(0,0,0,0.6)] z-[100] overflow-hidden py-1">
-            <button
-              onClick={() => handleMenuNav('/profile')}
-              className="flex items-center gap-3 px-4 py-3 text-sm text-[#cfc2d2] hover:text-white hover:bg-white/[0.04] transition-colors w-full text-left"
-            >
-              <span className="material-symbols-outlined text-[#d394ff]" style={{ fontSize: 18 }}>account_circle</span>
-              <span className="font-headline">View Profile</span>
-            </button>
-            <button
-              onClick={() => handleMenuNav('/settings')}
-              className="flex items-center gap-3 px-4 py-3 text-sm text-[#cfc2d2] hover:text-white hover:bg-white/[0.04] transition-colors w-full text-left"
-            >
-              <span className="material-symbols-outlined text-[#988d9c]" style={{ fontSize: 18 }}>settings</span>
-              <span className="font-headline">Settings</span>
-            </button>
-            <div className="h-px bg-[#4c4450]/20 mx-3 my-1" />
-            <button
-              onClick={handleLogout}
-              className="flex items-center gap-3 px-4 py-3 text-sm text-[#ffb4ab] hover:text-white hover:bg-[#ffb4ab]/10 transition-colors w-full text-left"
-            >
-              <span className="material-symbols-outlined" style={{ fontSize: 18 }}>logout</span>
-              <span className="font-headline">Log out</span>
-            </button>
-          </div>
-        )}
+        {/* Desktop floating dropdown — appears above the card, always in DOM for animation */}
+        <div className={[
+          'hidden lg:flex flex-col absolute bottom-full left-0 mb-2 w-full min-w-[200px]',
+          'bg-[#1c1b1b] rounded-2xl border border-[#4c4450]/20 shadow-[0_8px_40px_rgba(0,0,0,0.6)]',
+          'z-[100] overflow-hidden py-1 origin-bottom',
+          'transition-all duration-200 ease-out',
+          menuOpen
+            ? 'opacity-100 scale-100 translate-y-0 pointer-events-auto'
+            : 'opacity-0 scale-95 translate-y-1 pointer-events-none',
+        ].join(' ')}>
+          <button
+            onClick={() => handleMenuNav('/profile')}
+            className="flex items-center gap-3 px-4 py-3 text-sm text-[#cfc2d2] hover:text-white hover:bg-white/[0.04] transition-colors w-full text-left cursor-pointer"
+          >
+            <span className="material-symbols-outlined text-[#d394ff]" style={{ fontSize: 18 }}>account_circle</span>
+            <span className="font-headline">View Profile</span>
+          </button>
+          <button
+            onClick={() => handleMenuNav('/settings')}
+            className="flex items-center gap-3 px-4 py-3 text-sm text-[#cfc2d2] hover:text-white hover:bg-white/[0.04] transition-colors w-full text-left cursor-pointer"
+          >
+            <span className="material-symbols-outlined text-[#988d9c]" style={{ fontSize: 18 }}>settings</span>
+            <span className="font-headline">Settings</span>
+          </button>
+          <div className="h-px bg-[#4c4450]/20 mx-3 my-1" />
+          <button
+            onClick={handleLogout}
+            className="flex items-center gap-3 px-4 py-3 text-sm text-[#ffb4ab] hover:text-white hover:bg-[#ffb4ab]/10 transition-colors w-full text-left cursor-pointer"
+          >
+            <span className="material-symbols-outlined" style={{ fontSize: 18 }}>logout</span>
+            <span className="font-headline">Log out</span>
+          </button>
+        </div>
 
         {/* User card button */}
         <button
           onClick={() => setMenuOpen(prev => !prev)}
           title={!isOpen ? 'Account' : undefined}
           className={[
-            'w-full rounded-2xl border flex items-center transition-all duration-300',
+            'w-full rounded-2xl border flex items-center transition-all duration-300 cursor-pointer',
             isOpen ? 'px-2 py-3 gap-3' : 'px-2 py-3 lg:p-2 lg:justify-center',
             menuOpen
               ? 'bg-[#d394ff]/10 border-[#d394ff]/30'
@@ -338,32 +344,33 @@ export default function Sidebar() {
           </span>
         </button>
 
-        {/* Mobile inline menu — appears below the card */}
-        {menuOpen && (
-          <div className="lg:hidden mt-1 space-y-0.5">
-            <button
-              onClick={() => handleMenuNav('/profile')}
-              className="flex items-center gap-3 w-full px-4 py-2.5 rounded-xl text-sm text-[#cfc2d2] hover:text-white hover:bg-[#201f1f] transition-colors"
-            >
-              <span className="material-symbols-outlined text-[#d394ff]" style={{ fontSize: 18 }}>account_circle</span>
-              <span className="font-headline">View Profile</span>
-            </button>
-            <button
-              onClick={() => handleMenuNav('/settings')}
-              className="flex items-center gap-3 w-full px-4 py-2.5 rounded-xl text-sm text-[#cfc2d2] hover:text-white hover:bg-[#201f1f] transition-colors"
-            >
-              <span className="material-symbols-outlined text-[#988d9c]" style={{ fontSize: 18 }}>settings</span>
-              <span className="font-headline">Settings</span>
-            </button>
-            <button
-              onClick={handleLogout}
-              className="flex items-center gap-3 w-full px-4 py-2.5 rounded-xl text-sm text-[#ffb4ab] hover:text-white hover:bg-[#ffb4ab]/10 transition-colors"
-            >
-              <span className="material-symbols-outlined" style={{ fontSize: 18 }}>logout</span>
-              <span className="font-headline">Log out</span>
-            </button>
-          </div>
-        )}
+        {/* Mobile inline menu — always in DOM for smooth animation */}
+        <div className={[
+          'lg:hidden mt-1 space-y-0.5 overflow-hidden transition-all duration-200 ease-out',
+          menuOpen ? 'opacity-100 max-h-40' : 'opacity-0 max-h-0',
+        ].join(' ')}>
+          <button
+            onClick={() => handleMenuNav('/profile')}
+            className="flex items-center gap-3 w-full px-4 py-2.5 rounded-xl text-sm text-[#cfc2d2] hover:text-white hover:bg-[#201f1f] transition-colors cursor-pointer"
+          >
+            <span className="material-symbols-outlined text-[#d394ff]" style={{ fontSize: 18 }}>account_circle</span>
+            <span className="font-headline">View Profile</span>
+          </button>
+          <button
+            onClick={() => handleMenuNav('/settings')}
+            className="flex items-center gap-3 w-full px-4 py-2.5 rounded-xl text-sm text-[#cfc2d2] hover:text-white hover:bg-[#201f1f] transition-colors cursor-pointer"
+          >
+            <span className="material-symbols-outlined text-[#988d9c]" style={{ fontSize: 18 }}>settings</span>
+            <span className="font-headline">Settings</span>
+          </button>
+          <button
+            onClick={handleLogout}
+            className="flex items-center gap-3 w-full px-4 py-2.5 rounded-xl text-sm text-[#ffb4ab] hover:text-white hover:bg-[#ffb4ab]/10 transition-colors cursor-pointer"
+          >
+            <span className="material-symbols-outlined" style={{ fontSize: 18 }}>logout</span>
+            <span className="font-headline">Log out</span>
+          </button>
+        </div>
 
       </div>
     </aside>

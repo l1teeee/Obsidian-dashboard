@@ -7,23 +7,25 @@ import {
   useState,
   type ReactNode,
 } from 'react';
-import { setAccessToken, refreshTokens } from '../lib/api';
+import { setAccessToken, refreshTokens, hasSessionCookie } from '../lib/api';
 import * as authService from '../services/auth.service';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
 export interface AuthUser {
-  id:    string;
-  email: string;
+  id:               string;
+  email:            string;
+  profileCompleted: boolean;
 }
 
 interface AuthCtx {
-  user:            AuthUser | null;
-  isAuthenticated: boolean;
-  isLoading:       boolean;
-  login:    (email: string, password: string, rememberMe?: boolean) => Promise<{ isFirstLogin: boolean }>;
-  register: (email: string, password: string, name: string) => Promise<{ isFirstLogin: boolean }>;
-  logout:   () => Promise<void>;
+  user:                 AuthUser | null;
+  isAuthenticated:      boolean;
+  isLoading:            boolean;
+  login:                (email: string, password: string, rememberMe?: boolean) => Promise<{ isFirstLogin: boolean }>;
+  register:             (email: string, password: string, name: string) => Promise<{ isFirstLogin: boolean }>;
+  logout:               () => Promise<void>;
+  markProfileCompleted: () => Promise<void>;
 }
 
 // ─── Context ──────────────────────────────────────────────────────────────────
@@ -34,8 +36,8 @@ export const AuthContext = createContext<AuthCtx | null>(null);
 
 function decodeUser(token: string): AuthUser | null {
   try {
-    const payload = JSON.parse(atob(token.split('.')[1])) as { id: string; email: string };
-    return { id: payload.id, email: payload.email };
+    const payload = JSON.parse(atob(token.split('.')[1])) as { id: string; email: string; pc?: number };
+    return { id: payload.id, email: payload.email, profileCompleted: !!payload.pc };
   } catch {
     return null;
   }
@@ -53,10 +55,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
   const bootstrapped = useRef(false);
 
-  // Silent refresh on mount — runs once
+  // Silent refresh on mount — only attempted when obs_sid cookie is present,
+  // meaning the user has an active session. Skipped entirely for guests.
   useEffect(() => {
     if (bootstrapped.current) return;
     bootstrapped.current = true;
+
+    if (!hasSessionCookie()) {
+      setIsLoading(false);
+      return;
+    }
 
     void refreshTokens().then((newToken) => {
       if (newToken) setUser(decodeUser(newToken));
@@ -88,6 +96,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return { isFirstLogin: tokens.isFirstLogin };
   }, []);
 
+  // Called by CompleteProfileModal after a successful PUT /users/me.
+  // Refreshes the access token (backend now returns pc:1) and updates user state.
+  const markProfileCompleted = useCallback(async () => {
+    const newToken = await refreshTokens();
+    if (newToken) setUser(decodeUser(newToken));
+  }, []);
+
   const logout = useCallback(async () => {
     try {
       await authService.logout();
@@ -100,7 +115,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated: !!user, isLoading, login, register, logout }}>
+    <AuthContext.Provider value={{ user, isAuthenticated: !!user, isLoading, login, register, logout, markProfileCompleted }}>
       {children}
     </AuthContext.Provider>
   );
