@@ -36,8 +36,12 @@ export default function LoginCard() {
     setError(null);
     setLoading(true);
     try {
-      const { isFirstLogin } = await login(email, password, rememberMe);
-      navigate(isFirstLogin ? '/create-workspace' : '/dashboard');
+      const { isFirstLogin, profileCompleted } = await login(email, password, rememberMe);
+      if (!profileCompleted) {
+        navigate('/complete-profile');
+      } else {
+        navigate(isFirstLogin ? '/create-workspace' : '/dashboard');
+      }
     } catch (err) {
       const code = (err as { code?: string }).code;
       setError(code === 'INVALID_CREDENTIALS'
@@ -73,7 +77,7 @@ export default function LoginCard() {
   return (
     <div
       ref={containerRef}
-      className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#0e0e0e] px-4 py-16"
+      className="auth-bg relative flex min-h-screen items-center justify-center overflow-hidden px-4 py-16"
     >
       {/* Ambient orbs */}
       <div data-orb="1" className="pointer-events-none absolute -left-32 -top-32 h-[500px] w-[500px] rounded-full bg-[#d394ff]/10 blur-[120px]" />
