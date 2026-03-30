@@ -22,8 +22,8 @@ interface AuthCtx {
   user:                 AuthUser | null;
   isAuthenticated:      boolean;
   isLoading:            boolean;
-  login:                (email: string, password: string, rememberMe?: boolean) => Promise<{ isFirstLogin: boolean }>;
-  register:             (email: string, password: string, name: string) => Promise<{ isFirstLogin: boolean }>;
+  login:                (email: string, password: string, rememberMe?: boolean) => Promise<{ isFirstLogin: boolean; profileCompleted: boolean }>;
+  register:             (email: string, password: string, name: string) => Promise<{ isFirstLogin: boolean; profileCompleted: boolean }>;
   logout:               () => Promise<void>;
   markProfileCompleted: () => Promise<void>;
 }
@@ -85,15 +85,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const login = useCallback(async (email: string, password: string, rememberMe?: boolean) => {
     const tokens = await authService.login(email, password, rememberMe);
     applyTokenPair(tokens);
-    setUser(decodeUser(tokens.accessToken));
-    return { isFirstLogin: tokens.isFirstLogin };
+    const u = decodeUser(tokens.accessToken);
+    setUser(u);
+    return { isFirstLogin: tokens.isFirstLogin, profileCompleted: u?.profileCompleted ?? false };
   }, []);
 
   const register = useCallback(async (email: string, password: string, name: string) => {
     const tokens = await authService.register(email, password, name);
     applyTokenPair(tokens);
-    setUser(decodeUser(tokens.accessToken));
-    return { isFirstLogin: tokens.isFirstLogin };
+    const u = decodeUser(tokens.accessToken);
+    setUser(u);
+    return { isFirstLogin: tokens.isFirstLogin, profileCompleted: u?.profileCompleted ?? false };
   }, []);
 
   // Called by CompleteProfileModal after a successful PUT /users/me.

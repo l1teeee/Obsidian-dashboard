@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
 import { useInactivityTimer } from './hooks/useInactivityTimer';
-import SessionWarningModal   from './components/shared/SessionWarningModal';
-import CompleteProfileModal  from './components/auth/CompleteProfileModal';
+import SessionWarningModal from './components/shared/SessionWarningModal';
+import CompleteProfile     from './pages/CompleteProfile';
 import { BrowserRouter, Routes, Route, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import Lenis from 'lenis';
 import gsap from 'gsap';
@@ -68,7 +68,7 @@ function LenisProvider({ children }: { children: ReactNode }) {
   return <>{children}</>;
 }
 
-const AUTH_PATHS = ['/login', '/register'];
+const AUTH_PATHS = ['/login', '/register', '/complete-profile'];
 
 // Fires the transition when navigating FROM auth pages TO app pages
 function TransitionDetector({ onTrigger }: { onTrigger: () => void }) {
@@ -106,18 +106,10 @@ function WorkspaceGuard({ children }: { children: ReactNode }) {
   return <>{children}</>;
 }
 
-// Shows the profile-completion overlay whenever the user is authenticated
-// but hasn't filled in their name / role / country yet.
-function ProfileGate() {
-  const { user, isAuthenticated, isLoading } = useAuth();
-  if (isLoading || !isAuthenticated || !user) return null;
-  if (user.profileCompleted) return null;
-  return <CompleteProfileModal />;
-}
-
 function SessionGuard() {
-  const { isAuthenticated, logout } = useAuth();
-  const navigate = useNavigate();
+  const { isAuthenticated, logout, user } = useAuth();
+  const navigate  = useNavigate();
+  const { pathname } = useLocation();
   // Keep modal in DOM briefly after showWarning→false so exit animation plays
   const [mounted, setMounted] = useState(false);
 
@@ -127,7 +119,7 @@ function SessionGuard() {
   }, [logout, navigate]);
 
   const { showWarning, countdown, keepAlive } = useInactivityTimer({
-    enabled:  isAuthenticated,
+    enabled:  isAuthenticated && !!user?.profileCompleted && !AUTH_PATHS.includes(pathname),
     onLogout: handleLogout,
   });
 
@@ -174,7 +166,6 @@ export default function App() {
             }}
           />
           <BrowserRouter>
-            <ProfileGate />
             <SessionGuard />
             <ScrollToTop />
             <TransitionDetector onTrigger={triggerTransition} />
@@ -184,6 +175,13 @@ export default function App() {
                 {/* Auth — public */}
                 <Route path="/login"    element={<LoginCard />} />
                 <Route path="/register" element={<RegisterCard />} />
+
+                {/* Profile completion — requires auth, accessible before profile is complete */}
+                <Route path="/complete-profile" element={
+                  <ProtectedRoute requireProfileCompleted={false}>
+                    <CompleteProfile />
+                  </ProtectedRoute>
+                } />
 
                 {/* Workspace creation — requires auth */}
                 <Route path="/create-workspace" element={

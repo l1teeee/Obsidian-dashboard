@@ -1,7 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Select, { type StylesConfig } from 'react-select';
-import { apiFetch } from '../../lib/api';
-import { useAuth } from '../../hooks/useAuth';
+import gsap from 'gsap';
+import { useGSAP } from '../hooks/useGSAP';
+import { apiFetch } from '../lib/api';
+import { useAuth } from '../hooks/useAuth';
+import Modal from '../components/shared/Modal';
 
 // ─── Roles ────────────────────────────────────────────────────────────────────
 
@@ -70,11 +74,11 @@ const selectStyles: StylesConfig<SelectOption> = {
     padding:         '8px 12px',
     transition:      'background 150ms',
   }),
-  singleValue:       (base) => ({ ...base, color: '#e5e2e1', fontSize: '0.875rem' }),
-  input:             (base) => ({ ...base, color: '#e5e2e1', fontSize: '0.875rem' }),
-  placeholder:       (base) => ({ ...base, color: 'rgba(173,170,170,0.40)', fontSize: '0.875rem' }),
+  singleValue:        (base) => ({ ...base, color: '#e5e2e1', fontSize: '0.875rem' }),
+  input:              (base) => ({ ...base, color: '#e5e2e1', fontSize: '0.875rem' }),
+  placeholder:        (base) => ({ ...base, color: 'rgba(173,170,170,0.40)', fontSize: '0.875rem' }),
   indicatorSeparator: ()    => ({ display: 'none' }),
-  dropdownIndicator: (base, state) => ({
+  dropdownIndicator:  (base, state) => ({
     ...base,
     color:      'rgba(173,170,170,0.45)',
     transition: 'transform 200ms',
@@ -93,11 +97,6 @@ const selectStyles: StylesConfig<SelectOption> = {
     fontSize: '0.8125rem',
     padding:  '12px',
   }),
-  loadingMessage: (base) => ({
-    ...base,
-    color:    'rgba(173,170,170,0.50)',
-    fontSize: '0.8125rem',
-  }),
 };
 
 // ─── Shared input class ───────────────────────────────────────────────────────
@@ -106,10 +105,10 @@ const INPUT = 'w-full rounded-[0.875rem] border border-[#494847]/30 bg-white/[0.
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
-export default function CompleteProfileModal() {
-  const { markProfileCompleted } = useAuth();
+export default function CompleteProfile() {
+  const { user, isLoading, markProfileCompleted, logout } = useAuth();
+  const navigate = useNavigate();
 
-  const [visible,     setVisible]     = useState(false);
   const [name,        setName]        = useState('');
   const [role,        setRole]        = useState('');
   const [customRole,  setCustomRole]  = useState('');
@@ -119,33 +118,66 @@ export default function CompleteProfileModal() {
   const [loading,     setLoading]     = useState(false);
   const [error,       setError]       = useState<string | null>(null);
 
+  const isOtherRole  = role === 'Other';
+  const finalRole    = isOtherRole ? customRole.trim() : role;
+  const canSubmit    = name.trim() && finalRole && country && !loading;
+
+  // Block browser back button until form is successfully submitted
+  const completedRef    = useRef(false);
+  const [showLeaveModal, setShowLeaveModal] = useState(false);
+
   useEffect(() => {
-    const id = requestAnimationFrame(() => setVisible(true));
-    return () => cancelAnimationFrame(id);
+    // Push a dummy entry so pressing Back lands here first (not the previous page)
+    window.history.pushState({ _cpBlock: true }, '');
+
+    const handlePopState = () => {
+      if (completedRef.current) return;
+      // Re-push dummy to keep URL stable while modal is open
+      window.history.pushState({ _cpBlock: true }, '');
+      setShowLeaveModal(true);
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
   }, []);
 
-  const isOtherRole = role === 'Other';
-  const finalRole   = isOtherRole ? customRole.trim() : role;
-  const canSubmit   = name.trim() && finalRole && country && !loading;
+  // Redirect if profile already completed
+  useEffect(() => {
+    if (!isLoading && user?.profileCompleted) {
+      navigate('/dashboard', { replace: true });
+    }
+  }, [isLoading, user, navigate]);
 
-  // Fetch countries from REST Countries API
+  // Fetch countries
   useEffect(() => {
     fetch('https://restcountries.com/v3.1/all?fields=name,flag')
       .then(r => r.json())
       .then((data: Array<{ name: { common: string }; flag: string }>) => {
         const opts = data
-          .map(c => ({
-            value: c.name.common,
-            label: `${c.flag}  ${c.name.common}`,
-          }))
+          .map(c => ({ value: c.name.common, label: `${c.flag}  ${c.name.common}` }))
           .sort((a, b) => a.value.localeCompare(b.value));
         setCountries(opts);
       })
       .catch(() => {
-        // If API fails, leave empty — user can retry or we show a note
         setError('Could not load countries. Check your connection and refresh.');
       })
       .finally(() => setLoadingCtry(false));
+  }, []);
+
+  const containerRef = useGSAP<HTMLDivElement>(() => {
+    gsap.to('[data-orb="1"]', { x: 14, y: -10, duration: 4.8, repeat: -1, yoyo: true, ease: 'sine.inOut' });
+    gsap.to('[data-orb="2"]', { x: -12, y: 9,  duration: 5.4, repeat: -1, yoyo: true, ease: 'sine.inOut' });
+
+    gsap.set('[data-cp-eyebrow]', { opacity: 0, y: 10 });
+    gsap.set('[data-cp-title]',   { opacity: 0, y: 10 });
+    gsap.set('[data-cp-field]',   { opacity: 0, y: 10 });
+    gsap.set('[data-cp-btn]',     { opacity: 0, y: 10 });
+
+    const tl = gsap.timeline({ defaults: { ease: 'power2.out' }, delay: 0.15 });
+    tl.to('[data-cp-eyebrow]', { opacity: 1, y: 0, duration: 0.38 })
+      .to('[data-cp-title]',   { opacity: 1, y: 0, duration: 0.42 }, '-=0.22')
+      .to('[data-cp-field]',   { opacity: 1, y: 0, duration: 0.35, stagger: 0.08 }, '-=0.2')
+      .to('[data-cp-btn]',     { opacity: 1, y: 0, duration: 0.35 }, '-=0.12');
   }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -156,13 +188,11 @@ export default function CompleteProfileModal() {
     try {
       await apiFetch('/users/me', {
         method: 'PUT',
-        body: JSON.stringify({
-          name:    name.trim(),
-          role:    finalRole,
-          country: country!.value,
-        }),
+        body: JSON.stringify({ name: name.trim(), role: finalRole, country: country!.value }),
       });
       await markProfileCompleted();
+      completedRef.current = true;
+      navigate('/create-workspace');
     } catch {
       setError('Something went wrong. Please try again.');
       setLoading(false);
@@ -170,35 +200,39 @@ export default function CompleteProfileModal() {
   };
 
   return (
+    <>
     <div
-      className="fixed inset-0 z-[998] flex items-center justify-center p-4 transition-opacity duration-500 ease-out bg-[#0e0e0e]"
-      style={{ opacity: visible ? 1 : 0 }}
+      ref={containerRef}
+      className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#0e0e0e] px-4 py-16"
     >
-      {/* Ambient glow */}
-      <div className="pointer-events-none absolute -top-32 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-[#d394ff]/8 blur-[100px] rounded-full" />
+      {/* Ambient orbs */}
+      <div data-orb="1" className="pointer-events-none absolute -left-32 -top-32 h-[500px] w-[500px] rounded-full bg-[#d394ff]/10 blur-[120px]" />
+      <div data-orb="2" className="pointer-events-none absolute -bottom-32 -right-32 h-[420px] w-[420px] rounded-full bg-[#aa30fa]/10 blur-[100px]" />
 
-      <div
-        className="relative w-full max-w-[480px] rounded-[2rem] border border-[#494847]/20 bg-[#1a1919]/90 p-10 shadow-[0_40px_120px_rgba(0,0,0,0.5)] backdrop-blur-2xl transition-all duration-500 ease-out"
-        style={{
-          opacity:   visible ? 1 : 0,
-          transform: visible ? 'translateY(0) scale(1)' : 'translateY(24px) scale(0.97)',
-        }}
-      >
+      {/* Card */}
+      <div className="relative w-full max-w-[480px] overflow-hidden rounded-[2rem] border border-[#494847]/20 bg-[#1a1919]/70 p-10 shadow-[0_30px_120px_rgba(0,0,0,0.28)] backdrop-blur-2xl">
         {/* Top sheen */}
-        <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/[0.08] to-transparent rounded-t-[2rem]" />
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/[0.08] to-transparent" />
+
+        {/* Brand mark */}
+        <div className="mb-8 flex items-center gap-2.5">
+          <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#d394ff]/15">
+            <div className="h-2.5 w-2.5 rounded-full bg-[#d394ff]" />
+          </div>
+          <span className="font-headline text-base font-bold tracking-tight text-[#e5e2e1]">
+            Obsidian Lens
+          </span>
+        </div>
 
         {/* Header */}
-        <div className="mb-8">
-          <div className="w-11 h-11 rounded-2xl bg-[#d394ff]/15 border border-[#d394ff]/20 flex items-center justify-center mb-5">
-            <span className="material-symbols-outlined text-[#d394ff]" style={{ fontSize: 22 }}>person_add</span>
-          </div>
-          <p className="text-[0.6875rem] font-semibold uppercase tracking-[0.24em] text-[#d394ff]/70 mb-2">
+        <div className="mb-8 space-y-2">
+          <p data-cp-eyebrow className="text-[0.6875rem] font-semibold uppercase tracking-[0.24em] text-[#d394ff]/70">
             One last step
           </p>
-          <h2 className="text-2xl font-headline font-bold tracking-tight text-[#e5e2e1]">
+          <h1 data-cp-title className="font-headline text-2xl font-bold tracking-tight text-[#e5e2e1]">
             Complete your profile
-          </h2>
-          <p className="mt-2 text-sm text-[#adaaaa]/60 leading-relaxed">
+          </h1>
+          <p data-cp-title className="mt-1 text-sm text-[#adaaaa]/60 leading-relaxed">
             Tell us a bit about yourself so we can personalize your experience.
           </p>
         </div>
@@ -206,7 +240,7 @@ export default function CompleteProfileModal() {
         <form className="space-y-5" onSubmit={(e) => { void handleSubmit(e); }}>
 
           {/* Full name */}
-          <div className="space-y-2">
+          <div data-cp-field className="space-y-2">
             <label className="block text-[0.6875rem] font-semibold uppercase tracking-[0.18em] text-[#adaaaa]/60">
               Full name
             </label>
@@ -224,7 +258,7 @@ export default function CompleteProfileModal() {
           </div>
 
           {/* Role */}
-          <div className="space-y-2">
+          <div data-cp-field className="space-y-2">
             <label className="block text-[0.6875rem] font-semibold uppercase tracking-[0.18em] text-[#adaaaa]/60">
               Your role
             </label>
@@ -247,8 +281,6 @@ export default function CompleteProfileModal() {
                 </button>
               ))}
             </div>
-
-            {/* Custom role input when Other is selected */}
             {isOtherRole && (
               <input
                 type="text"
@@ -264,7 +296,7 @@ export default function CompleteProfileModal() {
           </div>
 
           {/* Country */}
-          <div className="space-y-2">
+          <div data-cp-field className="space-y-2">
             <label className="block text-[0.6875rem] font-semibold uppercase tracking-[0.18em] text-[#adaaaa]/60">
               Country
             </label>
@@ -284,15 +316,16 @@ export default function CompleteProfileModal() {
           </div>
 
           {error && (
-            <p className="rounded-xl border border-red-500/20 bg-red-500/10 px-4 py-2.5 text-[0.8125rem] text-red-400">
+            <p data-cp-field className="rounded-xl border border-red-500/20 bg-red-500/10 px-4 py-2.5 text-[0.8125rem] text-red-400">
               {error}
             </p>
           )}
 
           <button
+            data-cp-btn
             type="submit"
             disabled={!canSubmit}
-            className="w-full rounded-2xl bg-[#d394ff] px-6 py-3.5 text-sm font-bold text-[#4a0076] transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_0_40px_rgba(211,148,255,0.28)] active:scale-[0.98] disabled:opacity-40 disabled:pointer-events-none mt-2"
+            className="mt-2 w-full rounded-2xl bg-[#d394ff] px-6 py-3.5 text-sm font-bold text-[#4a0076] transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_0_40px_rgba(211,148,255,0.28)] active:scale-[0.98] disabled:opacity-40 disabled:pointer-events-none"
           >
             {loading ? (
               <span className="flex items-center justify-center gap-2">
@@ -306,5 +339,47 @@ export default function CompleteProfileModal() {
         </form>
       </div>
     </div>
+
+    {/* Navigation-away confirmation */}
+    <Modal
+      open={showLeaveModal}
+      onClose={() => setShowLeaveModal(false)}
+      maxWidth="max-w-sm"
+    >
+      <div className="p-8 flex flex-col items-center text-center gap-5">
+        {/* Icon */}
+        <div className="w-12 h-12 rounded-2xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center">
+          <span className="material-symbols-outlined text-amber-400" style={{ fontSize: 22 }}>warning</span>
+        </div>
+
+        {/* Text */}
+        <div className="space-y-1.5">
+          <h2 className="text-lg font-extrabold text-[#e5e2e1] tracking-tight">
+            Are you sure you want to leave?
+          </h2>
+          <p className="text-sm text-[#988d9c] leading-relaxed">
+            You haven't completed your profile yet.<br />
+            All progress will be lost if you go back.
+          </p>
+        </div>
+
+        {/* Actions */}
+        <div className="flex flex-col gap-2 w-full pt-1">
+          <button
+            onClick={() => setShowLeaveModal(false)}
+            className="w-full py-3 rounded-2xl bg-[#d394ff] text-[#2f004d] text-sm font-extrabold hover:brightness-110 active:scale-[0.98] transition-all shadow-[0_0_24px_rgba(211,148,255,0.3)]"
+          >
+            Stay and finish
+          </button>
+          <button
+            onClick={() => { completedRef.current = true; void logout().then(() => navigate('/login', { replace: true })); }}
+            className="w-full py-2.5 rounded-2xl text-[#988d9c] text-sm font-medium hover:text-white transition-colors"
+          >
+            Leave anyway
+          </button>
+        </div>
+      </div>
+    </Modal>
+    </>
   );
 }
