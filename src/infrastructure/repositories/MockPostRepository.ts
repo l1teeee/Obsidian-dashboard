@@ -7,7 +7,7 @@ const UPCOMING_POSTS: UpcomingPost[] = [
   { id: 'u3', date: 'Oct 26 · 11:15 AM', platform: 'facebook',  caption: '"Community spotlight: Highlighting the best lens work from our global collective..."',    imageUrl: 'https://images.unsplash.com/photo-1452421822248-d4c2b47f0c81?w=400&q=80' },
   { id: 'u4', date: 'Oct 27 · 08:00 AM', platform: 'instagram', caption: '"Behind the lens: A morning in the life of a digital curator. Quiet light, big ideas."',   imageUrl: 'https://images.unsplash.com/photo-1495231916356-a86217efff12?w=400&q=80' },
   { id: 'u5', date: 'Oct 28 · 03:00 PM', platform: 'linkedin',  caption: '"The case for editorial thinking in brand strategy. Why curation is the new creation."',  imageUrl: 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=400&q=80' },
-  { id: 'u6', date: 'Oct 29 · 12:00 PM', platform: 'facebook',  caption: '"Obsidian Lens community picks: The top 10 creative accounts redefining visual culture."', imageUrl: 'https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=400&q=80' },
+  { id: 'u6', date: 'Oct 29 · 12:00 PM', platform: 'facebook',  caption: '"Vielinks community picks: The top 10 creative accounts redefining visual culture."', imageUrl: 'https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=400&q=80' },
 ];
 
 const RECENT_POSTS: PostSummary[] = [
@@ -19,7 +19,7 @@ const RECENT_POSTS: PostSummary[] = [
 const SHARED_COMMENTS = [
   { name: 'Julian Vance', time: '2 hours ago', likes: 12, text: 'The lighting on this is incredible. It feels so premium and the color palette is perfectly on-brand. Keep this aesthetic coming!', filled: true  },
   { name: 'Elena Thorne', time: '4 hours ago', likes: 4,  text: "I'm curious about the specific techniques used for the obsidian textures here. Are you using Cinema4D or strictly digital painting?",                filled: false },
-  { name: 'Marcus King',  time: 'Yesterday',   likes: 32, text: 'This post single-handedly convinced me to subscribe to Obsidian Lens. The attention to visual detail is unparalleled in the social analytics space.', filled: true  },
+  { name: 'Marcus King',  time: 'Yesterday',   likes: 32, text: 'This post single-handedly convinced me to subscribe to Vielinks. The attention to visual detail is unparalleled in the social analytics space.', filled: true  },
 ];
 
 const POST_RECORDS: Record<string, PostRecord> = {

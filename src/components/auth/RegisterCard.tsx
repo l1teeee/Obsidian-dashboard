@@ -164,11 +164,8 @@ export default function RegisterCard() {
 
     setLoading(true);
     try {
-      const { isFirstLogin, profileCompleted } = await register(email, password, '');
-      const dest = !profileCompleted
-        ? '/complete-profile'
-        : (isFirstLogin ? '/create-workspace' : '/dashboard');
-      playSuccess(dest);
+      const result = await register(email, password);
+      navigate('/check-email', { state: { email: result.email, devVerifyToken: result.devVerifyToken } });
     } catch (err) {
       const code = (err as { code?: string }).code;
       setError(code === 'EMAIL_ALREADY_EXISTS'
@@ -206,13 +203,13 @@ export default function RegisterCard() {
               <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#d394ff]/15">
                 <div className="h-2.5 w-2.5 rounded-full bg-[#d394ff]" />
               </div>
-              <span className="font-headline text-base font-bold tracking-tight text-[#e5e2e1]">Obsidian Lens</span>
+              <span className="font-headline text-base font-bold tracking-tight text-[#e5e2e1]">Vielinks</span>
             </div>
 
             <div className="mb-8 space-y-2">
               <p data-s1-eyebrow className="text-[0.6875rem] font-semibold uppercase tracking-[0.24em] text-[#d394ff]/70">Get started</p>
               <h1 data-s1-title className="font-headline text-2xl font-bold tracking-tight text-[#e5e2e1]">Create your account</h1>
-              <p data-s1-title className="text-sm text-[#adaaaa]/50">Join Obsidian Lens and start managing your social media.</p>
+              <p data-s1-title className="text-sm text-[#adaaaa]/50">Join Vielinks and start managing your social media.</p>
             </div>
 
             <div className="space-y-3">

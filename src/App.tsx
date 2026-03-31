@@ -27,6 +27,7 @@ import AISettings from './pages/AISettings';
 import CreateWorkspace from './pages/CreateWorkspace';
 import LoginCard from './components/auth/LoginCard';
 import RegisterCard from './components/auth/RegisterCard';
+import CheckEmail from './pages/CheckEmail';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -68,7 +69,7 @@ function LenisProvider({ children }: { children: ReactNode }) {
   return <>{children}</>;
 }
 
-const AUTH_PATHS = ['/login', '/register', '/complete-profile'];
+const AUTH_PATHS = ['/login', '/register', '/check-email', '/complete-profile', '/create-workspace'];
 
 // Fires the transition when navigating FROM auth pages TO app pages
 function TransitionDetector({ onTrigger }: { onTrigger: () => void }) {
@@ -96,7 +97,7 @@ function WorkspaceGuard({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     if (authLoading || wsLoading || !isAuthenticated) return;
-    const isAuthPage   = pathname === '/login' || pathname === '/register';
+    const isAuthPage   = AUTH_PATHS.includes(pathname);
     const isCreatePage = pathname === '/create-workspace';
     if (isAuthPage) return;
     if (workspaces.length === 0 && !isCreatePage) navigate('/create-workspace', { replace: true, state: { from: pathname } });
@@ -173,8 +174,9 @@ export default function App() {
             <WorkspaceGuard>
               <Routes>
                 {/* Auth — public */}
-                <Route path="/login"    element={<LoginCard />} />
-                <Route path="/register" element={<RegisterCard />} />
+                <Route path="/login"        element={<LoginCard />} />
+                <Route path="/register"     element={<RegisterCard />} />
+                <Route path="/check-email"  element={<CheckEmail />} />
 
                 {/* Profile completion — requires auth, accessible before profile is complete */}
                 <Route path="/complete-profile" element={

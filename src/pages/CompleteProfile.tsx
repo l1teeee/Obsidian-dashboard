@@ -220,7 +220,7 @@ export default function CompleteProfile() {
             <div className="h-2.5 w-2.5 rounded-full bg-[#d394ff]" />
           </div>
           <span className="font-headline text-base font-bold tracking-tight text-[#e5e2e1]">
-            Obsidian Lens
+            Vielinks
           </span>
         </div>
 
@@ -310,6 +310,8 @@ export default function CompleteProfile() {
               noOptionsMessage={() => 'No countries found'}
               loadingMessage={() => 'Loading countries…'}
               menuPlacement="auto"
+              menuPortalTarget={document.body}
+              menuPosition="fixed"
               styles={selectStyles}
               isClearable
             />
