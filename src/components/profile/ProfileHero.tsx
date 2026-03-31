@@ -25,7 +25,7 @@ export default function ProfileHero({ profile, stats, onEdit }: ProfileHeroProps
             <div className="mb-1">
               <h2 className="font-headline text-2xl font-extrabold text-white tracking-tight">{profile.name}</h2>
               <div className="flex items-center gap-2 mt-1">
-                <span className="text-xs text-[#988d9c]">{profile.role} · Obsidian Lens</span>
+                <span className="text-xs text-[#988d9c]">{profile.role} · Vielinks</span>
                 <span className="px-2 py-0.5 rounded-full bg-[#d394ff]/15 border border-[#d394ff]/30 text-[#d394ff] text-[10px] font-bold uppercase tracking-wider">Pro Plan</span>
               </div>
             </div>

@@ -23,7 +23,8 @@ interface AuthCtx {
   isAuthenticated:      boolean;
   isLoading:            boolean;
   login:                (email: string, password: string, rememberMe?: boolean) => Promise<{ isFirstLogin: boolean; profileCompleted: boolean }>;
-  register:             (email: string, password: string, name: string) => Promise<{ isFirstLogin: boolean; profileCompleted: boolean }>;
+  register:             (email: string, password: string) => Promise<authService.RegisterResult>;
+  verifyEmail:          (email: string, code: string) => Promise<{ isFirstLogin: boolean; profileCompleted: boolean }>;
   logout:               () => Promise<void>;
   markProfileCompleted: () => Promise<void>;
 }
@@ -90,15 +91,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return { isFirstLogin: tokens.isFirstLogin, profileCompleted: u?.profileCompleted ?? false };
   }, []);
 
-  const register = useCallback(async (email: string, password: string, name: string) => {
-    const tokens = await authService.register(email, password, name);
+  const register = useCallback(async (email: string, password: string) => {
+    return authService.register(email, password);
+    // No tokens set — user must verify email first
+  }, []);
+
+  const verifyEmail = useCallback(async (email: string, code: string) => {
+    const tokens = await authService.verifyEmail(email, code);
     applyTokenPair(tokens);
     const u = decodeUser(tokens.accessToken);
     setUser(u);
     return { isFirstLogin: tokens.isFirstLogin, profileCompleted: u?.profileCompleted ?? false };
   }, []);
 
-  // Called by CompleteProfileModal after a successful PUT /users/me.
+  // Called by CompleteProfile after a successful PUT /users/me.
   // Refreshes the access token (backend now returns pc:1) and updates user state.
   const markProfileCompleted = useCallback(async () => {
     const newToken = await refreshTokens();
@@ -117,7 +123,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated: !!user, isLoading, login, register, logout, markProfileCompleted }}>
+    <AuthContext.Provider value={{ user, isAuthenticated: !!user, isLoading, login, register, verifyEmail, logout, markProfileCompleted }}>
       {children}
     </AuthContext.Provider>
   );

@@ -45,7 +45,7 @@ export default function CreateWorkspace() {
         {/* Brand */}
         <div className="flex items-center gap-2.5 mb-10">
           <span className="w-2.5 h-2.5 rounded-full bg-[#d394ff] shadow-[0_0_10px_rgba(211,148,255,0.8)]" />
-          <span className="text-xl font-headline font-bold tracking-tight text-white">Obsidian Lens</span>
+          <span className="text-xl font-headline font-bold tracking-tight text-white">Vielinks</span>
         </div>
 
         <div className="glass-card rounded-3xl border border-[#4c4450]/20 p-8 shadow-2xl shadow-black/60">

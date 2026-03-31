@@ -44,9 +44,13 @@ export default function LoginCard() {
       }
     } catch (err) {
       const code = (err as { code?: string }).code;
-      setError(code === 'INVALID_CREDENTIALS'
-        ? 'Invalid email or password'
-        : 'Something went wrong. Please try again.');
+      if (code === 'EMAIL_NOT_VERIFIED') {
+        navigate('/check-email', { state: { email } });
+      } else {
+        setError(code === 'INVALID_CREDENTIALS'
+          ? 'Invalid email or password'
+          : 'Something went wrong. Please try again.');
+      }
     } finally {
       setLoading(false);
     }
@@ -109,7 +113,7 @@ export default function LoginCard() {
             <div className="h-2.5 w-2.5 rounded-full bg-[#d394ff]" />
           </div>
           <span className="font-headline text-base font-bold tracking-tight text-[#e5e2e1]">
-            Obsidian Lens
+            Vielinks
           </span>
         </div>
 

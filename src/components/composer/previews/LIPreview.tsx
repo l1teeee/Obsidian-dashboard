@@ -77,7 +77,7 @@ export default function LIPreview({ caption, mediaPreviews }: LIPreviewProps) {
             </div>
             <div className="min-w-0 flex-1">
               <p className="text-[11px] font-bold text-[#191919] leading-tight">Alex Rivera</p>
-              <p className="text-[9px] text-[#666] leading-tight">Digital Curator · Obsidian Lens</p>
+              <p className="text-[9px] text-[#666] leading-tight">Digital Curator · Vielinks</p>
               <p className="text-[9px] text-[#666]">Just now · <span className="material-symbols-outlined text-[9px] align-middle">public</span></p>
             </div>
             <button className="text-[#0077b5] text-[10px] font-bold border border-[#0077b5] rounded-full px-2 py-0.5 shrink-0">+ Follow</button>

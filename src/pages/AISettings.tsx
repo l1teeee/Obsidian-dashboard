@@ -190,7 +190,7 @@ export default function AISettings() {
           label:       'Persona / Brand',
           icon:        'person',
           description: 'Who are you or your brand? Give the AI a clear identity to write from.',
-          placeholder: 'e.g. Obsidian Lens — a social media SaaS for creative agencies. Modern, premium, bold.',
+          placeholder: 'e.g. Vielinks — a social media SaaS for creative agencies. Modern, premium, bold.',
           multiline:   false,
         },
         {

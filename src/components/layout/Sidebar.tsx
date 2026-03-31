@@ -135,7 +135,7 @@ export default function Sidebar() {
           'transition-all duration-300',
           isOpen ? 'max-w-[200px] opacity-100' : 'max-w-0 opacity-0',
         ].join(' ')}>
-          Obsidian Lens
+          Vielinks
         </span>
         <span className={[
           'w-2.5 h-2.5 rounded-full bg-[#d394ff] shrink-0 shadow-[0_0_8px_rgba(211,148,255,0.7)] transition-all duration-300',

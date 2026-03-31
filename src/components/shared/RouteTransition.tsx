@@ -89,7 +89,7 @@ export default function RouteTransition({ active, onDone }: RouteTransitionProps
           className="w-3.5 h-3.5 rounded-full bg-[#d394ff] shadow-[0_0_24px_rgba(211,148,255,1),0_0_60px_rgba(211,148,255,0.6),0_0_100px_rgba(211,148,255,0.3)]"
         />
         <span className="text-[26px] font-headline font-extrabold tracking-tight text-white">
-          Obsidian Lens
+          Vielinks
         </span>
       </div>
     </div>
