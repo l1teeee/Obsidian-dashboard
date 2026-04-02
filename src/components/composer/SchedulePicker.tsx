@@ -35,8 +35,14 @@ export default function SchedulePicker({
     setSuggestion(null);
     setError(null);
     try {
+      const now       = new Date();
       const platforms = [...new Set(selectedChannels.map(id => PLATFORM_MAP[id]))];
-      const result    = await suggestScheduleTime({ caption: caption || undefined, platforms });
+      const result    = await suggestScheduleTime({
+        caption:     caption || undefined,
+        platforms,
+        currentHour: now.getHours(),
+        weekday:     now.toLocaleDateString('en-US', { weekday: 'long' }),
+      });
 
       const suggested = new Date();
       suggested.setDate(suggested.getDate() + result.dayOffset);

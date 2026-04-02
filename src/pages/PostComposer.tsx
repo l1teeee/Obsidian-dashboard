@@ -115,12 +115,12 @@ export default function PostComposer() {
         title:       'Saved to drafts',
         description: 'Your post has been saved and can be edited anytime.',
       });
+      navigate('/posts');
     } catch {
       sileo.error({
         title:       'Could not save draft',
         description: 'Check your connection and try again.',
       });
-    } finally {
       setIsSavingDraft(false);
     }
   };

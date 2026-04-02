@@ -11,6 +11,7 @@ const NAV_ITEMS = [
   { to: '/analytics',   icon: 'monitoring',    label: 'Analytics' },
   { to: '/calendar',    icon: 'calendar_month', label: 'Calendar' },
   { to: '/platforms',   icon: 'hub',           label: 'Platforms' },
+  { to: '/rivals',      icon: 'radar',         label: 'Rival Monitor' },
   { to: '/ai-settings', icon: 'auto_awesome',  label: 'AI Settings' },
 ];
 
