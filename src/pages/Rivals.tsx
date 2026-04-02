@@ -1,18 +1,20 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import TopBar from '../components/layout/TopBar';
+import SocialBrandIcon from '../components/shared/SocialBrandIcon';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
 type Platform = 'instagram' | 'facebook';
 
 interface Rival {
-  id: string;
-  name: string;
-  handle: string;
-  platform: Platform;
-  followers: number;
-  following: number;
-  posts: number;
+  id:          string;
+  name:        string;
+  handle:      string;
+  platform:    Platform;
+  followers:   number;
+  following:   number;
+  posts:       number;
+  trackedUrls: string[];
 }
 
 // ─── localStorage helpers ─────────────────────────────────────────────────────
@@ -20,9 +22,9 @@ interface Rival {
 const LS_KEY = 'vielinks_rivals';
 
 const DEFAULT_RIVALS: Rival[] = [
-  { id: '1', name: 'BrandX Studio',    handle: '@brandxstudio', platform: 'instagram', followers: 45_200, following: 1_230, posts: 567 },
-  { id: '2', name: 'Novo Creative',    handle: '@novocreative', platform: 'facebook',  followers: 28_100, following: 654,   posts: 389 },
-  { id: '3', name: 'PixelFlow Agency', handle: '@pixelflow',    platform: 'instagram', followers: 8_900,  following: 302,   posts: 180 },
+  { id: '1', name: 'BrandX Studio',    handle: '@brandxstudio', platform: 'instagram', followers: 45_200, following: 1_230, posts: 567, trackedUrls: [] },
+  { id: '2', name: 'Novo Creative',    handle: '@novocreative', platform: 'facebook',  followers: 28_100, following: 654,   posts: 389, trackedUrls: [] },
+  { id: '3', name: 'PixelFlow Agency', handle: '@pixelflow',    platform: 'instagram', followers: 8_900,  following: 302,   posts: 180, trackedUrls: [] },
 ];
 
 function loadRivals(): Rival[] {
@@ -73,14 +75,6 @@ function deltaBadge(mine: number, rival: number) {
   return { diff, pct, up: diff > 0 };
 }
 
-function parseNum(s: string): number {
-  const clean = s.replace(/[^0-9.kmKM]/g, '');
-  const lower = clean.toLowerCase();
-  if (lower.endsWith('m')) return Math.round(parseFloat(lower) * 1_000_000);
-  if (lower.endsWith('k')) return Math.round(parseFloat(lower) * 1_000);
-  return parseInt(clean, 10) || 0;
-}
-
 const PLATFORM_ICONS: Record<string, string> = {
   instagram: 'photo_camera',
   linkedin:  'business_center',
@@ -111,9 +105,9 @@ function StatPill({ label, value, mine, isMe }: { label: string; value: number; 
   );
 }
 
-const PLATFORM_META: Record<Platform, { label: string; icon: string; color: string; bg: string }> = {
-  instagram: { label: 'Instagram', icon: 'photo_camera',  color: '#e4b9ff', bg: '#e4b9ff18' },
-  facebook:  { label: 'Facebook',  icon: 'thumb_up',      color: '#74b9e4', bg: '#74b9e418' },
+const PLATFORM_META: Record<Platform, { label: string; iconBg: string; color: string; bg: string }> = {
+  instagram: { label: 'Instagram', iconBg: 'linear-gradient(135deg,#f09433 0%,#e6683c 50%,#bc1888 100%)', color: '#e4b9ff', bg: '#e4b9ff18' },
+  facebook:  { label: 'Facebook',  iconBg: '#1877F2',                                                      color: '#74b9e4', bg: '#74b9e418' },
 };
 
 function RivalCard({
@@ -167,9 +161,9 @@ function RivalCard({
           {/* Platform badge */}
           {pm && (
             <div className="flex items-center gap-1 mt-1">
-              <div className="flex items-center gap-1 px-1.5 py-0.5 rounded-md" style={{ background: pm.bg }}>
-                <span className="material-symbols-outlined" style={{ fontSize: 10, color: pm.color }}>{pm.icon}</span>
-                <span className="text-[9px] font-semibold uppercase tracking-wider" style={{ color: pm.color }}>{pm.label}</span>
+              <div className="flex items-center gap-1.5 px-2 py-[3px] rounded-lg" style={{ background: pm.iconBg }}>
+                <SocialBrandIcon platformId={(account as Rival).platform} size={10} />
+                <span className="text-[9px] font-semibold uppercase tracking-wider text-white">{pm.label}</span>
               </div>
             </div>
           )}
@@ -217,67 +211,122 @@ function PostRow({ post }: { post: typeof TRACKED_POSTS[number] }) {
 
 // ─── Add Rival Modal ──────────────────────────────────────────────────────────
 
-const EMPTY_FORM = { name: '', handle: '', platform: 'instagram' as Platform, followers: '', following: '', posts: '' };
+interface MockProfile {
+  id:       string;
+  name:     string;
+  handle:   string;
+  initials: string;
+  color:    string;
+}
+
+const MOCK_SEARCH: Record<Platform, MockProfile[]> = {
+  instagram: [
+    { id: 'ig1', name: 'BrandX Studio',      handle: '@brandxstudio',    initials: 'BX', color: '#e4b9ff' },
+    { id: 'ig2', name: 'Nova Creative Co',   handle: '@novacreative',    initials: 'NC', color: '#c5d247' },
+    { id: 'ig3', name: 'PixelFlow Agency',   handle: '@pixelflow',       initials: 'PF', color: '#7bb8f5' },
+    { id: 'ig4', name: 'Bold Branding Lab',  handle: '@boldlab',         initials: 'BB', color: '#ff9d7b' },
+    { id: 'ig5', name: 'Social Hive Media',  handle: '@socialhive',      initials: 'SH', color: '#74d9b6' },
+    { id: 'ig6', name: 'Urban Palette',      handle: '@urbanpalette',    initials: 'UP', color: '#d394ff' },
+    { id: 'ig7', name: 'TrendSpot Agency',   handle: '@trendspot',       initials: 'TS', color: '#ffb347' },
+    { id: 'ig8', name: 'Craft & Co Studio',  handle: '@craftandco',      initials: 'CC', color: '#80cbc4' },
+  ],
+  facebook: [
+    { id: 'fb1', name: 'Novo Creative',       handle: '@novocreative',    initials: 'NC', color: '#74b9e4' },
+    { id: 'fb2', name: 'Reach Digital',       handle: '@reachdigital',    initials: 'RD', color: '#c5d247' },
+    { id: 'fb3', name: 'Spark Agency',        handle: '@sparkagency',     initials: 'SA', color: '#e4b9ff' },
+    { id: 'fb4', name: 'Hyper Content Lab',   handle: '@hypercontentlab', initials: 'HC', color: '#ff9d7b' },
+    { id: 'fb5', name: 'Bloom Marketing',     handle: '@bloommarketing',  initials: 'BM', color: '#74d9b6' },
+    { id: 'fb6', name: 'Focus Brand Studio',  handle: '@focusbrand',      initials: 'FB', color: '#7bb8f5' },
+  ],
+};
+
+function searchMock(platform: Platform, query: string): MockProfile[] {
+  const q = query.toLowerCase().replace('@', '');
+  return MOCK_SEARCH[platform]
+    .filter(p => p.name.toLowerCase().includes(q) || p.handle.toLowerCase().includes(q))
+    .slice(0, 5);
+}
 
 function AddRivalModal({ open, onClose, onAdd }: {
-  open: boolean;
+  open:    boolean;
   onClose: () => void;
-  onAdd: (rival: Rival) => void;
+  onAdd:   (rival: Rival) => void;
 }) {
-  const [form, setForm] = useState(EMPTY_FORM);
-  const [mounted, setMounted] = useState(false);
-  const [visible, setVisible] = useState(false);
+  const [platform,    setPlatform]    = useState<Platform>('instagram');
+  const [query,       setQuery]       = useState('');
+  const [results,     setResults]     = useState<MockProfile[]>([]);
+  const [searching,   setSearching]   = useState(false);
+  const [showResults, setShowResults] = useState(false);
+  const [selected,    setSelected]    = useState<MockProfile | null>(null);
+  const [trackedUrl,  setTrackedUrl]  = useState('');
+  const [mounted,     setMounted]     = useState(false);
+  const [visible,     setVisible]     = useState(false);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // Entrada/salida animada sin librería extra
+  // Entrada/salida animada
   useEffect(() => {
     if (open) {
       setMounted(true);
       requestAnimationFrame(() => requestAnimationFrame(() => setVisible(true)));
     } else {
       setVisible(false);
-      const t = setTimeout(() => setMounted(false), 250);
+      const t = setTimeout(() => {
+        setMounted(false);
+        setPlatform('instagram');
+        setQuery(''); setResults([]); setSearching(false);
+        setShowResults(false); setSelected(null); setTrackedUrl('');
+      }, 250);
       return () => clearTimeout(t);
     }
   }, [open]);
 
+  // Reset search when platform changes
+  useEffect(() => {
+    setQuery(''); setResults([]); setSelected(null); setShowResults(false);
+  }, [platform]);
+
+  // Debounced mock search
+  useEffect(() => {
+    if (timerRef.current) clearTimeout(timerRef.current);
+    if (query.length < 2) {
+      setResults([]); setSearching(false); setShowResults(false);
+      return;
+    }
+    setSearching(true);
+    setShowResults(false);
+    timerRef.current = setTimeout(() => {
+      setResults(searchMock(platform, query));
+      setSearching(false);
+      setShowResults(true);
+    }, 480);
+    return () => { if (timerRef.current) clearTimeout(timerRef.current); };
+  }, [query, platform]);
+
   if (!mounted) return null;
 
-  const valid = form.name.trim() && form.handle.trim() &&
-    parseNum(form.followers) > 0 && parseNum(form.following) >= 0 && parseNum(form.posts) >= 0;
+  const handleSelect = (profile: MockProfile) => {
+    setSelected(profile);
+    setShowResults(false);
+    setQuery('');
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!valid) return;
+    if (!selected) return;
     onAdd({
-      id: crypto.randomUUID(),
-      name:      form.name.trim(),
-      handle:    form.handle.trim().startsWith('@') ? form.handle.trim() : `@${form.handle.trim()}`,
-      platform:  form.platform,
-      followers: parseNum(form.followers),
-      following: parseNum(form.following),
-      posts:     parseNum(form.posts),
+      id:          crypto.randomUUID(),
+      name:        selected.name,
+      handle:      selected.handle,
+      platform,
+      followers:   0,
+      following:   0,
+      posts:       0,
+      trackedUrls: trackedUrl.trim() ? [trackedUrl.trim()] : [],
     });
-    setForm(EMPTY_FORM);
     onClose();
   };
 
-  const field = (
-    key: keyof typeof EMPTY_FORM,
-    label: string,
-    placeholder: string,
-    hint?: string,
-  ) => (
-    <div className="flex flex-col gap-1.5">
-      <label className="text-[10px] uppercase tracking-widest text-[#988d9c] font-semibold">{label}</label>
-      <input
-        value={form[key]}
-        onChange={e => setForm(f => ({ ...f, [key]: e.target.value }))}
-        placeholder={placeholder}
-        className="bg-[#131313] border border-[#4c4450]/25 rounded-xl px-4 py-2.5 text-sm text-white placeholder:text-[#4c4450] focus:outline-none focus:border-[#d394ff]/40 transition-all"
-      />
-      {hint && <span className="text-[10px] text-[#4c4450]">{hint}</span>}
-    </div>
-  );
+  const pm = PLATFORM_META[platform];
 
   return (
     <div
@@ -289,11 +338,12 @@ function AddRivalModal({ open, onClose, onAdd }: {
         className={`w-full max-w-md bg-[#161616] border border-[#4c4450]/20 rounded-3xl shadow-[0_24px_80px_rgba(0,0,0,0.7)] transition-all duration-250 ${visible ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-95 translate-y-4'}`}
       >
         <form onSubmit={handleSubmit} className="p-7 flex flex-col gap-5">
+
           {/* Header */}
           <div className="flex items-start justify-between">
             <div>
               <h2 className="text-lg font-headline font-extrabold tracking-tight text-white">Add Rival</h2>
-              <p className="text-xs text-[#988d9c] mt-0.5">Data is saved locally in your browser</p>
+              <p className="text-xs text-[#988d9c] mt-0.5">Track a competitor's social profile</p>
             </div>
             <button
               type="button"
@@ -304,22 +354,18 @@ function AddRivalModal({ open, onClose, onAdd }: {
             </button>
           </div>
 
-          {/* Fields */}
-          {field('name',   'Name',   'BrandX Studio')}
-          {field('handle', 'Handle', '@brandxstudio', 'The @ will be added automatically if missing')}
-
           {/* Platform selector */}
           <div className="flex flex-col gap-1.5">
             <label className="text-[10px] uppercase tracking-widest text-[#988d9c] font-semibold">Platform</label>
             <div className="grid grid-cols-2 gap-2">
               {(['instagram', 'facebook'] as Platform[]).map(p => {
-                const pm = PLATFORM_META[p];
-                const active = form.platform === p;
+                const pMeta = PLATFORM_META[p];
+                const active = platform === p;
                 return (
                   <button
                     key={p}
                     type="button"
-                    onClick={() => setForm(f => ({ ...f, platform: p }))}
+                    onClick={() => setPlatform(p)}
                     className={[
                       'flex items-center gap-2.5 px-4 py-3 rounded-2xl border transition-all duration-150',
                       active
@@ -327,10 +373,10 @@ function AddRivalModal({ open, onClose, onAdd }: {
                         : 'border-[#4c4450]/20 bg-[#131313] hover:border-[#4c4450]/40',
                     ].join(' ')}
                   >
-                    <div className="w-7 h-7 rounded-xl flex items-center justify-center shrink-0" style={{ background: pm.bg }}>
-                      <span className="material-symbols-outlined" style={{ fontSize: 14, color: pm.color }}>{pm.icon}</span>
+                    <div className="w-7 h-7 rounded-xl flex items-center justify-center shrink-0" style={{ background: pMeta.iconBg }}>
+                      <SocialBrandIcon platformId={p} size={14} />
                     </div>
-                    <span className={`text-sm font-semibold transition-colors ${active ? 'text-white' : 'text-[#988d9c]'}`}>{pm.label}</span>
+                    <span className={`text-sm font-semibold transition-colors ${active ? 'text-white' : 'text-[#988d9c]'}`}>{pMeta.label}</span>
                     {active && (
                       <span className="ml-auto material-symbols-outlined text-[#d394ff]" style={{ fontSize: 16, fontVariationSettings: "'FILL' 1" }}>radio_button_checked</span>
                     )}
@@ -340,19 +386,140 @@ function AddRivalModal({ open, onClose, onAdd }: {
             </div>
           </div>
 
-          <div className="grid grid-cols-3 gap-3">
-            {field('followers', 'Followers', '45.2K')}
-            {field('following', 'Following', '1.2K')}
-            {field('posts',     'Posts',     '567')}
+          {/* Profile search */}
+          <div className="flex flex-col gap-1.5">
+            <label className="text-[10px] uppercase tracking-widest text-[#988d9c] font-semibold">
+              Search {pm.label} profile
+            </label>
+
+            {selected ? (
+              /* Selected profile card */
+              <div className="flex items-center gap-3 px-4 py-3 rounded-2xl border border-[#d394ff]/30 bg-[#d394ff]/[0.06]">
+                <div
+                  className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0 text-[11px] font-extrabold text-[#131313]"
+                  style={{ background: selected.color }}
+                >
+                  {selected.initials}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-semibold text-white truncate">{selected.name}</p>
+                  <p className="text-[11px] text-[#988d9c]">{selected.handle}</p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setSelected(null)}
+                  className="w-7 h-7 rounded-lg flex items-center justify-center bg-[#1e1e1e] hover:bg-[#2a2a2a] text-[#988d9c] hover:text-white transition-colors shrink-0"
+                  title="Remove selection"
+                >
+                  <span className="material-symbols-outlined" style={{ fontSize: 14 }}>close</span>
+                </button>
+              </div>
+            ) : (
+              /* Search input + dropdown */
+              <div className="relative">
+                <div className="relative flex items-center">
+                  <span
+                    className={`absolute left-3.5 material-symbols-outlined text-[#4c4450] pointer-events-none ${searching ? 'animate-spin' : ''}`}
+                    style={{ fontSize: 16 }}
+                  >
+                    {searching ? 'progress_activity' : 'search'}
+                  </span>
+                  <input
+                    type="text"
+                    value={query}
+                    onChange={e => setQuery(e.target.value)}
+                    placeholder="Search by username or name…"
+                    autoComplete="off"
+                    className="w-full bg-[#131313] border border-[#4c4450]/25 rounded-xl pl-9 pr-4 py-2.5 text-sm text-white placeholder:text-[#4c4450] focus:outline-none focus:border-[#d394ff]/40 transition-all"
+                  />
+                </div>
+
+                {/* Hint */}
+                {query.length > 0 && query.length < 2 && (
+                  <p className="text-[10px] text-[#4c4450] mt-1.5 px-1">Type at least 2 characters to search</p>
+                )}
+
+                {/* Results dropdown */}
+                {showResults && (
+                  <div className="absolute top-full left-0 right-0 mt-1.5 bg-[#1a1a1a] border border-[#4c4450]/25 rounded-2xl overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.6)] z-10">
+                    {results.length === 0 ? (
+                      <div className="px-4 py-5 flex flex-col items-center gap-1.5 text-[#4c4450]">
+                        <span className="material-symbols-outlined" style={{ fontSize: 22 }}>person_search</span>
+                        <p className="text-xs">No profiles found for "{query}"</p>
+                      </div>
+                    ) : (
+                      results.map((r, i) => (
+                        <button
+                          key={r.id}
+                          type="button"
+                          onClick={() => handleSelect(r)}
+                          className={[
+                            'w-full flex items-center gap-3 px-4 py-3 hover:bg-white/[0.04] transition-colors text-left',
+                            i < results.length - 1 ? 'border-b border-[#4c4450]/10' : '',
+                          ].join(' ')}
+                        >
+                          <div
+                            className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 text-[10px] font-extrabold text-[#131313]"
+                            style={{ background: r.color }}
+                          >
+                            {r.initials}
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <p className="text-sm font-semibold text-white truncate">{r.name}</p>
+                            <p className="text-[11px] text-[#988d9c]">{r.handle}</p>
+                          </div>
+                          <span className="material-symbols-outlined text-[#4c4450]" style={{ fontSize: 15 }}>chevron_right</span>
+                        </button>
+                      ))
+                    )}
+                  </div>
+                )}
+              </div>
+            )}
           </div>
 
-          <p className="text-[10px] text-[#4c4450]">Accepts K and M suffixes (e.g. 45.2K, 1.2M)</p>
+          {/* Post URL to track */}
+          <div className="flex flex-col gap-1.5">
+            <label className="text-[10px] uppercase tracking-widest text-[#988d9c] font-semibold flex items-center gap-1.5">
+              Post to track
+              <span className="normal-case tracking-normal font-normal text-[#4c4450]">— optional</span>
+            </label>
+            <div className="relative flex items-center">
+              <span className="absolute left-3.5 material-symbols-outlined text-[#4c4450] pointer-events-none" style={{ fontSize: 15 }}>link</span>
+              <input
+                type="url"
+                value={trackedUrl}
+                onChange={e => setTrackedUrl(e.target.value)}
+                placeholder={platform === 'instagram'
+                  ? 'https://www.instagram.com/p/…'
+                  : 'https://www.facebook.com/…/posts/…'}
+                className="w-full bg-[#131313] border border-[#4c4450]/25 rounded-xl pl-9 pr-4 py-2.5 text-sm text-white placeholder:text-[#4c4450] focus:outline-none focus:border-[#d394ff]/40 transition-all"
+              />
+            </div>
+            {/* Disclaimer */}
+            <div className="flex items-start gap-2 mt-0.5 px-1">
+              <span className="material-symbols-outlined text-amber-400/60 shrink-0 mt-px" style={{ fontSize: 13 }}>warning</span>
+              <p className="text-[10px] text-[#988d9c] leading-relaxed">
+                Post data is retrieved using your connected <span className="text-[#cfc2d2] font-semibold">{pm.label}</span> account.
+                If the target account is <span className="text-[#cfc2d2] font-semibold">private</span> or you{' '}
+                <span className="text-[#cfc2d2] font-semibold">don't follow them</span>, engagement data cannot be obtained.
+              </p>
+            </div>
+          </div>
+
+          {/* Scraping info note */}
+          <div className="flex items-start gap-2.5 px-3.5 py-3 rounded-xl bg-[#d394ff]/[0.05] border border-[#d394ff]/10">
+            <span className="material-symbols-outlined text-[#d394ff]/50 shrink-0 mt-px" style={{ fontSize: 14 }}>info</span>
+            <p className="text-[11px] text-[#988d9c] leading-relaxed">
+              Followers, posts and engagement data will be synced automatically once profile scraping is enabled.
+            </p>
+          </div>
 
           {/* Actions */}
           <div className="flex gap-2.5 pt-1">
             <button
               type="submit"
-              disabled={!valid}
+              disabled={!selected}
               className="flex-1 py-3 rounded-xl bg-[#d394ff] text-[#131313] font-bold text-sm hover:bg-[#e0a8ff] disabled:opacity-35 disabled:cursor-not-allowed transition-all"
             >
               Add Rival

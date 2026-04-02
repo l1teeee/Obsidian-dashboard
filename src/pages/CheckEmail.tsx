@@ -39,11 +39,12 @@ export default function CheckEmail() {
 
   const playSuccess = (dest: string) => {
     requestAnimationFrame(() => {
+      const container = containerRef.current;
       const form   = formRef.current;
       const succ   = successRef.current;
       const circle = checkCircleRef.current;
       const path   = checkPathRef.current;
-      if (!form || !succ || !circle || !path) return;
+      if (!container || !form || !succ || !circle || !path) return;
 
       gsap.set(succ, { opacity: 0, scale: 0.88, display: 'flex' });
       const circleLen = circle.getTotalLength?.() ?? 163;
@@ -57,7 +58,9 @@ export default function CheckEmail() {
         .to(circle,  { strokeDashoffset: 0, duration: 0.5, ease: 'power2.inOut' }, '-=0.2')
         .to(path,    { strokeDashoffset: 0, duration: 0.32, ease: 'power2.out' }, '-=0.1')
         .from('[data-success-text]', { opacity: 0, y: 10, duration: 0.35, stagger: 0.08, ease: 'power2.out' }, '-=0.1')
-        .to({}, { duration: 1.0 });
+        // Brief pause, then fade the whole page out before navigating
+        .to({}, { duration: 0.7 })
+        .to(container, { opacity: 0, y: -20, duration: 0.45, ease: 'power2.in' });
     });
   };
 
@@ -219,7 +222,7 @@ export default function CheckEmail() {
         </div>
 
         {/* ── Success overlay ── */}
-        <div ref={successRef} style={{ display: 'none' }} className="flex-col items-center justify-center p-10 text-center">
+        <div ref={successRef} style={{ display: 'none' }} className="absolute inset-0 flex-col items-center justify-center p-10 text-center">
           <div className="mb-6">
             <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
               <circle ref={checkCircleRef} cx="40" cy="40" r="36" stroke="#d394ff" strokeWidth="2.5" strokeLinecap="round" fill="rgba(211,148,255,0.06)" />

@@ -98,11 +98,17 @@ function WorkspaceGuard({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     if (authLoading || wsLoading || !isAuthenticated) return;
-    const isAuthPage   = AUTH_PATHS.includes(pathname);
     const isCreatePage = pathname === '/create-workspace';
+    // Handle /create-workspace separately: redirect away if user already has workspaces
+    if (isCreatePage) {
+      if (workspaces.length > 0) navigate('/dashboard', { replace: true });
+      return;
+    }
+    // Skip pure auth pages — ProtectedRoute handles them
+    const isAuthPage = AUTH_PATHS.includes(pathname);
     if (isAuthPage) return;
-    if (workspaces.length === 0 && !isCreatePage) navigate('/create-workspace', { replace: true, state: { from: pathname } });
-    if (workspaces.length > 0  &&  isCreatePage)  navigate('/dashboard',        { replace: true });
+    // App pages: redirect to /create-workspace if no workspace exists yet
+    if (workspaces.length === 0) navigate('/create-workspace', { replace: true, state: { from: pathname } });
   }, [workspaces.length, pathname, navigate, isAuthenticated, authLoading, wsLoading]);
 
   return <>{children}</>;

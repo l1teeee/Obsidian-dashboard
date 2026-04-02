@@ -117,6 +117,7 @@ export default function CompleteProfile() {
   const [loadingCtry, setLoadingCtry] = useState(true);
   const [loading,     setLoading]     = useState(false);
   const [error,       setError]       = useState<string | null>(null);
+  const [profileDone, setProfileDone] = useState(false);
 
   const isOtherRole  = role === 'Other';
   const finalRole    = isOtherRole ? customRole.trim() : role;
@@ -141,12 +142,22 @@ export default function CompleteProfile() {
     return () => window.removeEventListener('popstate', handlePopState);
   }, []);
 
-  // Redirect if profile already completed
+  // Redirect if profile already completed (e.g. user visits /complete-profile after finishing)
   useEffect(() => {
-    if (!isLoading && user?.profileCompleted) {
+    if (!isLoading && user?.profileCompleted && !profileDone) {
       navigate('/dashboard', { replace: true });
     }
-  }, [isLoading, user, navigate]);
+  }, [isLoading, user, navigate, profileDone]);
+
+  // Navigate to /create-workspace after form submission, once React has committed
+  // the updated user.profileCompleted = true from markProfileCompleted().
+  // Using useEffect guarantees we read the post-commit state, avoiding a race
+  // condition where ProtectedRoute would redirect back to /complete-profile.
+  useEffect(() => {
+    if (profileDone && user?.profileCompleted) {
+      navigate('/create-workspace');
+    }
+  }, [profileDone, user, navigate]);
 
   // Fetch countries
   useEffect(() => {
@@ -192,7 +203,7 @@ export default function CompleteProfile() {
       });
       await markProfileCompleted();
       completedRef.current = true;
-      navigate('/create-workspace');
+      setProfileDone(true);
     } catch {
       setError('Something went wrong. Please try again.');
       setLoading(false);
