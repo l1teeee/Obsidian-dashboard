@@ -76,11 +76,14 @@ export default function CaptionEditor({
 }: CaptionEditorProps) {
   const { active } = useWorkspace();
 
-  const [topic,    setTopic]    = useState('');
-  const [captions, setCaptions] = useState<string[]>([]);
-  const [hashtags, setHashtags] = useState<string[]>([]);
-  const [loading,  setLoading]  = useState(false);
-  const [error,    setError]    = useState<string | null>(null);
+  const [topic,            setTopic]            = useState('');
+  const [captions,         setCaptions]         = useState<string[]>([]);
+  const [hashtags,         setHashtags]         = useState<string[]>([]);
+  const [loading,          setLoading]          = useState(false);
+  const [error,            setError]            = useState<string | null>(null);
+  // Local selection — nothing goes to the textarea until "Apply to caption"
+  const [pickedCaption,    setPickedCaption]    = useState<string | null>(null);
+  const [pickedHashtags,   setPickedHashtags]   = useState<string[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const primaryPlatform = CHANNEL_TO_PLATFORM[selectedChannels[0] ?? 'ig'];
@@ -113,6 +116,8 @@ export default function CaptionEditor({
       });
       setCaptions(result.captions);
       setHashtags(result.hashtags);
+      setPickedCaption(null);
+      setPickedHashtags([]);
     } catch (err) {
       setError((err as Error).message ?? 'Could not generate suggestions. Try again.');
     } finally {
@@ -124,9 +129,19 @@ export default function CaptionEditor({
     if (e.key === 'Enter') handleGenerate();
   }
 
-  function appendHashtag(tag: string) {
-    const sep = caption.trimEnd().length > 0 ? ' ' : '';
-    onCaptionChange(caption.trimEnd() + sep + tag);
+  function toggleHashtag(tag: string) {
+    setPickedHashtags(prev =>
+      prev.includes(tag) ? prev.filter(t => t !== tag) : [...prev, tag],
+    );
+  }
+
+  function handleApply() {
+    const parts: string[] = [];
+    if (pickedCaption)         parts.push(pickedCaption);
+    if (pickedHashtags.length) parts.push(pickedHashtags.join(' '));
+    if (parts.length === 0) return;
+    // onCaptionChange already calls setShowSuggestions(false) in PostComposer — don't toggle again
+    onCaptionChange(parts.join('\n\n'));
   }
 
   return (
@@ -143,7 +158,7 @@ export default function CaptionEditor({
           }`}
         >
           <span className="material-symbols-outlined text-[13px]">auto_awesome</span>
-          Inspire me
+          {hasResults ? 'Edit inspire' : 'Inspire me'}
         </button>
       </div>
 
@@ -242,48 +257,104 @@ export default function CaptionEditor({
                 {/* Caption suggestions */}
                 <div className="space-y-1">
                   <p className="text-[9px] font-bold uppercase tracking-widest text-[#4c4450] px-1">
-                    Captions — click to use
+                    Captions — select one
                   </p>
-                  {captions.map((c, i) => (
-                    <button
-                      key={i}
-                      onClick={() => onCaptionChange(c)}
-                      className="w-full text-left p-3 rounded-xl hover:bg-[#d394ff]/10 transition-colors text-xs text-[#cfc2d2] leading-relaxed border border-transparent hover:border-[#d394ff]/20"
-                    >
-                      {c}
-                    </button>
-                  ))}
+                  {captions.map((c, i) => {
+                    const picked = pickedCaption === c;
+                    return (
+                      <button
+                        key={i}
+                        onClick={() => { setPickedCaption(picked ? null : c); }}
+                        className={[
+                          'w-full text-left p-3 rounded-xl transition-all text-xs leading-relaxed border',
+                          picked
+                            ? 'bg-[#d394ff]/12 border-[#d394ff]/40 text-white'
+                            : 'text-[#cfc2d2] border-transparent hover:bg-[#d394ff]/8 hover:border-[#d394ff]/15',
+                        ].join(' ')}
+                      >
+                        <div className="flex items-start gap-2">
+                          <span
+                            className={[
+                              'material-symbols-outlined shrink-0 mt-0.5 transition-all',
+                              picked ? 'text-[#d394ff]' : 'text-[#4c4450]',
+                            ].join(' ')}
+                            style={{ fontSize: 13, fontVariationSettings: picked ? "'FILL' 1" : "'FILL' 0" }}
+                          >
+                            {picked ? 'radio_button_checked' : 'radio_button_unchecked'}
+                          </span>
+                          <span>{c}</span>
+                        </div>
+                      </button>
+                    );
+                  })}
                 </div>
 
                 {/* Hashtags */}
                 {hashtags.length > 0 && (
                   <div className="space-y-2 pt-1 border-t border-[#4c4450]/15">
                     <p className="text-[9px] font-bold uppercase tracking-widest text-[#4c4450] px-1">
-                      Trending Hashtags — click to add
+                      Trending Hashtags — click to select
                     </p>
                     <div className="flex flex-wrap gap-1.5 px-1">
-                      {hashtags.map((tag, i) => (
-                        <button
-                          key={i}
-                          onClick={() => appendHashtag(tag)}
-                          title={`Add ${tag} to caption`}
-                          className="px-2.5 py-1 rounded-full bg-[#d394ff]/8 border border-[#d394ff]/15 text-[#d394ff] text-[10px] font-medium hover:bg-[#d394ff]/20 hover:border-[#d394ff]/30 transition-all active:scale-95"
-                        >
-                          {tag}
-                        </button>
-                      ))}
+                      {hashtags.map((tag, i) => {
+                        const picked = pickedHashtags.includes(tag);
+                        return (
+                          <button
+                            key={i}
+                            onClick={() => toggleHashtag(tag)}
+                            title={picked ? `Remove ${tag}` : `Add ${tag}`}
+                            className={[
+                              'flex items-center gap-1 px-2.5 py-1 rounded-full border text-[10px] font-medium transition-all active:scale-95',
+                              picked
+                                ? 'bg-[#d394ff]/20 border-[#d394ff]/50 text-[#d394ff]'
+                                : 'bg-[#d394ff]/5 border-[#d394ff]/12 text-[#d394ff]/60 hover:bg-[#d394ff]/12 hover:text-[#d394ff] hover:border-[#d394ff]/25',
+                            ].join(' ')}
+                          >
+                            {picked && (
+                              <span className="material-symbols-outlined" style={{ fontSize: 10, fontVariationSettings: "'FILL' 1" }}>check</span>
+                            )}
+                            {tag}
+                          </button>
+                        );
+                      })}
                     </div>
-                    <button
-                      onClick={() => onCaptionChange(
-                        (caption.trimEnd() ? caption.trimEnd() + '\n\n' : '') + hashtags.join(' ')
+                    <div className="flex items-center gap-2 px-1">
+                      <button
+                        onClick={() => setPickedHashtags(hashtags)}
+                        className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[10px] text-[#988d9c] hover:text-[#d394ff] hover:bg-[#d394ff]/8 transition-all"
+                      >
+                        <span className="material-symbols-outlined" style={{ fontSize: 13 }}>select_all</span>
+                        Select all
+                      </button>
+                      {pickedHashtags.length > 0 && (
+                        <button
+                          onClick={() => setPickedHashtags([])}
+                          className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[10px] text-[#988d9c] hover:text-[#ffb4ab] hover:bg-[#ffb4ab]/8 transition-all"
+                        >
+                          <span className="material-symbols-outlined" style={{ fontSize: 13 }}>deselect</span>
+                          Clear
+                        </button>
                       )}
-                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[10px] text-[#988d9c] hover:text-[#d394ff] hover:bg-[#d394ff]/8 transition-all ml-1"
-                    >
-                      <span className="material-symbols-outlined" style={{ fontSize: 13 }}>select_all</span>
-                      Add all hashtags
-                    </button>
+                    </div>
                   </div>
                 )}
+
+                {/* Apply button — always visible once results are shown */}
+                <div className="pt-1 border-t border-[#4c4450]/15">
+                  <button
+                    onClick={handleApply}
+                    disabled={!pickedCaption && pickedHashtags.length === 0}
+                    className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl bg-[#d394ff] hover:bg-[#e0a8ff] text-[#131313] text-xs font-bold transition-all disabled:opacity-30 disabled:cursor-not-allowed active:scale-[0.98]"
+                  >
+                    <span className="material-symbols-outlined" style={{ fontSize: 14, fontVariationSettings: "'FILL' 1" }}>check_circle</span>
+                    Apply to caption
+                    {(pickedCaption || pickedHashtags.length > 0) && (
+                      <span className="text-[9px] font-normal opacity-70">
+                        ({[pickedCaption ? '1 caption' : '', pickedHashtags.length ? `${pickedHashtags.length} hashtag${pickedHashtags.length > 1 ? 's' : ''}` : ''].filter(Boolean).join(' + ')})
+                      </span>
+                    )}
+                  </button>
+                </div>
               </>
             )}
 

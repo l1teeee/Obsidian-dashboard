@@ -31,9 +31,11 @@ export interface MediaItem {
 const MAX_MEDIA = 10;
 
 export function useComposer(onSuccess?: (type: ActionType, names: string) => void, editId?: string) {
-  const pageRef        = useRef<HTMLDivElement>(null);
-  const fileInputRef   = useRef<HTMLInputElement>(null);
-  const toastTimerRef  = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const pageRef           = useRef<HTMLDivElement>(null);
+  const fileInputRef      = useRef<HTMLInputElement>(null);
+  const toastTimerRef     = useRef<ReturnType<typeof setTimeout> | null>(null);
+  // Tracks the ID of a newly created draft so subsequent saves update instead of creating
+  const createdDraftIdRef = useRef<string | null>(null);
 
   const [caption,          setCaption]          = useState('');
   const [mediaItems,       setMediaItems]        = useState<MediaItem[]>([]);
@@ -41,8 +43,7 @@ export function useComposer(onSuccess?: (type: ActionType, names: string) => voi
   const [previewTab,       setPreviewTab]        = useState<ChannelId>('ig');
   const [scheduleDate,     setScheduleDate]      = useState<Date>(() => {
     const d = new Date();
-    d.setDate(d.getDate() + 1);
-    d.setHours(9, 15, 0, 0);
+    d.setTime(d.getTime() + 60 * 60 * 1000); // exactly +1 hour from now
     return d;
   });
   const [toast,            setToast]            = useState<string | null>(null);
@@ -205,20 +206,29 @@ export function useComposer(onSuccess?: (type: ActionType, names: string) => voi
       .map(i => i.sourceUrl)
       .filter((u): u is string => !!u && u.startsWith('http'));
 
-    if (editId) {
-      await postsService.update(editId, {
-        caption:    caption || undefined,
-        media_urls: mediaUrls.length ? mediaUrls : undefined,
-        status:     'draft',
+    const scheduled_at = isScheduleMode ? scheduleDate.toISOString() : undefined;
+
+    // Resolve the effective ID: URL param takes precedence, then any draft created in this session
+    const effectiveId = editId ?? createdDraftIdRef.current;
+
+    if (effectiveId) {
+      await postsService.update(effectiveId, {
+        caption:      caption || undefined,
+        media_urls:   mediaUrls.length ? mediaUrls : undefined,
+        status:       'draft',
+        scheduled_at,
       });
     } else {
-      await postsService.create({
-        platform:  PLATFORM_MAP[selectedChannels[0] ?? 'ig'],
-        post_type: 'post',
-        caption:   caption || undefined,
-        media_urls: mediaUrls.length ? mediaUrls : undefined,
-        status:    'draft',
+      const created = await postsService.create({
+        platform:     PLATFORM_MAP[selectedChannels[0] ?? 'ig'],
+        post_type:    'post',
+        caption:      caption || undefined,
+        media_urls:   mediaUrls.length ? mediaUrls : undefined,
+        status:       'draft',
+        scheduled_at,
       });
+      // Remember the created ID so subsequent saves update instead of creating new posts
+      createdDraftIdRef.current = created.id;
     }
     setIsDirty(false);
   };

@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { format, isSameDay, isToday, eachDayOfInterval, addDays } from 'date-fns';
 import { PLATFORM_REGISTRY } from '../../domain/entities/Platform';
+import SocialBrandIcon from '../shared/SocialBrandIcon';
 import StatusBadge from '../shared/StatusBadge';
 import type { CalendarPost } from '../../domain/entities/CalendarPost';
 
@@ -65,7 +66,7 @@ export default function ListView({ posts }: ListViewProps) {
                     className="flex items-center gap-4 p-4 rounded-2xl border border-[#4c4450]/10 bg-[#201f1f] hover:bg-[#2a2a2a] hover:border-[#d394ff]/20 transition-all"
                   >
                     <div className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0" style={{ background: pl.color }}>
-                      <span className="material-symbols-outlined text-white" style={{ fontSize: 16 }}>{pl.icon}</span>
+                      <SocialBrandIcon platformId={p.platform} size={16} />
                     </div>
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-semibold text-white truncate">{p.title}</p>

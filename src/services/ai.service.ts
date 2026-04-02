@@ -39,8 +39,10 @@ export async function getInspiration(payload: InspirePayload): Promise<InspireRe
 }
 
 export interface SuggestTimePayload {
-  caption?:  string;
-  platforms: string[];
+  caption?:     string;
+  platforms:    string[];
+  currentHour?: number;   // client's local hour (0-23)
+  weekday?:     string;   // client's local weekday name
 }
 
 export interface SuggestTimeResult {

@@ -24,6 +24,7 @@ import Profile from './pages/Profile';
 import Posts from './pages/Posts';
 import Settings from './pages/Settings';
 import AISettings from './pages/AISettings';
+import Rivals from './pages/Rivals';
 import CreateWorkspace from './pages/CreateWorkspace';
 import LoginCard from './components/auth/LoginCard';
 import RegisterCard from './components/auth/RegisterCard';
@@ -204,6 +205,7 @@ export default function App() {
                   <Route path="composer"      element={<PostComposer />} />
                   <Route path="composer/:id" element={<PostComposer />} />
                   <Route path="settings"     element={<Settings />} />
+                  <Route path="rivals"      element={<Rivals />} />
                   <Route path="ai-settings" element={<AISettings />} />
                   <Route path="profile"     element={<Profile />} />
                 </Route>

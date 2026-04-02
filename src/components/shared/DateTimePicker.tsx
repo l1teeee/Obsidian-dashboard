@@ -26,15 +26,15 @@ function pad(n: number) {
   return String(n).padStart(2, '0');
 }
 
-/** If `next` is today and in the past, snap it to the current time. */
-function clampToNow(next: Date): Date {
-  const now = new Date();
-  if (isToday(next) && next < now) {
-    const clamped = new Date(next);
-    clamped.setHours(now.getHours(), now.getMinutes(), 0, 0);
-    return clamped;
-  }
-  return next;
+/**
+ * If `next` is today and less than 1 hour from now, snap it to now + 1 hour.
+ * For future dates there is no restriction.
+ */
+function clampToMinimum(next: Date): Date {
+  if (!isToday(next)) return next;
+  const min = new Date();
+  min.setTime(min.getTime() + 60 * 60 * 1000); // now + 1 h exactly
+  return next < min ? new Date(min) : next;
 }
 
 // ─── Sub-components ───────────────────────────────────────────────────────────
@@ -161,7 +161,7 @@ function TimeSelector({
     const clamped = Math.min(23, Math.max(0, n));
     const next = new Date(value);
     next.setHours(clamped);
-    const final = clampToNow(next);
+    const final = clampToMinimum(next);
     onChange(final);
     setHrDraft(pad(final.getHours()));
     setMinDraft(pad(final.getMinutes()));
@@ -173,7 +173,7 @@ function TimeSelector({
     const clamped = Math.min(59, Math.max(0, n));
     const next = new Date(value);
     next.setMinutes(clamped);
-    const final = clampToNow(next);
+    const final = clampToMinimum(next);
     onChange(final);
     setHrDraft(pad(final.getHours()));
     setMinDraft(pad(final.getMinutes()));
@@ -225,7 +225,7 @@ export default function DateTimePicker({ value, onChange, minDate }: DateTimePic
   const handleDaySelect = (day: Date) => {
     const next = new Date(day);
     next.setHours(value.getHours(), value.getMinutes(), 0, 0);
-    onChange(clampToNow(next));
+    onChange(clampToMinimum(next));
   };
 
   return (
@@ -260,7 +260,7 @@ export default function DateTimePicker({ value, onChange, minDate }: DateTimePic
           </div>
           <div className="flex flex-col">
             <span className="text-[9px] font-bold uppercase tracking-widest text-[#4c4450]">Time</span>
-            <span className="text-sm font-semibold text-white leading-tight">{format(value, 'h:mm a')}</span>
+            <span className="text-sm font-semibold text-white leading-tight">{format(value, 'HH:mm')}</span>
           </div>
         </div>
 
