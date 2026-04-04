@@ -12,6 +12,15 @@ function getIconBg(platform: string): string {
   }
 }
 
+function getPlatformColor(platform: string): string {
+  switch (platform) {
+    case 'facebook':  return '#1877F2';
+    case 'instagram': return '#bc1888';
+    case 'linkedin':  return '#0A66C2';
+    default:          return '#988d9c';
+  }
+}
+
 function formatExpiry(expiresAt: string | null): string {
   if (!expiresAt) return 'Never expires';
   const d = new Date(expiresAt);
@@ -21,7 +30,7 @@ function formatExpiry(expiresAt: string | null): string {
 export default function Platforms() {
   const {
     connections, loading, connecting, disconnecting,
-    handleConnect, handleDisconnect, pageRef,
+    handleConnect, handleConnectInstagram, handleDisconnect, pageRef,
   } = usePlatforms();
 
   const [modalOpen, setModalOpen] = useState(false);
@@ -89,7 +98,10 @@ export default function Platforms() {
                       <SocialBrandIcon platformId={conn.platform} size={28} />
                     </div>
                     <div>
-                      <h3 className="font-headline text-xl font-bold text-white tracking-tight capitalize">
+                      <h3
+                        className="font-headline text-xl font-bold tracking-tight capitalize"
+                        style={{ color: getPlatformColor(conn.platform) }}
+                      >
                         {conn.platform}
                       </h3>
                       <span className="px-2 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider bg-green-500/10 text-green-400">
@@ -110,8 +122,10 @@ export default function Platforms() {
                   )}
                   <div className="min-w-0">
                     <p className="text-sm font-semibold text-white truncate">{conn.account_name}</p>
-                    {conn.page_name && conn.platform === 'facebook' && (
-                      <p className="text-[10px] text-[#988d9c] truncate">Page: {conn.page_name}</p>
+                    {conn.page_name && (
+                      <p className="text-[10px] text-[#988d9c] truncate">
+                        {conn.platform === 'instagram' ? 'Via page: ' : 'Page: '}{conn.page_name}
+                      </p>
                     )}
                     <p className="font-mono text-[10px] text-[#988d9c]">{formatExpiry(conn.token_expires_at)}</p>
                   </div>
@@ -172,6 +186,7 @@ export default function Platforms() {
         connecting={connecting}
         onClose={() => setModalOpen(false)}
         onConnect={(p) => { setModalOpen(false); handleConnect(p); }}
+        onConnectInstagram={() => { setModalOpen(false); handleConnectInstagram(); }}
       />
     </div>
   );
