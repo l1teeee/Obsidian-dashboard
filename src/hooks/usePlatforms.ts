@@ -60,10 +60,9 @@ export function usePlatforms() {
     return () => ctx.revert();
   }, [loading]);
 
-  // ── Connect (starts OAuth flow) ─────────────────────────────────────────────
+  // ── Connect Facebook (starts OAuth flow) ───────────────────────────────────
   const handleConnect = useCallback(async (platform: 'facebook' | 'instagram') => {
     if (platform === 'facebook' || platform === 'instagram') {
-      // Both FB and IG go through Facebook OAuth
       setConnecting(true);
       try {
         await platformsService.startFacebookOAuth();
@@ -74,6 +73,32 @@ export function usePlatforms() {
       }
     }
   }, []);
+
+  // ── Connect Instagram (uses existing FB page tokens, falls back to OAuth) ───
+  const handleConnectInstagram = useCallback(async () => {
+    setConnecting(true);
+    try {
+      await platformsService.connectInstagramFromPages();
+      sileo.success({ title: 'Instagram connected!', description: 'Your Instagram account is now linked.' });
+      await reload();
+      setConnecting(false);
+    } catch (err: unknown) {
+      const apiErr = err as { code?: string };
+      if (apiErr?.code === 'NO_IG_FOUND') {
+        // No IG linked to existing pages — fall back to full Facebook OAuth
+        try {
+          await platformsService.startFacebookOAuth();
+          // Browser navigates away — connecting stays true
+        } catch {
+          sileo.error({ title: 'Could not start OAuth', description: 'Check your connection and try again.' });
+          setConnecting(false);
+        }
+      } else {
+        sileo.error({ title: 'Could not connect Instagram', description: 'Try again in a moment.' });
+        setConnecting(false);
+      }
+    }
+  }, [reload]);
 
   // ── Disconnect ──────────────────────────────────────────────────────────────
   const handleDisconnect = useCallback(async (id: string, name: string) => {
@@ -91,7 +116,7 @@ export function usePlatforms() {
 
   return {
     connections, loading, connecting, disconnecting,
-    handleConnect, handleDisconnect, reload,
+    handleConnect, handleConnectInstagram, handleDisconnect, reload,
     pageRef,
   };
 }
