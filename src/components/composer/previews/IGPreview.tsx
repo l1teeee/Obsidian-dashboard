@@ -3,9 +3,10 @@ import { useState } from 'react';
 interface IGPreviewProps {
   caption:       string;
   mediaPreviews: string[];
+  igAccountName?: string | null;
 }
 
-export default function IGPreview({ caption, mediaPreviews }: IGPreviewProps) {
+export default function IGPreview({ caption, mediaPreviews, igAccountName }: IGPreviewProps) {
   const [current, setCurrent] = useState(0);
   const count = mediaPreviews.length;
 
@@ -28,12 +29,15 @@ export default function IGPreview({ caption, mediaPreviews }: IGPreviewProps) {
         <div className="flex items-center gap-2 px-3 py-2">
           <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-yellow-400 via-red-500 to-purple-600 p-[1.5px] shrink-0">
             <div className="w-full h-full rounded-full bg-black flex items-center justify-center">
-              <span className="material-symbols-outlined text-[#d394ff] text-[12px]">person</span>
+              <span className="text-[#d394ff] text-[11px] font-bold">
+                {igAccountName ? igAccountName[0].toUpperCase() : 'I'}
+              </span>
             </div>
           </div>
-          <span className="text-xs font-bold text-white flex-1">obsidian_lens</span>
-          <span className="material-symbols-outlined text-blue-400 text-[13px]" style={{ fontVariationSettings: "'FILL' 1" }}>verified</span>
-          <span className="text-[#0095f6] text-xs font-bold ml-2">Follow</span>
+          <span className="text-xs font-bold text-white flex-1">
+            {igAccountName ?? 'your_account'}
+          </span>
+          <span className="text-[#0095f6] text-xs font-bold">Follow</span>
         </div>
 
         {/* Media carousel */}
@@ -109,7 +113,7 @@ export default function IGPreview({ caption, mediaPreviews }: IGPreviewProps) {
         <div className="px-3 pb-4 space-y-1">
           <p className="text-[11px] font-bold text-white">1,248 likes</p>
           <p className="text-[11px] leading-relaxed text-white">
-            <span className="font-bold">obsidian_lens </span>
+            <span className="font-bold">{igAccountName ?? 'your_account'} </span>
             <span className="text-[#cfc2d2]">{caption || 'Your caption will appear here...'}</span>
           </p>
           <p className="text-[9px] text-[#988d9c] uppercase font-medium">Just now</p>

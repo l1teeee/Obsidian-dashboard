@@ -45,7 +45,9 @@
       "Bash(xargs cat:*)",
       "Bash(grep -r \"localStorage\\\\|sessionStorage\" C:Proyectsobsidian-dashboardsrc --include=*.ts --include=*.tsx)",
       "Bash(node:*)",
-      "Bash(cmd:*)"
+      "Bash(cmd:*)",
+      "WebFetch(domain:developers.facebook.com)",
+      "WebFetch(domain:medium.com)"
     ]
   }
 }

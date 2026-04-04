@@ -1,12 +1,51 @@
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { sileo } from 'sileo';
 import TopBar from '../components/layout/TopBar';
 import KpiCard from '../components/dashboard/KpiCard';
 import PostCarousel from '../components/dashboard/PostCarousel';
 import RecentPostRow from '../components/dashboard/RecentPostRow';
 import PlatformHealthCard from '../components/dashboard/PlatformHealthCard';
 import { useDashboard } from '../hooks/useDashboard';
+import { listConnections } from '../services/platforms.service';
+import { getTokenExpiryInfo } from '../hooks/usePlatforms';
+
+const TOKEN_WARNING_KEY = 'token_warning_shown';
 
 export default function Dashboard() {
+  // ── Token expiry check on mount ─────────────────────────────────────────────
+  useEffect(() => {
+    if (sessionStorage.getItem(TOKEN_WARNING_KEY)) return;
+
+    listConnections().then(connections => {
+      const expiryInfos = connections
+        .map(c => ({ name: c.account_name, ...getTokenExpiryInfo(c.token_expires_at) }))
+        .filter(e => e.isExpired || e.isWarning);
+
+      if (expiryInfos.length === 0) return;
+
+      // Pick the most critical one to show
+      const worst = expiryInfos.sort((a, b) => {
+        if (a.isExpired && !b.isExpired) return -1;
+        if (!a.isExpired && b.isExpired) return 1;
+        return (a.daysLeft ?? 999) - (b.daysLeft ?? 999);
+      })[0];
+
+      const isCrit = worst.isCritical || worst.isExpired;
+      const message = worst.isExpired
+        ? 'Your Facebook token has expired. Go to Platforms to reconnect.'
+        : `Your Facebook connection expires in ${worst.daysLeft} day${worst.daysLeft === 1 ? '' : 's'}. Go to Platforms to reconnect.`;
+
+      if (isCrit) {
+        sileo.error({ title: 'Reconnect required', description: message, duration: 0 });
+      } else {
+        sileo.warning({ title: 'Token expiring soon', description: message, duration: 8000 });
+      }
+
+      sessionStorage.setItem(TOKEN_WARNING_KEY, '1');
+    }).catch(() => { /* silent — dashboard shouldn't break if this fails */ });
+  }, []);
+
   const {
     kpiCards, upcoming, recentPosts, platformHealth,
     carouselIdx, setCarouselIdx, scrollCarousel, pageCount, visible, maxIdx,

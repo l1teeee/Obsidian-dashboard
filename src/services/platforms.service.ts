@@ -10,6 +10,7 @@ export interface SocialConnection {
   page_id:             string | null;
   page_name:           string | null;
   ig_business_id:      string | null;
+  account_type:        string | null;
   scopes:              string;
   created_at:          string;
 }

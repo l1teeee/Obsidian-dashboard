@@ -4,6 +4,7 @@ import { CHANNELS } from '../domain/entities/Composer';
 import type { ChannelId } from '../domain/entities/Composer';
 import * as postsService from '../services/posts.service';
 import { uploadFile } from '../services/media.service';
+import { listConnections } from '../services/platforms.service';
 
 const PLATFORM_MAP: Record<ChannelId, string> = {
   ig: 'meta',
@@ -53,6 +54,22 @@ export function useComposer(onSuccess?: (type: ActionType, names: string) => voi
   const [isScheduleMode,   setIsScheduleMode]   = useState(false);
   // isDirty: true only when the user has made actual changes (not just loaded a draft)
   const [isDirty,          setIsDirty]          = useState(false);
+  // Page/account names for connected platforms (shown in ChannelSelector and previews)
+  const [fbPageName,     setFbPageName]     = useState<string | null>(null);
+  const [igAccountName,  setIgAccountName]  = useState<string | null>(null);
+
+  // Load connected platform names on mount
+  useEffect(() => {
+    listConnections()
+      .then(conns => {
+        const fb = conns.find(c => c.platform === 'facebook' && c.page_id);
+        setFbPageName(fb?.page_name ?? null);
+
+        const ig = conns.find(c => c.platform === 'instagram');
+        setIgAccountName(ig?.account_name ?? null);
+      })
+      .catch(() => { /* no connections — silently ignore */ });
+  }, []);
 
   // Load draft data when editing an existing post
   useEffect(() => {
@@ -311,6 +328,8 @@ export function useComposer(onSuccess?: (type: ActionType, names: string) => voi
     hasContent,
     isDirty,
     isScheduleMode,    setIsScheduleMode,
+    fbPageName,
+    igAccountName,
     toggleChannel,
     handleFileChange,
     handleAIImageGenerated,
