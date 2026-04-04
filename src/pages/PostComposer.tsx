@@ -81,6 +81,8 @@ export default function PostComposer() {
     toggleChannel, handleFileChange, handleAIImageGenerated, removeMedia, handleAction,
     autoSaveDraft, hasContent, isDirty,
     isScheduleMode, setIsScheduleMode,
+    fbPageName,
+    igAccountName,
     pageRef, fileInputRef, isSubmitting, draftLoading,
   } = useComposer(playSuccess, editId);
 
@@ -234,7 +236,7 @@ export default function PostComposer() {
             >
               <ScrollArea className="flex-1 min-h-0 p-4 md:p-8">
                 <div className="max-w-xl mx-auto space-y-6">
-                  <ChannelSelector selectedChannels={selectedChannels} onToggle={toggleChannel} />
+                  <ChannelSelector selectedChannels={selectedChannels} onToggle={toggleChannel} fbPageName={fbPageName} igAccountName={igAccountName} />
                   <MediaUpload
                     mediaItems={mediaItems}
                     fileInputRef={fileInputRef}
@@ -287,6 +289,8 @@ export default function PostComposer() {
                 selectedChannels={selectedChannels}
                 previewTab={previewTab}
                 onTabChange={setPreviewTab}
+                fbPageName={fbPageName}
+                igAccountName={igAccountName}
               />
             </div>
           </div>

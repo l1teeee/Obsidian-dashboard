@@ -7,15 +7,34 @@ import type { SocialConnection } from '../services/platforms.service';
 
 export type { SocialConnection };
 
+export interface TokenExpiryInfo {
+  daysLeft:   number | null;
+  isExpired:  boolean;
+  isWarning:  boolean;  // daysLeft <= 14
+  isCritical: boolean;  // daysLeft <= 5
+}
+
+export function getTokenExpiryInfo(tokenExpiresAt: string | null): TokenExpiryInfo {
+  if (!tokenExpiresAt) return { daysLeft: null, isExpired: false, isWarning: false, isCritical: false };
+  const daysLeft = Math.ceil((new Date(tokenExpiresAt).getTime() - Date.now()) / (1000 * 60 * 60 * 24));
+  return {
+    daysLeft,
+    isExpired:  daysLeft <= 0,
+    isWarning:  daysLeft > 0 && daysLeft <= 14,
+    isCritical: daysLeft <= 5,
+  };
+}
+
 export function usePlatforms() {
   const pageRef   = useRef<HTMLDivElement>(null);
   const location  = useLocation();
   const navigate  = useNavigate();
 
-  const [connections,  setConnections]  = useState<SocialConnection[]>([]);
-  const [loading,      setLoading]      = useState(true);
-  const [connecting,   setConnecting]   = useState(false);
-  const [disconnecting, setDisconnecting] = useState<string | null>(null); // id being disconnected
+  const [connections,    setConnections]    = useState<SocialConnection[]>([]);
+  const [loading,        setLoading]        = useState(true);
+  const [connecting,     setConnecting]     = useState(false);
+  const [syncingIg,      setSyncingIg]      = useState(false);
+  const [disconnecting,  setDisconnecting]  = useState<string | null>(null);
 
   // ── Load connections ────────────────────────────────────────────────────────
   const reload = useCallback(async () => {
@@ -100,6 +119,28 @@ export function usePlatforms() {
     }
   }, [reload]);
 
+  // ── Sync Instagram from existing FB page (no OAuth fallback) ────────────────
+  const handleSyncInstagram = useCallback(async () => {
+    setSyncingIg(true);
+    try {
+      await platformsService.connectInstagramFromPages();
+      sileo.success({ title: 'Instagram connected!', description: 'Your Instagram account is now linked.' });
+      await reload();
+    } catch (err: unknown) {
+      const apiErr = err as { code?: string };
+      if (apiErr?.code === 'NO_IG_FOUND') {
+        sileo.warning({
+          title: 'No Instagram linked',
+          description: 'Go to your Page Settings → Instagram → Connect account, then try again.',
+        });
+      } else {
+        sileo.error({ title: 'Sync failed', description: 'Try again in a moment.' });
+      }
+    } finally {
+      setSyncingIg(false);
+    }
+  }, [reload]);
+
   // ── Disconnect ──────────────────────────────────────────────────────────────
   const handleDisconnect = useCallback(async (id: string, name: string) => {
     setDisconnecting(id);
@@ -115,8 +156,8 @@ export function usePlatforms() {
   }, []);
 
   return {
-    connections, loading, connecting, disconnecting,
-    handleConnect, handleConnectInstagram, handleDisconnect, reload,
+    connections, loading, connecting, syncingIg, disconnecting,
+    handleConnect, handleConnectInstagram, handleSyncInstagram, handleDisconnect, reload,
     pageRef,
   };
 }

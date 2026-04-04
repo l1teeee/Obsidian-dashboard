@@ -1,6 +1,7 @@
 interface FBPreviewProps {
   caption:       string;
   mediaPreviews: string[];
+  pageName?:     string | null;
 }
 
 function MediaGrid({ images }: { images: string[] }) {
@@ -59,7 +60,7 @@ function MediaGrid({ images }: { images: string[] }) {
   );
 }
 
-export default function FBPreview({ caption, mediaPreviews }: FBPreviewProps) {
+export default function FBPreview({ caption, mediaPreviews, pageName }: FBPreviewProps) {
   return (
     <div className="w-full h-full bg-[#f0f2f5] flex flex-col pt-5">
       {/* Top bar */}
@@ -78,13 +79,15 @@ export default function FBPreview({ caption, mediaPreviews }: FBPreviewProps) {
         <div className="bg-white mx-2 mt-2 rounded-xl border border-[#e4e6eb] overflow-hidden">
           {/* Author row */}
           <div className="flex items-center gap-2 p-3">
-            <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-[#d394ff] to-[#9400e4] p-[1.5px] shrink-0">
-              <div className="w-full h-full rounded-full bg-white flex items-center justify-center">
-                <span className="material-symbols-outlined text-[#d394ff] text-[13px]">person</span>
-              </div>
+            <div className="w-9 h-9 rounded-full bg-[#1877f2] flex items-center justify-center shrink-0">
+              <span className="text-white text-[13px] font-bold">
+                {pageName ? pageName[0].toUpperCase() : 'P'}
+              </span>
             </div>
             <div>
-              <p className="text-[11px] font-bold text-[#050505]">Alex Rivera</p>
+              <p className="text-[11px] font-bold text-[#050505]">
+                {pageName ?? 'Your Page'}
+              </p>
               <div className="flex items-center gap-1">
                 <span className="text-[9px] text-[#65676b]">Just now ·</span>
                 <span className="material-symbols-outlined text-[#65676b] text-[9px]">public</span>

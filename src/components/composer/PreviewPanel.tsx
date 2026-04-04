@@ -17,6 +17,8 @@ interface PreviewPanelProps {
   selectedChannels: ChannelId[];
   previewTab:       ChannelId;
   onTabChange:      (id: ChannelId) => void;
+  fbPageName?:      string | null;
+  igAccountName?:   string | null;
 }
 
 export default function PreviewPanel({
@@ -25,6 +27,8 @@ export default function PreviewPanel({
   selectedChannels,
   previewTab,
   onTabChange,
+  fbPageName,
+  igAccountName,
 }: PreviewPanelProps) {
   return (
     <section className="w-full bg-[#0e0e0e] flex flex-col items-center justify-center p-4 md:p-8 relative overflow-hidden min-h-0">
@@ -59,9 +63,9 @@ export default function PreviewPanel({
       >
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-5 bg-[#353534] rounded-b-2xl z-20" />
 
-        {previewTab === 'ig' && <IGPreview caption={caption} mediaPreviews={mediaPreviews} />}
+        {previewTab === 'ig' && <IGPreview caption={caption} mediaPreviews={mediaPreviews} igAccountName={igAccountName} />}
         {previewTab === 'li' && <LIPreview caption={caption} mediaPreviews={mediaPreviews} />}
-        {previewTab === 'fb' && <FBPreview caption={caption} mediaPreviews={mediaPreviews} />}
+        {previewTab === 'fb' && <FBPreview caption={caption} mediaPreviews={mediaPreviews} pageName={fbPageName} />}
       </div>
 
       <div className="mt-6 flex items-center gap-2 px-4 py-2 rounded-full bg-[#201f1f]/50 border border-[#4c4450]/10 z-10">

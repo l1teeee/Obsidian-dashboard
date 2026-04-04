@@ -11,9 +11,13 @@ const ICONS: Record<ChannelId, React.ComponentType<{ size?: number; style?: Reac
 interface ChannelSelectorProps {
   selectedChannels: ChannelId[];
   onToggle:         (id: ChannelId) => void;
+  fbPageName?:      string | null;
+  igAccountName?:   string | null;
 }
 
-export default function ChannelSelector({ selectedChannels, onToggle }: ChannelSelectorProps) {
+export default function ChannelSelector({ selectedChannels, onToggle, fbPageName: _fbPageName, igAccountName }: ChannelSelectorProps) {
+  const igActive = selectedChannels.includes('ig');
+
   return (
     <div data-editor-section className="space-y-3">
       <label className="text-[11px] uppercase tracking-widest text-[#988d9c] font-bold">Target Channels</label>
@@ -42,6 +46,18 @@ export default function ChannelSelector({ selectedChannels, onToggle }: ChannelS
           );
         })}
       </div>
+
+      {/* Instagram disclaimer */}
+      {igActive && (
+        <div className="flex items-start gap-2 px-3 py-2 rounded-xl bg-[#4c4450]/10 border border-[#4c4450]/20">
+          <span className="material-symbols-outlined text-[#988d9c] text-[13px] mt-0.5 shrink-0">info</span>
+          <p className="text-[10px] text-[#988d9c] leading-relaxed">
+            <span className="font-semibold text-[#cfc2d2]">Instagram</span>
+            {igAccountName && <span className="text-[#d394ff]"> (@{igAccountName})</span>}
+            {' '}only supports images and videos. Text-only posts are not available on Instagram.
+          </p>
+        </div>
+      )}
     </div>
   );
 }
