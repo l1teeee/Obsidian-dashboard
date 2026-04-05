@@ -16,10 +16,20 @@ export default function RecentPostRow({ post, rowRef }: RecentPostRowProps) {
     <Link
       to={`/posts/${post.id}`}
       ref={rowRef}
-      className="glass-card rounded-[2rem] p-4 border border-[#4c4450]/5 flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-5 hover:bg-[#201f1f] transition-all cursor-pointer"
+      className="glass-card rounded-[2rem] p-4 border border-[#4c4450]/5 flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-5 transition-all cursor-pointer hover:bg-[#201f1f] hover:border-[#d394ff]/20 hover:shadow-[0_0_24px_rgba(211,148,255,0.06)] group"
     >
-      <div className="w-full h-32 sm:w-20 sm:h-20 rounded-2xl overflow-hidden shrink-0 bg-[#1c1b1b]">
-        <img src={post.imageUrl} className="w-full h-full object-cover" alt="" loading="lazy" />
+      <div
+        className="w-full h-32 sm:w-20 sm:h-20 rounded-2xl overflow-hidden shrink-0 flex items-center justify-center"
+        style={{ background: post.imageUrl ? undefined : p.color }}
+      >
+        {post.imageUrl
+          ? <img src={post.imageUrl} className="w-full h-full object-cover" alt="" loading="lazy" />
+          : (
+            <span className="text-3xl sm:text-2xl font-black uppercase select-none text-white">
+              {(post.title ?? '?')[0]}
+            </span>
+          )
+        }
       </div>
 
       <div className="grow min-w-0">

@@ -17,12 +17,12 @@ type DetailAction = 'activate' | 'deactivate' | 'delete' | null;
 function buildMetrics(m: ApiPostMetrics | null, loading: boolean): PostMetric[] {
   const fmt  = (v: number | null) => loading ? '—' : v === null ? '—' : v.toLocaleString();
   return [
+    { label: 'Impressions', value: fmt(m?.impressions ?? null), delta: null, positive: true },
     { label: 'Reach',       value: fmt(m?.reach       ?? null), delta: null, positive: true },
-    { label: 'Impressions', value: fmt(m?.impressions  ?? null), delta: null, positive: true },
-    { label: 'Likes',       value: fmt(m?.likes        ?? 0),   delta: null, positive: true },
-    { label: 'Comments',    value: fmt(m?.comments     ?? 0),   delta: null, positive: true },
-    { label: 'Shares',      value: fmt(m?.shares       ?? 0),   delta: null, positive: true },
-    { label: 'Saves',       value: '—',                          delta: null, positive: true },
+    { label: 'Likes',       value: fmt(m?.likes       ?? null), delta: null, positive: true },
+    { label: 'Comments',    value: fmt(m?.comments    ?? null), delta: null, positive: true },
+    { label: 'Shares',      value: fmt(m?.shares      ?? null), delta: null, positive: true },
+    { label: 'Clicks',      value: fmt(m?.clicks      ?? null), delta: null, positive: true },
   ];
 }
 
@@ -242,23 +242,22 @@ export default function PostDetail() {
               )}
             </div>
 
+            {/* Dev mode banner */}
+            {!metricsLoading && metrics?.dev_mode && (
+              <div className="flex items-start gap-3 px-4 py-3 rounded-2xl bg-[#201f1f] border border-[#4c4450]/20">
+                <span className="material-symbols-outlined text-[#988d9c] shrink-0 mt-0.5" style={{ fontSize: 15 }}>info</span>
+                <p className="text-xs text-[#988d9c] leading-relaxed">
+                  Metrics are not available in development mode. They will display automatically once the app goes live.
+                </p>
+              </div>
+            )}
+
             {/* Metric cards */}
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
               {buildMetrics(metrics, metricsLoading).map((m, i) => (
                 <MetricCard key={m.label} metric={m} index={i} />
               ))}
             </div>
-
-            {/* Insights note — only if reach/impressions are null after loading */}
-            {!metricsLoading && metrics && metrics.reach === null && (
-              <div className="flex items-start gap-2.5 px-4 py-3 rounded-2xl bg-[#201f1f] border border-[#4c4450]/10">
-                <span className="material-symbols-outlined text-[#988d9c] shrink-0 mt-0.5" style={{ fontSize: 14 }}>info</span>
-                <p className="text-xs text-[#988d9c] leading-relaxed">
-                  Reach & Impressions require the <span className="text-white font-medium">read_insights</span> permission.
-                  Reconnect Facebook to grant it.
-                </p>
-              </div>
-            )}
 
             {/* Permalink block */}
             {apiPost?.permalink ? (

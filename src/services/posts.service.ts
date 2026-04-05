@@ -22,6 +22,8 @@ export interface ApiPostMetrics {
   shares:      number;
   reach:       number | null;
   impressions: number | null;
+  clicks:      number | null;
+  dev_mode:    boolean;
 }
 
 export interface GetPostsParams {
