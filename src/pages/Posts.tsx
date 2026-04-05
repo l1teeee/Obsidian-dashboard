@@ -24,11 +24,13 @@ const PLATFORM_FILTERS: { value: PlatformId | 'all'; label: string; color?: stri
 export default function Posts() {
   const {
     filteredPosts, inactiveCount,
+    isLoading,
     view, setView,
     search, setSearch,
     statusFilter, setStatusFilter,
     platformFilter, setPlatformFilter,
     pendingAction, requestAction, cancelAction, confirmAction,
+    refresh,
     pageRef,
   } = usePosts();
 
@@ -73,13 +75,23 @@ export default function Posts() {
       <TopBar
         title="Posts"
         actions={
-          <Link
-            to="/composer"
-            className="flex items-center gap-2 px-4 py-1.5 rounded-xl bg-[#d394ff] text-[#2f004d] text-xs font-bold hover:shadow-[0_0_20px_rgba(211,148,255,0.3)] transition-all active:scale-95"
-          >
-            <span className="material-symbols-outlined text-[14px]">add</span>
-            New Post
-          </Link>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => void refresh()}
+              disabled={isLoading}
+              title="Refresh"
+              className="w-8 h-8 flex items-center justify-center rounded-xl border border-[#4c4450]/20 text-[#988d9c] hover:text-white hover:border-[#4c4450]/40 transition-all disabled:opacity-40"
+            >
+              <span className={`material-symbols-outlined text-[16px] ${isLoading ? 'animate-spin' : ''}`}>refresh</span>
+            </button>
+            <Link
+              to="/composer"
+              className="flex items-center gap-2 px-4 py-1.5 rounded-xl bg-[#d394ff] text-[#2f004d] text-xs font-bold hover:shadow-[0_0_20px_rgba(211,148,255,0.3)] transition-all active:scale-95"
+            >
+              <span className="material-symbols-outlined text-[14px]">add</span>
+              New Post
+            </Link>
+          </div>
         }
       />
 

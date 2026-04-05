@@ -16,7 +16,17 @@ interface PostsTableProps {
 const TABLE_HEADERS = ['Content', 'Platform', 'Status', 'Date', 'Time', 'Actions'];
 
 function ActionButtons({ post, view, onAction }: { post: CalendarPost; view: PostsView; onAction: PostsTableProps['onAction'] }) {
-  if (post.status === 'draft') return null;
+  if (post.status === 'draft') {
+    return (
+      <button
+        onClick={e => { e.stopPropagation(); e.preventDefault(); onAction('delete', post); }}
+        title="Delete draft"
+        className="w-7 h-7 flex items-center justify-center rounded-lg border border-transparent text-[#988d9c] hover:bg-[#ffb4ab]/10 hover:border-[#ffb4ab]/20 hover:text-[#ffb4ab] transition-all"
+      >
+        <span className="material-symbols-outlined" style={{ fontSize: 14 }}>delete_forever</span>
+      </button>
+    );
+  }
 
   if (view === 'inactive') {
     return (

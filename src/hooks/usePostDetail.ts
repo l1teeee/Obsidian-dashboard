@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import gsap from 'gsap';
 import * as postsService from '../services/posts.service';
-import type { ApiPost } from '../services/posts.service';
+import type { ApiPost, ApiPostMetrics } from '../services/posts.service';
 
 export function usePostDetail() {
   const navigate   = useNavigate();
@@ -10,10 +10,13 @@ export function usePostDetail() {
   const pageRef    = useRef<HTMLDivElement>(null);
   const resolvedId = id ?? '';
 
-  const [apiPost,  setApiPost]  = useState<ApiPost | null>(null);
-  const [loading,  setLoading]  = useState(true);
-  const [notFound, setNotFound] = useState(false);
+  const [apiPost,        setApiPost]        = useState<ApiPost | null>(null);
+  const [metrics,        setMetrics]        = useState<ApiPostMetrics | null>(null);
+  const [metricsLoading, setMetricsLoading] = useState(false);
+  const [loading,        setLoading]        = useState(true);
+  const [notFound,       setNotFound]       = useState(false);
 
+  // Load post
   useEffect(() => {
     if (!resolvedId) return;
     let cancelled = false;
@@ -26,28 +29,29 @@ export function usePostDetail() {
     return () => { cancelled = true; };
   }, [resolvedId]);
 
+  // Load metrics once post is loaded — backend returns 0s for non-published/non-facebook posts
+  useEffect(() => {
+    if (!apiPost) return;
+    let cancelled = false;
+    setMetricsLoading(true);
+    postsService.getMetrics(resolvedId)
+      .then(m  => { if (!cancelled) setMetrics(m); })
+      .catch(() => { if (!cancelled) setMetrics({ likes: 0, comments: 0, shares: 0, reach: null, impressions: null }); })
+      .finally(() => { if (!cancelled) setMetricsLoading(false); });
+    return () => { cancelled = true; };
+  }, [apiPost, resolvedId]);
+
+  // GSAP entrance
   useEffect(() => {
     if (loading || !apiPost) return;
     const ctx = gsap.context(() => {
-      gsap.from('[data-post-img]',   { scale: 1.04, opacity: 0, duration: 0.7, ease: 'power3.out' });
-      gsap.from('[data-metric]',     { y: 16, opacity: 0, duration: 0.45, stagger: 0.07, ease: 'power2.out', delay: 0.2 });
-      gsap.from('[data-bench-bar]',  { scaleX: 0, duration: 0.9, stagger: 0.12, ease: 'power3.out', delay: 0.4, transformOrigin: 'left center' });
-
-      const circle = document.querySelector<SVGCircleElement>('[data-sentiment-ring]');
-      if (circle) {
-        const dasharray = 364;
-        const offset    = 60;
-        gsap.set(circle, { strokeDasharray: dasharray, strokeDashoffset: dasharray });
-        gsap.to(circle,  { strokeDashoffset: offset, duration: 1.2, ease: 'power2.out', delay: 0.5 });
-      }
-
-      gsap.from('[data-comment]', { y: 10, opacity: 0, duration: 0.4, stagger: 0.1, ease: 'power2.out', delay: 0.35 });
+      gsap.from('[data-post-img]',  { scale: 1.04, opacity: 0, duration: 0.7, ease: 'power3.out' });
+      gsap.from('[data-metric]',    { y: 16, opacity: 0, duration: 0.45, stagger: 0.07, ease: 'power2.out', delay: 0.2 });
     }, pageRef.current!);
-
     return () => ctx.revert();
   }, [loading, apiPost]);
 
   const handleBack = () => navigate(-1);
 
-  return { apiPost, loading, notFound, resolvedId, pageRef, handleBack };
+  return { apiPost, metrics, metricsLoading, loading, notFound, resolvedId, pageRef, handleBack };
 }

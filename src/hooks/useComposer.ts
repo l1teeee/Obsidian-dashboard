@@ -7,14 +7,14 @@ import { uploadFile } from '../services/media.service';
 import { listConnections } from '../services/platforms.service';
 
 const PLATFORM_MAP: Record<ChannelId, string> = {
-  ig: 'meta',
+  ig: 'instagram',
   li: 'linkedin',
-  fb: 'meta',
+  fb: 'facebook',
 };
 
 // Reverse: platform string stored in DB → ChannelId
 const CHANNEL_FROM_PLATFORM: Record<string, ChannelId> = {
-  meta:      'ig',
+  meta:      'ig',  // legacy — old drafts saved as 'meta' default to Instagram
   instagram: 'ig',
   linkedin:  'li',
   facebook:  'fb',
