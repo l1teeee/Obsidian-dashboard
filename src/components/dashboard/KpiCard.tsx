@@ -36,10 +36,10 @@ export default function KpiCard({ kpi, cardRef, countRef }: KpiCardProps) {
       {/* Active Platforms badges */}
       {kpi.type === 'platforms' && (
         <div className="flex items-center gap-1.5 mt-3">
-          {[['IG','#E1306C'],['LI','#0077B5'],['FB','#1877F2']].map(([p, c]) => (
-            <div key={p} className="w-7 h-7 rounded-lg flex items-center justify-center font-bold text-[9px]"
-              style={{ background: c + '33', color: c }}>
-              {p}
+          {(kpi.platforms ?? []).map(({ abbr, color }) => (
+            <div key={abbr} className="w-7 h-7 rounded-lg flex items-center justify-center font-bold text-[9px]"
+              style={{ background: color + '33', color }}>
+              {abbr}
             </div>
           ))}
         </div>
@@ -52,13 +52,16 @@ export default function KpiCard({ kpi, cardRef, countRef }: KpiCardProps) {
         </div>
       )}
 
-      {/* Dot bars (Scheduled Posts) */}
+      {/* Dot bars (Scheduled Posts) — fills based on real count, max 10 = full */}
       {kpi.type === 'dots' && (
         <div className="mt-4 flex gap-1">
-          {[100, 80, 60, 40, 0].map((o, j) => (
-            <div key={j} className="h-1 flex-1 rounded-full"
-              style={{ background: o > 0 ? `rgba(211,148,255,${o / 100})` : '#353534' }} />
-          ))}
+          {Array.from({ length: 5 }, (_, j) => {
+            const filled = kpi.countEnd > j * 2;
+            return (
+              <div key={j} className="h-1 flex-1 rounded-full transition-all duration-500"
+                style={{ background: filled ? '#d394ff' : '#353534' }} />
+            );
+          })}
         </div>
       )}
     </div>

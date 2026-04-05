@@ -15,6 +15,17 @@ interface PostCarouselProps {
   upcomingRefs:  RefObject<(HTMLDivElement | null)[]>;
 }
 
+/** Interpolate between #4c4450 (gray) and #d394ff (purple) based on fill 0–1 */
+function scheduleColor(total: number): string {
+  const MAX  = 10;
+  const fill = Math.min(total / MAX, 1);
+  // gray: rgb(76, 68, 80)  purple: rgb(211, 148, 255)
+  const r = Math.round(76  + (211 - 76)  * fill);
+  const g = Math.round(68  + (148 - 68)  * fill);
+  const b = Math.round(80  + (255 - 80)  * fill);
+  return `rgb(${r},${g},${b})`;
+}
+
 export default function PostCarousel({
   upcoming,
   carouselIdx,
@@ -47,10 +58,8 @@ export default function PostCarousel({
                   {p.abbr}
                 </div>
               </div>
-              <p className="text-[#cfc2d2] text-sm line-clamp-2 mb-4 italic leading-relaxed">{item.caption}</p>
-              <div className="w-full h-24 rounded-2xl overflow-hidden bg-[#1c1b1b]">
-                <img src={item.imageUrl} className="w-full h-full object-cover" alt="" loading="lazy" />
-              </div>
+              <p className="text-[#cfc2d2] text-sm line-clamp-3 italic leading-relaxed">{item.caption || 'No caption'}</p>
+              <div className="mt-4 h-0.5 w-8 rounded-full" style={{ background: scheduleColor(upcoming.length) }} />
             </div>
           );
         })}
@@ -86,10 +95,8 @@ export default function PostCarousel({
                         {p.abbr}
                       </div>
                     </div>
-                    <p className="text-[#cfc2d2] text-sm line-clamp-2 mb-4 italic leading-relaxed">{item.caption}</p>
-                    <div className="w-full h-28 rounded-2xl overflow-hidden bg-[#1c1b1b]">
-                      <img src={item.imageUrl} className="w-full h-full object-cover" alt="" loading="lazy" />
-                    </div>
+                    <p className="text-[#cfc2d2] text-sm line-clamp-3 italic leading-relaxed">{item.caption || 'No caption'}</p>
+                    <div className="mt-4 h-0.5 w-8 rounded-full" style={{ background: scheduleColor(upcoming.length) }} />
                   </div>
                 );
               })}
