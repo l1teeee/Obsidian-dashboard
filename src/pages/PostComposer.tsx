@@ -141,6 +141,27 @@ export default function PostComposer() {
   return (
     <div ref={pageRef} className="h-screen flex flex-col relative overflow-hidden">
 
+      {/* ── Publishing loader ── */}
+      {isSubmitting && !done && (
+        <div className="absolute inset-0 z-[199] flex flex-col items-center justify-center bg-[#0e0e0e]/80 backdrop-blur-sm text-center px-6 animate-in fade-in duration-200">
+          <div className="relative w-16 h-16 mb-6">
+            <svg className="absolute inset-0 animate-spin" viewBox="0 0 64 64" fill="none">
+              <circle cx="32" cy="32" r="28" stroke="#d394ff" strokeWidth="2" strokeLinecap="round"
+                strokeDasharray="44 132" className="opacity-80" />
+            </svg>
+            <div className="absolute inset-0 flex items-center justify-center">
+              <span className="material-symbols-outlined text-[#d394ff] text-[22px]" style={{ fontVariationSettings: "'FILL' 1" }}>
+                {isScheduleMode ? 'schedule_send' : 'rocket_launch'}
+              </span>
+            </div>
+          </div>
+          <p className="text-sm font-semibold text-white">
+            {isScheduleMode ? 'Scheduling…' : 'Publishing…'}
+          </p>
+          <p className="text-xs text-[#988d9c] mt-1">Sending to your connected accounts</p>
+        </div>
+      )}
+
       {/* ── Success overlay ── */}
       <div
         ref={overlayRef}
@@ -203,9 +224,12 @@ export default function PostComposer() {
                 <button
                   onClick={() => handleAction(isScheduleMode ? 'schedule' : 'publish')}
                   disabled={isSubmitting || isSavingDraft}
-                  className="text-sm font-semibold bg-[#d394ff] text-[#5e2388] rounded-xl px-4 md:px-6 py-2 shadow-[0_0_20px_rgba(211,148,255,0.2)] hover:shadow-[0_0_30px_rgba(211,148,255,0.4)] transition-all active:scale-95 disabled:opacity-60"
+                  className="flex items-center gap-2 text-sm font-semibold bg-[#d394ff] text-[#5e2388] rounded-xl px-4 md:px-6 py-2 shadow-[0_0_20px_rgba(211,148,255,0.2)] hover:shadow-[0_0_30px_rgba(211,148,255,0.4)] transition-all active:scale-95 disabled:opacity-60"
                 >
-                  {isSubmitting ? 'Saving…' : isScheduleMode ? 'Schedule' : 'Publish'}
+                  {isSubmitting
+                    ? <><span className="material-symbols-outlined text-[14px] animate-spin">progress_activity</span> {isScheduleMode ? 'Scheduling…' : 'Publishing…'}</>
+                    : isScheduleMode ? 'Schedule' : 'Publish'
+                  }
                 </button>
               </div>
             }

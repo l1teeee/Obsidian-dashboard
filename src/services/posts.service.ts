@@ -2,16 +2,26 @@ import { apiFetch } from '../lib/api';
 import type { PageMeta } from '../lib/api';
 
 export interface ApiPost {
-  id:           string;
-  user_id:      string;
-  platform:     string;
-  post_type:    string;
-  caption:      string | null;
-  media_urls:   string[] | null;
-  status:       string;
-  scheduled_at: string | null;
-  published_at: string | null;
-  created_at:   string;
+  id:               string;
+  user_id:          string;
+  platform:         string;
+  post_type:        string;
+  caption:          string | null;
+  media_urls:       string[] | null;
+  permalink:        string | null;
+  platform_post_id: string | null;
+  status:           string;
+  scheduled_at:     string | null;
+  published_at:     string | null;
+  created_at:       string;
+}
+
+export interface ApiPostMetrics {
+  likes:       number;
+  comments:    number;
+  shares:      number;
+  reach:       number | null;
+  impressions: number | null;
 }
 
 export interface GetPostsParams {
@@ -84,4 +94,9 @@ export async function deactivate(id: string): Promise<ApiPost> {
 
 export async function remove(id: string): Promise<void> {
   await apiFetch(`/posts/${id}`, { method: 'DELETE' });
+}
+
+export async function getMetrics(id: string): Promise<ApiPostMetrics> {
+  const res = await apiFetch<ApiPostMetrics>(`/posts/${id}/metrics`);
+  return res.data;
 }

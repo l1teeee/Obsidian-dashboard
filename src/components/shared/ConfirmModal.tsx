@@ -43,8 +43,11 @@ export default function ConfirmModal({
   };
 
   const handleConfirm = () => {
-    handleClose();
-    setTimeout(onConfirm, 180);
+    gsap.to(overlayRef.current, { opacity: 0, duration: 0.18, ease: 'power2.in' });
+    gsap.to(cardRef.current, {
+      opacity: 0, y: 16, scale: 0.97, duration: 0.18, ease: 'power2.in',
+      onComplete: onConfirm,
+    });
   };
 
   return (

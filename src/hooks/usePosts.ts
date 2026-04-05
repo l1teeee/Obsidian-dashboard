@@ -16,7 +16,10 @@ export interface PendingAction {
 // ─── Mapping ──────────────────────────────────────────────────────────────────
 
 function mapPlatform(platform: string): PlatformId {
-  if (platform === 'linkedin') return 'linkedin';
+  if (platform === 'linkedin')               return 'linkedin';
+  if (platform === 'facebook' || platform === 'meta') return 'facebook';
+  if (platform === 'instagram')              return 'instagram';
+  if (platform === 'youtube')                return 'youtube';
   return 'instagram';
 }
 
