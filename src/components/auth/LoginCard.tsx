@@ -4,7 +4,6 @@ import gsap from 'gsap';
 import { useGSAP } from '../../hooks/useGSAP';
 import { useAuth } from '../../hooks/useAuth';
 import SessionConflictModal from './SessionConflictModal';
-import type { ActiveSession } from '../../services/auth.service';
 
 // Reusable eye toggle SVG
 function EyeIcon({ open }: { open: boolean }) {
@@ -32,7 +31,7 @@ export default function LoginCard() {
   const [rememberMe,       setRememberMe]       = useState(true);
   const [error,            setError]            = useState<string | null>(null);
   const [loading,          setLoading]          = useState(false);
-  const [conflictSessions, setConflictSessions] = useState<ActiveSession[] | null>(null);
+  const [conflictSessions, setConflictSessions] = useState(false);
   const [forceLoading,     setForceLoading]     = useState(false);
 
   const doNavigate = ({ isFirstLogin, profileCompleted }: { isFirstLogin: boolean; profileCompleted: boolean }) => {
@@ -49,7 +48,7 @@ export default function LoginCard() {
     } catch (err) {
       const code = (err as { code?: string }).code;
       if (code === 'SESSION_LIMIT_EXCEEDED') {
-        setConflictSessions((err as { sessions?: ActiveSession[] }).sessions ?? []);
+        setConflictSessions(true);
       } else if (code === 'EMAIL_NOT_VERIFIED') {
         navigate('/check-email', { state: { email } });
       } else {
@@ -67,7 +66,7 @@ export default function LoginCard() {
     try {
       doNavigate(await login(email, password, rememberMe, true));
     } catch {
-      setConflictSessions(null);
+      setConflictSessions(false);
       setError('Something went wrong. Please try again.');
     } finally {
       setForceLoading(false);
@@ -294,10 +293,9 @@ export default function LoginCard() {
 
       {conflictSessions && (
         <SessionConflictModal
-          sessions={conflictSessions}
           loading={forceLoading}
           onConfirm={handleForceLogin}
-          onCancel={() => setConflictSessions(null)}
+          onCancel={() => setConflictSessions(false)}
         />
       )}
     </div>
