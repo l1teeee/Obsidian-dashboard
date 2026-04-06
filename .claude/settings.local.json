@@ -67,7 +67,9 @@
       "WebFetch(domain:www.ayrshare.com)",
       "Bash(ls /c/Obsidian/Claude-brain/proyectos/obsidian-dashboard*)",
       "Bash(bash:*)",
-      "Bash(powershell:*)"
+      "Bash(powershell:*)",
+      "Bash(xargs head:*)",
+      "Bash(xargs tail:*)"
     ]
   }
 }
