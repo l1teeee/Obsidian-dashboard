@@ -48,8 +48,8 @@ export function useCalendar() {
     setLoading(true);
 
     Promise.all([
-      postsService.getAll({ status: 'scheduled',  limit: 200 }),
-      postsService.getAll({ status: 'published',  limit: 200 }),
+      postsService.getAll({ status: 'scheduled',  limit: 100 }),
+      postsService.getAll({ status: 'published',  limit: 100 }),
     ]).then(([scheduled, published]) => {
       if (cancelled) return;
       const all = [...scheduled.posts, ...published.posts]
