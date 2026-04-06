@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react'
 import { useInactivityTimer } from './hooks/useInactivityTimer';
 import SessionWarningModal from './components/shared/SessionWarningModal';
 import CompleteProfile     from './pages/CompleteProfile';
-import { BrowserRouter, Routes, Route, Navigate, useLocation, useNavigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import Lenis from 'lenis';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
@@ -29,6 +29,7 @@ import CreateWorkspace from './pages/CreateWorkspace';
 import LoginCard from './components/auth/LoginCard';
 import RegisterCard from './components/auth/RegisterCard';
 import CheckEmail from './pages/CheckEmail';
+import LandingPage from './pages/LandingPage';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -70,7 +71,7 @@ function LenisProvider({ children }: { children: ReactNode }) {
   return <>{children}</>;
 }
 
-const AUTH_PATHS = ['/login', '/register', '/check-email', '/complete-profile', '/create-workspace'];
+const AUTH_PATHS = ['/', '/login', '/register', '/check-email', '/complete-profile', '/create-workspace'];
 
 // Fires the transition when navigating FROM auth pages TO app pages
 function TransitionDetector({ onTrigger }: { onTrigger: () => void }) {
@@ -180,6 +181,9 @@ export default function App() {
             <RouteTransition active={transition} onDone={doneTransition} />
             <WorkspaceGuard>
               <Routes>
+                {/* Landing page — public */}
+                <Route path="/" element={<LandingPage />} />
+
                 {/* Auth — public */}
                 <Route path="/login"        element={<LoginCard />} />
                 <Route path="/register"     element={<RegisterCard />} />
@@ -197,23 +201,22 @@ export default function App() {
                   <ProtectedRoute><CreateWorkspace /></ProtectedRoute>
                 } />
 
-                {/* Dashboard app — requires auth */}
-                <Route path="/" element={
+                {/* Dashboard app — requires auth (pathless layout, children use absolute paths) */}
+                <Route element={
                   <ProtectedRoute><DashboardLayout /></ProtectedRoute>
                 }>
-                  <Route index element={<Navigate to="/dashboard" replace />} />
-                  <Route path="dashboard"  element={<Dashboard />} />
-                  <Route path="analytics"  element={<Analytics />} />
-                  <Route path="platforms"  element={<Platforms />} />
-                  <Route path="posts"      element={<Posts />} />
-                  <Route path="posts/:id"  element={<PostDetail />} />
-                  <Route path="calendar"   element={<Calendar />} />
-                  <Route path="composer"      element={<PostComposer />} />
-                  <Route path="composer/:id" element={<PostComposer />} />
-                  <Route path="settings"     element={<Settings />} />
-                  <Route path="rivals"      element={<Rivals />} />
-                  <Route path="ai-settings" element={<AISettings />} />
-                  <Route path="profile"     element={<Profile />} />
+                  <Route path="/dashboard"    element={<Dashboard />} />
+                  <Route path="/analytics"    element={<Analytics />} />
+                  <Route path="/platforms"    element={<Platforms />} />
+                  <Route path="/posts"        element={<Posts />} />
+                  <Route path="/posts/:id"    element={<PostDetail />} />
+                  <Route path="/calendar"     element={<Calendar />} />
+                  <Route path="/composer"     element={<PostComposer />} />
+                  <Route path="/composer/:id" element={<PostComposer />} />
+                  <Route path="/settings"     element={<Settings />} />
+                  <Route path="/rivals"       element={<Rivals />} />
+                  <Route path="/ai-settings"  element={<AISettings />} />
+                  <Route path="/profile"      element={<Profile />} />
                 </Route>
               </Routes>
             </WorkspaceGuard>

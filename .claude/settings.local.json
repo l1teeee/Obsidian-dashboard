@@ -47,7 +47,12 @@
       "Bash(node:*)",
       "Bash(cmd:*)",
       "WebFetch(domain:developers.facebook.com)",
-      "WebFetch(domain:medium.com)"
+      "WebFetch(domain:medium.com)",
+      "Bash(sed \"/'use client';/d\" \"C:/Proyects/noir-motion/src/components/obsidian/SocialProof.tsx\")",
+      "Bash(sed \"/'use client';/d\" \"C:/Proyects/noir-motion/src/components/obsidian/PlatformSection.tsx\")",
+      "Bash(sed \"/'use client';/d\" \"C:/Proyects/noir-motion/src/components/obsidian/AnalyticsSection.tsx\")",
+      "Bash(sed \"/'use client';/d\" \"C:/Proyects/noir-motion/src/components/obsidian/ShowcaseSection.tsx\")",
+      "Bash(sed \"/'use client';/d\" \"C:/Proyects/noir-motion/src/components/obsidian/PricingSection.tsx\")"
     ]
   }
 }
