@@ -4,6 +4,7 @@ import gsap from 'gsap';
 import { useLayout } from '../../contexts/LayoutContext';
 import { useWorkspace } from '../../contexts/WorkspaceContext';
 import Modal from '../shared/Modal';
+import { getProfile } from '../../services/users.service';
 
 const NAV_ITEMS = [
   { to: '/dashboard',   icon: 'dashboard',     label: 'Dashboard' },
@@ -30,7 +31,12 @@ export default function Sidebar() {
   const [creating, setCreating]       = useState(false);
   const [newName, setNewName]         = useState('');
   const [logoutModal, setLogoutModal] = useState(false);
+  const [displayName, setDisplayName] = useState<string>('');
   const atLimit = workspaces.length >= 5;
+
+  useEffect(() => {
+    getProfile().then(p => setDisplayName(p.name ?? p.email)).catch(() => {});
+  }, []);
 
   // Entrance animation — desktop only
   useEffect(() => {
@@ -329,7 +335,7 @@ export default function Sidebar() {
             </div>
           </div>
           <div className={`flex-1 overflow-hidden transition-all duration-300 text-left ${isOpen ? 'max-w-[120px] opacity-100' : 'max-w-0 opacity-0'}`}>
-            <p className="text-sm font-bold text-white leading-tight font-headline whitespace-nowrap">Alex Rivera</p>
+            <p className="text-sm font-bold text-white leading-tight font-headline whitespace-nowrap">{displayName || '—'}</p>
             <p className="text-[10px] text-[#988d9c] uppercase tracking-widest whitespace-nowrap">Pro Plan</p>
           </div>
           {/* Chevron — only when expanded */}

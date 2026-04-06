@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import gsap from 'gsap';
 import { sileo } from 'sileo';
 import * as platformsService from '../services/platforms.service';
-import type { SocialConnection } from '../services/platforms.service';
+import type { SocialConnection } from '../types/platforms.types';
 
 export type { SocialConnection };
 

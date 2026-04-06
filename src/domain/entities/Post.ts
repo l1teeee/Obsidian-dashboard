@@ -3,15 +3,16 @@ import type { PlatformId } from './Platform';
 export type PostStatus = 'published' | 'scheduled' | 'draft' | 'failed' | 'inactive' | 'deleted';
 
 export interface PostSummary {
-  id:       string;
-  title:    string;
-  platform: PlatformId;
-  status:   PostStatus;
-  date:     string;
-  imageUrl: string;
-  likes:    string;
-  comments: string;
-  shares:   string;
+  id:            string;
+  title:         string;
+  platform:      PlatformId;
+  status:        PostStatus;
+  date:          string;
+  imageUrl:      string;
+  likes:         string;
+  comments:      string;
+  shares:        string;
+  externalHref?: string;
 }
 
 export interface PostMetric {
