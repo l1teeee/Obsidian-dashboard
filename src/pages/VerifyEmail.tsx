@@ -9,7 +9,7 @@ type Status = 'verifying' | 'success' | 'error';
 export default function VerifyEmail() {
   const [searchParams]  = useSearchParams();
   const navigate        = useNavigate();
-  const { verifyEmail } = useAuth();
+  const { verifyEmailToken } = useAuth();
   const token           = searchParams.get('token') ?? '';
 
   const [status,  setStatus]  = useState<Status>('verifying');
@@ -31,7 +31,7 @@ export default function VerifyEmail() {
       return;
     }
 
-    void verifyEmail(token)
+    void verifyEmailToken(token)
       .then(({ profileCompleted }) => {
         destination.current = profileCompleted ? '/dashboard' : '/complete-profile';
         setStatus('success');

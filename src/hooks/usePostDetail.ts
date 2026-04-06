@@ -36,7 +36,7 @@ export function usePostDetail() {
     setMetricsLoading(true);
     postsService.getMetrics(resolvedId)
       .then(m  => { if (!cancelled) setMetrics(m); })
-      .catch(() => { if (!cancelled) setMetrics({ likes: 0, comments: 0, shares: 0, reach: null, impressions: null }); })
+      .catch(() => { if (!cancelled) setMetrics({ likes: 0, comments: 0, shares: 0, reach: null, impressions: null, clicks: null, dev_mode: false }); })
       .finally(() => { if (!cancelled) setMetricsLoading(false); });
     return () => { cancelled = true; };
   }, [apiPost, resolvedId]);

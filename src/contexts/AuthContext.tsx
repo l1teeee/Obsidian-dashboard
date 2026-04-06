@@ -25,6 +25,7 @@ interface AuthCtx {
   login:                (email: string, password: string, rememberMe?: boolean) => Promise<{ isFirstLogin: boolean; profileCompleted: boolean }>;
   register:             (email: string, password: string) => Promise<authService.RegisterResult>;
   verifyEmail:          (email: string, code: string) => Promise<{ isFirstLogin: boolean; profileCompleted: boolean }>;
+  verifyEmailToken:     (token: string) => Promise<{ isFirstLogin: boolean; profileCompleted: boolean }>;
   logout:               () => Promise<void>;
   markProfileCompleted: () => Promise<void>;
 }
@@ -104,6 +105,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return { isFirstLogin: tokens.isFirstLogin, profileCompleted: u?.profileCompleted ?? false };
   }, []);
 
+  const verifyEmailToken = useCallback(async (token: string) => {
+    const tokens = await authService.verifyEmailByToken(token);
+    applyTokenPair(tokens);
+    const u = decodeUser(tokens.accessToken);
+    setUser(u);
+    return { isFirstLogin: tokens.isFirstLogin, profileCompleted: u?.profileCompleted ?? false };
+  }, []);
+
   // Called by CompleteProfile after a successful PUT /users/me.
   // Refreshes the access token (backend now returns pc:1) and updates user state.
   const markProfileCompleted = useCallback(async () => {
@@ -123,7 +132,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated: !!user, isLoading, login, register, verifyEmail, logout, markProfileCompleted }}>
+    <AuthContext.Provider value={{ user, isAuthenticated: !!user, isLoading, login, register, verifyEmail, verifyEmailToken, logout, markProfileCompleted }}>
       {children}
     </AuthContext.Provider>
   );

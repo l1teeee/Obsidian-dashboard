@@ -78,7 +78,7 @@ export default function AddPlatformModal({
   onConnectInstagramDirect,
 }: AddPlatformModalProps) {
   const [step,   setStep]   = useState<ModalStep>('list');
-  const [igType, setIgType] = useState<IgAccountType | null>(null);
+  const [_igType, setIgType] = useState<IgAccountType | null>(null);
 
   useEffect(() => {
     if (!open) { setStep('list'); setIgType(null); }

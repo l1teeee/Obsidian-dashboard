@@ -32,7 +32,7 @@ export default function RegisterCard() {
   const [confirm,     setConfirm]     = useState('');
   const [error,       setError]       = useState<string | null>(null);
   const [loading,     setLoading]     = useState(false);
-  const [success,     setSuccess]     = useState(false);
+  const [success] = useState(false);
   const [showPass,    setShowPass]    = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
 
@@ -56,7 +56,6 @@ export default function RegisterCard() {
   const successRef     = useRef<HTMLDivElement>(null);
   const checkCircleRef = useRef<SVGCircleElement>(null);
   const checkPathRef   = useRef<SVGPathElement>(null);
-  const destination    = useRef('/create-workspace');
 
   // ── Entrance animation (step 1) ────────────────────────────────────────────
   const containerRef = useGSAP<HTMLDivElement>(() => {
@@ -114,43 +113,6 @@ export default function RegisterCard() {
         gsap.to(card, { height: 'auto', duration: 0.32, ease: 'power2.inOut' });
         gsap.to(s1,   { opacity: 1, y: 0, duration: 0.32, ease: 'power2.out' });
       },
-    });
-  };
-
-  // ── Success animation ──────────────────────────────────────────────────────
-  const playSuccess = (dest: string) => {
-    destination.current = dest;
-    setSuccess(true);
-
-    requestAnimationFrame(() => {
-      const form    = formRef.current;
-      const success = successRef.current;
-      const card    = cardRef.current;
-      // Release any locked height before the success animation
-      if (card) gsap.set(card, { height: 'auto' });
-      const circle  = checkCircleRef.current;
-      const path    = checkPathRef.current;
-      if (!form || !success || !card || !circle || !path) return;
-
-      gsap.set(success, { opacity: 0, scale: 0.88, display: 'flex' });
-
-      const circleLen = circle.getTotalLength?.() ?? 163;
-      const pathLen   = path.getTotalLength?.() ?? 30;
-      gsap.set(circle, { strokeDasharray: circleLen, strokeDashoffset: circleLen });
-      gsap.set(path,   { strokeDasharray: pathLen,   strokeDashoffset: pathLen   });
-
-      const tl = gsap.timeline({ onComplete: () => { navigate(destination.current); } });
-      tl.to(form,    { opacity: 0, y: -12, duration: 0.3, ease: 'power2.in' })
-        .to(card,    { scale: 0.97, duration: 0.25, ease: 'power2.in' }, '<')
-        .to(card,    { scale: 1, duration: 0.45, ease: 'back.out(1.8)' })
-        .to(success, { opacity: 1, scale: 1, duration: 0.4, ease: 'back.out(1.4)' }, '-=0.3')
-        .to('[data-orb="1"]', { opacity: 1, scale: 1.3, duration: 0.6, ease: 'power2.out' }, '-=0.2')
-        .to('[data-orb="2"]', { opacity: 1, scale: 1.3, duration: 0.6, ease: 'power2.out' }, '<')
-        .to(circle,  { strokeDashoffset: 0, duration: 0.55, ease: 'power2.inOut' }, '-=0.3')
-        .to(path,    { strokeDashoffset: 0, duration: 0.35, ease: 'power2.out' }, '-=0.1')
-        .to('[data-check-icon]', { filter: 'drop-shadow(0 0 18px rgba(211,148,255,0.9))', duration: 0.4, ease: 'power2.out' }, '-=0.1')
-        .from('[data-success-text]', { opacity: 0, y: 10, duration: 0.4, stagger: 0.1, ease: 'power2.out' }, '-=0.2')
-        .to({}, { duration: 1.2 });
     });
   };
 
