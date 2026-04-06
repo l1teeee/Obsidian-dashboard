@@ -52,7 +52,19 @@
       "Bash(sed \"/'use client';/d\" \"C:/Proyects/noir-motion/src/components/obsidian/PlatformSection.tsx\")",
       "Bash(sed \"/'use client';/d\" \"C:/Proyects/noir-motion/src/components/obsidian/AnalyticsSection.tsx\")",
       "Bash(sed \"/'use client';/d\" \"C:/Proyects/noir-motion/src/components/obsidian/ShowcaseSection.tsx\")",
-      "Bash(sed \"/'use client';/d\" \"C:/Proyects/noir-motion/src/components/obsidian/PricingSection.tsx\")"
+      "Bash(sed \"/'use client';/d\" \"C:/Proyects/noir-motion/src/components/obsidian/PricingSection.tsx\")",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:support.agorapulse.com)",
+      "WebFetch(domain:ppc.land)",
+      "WebFetch(domain:docs.supermetrics.com)",
+      "WebFetch(domain:help.coupler.io)",
+      "WebFetch(domain:www.sprinklr.com)",
+      "WebFetch(domain:community-forums.domo.com)",
+      "WebFetch(domain:docs.emplifi.io)",
+      "WebFetch(domain:mobilemarketingreads.com)",
+      "WebFetch(domain:fivetran.com)",
+      "WebFetch(domain:databox.com)",
+      "WebFetch(domain:www.ayrshare.com)"
     ]
   }
 }
