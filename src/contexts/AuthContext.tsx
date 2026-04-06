@@ -7,7 +7,7 @@ import {
   useState,
   type ReactNode,
 } from 'react';
-import { setAccessToken, refreshTokens, hasSessionCookie } from '../lib/api';
+import { apiFetch, setAccessToken, refreshTokens, hasSessionCookie } from '../lib/api';
 import * as authService from '../services/auth.service';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
