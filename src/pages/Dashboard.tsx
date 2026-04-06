@@ -8,7 +8,7 @@ import { useDashboard } from '../hooks/useDashboard';
 
 export default function Dashboard() {
   const {
-    kpiCards, upcoming, recentPosts, loaded,
+    kpiCards, upcoming, recentPosts, loaded, refreshing, refresh,
     carouselIdx, setCarouselIdx, scrollCarousel, pageCount, visible, maxIdx,
     heroRef, kpiRefs, countRefs, upcomingRefs, postRefs, carouselRef, containerRef,
   } = useDashboard();
@@ -154,9 +154,23 @@ export default function Dashboard() {
           <section className="space-y-4">
             <div className="flex items-center justify-between mb-2">
               <h3 className="font-headline text-2xl font-bold text-white tracking-tight">Recent Engagement</h3>
-              <Link to="/composer" className="bg-[#d394ff] text-[#5e2388] px-4 py-1.5 rounded-full text-xs font-bold">
-                New Post
-              </Link>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={refresh}
+                  disabled={refreshing}
+                  title="Refresh metrics"
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-[#4c4450]/20 text-[#988d9c] hover:text-white hover:border-[#4c4450]/40 transition-all text-xs disabled:opacity-50"
+                >
+                  <span
+                    className={`material-symbols-outlined ${refreshing ? 'animate-spin' : ''}`}
+                    style={{ fontSize: 14 }}
+                  >refresh</span>
+                  {refreshing ? 'Updating…' : 'Refresh'}
+                </button>
+                <Link to="/composer" className="bg-[#d394ff] text-[#5e2388] px-4 py-1.5 rounded-full text-xs font-bold">
+                  New Post
+                </Link>
+              </div>
             </div>
             <div className="space-y-3">
               {recentPosts.length === 0 ? (

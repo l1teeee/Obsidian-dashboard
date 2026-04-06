@@ -120,13 +120,14 @@ export function useDashboard() {
 
   const [carouselIdx, setCarouselIdx] = useState(0);
   const [loaded,      setLoaded]      = useState(false);
+  const [refreshing,  setRefreshing]  = useState(false);
 
   const [kpiCards,    setKpiCards]    = useState<KpiCard[]>(buildKpiCards(0, null));
   const [upcoming,    setUpcoming]    = useState<UpcomingPost[]>([]);
   const [recentPosts, setRecentPosts] = useState<PostSummary[]>([]);
 
   // ── Fetch real data ─────────────────────────────────────────────────────────
-  useEffect(() => {
+  const fetchData = (onDone?: () => void) => {
     let cancelled = false;
 
     Promise.all([
@@ -135,17 +136,26 @@ export function useDashboard() {
       metricsService.getFacebookPosts().catch(() => []),
     ]).then(([scheduledPage, summary, fbPosts]) => {
       if (cancelled) return;
-
       setRecentPosts(fbPosts.slice(0, 5).map(mapFbPostToSummary));
       setUpcoming(scheduledPage.posts.map(mapToUpcomingPost));
       setKpiCards(buildKpiCards(scheduledPage.meta.total, summary));
       setLoaded(true);
     }).catch(() => {
       if (!cancelled) setLoaded(true);
+    }).finally(() => {
+      if (!cancelled) onDone?.();
     });
 
     return () => { cancelled = true; };
-  }, []);
+  };
+
+  useEffect(() => fetchData(), []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const refresh = () => {
+    if (refreshing) return;
+    setRefreshing(true);
+    fetchData(() => setRefreshing(false));
+  };
 
   const pageCount = Math.max(1, Math.ceil(upcoming.length / VISIBLE));
   const maxIdx    = pageCount - 1;
@@ -212,6 +222,8 @@ export function useDashboard() {
     upcoming,
     recentPosts,
     loaded,
+    refreshing,
+    refresh,
     carouselIdx,
     setCarouselIdx,
     scrollCarousel,
