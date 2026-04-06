@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
-const IDLE_MS      = 60_000;   // 1 minute idle → show warning
-const COUNTDOWN_S  = 30;       // 30 seconds to respond before logout
+const IDLE_MS      = 600_000;  // 10 minutes idle → show warning
+const COUNTDOWN_S  = 60;       // 60 seconds to respond before logout
 
 const ACTIVITY_EVENTS: (keyof WindowEventMap)[] = [
   'mousemove', 'mousedown', 'keydown', 'scroll', 'touchstart', 'wheel',
