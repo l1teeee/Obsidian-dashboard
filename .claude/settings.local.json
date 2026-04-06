@@ -64,7 +64,10 @@
       "WebFetch(domain:mobilemarketingreads.com)",
       "WebFetch(domain:fivetran.com)",
       "WebFetch(domain:databox.com)",
-      "WebFetch(domain:www.ayrshare.com)"
+      "WebFetch(domain:www.ayrshare.com)",
+      "Bash(ls /c/Obsidian/Claude-brain/proyectos/obsidian-dashboard*)",
+      "Bash(bash:*)",
+      "Bash(powershell:*)"
     ]
   }
 }
