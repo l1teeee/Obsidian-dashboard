@@ -52,7 +52,7 @@ export default function CheckEmail() {
       gsap.set(circle, { strokeDasharray: circleLen, strokeDashoffset: circleLen });
       gsap.set(path,   { strokeDasharray: pathLen,   strokeDashoffset: pathLen   });
 
-      gsap.timeline({ onComplete: () => navigate(dest, { replace: true }) })
+      gsap.timeline({ onComplete: () => { navigate(dest, { replace: true }); } })
         .to(form,    { opacity: 0, y: -12, duration: 0.28, ease: 'power2.in' })
         .to(succ,    { opacity: 1, scale: 1, duration: 0.38, ease: 'back.out(1.4)' }, '-=0.1')
         .to(circle,  { strokeDashoffset: 0, duration: 0.5, ease: 'power2.inOut' }, '-=0.2')

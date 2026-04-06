@@ -15,6 +15,7 @@ interface Rival {
   following:   number;
   posts:       number;
   trackedUrls: string[];
+  isMe?:       boolean;
 }
 
 // ─── localStorage helpers ─────────────────────────────────────────────────────

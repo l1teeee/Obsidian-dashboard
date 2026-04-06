@@ -35,6 +35,14 @@ export async function verifyEmail(email: string, code: string): Promise<TokenPai
   return res.data;
 }
 
+export async function verifyEmailByToken(token: string): Promise<TokenPair> {
+  const res = await apiFetch<TokenPair>('/auth/verify-email-token', {
+    method: 'POST',
+    body: JSON.stringify({ token }),
+  });
+  return res.data;
+}
+
 export async function resendVerification(email: string): Promise<{ devVerifyToken?: string }> {
   const res = await apiFetch<{ devVerifyToken?: string }>('/auth/resend-verification', {
     method: 'POST',

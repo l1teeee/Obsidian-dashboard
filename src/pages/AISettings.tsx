@@ -179,8 +179,11 @@ export default function AISettings() {
     }
   };
 
+  type FieldDef = { key: keyof AiSettingsData; label: string; icon: string; description: string; placeholder: string; multiline?: boolean; rows?: number };
+  type SectionDef = { title: string; icon: string; fields: FieldDef[] };
+
   // Sections config — drives both view and edit render
-  const sections = [
+  const sections: SectionDef[] = [
     {
       title: 'Brand Identity',
       icon:  'badge',
