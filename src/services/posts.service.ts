@@ -50,8 +50,10 @@ export async function deactivate(id: string): Promise<ApiPost> {
   return res.data;
 }
 
-export async function remove(id: string): Promise<void> {
-  await apiFetch(`/posts/${id}`, { method: 'DELETE' });
+export async function remove(id: string, removeFromPlatform = false): Promise<{ fbDeleteFailed?: boolean }> {
+  const qs  = removeFromPlatform ? '?removeFromPlatform=true' : '';
+  const res = await apiFetch<{ fbDeleteFailed?: boolean }>(`/posts/${id}${qs}`, { method: 'DELETE' });
+  return res.data ?? {};
 }
 
 export async function getMetrics(id: string): Promise<ApiPostMetrics> {

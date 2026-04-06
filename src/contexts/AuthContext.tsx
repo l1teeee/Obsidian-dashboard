@@ -22,7 +22,7 @@ interface AuthCtx {
   user:                 AuthUser | null;
   isAuthenticated:      boolean;
   isLoading:            boolean;
-  login:                (email: string, password: string, rememberMe?: boolean) => Promise<{ isFirstLogin: boolean; profileCompleted: boolean }>;
+  login:                (email: string, password: string, rememberMe?: boolean, force?: boolean) => Promise<{ isFirstLogin: boolean; profileCompleted: boolean }>;
   register:             (email: string, password: string) => Promise<authService.RegisterResult>;
   verifyEmail:          (email: string, code: string) => Promise<{ isFirstLogin: boolean; profileCompleted: boolean }>;
   verifyEmailToken:     (token: string) => Promise<{ isFirstLogin: boolean; profileCompleted: boolean }>;
@@ -84,12 +84,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return () => window.removeEventListener('auth:session-expired', handle);
   }, []);
 
-  const login = useCallback(async (email: string, password: string, rememberMe?: boolean) => {
-    const tokens = await authService.login(email, password, rememberMe);
-    applyTokenPair(tokens);
-    const u = decodeUser(tokens.accessToken);
+  const login = useCallback(async (email: string, password: string, rememberMe?: boolean, force?: boolean) => {
+    const result = await authService.login(email, password, rememberMe, force);
+    if ('conflict' in result) {
+      // Bubble up so LoginCard can show the session conflict modal
+      throw Object.assign(new Error('SESSION_LIMIT_EXCEEDED'), { code: 'SESSION_LIMIT_EXCEEDED', sessions: result.active_sessions });
+    }
+    applyTokenPair(result);
+    const u = decodeUser(result.accessToken);
     setUser(u);
-    return { isFirstLogin: tokens.isFirstLogin, profileCompleted: u?.profileCompleted ?? false };
+    return { isFirstLogin: result.isFirstLogin, profileCompleted: u?.profileCompleted ?? false };
   }, []);
 
   const register = useCallback(async (email: string, password: string) => {

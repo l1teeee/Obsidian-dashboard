@@ -3,6 +3,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import gsap from 'gsap';
 import { useGSAP } from '../../hooks/useGSAP';
 import { useAuth } from '../../hooks/useAuth';
+import SessionConflictModal from './SessionConflictModal';
+import type { ActiveSession } from '../../services/auth.service';
 
 // Reusable eye toggle SVG
 function EyeIcon({ open }: { open: boolean }) {
@@ -24,27 +26,31 @@ export default function LoginCard() {
   const navigate = useNavigate();
   const { login } = useAuth();
 
-  const [email,      setEmail]      = useState('');
-  const [password,   setPassword]   = useState('');
-  const [showPass,   setShowPass]   = useState(false);
-  const [rememberMe, setRememberMe] = useState(true);
-  const [error,      setError]      = useState<string | null>(null);
-  const [loading,    setLoading]    = useState(false);
+  const [email,            setEmail]            = useState('');
+  const [password,         setPassword]         = useState('');
+  const [showPass,         setShowPass]         = useState(false);
+  const [rememberMe,       setRememberMe]       = useState(true);
+  const [error,            setError]            = useState<string | null>(null);
+  const [loading,          setLoading]          = useState(false);
+  const [conflictSessions, setConflictSessions] = useState<ActiveSession[] | null>(null);
+  const [forceLoading,     setForceLoading]     = useState(false);
+
+  const doNavigate = ({ isFirstLogin, profileCompleted }: { isFirstLogin: boolean; profileCompleted: boolean }) => {
+    if (!profileCompleted) navigate('/complete-profile');
+    else navigate(isFirstLogin ? '/create-workspace' : '/dashboard');
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
     setLoading(true);
     try {
-      const { isFirstLogin, profileCompleted } = await login(email, password, rememberMe);
-      if (!profileCompleted) {
-        navigate('/complete-profile');
-      } else {
-        navigate(isFirstLogin ? '/create-workspace' : '/dashboard');
-      }
+      doNavigate(await login(email, password, rememberMe));
     } catch (err) {
       const code = (err as { code?: string }).code;
-      if (code === 'EMAIL_NOT_VERIFIED') {
+      if (code === 'SESSION_LIMIT_EXCEEDED') {
+        setConflictSessions((err as { sessions?: ActiveSession[] }).sessions ?? []);
+      } else if (code === 'EMAIL_NOT_VERIFIED') {
         navigate('/check-email', { state: { email } });
       } else {
         setError(code === 'INVALID_CREDENTIALS'
@@ -53,6 +59,18 @@ export default function LoginCard() {
       }
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleForceLogin = async () => {
+    setForceLoading(true);
+    try {
+      doNavigate(await login(email, password, rememberMe, true));
+    } catch {
+      setConflictSessions(null);
+      setError('Something went wrong. Please try again.');
+    } finally {
+      setForceLoading(false);
     }
   };
 
@@ -273,6 +291,15 @@ export default function LoginCard() {
           </Link>
         </p>
       </div>
+
+      {conflictSessions && (
+        <SessionConflictModal
+          sessions={conflictSessions}
+          loading={forceLoading}
+          onConfirm={handleForceLogin}
+          onCancel={() => setConflictSessions(null)}
+        />
+      )}
     </div>
   );
 }
