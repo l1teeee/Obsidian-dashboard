@@ -84,6 +84,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return () => window.removeEventListener('auth:session-expired', handle);
   }, []);
 
+  // Poll /auth/ping every 15s while authenticated.
+  // If the server returns 401 (SESSION_REVOKED), apiFetch dispatches auth:session-expired.
+  useEffect(() => {
+    if (!user) return;
+    const id = setInterval(() => {
+      void apiFetch('/auth/ping').catch(() => { /* handled by apiFetch */ });
+    }, 15_000);
+    return () => clearInterval(id);
+  }, [user]);
+
   const login = useCallback(async (email: string, password: string, rememberMe?: boolean, force?: boolean) => {
     const result = await authService.login(email, password, rememberMe, force);
     if ('conflict' in result) {
