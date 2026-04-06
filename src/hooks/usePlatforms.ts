@@ -42,7 +42,8 @@ export function usePlatforms() {
     try {
       const data = await platformsService.listConnections();
       setConnections(data);
-    } catch {
+    } catch (err) {
+      if ((err as { status?: number }).status === 401) return; // handled globally by auth:session-expired
       sileo.error({ title: 'Could not load connections', description: 'Check your connection and try again.' });
     } finally {
       setLoading(false);
