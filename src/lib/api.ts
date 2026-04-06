@@ -102,6 +102,11 @@ export async function apiFetch<T>(
       throw Object.assign(new Error('Session expired'), { code: 'SESSION_EXPIRED', status: 401 });
     }
 
+    // Any other 401 (SESSION_REVOKED, UNAUTHORIZED) → kick out immediately
+    if (res.status === 401) {
+      window.dispatchEvent(new CustomEvent('auth:session-expired'));
+    }
+
     throw Object.assign(new Error(json.error?.message ?? 'Request failed'), {
       code:   json.error?.code ?? 'API_ERROR',
       status: res.status,
