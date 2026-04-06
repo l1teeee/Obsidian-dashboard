@@ -35,7 +35,7 @@ function formatDate(iso: string | null | undefined): string {
 }
 
 export default function PostDetail() {
-  const { apiPost, metrics, metricsLoading, loading, notFound, resolvedId, pageRef, handleBack } = usePostDetail();
+  const { apiPost, metrics, metricsLoading, metricsRefreshing, refreshMetrics, loading, notFound, resolvedId, pageRef, handleBack } = usePostDetail();
   const navigate     = useNavigate();
   const menuRef      = useRef<HTMLDivElement>(null);
   const [menuOpen,   setMenuOpen]   = useState(false);
@@ -143,6 +143,22 @@ export default function PostDetail() {
             </button>
 
             {postStatus && <StatusBadge status={postStatus} />}
+
+            {/* Refresh metrics */}
+            {postStatus === 'published' && (
+              <button
+                onClick={refreshMetrics}
+                disabled={metricsRefreshing}
+                title="Refresh metrics"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-[#4c4450]/20 text-[#988d9c] hover:text-white hover:border-[#4c4450]/40 transition-all text-xs disabled:opacity-50"
+              >
+                <span
+                  className={`material-symbols-outlined ${metricsRefreshing ? 'animate-spin' : ''}`}
+                  style={{ fontSize: 14 }}
+                >refresh</span>
+                {metricsRefreshing ? 'Updating…' : 'Refresh'}
+              </button>
+            )}
 
             {/* Open post link */}
             {apiPost?.permalink && postStatus === 'published' && (

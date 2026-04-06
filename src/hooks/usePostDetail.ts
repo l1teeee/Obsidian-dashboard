@@ -10,11 +10,12 @@ export function usePostDetail() {
   const pageRef    = useRef<HTMLDivElement>(null);
   const resolvedId = id ?? '';
 
-  const [apiPost,        setApiPost]        = useState<ApiPost | null>(null);
-  const [metrics,        setMetrics]        = useState<ApiPostMetrics | null>(null);
-  const [metricsLoading, setMetricsLoading] = useState(false);
-  const [loading,        setLoading]        = useState(true);
-  const [notFound,       setNotFound]       = useState(false);
+  const [apiPost,          setApiPost]          = useState<ApiPost | null>(null);
+  const [metrics,          setMetrics]          = useState<ApiPostMetrics | null>(null);
+  const [metricsLoading,   setMetricsLoading]   = useState(false);
+  const [metricsRefreshing, setMetricsRefreshing] = useState(false);
+  const [loading,          setLoading]          = useState(true);
+  const [notFound,         setNotFound]         = useState(false);
 
   // Load post
   useEffect(() => {
@@ -51,7 +52,16 @@ export function usePostDetail() {
     return () => ctx.revert();
   }, [loading, apiPost]);
 
+  const refreshMetrics = () => {
+    if (metricsRefreshing || !resolvedId) return;
+    setMetricsRefreshing(true);
+    postsService.getMetrics(resolvedId)
+      .then(m  => setMetrics(m))
+      .catch(() => {})
+      .finally(() => setMetricsRefreshing(false));
+  };
+
   const handleBack = () => navigate(-1);
 
-  return { apiPost, metrics, metricsLoading, loading, notFound, resolvedId, pageRef, handleBack };
+  return { apiPost, metrics, metricsLoading, metricsRefreshing, refreshMetrics, loading, notFound, resolvedId, pageRef, handleBack };
 }
