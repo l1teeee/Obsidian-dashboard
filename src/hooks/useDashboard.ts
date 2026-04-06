@@ -1,12 +1,11 @@
 import { useRef, useState, useEffect } from 'react';
 import gsap from 'gsap';
 import * as postsService from '../services/posts.service';
-import * as platformsService from '../services/platforms.service';
-import { getTokenExpiryInfo } from './usePlatforms';
+import * as metricsService from '../services/metrics.service';
+import type { FacebookSummary } from '../services/metrics.service';
 import { PLATFORM_REGISTRY } from '../domain/entities/Platform';
 import type { PlatformId } from '../domain/entities/Platform';
 import type { PostSummary, UpcomingPost } from '../domain/entities/Post';
-import type { ConnectedPlatform } from '../domain/entities/Platform';
 
 export interface KpiCard {
   label:      string;
@@ -68,66 +67,45 @@ function mapToUpcomingPost(post: postsService.ApiPost): UpcomingPost {
   };
 }
 
-function mapToPlatformHealth(conn: platformsService.SocialConnection): ConnectedPlatform {
-  const pid      = toPlatformId(conn.platform);
-  const reg      = PLATFORM_REGISTRY[pid];
-  const expiry   = getTokenExpiryInfo(conn.token_expires_at);
-  const status   = expiry.isExpired ? 'needs-reauth' : 'connected';
-  const handle   = conn.page_name ?? conn.account_name;
-  const syncInfo = expiry.isExpired
-    ? 'Token expired — reconnect'
-    : expiry.isWarning
-      ? `Expires in ${expiry.daysLeft} day${expiry.daysLeft === 1 ? '' : 's'}`
-      : `Connected · ${new Date(conn.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}`;
-
-  const scopeLabels: Record<string, string> = {
-    pages_read_engagement:  'Page Engagement',
-    pages_manage_posts:     'Manage Posts',
-    pages_show_list:        'Page List',
-    read_insights:          'Insights',
-    instagram_basic:        'IG Basic',
-  };
-  const permissions = conn.scopes
-    .split(',')
-    .map(s => scopeLabels[s.trim()] ?? s.trim())
-    .filter(Boolean);
-
-  return {
-    ...reg,
-    status,
-    handle,
-    syncInfo,
-    permissions,
-    ...(pid === 'instagram' ? { gradientClass: 'bg-gradient-to-tr from-[#f09433] via-[#e6683c] to-[#bc1888]' } : {}),
-  };
-}
 
 function buildKpiCards(
   scheduledCount: number,
-  connections: platformsService.SocialConnection[],
+  summary: FacebookSummary | null,
 ): KpiCard[] {
-  const platformBadges = connections.map(c => ({
-    abbr:  PLATFORM_REGISTRY[toPlatformId(c.platform)]?.abbr ?? c.platform.slice(0, 2).toUpperCase(),
-    color: PLATFORM_REGISTRY[toPlatformId(c.platform)]?.color ?? '#988d9c',
-  }));
+  const reach          = summary?.reach_30d          ?? null;
+  const engagedUsers   = summary?.engaged_users_30d  ?? null;
+  const engagementRate = (reach && reach > 0 && engagedUsers !== null)
+    ? Math.round((engagedUsers / reach) * 100)
+    : null;
 
   return [
     {
-      label: 'Total Reach',     display: '—', countEnd: 0, isFloat: false, suffix: '',
-      delta: null, positive: null, bar: null, barColor: '#d394ff', glow: 'rgba(211,148,255,0.5)', type: 'bar',
+      label: 'Total Reach',
+      display:  reach !== null ? reach.toLocaleString() : '—',
+      countEnd: reach ?? 0, isFloat: false, suffix: '',
+      delta:    summary ? `${summary.impressions_30d.toLocaleString()} impressions` : null,
+      positive: null,
+      bar:      reach !== null ? Math.min(100, reach / 10) : null,
+      barColor: '#d394ff', glow: 'rgba(211,148,255,0.5)', type: 'bar',
     },
     {
-      label: 'Engagement Rate', display: '—', countEnd: 0, isFloat: false, suffix: '',
-      delta: null, positive: null, bar: null, barColor: '#9400e4', glow: 'rgba(148,0,228,0.5)',   type: 'bar',
+      label: 'Engagement Rate',
+      display:  engagementRate !== null ? `${engagementRate}%` : '—',
+      countEnd: engagementRate ?? 0, isFloat: false, suffix: '%',
+      delta:    engagedUsers !== null ? `${engagedUsers} interactions` : null,
+      positive: engagementRate !== null && engagementRate > 0,
+      bar:      engagementRate !== null ? Math.min(100, engagementRate * 2) : null,
+      barColor: '#9400e4', glow: 'rgba(148,0,228,0.5)', type: 'bar',
     },
     {
       label: 'Scheduled Posts', display: String(scheduledCount), countEnd: scheduledCount, isFloat: false, suffix: '',
       delta: 'upcoming', positive: null, bar: null, barColor: '', glow: '', type: 'dots',
     },
     {
-      label: 'Active Platforms', display: String(connections.length), countEnd: connections.length, isFloat: false, suffix: '',
-      delta: null, positive: null, bar: null, barColor: '', glow: '', type: 'platforms',
-      platforms: platformBadges,
+      label: 'FB Fans',
+      display:  summary ? summary.fan_count.toLocaleString() : '—',
+      countEnd: summary?.fan_count ?? 0, isFloat: false, suffix: '',
+      delta: null, positive: null, bar: null, barColor: '', glow: '', type: 'dots',
     },
   ];
 }
@@ -140,17 +118,15 @@ export function useDashboard() {
   const countRefs    = useRef<(HTMLSpanElement | null)[]>([]);
   const upcomingRefs = useRef<(HTMLDivElement | null)[]>([]);
   const postRefs     = useRef<(HTMLAnchorElement | null)[]>([]);
-  const platformRefs = useRef<(HTMLDivElement | null)[]>([]);
   const carouselRef  = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
   const [carouselIdx, setCarouselIdx] = useState(0);
   const [loaded,      setLoaded]      = useState(false);
 
-  const [kpiCards,        setKpiCards]        = useState<KpiCard[]>(buildKpiCards(0, []));
-  const [upcoming,        setUpcoming]        = useState<UpcomingPost[]>([]);
-  const [recentPosts,     setRecentPosts]     = useState<PostSummary[]>([]);
-  const [platformHealth,  setPlatformHealth]  = useState<ConnectedPlatform[]>([]);
+  const [kpiCards,    setKpiCards]    = useState<KpiCard[]>(buildKpiCards(0, null));
+  const [upcoming,    setUpcoming]    = useState<UpcomingPost[]>([]);
+  const [recentPosts, setRecentPosts] = useState<PostSummary[]>([]);
 
   // ── Fetch real data ─────────────────────────────────────────────────────────
   useEffect(() => {
@@ -159,21 +135,16 @@ export function useDashboard() {
     Promise.all([
       postsService.getAll({ status: 'published', limit: 5 }),
       postsService.getAll({ status: 'scheduled', limit: 10 }),
-      platformsService.listConnections(),
-    ]).then(([publishedPage, scheduledPage, connections]) => {
+      metricsService.getFacebookSummary().catch(() => null),
+    ]).then(([publishedPage, scheduledPage, summary]) => {
       if (cancelled) return;
 
-      const recent    = publishedPage.posts.map(mapToPostSummary);
-      const upcomings = scheduledPage.posts.map(mapToUpcomingPost);
-      const health    = connections.map(mapToPlatformHealth);
-
-      setRecentPosts(recent);
-      setUpcoming(upcomings);
-      setPlatformHealth(health);
-      setKpiCards(buildKpiCards(scheduledPage.meta.total, connections));
+      setRecentPosts(publishedPage.posts.map(mapToPostSummary));
+      setUpcoming(scheduledPage.posts.map(mapToUpcomingPost));
+      setKpiCards(buildKpiCards(scheduledPage.meta.total, summary));
       setLoaded(true);
     }).catch(() => {
-      if (!cancelled) setLoaded(true); // still animate even if fetch fails
+      if (!cancelled) setLoaded(true);
     });
 
     return () => { cancelled = true; };
@@ -229,11 +200,6 @@ export function useDashboard() {
       tl.fromTo(posts, { y: 12, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4, stagger: 0.08 }, '-=0.2');
     }
 
-    const platforms = platformRefs.current.filter(Boolean) as HTMLDivElement[];
-    if (platforms.length) {
-      tl.fromTo(platforms, { y: 12, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4, stagger: 0.1 }, '-=0.3');
-    }
-
     return () => { tl.kill(); };
   }, [loaded]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -248,7 +214,6 @@ export function useDashboard() {
     kpiCards,
     upcoming,
     recentPosts,
-    platformHealth,
     loaded,
     carouselIdx,
     setCarouselIdx,
@@ -261,7 +226,6 @@ export function useDashboard() {
     countRefs,
     upcomingRefs,
     postRefs,
-    platformRefs,
     carouselRef,
     containerRef,
   };

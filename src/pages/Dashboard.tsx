@@ -1,55 +1,16 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import { sileo } from 'sileo';
 import TopBar from '../components/layout/TopBar';
 import KpiCard from '../components/dashboard/KpiCard';
 import PostCarousel from '../components/dashboard/PostCarousel';
 import RecentPostRow from '../components/dashboard/RecentPostRow';
-import PlatformHealthCard from '../components/dashboard/PlatformHealthCard';
 import { useDashboard } from '../hooks/useDashboard';
-import { listConnections } from '../services/platforms.service';
-import { getTokenExpiryInfo } from '../hooks/usePlatforms';
-
-const TOKEN_WARNING_KEY = 'token_warning_shown';
 
 export default function Dashboard() {
-  // ── Token expiry check on mount ─────────────────────────────────────────────
-  useEffect(() => {
-    if (sessionStorage.getItem(TOKEN_WARNING_KEY)) return;
-
-    listConnections().then(connections => {
-      const expiryInfos = connections
-        .map(c => ({ name: c.account_name, ...getTokenExpiryInfo(c.token_expires_at) }))
-        .filter(e => e.isExpired || e.isWarning);
-
-      if (expiryInfos.length === 0) return;
-
-      // Pick the most critical one to show
-      const worst = expiryInfos.sort((a, b) => {
-        if (a.isExpired && !b.isExpired) return -1;
-        if (!a.isExpired && b.isExpired) return 1;
-        return (a.daysLeft ?? 999) - (b.daysLeft ?? 999);
-      })[0];
-
-      const isCrit = worst.isCritical || worst.isExpired;
-      const message = worst.isExpired
-        ? 'Your Facebook token has expired. Go to Platforms to reconnect.'
-        : `Your Facebook connection expires in ${worst.daysLeft} day${worst.daysLeft === 1 ? '' : 's'}. Go to Platforms to reconnect.`;
-
-      if (isCrit) {
-        sileo.error({ title: 'Reconnect required', description: message, duration: 0 });
-      } else {
-        sileo.warning({ title: 'Token expiring soon', description: message, duration: 8000 });
-      }
-
-      sessionStorage.setItem(TOKEN_WARNING_KEY, '1');
-    }).catch(() => { /* silent — dashboard shouldn't break if this fails */ });
-  }, []);
-
   const {
-    kpiCards, upcoming, recentPosts, platformHealth, loaded,
+    kpiCards, upcoming, recentPosts, loaded,
     carouselIdx, setCarouselIdx, scrollCarousel, pageCount, visible, maxIdx,
-    heroRef, kpiRefs, countRefs, upcomingRefs, postRefs, platformRefs, carouselRef, containerRef,
+    heroRef, kpiRefs, countRefs, upcomingRefs, postRefs, carouselRef, containerRef,
   } = useDashboard();
 
   return (
@@ -106,48 +67,27 @@ export default function Dashboard() {
             </div>
           </div>
 
-          {/* Main grid skeleton */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <div className="lg:col-span-2 space-y-3">
-              <div className="h-6 w-48 bg-[#201f1f] rounded-xl mb-4" />
-              {Array.from({ length: 3 }).map((_, i) => (
-                <div key={i} className="glass-card rounded-[2rem] p-4 border border-[#4c4450]/5 flex gap-4 items-center">
-                  <div className="w-20 h-20 rounded-2xl bg-[#2a2a2a] shrink-0" />
-                  <div className="flex-1 space-y-2">
-                    <div className="h-3 w-16 bg-[#2a2a2a] rounded-full" />
-                    <div className="h-4 w-48 bg-[#2a2a2a] rounded-full" />
-                    <div className="h-3 w-24 bg-[#2a2a2a] rounded-full" />
-                  </div>
-                  <div className="flex gap-5 px-5 border-l border-[#4c4450]/10">
-                    {Array.from({ length: 3 }).map((_, j) => (
-                      <div key={j} className="space-y-1 text-center">
-                        <div className="h-4 w-6 bg-[#2a2a2a] rounded mx-auto" />
-                        <div className="h-2 w-8 bg-[#2a2a2a] rounded-full mx-auto" />
-                      </div>
-                    ))}
-                  </div>
+          {/* Recent Engagement skeleton */}
+          <div className="space-y-3">
+            <div className="h-6 w-48 bg-[#201f1f] rounded-xl mb-4" />
+            {Array.from({ length: 3 }).map((_, i) => (
+              <div key={i} className="glass-card rounded-[2rem] p-4 border border-[#4c4450]/5 flex gap-4 items-center">
+                <div className="w-20 h-20 rounded-2xl bg-[#2a2a2a] shrink-0" />
+                <div className="flex-1 space-y-2">
+                  <div className="h-3 w-16 bg-[#2a2a2a] rounded-full" />
+                  <div className="h-4 w-48 bg-[#2a2a2a] rounded-full" />
+                  <div className="h-3 w-24 bg-[#2a2a2a] rounded-full" />
                 </div>
-              ))}
-            </div>
-            <div className="space-y-3">
-              <div className="h-6 w-40 bg-[#201f1f] rounded-xl mb-4" />
-              {Array.from({ length: 2 }).map((_, i) => (
-                <div key={i} className="glass-card rounded-3xl p-5 border border-[#4c4450]/10 space-y-3">
-                  <div className="flex items-center gap-3">
-                    <div className="w-9 h-9 rounded-xl bg-[#2a2a2a]" />
-                    <div className="space-y-1.5 flex-1">
-                      <div className="h-3 w-20 bg-[#2a2a2a] rounded-full" />
-                      <div className="h-2 w-32 bg-[#2a2a2a] rounded-full" />
+                <div className="flex gap-5 px-5 border-l border-[#4c4450]/10">
+                  {Array.from({ length: 3 }).map((_, j) => (
+                    <div key={j} className="space-y-1 text-center">
+                      <div className="h-4 w-6 bg-[#2a2a2a] rounded mx-auto" />
+                      <div className="h-2 w-8 bg-[#2a2a2a] rounded-full mx-auto" />
                     </div>
-                  </div>
-                  <div className="flex gap-1.5">
-                    {Array.from({ length: 3 }).map((_, j) => (
-                      <div key={j} className="h-5 w-16 bg-[#2a2a2a] rounded-full" />
-                    ))}
-                  </div>
+                  ))}
                 </div>
-              ))}
-            </div>
+              </div>
+            ))}
           </div>
         </div>
       ) : (
@@ -210,56 +150,30 @@ export default function Dashboard() {
             )}
           </section>
 
-          {/* Main Grid */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-
-            {/* Recent Engagement */}
-            <section className="lg:col-span-2 space-y-4">
-              <div className="flex items-center justify-between mb-2">
-                <h3 className="font-headline text-2xl font-bold text-white tracking-tight">Recent Engagement</h3>
-                <div className="flex gap-2">
-                  <Link to="/composer" className="bg-[#d394ff] text-[#5e2388] px-4 py-1.5 rounded-full text-xs font-bold">
-                    New Post
-                  </Link>
+          {/* Recent Engagement */}
+          <section className="space-y-4">
+            <div className="flex items-center justify-between mb-2">
+              <h3 className="font-headline text-2xl font-bold text-white tracking-tight">Recent Engagement</h3>
+              <Link to="/composer" className="bg-[#d394ff] text-[#5e2388] px-4 py-1.5 rounded-full text-xs font-bold">
+                New Post
+              </Link>
+            </div>
+            <div className="space-y-3">
+              {recentPosts.length === 0 ? (
+                <div className="flex flex-col items-center justify-center py-12 gap-2">
+                  <span className="material-symbols-outlined text-[#4c4450] text-4xl">article</span>
+                  <p className="text-[#988d9c] text-sm">No published posts yet.</p>
+                  <Link to="/composer" className="text-xs text-[#d394ff] hover:underline mt-1">Create your first post</Link>
                 </div>
-              </div>
-              <div className="space-y-3">
-                {recentPosts.length === 0 ? (
-                  <div className="flex flex-col items-center justify-center py-12 gap-2">
-                    <span className="material-symbols-outlined text-[#4c4450] text-4xl">article</span>
-                    <p className="text-[#988d9c] text-sm">No published posts yet.</p>
-                    <Link to="/composer" className="text-xs text-[#d394ff] hover:underline mt-1">Create your first post</Link>
-                  </div>
-                ) : recentPosts.map((post, i) => (
-                  <RecentPostRow
-                    key={post.id}
-                    post={post}
-                    rowRef={{ current: postRefs.current[i] ?? null } as React.RefObject<HTMLAnchorElement | null>}
-                  />
-                ))}
-              </div>
-            </section>
-
-            {/* Platform Health */}
-            <section className="space-y-4">
-              <h3 className="font-headline text-2xl font-bold text-white tracking-tight mb-2">Platform Health</h3>
-              <div className="space-y-3">
-                {platformHealth.length === 0 ? (
-                  <div className="flex flex-col items-center justify-center py-10 gap-2">
-                    <span className="material-symbols-outlined text-[#4c4450] text-4xl">hub</span>
-                    <p className="text-[#988d9c] text-sm">No platforms connected.</p>
-                    <Link to="/platforms" className="text-xs text-[#d394ff] hover:underline mt-1">Connect a platform</Link>
-                  </div>
-                ) : platformHealth.map((p, i) => (
-                  <PlatformHealthCard
-                    key={p.id}
-                    platform={p}
-                    cardRef={{ current: platformRefs.current[i] ?? null } as React.RefObject<HTMLDivElement | null>}
-                  />
-                ))}
-              </div>
-            </section>
-          </div>
+              ) : recentPosts.map((post, i) => (
+                <RecentPostRow
+                  key={post.id}
+                  post={post}
+                  rowRef={{ current: postRefs.current[i] ?? null } as React.RefObject<HTMLAnchorElement | null>}
+                />
+              ))}
+            </div>
+          </section>
         </div>
       )}
 
