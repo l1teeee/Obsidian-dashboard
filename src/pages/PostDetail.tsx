@@ -15,7 +15,12 @@ import { PLATFORM_REGISTRY } from '../domain/entities/Platform';
 type DetailAction = 'activate' | 'deactivate' | 'delete' | null;
 
 function buildMetrics(m: ApiPostMetrics | null, loading: boolean): PostMetric[] {
-  const fmt  = (v: number | null) => loading ? '—' : v === null ? '—' : v.toLocaleString();
+  const fmt = (v: number | null) => loading ? '—' : v === null ? '—' : v.toLocaleString();
+
+  const engRate = (!loading && m && m.reach && m.reach > 0 && m.likes !== null)
+    ? `${((m.likes / m.reach) * 100).toFixed(1)}%`
+    : '—';
+
   return [
     { label: 'Impressions', value: fmt(m?.impressions ?? null), delta: null, positive: true },
     { label: 'Reach',       value: fmt(m?.reach       ?? null), delta: null, positive: true },
@@ -23,6 +28,7 @@ function buildMetrics(m: ApiPostMetrics | null, loading: boolean): PostMetric[] 
     { label: 'Comments',    value: fmt(m?.comments    ?? null), delta: null, positive: true },
     { label: 'Shares',      value: fmt(m?.shares      ?? null), delta: null, positive: true },
     { label: 'Clicks',      value: fmt(m?.clicks      ?? null), delta: null, positive: true },
+    { label: 'Eng. Rate',   value: loading ? '—' : engRate,    delta: null, positive: true },
   ];
 }
 
@@ -239,16 +245,16 @@ export default function PostDetail() {
           </div>
 
           {/* Metrics */}
-          <div className="col-span-12 lg:col-span-7 space-y-6">
+          <div className="col-span-12 lg:col-span-7 space-y-5">
 
-            {/* Post type badge */}
-            <div className="flex items-center gap-3">
-              <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[#201f1f] border border-[#4c4450]/10">
-                <span className="material-symbols-outlined text-[#988d9c]" style={{ fontSize: 14, fontVariationSettings: "'FILL' 1" }}>
+            {/* Post meta row */}
+            <div className="flex items-center gap-2 flex-wrap">
+              <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#201f1f] border border-[#4c4450]/10">
+                <span className="material-symbols-outlined text-[#988d9c]" style={{ fontSize: 13, fontVariationSettings: "'FILL' 1" }}>
                   {hasMedia ? 'image' : 'text_fields'}
                 </span>
                 <span className="text-xs text-[#988d9c] font-medium">
-                  {hasMedia ? `Image post · ${apiPost?.media_urls?.length ?? 0} media` : 'Text post'}
+                  {hasMedia ? `${apiPost?.media_urls?.length ?? 0} media` : 'Text post'}
                 </span>
               </div>
               {apiPost?.post_type && apiPost.post_type !== 'post' && (
@@ -256,6 +262,10 @@ export default function PostDetail() {
                   {apiPost.post_type}
                 </div>
               )}
+              <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#201f1f] border border-[#4c4450]/10">
+                <span className="material-symbols-outlined text-[#988d9c]" style={{ fontSize: 13 }}>schedule</span>
+                <span className="text-xs text-[#988d9c]">{displayDate}</span>
+              </div>
             </div>
 
             {/* Dev mode banner */}
@@ -268,12 +278,27 @@ export default function PostDetail() {
               </div>
             )}
 
+            {/* Metrics loading skeleton */}
+            {metricsLoading && (
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-3 animate-pulse">
+                {Array.from({ length: 6 }).map((_, i) => (
+                  <div key={i} className="bg-[#201f1f] rounded-2xl p-5 border border-[#4c4450]/5 space-y-3">
+                    <div className="w-5 h-5 rounded bg-[#2a2a2a]" />
+                    <div className="h-7 w-14 rounded-lg bg-[#2a2a2a]" />
+                    <div className="h-2 w-16 rounded-full bg-[#2a2a2a]" />
+                  </div>
+                ))}
+              </div>
+            )}
+
             {/* Metric cards */}
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-              {buildMetrics(metrics, metricsLoading).map((m, i) => (
-                <MetricCard key={m.label} metric={m} index={i} />
-              ))}
-            </div>
+            {!metricsLoading && (
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                {buildMetrics(metrics, metricsLoading).map((m) => (
+                  <MetricCard key={m.label} metric={m} />
+                ))}
+              </div>
+            )}
 
             {/* Permalink block */}
             {apiPost?.permalink ? (

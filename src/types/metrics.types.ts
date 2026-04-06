@@ -8,6 +8,7 @@ export interface FacebookSummary {
 
 export interface FbPostMetric {
   id:            string;
+  local_id?:     string;
   message:       string | null;
   created_time:  string;
   thumbnail:     string | null;

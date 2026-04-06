@@ -39,18 +39,16 @@ function toPlatformId(raw: string): PlatformId {
 
 
 function mapFbPostToSummary(post: FbPostMetric): PostSummary {
-  const [pageId, fbId] = post.id.split('_');
   return {
-    id:           post.id,
-    title:        (post.message ?? 'Facebook post').slice(0, 72),
-    platform:     'facebook',
-    status:       'published',
-    date:         new Date(post.created_time).toLocaleString('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }),
-    imageUrl:     post.thumbnail ?? '',
-    likes:        String(post.reactions),
-    comments:     '—',
-    shares:       String(post.engaged_users),
-    externalHref: fbId ? `https://www.facebook.com/${pageId}/posts/${fbId}` : undefined,
+    id:       post.local_id ?? post.id,
+    title:    (post.message ?? 'Facebook post').slice(0, 72),
+    platform: 'facebook',
+    status:   'published',
+    date:     new Date(post.created_time).toLocaleString('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }),
+    imageUrl: post.thumbnail ?? '',
+    likes:    String(post.reactions),
+    comments: '—',
+    shares:   String(post.engaged_users),
   };
 }
 
