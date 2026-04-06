@@ -31,7 +31,7 @@ function formatExpiry(expiresAt: string | null): string {
 export default function Platforms() {
   const {
     connections, loading, connecting, syncingIg, disconnecting,
-    handleConnect, handleConnectInstagram, handleSyncInstagram, handleDisconnect, pageRef,
+    handleConnect, handleConnectInstagramDirect, handleSyncInstagram, handleDisconnect, pageRef,
   } = usePlatforms();
 
   const hasInstagram = connections.some(c => c.platform === 'instagram');
@@ -310,7 +310,7 @@ export default function Platforms() {
         connecting={connecting}
         onClose={() => setModalOpen(false)}
         onConnect={(p) => { setModalOpen(false); handleConnect(p); }}
-        onConnectInstagram={() => { setModalOpen(false); handleConnectInstagram(); }}
+        onConnectInstagramDirect={() => { setModalOpen(false); handleConnectInstagramDirect(); }}
       />
     </div>
   );
