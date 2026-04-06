@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import type { ReactNode } from 'react';
 import gsap from 'gsap';
 
 type Variant = 'danger' | 'warning' | 'primary' | 'success';
@@ -11,6 +12,7 @@ interface ConfirmModalProps {
   icon?:         string;
   note?:         string;
   disabled?:     boolean;
+  children?:     ReactNode;
   onConfirm:     () => void;
   onClose:       () => void;
 }
@@ -23,7 +25,7 @@ const VARIANT_STYLES: Record<Variant, { icon: string; btn: string; iconColor: st
 };
 
 export default function ConfirmModal({
-  title, message, confirmLabel, variant = 'primary', icon, note, disabled, onConfirm, onClose,
+  title, message, confirmLabel, variant = 'primary', icon, note, disabled, children, onConfirm, onClose,
 }: ConfirmModalProps) {
   const overlayRef = useRef<HTMLDivElement>(null);
   const cardRef    = useRef<HTMLDivElement>(null);
@@ -82,6 +84,9 @@ export default function ConfirmModal({
             <p className="text-xs text-[#988d9c] leading-relaxed">{note}</p>
           </div>
         )}
+
+        {/* Extra content (e.g. checkboxes) */}
+        {children && <div className="w-full text-left">{children}</div>}
 
         {/* Actions */}
         <div className="flex gap-3 w-full mt-2">

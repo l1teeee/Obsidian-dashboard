@@ -3,12 +3,47 @@ import type { TokenPair, RegisterResult } from '../types/auth.types';
 
 export type { TokenPair, RegisterResult };
 
-export async function login(email: string, password: string, rememberMe = true): Promise<TokenPair> {
-  const res = await apiFetch<TokenPair>('/auth/login', {
-    method: 'POST',
-    body: JSON.stringify({ email, password, rememberMe }),
+export interface ActiveSession {
+  id:          number;
+  device_info: string | null;
+  created_at:  string;
+}
+
+export interface SessionConflict {
+  conflict:        true;
+  active_sessions: ActiveSession[];
+}
+
+export async function login(
+  email: string,
+  password: string,
+  rememberMe = true,
+  force = false,
+): Promise<TokenPair | SessionConflict> {
+  const res = await fetch(`${import.meta.env.VITE_API_URL}/auth/login`, {
+    method:      'POST',
+    headers:     { 'Content-Type': 'application/json' },
+    credentials: 'include',
+    body: JSON.stringify({ email, password, rememberMe, force }),
   });
-  return res.data;
+
+  const json = await res.json() as { success: boolean; data: TokenPair; error?: { code: string } & SessionConflict };
+
+  if (res.status === 409 && json.error?.code === 'SESSION_LIMIT_EXCEEDED') {
+    return { conflict: true, active_sessions: json.error.active_sessions };
+  }
+
+  if (!res.ok) {
+    const code = json.error?.code ?? 'UNKNOWN';
+    const msg  = (json.error as { message?: string })?.message ?? 'Login failed';
+    throw Object.assign(new Error(msg), { code });
+  }
+
+  return json.data;
+}
+
+export async function forceLogout(): Promise<void> {
+  await apiFetch('/auth/force-logout', { method: 'POST' });
 }
 
 export async function register(email: string, password: string): Promise<RegisterResult> {

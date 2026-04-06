@@ -44,10 +44,11 @@ export default function PostDetail() {
   const { apiPost, metrics, metricsLoading, metricsRefreshing, refreshMetrics, loading, notFound, resolvedId, pageRef, handleBack } = usePostDetail();
   const navigate     = useNavigate();
   const menuRef      = useRef<HTMLDivElement>(null);
-  const [menuOpen,   setMenuOpen]   = useState(false);
-  const [action,     setAction]     = useState<DetailAction>(null);
-  const [submitting, setSubmitting] = useState(false);
-  const [postStatus, setPostStatus] = useState<PostStatus | null>(null);
+  const [menuOpen,          setMenuOpen]          = useState(false);
+  const [action,            setAction]            = useState<DetailAction>(null);
+  const [submitting,        setSubmitting]        = useState(false);
+  const [postStatus,        setPostStatus]        = useState<PostStatus | null>(null);
+  const [removeFromFacebook, setRemoveFromFacebook] = useState(true);
 
   useEffect(() => {
     if (apiPost) setPostStatus(apiPost.status as PostStatus);
@@ -77,7 +78,8 @@ export default function PostDetail() {
         setPostStatus('inactive');
         setAction(null);
       } else if (action === 'delete') {
-        await postsService.remove(resolvedId);
+        const isFbPublished = apiPost?.platform === 'facebook' && apiPost?.platform_post_id && postStatus === 'published';
+        await postsService.remove(resolvedId, !!(isFbPublished && removeFromFacebook));
         navigate('/posts');
       }
     } catch (err) {
@@ -336,7 +338,24 @@ export default function PostDetail() {
           onConfirm={handleConfirm}
           onClose={() => setAction(null)}
           disabled={submitting}
-        />
+        >
+          {action === 'delete' && apiPost?.platform === 'facebook' && apiPost?.platform_post_id && postStatus === 'published' && (
+            <button
+              type="button"
+              onClick={() => setRemoveFromFacebook(v => !v)}
+              className="flex items-center gap-2.5 mt-1"
+            >
+              <div className={`w-4 h-4 rounded-[4px] border shrink-0 flex items-center justify-center transition-all ${removeFromFacebook ? 'bg-[#ffb4ab] border-[#ffb4ab]' : 'border-[#4c4450]/50 bg-transparent'}`}>
+                {removeFromFacebook && (
+                  <svg width="9" height="9" viewBox="0 0 9 9" fill="none">
+                    <path d="M1 4.5L3.5 7L8 1.5" stroke="#2d0000" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                )}
+              </div>
+              <span className="text-xs text-[#988d9c]">Also remove from Facebook</span>
+            </button>
+          )}
+        </ConfirmModal>
       )}
     </div>
   );
