@@ -119,6 +119,18 @@ export function usePlatforms() {
     }
   }, [reload]);
 
+  // ── Connect Instagram directly (Camino B — no Facebook required) ────────────
+  const handleConnectInstagramDirect = useCallback(async () => {
+    setConnecting(true);
+    try {
+      await platformsService.startInstagramDirectOAuth();
+      // window.location.href is set inside — browser navigates away
+    } catch {
+      sileo.error({ title: 'Could not start Instagram Login', description: 'Check your connection and try again.' });
+      setConnecting(false);
+    }
+  }, []);
+
   // ── Sync Instagram from existing FB page (no OAuth fallback) ────────────────
   const handleSyncInstagram = useCallback(async () => {
     setSyncingIg(true);
@@ -157,7 +169,7 @@ export function usePlatforms() {
 
   return {
     connections, loading, connecting, syncingIg, disconnecting,
-    handleConnect, handleConnectInstagram, handleSyncInstagram, handleDisconnect, reload,
+    handleConnect, handleConnectInstagram, handleConnectInstagramDirect, handleSyncInstagram, handleDisconnect, reload,
     pageRef,
   };
 }

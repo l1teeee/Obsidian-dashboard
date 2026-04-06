@@ -38,3 +38,12 @@ export async function connectInstagramFromPages(): Promise<{ linked: number }> {
   const res = await apiFetch<{ linked: number }>('/platforms/connect/instagram');
   return res.data;
 }
+
+/**
+ * Instagram direct OAuth (Camino B) — no Facebook account required.
+ * Fetches the Instagram OAuth URL from the backend then redirects the browser.
+ */
+export async function startInstagramDirectOAuth(): Promise<void> {
+  const res = await apiFetch<{ url: string }>('/platforms/connect/instagram/oauth');
+  window.location.href = res.data.url;
+}
