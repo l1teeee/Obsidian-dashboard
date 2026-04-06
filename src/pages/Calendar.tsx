@@ -9,7 +9,7 @@ import { useCalendar } from '../hooks/useCalendar';
 
 export default function Calendar() {
   const {
-    view, setView, current, selected, activePlatforms, filteredPosts,
+    view, setView, current, selected, activePlatforms, filteredPosts, loading,
     navLabel, goBack, goForward, goToday, handleSelectDay, togglePlatform,
     pageRef, bodyRef,
   } = useCalendar();
@@ -51,16 +51,34 @@ export default function Calendar() {
 
         {/* View body */}
         <div ref={bodyRef} data-cal-body>
-          {view === 'month' && (
-            <MonthView
-              current={current}
-              selected={selected}
-              onSelectDay={handleSelectDay}
-              posts={filteredPosts}
-            />
+          {loading ? (
+            <div className="animate-pulse space-y-3">
+              {Array.from({ length: 5 }).map((_, i) => (
+                <div key={i} className="flex gap-4">
+                  <div className="w-20 shrink-0 space-y-1.5 pt-1">
+                    <div className="h-3 w-10 bg-[#2a2a2a] rounded-full ml-auto" />
+                    <div className="h-8 w-8 bg-[#2a2a2a] rounded-xl ml-auto" />
+                  </div>
+                  <div className="flex-1 space-y-2">
+                    <div className="h-14 bg-[#201f1f] rounded-2xl border border-[#4c4450]/10" />
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <>
+              {view === 'month' && (
+                <MonthView
+                  current={current}
+                  selected={selected}
+                  onSelectDay={handleSelectDay}
+                  posts={filteredPosts}
+                />
+              )}
+              {view === 'week' && <WeekView current={current} posts={filteredPosts} />}
+              {view === 'list' && <ListView posts={filteredPosts} />}
+            </>
           )}
-          {view === 'week' && <WeekView current={current} posts={filteredPosts} />}
-          {view === 'list' && <ListView posts={filteredPosts} />}
         </div>
 
       </div>

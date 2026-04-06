@@ -4,25 +4,67 @@ import {
   isSameDay, addMonths, subMonths, addWeeks, subWeeks,
 } from 'date-fns';
 import gsap from 'gsap';
-import { MockAnalyticsRepository } from '../infrastructure/repositories/MockAnalyticsRepository';
+import * as postsService from '../services/posts.service';
 import type { CalendarPost } from '../domain/entities/CalendarPost';
 import type { PlatformId } from '../domain/entities/Platform';
+import { PLATFORM_REGISTRY } from '../domain/entities/Platform';
 
 export type View = 'month' | 'week' | 'list';
 
 const ALL_PLATFORM_IDS: PlatformId[] = ['instagram', 'facebook', 'linkedin'];
 
+function toCalendarPost(p: postsService.ApiPost): CalendarPost | null {
+  const rawDate = p.scheduled_at ?? p.published_at;
+  if (!rawDate) return null;
+
+  const platform: PlatformId = p.platform in PLATFORM_REGISTRY
+    ? (p.platform as PlatformId)
+    : 'facebook';
+
+  return {
+    id:       p.id,
+    date:     new Date(rawDate),
+    time:     new Date(rawDate).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }),
+    platform,
+    title:    (p.caption ?? 'Untitled post').slice(0, 72),
+    status:   p.status as CalendarPost['status'],
+  };
+}
+
 export function useCalendar() {
   const pageRef = useRef<HTMLDivElement>(null);
   const bodyRef = useRef<HTMLDivElement>(null);
 
-  const [view, setView]                     = useState<View>('month');
-  const [current, setCurrent]               = useState(new Date());
-  const [selected, setSelected]             = useState<Date | null>(null);
+  const [view, setView]                       = useState<View>('month');
+  const [current, setCurrent]                 = useState(new Date());
+  const [selected, setSelected]               = useState<Date | null>(null);
   const [activePlatforms, setActivePlatforms] = useState<PlatformId[]>(ALL_PLATFORM_IDS);
+  const [posts, setPosts]                     = useState<CalendarPost[]>([]);
+  const [loading, setLoading]                 = useState(true);
 
-  const repo  = new MockAnalyticsRepository();
-  const posts = repo.getCalendarPosts();
+  // Fetch scheduled + published posts from API
+  useEffect(() => {
+    let cancelled = false;
+    setLoading(true);
+
+    Promise.all([
+      postsService.getAll({ status: 'scheduled',  limit: 200 }),
+      postsService.getAll({ status: 'published',  limit: 200 }),
+    ]).then(([scheduled, published]) => {
+      if (cancelled) return;
+      const all = [...scheduled.posts, ...published.posts]
+        .map(toCalendarPost)
+        .filter((p): p is CalendarPost => p !== null)
+        .sort((a, b) => a.date.getTime() - b.date.getTime());
+      setPosts(all);
+    }).catch(() => {
+      if (!cancelled) setPosts([]);
+    }).finally(() => {
+      if (!cancelled) setLoading(false);
+    });
+
+    return () => { cancelled = true; };
+  }, []);
 
   const filteredPosts: CalendarPost[] = posts.filter(p => activePlatforms.includes(p.platform));
 
@@ -60,19 +102,14 @@ export function useCalendar() {
   }, []);
 
   return {
-    view,
-    setView,
-    current,
-    selected,
+    view, setView,
+    current, selected,
     activePlatforms,
     filteredPosts,
+    loading,
     navLabel,
-    goBack,
-    goForward,
-    goToday,
-    handleSelectDay,
-    togglePlatform,
-    pageRef,
-    bodyRef,
+    goBack, goForward, goToday,
+    handleSelectDay, togglePlatform,
+    pageRef, bodyRef,
   };
 }
