@@ -2,7 +2,7 @@ import { useRef, useState, useEffect } from 'react';
 import gsap from 'gsap';
 import * as postsService from '../services/posts.service';
 import * as metricsService from '../services/metrics.service';
-import type { FacebookSummary } from '../services/metrics.service';
+import type { FacebookSummary, FbPostMetric } from '../types/metrics.types';
 import { PLATFORM_REGISTRY } from '../domain/entities/Platform';
 import type { PlatformId } from '../domain/entities/Platform';
 import type { PostSummary, UpcomingPost } from '../domain/entities/Post';
@@ -37,23 +37,20 @@ function toPlatformId(raw: string): PlatformId {
   return (raw in PLATFORM_REGISTRY ? raw : 'facebook') as PlatformId;
 }
 
-function mapToPostSummary(post: postsService.ApiPost): PostSummary {
-  const platform = toPlatformId(post.platform);
-  const title    = (post.caption ?? 'Untitled post').slice(0, 72);
-  const date     = post.status === 'scheduled'
-    ? formatPostDate(post.scheduled_at)
-    : formatPostDate(post.published_at ?? post.created_at);
 
+function mapFbPostToSummary(post: FbPostMetric): PostSummary {
+  const [pageId, fbId] = post.id.split('_');
   return {
-    id:       post.id,
-    title,
-    platform,
-    status:   post.status as PostSummary['status'],
-    date,
-    imageUrl: post.media_urls?.[0] ?? '',
-    likes:    '—',
-    comments: '—',
-    shares:   '—',
+    id:           post.id,
+    title:        (post.message ?? 'Facebook post').slice(0, 72),
+    platform:     'facebook',
+    status:       'published',
+    date:         new Date(post.created_time).toLocaleString('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }),
+    imageUrl:     post.thumbnail ?? '',
+    likes:        String(post.reactions),
+    comments:     '—',
+    shares:       String(post.engaged_users),
+    externalHref: fbId ? `https://www.facebook.com/${pageId}/posts/${fbId}` : undefined,
   };
 }
 
@@ -133,13 +130,13 @@ export function useDashboard() {
     let cancelled = false;
 
     Promise.all([
-      postsService.getAll({ status: 'published', limit: 5 }),
       postsService.getAll({ status: 'scheduled', limit: 10 }),
       metricsService.getFacebookSummary().catch(() => null),
-    ]).then(([publishedPage, scheduledPage, summary]) => {
+      metricsService.getFacebookPosts().catch(() => []),
+    ]).then(([scheduledPage, summary, fbPosts]) => {
       if (cancelled) return;
 
-      setRecentPosts(publishedPage.posts.map(mapToPostSummary));
+      setRecentPosts(fbPosts.slice(0, 5).map(mapFbPostToSummary));
       setUpcoming(scheduledPage.posts.map(mapToUpcomingPost));
       setKpiCards(buildKpiCards(scheduledPage.meta.total, summary));
       setLoaded(true);

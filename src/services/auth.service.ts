@@ -1,15 +1,7 @@
 import { apiFetch, setAccessToken } from '../lib/api';
+import type { TokenPair, RegisterResult } from '../types/auth.types';
 
-export interface TokenPair {
-  accessToken:  string;
-  isFirstLogin: boolean;
-  // refreshToken lives in an httpOnly cookie — never exposed to JS
-}
-
-export interface RegisterResult {
-  email:           string;
-  devVerifyToken?: string;
-}
+export type { TokenPair, RegisterResult };
 
 export async function login(email: string, password: string, rememberMe = true): Promise<TokenPair> {
   const res = await apiFetch<TokenPair>('/auth/login', {

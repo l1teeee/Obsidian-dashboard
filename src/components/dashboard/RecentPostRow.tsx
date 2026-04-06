@@ -9,15 +9,13 @@ interface RecentPostRowProps {
   rowRef:  RefObject<HTMLAnchorElement | null>;
 }
 
+const ROW_CLASS = 'glass-card rounded-[2rem] p-4 border border-[#4c4450]/5 flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-5 transition-all cursor-pointer hover:bg-[#201f1f] hover:border-[#d394ff]/20 hover:shadow-[0_0_24px_rgba(211,148,255,0.06)] group';
+
 export default function RecentPostRow({ post, rowRef }: RecentPostRowProps) {
   const p = PLATFORM_REGISTRY[post.platform];
 
-  return (
-    <Link
-      to={`/posts/${post.id}`}
-      ref={rowRef}
-      className="glass-card rounded-[2rem] p-4 border border-[#4c4450]/5 flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-5 transition-all cursor-pointer hover:bg-[#201f1f] hover:border-[#d394ff]/20 hover:shadow-[0_0_24px_rgba(211,148,255,0.06)] group"
-    >
+  const inner = (
+    <>
       <div
         className="w-full h-32 sm:w-20 sm:h-20 rounded-2xl overflow-hidden shrink-0 flex items-center justify-center"
         style={{ background: post.imageUrl ? undefined : p.color }}
@@ -54,6 +52,26 @@ export default function RecentPostRow({ post, rowRef }: RecentPostRowProps) {
           </div>
         ))}
       </div>
+    </>
+  );
+
+  if (post.externalHref) {
+    return (
+      <a
+        href={post.externalHref}
+        target="_blank"
+        rel="noopener noreferrer"
+        ref={rowRef as RefObject<HTMLAnchorElement>}
+        className={ROW_CLASS}
+      >
+        {inner}
+      </a>
+    );
+  }
+
+  return (
+    <Link to={`/posts/${post.id}`} ref={rowRef} className={ROW_CLASS}>
+      {inner}
     </Link>
   );
 }
