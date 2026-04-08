@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
 import { useInactivityTimer } from './hooks/useInactivityTimer';
 import SessionWarningModal from './components/shared/SessionWarningModal';
+import KickedOutModal      from './components/shared/KickedOutModal';
 import CompleteProfile     from './pages/CompleteProfile';
 import { BrowserRouter, Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import Lenis from 'lenis';
@@ -115,6 +116,19 @@ function WorkspaceGuard({ children }: { children: ReactNode }) {
   return <>{children}</>;
 }
 
+function KickGuard() {
+  const { kickedByDevice, clearKick } = useAuth();
+  const navigate = useNavigate();
+
+  if (!kickedByDevice) return null;
+
+  return (
+    <KickedOutModal
+      onClose={() => { clearKick(); navigate('/login', { replace: true }); }}
+    />
+  );
+}
+
 function SessionGuard() {
   const { isAuthenticated, logout, user } = useAuth();
   const navigate  = useNavigate();
@@ -175,6 +189,7 @@ export default function App() {
             }}
           />
           <BrowserRouter>
+            <KickGuard />
             <SessionGuard />
             <ScrollToTop />
             <TransitionDetector onTrigger={triggerTransition} />

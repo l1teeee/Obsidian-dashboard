@@ -22,12 +22,14 @@ interface AuthCtx {
   user:                 AuthUser | null;
   isAuthenticated:      boolean;
   isLoading:            boolean;
+  kickedByDevice:       boolean;
   login:                (email: string, password: string, rememberMe?: boolean, force?: boolean) => Promise<{ isFirstLogin: boolean; profileCompleted: boolean }>;
   register:             (email: string, password: string) => Promise<authService.RegisterResult>;
   verifyEmail:          (email: string, code: string) => Promise<{ isFirstLogin: boolean; profileCompleted: boolean }>;
   verifyEmailToken:     (token: string) => Promise<{ isFirstLogin: boolean; profileCompleted: boolean }>;
   logout:               () => Promise<void>;
   markProfileCompleted: () => Promise<void>;
+  clearKick:            () => void;
 }
 
 // ─── Context ──────────────────────────────────────────────────────────────────
@@ -53,8 +55,9 @@ function applyTokenPair(tokens: authService.TokenPair): void {
 // ─── Provider ─────────────────────────────────────────────────────────────────
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user,      setUser]      = useState<AuthUser | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [user,           setUser]           = useState<AuthUser | null>(null);
+  const [isLoading,      setIsLoading]      = useState(true);
+  const [kickedByDevice, setKickedByDevice] = useState(false);
   const bootstrapped = useRef(false);
 
   // Silent refresh on mount — only attempted when obs_sid cookie is present,
@@ -74,14 +77,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     });
   }, []);
 
-  // Handle session expiry triggered by apiFetch
+  // Handle session expiry triggered by apiFetch (token expired / unauthorized)
   useEffect(() => {
-    const handle = () => {
-      setUser(null);
-      authService.clearTokens();
-    };
+    const handle = () => { setUser(null); authService.clearTokens(); };
     window.addEventListener('auth:session-expired', handle);
     return () => window.removeEventListener('auth:session-expired', handle);
+  }, []);
+
+  // Handle session revoked by another device (SESSION_REVOKED from /auth/ping)
+  useEffect(() => {
+    const handle = () => { setUser(null); authService.clearTokens(); setKickedByDevice(true); };
+    window.addEventListener('auth:session-revoked', handle);
+    return () => window.removeEventListener('auth:session-revoked', handle);
   }, []);
 
   // Poll /auth/ping every 15s while authenticated.
@@ -134,6 +141,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (newToken) setUser(decodeUser(newToken));
   }, []);
 
+  const clearKick = useCallback(() => setKickedByDevice(false), []);
+
   const logout = useCallback(async () => {
     try {
       await authService.logout();
@@ -146,7 +155,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated: !!user, isLoading, login, register, verifyEmail, verifyEmailToken, logout, markProfileCompleted }}>
+    <AuthContext.Provider value={{ user, isAuthenticated: !!user, isLoading, kickedByDevice, clearKick, login, register, verifyEmail, verifyEmailToken, logout, markProfileCompleted }}>
       {children}
     </AuthContext.Provider>
   );
