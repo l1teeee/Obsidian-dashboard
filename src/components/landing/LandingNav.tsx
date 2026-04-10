@@ -1,6 +1,6 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import gsap from 'gsap';
+import { useFadeNav } from '@/hooks/useFadeNav';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
 
@@ -11,7 +11,7 @@ const links = ['Platform', 'Analytics', 'Showcase', 'Pricing'];
 export default function LandingNav() {
   const [scrolled, setScrolled] = useState(false);
   const navRef = useRef<HTMLElement>(null);
-  const navigate = useNavigate();
+  const fadeNav = useFadeNav();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -73,14 +73,14 @@ export default function LandingNav() {
         <div data-nav="actions" style={{ opacity: 0 }} className="flex items-center gap-3">
           <button
             type="button"
-            onClick={() => navigate('/login')}
+            onClick={() => fadeNav('/login')}
             className="rounded-full border border-white/[0.10] bg-white/[0.03] px-4 py-2 text-[0.65rem] tracking-[0.1em] uppercase font-semibold text-white/60 backdrop-blur-xl hover:border-[#d394ff]/30 hover:text-[#d394ff] transition-all duration-300"
           >
             Sign in
           </button>
           <button
             type="button"
-            onClick={() => navigate('/register')}
+            onClick={() => fadeNav('/register')}
             className="rounded-full bg-[#d394ff] px-4 py-2 text-[0.65rem] tracking-[0.1em] uppercase font-bold text-[#4a0076] shadow-[0_0_20px_rgba(211,148,255,0.2)] hover:shadow-[0_0_32px_rgba(211,148,255,0.35)] transition-all duration-300"
           >
             Get started

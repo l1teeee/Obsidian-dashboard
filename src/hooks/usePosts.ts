@@ -1,6 +1,7 @@
 import { useRef, useState, useEffect, useCallback, useMemo } from 'react';
 import gsap from 'gsap';
 import * as postsService from '../services/posts.service';
+import { listConnections } from '../services/platforms.service';
 import type { CalendarPost } from '../domain/entities/CalendarPost';
 import type { PostStatus } from '../domain/entities/Post';
 import type { PlatformId } from '../domain/entities/Platform';
@@ -53,14 +54,15 @@ function mapApiPost(post: postsService.ApiPost): CalendarPost {
 export function usePosts() {
   const pageRef = useRef<HTMLDivElement>(null);
 
-  const [allPosts,       setAllPosts]       = useState<CalendarPost[]>([]);
-  const [inactivePosts,  setInactivePosts]  = useState<CalendarPost[]>([]);
-  const [isLoading,      setIsLoading]      = useState(true);
-  const [view,           setView]           = useState<PostsView>('active');
-  const [search,         setSearch]         = useState('');
-  const [statusFilter,   setStatusFilter]   = useState<PostStatus | 'all'>('all');
-  const [platformFilter, setPlatformFilter] = useState<PlatformId | 'all'>('all');
-  const [pendingAction,  setPendingAction]  = useState<PendingAction | null>(null);
+  const [allPosts,           setAllPosts]           = useState<CalendarPost[]>([]);
+  const [inactivePosts,      setInactivePosts]      = useState<CalendarPost[]>([]);
+  const [isLoading,          setIsLoading]          = useState(true);
+  const [view,               setView]               = useState<PostsView>('active');
+  const [search,             setSearch]             = useState('');
+  const [statusFilter,       setStatusFilter]       = useState<PostStatus | 'all'>('all');
+  const [platformFilter,     setPlatformFilter]     = useState<PlatformId | 'all'>('all');
+  const [pendingAction,      setPendingAction]      = useState<PendingAction | null>(null);
+  const [connectedPlatforms, setConnectedPlatforms] = useState<Set<string>>(new Set(['linkedin']));
 
   const fetchPosts = useCallback(async () => {
     let cancelled = false;
@@ -85,6 +87,21 @@ export function usePosts() {
   useEffect(() => {
     void fetchPosts();
   }, [fetchPosts]);
+
+  // Load connected platforms for warning icons in the table
+  useEffect(() => {
+    listConnections()
+      .then(conns => {
+        const connected = new Set<string>(['linkedin']); // LinkedIn: no API check, default to connected
+        if (conns.some(c => c.platform === 'instagram')) connected.add('instagram');
+        if (conns.some(c => c.platform === 'facebook' && c.page_id)) connected.add('facebook');
+        setConnectedPlatforms(connected);
+      })
+      .catch(() => {
+        // On error assume all connected (don't block the UI)
+        setConnectedPlatforms(new Set(['instagram', 'facebook', 'linkedin']));
+      });
+  }, []);
 
   // GSAP entrance
   useEffect(() => {
@@ -157,5 +174,6 @@ export function usePosts() {
     confirmAction,
     pageRef,
     refresh: fetchPosts,
+    connectedPlatforms,
   };
 }

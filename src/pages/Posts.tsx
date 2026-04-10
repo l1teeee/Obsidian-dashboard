@@ -32,6 +32,7 @@ export default function Posts() {
     pendingAction, requestAction, cancelAction, confirmAction,
     refresh,
     pageRef,
+    connectedPlatforms,
   } = usePosts();
 
   const MODAL_CONFIG = {
@@ -192,7 +193,7 @@ export default function Posts() {
 
         {/* Table */}
         <div data-posts-table>
-          <PostsTable posts={filteredPosts} view={view} onAction={requestAction} />
+          <PostsTable posts={filteredPosts} view={view} onAction={requestAction} isLoading={isLoading} connectedPlatforms={connectedPlatforms} />
         </div>
       </div>
 

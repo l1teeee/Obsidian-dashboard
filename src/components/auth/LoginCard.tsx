@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useFadeNav } from '@/hooks/useFadeNav';
 import gsap from 'gsap';
 import { useGSAP } from '../../hooks/useGSAP';
 import { useAuth } from '../../hooks/useAuth';
@@ -23,6 +24,7 @@ function EyeIcon({ open }: { open: boolean }) {
 
 export default function LoginCard() {
   const navigate = useNavigate();
+  const fadeNav = useFadeNav();
   const { login } = useAuth();
 
   const [email,            setEmail]            = useState('');
@@ -105,16 +107,16 @@ export default function LoginCard() {
       <div data-orb="2" className="pointer-events-none absolute -bottom-32 -right-32 h-[420px] w-[420px] rounded-full bg-[#aa30fa]/10 blur-[100px]" />
 
       {/* Back button */}
-      <a
-        href="/"
-        style={{ viewTransitionName: 'auth-back' }}
+      <button
+        type="button"
+        onClick={() => fadeNav('/')}
         className="absolute left-6 top-6 flex items-center gap-2 text-[0.8125rem] font-medium text-[#adaaaa]/60 transition-colors duration-300 hover:text-[#e5e2e1]"
       >
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="shrink-0">
           <path d="M10 3L5 8L10 13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
         </svg>
         Back to home
-      </a>
+      </button>
 
       {/* Card */}
       <div

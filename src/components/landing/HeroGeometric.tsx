@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
+import { useFadeNav } from '@/hooks/useFadeNav';
 
 /* ── Mini dashboard mockup ───────────────────────────────── */
 function DashboardMockup() {
@@ -205,7 +205,7 @@ function ElegantShape({
 
 /* ── Hero ────────────────────────────────────────────────── */
 export default function HeroGeometric() {
-  const navigate = useNavigate();
+  const fadeNav = useFadeNav();
 
   const fade = (i: number) => ({
     hidden:  { opacity: 0, y: 22, filter: 'blur(6px)' },
@@ -238,54 +238,41 @@ export default function HeroGeometric() {
       {/* Content */}
       <div className="relative z-10 mx-auto w-full max-w-5xl px-6 pt-36 pb-0 text-center flex flex-col items-center">
 
-        {/* Badge */}
-        <motion.div
-          variants={fade(0)} initial="hidden" animate="visible"
-          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#d394ff]/[0.08] border border-[#d394ff]/[0.20] mb-8"
-        >
-          <span className="relative flex h-1.5 w-1.5">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#d394ff] opacity-60" />
-            <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-[#d394ff]" />
-          </span>
-          <span className="text-[0.68rem] text-[#d9b3ff]/80 tracking-[0.2em] uppercase font-semibold">Social Media Command Center</span>
-        </motion.div>
-
         {/* Headline */}
         <motion.h1
-          variants={fade(1)} initial="hidden" animate="visible"
-          className="text-4xl sm:text-5xl md:text-[4.2rem] font-extrabold tracking-[-0.03em] leading-[1.04] mb-6 max-w-3xl"
+          variants={fade(0)} initial="hidden" animate="visible"
+          className="text-4xl sm:text-5xl md:text-[4.5rem] font-extrabold tracking-[-0.03em] leading-[1.06] mb-5 max-w-4xl"
         >
           <span className="bg-clip-text text-transparent bg-gradient-to-b from-white via-white to-white/75">
-            Manage every social channel
+            Every channel.{' '}
           </span>
-          <br />
           <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#c97cff] via-[#f0dcff] to-[#aa30fa]">
-            from one command center.
+            One command center.
           </span>
         </motion.h1>
 
         {/* Subheadline */}
         <motion.p
-          variants={fade(2)} initial="hidden" animate="visible"
-          className="text-[1rem] md:text-[1.1rem] text-white/50 leading-[1.75] font-light max-w-[560px] mb-10"
+          variants={fade(1)} initial="hidden" animate="visible"
+          className="text-[1rem] md:text-[1.1rem] text-white/50 leading-[1.75] font-light max-w-[480px] mb-10"
         >
-          Plan, publish, and analyze your social presence across Instagram, LinkedIn, and Facebook — all from a single intelligent dashboard.
+          Plan, publish, and analyze across Instagram, LinkedIn, and Facebook — from one dashboard.
         </motion.p>
 
         {/* CTAs */}
         <motion.div
-          variants={fade(3)} initial="hidden" animate="visible"
+          variants={fade(2)} initial="hidden" animate="visible"
           className="flex flex-col sm:flex-row items-center gap-3 mb-5"
         >
           <button
-            onClick={() => navigate('/register')}
+            onClick={() => fadeNav('/register')}
             className="group relative rounded-full bg-[#d394ff] px-8 py-3.5 text-sm font-bold tracking-wide text-[#3a0060] overflow-hidden transition-all duration-300 hover:shadow-[0_0_44px_rgba(211,148,255,0.45)] w-full sm:w-auto"
           >
             <span className="relative z-10">Start Free Trial</span>
             <div className="absolute inset-0 bg-gradient-to-r from-[#d394ff] to-[#f0dcff] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
           </button>
           <button
-            onClick={() => navigate('/login')}
+            onClick={() => fadeNav('/login')}
             className="rounded-full border border-white/[0.12] bg-white/[0.03] px-8 py-3.5 text-sm font-medium tracking-wide text-white/50 backdrop-blur-xl hover:border-[#d394ff]/30 hover:text-white/70 transition-all duration-300 w-full sm:w-auto"
           >
             Book a Demo
@@ -294,7 +281,7 @@ export default function HeroGeometric() {
 
         {/* Trust line */}
         <motion.p
-          variants={fade(4)} initial="hidden" animate="visible"
+          variants={fade(3)} initial="hidden" animate="visible"
           className="text-[0.72rem] text-white/22 tracking-wide mb-16"
         >
           No credit card required · 14-day free trial · Cancel anytime
