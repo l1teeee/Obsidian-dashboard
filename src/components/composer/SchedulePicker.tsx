@@ -14,6 +14,7 @@ interface SchedulePickerProps {
   isScheduleMode:    boolean;
   caption:           string;
   selectedChannels:  ChannelId[];
+  timeFromAnalysis?: boolean;   // true when schedule was set by the AI analysis panel
   onDateChange:      (d: Date) => void;
   onScheduleToggle:  (v: boolean) => void;
 }
@@ -23,6 +24,7 @@ export default function SchedulePicker({
   isScheduleMode,
   caption,
   selectedChannels,
+  timeFromAnalysis = false,
   onDateChange,
   onScheduleToggle,
 }: SchedulePickerProps) {
@@ -108,25 +110,32 @@ export default function SchedulePicker({
         <div className="space-y-2 pt-1">
           <DateTimePicker value={scheduleDate} onChange={onDateChange} />
 
-          {/* Suggest time button */}
-          <button
-            type="button"
-            onClick={handleSuggest}
-            disabled={suggesting}
-            className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl border border-[#d394ff]/25 bg-[#d394ff]/5 text-[#d394ff] text-xs font-bold hover:bg-[#d394ff]/10 hover:border-[#d394ff]/40 transition-all disabled:opacity-50"
-          >
-            {suggesting ? (
-              <>
-                <span className="material-symbols-outlined text-[14px] animate-spin">progress_activity</span>
-                Analyzing caption…
-              </>
-            ) : (
-              <>
-                <span className="material-symbols-outlined text-[14px]" style={{ fontVariationSettings: "'FILL' 1" }}>auto_awesome</span>
-                Suggest best time
-              </>
-            )}
-          </button>
+          {/* Suggest time button — hidden when schedule came from AI analysis */}
+          {timeFromAnalysis ? (
+            <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-[#d394ff]/8 border border-[#d394ff]/20">
+              <span className="material-symbols-outlined text-[#d394ff] text-[13px]" style={{ fontVariationSettings: "'FILL' 1" }}>auto_awesome</span>
+              <p className="text-[10px] text-[#d394ff]/80 font-medium">Time suggested by AI analysis</p>
+            </div>
+          ) : (
+            <button
+              type="button"
+              onClick={handleSuggest}
+              disabled={suggesting}
+              className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl border border-[#d394ff]/25 bg-[#d394ff]/5 text-[#d394ff] text-xs font-bold hover:bg-[#d394ff]/10 hover:border-[#d394ff]/40 transition-all disabled:opacity-50"
+            >
+              {suggesting ? (
+                <>
+                  <span className="material-symbols-outlined text-[14px] animate-spin">progress_activity</span>
+                  Analyzing caption…
+                </>
+              ) : (
+                <>
+                  <span className="material-symbols-outlined text-[14px]" style={{ fontVariationSettings: "'FILL' 1" }}>auto_awesome</span>
+                  Suggest best time
+                </>
+              )}
+            </button>
+          )}
 
           {/* AI suggestion reason */}
           {suggestion && (

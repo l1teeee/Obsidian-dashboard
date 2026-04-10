@@ -1,9 +1,7 @@
 import { useLayoutEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { SparklesCore } from '@/components/ui/sparkles';
-
 gsap.registerPlugin(ScrollTrigger);
 
 const footerLinks = {
@@ -44,8 +42,6 @@ const socialLinks = [
 
 export default function ObsidianFooter() {
   const footerRef = useRef<HTMLElement | null>(null);
-  const navigate = useNavigate();
-
   useLayoutEffect(() => {
     if (!footerRef.current) return;
 
@@ -60,14 +56,9 @@ export default function ObsidianFooter() {
         defaults: { ease: 'power3.out' },
       });
 
-      tl.fromTo('[data-ft="hero"]',
-        { opacity: 0, y: 24, filter: 'blur(10px)' },
-        { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.7 }
-      )
-      .fromTo('[data-ft="links"]',
+      tl.fromTo('[data-ft="links"]',
         { opacity: 0, y: 18 },
-        { opacity: 1, y: 0, duration: 0.55 },
-        '-=0.4'
+        { opacity: 1, y: 0, duration: 0.55 }
       )
       .fromTo('[data-ft="bottom"]',
         { opacity: 0, y: 10 },
@@ -83,77 +74,6 @@ export default function ObsidianFooter() {
     <footer ref={footerRef} className="relative overflow-hidden bg-[#030303]">
       {/* Top separator */}
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#d394ff]/15 to-transparent" />
-
-      {/* ── Hero sparkles band ──────────────────────────────── */}
-      <div
-        data-ft="hero"
-        style={{ opacity: 0 }}
-        className="relative flex flex-col items-center justify-center overflow-hidden border-b border-white/[0.05] py-28 md:py-36"
-      >
-        {/* Particles layer */}
-        <div className="absolute inset-0 w-full h-full">
-          <SparklesCore
-            id="footer-sparkles"
-            background="transparent"
-            minSize={0.4}
-            maxSize={1.4}
-            particleDensity={80}
-            className="w-full h-full"
-            particleColor="#d394ff"
-            speed={1.2}
-          />
-        </div>
-
-        {/* Radial mask so sparkles fade at the edges */}
-        <div className="pointer-events-none absolute inset-0 [mask-image:radial-gradient(ellipse_65%_55%_at_50%_50%,transparent_30%,black_100%)] bg-[#030303]" />
-
-        {/* Gradient line above wordmark */}
-
-        {/* Wordmark */}
-        <div className="relative z-10 flex flex-col items-center gap-6 text-center px-6">
-          {/* Logo mark */}
-          <div className="flex items-center gap-3 mb-2">
-            <div className="flex h-10 w-10 items-center justify-center rounded-2xl border border-[#d394ff]/30 bg-[#d394ff]/10">
-              <div className="h-4 w-4 rounded-full bg-[#d394ff]" />
-            </div>
-            <span className="text-2xl font-extrabold tracking-tight text-white">Vielinks</span>
-          </div>
-
-          <h2 className="text-4xl font-extrabold tracking-[-0.04em] text-white md:text-6xl lg:text-7xl">
-            <span className="bg-clip-text text-transparent bg-gradient-to-b from-white via-white to-white/60">
-              Social media,
-            </span>
-            <br />
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#c97cff] via-[#f0dcff] to-[#aa30fa]">
-              mastered.
-            </span>
-          </h2>
-
-          <p className="max-w-md text-[1rem] font-light leading-[1.8] text-white/35">
-            One platform to plan, publish, analyze, and grow your social presence across Instagram, LinkedIn, and Facebook.
-          </p>
-
-          <div className="flex flex-col items-center gap-3 sm:flex-row">
-            <button
-              onClick={() => navigate('/register')}
-              className="group relative overflow-hidden rounded-full bg-[#d394ff] px-8 py-3.5 text-sm font-bold text-[#3a0060] transition-all duration-300 hover:shadow-[0_0_44px_rgba(211,148,255,0.45)]"
-            >
-              <span className="relative z-10">Start Free Trial</span>
-              <div className="absolute inset-0 bg-gradient-to-r from-[#d394ff] to-[#f0dcff] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-            </button>
-            <button
-              onClick={() => navigate('/login')}
-              className="rounded-full border border-white/[0.10] bg-white/[0.03] px-8 py-3.5 text-sm font-medium text-white/45 backdrop-blur-xl hover:border-[#d394ff]/25 hover:text-white/65 transition-all duration-300"
-            >
-              Sign In
-            </button>
-          </div>
-
-          <p className="text-[0.7rem] text-white/18 tracking-wide">
-            14-day free trial · No credit card required
-          </p>
-        </div>
-      </div>
 
       {/* ── Links + brand ──────────────────────────────────── */}
       <div

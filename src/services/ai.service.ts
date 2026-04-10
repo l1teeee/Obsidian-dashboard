@@ -59,3 +59,48 @@ export async function suggestScheduleTime(payload: SuggestTimePayload): Promise<
   });
   return res.data;
 }
+
+export interface AnalyzeImagePayload {
+  imageUrls:    string[];
+  platforms:    string[];
+  workspaceId?: string;
+  currentHour?: number;
+  weekday?:     string;
+}
+
+export interface AnalyzeImageResult {
+  captions: string[];
+  hashtags: string[];
+  bestTime: {
+    hour:      number;
+    minute:    number;
+    dayOffset: number;
+    reason:    string;
+  };
+}
+
+export async function analyzeImageForPost(payload: AnalyzeImagePayload): Promise<AnalyzeImageResult> {
+  const res = await apiFetch<AnalyzeImageResult>('/ai/analyze-image', {
+    method: 'POST',
+    body:   JSON.stringify(payload),
+  });
+  return res.data;
+}
+
+export interface EditImagePayload {
+  imageDataUrl: string;
+  maskDataUrl:  string;
+  instruction:  string;
+}
+
+export interface EditImageResult {
+  dataUrl: string;
+}
+
+export async function editImage(payload: EditImagePayload): Promise<EditImageResult> {
+  const res = await apiFetch<EditImageResult>('/ai/edit-image', {
+    method: 'POST',
+    body:   JSON.stringify(payload),
+  });
+  return res.data;
+}

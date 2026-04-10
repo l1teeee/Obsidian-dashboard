@@ -8,9 +8,119 @@ import PlatformIcon from '../shared/PlatformIcon';
 import SocialBrandIcon from '../shared/SocialBrandIcon';
 
 interface PostsTableProps {
-  posts:    CalendarPost[];
-  view:     PostsView;
-  onAction: (type: PostAction, post: CalendarPost) => void;
+  posts:              CalendarPost[];
+  view:               PostsView;
+  onAction:           (type: PostAction, post: CalendarPost) => void;
+  isLoading?:         boolean;
+  connectedPlatforms?: Set<string>;
+}
+
+function NoAccountIcon({ platformName }: { platformName: string }) {
+  return (
+    <div className="relative group/noconn shrink-0">
+      <span
+        className="material-symbols-outlined text-[#ffd166]"
+        style={{ fontSize: 14, fontVariationSettings: "'FILL' 1" }}
+      >
+        info
+      </span>
+      {/* Tooltip */}
+      <div className="absolute left-5 top-1/2 -translate-y-1/2 z-30 hidden group-hover/noconn:block w-52 bg-[#1c1b1b] border border-[#ffd166]/25 rounded-xl px-3 py-2.5 shadow-[0_8px_30px_rgba(0,0,0,0.4)] pointer-events-none">
+        <p className="text-[10px] font-semibold text-[#ffd166] mb-0.5">Can't publish</p>
+        <p className="text-[10px] text-[#cfc2d2] leading-relaxed">
+          No account connected for {platformName}. You can still save it as a draft.
+        </p>
+      </div>
+    </div>
+  );
+}
+
+function SkeletonCell({ className = '' }: { className?: string }) {
+  return (
+    <div className={`bg-[#2e2c2e] rounded-lg animate-pulse ${className}`} />
+  );
+}
+
+function PostsTableSkeleton() {
+  const rows = Array.from({ length: 6 });
+  return (
+    <>
+      {/* Desktop skeleton */}
+      <div className="glass-card rounded-3xl overflow-hidden border border-[#4c4450]/5 hidden md:block">
+        <table className="w-full text-left">
+          <thead>
+            <tr className="border-b border-[#4c4450]/10">
+              {TABLE_HEADERS.map(h => (
+                <th key={h} className="px-6 py-4 text-[#988d9c] uppercase text-[10px] tracking-widest font-semibold bg-[#1c1b1b]/50">
+                  {h}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-[#4c4450]/5">
+            {rows.map((_, i) => (
+              <tr key={i} className="group">
+                {/* Content */}
+                <td className="px-6 py-4">
+                  <div className="flex items-center gap-3">
+                    <SkeletonCell className="w-8 h-8 rounded-lg shrink-0" />
+                    <div className="space-y-1.5">
+                      <SkeletonCell className="h-3.5 w-44 rounded-md" />
+                      <SkeletonCell className="h-2.5 w-20 rounded-md" />
+                    </div>
+                  </div>
+                </td>
+                {/* Platform */}
+                <td className="px-6 py-4">
+                  <div className="flex items-center gap-2">
+                    <SkeletonCell className="w-[22px] h-[22px] rounded-md shrink-0" />
+                    <SkeletonCell className="h-3 w-20 rounded-md" />
+                  </div>
+                </td>
+                {/* Status */}
+                <td className="px-6 py-4">
+                  <SkeletonCell className="h-5 w-20 rounded-full" />
+                </td>
+                {/* Date */}
+                <td className="px-6 py-4">
+                  <SkeletonCell className="h-3.5 w-24 rounded-md" />
+                </td>
+                {/* Time */}
+                <td className="px-6 py-4">
+                  <SkeletonCell className="h-3.5 w-12 rounded-md" />
+                </td>
+                {/* Actions */}
+                <td className="px-6 py-4">
+                  <div className="flex items-center gap-1.5">
+                    <SkeletonCell className="w-7 h-7 rounded-lg" />
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      {/* Mobile skeleton */}
+      <div className="md:hidden space-y-3">
+        {rows.map((_, i) => (
+          <div key={i} className="glass-card rounded-2xl border border-[#4c4450]/5 overflow-hidden">
+            <div className="flex items-center gap-4 p-4">
+              <SkeletonCell className="w-10 h-10 rounded-xl shrink-0" />
+              <div className="flex-1 space-y-2 min-w-0">
+                <SkeletonCell className="h-3.5 w-3/4 rounded-md" />
+                <SkeletonCell className="h-2.5 w-1/2 rounded-md" />
+              </div>
+              <SkeletonCell className="h-5 w-16 rounded-full shrink-0" />
+            </div>
+            <div className="flex items-center gap-2 px-4 pb-3 border-t border-[#4c4450]/5 pt-2">
+              <SkeletonCell className="w-7 h-7 rounded-lg" />
+            </div>
+          </div>
+        ))}
+      </div>
+    </>
+  );
 }
 
 const TABLE_HEADERS = ['Content', 'Platform', 'Status', 'Date', 'Time', 'Actions'];
@@ -83,7 +193,9 @@ function ActionButtons({ post, view, onAction }: { post: CalendarPost; view: Pos
   );
 }
 
-export default function PostsTable({ posts, view, onAction }: PostsTableProps) {
+export default function PostsTable({ posts, view, onAction, isLoading, connectedPlatforms }: PostsTableProps) {
+  if (isLoading) return <PostsTableSkeleton />;
+
   if (posts.length === 0) {
     return (
       <div className="glass-card rounded-3xl border border-[#4c4450]/5 p-16 flex flex-col items-center justify-center gap-3">
@@ -113,24 +225,30 @@ export default function PostsTable({ posts, view, onAction }: PostsTableProps) {
           </thead>
           <tbody className="divide-y divide-[#4c4450]/5">
             {posts.map(post => {
-              const p       = PLATFORM_REGISTRY[post.platform];
-              const postHref = post.status === 'draft'
+              const p          = PLATFORM_REGISTRY[post.platform];
+              const postHref   = post.status === 'draft'
                 ? `/composer/${post.id}`
                 : `/posts/${post.id}`;
+              const noAccount  = connectedPlatforms !== undefined
+                && !connectedPlatforms.has(post.platform)
+                && post.status !== 'published';
               return (
                 <tr key={post.id} className="hover:bg-white/[0.03] transition-colors group">
                   <td className="px-6 py-4">
-                    <Link to={postHref} className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style={{ background: p.color }}>
-                        <SocialBrandIcon platformId={post.platform} size={14} />
-                      </div>
-                      <div className="min-w-0">
-                        <p className="text-sm font-semibold text-white truncate max-w-[240px] group-hover:text-[#d394ff] transition-colors">
-                          {post.title}
-                        </p>
-                        <p className="text-[10px] text-[#988d9c] font-mono uppercase">ID: {post.id}</p>
-                      </div>
-                    </Link>
+                    <div className="flex items-center gap-3">
+                      <Link to={postHref} className="flex items-center gap-3 min-w-0 flex-1">
+                        <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style={{ background: p.color }}>
+                          <SocialBrandIcon platformId={post.platform} size={14} />
+                        </div>
+                        <div className="min-w-0">
+                          <p className="text-sm font-semibold text-white truncate max-w-[240px] group-hover:text-[#d394ff] transition-colors">
+                            {post.title}
+                          </p>
+                          <p className="text-[10px] text-[#988d9c] font-mono uppercase">ID: {post.id}</p>
+                        </div>
+                      </Link>
+                      {noAccount && <NoAccountIcon platformName={p.name} />}
+                    </div>
                   </td>
                   <td className="px-6 py-4">
                     <Link to={postHref} className="flex items-center gap-2">
@@ -162,10 +280,13 @@ export default function PostsTable({ posts, view, onAction }: PostsTableProps) {
       {/* Mobile cards */}
       <div className="md:hidden space-y-3">
         {posts.map(post => {
-          const p         = PLATFORM_REGISTRY[post.platform];
-          const postHref  = post.status === 'draft'
+          const p          = PLATFORM_REGISTRY[post.platform];
+          const postHref   = post.status === 'draft'
             ? `/composer/${post.id}`
             : `/posts/${post.id}`;
+          const noAccount  = connectedPlatforms !== undefined
+            && !connectedPlatforms.has(post.platform)
+            && post.status !== 'published';
           return (
             <div key={post.id} className="glass-card rounded-2xl border border-[#4c4450]/5 overflow-hidden">
               <Link
@@ -181,7 +302,10 @@ export default function PostsTable({ posts, view, onAction }: PostsTableProps) {
                     {p.name} · {format(post.date, 'MMM d')} · {post.time}
                   </p>
                 </div>
-                <StatusBadge status={post.status} size="xs" />
+                <div className="flex items-center gap-2 shrink-0">
+                  {noAccount && <NoAccountIcon platformName={p.name} />}
+                  <StatusBadge status={post.status} size="xs" />
+                </div>
               </Link>
               <div className="flex items-center gap-2 px-4 pb-3 border-t border-[#4c4450]/5 pt-2">
                 <ActionButtons post={post} view={view} onAction={onAction} />

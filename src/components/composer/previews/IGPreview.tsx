@@ -111,7 +111,6 @@ export default function IGPreview({ caption, mediaPreviews, igAccountName }: IGP
 
         {/* Caption */}
         <div className="px-3 pb-4 space-y-1">
-          <p className="text-[11px] font-bold text-white">1,248 likes</p>
           <p className="text-[11px] leading-relaxed text-white">
             <span className="font-bold">{igAccountName ?? 'your_account'} </span>
             <span className="text-[#cfc2d2]">{caption || 'Your caption will appear here...'}</span>

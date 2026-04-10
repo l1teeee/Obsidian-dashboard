@@ -78,13 +78,16 @@ export default function PostComposer() {
     selectedChannels, previewTab, setPreviewTab,
     scheduleDate, setScheduleDate, toast,
     showSuggestions, setShowSuggestions,
-    toggleChannel, handleFileChange, handleAIImageGenerated, removeMedia, handleAction,
+    toggleChannel, handleFilesSelected, handleAIImageGenerated, handleReplaceMedia, removeMedia, handleAction,
     autoSaveDraft, hasContent, isDirty,
     isScheduleMode, setIsScheduleMode,
     fbPageName,
     igAccountName,
+    unconnectedChannelNames,
     pageRef, fileInputRef, isSubmitting, draftLoading,
   } = useComposer(playSuccess, editId);
+
+  const [timeFromAnalysis, setTimeFromAnalysis] = useState(false);
 
   // Stable refs so the cleanup effect always sees current values
   const isDirtyRef  = useRef(isDirty);
@@ -261,12 +264,46 @@ export default function PostComposer() {
               <ScrollArea className="flex-1 min-h-0 p-4 md:p-8">
                 <div className="max-w-xl mx-auto space-y-6">
                   <ChannelSelector selectedChannels={selectedChannels} onToggle={toggleChannel} fbPageName={fbPageName} igAccountName={igAccountName} />
+
+                  {/* No-account warning */}
+                  {unconnectedChannelNames.length > 0 && (
+                    <div className="flex items-start gap-3 px-4 py-3 rounded-2xl bg-[#ffd166]/8 border border-[#ffd166]/20">
+                      <span className="material-symbols-outlined text-[#ffd166] shrink-0 mt-0.5" style={{ fontSize: 16, fontVariationSettings: "'FILL' 1" }}>
+                        warning
+                      </span>
+                      <div>
+                        <p className="text-xs font-semibold text-[#ffd166]">No account connected</p>
+                        <p className="text-[10px] text-[#ffd166]/70 mt-0.5 leading-relaxed">
+                          <strong>{unconnectedChannelNames.join(', ')}</strong>{' '}
+                          {unconnectedChannelNames.length > 1 ? 'have' : 'has'} no connected account.
+                          You can save as draft but cannot publish or schedule.
+                        </p>
+                      </div>
+                    </div>
+                  )}
+
                   <MediaUpload
                     mediaItems={mediaItems}
+                    selectedChannels={selectedChannels}
                     fileInputRef={fileInputRef}
                     onRemove={removeMedia}
-                    onFileChange={handleFileChange}
+                    onFilesSelected={handleFilesSelected}
                     onAIImageGenerated={handleAIImageGenerated}
+                    onReplaceMedia={handleReplaceMedia}
+                    onAnalysisApplied={(cap, tags, bestTime) => {
+                      handleCaptionChange(tags.length > 0 ? `${cap}\n\n${tags.join(' ')}` : cap);
+                      setShowSuggestions(false);
+                      if (bestTime) {
+                        const d = new Date();
+                        d.setDate(d.getDate() + bestTime.dayOffset);
+                        d.setHours(bestTime.hour, bestTime.minute, 0, 0);
+                        setScheduleDate(d);
+                        setIsScheduleMode(true);
+                        setTimeFromAnalysis(true);
+                      } else {
+                        setTimeFromAnalysis(false);
+                      }
+                    }}
                   />
                   <CaptionEditor
                     caption={caption}
@@ -281,7 +318,8 @@ export default function PostComposer() {
                     isScheduleMode={isScheduleMode}
                     caption={caption}
                     selectedChannels={selectedChannels}
-                    onDateChange={setScheduleDate}
+                    timeFromAnalysis={timeFromAnalysis}
+                    onDateChange={(d) => { setScheduleDate(d); setTimeFromAnalysis(false); }}
                     onScheduleToggle={setIsScheduleMode}
                   />
 

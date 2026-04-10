@@ -1,7 +1,7 @@
 
 import { useLayoutEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
+import { useFadeNav } from '@/hooks/useFadeNav';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -35,7 +35,7 @@ function Shape({
 
 export default function CTASection() {
   const sectionRef = useRef<HTMLElement | null>(null);
-  const navigate = useNavigate();
+  const fadeNav = useFadeNav();
 
   useLayoutEffect(() => {
     if (!sectionRef.current) return;
@@ -122,14 +122,14 @@ export default function CTASection() {
         {/* Actions */}
         <div data-cta="actions" style={{ opacity: 0 }} className="flex flex-col items-center justify-center gap-4 sm:flex-row">
           <button
-            onClick={() => navigate('/register')}
+            onClick={() => fadeNav('/register')}
             className="group relative w-full overflow-hidden rounded-full bg-[#d394ff] px-10 py-4 text-sm font-bold text-[#3a0060] transition-all duration-300 hover:shadow-[0_0_50px_rgba(211,148,255,0.4)] sm:w-auto"
           >
             <span className="relative z-10">Start Free Trial</span>
             <div className="absolute inset-0 bg-gradient-to-r from-[#d394ff] to-[#f0dcff] opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
           </button>
           <button
-            onClick={() => navigate('/login')}
+            onClick={() => fadeNav('/login')}
             className="w-full rounded-full border border-white/[0.10] bg-white/[0.03] px-10 py-4 text-sm font-semibold text-white/45 backdrop-blur-xl transition-all duration-300 hover:border-[#d394ff]/25 hover:text-white/70 sm:w-auto"
           >
             Book a Demo

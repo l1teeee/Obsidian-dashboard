@@ -1,10 +1,13 @@
+import { useState } from 'react';
+
 interface FBPreviewProps {
   caption:       string;
   mediaPreviews: string[];
   pageName?:     string | null;
 }
 
-function MediaGrid({ images }: { images: string[] }) {
+function MediaCarousel({ images }: { images: string[] }) {
+  const [current, setCurrent] = useState(0);
   const count = images.length;
 
   if (count === 0) {
@@ -15,47 +18,46 @@ function MediaGrid({ images }: { images: string[] }) {
     );
   }
 
-  if (count === 1) {
-    return <img src={images[0]} className="w-full aspect-video object-cover" alt="" />;
-  }
-
-  if (count === 2) {
-    return (
-      <div className="flex gap-0.5" style={{ aspectRatio: '16/9' }}>
-        {images.map((src, i) => (
-          <img key={i} src={src} className="flex-1 object-cover" alt="" />
-        ))}
-      </div>
-    );
-  }
-
-  if (count === 3) {
-    return (
-      <div className="flex gap-0.5" style={{ aspectRatio: '16/9' }}>
-        <img src={images[0]} className="w-1/2 object-cover" alt="" />
-        <div className="flex-1 flex flex-col gap-0.5">
-          <img src={images[1]} className="flex-1 object-cover" alt="" />
-          <img src={images[2]} className="flex-1 object-cover" alt="" />
-        </div>
-      </div>
-    );
-  }
-
-  // 4+ images: 2×2 grid, "+N more" overlay on last cell — same as LinkedIn
-  const shown = images.slice(0, 4);
-  const extra = count - 4;
   return (
-    <div className="grid grid-cols-2 gap-0.5" style={{ aspectRatio: '1/1' }}>
-      {shown.map((src, i) => (
-        <div key={i} className="relative overflow-hidden">
-          <img src={src} className="w-full h-full object-cover" alt="" />
-          {i === 3 && extra > 0 && (
-            <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
-              <span className="text-white text-lg font-bold">+{extra}</span>
-            </div>
-          )}
+    <div className="relative w-full aspect-video overflow-hidden bg-black">
+      <img src={images[current]} className="w-full h-full object-contain" alt="" />
+
+      {count > 1 && (
+        <div className="absolute top-2 right-2 bg-black/60 rounded-full px-2 py-0.5">
+          <span className="text-[10px] font-bold text-white">{current + 1}/{count}</span>
         </div>
-      ))}
+      )}
+
+      {count > 1 && current > 0 && (
+        <button
+          onClick={() => setCurrent(i => i - 1)}
+          className="absolute left-1.5 top-1/2 -translate-y-1/2 w-7 h-7 rounded-full bg-black/50 flex items-center justify-center hover:bg-black/70 transition-colors"
+        >
+          <span className="material-symbols-outlined text-white text-[16px]">chevron_left</span>
+        </button>
+      )}
+      {count > 1 && current < count - 1 && (
+        <button
+          onClick={() => setCurrent(i => i + 1)}
+          className="absolute right-1.5 top-1/2 -translate-y-1/2 w-7 h-7 rounded-full bg-black/50 flex items-center justify-center hover:bg-black/70 transition-colors"
+        >
+          <span className="material-symbols-outlined text-white text-[16px]">chevron_right</span>
+        </button>
+      )}
+
+      {count > 1 && (
+        <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1">
+          {images.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => setCurrent(i)}
+              className={`rounded-full transition-all ${
+                i === current ? 'w-3 h-1.5 bg-white' : 'w-1.5 h-1.5 bg-white/40'
+              }`}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 }
@@ -103,16 +105,12 @@ export default function FBPreview({ caption, mediaPreviews, pageName }: FBPrevie
             </p>
           </div>
 
-          {/* Media grid */}
-          <MediaGrid images={mediaPreviews} />
+          {/* Media carousel */}
+          <MediaCarousel images={mediaPreviews} />
 
           {/* Reactions */}
           <div className="px-3 pt-2 pb-1">
-            <div className="flex justify-between text-[9px] text-[#65676b] pb-2 border-b border-[#e4e6eb]">
-              <span>👍 ❤️ 24</span>
-              <span>5 comments · 2 shares</span>
-            </div>
-            <div className="flex justify-around pt-1">
+            <div className="flex justify-around border-t border-[#e4e6eb] pt-1">
               {[['thumb_up','Like'],['mode_comment','Comment'],['share','Share']].map(([icon, label]) => (
                 <button key={label} className="flex items-center gap-1 py-1 px-2 rounded-lg hover:bg-[#f0f2f5]">
                   <span className="material-symbols-outlined text-[#65676b] text-[14px]">{icon}</span>

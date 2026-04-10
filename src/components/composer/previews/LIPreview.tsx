@@ -1,55 +1,56 @@
+import { useState } from 'react';
+
 interface LIPreviewProps {
   caption:       string;
   mediaPreviews: string[];
 }
 
-function MediaGrid({ images }: { images: string[] }) {
+function MediaCarousel({ images }: { images: string[] }) {
+  const [current, setCurrent] = useState(0);
   const count = images.length;
+
   if (count === 0) return null;
 
-  if (count === 1) {
-    return (
-      <img src={images[0]} className="w-full aspect-video object-cover" alt="" />
-    );
-  }
-
-  if (count === 2) {
-    return (
-      <div className="flex gap-0.5 aspect-video">
-        {images.map((src, i) => (
-          <img key={i} src={src} className="flex-1 object-cover" alt="" />
-        ))}
-      </div>
-    );
-  }
-
-  if (count === 3) {
-    return (
-      <div className="flex gap-0.5" style={{ aspectRatio: '16/9' }}>
-        <img src={images[0]} className="w-1/2 object-cover" alt="" />
-        <div className="flex-1 flex flex-col gap-0.5">
-          <img src={images[1]} className="flex-1 object-cover" alt="" />
-          <img src={images[2]} className="flex-1 object-cover" alt="" />
-        </div>
-      </div>
-    );
-  }
-
-  // 4+ images: 2x2 grid with "+N" overlay on last
-  const shown  = images.slice(0, 4);
-  const extra  = count - 4;
   return (
-    <div className="grid grid-cols-2 gap-0.5" style={{ aspectRatio: '1/1' }}>
-      {shown.map((src, i) => (
-        <div key={i} className="relative overflow-hidden">
-          <img src={src} className="w-full h-full object-cover" alt="" />
-          {i === 3 && extra > 0 && (
-            <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
-              <span className="text-white text-lg font-bold">+{extra}</span>
-            </div>
-          )}
+    <div className="relative w-full aspect-video overflow-hidden bg-black">
+      <img src={images[current]} className="w-full h-full object-contain" alt="" />
+
+      {count > 1 && (
+        <div className="absolute top-2 right-2 bg-black/60 rounded-full px-2 py-0.5">
+          <span className="text-[10px] font-bold text-white">{current + 1}/{count}</span>
         </div>
-      ))}
+      )}
+
+      {count > 1 && current > 0 && (
+        <button
+          onClick={() => setCurrent(i => i - 1)}
+          className="absolute left-1.5 top-1/2 -translate-y-1/2 w-7 h-7 rounded-full bg-black/50 flex items-center justify-center hover:bg-black/70 transition-colors"
+        >
+          <span className="material-symbols-outlined text-white text-[16px]">chevron_left</span>
+        </button>
+      )}
+      {count > 1 && current < count - 1 && (
+        <button
+          onClick={() => setCurrent(i => i + 1)}
+          className="absolute right-1.5 top-1/2 -translate-y-1/2 w-7 h-7 rounded-full bg-black/50 flex items-center justify-center hover:bg-black/70 transition-colors"
+        >
+          <span className="material-symbols-outlined text-white text-[16px]">chevron_right</span>
+        </button>
+      )}
+
+      {count > 1 && (
+        <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1">
+          {images.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => setCurrent(i)}
+              className={`rounded-full transition-all ${
+                i === current ? 'w-3 h-1.5 bg-white' : 'w-1.5 h-1.5 bg-white/40'
+              }`}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 }
@@ -90,12 +91,11 @@ export default function LIPreview({ caption, mediaPreviews }: LIPreviewProps) {
             </p>
           </div>
 
-          {/* Media grid */}
-          {mediaPreviews.length > 0 && <MediaGrid images={mediaPreviews} />}
+          {/* Media carousel */}
+          {mediaPreviews.length > 0 && <MediaCarousel images={mediaPreviews} />}
 
           {/* Reactions row */}
           <div className="px-3 py-2 border-t border-[#e0e0e0]">
-            <p className="text-[9px] text-[#666] mb-2">42 reactions · 8 comments</p>
             <div className="flex justify-between">
               {[['thumb_up','Like'],['mode_comment','Comment'],['repeat','Repost'],['send','Send']].map(([icon, label]) => (
                 <button key={label} className="flex flex-col items-center gap-0.5">

@@ -23,10 +23,13 @@ const CHANNEL_FROM_PLATFORM: Record<string, ChannelId> = {
 export type ActionType = 'draft' | 'publish' | 'schedule';
 
 export interface MediaItem {
-  previewUrl:    string;            // blob URL or HTTP URL — for display
-  sourceUrl?:    string;            // persisted HTTP URL — stored in media_urls
-  uploading?:    boolean;           // true while the file is being uploaded
-  uploadError?:  string;            // set if the upload failed
+  previewUrl:      string;            // blob URL or HTTP URL — for display
+  sourceUrl?:      string;            // persisted HTTP URL — stored in media_urls
+  uploading?:      boolean;           // true while the file is being uploaded
+  uploadError?:    string;            // set if the upload failed
+  mediaType?:      'image' | 'video'; // detected from file.type on upload
+  fileSize?:       number;            // original file size in bytes (only for local files)
+  isAIGenerated?:  boolean;           // true only for DALL-E generated images
 }
 
 const MAX_MEDIA = 10;
@@ -57,6 +60,8 @@ export function useComposer(onSuccess?: (type: ActionType, names: string) => voi
   // Page/account names for connected platforms (shown in ChannelSelector and previews)
   const [fbPageName,     setFbPageName]     = useState<string | null>(null);
   const [igAccountName,  setIgAccountName]  = useState<string | null>(null);
+  // LinkedIn: API doesn't track it yet, so we default to true (don't block)
+  const [liConnected,    setLiConnected]    = useState(true);
 
   // Load connected platform names on mount
   useEffect(() => {
@@ -67,6 +72,10 @@ export function useComposer(onSuccess?: (type: ActionType, names: string) => voi
 
         const ig = conns.find(c => c.platform === 'instagram');
         setIgAccountName(ig?.account_name ?? null);
+
+        // Forward-compatible: detect LinkedIn if it ever appears in the API
+        const li = conns.find(c => (c.platform as string) === 'linkedin');
+        if (li !== undefined) setLiConnected(true);
       })
       .catch(() => { /* no connections — silently ignore */ });
   }, []);
@@ -140,10 +149,8 @@ export function useComposer(onSuccess?: (type: ActionType, names: string) => voi
     setIsDirty(true);
   }, [previewTab]);
 
-  const handleFileChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = Array.from(e.target.files ?? []);
+  const handleFilesSelected = useCallback((files: File[]) => {
     if (!files.length) return;
-    if (fileInputRef.current) fileInputRef.current.value = '';
 
     setMediaItems(prev => {
       const slots   = MAX_MEDIA - prev.length;
@@ -154,6 +161,8 @@ export function useComposer(onSuccess?: (type: ActionType, names: string) => voi
       const newItems: MediaItem[] = allowed.map(f => ({
         previewUrl: URL.createObjectURL(f),
         uploading:  true,
+        mediaType:  f.type.startsWith('video/') ? 'video' : 'image',
+        fileSize:   f.size,
       }));
 
       // Upload each file individually in the background
@@ -187,10 +196,31 @@ export function useComposer(onSuccess?: (type: ActionType, names: string) => voi
     setIsDirty(true);
   }, []);
 
+  const handleFileChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files ?? []);
+    if (fileInputRef.current) fileInputRef.current.value = '';
+    handleFilesSelected(files);
+  }, [handleFilesSelected]);
+
   const handleAIImageGenerated = useCallback((blobUrl: string, sourceUrl: string) => {
     setMediaItems(prev => {
       if (prev.length >= MAX_MEDIA) return prev;
-      return [...prev, { previewUrl: blobUrl, sourceUrl }];
+      return [...prev, { previewUrl: blobUrl, sourceUrl, isAIGenerated: true }];
+    });
+    setIsDirty(true);
+  }, []);
+
+  const handleReplaceMedia = useCallback((index: number, blobUrl: string, sourceUrl: string) => {
+    setMediaItems(prev => {
+      const item = prev[index];
+      if (!item) return prev;
+      // Revoke old blob URL if it was a local blob
+      if (item.previewUrl.startsWith('blob:')) URL.revokeObjectURL(item.previewUrl);
+      return prev.map((it, i) =>
+        i === index
+          ? { ...it, previewUrl: blobUrl, sourceUrl, isAIGenerated: true, uploadError: undefined, uploading: false }
+          : it,
+      );
     });
     setIsDirty(true);
   }, []);
@@ -250,7 +280,25 @@ export function useComposer(onSuccess?: (type: ActionType, names: string) => voi
     setIsDirty(false);
   };
 
+  const channelConnected: Record<ChannelId, boolean> = {
+    ig: !!igAccountName,
+    fb: !!fbPageName,
+    li: liConnected,
+  };
+
+  const unconnectedChannelNames = selectedChannels
+    .filter(ch => !channelConnected[ch])
+    .map(ch => CHANNELS.find(c => c.id === ch)?.label ?? ch);
+
   const handleAction = async (type: ActionType) => {
+    // Block publish/schedule when a selected channel has no connected account
+    if (type !== 'draft') {
+      if (unconnectedChannelNames.length > 0) {
+        showToast(`No account connected for ${unconnectedChannelNames.join(', ')}. Save as draft instead.`);
+        return;
+      }
+    }
+
     setIsSubmitting(true);
     try {
       const statusMap = {
@@ -330,9 +378,13 @@ export function useComposer(onSuccess?: (type: ActionType, names: string) => voi
     isScheduleMode,    setIsScheduleMode,
     fbPageName,
     igAccountName,
+    channelConnected,
+    unconnectedChannelNames,
     toggleChannel,
     handleFileChange,
+    handleFilesSelected,
     handleAIImageGenerated,
+    handleReplaceMedia,
     removeMedia,
     handleAction,
     autoSaveDraft,
