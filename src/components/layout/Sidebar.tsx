@@ -21,8 +21,8 @@ const NAV_ITEMS: NavItem[] = [
   { to: '/posts',       icon: 'article',        label: 'Posts',         plans: ['starter', 'pro', 'enterprise'] },
   { to: '/calendar',    icon: 'calendar_month', label: 'Calendar',      plans: ['starter', 'pro', 'enterprise'] },
   { to: '/platforms',   icon: 'hub',            label: 'Platforms',     plans: ['starter', 'pro', 'enterprise'] },
-  { to: '/analytics',   icon: 'monitoring',     label: 'Analytics',     plans: ['pro', 'enterprise'] },
-  { to: '/rivals',      icon: 'radar',          label: 'Rival Monitor', plans: ['pro', 'enterprise'] },
+  { to: '/analytics',   icon: 'monitoring',     label: 'Analytics',     plans: ['starter', 'pro', 'enterprise'] },
+  { to: '/rivals',      icon: 'radar',          label: 'Rival Monitor', plans: ['starter', 'pro', 'enterprise'] },
   { to: '/ai-settings', icon: 'auto_awesome',   label: 'AI Settings',   plans: ['starter', 'pro', 'enterprise'] },
 ];
 

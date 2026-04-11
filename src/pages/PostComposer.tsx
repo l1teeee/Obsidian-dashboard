@@ -130,7 +130,8 @@ export default function PostComposer() {
     }
   };
 
-  const mediaPreviews = mediaItems.map(i => i.previewUrl);
+  const mediaPreviews    = mediaItems.map(i => i.previewUrl);
+  const isUploadingMedia = mediaItems.some(i => i.uploading);
   const [mobileTab, setMobileTab] = useState<MobileTab>('edit');
 
   useEffect(() => {
@@ -213,17 +214,23 @@ export default function PostComposer() {
             title={editId ? 'Edit Draft' : 'Post Composer'}
             actions={
               <div className="flex items-center gap-2 md:gap-3">
-                <button
-                  onClick={handleSaveDraft}
-                  disabled={isSubmitting || isSavingDraft || !isDirty || !hasContent}
-                  className="hidden sm:flex items-center gap-1.5 text-sm font-medium text-[#988d9c] hover:text-white transition-colors disabled:opacity-40"
-                >
-                  {isSavingDraft
-                    ? <span className="material-symbols-outlined text-[14px] animate-spin">progress_activity</span>
-                    : <span className="material-symbols-outlined text-[14px]">draft</span>
-                  }
-                  {isSavingDraft ? 'Saving…' : 'Save Draft'}
-                </button>
+                <div className="hidden sm:flex flex-col items-end gap-0.5">
+                  <button
+                    onClick={handleSaveDraft}
+                    disabled={isSubmitting || isSavingDraft || !isDirty || !hasContent || isUploadingMedia}
+                    title={isUploadingMedia ? 'Wait for media to finish uploading' : undefined}
+                    className="flex items-center gap-1.5 text-sm font-medium text-[#988d9c] hover:text-white transition-colors disabled:opacity-40"
+                  >
+                    {isSavingDraft
+                      ? <span className="material-symbols-outlined text-[14px] animate-spin">progress_activity</span>
+                      : isUploadingMedia
+                        ? <span className="material-symbols-outlined text-[14px] animate-spin">progress_activity</span>
+                        : <span className="material-symbols-outlined text-[14px]">draft</span>
+                    }
+                    {isSavingDraft ? 'Saving…' : isUploadingMedia ? 'Uploading…' : 'Save Draft'}
+                  </button>
+                  <span className="text-[9px] text-[#3a3a3a] tracking-wide leading-none">kept 7 days</span>
+                </div>
                 <button
                   onClick={() => handleAction(isScheduleMode ? 'schedule' : 'publish')}
                   disabled={isSubmitting || isSavingDraft}
@@ -323,14 +330,27 @@ export default function PostComposer() {
                     onScheduleToggle={setIsScheduleMode}
                   />
 
+                  {/* Draft expiry notice */}
+                  <div className="flex items-start gap-2.5 px-3.5 py-2.5 rounded-xl bg-[#161616] border border-[#2e2e2e]">
+                    <span className="material-symbols-outlined text-[#3d3d3d] shrink-0 mt-px" style={{ fontSize: 14 }}>
+                      schedule
+                    </span>
+                    <p className="text-[11px] text-[#4a4a4a] leading-relaxed">
+                      Drafts and their media are automatically removed after{' '}
+                      <span className="text-[#6a6a6a] font-semibold">7 days</span>.
+                      Publish or schedule before then to keep your content.
+                    </p>
+                  </div>
+
                   {/* Mobile actions */}
                   <div className="flex gap-3 md:hidden pb-4">
                     <button
                       onClick={handleSaveDraft}
-                      disabled={isSubmitting || isSavingDraft || !isDirty || !hasContent}
+                      disabled={isSubmitting || isSavingDraft || !isDirty || !hasContent || isUploadingMedia}
+                      title={isUploadingMedia ? 'Wait for media to finish uploading' : undefined}
                       className="flex-1 py-3 rounded-xl border border-[#4c4450]/30 text-sm font-medium text-[#988d9c] hover:text-white transition-colors disabled:opacity-40"
                     >
-                      {isSavingDraft ? 'Saving…' : 'Save Draft'}
+                      {isSavingDraft ? 'Saving…' : isUploadingMedia ? 'Uploading…' : 'Save Draft'}
                     </button>
                     <button
                       onClick={() => handleAction(isScheduleMode ? 'schedule' : 'publish')}

@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import type { RefObject } from 'react';
 import { generateImage, analyzeImageForPost, editImage } from '../../services/ai.service';
 import type { AnalyzeImageResult } from '../../services/ai.service';
+import { uploadFile } from '../../services/media.service';
 import { useWorkspace } from '../../contexts/WorkspaceContext';
 import type { MediaItem } from '../../hooks/useComposer';
 import type { ChannelId } from '../../types/composer.types';
@@ -16,6 +17,13 @@ function formatBytes(bytes: number): string {
   if (bytes <= 0) return '';
   if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(0)} KB`;
   return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+}
+
+/** Convert a base64 data URL returned by the AI backend into a File for S3 upload. */
+async function dataUrlToFile(dataUrl: string, filename: string): Promise<File> {
+  const res  = await fetch(dataUrl);
+  const blob = await res.blob();
+  return new File([blob], filename, { type: blob.type || 'image/png' });
 }
 
 // ── Platform mapping ─────────────────────────────────────────────────────────
@@ -252,8 +260,10 @@ export default function MediaUpload({
     setEditError(null);
     try {
       const { image, mask } = await prepareForEdit(item.previewUrl);
-      const result = await editImage({ imageDataUrl: image, maskDataUrl: mask, instruction: editPrompt.trim() });
-      onReplaceMedia(editingIndex, result.dataUrl, result.dataUrl);
+      const result  = await editImage({ imageDataUrl: image, maskDataUrl: mask, instruction: editPrompt.trim() });
+      const file    = await dataUrlToFile(result.dataUrl, 'ai-edit.png');
+      const upload  = await uploadFile(file);
+      onReplaceMedia(editingIndex, result.dataUrl, upload.url);
       setEditingIndex(null);
       setEditPrompt('');
     } catch (err) {
@@ -332,7 +342,9 @@ export default function MediaUpload({
     setRevisedPrompt(null);
     try {
       const result = await generateImage({ prompt: trimmed, size });
-      onAIImageGenerated(result.dataUrl, result.dataUrl);
+      const file   = await dataUrlToFile(result.dataUrl, 'ai-generated.png');
+      const upload = await uploadFile(file);
+      onAIImageGenerated(result.dataUrl, upload.url);
       setRevisedPrompt(result.revised_prompt);
     } catch (err) {
       setGenError((err as Error).message ?? 'Image generation failed. Try again.');
