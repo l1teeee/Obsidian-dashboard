@@ -72,7 +72,8 @@
       "Bash(xargs tail:*)",
       "Bash(ls \"C:/Proyects/obsidian-dashboard/tsconfig\"*)",
       "Bash(ls \"C:/Proyects/obsidian-dashboard/\"tsconfig*)",
-      "Bash(echo \"exit:$?\")"
+      "Bash(echo \"exit:$?\")",
+      "mcp__ide__getDiagnostics"
     ]
   }
 }

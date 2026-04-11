@@ -120,8 +120,8 @@ function DashboardMockup() {
                   ))}
                 </div>
                 <div className="mt-1.5 flex gap-1">
-                  {days.map((d) => (
-                    <span key={d} className="flex-1 text-center text-[0.4rem] font-bold uppercase text-white/20">{d}</span>
+                  {days.map((d, i) => (
+                    <span key={i} className="flex-1 text-center text-[0.4rem] font-bold uppercase text-white/20">{d}</span>
                   ))}
                 </div>
               </div>
