@@ -3,6 +3,7 @@ import { useInactivityTimer } from './hooks/useInactivityTimer';
 import SessionWarningModal from './components/shared/SessionWarningModal';
 import KickedOutModal      from './components/shared/KickedOutModal';
 import CompleteProfile     from './pages/CompleteProfile';
+import { logoutBeacon } from './services/auth.service';
 import { BrowserRouter, Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import Lenis from 'lenis';
 import gsap from 'gsap';
@@ -140,6 +141,16 @@ function SessionGuard() {
     await logout();
     navigate('/login', { replace: true });
   }, [logout, navigate]);
+
+  // Close session in DB when the tab is closed or user navigates away
+  useEffect(() => {
+    if (!isAuthenticated) return;
+    const handlePageHide = (e: PageTransitionEvent) => {
+      if (!e.persisted) logoutBeacon();
+    };
+    window.addEventListener('pagehide', handlePageHide);
+    return () => window.removeEventListener('pagehide', handlePageHide);
+  }, [isAuthenticated]);
 
   const { showWarning, countdown, keepAlive } = useInactivityTimer({
     enabled:  isAuthenticated && !!user?.profileCompleted && !AUTH_PATHS.includes(pathname),

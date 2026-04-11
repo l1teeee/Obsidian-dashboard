@@ -82,6 +82,16 @@ export async function logout(): Promise<void> {
   await apiFetch('/auth/logout', { method: 'POST' });
 }
 
+/**
+ * Fire-and-forget logout using sendBeacon — safe to call on pagehide/tab close.
+ * sendBeacon is guaranteed to be sent even when the page is unloading.
+ */
+export function logoutBeacon(): void {
+  const base = (import.meta.env.VITE_API_URL as string | undefined) ?? 'http://localhost:3000';
+  // Pass an empty JSON blob so the backend Content-Type check passes
+  navigator.sendBeacon(`${base}/auth/logout`, new Blob([], { type: 'application/json' }));
+}
+
 export function clearTokens(): void {
   setAccessToken(null);
   // No localStorage to clear — refresh token is httpOnly cookie, cleared by server on logout
