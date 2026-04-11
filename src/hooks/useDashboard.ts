@@ -2,7 +2,7 @@ import { useRef, useState, useEffect } from 'react';
 import gsap from 'gsap';
 import * as postsService from '../services/posts.service';
 import * as metricsService from '../services/metrics.service';
-import type { FacebookSummary, FbPostMetric } from '../types/metrics.types';
+import type { DashboardSummary, FacebookSummary, FbPostMetric } from '../types/metrics.types';
 import { PLATFORM_REGISTRY } from '../domain/entities/Platform';
 import type { PlatformId } from '../domain/entities/Platform';
 import type { PostSummary, UpcomingPost } from '../domain/entities/Post';
@@ -67,21 +67,25 @@ function mapToUpcomingPost(post: postsService.ApiPost): UpcomingPost {
 
 
 function buildKpiCards(
-  scheduledCount: number,
-  summary: FacebookSummary | null,
+  localSummary: DashboardSummary | null,
+  fbSummary: FacebookSummary | null,
 ): KpiCard[] {
-  const reach          = summary?.reach_30d          ?? null;
-  const engagedUsers   = summary?.engaged_users_30d  ?? null;
+  const reach          = fbSummary?.reach_30d          ?? null;
+  const engagedUsers   = fbSummary?.engaged_users_30d  ?? null;
   const engagementRate = (reach && reach > 0 && engagedUsers !== null)
     ? Math.round((engagedUsers / reach) * 100)
     : null;
+
+  const totalPosts     = localSummary?.posts.total           ?? null;
+  const publishedThisWeek = localSummary?.posts.published_this_week ?? null;
+  const scheduled      = localSummary?.posts.scheduled       ?? null;
 
   return [
     {
       label: 'Total Reach',
       display:  reach !== null ? reach.toLocaleString() : '—',
       countEnd: reach ?? 0, isFloat: false, suffix: '',
-      delta:    summary ? `${summary.impressions_30d.toLocaleString()} impressions` : null,
+      delta:    fbSummary ? `${fbSummary.impressions_30d.toLocaleString()} impressions` : null,
       positive: null,
       bar:      reach !== null ? Math.min(100, reach / 10) : null,
       barColor: '#d394ff', glow: 'rgba(211,148,255,0.5)', type: 'bar',
@@ -96,14 +100,18 @@ function buildKpiCards(
       barColor: '#9400e4', glow: 'rgba(148,0,228,0.5)', type: 'bar',
     },
     {
-      label: 'Scheduled Posts', display: String(scheduledCount), countEnd: scheduledCount, isFloat: false, suffix: '',
+      label: 'Scheduled Posts',
+      display:  scheduled !== null ? String(scheduled) : '—',
+      countEnd: scheduled ?? 0, isFloat: false, suffix: '',
       delta: 'upcoming', positive: null, bar: null, barColor: '', glow: '', type: 'dots',
     },
     {
-      label: 'FB Fans',
-      display:  summary ? summary.fan_count.toLocaleString() : '—',
-      countEnd: summary?.fan_count ?? 0, isFloat: false, suffix: '',
-      delta: null, positive: null, bar: null, barColor: '', glow: '', type: 'dots',
+      label: 'Total Posts',
+      display:  totalPosts !== null ? totalPosts.toLocaleString() : '—',
+      countEnd: totalPosts ?? 0, isFloat: false, suffix: '',
+      delta:    publishedThisWeek !== null ? `${publishedThisWeek} this week` : null,
+      positive: publishedThisWeek !== null && publishedThisWeek > 0,
+      bar:      null, barColor: '', glow: '', type: 'dots',
     },
   ];
 }
@@ -123,7 +131,7 @@ export function useDashboard() {
   const [loaded,      setLoaded]      = useState(false);
   const [refreshing,  setRefreshing]  = useState(false);
 
-  const [kpiCards,    setKpiCards]    = useState<KpiCard[]>(buildKpiCards(0, null));
+  const [kpiCards,    setKpiCards]    = useState<KpiCard[]>(buildKpiCards(null, null));
   const [upcoming,    setUpcoming]    = useState<UpcomingPost[]>([]);
   const [recentPosts, setRecentPosts] = useState<PostSummary[]>([]);
 
@@ -132,14 +140,29 @@ export function useDashboard() {
     let cancelled = false;
 
     Promise.all([
+      metricsService.getDashboardSummary().catch(() => null),
       postsService.getAll({ status: 'scheduled', limit: 10 }),
       metricsService.getFacebookSummary().catch(() => null),
       metricsService.getFacebookPosts().catch(() => []),
-    ]).then(([scheduledPage, summary, fbPosts]) => {
+      postsService.getAll({ status: 'published', limit: 5 }),
+    ]).then(([localSummary, scheduledPage, fbSummary, fbPosts, publishedPage]) => {
       if (cancelled) return;
-      setRecentPosts(fbPosts.slice(0, 5).map(mapFbPostToSummary));
+
+      // Recent posts: prefer FB data (has engagement metrics); fall back to local published posts
+      const recentFromFb    = fbPosts.slice(0, 5).map(mapFbPostToSummary);
+      const recentFromLocal = publishedPage.posts.slice(0, 5).map(mapToUpcomingPost).map(p => ({
+        id:       p.id,
+        title:    p.caption.slice(0, 72) || 'Post',
+        platform: p.platform,
+        status:   'published' as const,
+        date:     p.date,
+        imageUrl: p.imageUrl,
+        likes: '—', comments: '—', shares: '—',
+      }));
+
+      setRecentPosts(recentFromFb.length > 0 ? recentFromFb : recentFromLocal);
       setUpcoming(scheduledPage.posts.map(mapToUpcomingPost));
-      setKpiCards(buildKpiCards(scheduledPage.meta.total, summary));
+      setKpiCards(buildKpiCards(localSummary, fbSummary));
       setLoaded(true);
     }).catch(() => {
       if (!cancelled) setLoaded(true);

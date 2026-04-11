@@ -2,6 +2,7 @@ import { useRef, useState, useEffect, useCallback, useMemo } from 'react';
 import gsap from 'gsap';
 import * as postsService from '../services/posts.service';
 import { listConnections } from '../services/platforms.service';
+import { postsStore } from '../lib/postsStore';
 import type { CalendarPost } from '../domain/entities/CalendarPost';
 import type { PostStatus } from '../domain/entities/Post';
 import type { PlatformId } from '../domain/entities/Platform';
@@ -54,9 +55,10 @@ function mapApiPost(post: postsService.ApiPost): CalendarPost {
 export function usePosts() {
   const pageRef = useRef<HTMLDivElement>(null);
 
-  const [allPosts,           setAllPosts]           = useState<CalendarPost[]>([]);
-  const [inactivePosts,      setInactivePosts]      = useState<CalendarPost[]>([]);
-  const [isLoading,          setIsLoading]          = useState(true);
+  const cached = postsStore.get();
+  const [allPosts,           setAllPosts]           = useState<CalendarPost[]>(cached.active   ?? []);
+  const [inactivePosts,      setInactivePosts]      = useState<CalendarPost[]>(cached.inactive ?? []);
+  const [isLoading,          setIsLoading]          = useState(cached.active === null);
   const [view,               setView]               = useState<PostsView>('active');
   const [search,             setSearch]             = useState('');
   const [statusFilter,       setStatusFilter]       = useState<PostStatus | 'all'>('all');
@@ -64,17 +66,20 @@ export function usePosts() {
   const [pendingAction,      setPendingAction]      = useState<PendingAction | null>(null);
   const [connectedPlatforms, setConnectedPlatforms] = useState<Set<string>>(new Set(['linkedin']));
 
-  const fetchPosts = useCallback(async () => {
+  const fetchPosts = useCallback(async (silent = false) => {
     let cancelled = false;
-    setIsLoading(true);
+    if (!silent) setIsLoading(true);
     try {
       const [activePage, inactivePage] = await Promise.all([
         postsService.getAll({ limit: 100 }),
         postsService.getAll({ limit: 100, status: 'inactive' }),
       ]);
       if (!cancelled) {
-        setAllPosts(activePage.posts.map(mapApiPost));
-        setInactivePosts(inactivePage.posts.map(mapApiPost));
+        const active   = activePage.posts.map(mapApiPost);
+        const inactive = inactivePage.posts.map(mapApiPost);
+        postsStore.set(active, inactive);
+        setAllPosts(active);
+        setInactivePosts(inactive);
       }
     } catch {
       if (!cancelled) { setAllPosts([]); setInactivePosts([]); }
@@ -85,8 +90,20 @@ export function usePosts() {
   }, []);
 
   useEffect(() => {
-    void fetchPosts();
+    // If cache hit → show immediately, revalidate silently in background
+    if (postsStore.get().active !== null) {
+      void fetchPosts(true);
+    } else {
+      void fetchPosts();
+    }
   }, [fetchPosts]);
+
+  // Stay in sync with optimistic updates from other pages (e.g. PostComposer)
+  useEffect(() => postsStore.subscribe(() => {
+    const { active, inactive } = postsStore.get();
+    if (active   !== null) setAllPosts(active);
+    if (inactive !== null) setInactivePosts(inactive);
+  }), []);
 
   // Load connected platforms for warning icons in the table
   useEffect(() => {
@@ -138,25 +155,25 @@ export function usePosts() {
     try {
       if (type === 'activate') {
         await postsService.update(post.id, { status: 'draft' });
+        postsStore.updateOptimistic(post.id, { status: 'draft' });
         setInactivePosts(prev => prev.filter(p => p.id !== post.id));
         setAllPosts(prev => [...prev, { ...post, status: 'draft' as PostStatus }]);
       } else if (type === 'deactivate') {
         await postsService.deactivate(post.id);
-        setAllPosts(prev => prev.map(p => p.id === post.id ? { ...p, status: 'inactive' as PostStatus } : p));
-        setInactivePosts(prev => [...prev, { ...post, status: 'inactive' as PostStatus }]);
+        postsStore.deactivateOptimistic(post.id);
       } else if (type === 'delete') {
         await postsService.remove(post.id);
-        setInactivePosts(prev => prev.filter(p => p.id !== post.id));
-        setAllPosts(prev => prev.filter(p => p.id !== post.id));
+        postsStore.removeOptimistic(post.id);
       } else if (type === 'publish') {
         await postsService.update(post.id, { status: 'published' });
-        setAllPosts(prev => prev.map(p => p.id === post.id ? { ...p, status: 'published' as PostStatus } : p));
+        postsStore.updateOptimistic(post.id, { status: 'published' as PostStatus });
       } else if (type === 'retry') {
         await postsService.update(post.id, { status: 'scheduled' });
-        setAllPosts(prev => prev.map(p => p.id === post.id ? { ...p, status: 'scheduled' as PostStatus } : p));
+        postsStore.updateOptimistic(post.id, { status: 'scheduled' as PostStatus });
       }
     } catch (err) {
       console.error('Post action failed:', err);
+      void fetchPosts(); // On error: full refetch to restore correct state
     }
   };
 

@@ -5,16 +5,32 @@ import { useLayout } from '../../contexts/LayoutContext';
 import { useWorkspace } from '../../contexts/WorkspaceContext';
 import Modal from '../shared/Modal';
 import { getProfile } from '../../services/users.service';
+import type { UserPlan } from '../../types/users.types';
 
-const NAV_ITEMS = [
-  { to: '/dashboard',   icon: 'dashboard',     label: 'Dashboard' },
-  { to: '/posts',       icon: 'article',       label: 'Posts' },
-  { to: '/analytics',   icon: 'monitoring',    label: 'Analytics' },
-  { to: '/calendar',    icon: 'calendar_month', label: 'Calendar' },
-  { to: '/platforms',   icon: 'hub',           label: 'Platforms' },
-  { to: '/rivals',      icon: 'radar',         label: 'Rival Monitor' },
-  { to: '/ai-settings', icon: 'auto_awesome',  label: 'AI Settings' },
+// ── Nav config — control what each plan can access ───────────────────────────
+
+interface NavItem {
+  to:       string;
+  icon:     string;
+  label:    string;
+  plans:    UserPlan[];   // which plans see this item
+}
+
+const NAV_ITEMS: NavItem[] = [
+  { to: '/dashboard',   icon: 'dashboard',      label: 'Dashboard',     plans: ['starter', 'pro', 'enterprise'] },
+  { to: '/posts',       icon: 'article',        label: 'Posts',         plans: ['starter', 'pro', 'enterprise'] },
+  { to: '/calendar',    icon: 'calendar_month', label: 'Calendar',      plans: ['starter', 'pro', 'enterprise'] },
+  { to: '/platforms',   icon: 'hub',            label: 'Platforms',     plans: ['starter', 'pro', 'enterprise'] },
+  { to: '/analytics',   icon: 'monitoring',     label: 'Analytics',     plans: ['pro', 'enterprise'] },
+  { to: '/rivals',      icon: 'radar',          label: 'Rival Monitor', plans: ['pro', 'enterprise'] },
+  { to: '/ai-settings', icon: 'auto_awesome',   label: 'AI Settings',   plans: ['starter', 'pro', 'enterprise'] },
 ];
+
+const PLAN_LABEL: Record<UserPlan, string> = {
+  starter:    'Starter',
+  pro:        'Pro',
+  enterprise: 'Enterprise',
+};
 
 export default function Sidebar() {
   const { isOpen, toggle } = useLayout();
@@ -32,11 +48,21 @@ export default function Sidebar() {
   const [newName, setNewName]         = useState('');
   const [logoutModal, setLogoutModal] = useState(false);
   const [displayName, setDisplayName] = useState<string>('');
+  const [userPlan,    setUserPlan]    = useState<UserPlan | null>(null);
   const atLimit = workspaces.length >= 5;
 
   useEffect(() => {
-    getProfile().then(p => setDisplayName(p.name ?? p.email)).catch(() => {});
+    getProfile()
+      .then(p => {
+        setDisplayName(p.name ?? p.email);
+        setUserPlan(p.plan ?? 'starter');
+      })
+      .catch(() => { setUserPlan('starter'); });
   }, []);
+
+  const visibleNav = userPlan
+    ? NAV_ITEMS.filter(item => item.plans.includes(userPlan))
+    : [];
 
   // Entrance animation — desktop only
   useEffect(() => {
@@ -245,39 +271,59 @@ export default function Sidebar() {
 
       {/* Nav */}
       <nav className="flex flex-col gap-1 flex-1">
-        {NAV_ITEMS.map(({ to, icon, label }, i) => (
-          <NavLink
-            key={to}
-            to={to}
-            ref={el => { navRefs.current[i] = el; }}
-            title={!isOpen ? label : undefined}
-            onClick={() => { if (window.innerWidth < 1024) toggle(); }}
-            className={({ isActive }) => [
-              'flex items-center py-2.5 rounded-xl text-sm font-headline tracking-tight transition-all duration-300',
-              isOpen ? 'px-4' : 'px-4 lg:justify-center lg:px-0',
-              isActive
-                ? 'text-[#d394ff] bg-[#d394ff]/10 font-semibold'
-                : 'text-gray-400 hover:text-white hover:bg-[#201f1f]',
-            ].join(' ')}
-          >
-            {({ isActive }) => (
-              <>
-                <span
-                  className="material-symbols-outlined shrink-0"
-                  style={{ fontSize: 20, fontVariationSettings: isActive ? "'FILL' 1" : "'FILL' 0" }}
-                >
-                  {icon}
-                </span>
-                <span className={[
-                  'overflow-hidden whitespace-nowrap transition-all duration-300',
-                  isOpen ? 'max-w-[160px] opacity-100 pl-3' : 'max-w-0 opacity-0 pl-0',
-                ].join(' ')}>
-                  {label}
-                </span>
-              </>
-            )}
-          </NavLink>
-        ))}
+        {userPlan === null ? (
+          // ── Skeleton while loading plan ──────────────────────────────────
+          Array.from({ length: 6 }).map((_, i) => (
+            <div
+              key={i}
+              className={[
+                'flex items-center py-2.5 rounded-xl animate-pulse',
+                isOpen ? 'px-4 gap-3' : 'px-4 lg:justify-center lg:px-0',
+              ].join(' ')}
+            >
+              <div className="w-5 h-5 rounded-md bg-[#2a2a2a] shrink-0" />
+              <div className={[
+                'h-3 bg-[#2a2a2a] rounded-full transition-all duration-300',
+                isOpen ? 'w-24 opacity-100' : 'w-0 opacity-0',
+              ].join(' ')} />
+            </div>
+          ))
+        ) : (
+          // ── Real nav items filtered by plan ──────────────────────────────
+          visibleNav.map(({ to, icon, label }, i) => (
+            <NavLink
+              key={to}
+              to={to}
+              ref={el => { navRefs.current[i] = el; }}
+              title={!isOpen ? label : undefined}
+              onClick={() => { if (window.innerWidth < 1024) toggle(); }}
+              className={({ isActive }) => [
+                'flex items-center py-2.5 rounded-xl text-sm font-headline tracking-tight transition-all duration-300',
+                isOpen ? 'px-4' : 'px-4 lg:justify-center lg:px-0',
+                isActive
+                  ? 'text-[#d394ff] bg-[#d394ff]/10 font-semibold'
+                  : 'text-gray-400 hover:text-white hover:bg-[#201f1f]',
+              ].join(' ')}
+            >
+              {({ isActive }) => (
+                <>
+                  <span
+                    className="material-symbols-outlined shrink-0"
+                    style={{ fontSize: 20, fontVariationSettings: isActive ? "'FILL' 1" : "'FILL' 0" }}
+                  >
+                    {icon}
+                  </span>
+                  <span className={[
+                    'overflow-hidden whitespace-nowrap transition-all duration-300',
+                    isOpen ? 'max-w-[160px] opacity-100 pl-3' : 'max-w-0 opacity-0 pl-0',
+                  ].join(' ')}>
+                    {label}
+                  </span>
+                </>
+              )}
+            </NavLink>
+          ))
+        )}
       </nav>
 
       {/* ── Bottom: user card + menu ── */}
@@ -336,7 +382,10 @@ export default function Sidebar() {
           </div>
           <div className={`flex-1 overflow-hidden transition-all duration-300 text-left ${isOpen ? 'max-w-[120px] opacity-100' : 'max-w-0 opacity-0'}`}>
             <p className="text-sm font-bold text-white leading-tight font-headline whitespace-nowrap">{displayName || '—'}</p>
-            <p className="text-[10px] text-[#988d9c] uppercase tracking-widest whitespace-nowrap">Pro Plan</p>
+            {userPlan === null
+              ? <div className="h-2 w-16 bg-[#2a2a2a] rounded-full animate-pulse mt-0.5" />
+              : <p className="text-[10px] text-[#988d9c] uppercase tracking-widest whitespace-nowrap">{PLAN_LABEL[userPlan]} Plan</p>
+            }
           </div>
           {/* Chevron — only when expanded */}
           <span

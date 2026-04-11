@@ -1,69 +1,61 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { CHANNELS } from '../domain/entities/Composer';
-import type { ChannelId } from '../domain/entities/Composer';
-import * as postsService from '../services/posts.service';
-import { uploadFile } from '../services/media.service';
+import type { ChannelId } from '../types/composer.types';
 import { listConnections } from '../services/platforms.service';
-
-const PLATFORM_MAP: Record<ChannelId, string> = {
-  ig: 'instagram',
-  li: 'linkedin',
-  fb: 'facebook',
-};
-
-// Reverse: platform string stored in DB → ChannelId
-const CHANNEL_FROM_PLATFORM: Record<string, ChannelId> = {
-  meta:      'ig',  // legacy — old drafts saved as 'meta' default to Instagram
-  instagram: 'ig',
-  linkedin:  'li',
-  facebook:  'fb',
-};
+import { postsStore } from '../lib/postsStore';
+import { useComposerMedia } from './useComposerMedia';
+import { useComposerDraft } from './useComposerDraft';
+import { useComposerSubmit } from './useComposerSubmit';
 
 export type ActionType = 'draft' | 'publish' | 'schedule';
 
-export interface MediaItem {
-  previewUrl:      string;            // blob URL or HTTP URL — for display
-  sourceUrl?:      string;            // persisted HTTP URL — stored in media_urls
-  uploading?:      boolean;           // true while the file is being uploaded
-  uploadError?:    string;            // set if the upload failed
-  mediaType?:      'image' | 'video'; // detected from file.type on upload
-  fileSize?:       number;            // original file size in bytes (only for local files)
-  isAIGenerated?:  boolean;           // true only for DALL-E generated images
-}
-
-const MAX_MEDIA = 10;
+// Re-export so consumers keep the same import path
+export type { MediaItem } from './useComposerMedia';
 
 export function useComposer(onSuccess?: (type: ActionType, names: string) => void, editId?: string) {
-  const pageRef           = useRef<HTMLDivElement>(null);
-  const fileInputRef      = useRef<HTMLInputElement>(null);
-  const toastTimerRef     = useRef<ReturnType<typeof setTimeout> | null>(null);
-  // Tracks the ID of a newly created draft so subsequent saves update instead of creating
-  const createdDraftIdRef = useRef<string | null>(null);
+  const pageRef       = useRef<HTMLDivElement>(null);
+  const toastTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const [caption,          setCaption]          = useState('');
-  const [mediaItems,       setMediaItems]        = useState<MediaItem[]>([]);
-  const [selectedChannels, setSelectedChannels]  = useState<ChannelId[]>(['ig']);
-  const [previewTab,       setPreviewTab]        = useState<ChannelId>('ig');
-  const [scheduleDate,     setScheduleDate]      = useState<Date>(() => {
+  // ── UI state owned by the coordinator ─────────────────────────────────────
+  const [caption,          setCaption]         = useState('');
+  const [selectedChannels, setSelectedChannels] = useState<ChannelId[]>(['ig']);
+  const [previewTab,       setPreviewTab]       = useState<ChannelId>('ig');
+  const [scheduleDate,     setScheduleDate]     = useState<Date>(() => {
     const d = new Date();
-    d.setTime(d.getTime() + 60 * 60 * 1000); // exactly +1 hour from now
+    d.setTime(d.getTime() + 60 * 60 * 1000); // +1 hour from now
     return d;
   });
-  const [toast,            setToast]            = useState<string | null>(null);
-  const [showSuggestions,  setShowSuggestions]  = useState(false);
-  const [isSubmitting,     setIsSubmitting]     = useState(false);
-  const [draftLoading,     setDraftLoading]     = useState(!!editId);
-  const [isScheduleMode,   setIsScheduleMode]   = useState(false);
-  // isDirty: true only when the user has made actual changes (not just loaded a draft)
-  const [isDirty,          setIsDirty]          = useState(false);
-  // Page/account names for connected platforms (shown in ChannelSelector and previews)
-  const [fbPageName,     setFbPageName]     = useState<string | null>(null);
-  const [igAccountName,  setIgAccountName]  = useState<string | null>(null);
-  // LinkedIn: API doesn't track it yet, so we default to true (don't block)
-  const [liConnected,    setLiConnected]    = useState(true);
+  const [toast,           setToast]           = useState<string | null>(null);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const [isDirty,         setIsDirty]         = useState(false);
+  const [isScheduleMode,  setIsScheduleMode]  = useState(false);
+  // Platform account info — shown in ChannelSelector and previews
+  const [fbPageName,    setFbPageName]    = useState<string | null>(null);
+  const [igAccountName, setIgAccountName] = useState<string | null>(null);
+  const [liConnected,   setLiConnected]   = useState(true); // LinkedIn: default true (API doesn't track it yet)
 
-  // Load connected platform names on mount
+  // ── Sub-hooks ──────────────────────────────────────────────────────────────
+  const markDirty = useCallback(() => setIsDirty(true), []);
+
+  const media = useComposerMedia(markDirty);
+
+  const draft = useComposerDraft(
+    editId,
+    {
+      setCaption,
+      setMediaItems:       media.setMediaItems,
+      setSelectedChannels,
+      setPreviewTab,
+      setScheduleDate,
+      setIsScheduleMode,
+    },
+    useCallback(() => postsStore.invalidate(), []),
+  );
+
+  const submit = useComposerSubmit();
+
+  // ── Platform connections ───────────────────────────────────────────────────
   useEffect(() => {
     listConnections()
       .then(conns => {
@@ -73,63 +65,35 @@ export function useComposer(onSuccess?: (type: ActionType, names: string) => voi
         const ig = conns.find(c => c.platform === 'instagram');
         setIgAccountName(ig?.account_name ?? null);
 
-        // Forward-compatible: detect LinkedIn if it ever appears in the API
         const li = conns.find(c => (c.platform as string) === 'linkedin');
         if (li !== undefined) setLiConnected(true);
       })
       .catch(() => { /* no connections — silently ignore */ });
   }, []);
 
-  // Load draft data when editing an existing post
+  // ── GSAP entrance animation ────────────────────────────────────────────────
   useEffect(() => {
-    if (!editId) return;
-    let cancelled = false;
-    setDraftLoading(true);
-    postsService.getById(editId)
-      .then(post => {
-        if (cancelled) return;
-        setCaption(post.caption ?? '');
-
-        if (post.media_urls?.length) {
-          setMediaItems(post.media_urls.map(url => ({ previewUrl: url, sourceUrl: url })));
-        }
-
-        const channel = CHANNEL_FROM_PLATFORM[post.platform] ?? 'ig';
-        setSelectedChannels([channel]);
-        setPreviewTab(channel);
-
-        if (post.scheduled_at) {
-          setScheduleDate(new Date(post.scheduled_at));
-          setIsScheduleMode(true);
-        }
-      })
-      .catch(() => { /* draft fetch failed — start with empty state */ })
-      .finally(() => { if (!cancelled) setDraftLoading(false); });
-    return () => { cancelled = true; };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [editId]);
-
-  // Revoke blob URLs on unmount
-  useEffect(() => {
-    return () => {
-      mediaItems.forEach(item => {
-        if (item.previewUrl.startsWith('blob:')) URL.revokeObjectURL(item.previewUrl);
-      });
-    };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
-    if (draftLoading) return;
+    if (draft.draftLoading) return;
     const ctx = gsap.context(() => {
       gsap.from('[data-editor-panel]',   { x: -30, opacity: 0, duration: 0.55, ease: 'power3.out', delay: 0.1 });
       gsap.from('[data-phone-mockup]',   { scale: 0.92, opacity: 0, duration: 0.6, ease: 'back.out(1.2)', delay: 0.25 });
       gsap.from('[data-editor-section]', { y: 16, opacity: 0, duration: 0.4, stagger: 0.08, ease: 'power2.out', delay: 0.3 });
     }, pageRef.current!);
     return () => ctx.revert();
-  }, [draftLoading]);
+  }, [draft.draftLoading]);
 
-  /** Caption change initiated by the user — marks the form dirty */
+  // ── Toast cleanup ──────────────────────────────────────────────────────────
+  useEffect(() => () => {
+    if (toastTimerRef.current) clearTimeout(toastTimerRef.current);
+  }, []);
+
+  // ── Helpers ────────────────────────────────────────────────────────────────
+  const showToast = useCallback((msg: string) => {
+    if (toastTimerRef.current) clearTimeout(toastTimerRef.current);
+    setToast(msg);
+    toastTimerRef.current = setTimeout(() => setToast(null), 3000);
+  }, []);
+
   const handleCaptionChange = useCallback((val: string) => {
     setCaption(val);
     setIsDirty(true);
@@ -138,7 +102,7 @@ export function useComposer(onSuccess?: (type: ActionType, names: string) => voi
   const toggleChannel = useCallback((id: ChannelId) => {
     setSelectedChannels(prev => {
       if (prev.includes(id)) {
-        if (prev.length === 1) return prev;
+        if (prev.length === 1) return prev; // keep at least one
         const next = prev.filter(c => c !== id);
         if (previewTab === id) setPreviewTab(next[0]);
         return next;
@@ -149,137 +113,7 @@ export function useComposer(onSuccess?: (type: ActionType, names: string) => voi
     setIsDirty(true);
   }, [previewTab]);
 
-  const handleFilesSelected = useCallback((files: File[]) => {
-    if (!files.length) return;
-
-    setMediaItems(prev => {
-      const slots   = MAX_MEDIA - prev.length;
-      const allowed = files.slice(0, slots);
-      if (!allowed.length) return prev;
-
-      // Add items immediately with uploading:true for instant preview + spinner
-      const newItems: MediaItem[] = allowed.map(f => ({
-        previewUrl: URL.createObjectURL(f),
-        uploading:  true,
-        mediaType:  f.type.startsWith('video/') ? 'video' : 'image',
-        fileSize:   f.size,
-      }));
-
-      // Upload each file individually in the background
-      const startIndex = prev.length;
-      allowed.forEach((file, i) => {
-        const index = startIndex + i;
-        uploadFile(file)
-          .then(result => {
-            setMediaItems(current =>
-              current.map((item, idx) =>
-                idx === index
-                  ? { ...item, sourceUrl: result.url, uploading: false }
-                  : item,
-              ),
-            );
-          })
-          .catch(() => {
-            setMediaItems(current =>
-              current.map((item, idx) =>
-                idx === index
-                  ? { ...item, uploading: false, uploadError: 'Upload failed' }
-                  : item,
-              ),
-            );
-          });
-      });
-
-      return [...prev, ...newItems];
-    });
-
-    setIsDirty(true);
-  }, []);
-
-  const handleFileChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = Array.from(e.target.files ?? []);
-    if (fileInputRef.current) fileInputRef.current.value = '';
-    handleFilesSelected(files);
-  }, [handleFilesSelected]);
-
-  const handleAIImageGenerated = useCallback((blobUrl: string, sourceUrl: string) => {
-    setMediaItems(prev => {
-      if (prev.length >= MAX_MEDIA) return prev;
-      return [...prev, { previewUrl: blobUrl, sourceUrl, isAIGenerated: true }];
-    });
-    setIsDirty(true);
-  }, []);
-
-  const handleReplaceMedia = useCallback((index: number, blobUrl: string, sourceUrl: string) => {
-    setMediaItems(prev => {
-      const item = prev[index];
-      if (!item) return prev;
-      // Revoke old blob URL if it was a local blob
-      if (item.previewUrl.startsWith('blob:')) URL.revokeObjectURL(item.previewUrl);
-      return prev.map((it, i) =>
-        i === index
-          ? { ...it, previewUrl: blobUrl, sourceUrl, isAIGenerated: true, uploadError: undefined, uploading: false }
-          : it,
-      );
-    });
-    setIsDirty(true);
-  }, []);
-
-  const removeMedia = useCallback((index: number) => {
-    setMediaItems(prev => {
-      const item = prev[index];
-      if (item && item.previewUrl.startsWith('blob:')) URL.revokeObjectURL(item.previewUrl);
-      return prev.filter((_, i) => i !== index);
-    });
-    setIsDirty(true);
-  }, []);
-
-  const showToast = useCallback((msg: string) => {
-    if (toastTimerRef.current) clearTimeout(toastTimerRef.current);
-    setToast(msg);
-    toastTimerRef.current = setTimeout(() => setToast(null), 3000);
-  }, []);
-
-  // Clear pending toast timer on unmount
-  useEffect(() => () => {
-    if (toastTimerRef.current) clearTimeout(toastTimerRef.current);
-  }, []);
-
-  const hasContent = caption.length > 0 || mediaItems.length > 0;
-
-  /** Silent save as draft — no animation, no toast. Used for auto-save on navigation. */
-  const autoSaveDraft = async (): Promise<void> => {
-    const mediaUrls = mediaItems
-      .map(i => i.sourceUrl)
-      .filter((u): u is string => !!u && u.startsWith('http'));
-
-    const scheduled_at = isScheduleMode ? scheduleDate.toISOString() : undefined;
-
-    // Resolve the effective ID: URL param takes precedence, then any draft created in this session
-    const effectiveId = editId ?? createdDraftIdRef.current;
-
-    if (effectiveId) {
-      await postsService.update(effectiveId, {
-        caption:      caption || undefined,
-        media_urls:   mediaUrls.length ? mediaUrls : undefined,
-        status:       'draft',
-        scheduled_at,
-      });
-    } else {
-      const created = await postsService.create({
-        platform:     PLATFORM_MAP[selectedChannels[0] ?? 'ig'],
-        post_type:    'post',
-        caption:      caption || undefined,
-        media_urls:   mediaUrls.length ? mediaUrls : undefined,
-        status:       'draft',
-        scheduled_at,
-      });
-      // Remember the created ID so subsequent saves update instead of creating new posts
-      createdDraftIdRef.current = created.id;
-    }
-    setIsDirty(false);
-  };
-
+  // ── Derived values ─────────────────────────────────────────────────────────
   const channelConnected: Record<ChannelId, boolean> = {
     ig: !!igAccountName,
     fb: !!fbPageName,
@@ -290,89 +124,36 @@ export function useComposer(onSuccess?: (type: ActionType, names: string) => voi
     .filter(ch => !channelConnected[ch])
     .map(ch => CHANNELS.find(c => c.id === ch)?.label ?? ch);
 
-  const handleAction = async (type: ActionType) => {
-    // Block publish/schedule when a selected channel has no connected account
-    if (type !== 'draft') {
-      if (unconnectedChannelNames.length > 0) {
-        showToast(`No account connected for ${unconnectedChannelNames.join(', ')}. Save as draft instead.`);
-        return;
-      }
-    }
+  const hasContent = caption.length > 0 || media.mediaItems.length > 0;
 
-    setIsSubmitting(true);
-    try {
-      const statusMap = {
-        draft:    'draft',
-        publish:  'published',
-        schedule: 'scheduled',
-      } as const;
+  // ── Public API: snapshot-injecting wrappers ────────────────────────────────
+  /** Zero-argument wrapper — used by PostComposer's navigation guard */
+  const autoSaveDraft = useCallback(async (): Promise<void> => {
+    await draft.autoSaveDraft({ caption, mediaItems: media.mediaItems, isScheduleMode, scheduleDate, selectedChannels });
+    setIsDirty(false);
+  }, [draft, caption, media.mediaItems, isScheduleMode, scheduleDate, selectedChannels]);
 
-      const mediaUrls = mediaItems
-        .map(i => i.sourceUrl)
-        .filter((u): u is string => !!u && u.startsWith('http'));
-
-      if (editId) {
-        // Update existing draft
-        await postsService.update(editId, {
-          caption:      caption || undefined,
-          media_urls:   mediaUrls.length ? mediaUrls : undefined,
-          status:       statusMap[type],
-          scheduled_at: type === 'schedule' ? scheduleDate.toISOString() : undefined,
-        });
-
-        const channel = selectedChannels[0] ?? 'ig';
-        const names   = CHANNELS.find(c => c.id === channel)?.label ?? channel;
-        if (onSuccess) {
-          onSuccess(type, names);
-        } else {
-          if (type === 'draft')    showToast('Draft updated successfully');
-          if (type === 'publish')  showToast(`Post published to ${names}`);
-          if (type === 'schedule') showToast(`Scheduled for ${scheduleDate.toLocaleString()}`);
-        }
-      } else {
-        // Create new posts (one per selected channel)
-        await Promise.all(
-          selectedChannels.map(channelId =>
-            postsService.create({
-              platform:     PLATFORM_MAP[channelId],
-              post_type:    'post',
-              caption:      caption || undefined,
-              media_urls:   mediaUrls.length ? mediaUrls : undefined,
-              status:       statusMap[type],
-              scheduled_at: type === 'schedule' ? scheduleDate.toISOString() : undefined,
-            })
-          )
-        );
-
-        const names = selectedChannels.map(id => CHANNELS.find(c => c.id === id)?.label).join(', ');
-        if (onSuccess) {
-          onSuccess(type, names);
-        } else {
-          const dateStr = scheduleDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-          const timeStr = scheduleDate.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
-          if (type === 'draft')    showToast('Draft saved successfully');
-          if (type === 'publish')  showToast(`Post published to ${names}`);
-          if (type === 'schedule') showToast(`Scheduled for ${dateStr} at ${timeStr} on ${names}`);
-        }
-      }
-    } catch (err) {
-      showToast(`Error: ${(err as Error).message}`);
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
+  /** Single-argument wrapper — injects current state snapshot into submit sub-hook */
+  const handleAction = useCallback(async (type: ActionType): Promise<void> => {
+    await submit.handleAction(
+      type,
+      { caption, mediaItems: media.mediaItems, selectedChannels, scheduleDate, editId, unconnectedChannelNames },
+      showToast,
+      onSuccess,
+    );
+  }, [submit, caption, media.mediaItems, selectedChannels, scheduleDate, editId, unconnectedChannelNames, showToast, onSuccess]);
 
   return {
     caption,           setCaption,
     handleCaptionChange,
-    mediaItems,
+    mediaItems:        media.mediaItems,
     selectedChannels,
     previewTab,        setPreviewTab,
     scheduleDate,      setScheduleDate,
     toast,
     showSuggestions,   setShowSuggestions,
-    isSubmitting,
-    draftLoading,
+    isSubmitting:      submit.isSubmitting,
+    draftLoading:      draft.draftLoading,
     hasContent,
     isDirty,
     isScheduleMode,    setIsScheduleMode,
@@ -381,14 +162,14 @@ export function useComposer(onSuccess?: (type: ActionType, names: string) => voi
     channelConnected,
     unconnectedChannelNames,
     toggleChannel,
-    handleFileChange,
-    handleFilesSelected,
-    handleAIImageGenerated,
-    handleReplaceMedia,
-    removeMedia,
+    handleFileChange:       media.handleFileChange,
+    handleFilesSelected:    media.handleFilesSelected,
+    handleAIImageGenerated: media.handleAIImageGenerated,
+    handleReplaceMedia:     media.handleReplaceMedia,
+    removeMedia:            media.removeMedia,
     handleAction,
     autoSaveDraft,
     pageRef,
-    fileInputRef,
+    fileInputRef: media.fileInputRef,
   };
 }

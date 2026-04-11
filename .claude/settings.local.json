@@ -69,7 +69,10 @@
       "Bash(bash:*)",
       "Bash(powershell:*)",
       "Bash(xargs head:*)",
-      "Bash(xargs tail:*)"
+      "Bash(xargs tail:*)",
+      "Bash(ls \"C:/Proyects/obsidian-dashboard/tsconfig\"*)",
+      "Bash(ls \"C:/Proyects/obsidian-dashboard/\"tsconfig*)",
+      "Bash(echo \"exit:$?\")"
     ]
   }
 }

@@ -1,3 +1,14 @@
+export interface DashboardSummary {
+  posts: {
+    total:                number;
+    published:            number;
+    scheduled:            number;
+    draft:                number;
+    published_this_week:  number;
+  };
+  platforms_connected: number;
+}
+
 export interface FacebookSummary {
   fan_count:         number;
   impressions_30d:   number;

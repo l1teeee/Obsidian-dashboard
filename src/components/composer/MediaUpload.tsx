@@ -4,7 +4,7 @@ import { generateImage, analyzeImageForPost, editImage } from '../../services/ai
 import type { AnalyzeImageResult } from '../../services/ai.service';
 import { useWorkspace } from '../../contexts/WorkspaceContext';
 import type { MediaItem } from '../../hooks/useComposer';
-import type { ChannelId } from '../../domain/entities/Composer';
+import type { ChannelId } from '../../types/composer.types';
 
 const MAX_MEDIA        = 10;
 const ANALYZE_MAX_PX   = 1024;  // longest side after resize before sending to API
@@ -118,6 +118,18 @@ async function toSendableUrl(item: MediaItem): Promise<string | null> {
   // Already a usable HTTP URL (DALL-E source or previously uploaded)
   if (item.sourceUrl?.startsWith('http')) return item.sourceUrl;
   if (item.previewUrl.startsWith('http'))  return item.previewUrl;
+
+  // AI-generated images arrive as data: URLs — resize + compress before sending
+  const dataUrl = item.sourceUrl?.startsWith('data:image/') ? item.sourceUrl : item.previewUrl;
+  if (dataUrl.startsWith('data:image/')) {
+    try {
+      const res  = await fetch(dataUrl);
+      const blob = await res.blob();
+      return await resizeImageBlob(blob);
+    } catch {
+      return null;
+    }
+  }
 
   return null;
 }

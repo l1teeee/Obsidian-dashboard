@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import DateTimePicker from '../shared/DateTimePicker';
 import { suggestScheduleTime } from '../../services/ai.service';
-import type { ChannelId } from '../../domain/entities/Composer';
+import type { ChannelId } from '../../types/composer.types';
 
 const PLATFORM_MAP: Record<ChannelId, string> = {
   ig: 'meta',
