@@ -3,6 +3,7 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import gsap from 'gsap';
 import { useLayout } from '../../contexts/LayoutContext';
 import { useWorkspace } from '../../contexts/WorkspaceContext';
+import { useAuth } from '../../hooks/useAuth';
 import Modal from '../shared/Modal';
 import { getProfile } from '../../services/users.service';
 import type { UserPlan } from '../../types/users.types';
@@ -35,6 +36,7 @@ const PLAN_LABEL: Record<UserPlan, string> = {
 export default function Sidebar() {
   const { isOpen, toggle } = useLayout();
   const { workspaces, active, switchWorkspace, createWorkspace } = useWorkspace();
+  const { logout } = useAuth();
   const navigate    = useNavigate();
   const brandRef    = useRef<HTMLDivElement>(null);
   const navRefs     = useRef<(HTMLAnchorElement | null)[]>([]);
@@ -139,9 +141,10 @@ export default function Sidebar() {
     setLogoutModal(true);
   };
 
-  const confirmLogout = () => {
+  const confirmLogout = async () => {
     setLogoutModal(false);
-    navigate('/login');
+    await logout();
+    navigate('/login', { replace: true });
   };
 
   const handleMenuNav = (to: string) => {
@@ -443,7 +446,7 @@ export default function Sidebar() {
         </p>
         <div className="flex flex-col gap-2.5">
           <button
-            onClick={confirmLogout}
+            onClick={() => { void confirmLogout(); }}
             className="w-full py-3 rounded-xl bg-[#ffb4ab] text-[#131313] font-bold text-sm hover:bg-[#ffccc7] transition-all"
           >
             Yes, log out
