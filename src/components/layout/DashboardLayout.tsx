@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 import { Outlet } from 'react-router-dom';
 import gsap from 'gsap';
 import Sidebar from './Sidebar';
+import ErrorBoundary from '../shared/ErrorBoundary';
 import { LayoutProvider, useLayout } from '../../contexts/LayoutContext';
 import { useWorkspace } from '../../contexts/WorkspaceContext';
 
@@ -56,7 +57,9 @@ function Layout() {
 
       {/* Main content — on desktop always has margin (either 240px or 64px) */}
       <main ref={mainRef} className={`transition-[margin] duration-300 min-h-screen ${isOpen ? 'lg:ml-[240px]' : 'lg:ml-[64px]'}`}>
-        <Outlet />
+        <ErrorBoundary>
+          <Outlet />
+        </ErrorBoundary>
       </main>
     </div>
   );

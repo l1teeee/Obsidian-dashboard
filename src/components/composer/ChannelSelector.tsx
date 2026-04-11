@@ -1,6 +1,6 @@
 import { FaInstagram, FaLinkedinIn, FaFacebook } from 'react-icons/fa';
 import { CHANNELS } from '../../domain/entities/Composer';
-import type { ChannelId } from '../../domain/entities/Composer';
+import type { ChannelId } from '../../types/composer.types';
 
 const ICONS: Record<ChannelId, React.ComponentType<{ size?: number; style?: React.CSSProperties }>> = {
   ig: FaInstagram,

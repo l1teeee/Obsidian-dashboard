@@ -1,6 +1,6 @@
 import { FaInstagram, FaLinkedinIn, FaFacebook } from 'react-icons/fa';
 import { CHANNELS } from '../../domain/entities/Composer';
-import type { ChannelId } from '../../domain/entities/Composer';
+import type { ChannelId } from '../../types/composer.types';
 import IGPreview from './previews/IGPreview';
 import LIPreview from './previews/LIPreview';
 import FBPreview from './previews/FBPreview';

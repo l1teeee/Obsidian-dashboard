@@ -1,7 +1,12 @@
 import { apiFetch } from '../lib/api';
-import type { FacebookSummary, FbPostMetric } from '../types/metrics.types';
+import type { DashboardSummary, FacebookSummary, FbPostMetric } from '../types/metrics.types';
 
-export type { FacebookSummary, FbPostMetric };
+export type { DashboardSummary, FacebookSummary, FbPostMetric };
+
+export async function getDashboardSummary(): Promise<DashboardSummary> {
+  const res = await apiFetch<DashboardSummary>('/metrics/dashboard/summary');
+  return res.data;
+}
 
 export async function getFacebookSummary(): Promise<FacebookSummary> {
   const res = await apiFetch<FacebookSummary>('/metrics/facebook/summary');

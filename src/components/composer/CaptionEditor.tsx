@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
 import { CHAR_LIMITS, CHAR_IDEAL } from '../../domain/entities/Composer';
-import type { ChannelId } from '../../domain/entities/Composer';
+import type { ChannelId } from '../../types/composer.types';
 import type { MediaItem } from '../../hooks/useComposer';
 import { getInspiration } from '../../services/ai.service';
 import { useWorkspace } from '../../contexts/WorkspaceContext';
