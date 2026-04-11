@@ -20,7 +20,7 @@ export default class ErrorBoundary extends Component<Props, State> {
 
   componentDidCatch(error: Error, info: ErrorInfo) {
     // In production, send to your error tracking service (Sentry, etc.)
-    if (process.env.NODE_ENV !== 'production') {
+    if (import.meta.env.DEV) {
       console.error('[ErrorBoundary]', error, info.componentStack);
     }
   }
@@ -44,7 +44,7 @@ export default class ErrorBoundary extends Component<Props, State> {
               <p className="text-sm text-[#988d9c]">
                 An unexpected error occurred. Try refreshing the page.
               </p>
-              {process.env.NODE_ENV !== 'production' && (
+              {import.meta.env.DEV && (
                 <pre className="mt-4 text-left text-[10px] text-[#ffb4ab]/70 bg-[#1a1a1a] rounded-xl p-3 overflow-auto max-h-32">
                   {this.state.error.message}
                 </pre>
