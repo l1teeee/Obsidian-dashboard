@@ -88,7 +88,7 @@ export default function PostPreviewCard({ platform, caption, mediaUrls, date, st
 
               {/* Dot indicators */}
               <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-1.5">
-                {urls.map((url, i) => (
+                {urls.map((_, i) => (
                   <button
                     key={i}
                     onClick={() => setCurrent(i)}

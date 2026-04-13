@@ -1,8 +1,7 @@
-import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
+import { lazy, Suspense, useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
 import { useInactivityTimer } from './hooks/useInactivityTimer';
 import SessionWarningModal from './components/shared/SessionWarningModal';
 import KickedOutModal      from './components/shared/KickedOutModal';
-import CompleteProfile     from './pages/CompleteProfile';
 import { logoutBeacon } from './services/auth.service';
 import { BrowserRouter, Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import Lenis from 'lenis';
@@ -16,22 +15,25 @@ import { useAuth } from './hooks/useAuth';
 import ProtectedRoute from './components/shared/ProtectedRoute';
 import RouteTransition from './components/shared/RouteTransition';
 import DashboardLayout from './components/layout/DashboardLayout';
-import Dashboard from './pages/Dashboard';
-import Analytics from './pages/Analytics';
-import Platforms from './pages/Platforms';
-import PostDetail from './pages/PostDetail';
-import Calendar from './pages/Calendar';
-import PostComposer from './pages/PostComposer';
-import Profile from './pages/Profile';
-import Posts from './pages/Posts';
-import Settings from './pages/Settings';
-import AISettings from './pages/AISettings';
-import Rivals from './pages/Rivals';
-import CreateWorkspace from './pages/CreateWorkspace';
-import LoginCard from './components/auth/LoginCard';
-import RegisterCard from './components/auth/RegisterCard';
-import CheckEmail from './pages/CheckEmail';
-import LandingPage from './pages/LandingPage';
+
+// Lazy-loaded pages — each becomes its own chunk
+const LandingPage    = lazy(() => import('./pages/LandingPage'));
+const LoginCard      = lazy(() => import('./components/auth/LoginCard'));
+const RegisterCard   = lazy(() => import('./components/auth/RegisterCard'));
+const CheckEmail     = lazy(() => import('./pages/CheckEmail'));
+const CompleteProfile = lazy(() => import('./pages/CompleteProfile'));
+const CreateWorkspace = lazy(() => import('./pages/CreateWorkspace'));
+const Dashboard      = lazy(() => import('./pages/Dashboard'));
+const Analytics      = lazy(() => import('./pages/Analytics'));
+const Platforms      = lazy(() => import('./pages/Platforms'));
+const Posts          = lazy(() => import('./pages/Posts'));
+const PostDetail     = lazy(() => import('./pages/PostDetail'));
+const Calendar       = lazy(() => import('./pages/Calendar'));
+const PostComposer   = lazy(() => import('./pages/PostComposer'));
+const Settings       = lazy(() => import('./pages/Settings'));
+const Rivals         = lazy(() => import('./pages/Rivals'));
+const AISettings     = lazy(() => import('./pages/AISettings'));
+const Profile        = lazy(() => import('./pages/Profile'));
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -206,6 +208,7 @@ export default function App() {
             <TransitionDetector onTrigger={triggerTransition} />
             <RouteTransition active={transition} onDone={doneTransition} />
             <WorkspaceGuard>
+              <Suspense fallback={null}>
               <Routes>
                 {/* Landing page — public */}
                 <Route path="/" element={<LandingPage />} />
@@ -245,6 +248,7 @@ export default function App() {
                   <Route path="/profile"      element={<Profile />} />
                 </Route>
               </Routes>
+              </Suspense>
             </WorkspaceGuard>
           </BrowserRouter>
         </LenisProvider>

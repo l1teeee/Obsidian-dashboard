@@ -2,12 +2,12 @@ import type { IPostRepository } from '../../domain/ports/IPostRepository';
 import type { PostSummary, PostRecord, UpcomingPost } from '../../domain/entities/Post';
 
 const UPCOMING_POSTS: UpcomingPost[] = [
-  { id: 'u1', date: 'Oct 24 · 09:00 AM', platform: 'instagram', caption: '"The intersection of brutalist architecture and digital minimalism. Explorations in form..."', imageUrl: 'https://images.unsplash.com/photo-1486325212027-8081e485255e?w=400&q=80' },
-  { id: 'u2', date: 'Oct 25 · 02:30 PM', platform: 'linkedin',  caption: '"Insights on the future of AI-driven creative workflows. How we adapt to the new lens..."', imageUrl: 'https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?w=400&q=80' },
-  { id: 'u3', date: 'Oct 26 · 11:15 AM', platform: 'facebook',  caption: '"Community spotlight: Highlighting the best lens work from our global collective..."',    imageUrl: 'https://images.unsplash.com/photo-1452421822248-d4c2b47f0c81?w=400&q=80' },
-  { id: 'u4', date: 'Oct 27 · 08:00 AM', platform: 'instagram', caption: '"Behind the lens: A morning in the life of a digital curator. Quiet light, big ideas."',   imageUrl: 'https://images.unsplash.com/photo-1495231916356-a86217efff12?w=400&q=80' },
-  { id: 'u5', date: 'Oct 28 · 03:00 PM', platform: 'linkedin',  caption: '"The case for editorial thinking in brand strategy. Why curation is the new creation."',  imageUrl: 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=400&q=80' },
-  { id: 'u6', date: 'Oct 29 · 12:00 PM', platform: 'facebook',  caption: '"Vielinks community picks: The top 10 creative accounts redefining visual culture."', imageUrl: 'https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=400&q=80' },
+  { id: 'u1', date: 'Oct 24 · 09:00 AM', platform: 'instagram', caption: '"The intersection of brutalist architecture and digital minimalism. Explorations in form..."', mediaUrls: ['https://images.unsplash.com/photo-1486325212027-8081e485255e?w=400&q=80'] },
+  { id: 'u2', date: 'Oct 25 · 02:30 PM', platform: 'linkedin',  caption: '"Insights on the future of AI-driven creative workflows. How we adapt to the new lens..."', mediaUrls: ['https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?w=400&q=80'] },
+  { id: 'u3', date: 'Oct 26 · 11:15 AM', platform: 'facebook',  caption: '"Community spotlight: Highlighting the best lens work from our global collective..."',    mediaUrls: ['https://images.unsplash.com/photo-1452421822248-d4c2b47f0c81?w=400&q=80'] },
+  { id: 'u4', date: 'Oct 27 · 08:00 AM', platform: 'instagram', caption: '"Behind the lens: A morning in the life of a digital curator. Quiet light, big ideas."',   mediaUrls: ['https://images.unsplash.com/photo-1495231916356-a86217efff12?w=400&q=80'] },
+  { id: 'u5', date: 'Oct 28 · 03:00 PM', platform: 'linkedin',  caption: '"The case for editorial thinking in brand strategy. Why curation is the new creation."',  mediaUrls: ['https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=400&q=80'] },
+  { id: 'u6', date: 'Oct 29 · 12:00 PM', platform: 'facebook',  caption: '"Vielinks community picks: The top 10 creative accounts redefining visual culture."', mediaUrls: ['https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=400&q=80'] },
 ];
 
 const RECENT_POSTS: PostSummary[] = [
