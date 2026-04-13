@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { uploadFile } from '../services/media.service';
+import { uploadFile, presignUpload } from '../services/media.service';
 
 export interface MediaItem {
   previewUrl:      string;            // blob URL or HTTP URL — for display
@@ -56,8 +56,12 @@ export function useComposerMedia(onDirty: () => void): UseComposerMediaReturn {
 
       const startIndex = prev.length;
       allowed.forEach((file, i) => {
-        const index = startIndex + i;
-        uploadFile(file)
+        const index    = startIndex + i;
+        const isVideo  = file.type.startsWith('video/');
+        // Videos upload directly to S3 via presigned URL (bypass backend for large files)
+        // Images upload through the backend (magic-byte validation + 20 MB limit)
+        const uploader = isVideo ? presignUpload : uploadFile;
+        uploader(file)
           .then(result => {
             setMediaItems(current =>
               current.map((item, idx) =>
