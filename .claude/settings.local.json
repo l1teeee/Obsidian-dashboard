@@ -75,7 +75,13 @@
       "Bash(echo \"exit:$?\")",
       "mcp__ide__getDiagnostics",
       "Bash(node_modules/.bin/tsc --noEmit)",
-      "Bash(echo \"EXIT: $?\")"
+      "Bash(echo \"EXIT: $?\")",
+      "Bash(gh repo:*)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "WebFetch(domain:api.github.com)",
+      "Bash(gh api:*)",
+      "Skill(update-config)",
+      "Bash(python3:*)"
     ]
   }
 }
