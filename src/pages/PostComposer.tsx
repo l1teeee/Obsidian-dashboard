@@ -132,6 +132,7 @@ export default function PostComposer() {
 
   const mediaPreviews    = mediaItems.map(i => i.previewUrl);
   const isUploadingMedia = mediaItems.some(i => i.uploading);
+  const hasUploadErrors  = mediaItems.some(i => i.uploadError);
   const [mobileTab, setMobileTab] = useState<MobileTab>('edit');
 
   useEffect(() => {
@@ -217,8 +218,12 @@ export default function PostComposer() {
                 <div className="hidden sm:flex flex-col items-end gap-0.5">
                   <button
                     onClick={handleSaveDraft}
-                    disabled={isSubmitting || isSavingDraft || !isDirty || !hasContent || isUploadingMedia}
-                    title={isUploadingMedia ? 'Wait for media to finish uploading' : undefined}
+                    disabled={isSubmitting || isSavingDraft || !isDirty || !hasContent || isUploadingMedia || hasUploadErrors}
+                    title={
+                      isUploadingMedia ? 'Wait for media to finish uploading'
+                      : hasUploadErrors ? 'Remove failed media before saving'
+                      : undefined
+                    }
                     className="flex items-center gap-1.5 text-sm font-medium text-[#988d9c] hover:text-white transition-colors disabled:opacity-40"
                   >
                     {isSavingDraft
@@ -229,11 +234,20 @@ export default function PostComposer() {
                     }
                     {isSavingDraft ? 'Saving…' : isUploadingMedia ? 'Uploading…' : 'Save Draft'}
                   </button>
-                  <span className="text-[9px] text-[#3a3a3a] tracking-wide leading-none">kept 7 days</span>
+                  {hasUploadErrors && (
+                    <span className="text-[9px] text-[#ffb4ab]/70 tracking-wide leading-none">
+                      upload failed
+                    </span>
+                  )}
                 </div>
                 <button
                   onClick={() => handleAction(isScheduleMode ? 'schedule' : 'publish')}
-                  disabled={isSubmitting || isSavingDraft}
+                  disabled={isSubmitting || isSavingDraft || isUploadingMedia || hasUploadErrors}
+                  title={
+                    isUploadingMedia ? 'Wait for media to finish uploading'
+                    : hasUploadErrors ? 'Remove failed media before publishing'
+                    : undefined
+                  }
                   className="flex items-center gap-2 text-sm font-semibold bg-[#d394ff] text-[#5e2388] rounded-xl px-4 md:px-6 py-2 shadow-[0_0_20px_rgba(211,148,255,0.2)] hover:shadow-[0_0_30px_rgba(211,148,255,0.4)] transition-all active:scale-95 disabled:opacity-60"
                 >
                   {isSubmitting
@@ -330,31 +344,40 @@ export default function PostComposer() {
                     onScheduleToggle={setIsScheduleMode}
                   />
 
-                  {/* Draft expiry notice */}
-                  <div className="flex items-start gap-2.5 px-3.5 py-2.5 rounded-xl bg-[#161616] border border-[#2e2e2e]">
-                    <span className="material-symbols-outlined text-[#3d3d3d] shrink-0 mt-px" style={{ fontSize: 14 }}>
-                      schedule
-                    </span>
-                    <p className="text-[11px] text-[#4a4a4a] leading-relaxed">
-                      Drafts and their media are automatically removed after{' '}
-                      <span className="text-[#6a6a6a] font-semibold">7 days</span>.
-                      Publish or schedule before then to keep your content.
-                    </p>
-                  </div>
+                  {/* Upload error notice */}
+                  {hasUploadErrors && (
+                    <div className="flex items-start gap-2.5 px-3.5 py-2.5 rounded-xl bg-[#ffb4ab]/8 border border-[#ffb4ab]/20">
+                      <span className="material-symbols-outlined text-[#ffb4ab] shrink-0 mt-px" style={{ fontSize: 14 }}>
+                        warning
+                      </span>
+                      <p className="text-[11px] text-[#ffb4ab]/90 leading-relaxed">
+                        One or more files failed to upload. Remove them and try again before saving.
+                      </p>
+                    </div>
+                  )}
 
                   {/* Mobile actions */}
                   <div className="flex gap-3 md:hidden pb-4">
                     <button
                       onClick={handleSaveDraft}
-                      disabled={isSubmitting || isSavingDraft || !isDirty || !hasContent || isUploadingMedia}
-                      title={isUploadingMedia ? 'Wait for media to finish uploading' : undefined}
+                      disabled={isSubmitting || isSavingDraft || !isDirty || !hasContent || isUploadingMedia || hasUploadErrors}
+                      title={
+                        isUploadingMedia ? 'Wait for media to finish uploading'
+                        : hasUploadErrors ? 'Remove failed media before saving'
+                        : undefined
+                      }
                       className="flex-1 py-3 rounded-xl border border-[#4c4450]/30 text-sm font-medium text-[#988d9c] hover:text-white transition-colors disabled:opacity-40"
                     >
                       {isSavingDraft ? 'Saving…' : isUploadingMedia ? 'Uploading…' : 'Save Draft'}
                     </button>
                     <button
                       onClick={() => handleAction(isScheduleMode ? 'schedule' : 'publish')}
-                      disabled={isSubmitting || isSavingDraft}
+                      disabled={isSubmitting || isSavingDraft || isUploadingMedia || hasUploadErrors}
+                      title={
+                        isUploadingMedia ? 'Wait for media to finish uploading'
+                        : hasUploadErrors ? 'Remove failed media before publishing'
+                        : undefined
+                      }
                       className="flex-1 py-3 rounded-xl border border-[#4c4450]/30 text-sm font-medium text-[#e5e2e1] hover:border-[#d394ff] transition-all disabled:opacity-40"
                     >
                       {isScheduleMode ? 'Schedule' : 'Publish'}
