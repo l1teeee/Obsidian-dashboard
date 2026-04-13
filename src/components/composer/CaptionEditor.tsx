@@ -119,7 +119,12 @@ export default function CaptionEditor({
       setPickedCaption(null);
       setPickedHashtags([]);
     } catch (err) {
-      setError((err as Error).message ?? 'Could not generate suggestions. Try again.');
+      const raw = err as Error & { errorCode?: string };
+      if (raw.errorCode === 'AI_NOT_CONFIGURED') {
+        setError('AI is not configured on this server. Please contact support.');
+      } else {
+        setError('The AI didn\'t respond correctly. Hit Generate to try again.');
+      }
     } finally {
       setLoading(false);
     }
@@ -235,7 +240,14 @@ export default function CaptionEditor({
             </div>
 
             {/* Error */}
-            {error && <p className="text-[10px] text-red-400 px-1">{error}</p>}
+            {error && (
+              <div className="flex items-start gap-2.5 px-3 py-2.5 rounded-xl bg-[#ffb4ab]/8 border border-[#ffb4ab]/20">
+                <span className="material-symbols-outlined text-[#ffb4ab] text-[13px] shrink-0 mt-0.5">
+                  info
+                </span>
+                <p className="flex-1 text-[10px] text-[#ffb4ab]/90 leading-relaxed">{error}</p>
+              </div>
+            )}
 
             {/* Loading skeletons */}
             {loading && (
