@@ -30,9 +30,10 @@ export interface UseComposerMediaReturn {
 function extractFirstFrame(videoUrl: string): Promise<string | null> {
   return new Promise(resolve => {
     const video    = document.createElement('video');
-    video.preload  = 'metadata';
-    video.muted    = true;
-    video.src      = videoUrl;
+    video.preload      = 'metadata';
+    video.muted        = true;
+    video.crossOrigin  = 'anonymous';  // needed for canvas drawImage on S3 URLs
+    video.src          = videoUrl;
 
     video.addEventListener('loadeddata', () => {
       // Seek slightly past 0 so the frame is fully decoded
@@ -61,6 +62,49 @@ function extractFirstFrame(videoUrl: string): Promise<string | null> {
 export function useComposerMedia(onDirty: () => void): UseComposerMediaReturn {
   const fileInputRef                    = useRef<HTMLInputElement>(null);
   const [mediaItems, setMediaItems]     = useState<MediaItem[]>([]);
+
+  // Extract first-frame thumbnails for video items that don't have one yet
+  // (covers videos loaded from a saved draft, where only the S3 URL is known)
+  useEffect(() => {
+    mediaItems.forEach((item, index) => {
+      if (item.mediaType === 'video' && !item.thumbnailUrl && !item.uploading) {
+        extractFirstFrame(item.previewUrl).then(thumb => {
+          if (!thumb) return;
+          setMediaItems(current =>
+            current.map((it, idx) =>
+              idx === index ? { ...it, thumbnailUrl: thumb } : it,
+            ),
+          );
+        }).catch(() => {});
+      }
+    });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mediaItems.length]);
+
+  // Fetch file sizes for draft-loaded items that have an S3 URL but no fileSize.
+  // Uses a HEAD request so no body is downloaded — silently skips if CORS blocks it.
+  useEffect(() => {
+    mediaItems.forEach((item, index) => {
+      if (item.fileSize !== undefined) return;
+      if (!item.previewUrl.startsWith('http')) return;
+      if (item.uploading) return;
+
+      fetch(item.previewUrl, { method: 'HEAD' })
+        .then(res => {
+          const len  = res.headers.get('content-length');
+          const size = len ? parseInt(len, 10) : NaN;
+          if (!isNaN(size) && size > 0) {
+            setMediaItems(current =>
+              current.map((it, idx) =>
+                idx === index ? { ...it, fileSize: size } : it,
+              ),
+            );
+          }
+        })
+        .catch(() => {});
+    });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mediaItems.length]);
 
   // Revoke blob URLs when the composer unmounts
   useEffect(() => {
