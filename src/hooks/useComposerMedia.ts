@@ -4,6 +4,7 @@ import { uploadFile, presignUpload } from '../services/media.service';
 export interface MediaItem {
   previewUrl:      string;            // blob URL or HTTP URL — for display
   sourceUrl?:      string;            // persisted HTTP URL — stored in media_urls
+  thumbnailUrl?:   string;            // first-frame JPEG for video previews in social cards
   uploading?:      boolean;           // true while the file is being uploaded
   uploadError?:    string;            // set if the upload failed
   mediaType?:      'image' | 'video'; // detected from file.type on upload
@@ -23,6 +24,38 @@ export interface UseComposerMediaReturn {
   handleAIImageGenerated: (blobUrl: string, sourceUrl: string) => void;
   handleReplaceMedia:     (index: number, blobUrl: string, sourceUrl: string) => void;
   removeMedia:            (index: number) => void;
+}
+
+/** Extract the first frame of a video blob URL as a JPEG data URL. */
+function extractFirstFrame(videoUrl: string): Promise<string | null> {
+  return new Promise(resolve => {
+    const video    = document.createElement('video');
+    video.preload  = 'metadata';
+    video.muted    = true;
+    video.src      = videoUrl;
+
+    video.addEventListener('loadeddata', () => {
+      // Seek slightly past 0 so the frame is fully decoded
+      video.currentTime = 0.1;
+    });
+
+    video.addEventListener('seeked', () => {
+      try {
+        const canvas  = document.createElement('canvas');
+        canvas.width  = video.videoWidth  || 640;
+        canvas.height = video.videoHeight || 360;
+        const ctx     = canvas.getContext('2d');
+        if (!ctx) { resolve(null); return; }
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+        resolve(canvas.toDataURL('image/jpeg', 0.8));
+      } catch {
+        resolve(null);
+      }
+    });
+
+    video.addEventListener('error', () => resolve(null));
+    video.load();
+  });
 }
 
 export function useComposerMedia(onDirty: () => void): UseComposerMediaReturn {
@@ -58,6 +91,20 @@ export function useComposerMedia(onDirty: () => void): UseComposerMediaReturn {
       allowed.forEach((file, i) => {
         const index    = startIndex + i;
         const isVideo  = file.type.startsWith('video/');
+        const blobUrl  = newItems[i]!.previewUrl;
+
+        // For videos: extract first frame immediately so previews show a static image
+        if (isVideo) {
+          extractFirstFrame(blobUrl).then(thumb => {
+            if (!thumb) return;
+            setMediaItems(current =>
+              current.map((item, idx) =>
+                idx === index ? { ...item, thumbnailUrl: thumb } : item,
+              ),
+            );
+          }).catch(() => {});
+        }
+
         // Videos upload directly to S3 via presigned URL (bypass backend for large files)
         // Images upload through the backend (magic-byte validation + 20 MB limit)
         const uploader = isVideo ? presignUpload : uploadFile;

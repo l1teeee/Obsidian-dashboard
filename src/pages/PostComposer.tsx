@@ -130,7 +130,7 @@ export default function PostComposer() {
     }
   };
 
-  const mediaPreviews    = mediaItems.map(i => i.previewUrl);
+  const mediaPreviews    = mediaItems.map(i => i.thumbnailUrl ?? i.previewUrl);
   const isUploadingMedia = mediaItems.some(i => i.uploading);
   const hasUploadErrors  = mediaItems.some(i => i.uploadError);
   const [mobileTab, setMobileTab] = useState<MobileTab>('edit');

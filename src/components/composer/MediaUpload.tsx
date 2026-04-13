@@ -913,19 +913,21 @@ export default function MediaUpload({
             <div className="flex gap-2 pb-0.5">
               {mediaItems.map((item, i) => (
                 <div key={i} className="relative group w-24 h-24 shrink-0 snap-start rounded-xl overflow-hidden bg-black">
-                  {/* Render image or video — object-contain so the frame is always visible */}
-                  {item.mediaType === 'video' ? (
-                    <video
-                      src={item.previewUrl}
-                      className="w-full h-full object-contain"
-                      muted
-                      playsInline
-                      preload="auto"
-                      onMouseEnter={e => (e.currentTarget as HTMLVideoElement).play().catch(() => {})}
-                      onMouseLeave={e => { const v = e.currentTarget as HTMLVideoElement; v.pause(); v.currentTime = 0; }}
-                    />
-                  ) : (
-                    <img src={item.previewUrl} className="w-full h-full object-contain" alt="" />
+                  {/* Render image or video only after upload completes */}
+                  {!item.uploading && !item.uploadError && (
+                    item.mediaType === 'video' ? (
+                      <video
+                        src={item.previewUrl}
+                        className="w-full h-full object-contain"
+                        muted
+                        playsInline
+                        preload="auto"
+                        onMouseEnter={e => (e.currentTarget as HTMLVideoElement).play().catch(() => {})}
+                        onMouseLeave={e => { const v = e.currentTarget as HTMLVideoElement; v.pause(); v.currentTime = 0; }}
+                      />
+                    ) : (
+                      <img src={item.previewUrl} className="w-full h-full object-contain" alt="" />
+                    )
                   )}
 
                   {/* Video play icon badge */}
