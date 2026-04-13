@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import type { RefObject } from 'react';
 import { generateImage, analyzeImageForPost, editImage } from '../../services/ai.service';
 import type { AnalyzeImageResult } from '../../services/ai.service';
@@ -223,6 +224,26 @@ export default function MediaUpload({
   const scrollStripRef                    = useRef<HTMLDivElement>(null);
   const [canScrollLeft,  setCanScrollLeft]  = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
+
+  // ── Video preview modal ───────────────────────────────────────────────────
+  const [videoPreviewUrl,  setVideoPreviewUrl]  = useState<string | null>(null);
+  const [isVideoVisible,   setIsVideoVisible]   = useState(false);
+
+  function openVideoPreview(url: string) {
+    setVideoPreviewUrl(url);
+    // Double rAF ensures the element is in the DOM before the transition starts
+    requestAnimationFrame(() => requestAnimationFrame(() => setIsVideoVisible(true)));
+  }
+
+  function closeVideoPreview() {
+    setIsVideoVisible(false);
+    setTimeout(() => setVideoPreviewUrl(null), 220);
+  }
+
+  // ── Per-tile skeleton: track which tiles have finished loading ────────────
+  const [loadedSet, setLoadedSet] = useState<Set<number>>(new Set());
+  const markLoaded = (i: number) =>
+    setLoadedSet(prev => { const s = new Set(prev); s.add(i); return s; });
 
   function updateScrollButtons() {
     const el = scrollStripRef.current;
@@ -894,7 +915,7 @@ export default function MediaUpload({
 
       {/* ── Media carousel ── */}
       {hasMedia ? (
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 bg-[#161515] border border-[#4c4450]/25 rounded-2xl px-3 py-3">
           {/* Scroll left */}
           <button
             onClick={() => scrollStrip('left')}
@@ -911,86 +932,127 @@ export default function MediaUpload({
             onScroll={updateScrollButtons}
           >
             <div className="flex gap-2 pb-0.5">
-              {mediaItems.map((item, i) => (
-                <div key={i} className="relative group w-24 h-24 shrink-0 snap-start rounded-xl overflow-hidden bg-black">
-                  {/* Render image or video only after upload completes */}
-                  {!item.uploading && !item.uploadError && (
-                    item.mediaType === 'video' ? (
-                      <video
-                        src={item.previewUrl}
-                        className="w-full h-full object-contain"
-                        muted
-                        playsInline
-                        preload="auto"
-                        onMouseEnter={e => (e.currentTarget as HTMLVideoElement).play().catch(() => {})}
-                        onMouseLeave={e => { const v = e.currentTarget as HTMLVideoElement; v.pause(); v.currentTime = 0; }}
-                      />
-                    ) : (
-                      <img src={item.previewUrl} className="w-full h-full object-contain" alt="" />
-                    )
-                  )}
+              {mediaItems.map((item, i) => {
+                const isLoaded = loadedSet.has(i);
+                const isVideo  = item.mediaType === 'video';
+                // Show skeleton whenever media hasn't finished loading yet
+                const showSkeleton = !isLoaded && !item.uploading && !item.uploadError;
 
-                  {/* Video play icon badge */}
-                  {item.mediaType === 'video' && !item.uploading && (
-                    <div className="absolute bottom-1 left-1 flex items-center gap-1 bg-black/60 rounded-md px-1.5 py-0.5">
-                      <span className="material-symbols-outlined text-white" style={{ fontSize: 10, fontVariationSettings: "'FILL' 1" }}>play_arrow</span>
-                      <span className="text-[7px] font-bold text-white uppercase tracking-wide">Video</span>
-                    </div>
-                  )}
+                return (
+                  <div
+                    key={i}
+                    className={`relative group w-24 h-24 shrink-0 snap-start rounded-xl overflow-hidden bg-[#1a1a1a] ${isVideo && !item.uploading && !item.uploadError ? 'cursor-pointer' : ''}`}
+                    onClick={isVideo && !item.uploading && !item.uploadError ? () => openVideoPreview(item.previewUrl) : undefined}
+                  >
+                    {/* Skeleton shimmer — always shown until media finishes loading */}
+                    {showSkeleton && (
+                      <div className="absolute inset-0 rounded-xl overflow-hidden">
+                        <div className="w-full h-full bg-[#252424] relative overflow-hidden">
+                          <div className="absolute inset-0 -translate-x-full animate-[shimmer_1.4s_infinite] bg-gradient-to-r from-transparent via-white/5 to-transparent" />
+                        </div>
+                      </div>
+                    )}
 
-                  {/* Uploading overlay */}
-                  {item.uploading && (
-                    <div className="absolute inset-0 bg-black/60 flex flex-col items-center justify-center gap-1">
-                      <span className="material-symbols-outlined text-white text-[20px] animate-spin">progress_activity</span>
-                      <span className="text-[8px] text-white/80 font-bold uppercase tracking-wider">Uploading…</span>
-                    </div>
-                  )}
+                    {/* Render image or video only after upload completes */}
+                    {!item.uploading && !item.uploadError && (
+                      isVideo ? (
+                        <video
+                          src={item.previewUrl}
+                          className={`w-full h-full object-contain transition-opacity duration-300 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
+                          muted
+                          playsInline
+                          preload="metadata"
+                          onLoadedData={() => markLoaded(i)}
+                        />
+                      ) : (
+                        <img
+                          src={item.previewUrl}
+                          className={`w-full h-full object-contain transition-opacity duration-300 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
+                          alt=""
+                          onLoad={() => markLoaded(i)}
+                        />
+                      )
+                    )}
 
-                  {/* Upload error overlay */}
-                  {item.uploadError && !item.uploading && (
-                    <div className="absolute inset-0 bg-red-900/70 flex flex-col items-center justify-center gap-1 p-1">
-                      <span className="material-symbols-outlined text-red-300 text-[18px]">cloud_off</span>
-                      <span className="text-[7px] text-red-200 font-bold text-center leading-tight">Upload failed</span>
-                    </div>
-                  )}
+                    {/* Video badge */}
+                    {isVideo && !item.uploading && (
+                      <div className="absolute bottom-1 left-1 flex items-center gap-1 bg-black/60 rounded-md px-1.5 py-0.5">
+                        <span className="material-symbols-outlined text-white" style={{ fontSize: 10, fontVariationSettings: "'FILL' 1" }}>play_arrow</span>
+                        <span className="text-[7px] font-bold text-white uppercase tracking-wide">Video</span>
+                      </div>
+                    )}
 
-                  {/* AI badge (DALL-E generated) */}
-                  {item.isAIGenerated && !item.uploading && !item.uploadError && (
-                    <div className="absolute top-1 left-1 bg-[#d394ff]/80 rounded-md px-1 py-0.5">
-                      <span className="text-[7px] font-bold text-[#131313] uppercase tracking-wide">AI</span>
-                    </div>
-                  )}
+                    {/* Uploading overlay */}
+                    {item.uploading && (
+                      <div className="absolute inset-0 bg-black/60 flex flex-col items-center justify-center gap-1">
+                        <span className="material-symbols-outlined text-white text-[20px] animate-spin">progress_activity</span>
+                        <span className="text-[8px] text-white/80 font-bold uppercase tracking-wider">Uploading…</span>
+                      </div>
+                    )}
 
-                  {/* Index badge */}
-                  {!item.uploading && (
-                    <div className="absolute top-1 right-1 bg-black/50 rounded-full w-4 h-4 flex items-center justify-center">
-                      <span className="text-[8px] font-bold text-white">{i + 1}</span>
-                    </div>
-                  )}
+                    {/* Upload error overlay */}
+                    {item.uploadError && !item.uploading && (
+                      <div className="absolute inset-0 bg-red-900/70 flex flex-col items-center justify-center gap-1 p-1">
+                        <span className="material-symbols-outlined text-red-300 text-[18px]">cloud_off</span>
+                        <span className="text-[7px] text-red-200 font-bold text-center leading-tight">Upload failed</span>
+                      </div>
+                    )}
 
-                  {/* Hover overlay — edit (images only) + delete */}
-                  {!item.uploading && (
-                    <div className="absolute inset-0 bg-black/55 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
-                      {item.mediaType !== 'video' && (
-                        <button
-                          onClick={e => { e.stopPropagation(); setEditingIndex(i); setEditPrompt(''); setEditError(null); }}
-                          title="Edit with AI"
-                          className="w-8 h-8 rounded-lg bg-white/10 border border-white/20 flex items-center justify-center hover:bg-[#ffd166]/25 hover:border-[#ffd166]/50 transition-all"
-                        >
-                          <span className="material-symbols-outlined text-white text-[16px]">edit</span>
-                        </button>
-                      )}
-                      <button
-                        onClick={e => { e.stopPropagation(); onRemove(i); }}
-                        title="Remove"
-                        className="w-8 h-8 rounded-lg bg-white/10 border border-white/20 flex items-center justify-center hover:bg-red-500/25 hover:border-red-400/50 transition-all"
-                      >
-                        <span className="material-symbols-outlined text-white text-[16px]">delete</span>
-                      </button>
-                    </div>
-                  )}
-                </div>
-              ))}
+                    {/* AI badge */}
+                    {item.isAIGenerated && !item.uploading && !item.uploadError && (
+                      <div className="absolute top-1 left-1 bg-[#d394ff]/80 rounded-md px-1 py-0.5">
+                        <span className="text-[7px] font-bold text-[#131313] uppercase tracking-wide">AI</span>
+                      </div>
+                    )}
+
+                    {/* Index badge */}
+                    {!item.uploading && (
+                      <div className="absolute top-1 right-1 bg-black/50 rounded-full w-4 h-4 flex items-center justify-center">
+                        <span className="text-[8px] font-bold text-white">{i + 1}</span>
+                      </div>
+                    )}
+
+                    {/* Hover overlay */}
+                    {!item.uploading && (
+                      <div className="absolute inset-0 bg-black/55 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+                        {isVideo ? (
+                          /* Videos: play button (tile click handles it) + delete */
+                          <>
+                            <div className="w-8 h-8 rounded-lg bg-white/15 border border-white/25 flex items-center justify-center pointer-events-none">
+                              <span className="material-symbols-outlined text-white text-[18px]" style={{ fontVariationSettings: "'FILL' 1" }}>play_arrow</span>
+                            </div>
+                            <button
+                              onClick={e => { e.stopPropagation(); onRemove(i); }}
+                              title="Remove"
+                              className="w-8 h-8 rounded-lg bg-white/10 border border-white/20 flex items-center justify-center hover:bg-red-500/25 hover:border-red-400/50 transition-all"
+                            >
+                              <span className="material-symbols-outlined text-white text-[16px]">delete</span>
+                            </button>
+                          </>
+                        ) : (
+                          /* Images: edit + delete */
+                          <>
+                            <button
+                              onClick={e => { e.stopPropagation(); setEditingIndex(i); setEditPrompt(''); setEditError(null); }}
+                              title="Edit with AI"
+                              className="w-8 h-8 rounded-lg bg-white/10 border border-white/20 flex items-center justify-center hover:bg-[#ffd166]/25 hover:border-[#ffd166]/50 transition-all"
+                            >
+                              <span className="material-symbols-outlined text-white text-[16px]">edit</span>
+                            </button>
+                            <button
+                              onClick={e => { e.stopPropagation(); onRemove(i); }}
+                              title="Remove"
+                              className="w-8 h-8 rounded-lg bg-white/10 border border-white/20 flex items-center justify-center hover:bg-red-500/25 hover:border-red-400/50 transition-all"
+                            >
+                              <span className="material-symbols-outlined text-white text-[16px]">delete</span>
+                            </button>
+                          </>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
             </div>
           </div>
 
@@ -1114,6 +1176,41 @@ export default function MediaUpload({
           processFileList(files);
         }}
       />
+
+      {/* ── Video preview modal ── */}
+      {videoPreviewUrl && createPortal(
+        <div
+          className={`fixed inset-0 z-[9999] flex items-center justify-center p-6 transition-all duration-200 ${isVideoVisible ? 'bg-black/75 backdrop-blur-sm' : 'bg-black/0 backdrop-blur-none'}`}
+          onClick={closeVideoPreview}
+        >
+          <div
+            className={`relative w-full max-w-2xl bg-[#1c1b1b] rounded-2xl overflow-hidden shadow-2xl transition-all duration-200 ${isVideoVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}
+            onClick={e => e.stopPropagation()}
+          >
+            {/* Header */}
+            <div className="flex items-center justify-between px-4 py-3 border-b border-[#4c4450]/30">
+              <div className="flex items-center gap-2">
+                <span className="material-symbols-outlined text-[#d394ff] text-[16px]" style={{ fontVariationSettings: "'FILL' 1" }}>play_circle</span>
+                <span className="text-white text-sm font-semibold">Video Preview</span>
+              </div>
+              <button
+                onClick={closeVideoPreview}
+                className="w-7 h-7 flex items-center justify-center rounded-lg text-[#988d9c] hover:text-white hover:bg-white/10 transition-all"
+              >
+                <span className="material-symbols-outlined text-[18px]">close</span>
+              </button>
+            </div>
+
+            <video
+              src={videoPreviewUrl}
+              controls
+              autoPlay
+              className="w-full max-h-[70vh] bg-black"
+            />
+          </div>
+        </div>,
+        document.body,
+      )}
     </div>
   );
 }

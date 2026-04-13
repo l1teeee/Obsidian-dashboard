@@ -57,11 +57,11 @@ function mapFbPostToSummary(post: FbPostMetric): PostSummary {
 
 function mapToUpcomingPost(post: postsService.ApiPost): UpcomingPost {
   return {
-    id:       post.id,
-    date:     formatPostDate(post.scheduled_at),
-    platform: toPlatformId(post.platform),
-    caption:  post.caption ?? '',
-    imageUrl: post.media_urls?.[0] ?? '',
+    id:        post.id,
+    date:      formatPostDate(post.scheduled_at),
+    platform:  toPlatformId(post.platform),
+    caption:   post.caption ?? '',
+    mediaUrls: post.media_urls ?? [],
   };
 }
 
@@ -156,7 +156,7 @@ export function useDashboard() {
         platform: p.platform,
         status:   'published' as const,
         date:     p.date,
-        imageUrl: p.imageUrl,
+        imageUrl: p.mediaUrls[0] ?? '',
         likes: '—', comments: '—', shares: '—',
       }));
 

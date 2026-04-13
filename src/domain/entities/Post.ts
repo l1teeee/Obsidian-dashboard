@@ -50,9 +50,9 @@ export interface PostRecord {
 }
 
 export interface UpcomingPost {
-  id:       string;
-  date:     string;
-  platform: PlatformId;
-  caption:  string;
-  imageUrl: string;
+  id:        string;
+  date:      string;
+  platform:  PlatformId;
+  caption:   string;
+  mediaUrls: string[];
 }

@@ -48,7 +48,12 @@ export function useComposerDraft(
         setters.setCaption(post.caption ?? '');
 
         if (post.media_urls?.length) {
-          setters.setMediaItems(post.media_urls.map(url => ({ previewUrl: url, sourceUrl: url })));
+          const isVideoUrl = (url: string) => /\.(mp4|mov|webm|avi)(\?|#|$)/i.test(url);
+          setters.setMediaItems(post.media_urls.map(url => ({
+            previewUrl: url,
+            sourceUrl:  url,
+            mediaType:  isVideoUrl(url) ? 'video' : 'image',
+          })));
         }
 
         const channel = CHANNEL_FROM_PLATFORM[post.platform] ?? 'ig';

@@ -231,11 +231,11 @@ export default function PostDetail() {
 
       <div className="p-6 md:p-10 max-w-7xl mx-auto space-y-8">
 
-        {/* Post info + metrics */}
-        <section className="grid grid-cols-12 gap-6 md:gap-10">
+        {/* ── Main grid ── */}
+        <section className="grid grid-cols-12 gap-6 lg:gap-10 items-start">
 
-          {/* Preview */}
-          <div className="col-span-12 lg:col-span-5">
+          {/* Preview card */}
+          <div className="col-span-12 lg:col-span-5 xl:col-span-4">
             <PostPreviewCard
               platform={displayPlatform}
               caption={apiPost?.caption ?? null}
@@ -246,66 +246,94 @@ export default function PostDetail() {
             />
           </div>
 
-          {/* Metrics */}
-          <div className="col-span-12 lg:col-span-7 space-y-5">
+          {/* Right column */}
+          <div className="col-span-12 lg:col-span-7 xl:col-span-8 space-y-6">
 
-            {/* Post meta row */}
+            {/* ── Meta chips ── */}
             <div className="flex items-center gap-2 flex-wrap">
-              <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#201f1f] border border-[#4c4450]/10">
-                <span className="material-symbols-outlined text-[#988d9c]" style={{ fontSize: 13, fontVariationSettings: "'FILL' 1" }}>
-                  {hasMedia ? 'image' : 'text_fields'}
+              <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#201f1f] border border-[#4c4450]/15">
+                <span
+                  className="material-symbols-outlined text-[#988d9c]"
+                  style={{ fontSize: 13, fontVariationSettings: "'FILL' 1" }}
+                >
+                  {hasMedia ? (apiPost?.media_urls?.some(u => /\.(mp4|mov|webm|avi)(\?|#|$)/i.test(u)) ? 'play_circle' : 'image') : 'text_fields'}
                 </span>
                 <span className="text-xs text-[#988d9c] font-medium">
-                  {hasMedia ? `${apiPost?.media_urls?.length ?? 0} media` : 'Text post'}
+                  {hasMedia
+                    ? `${apiPost?.media_urls?.length ?? 0} ${(apiPost?.media_urls?.length ?? 0) === 1 ? 'file' : 'files'}`
+                    : 'Text only'}
                 </span>
               </div>
               {apiPost?.post_type && apiPost.post_type !== 'post' && (
-                <div className="px-3 py-1.5 rounded-xl bg-[#201f1f] border border-[#4c4450]/10 text-xs text-[#988d9c] font-medium capitalize">
+                <div className="px-3 py-1.5 rounded-xl bg-[#201f1f] border border-[#4c4450]/15 text-xs text-[#988d9c] font-medium capitalize">
                   {apiPost.post_type}
                 </div>
               )}
-              <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#201f1f] border border-[#4c4450]/10">
+              <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#201f1f] border border-[#4c4450]/15">
                 <span className="material-symbols-outlined text-[#988d9c]" style={{ fontSize: 13 }}>schedule</span>
                 <span className="text-xs text-[#988d9c]">{displayDate}</span>
               </div>
             </div>
 
-            {/* Dev mode banner */}
-            {!metricsLoading && metrics?.dev_mode && (
-              <div className="flex items-start gap-3 px-4 py-3 rounded-2xl bg-[#201f1f] border border-[#4c4450]/20">
-                <span className="material-symbols-outlined text-[#988d9c] shrink-0 mt-0.5" style={{ fontSize: 15 }}>info</span>
-                <p className="text-xs text-[#988d9c] leading-relaxed">
-                  Metrics are not available in development mode. They will display automatically once the app goes live.
+            {/* ── Caption block ── */}
+            {apiPost?.caption ? (
+              <div className="rounded-2xl bg-[#1a1919] border border-[#4c4450]/15 overflow-hidden">
+                <div className="flex items-center gap-2 px-4 py-2.5 border-b border-[#4c4450]/10">
+                  <span className="material-symbols-outlined text-[#988d9c]" style={{ fontSize: 13 }}>notes</span>
+                  <span className="text-[10px] font-bold uppercase tracking-widest text-[#988d9c]">Caption</span>
+                </div>
+                <p className="px-4 py-3 text-sm text-[#cfc2d2] leading-relaxed whitespace-pre-wrap">
+                  {apiPost.caption}
                 </p>
               </div>
-            )}
-
-            {/* Metrics loading skeleton */}
-            {metricsLoading && (
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-3 animate-pulse">
-                {Array.from({ length: 6 }).map((_, i) => (
-                  <div key={i} className="bg-[#201f1f] rounded-2xl p-5 border border-[#4c4450]/5 space-y-3">
-                    <div className="w-5 h-5 rounded bg-[#2a2a2a]" />
-                    <div className="h-7 w-14 rounded-lg bg-[#2a2a2a]" />
-                    <div className="h-2 w-16 rounded-full bg-[#2a2a2a]" />
-                  </div>
-                ))}
+            ) : (
+              <div className="flex items-center gap-2.5 px-4 py-3 rounded-2xl bg-[#1a1919] border border-[#4c4450]/15">
+                <span className="material-symbols-outlined text-[#4c4450]" style={{ fontSize: 14 }}>notes</span>
+                <p className="text-xs text-[#4c4450] italic">No caption</p>
               </div>
             )}
 
-            {/* Metric cards */}
-            {!metricsLoading && (
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-                {buildMetrics(metrics, metricsLoading).map((m) => (
-                  <MetricCard key={m.label} metric={m} />
-                ))}
-              </div>
-            )}
+            {/* ── Metrics ── */}
+            <div className="space-y-3">
+              <p className="text-[10px] font-bold uppercase tracking-widest text-[#4c4450] px-1">Performance</p>
 
-            {/* Permalink block */}
+              {/* Dev mode notice */}
+              {!metricsLoading && metrics?.dev_mode && (
+                <div className="flex items-start gap-3 px-4 py-3 rounded-2xl bg-[#201f1f] border border-[#4c4450]/15">
+                  <span className="material-symbols-outlined text-[#988d9c] shrink-0 mt-0.5" style={{ fontSize: 14 }}>info</span>
+                  <p className="text-xs text-[#988d9c] leading-relaxed">
+                    Metrics are unavailable in development mode and will appear automatically in production.
+                  </p>
+                </div>
+              )}
+
+              {/* Skeleton */}
+              {metricsLoading && (
+                <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3 animate-pulse">
+                  {Array.from({ length: 7 }).map((_, i) => (
+                    <div key={i} className="bg-[#201f1f] rounded-2xl p-5 border border-[#4c4450]/5 space-y-3">
+                      <div className="w-5 h-5 rounded bg-[#2a2a2a]" />
+                      <div className="h-7 w-14 rounded-lg bg-[#2a2a2a]" />
+                      <div className="h-2 w-16 rounded-full bg-[#2a2a2a]" />
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {/* Cards */}
+              {!metricsLoading && (
+                <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3">
+                  {buildMetrics(metrics, metricsLoading).map((m) => (
+                    <MetricCard key={m.label} metric={m} />
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* ── Permalink ── */}
             {apiPost?.permalink ? (
-              <div className="flex items-center gap-3 px-4 py-3 rounded-2xl bg-[#201f1f] border border-[#4c4450]/10">
-                <span className="material-symbols-outlined text-[#c5d247] shrink-0" style={{ fontSize: 16 }}>link</span>
+              <div className="flex items-center gap-3 px-4 py-3 rounded-2xl bg-[#1a1919] border border-[#4c4450]/15">
+                <span className="material-symbols-outlined text-[#c5d247] shrink-0" style={{ fontSize: 15 }}>link</span>
                 <a
                   href={apiPost.permalink}
                   target="_blank"
@@ -317,15 +345,15 @@ export default function PostDetail() {
                 <button
                   onClick={() => navigator.clipboard.writeText(apiPost.permalink!)}
                   title="Copy link"
-                  className="text-[#988d9c] hover:text-white transition-colors shrink-0"
+                  className="shrink-0 w-7 h-7 flex items-center justify-center rounded-lg text-[#988d9c] hover:text-white hover:bg-white/8 transition-all"
                 >
                   <span className="material-symbols-outlined" style={{ fontSize: 14 }}>content_copy</span>
                 </button>
               </div>
             ) : postStatus === 'published' ? (
-              <div className="flex items-center gap-2.5 px-4 py-3 rounded-2xl bg-[#201f1f] border border-[#4c4450]/10">
-                <span className="material-symbols-outlined text-[#988d9c] shrink-0" style={{ fontSize: 14 }}>link_off</span>
-                <p className="text-xs text-[#988d9c]">No permalink available for this post.</p>
+              <div className="flex items-center gap-2.5 px-4 py-3 rounded-2xl bg-[#1a1919] border border-[#4c4450]/15">
+                <span className="material-symbols-outlined text-[#4c4450] shrink-0" style={{ fontSize: 14 }}>link_off</span>
+                <p className="text-xs text-[#4c4450]">No permalink available for this post.</p>
               </div>
             ) : null}
           </div>

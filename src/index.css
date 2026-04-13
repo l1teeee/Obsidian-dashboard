@@ -220,6 +220,12 @@ body { overflow-x: hidden; }
   letter-spacing: 0.08em !important;
 }
 
+/* Media skeleton shimmer */
+@keyframes shimmer {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(100%);  }
+}
+
 /* Auth pages animated background */
 @keyframes authBgShift {
   0%   { background-position: 0% 50%; }
