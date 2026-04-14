@@ -35,6 +35,12 @@ export default function AnalyticsSection() {
   useLayoutEffect(() => {
     if (!sectionRef.current) return;
 
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReduced) {
+      gsap.set('[data-a="eyebrow"],[data-a="title"],[data-a="desc"],[data-a="feature"],[data-a="chart-shell"],[data-a="metric"],[data-a="bar-wrap"]', { opacity: 1, y: 0 });
+      return;
+    }
+
     const ctx = gsap.context(() => {
       gsap.set(
         ['[data-a="eyebrow"]','[data-a="title"]','[data-a="desc"]','[data-a="feature"]',
@@ -56,11 +62,11 @@ export default function AnalyticsSection() {
         .to('[data-a="orb-1"]', { opacity: 1, duration: 0.8 }, 0)
         .to('[data-a="orb-2"]', { opacity: 1, duration: 0.8 }, 0.1)
         .fromTo('[data-a="eyebrow"]',
-          { opacity: 0, y: 12, filter: 'blur(8px)' },
-          { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.4 }, 0.05)
+          { opacity: 0, y: 12 },
+          { opacity: 1, y: 0, duration: 0.4 }, 0.05)
         .fromTo('[data-a="title"]',
-          { opacity: 0, y: 20, filter: 'blur(10px)' },
-          { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.55 }, '-=0.2')
+          { opacity: 0, y: 20 },
+          { opacity: 1, y: 0, duration: 0.55 }, '-=0.2')
         .fromTo('[data-a="desc"]',
           { opacity: 0, y: 14 },
           { opacity: 1, y: 0, duration: 0.45 }, '-=0.3')
@@ -68,8 +74,8 @@ export default function AnalyticsSection() {
           { opacity: 0, y: 12 },
           { opacity: 1, y: 0, duration: 0.38, stagger: 0.06 }, '-=0.25')
         .fromTo('[data-a="chart-shell"]',
-          { opacity: 0, y: 28, scale: 0.988, filter: 'blur(12px)' },
-          { opacity: 1, y: 0, scale: 1, filter: 'blur(0px)', duration: 0.65 }, '-=0.55')
+          { opacity: 0, y: 28, scale: 0.988 },
+          { opacity: 1, y: 0, scale: 1, duration: 0.65 }, '-=0.55')
         .fromTo('[data-a="metric"]',
           { opacity: 0, y: 10 },
           { opacity: 1, y: 0, duration: 0.35, stagger: 0.05 }, '-=0.4')
@@ -125,7 +131,7 @@ export default function AnalyticsSection() {
           <p
             data-a="desc"
             style={{ opacity: 0 }}
-            className="mt-6 max-w-[520px] text-[1rem] font-light leading-[1.8] text-white/45"
+            className="mt-6 max-w-[520px] text-[1rem] font-light leading-[1.8] text-white/55"
           >
             Real-time metrics across every platform — reach, engagement rate, impressions, and follower growth. All in one view, updated continuously.
           </p>

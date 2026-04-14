@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import type { RefObject } from 'react';
-import { generateImage, analyzeImageForPost, editImage } from '../../services/ai.service';
+import { generateImage, analyzeImageForPost, editImage, generateCarouselSlides } from '../../services/ai.service';
 import type { AnalyzeImageResult } from '../../services/ai.service';
 import { uploadFile } from '../../services/media.service';
 import { useWorkspace } from '../../contexts/WorkspaceContext';
@@ -179,6 +179,15 @@ async function prepareForEdit(blobUrl: string): Promise<{ image: string; mask: s
 
 type ImageSize = '1024x1024' | '1792x1024' | '1024x1792';
 
+const CAROUSEL_STYLE_PRESETS: { label: string; value: string }[] = [
+  { label: 'Educational',  value: 'flat vector illustration, bold outlines, vibrant colors, clean white background, simple shapes, infographic style' },
+  { label: 'Minimal',      value: 'minimalist illustration, thin lines, soft pastel palette, white background, clean and simple' },
+  { label: 'Realistic',    value: 'professional photography, natural lighting, sharp focus, cinematic composition, realistic' },
+  { label: 'Bold',         value: 'bold graphic design, high contrast colors, geometric shapes, modern poster style, striking visuals' },
+  { label: 'Watercolor',   value: 'watercolor illustration, soft brushstrokes, warm pastel tones, artistic, hand-painted look' },
+  { label: '3D',           value: 'isometric 3D illustration, vibrant colors, clean background, modern digital art, polished render' },
+];
+
 const SIZE_OPTIONS: { value: ImageSize; label: string; icon: string }[] = [
   { value: '1024x1024', label: 'Square',    icon: 'crop_square'    },
   { value: '1792x1024', label: 'Landscape', icon: 'crop_landscape' },
@@ -301,6 +310,15 @@ export default function MediaUpload({
   const [genLoading,    setGenLoading]    = useState(false);
   const [genError,      setGenError]      = useState<string | null>(null);
   const [revisedPrompt, setRevisedPrompt] = useState<string | null>(null);
+  const [genMode,         setGenMode]         = useState<'single' | 'carousel'>('single');
+  const [carouselTopic,   setCarouselTopic]   = useState('');
+  const [carouselCount,   setCarouselCount]   = useState(4);
+  const [carouselStyle,   setCarouselStyle]   = useState('');
+  const [showCustomStyle, setShowCustomStyle] = useState(false);
+  const [carouselSlides,  setCarouselSlides]  = useState<string[]>([]);
+  const [slidesLoading,  setSlidesLoading]  = useState(false);
+  const [slidesError,    setSlidesError]    = useState<string | null>(null);
+  const [genProgress,   setGenProgress]   = useState<{ current: number; total: number } | null>(null);
 
   // ── Analysis panel state ──────────────────────────────────────────────────
   type AnalysisScope = 'images' | 'videos' | 'both';
@@ -354,23 +372,64 @@ export default function MediaUpload({
     if (files.length) processFileList(files);
   }
 
-  // ── DALL-E generate ───────────────────────────────────────────────────────
+  // ── DALL-E: generate slide prompts with AI ───────────────────────────────
+  async function handleGenerateSlides() {
+    const trimmed = carouselTopic.trim();
+    if (!trimmed || slidesLoading) return;
+    setSlidesLoading(true);
+    setSlidesError(null);
+    try {
+      const result = await generateCarouselSlides({ topic: trimmed, count: carouselCount, style: carouselStyle.trim() || undefined });
+      setCarouselSlides(result.slides);
+    } catch (err) {
+      setSlidesError((err as Error).message ?? 'Could not generate slide prompts. Try again.');
+    } finally {
+      setSlidesLoading(false);
+    }
+  }
+
+  // ── DALL-E: generate images ───────────────────────────────────────────────
   async function handleGenerate() {
-    const trimmed = prompt.trim();
-    if (!trimmed || genLoading || !canAddMore) return;
     setGenLoading(true);
     setGenError(null);
     setRevisedPrompt(null);
-    try {
-      const result = await generateImage({ prompt: trimmed, size });
-      const file   = await dataUrlToFile(result.dataUrl, 'ai-generated.png');
-      const upload = await uploadFile(file);
-      onAIImageGenerated(result.dataUrl, upload.url);
-      setRevisedPrompt(result.revised_prompt);
-    } catch (err) {
-      setGenError((err as Error).message ?? 'Image generation failed. Try again.');
-    } finally {
-      setGenLoading(false);
+    setGenProgress(null);
+
+    if (genMode === 'carousel') {
+      const slides = carouselSlides.map(s => s.trim()).filter(Boolean);
+      if (slides.length === 0 || !canAddMore) { setGenLoading(false); return; }
+      const total = Math.min(slides.length, MAX_MEDIA - mediaItems.length);
+      let lastRevised: string | null = null;
+      try {
+        for (let i = 0; i < total; i++) {
+          setGenProgress({ current: i + 1, total });
+          const result = await generateImage({ prompt: slides[i], size });
+          const file   = await dataUrlToFile(result.dataUrl, `slide-${i + 1}.png`);
+          const upload = await uploadFile(file);
+          onAIImageGenerated(result.dataUrl, upload.url);
+          lastRevised = result.revised_prompt;
+        }
+        setRevisedPrompt(lastRevised);
+      } catch (err) {
+        setGenError((err as Error).message ?? 'Image generation failed. Try again.');
+      } finally {
+        setGenLoading(false);
+        setGenProgress(null);
+      }
+    } else {
+      const trimmed = prompt.trim();
+      if (!trimmed || !canAddMore) { setGenLoading(false); return; }
+      try {
+        const result = await generateImage({ prompt: trimmed, size });
+        const file   = await dataUrlToFile(result.dataUrl, 'ai-generated.png');
+        const upload = await uploadFile(file);
+        onAIImageGenerated(result.dataUrl, upload.url);
+        setRevisedPrompt(result.revised_prompt);
+      } catch (err) {
+        setGenError((err as Error).message ?? 'Image generation failed. Try again.');
+      } finally {
+        setGenLoading(false);
+      }
     }
   }
 
@@ -843,16 +902,154 @@ export default function MediaUpload({
               <span className="text-[9px] text-[#988d9c]/60 uppercase tracking-widest">DALL·E 3</span>
             </div>
 
-            <input
-              type="text"
-              value={prompt}
-              onChange={e => setPrompt(e.target.value)}
-              onKeyDown={e => e.key === 'Enter' && handleGenerate()}
-              placeholder="Describe the image you want to generate…"
-              className="w-full bg-[#252424] border border-[#4c4450]/30 rounded-xl px-4 py-2.5 text-sm text-[#e5e2e1] placeholder:text-[#988d9c]/50 outline-none focus:border-[#d394ff]/50 transition-colors"
-            />
+            {/* Mode toggle */}
+            <div className="flex gap-1.5 p-1 bg-[#252424] rounded-xl border border-[#4c4450]/20">
+              {(['single', 'carousel'] as const).map(mode => (
+                <button
+                  key={mode}
+                  onClick={() => { setGenMode(mode); if (mode === 'carousel') setSize('1024x1024'); }}
+                  className={`flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded-[10px] text-[10px] font-bold uppercase tracking-wider transition-all ${
+                    genMode === mode
+                      ? 'bg-[#d394ff]/20 text-[#d394ff]'
+                      : 'text-[#988d9c] hover:text-[#cfc2d2]'
+                  }`}
+                >
+                  <span className="material-symbols-outlined" style={{ fontSize: 12 }}>
+                    {mode === 'single' ? 'image' : 'auto_stories'}
+                  </span>
+                  {mode === 'single' ? 'Single' : 'Carousel'}
+                </button>
+              ))}
+            </div>
 
-            <div className="flex gap-2">
+            {/* Single mode */}
+            {genMode === 'single' && (
+              <input
+                type="text"
+                value={prompt}
+                onChange={e => setPrompt(e.target.value)}
+                onKeyDown={e => { if (e.key === 'Enter') handleGenerate(); }}
+                placeholder="Describe the image you want to generate…"
+                className="w-full bg-[#252424] border border-[#4c4450]/30 rounded-xl px-4 py-2.5 text-sm text-[#e5e2e1] placeholder:text-[#988d9c]/50 outline-none focus:border-[#d394ff]/50 transition-colors"
+              />
+            )}
+
+            {/* Carousel mode */}
+            {genMode === 'carousel' && (
+              <div className="space-y-3">
+                <input
+                  type="text"
+                  value={carouselTopic}
+                  onChange={e => { setCarouselTopic(e.target.value); setCarouselSlides([]); setSlidesError(null); }}
+                  onKeyDown={e => { if (e.key === 'Enter') handleGenerateSlides(); }}
+                  placeholder="What's this carousel about?"
+                  className="w-full bg-[#252424] border border-[#4c4450]/30 rounded-xl px-4 py-2.5 text-sm text-[#e5e2e1] placeholder:text-[#988d9c]/50 outline-none focus:border-[#d394ff]/50 transition-colors"
+                />
+
+                {/* Style presets */}
+                <div className="space-y-1.5">
+                  <span className="text-[9px] text-[#988d9c]/55 uppercase tracking-widest">Visual style</span>
+                  <div className="flex flex-wrap gap-1.5">
+                    {CAROUSEL_STYLE_PRESETS.map(p => (
+                      <button
+                        key={p.label}
+                        onClick={() => { setCarouselStyle(carouselStyle === p.value ? '' : p.value); setShowCustomStyle(false); }}
+                        className={`px-3 py-1 rounded-lg text-[10px] font-semibold transition-all ${
+                          carouselStyle === p.value
+                            ? 'bg-[#d394ff]/20 text-[#d394ff] border border-[#d394ff]/35'
+                            : 'bg-[#252424] text-[#988d9c] border border-[#4c4450]/20 hover:border-[#d394ff]/20 hover:text-[#cfc2d2]'
+                        }`}
+                      >
+                        {p.label}
+                      </button>
+                    ))}
+                    <button
+                      onClick={() => { setShowCustomStyle(p => !p); if (CAROUSEL_STYLE_PRESETS.some(p => p.value === carouselStyle)) setCarouselStyle(''); }}
+                      className={`w-7 h-[26px] rounded-lg text-[13px] font-bold transition-all ${
+                        showCustomStyle
+                          ? 'bg-[#d394ff]/20 text-[#d394ff] border border-[#d394ff]/35'
+                          : 'bg-[#252424] text-[#988d9c] border border-[#4c4450]/20 hover:border-[#d394ff]/20 hover:text-[#cfc2d2]'
+                      }`}
+                    >
+                      +
+                    </button>
+                  </div>
+                  {showCustomStyle && (
+                    <input
+                      type="text"
+                      value={carouselStyle}
+                      onChange={e => setCarouselStyle(e.target.value)}
+                      placeholder="Describe your own style…"
+                      autoFocus
+                      className="w-full bg-[#252424] border border-[#4c4450]/30 rounded-xl px-3 py-2 text-[11px] text-[#e5e2e1] placeholder:text-[#988d9c]/40 outline-none focus:border-[#d394ff]/50 transition-colors"
+                    />
+                  )}
+                </div>
+
+                <div className="space-y-1.5">
+                  <span className="text-[9px] text-[#988d9c]/55 uppercase tracking-widest">How many slides?</span>
+                  <div className="flex items-center justify-between">
+                    <div className="flex gap-1.5">
+                      {[2, 3, 4, 5, 6].map(n => (
+                        <button
+                          key={n}
+                          onClick={() => { setCarouselCount(n); setCarouselSlides([]); }}
+                          className={`w-8 h-7 rounded-lg text-[11px] font-bold transition-all ${
+                            carouselCount === n
+                              ? 'bg-[#d394ff]/25 text-[#d394ff] border border-[#d394ff]/40'
+                              : 'bg-[#252424] text-[#988d9c] border border-[#4c4450]/20 hover:border-[#d394ff]/20 hover:text-[#cfc2d2]'
+                          }`}
+                        >
+                          {n}
+                        </button>
+                      ))}
+                    </div>
+                    <button
+                      onClick={handleGenerateSlides}
+                      disabled={!carouselTopic.trim() || slidesLoading}
+                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#252424] border border-[#d394ff]/25 text-[#d394ff] text-[10px] font-bold uppercase tracking-wider disabled:opacity-40 hover:bg-[#d394ff]/10 hover:border-[#d394ff]/40 transition-all active:scale-[0.98]"
+                    >
+                      {slidesLoading ? (
+                        <span className="material-symbols-outlined text-[13px] animate-spin">progress_activity</span>
+                      ) : (
+                        <span className="material-symbols-outlined text-[13px]">auto_fix_high</span>
+                      )}
+                      {slidesLoading ? 'Working…' : carouselSlides.length > 0 ? 'Regenerate' : 'Generate slides'}
+                    </button>
+                  </div>
+                </div>
+
+                {slidesError && <p className="text-[10px] text-red-400">{slidesError}</p>}
+
+                {carouselSlides.length > 0 && (
+                  <div className="space-y-2">
+                    {carouselSlides.map((slide, i) => (
+                      <div key={i} className="flex gap-2 items-start">
+                        <span className="mt-2 text-[9px] font-bold text-[#d394ff]/50 w-4 shrink-0 text-right leading-5">{i + 1}</span>
+                        <textarea
+                          value={slide}
+                          rows={1}
+                          onChange={e => {
+                            const updated = [...carouselSlides];
+                            updated[i] = e.target.value;
+                            setCarouselSlides(updated);
+                            e.target.style.height = 'auto';
+                            e.target.style.height = `${e.target.scrollHeight}px`;
+                          }}
+                          ref={el => {
+                            if (el) { el.style.height = 'auto'; el.style.height = `${el.scrollHeight}px`; }
+                          }}
+                          className="flex-1 bg-[#252424] border border-[#4c4450]/30 rounded-xl px-3 py-2 text-[11px] text-[#e5e2e1] outline-none focus:border-[#d394ff]/50 transition-colors resize-none leading-relaxed overflow-hidden"
+                        />
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* Size options — single mode only; carousel always uses square */}
+            <div className={`flex gap-2 ${genMode === 'carousel' ? 'hidden' : ''}`}>
               {SIZE_OPTIONS.map(opt => (
                 <button
                   key={opt.value}
@@ -869,23 +1066,43 @@ export default function MediaUpload({
               ))}
             </div>
 
-            <button
-              onClick={handleGenerate}
-              disabled={!prompt.trim() || genLoading || !canAddMore}
-              className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl bg-[#d394ff] text-[#5e2388] text-xs font-bold uppercase tracking-wider disabled:opacity-40 hover:brightness-110 transition-all active:scale-[0.98]"
-            >
-              {genLoading ? (
-                <>
-                  <span className="material-symbols-outlined text-[14px] animate-spin">progress_activity</span>
-                  Generating — this may take a moment…
-                </>
-              ) : (
-                <>
-                  <span className="material-symbols-outlined text-[14px]">auto_awesome</span>
-                  {!canAddMore ? `Max ${MAX_MEDIA} images reached` : revisedPrompt ? 'Generate Another' : 'Generate Image'}
-                </>
-              )}
-            </button>
+            {/* Generate images button */}
+            {(() => {
+              const filledSlides = carouselSlides.filter(s => s.trim()).length;
+              const available    = MAX_MEDIA - mediaItems.length;
+              const willGenerate = Math.min(filledSlides, available);
+              const disabled = genLoading || !canAddMore
+                || (genMode === 'single' ? !prompt.trim() : filledSlides === 0);
+              return (
+                <button
+                  onClick={handleGenerate}
+                  disabled={disabled}
+                  className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl bg-[#d394ff] text-[#5e2388] text-xs font-bold uppercase tracking-wider disabled:opacity-40 hover:brightness-110 transition-all active:scale-[0.98]"
+                >
+                  {genLoading ? (
+                    <>
+                      <span className="material-symbols-outlined text-[14px] animate-spin">progress_activity</span>
+                      {genProgress
+                        ? `Generating slide ${genProgress.current} of ${genProgress.total}…`
+                        : 'Generating…'
+                      }
+                    </>
+                  ) : (
+                    <>
+                      <span className="material-symbols-outlined text-[14px]">auto_awesome</span>
+                      {!canAddMore
+                        ? `Max ${MAX_MEDIA} images reached`
+                        : genMode === 'carousel'
+                          ? filledSlides > 0
+                            ? `Generate ${filledSlides} Image${filledSlides !== 1 ? 's' : ''}${willGenerate < filledSlides ? ` (${available} slot${available !== 1 ? 's' : ''} left)` : ''}`
+                            : 'Generate slide prompts first'
+                          : revisedPrompt ? 'Generate Another' : 'Generate Image'
+                      }
+                    </>
+                  )}
+                </button>
+              );
+            })()}
 
             {genError && <p className="text-[10px] text-red-400">{genError}</p>}
             {revisedPrompt && !genLoading && (

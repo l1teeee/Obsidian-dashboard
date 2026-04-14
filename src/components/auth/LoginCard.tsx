@@ -189,10 +189,11 @@ export default function LoginCard() {
 
           {/* Email */}
           <div data-login-field className="space-y-2">
-            <label className="block text-[0.6875rem] font-semibold uppercase tracking-[0.18em] text-[#adaaaa]/60">
+            <label htmlFor="login-email" className="block text-[0.6875rem] font-semibold uppercase tracking-[0.18em] text-[#adaaaa]/60">
               Email
             </label>
             <input
+              id="login-email"
               type="email"
               placeholder="you@example.com"
               required
@@ -207,7 +208,7 @@ export default function LoginCard() {
           {/* Password */}
           <div data-login-field className="space-y-2">
             <div className="flex items-center justify-between">
-              <label className="block text-[0.6875rem] font-semibold uppercase tracking-[0.18em] text-[#adaaaa]/60">
+              <label htmlFor="login-password" className="block text-[0.6875rem] font-semibold uppercase tracking-[0.18em] text-[#adaaaa]/60">
                 Password
               </label>
               <a href="#" className="text-[0.75rem] text-[#adaaaa]/50 transition-colors duration-300 hover:text-[#d394ff]">
@@ -216,6 +217,7 @@ export default function LoginCard() {
             </div>
             <div className="relative">
               <input
+                id="login-password"
                 type={showPass ? 'text' : 'password'}
                 placeholder="••••••••••••"
                 required
@@ -266,7 +268,7 @@ export default function LoginCard() {
 
           {/* Error */}
           {error && (
-            <p className="rounded-xl border border-red-500/20 bg-red-500/10 px-4 py-2.5 text-[0.8125rem] text-red-400">
+            <p role="alert" aria-live="assertive" className="rounded-xl border border-red-500/20 bg-red-500/10 px-4 py-2.5 text-[0.8125rem] text-red-400">
               {error}
             </p>
           )}
@@ -275,7 +277,7 @@ export default function LoginCard() {
             data-login-btn
             type="submit"
             disabled={loading}
-            className="mt-2 w-full rounded-2xl bg-[#d394ff] px-6 py-3.5 text-sm font-bold text-[#4a0076] transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_0_40px_rgba(211,148,255,0.28)] active:scale-[0.98] disabled:opacity-60 disabled:pointer-events-none"
+            className="mt-2 w-full rounded-xl bg-[#d394ff] px-6 py-3.5 text-sm font-bold text-[#4a0076] transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_0_40px_rgba(211,148,255,0.28)] active:scale-[0.98] disabled:opacity-60 disabled:pointer-events-none"
           >
             {loading ? 'Signing in…' : 'Sign in'}
           </button>

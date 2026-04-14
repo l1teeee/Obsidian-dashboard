@@ -45,6 +45,12 @@ export default function ObsidianFooter() {
   useLayoutEffect(() => {
     if (!footerRef.current) return;
 
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReduced) {
+      gsap.set('[data-ft="links"],[data-ft="bottom"]', { opacity: 1, y: 0 });
+      return;
+    }
+
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({
         scrollTrigger: {
@@ -90,7 +96,7 @@ export default function ObsidianFooter() {
               </div>
               <span className="text-base font-extrabold tracking-tight text-white">Vielinks</span>
             </div>
-            <p className="max-w-[240px] text-[0.82rem] leading-[1.75] text-white/30">
+            <p className="max-w-[240px] text-[0.82rem] leading-[1.75] text-white/50">
               The unified command center for social media teams. Built for brands that publish with intention.
             </p>
 
@@ -101,7 +107,7 @@ export default function ObsidianFooter() {
                   key={s.label}
                   href={s.href}
                   aria-label={s.label}
-                  className="flex h-9 w-9 items-center justify-center rounded-xl border border-white/[0.08] bg-white/[0.03] text-white/30 transition-all duration-300 hover:border-[#d394ff]/30 hover:bg-[#d394ff]/[0.07] hover:text-[#d394ff]"
+                  className="flex h-9 w-9 items-center justify-center rounded-xl border border-white/[0.08] bg-white/[0.03] text-white/50 transition-all duration-300 hover:border-[#d394ff]/30 hover:bg-[#d394ff]/[0.07] hover:text-[#d394ff]"
                 >
                   {s.icon}
                 </a>
@@ -112,7 +118,7 @@ export default function ObsidianFooter() {
           {/* Link columns */}
           {Object.entries(footerLinks).map(([section, links]) => (
             <div key={section} className="flex flex-col gap-5">
-              <h6 className="text-[0.62rem] font-bold uppercase tracking-[0.22em] text-white/25">
+              <h6 className="text-[0.62rem] font-bold uppercase tracking-[0.22em] text-white/45">
                 {section}
               </h6>
               <ul className="space-y-3">
@@ -120,7 +126,7 @@ export default function ObsidianFooter() {
                   <li key={link}>
                     <a
                       href="#"
-                      className="text-[0.85rem] text-white/35 transition-colors duration-300 hover:text-[#d394ff]"
+                      className="text-[0.85rem] text-white/55 transition-colors duration-300 hover:text-[#d394ff]"
                     >
                       {link}
                     </a>
@@ -143,11 +149,11 @@ export default function ObsidianFooter() {
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-50" />
             <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-400" />
           </span>
-          <span className="text-[0.65rem] uppercase tracking-[0.14em] text-white/18">
+          <span className="text-[0.65rem] uppercase tracking-[0.14em] text-white/40">
             All systems operational
           </span>
           <span className="text-white/10">·</span>
-          <span className="text-[0.65rem] uppercase tracking-[0.14em] text-white/18">
+          <span className="text-[0.65rem] uppercase tracking-[0.14em] text-white/40">
             © {new Date().getFullYear()} Vielinks, Inc.
           </span>
         </div>
@@ -157,7 +163,7 @@ export default function ObsidianFooter() {
             <a
               key={item}
               href="#"
-              className="text-[0.65rem] uppercase tracking-[0.12em] text-white/18 transition-colors duration-300 hover:text-[#d394ff]"
+              className="text-[0.65rem] uppercase tracking-[0.12em] text-white/40 transition-colors duration-300 hover:text-[#d394ff]"
             >
               {item}
             </a>

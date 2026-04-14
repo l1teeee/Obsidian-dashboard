@@ -19,6 +19,14 @@ export default function SocialProof() {
   useLayoutEffect(() => {
     if (!rootRef.current) return;
 
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReduced) {
+      gsap.set(rootRef.current, { opacity: 1 });
+      gsap.set('[data-sp="col"]', { opacity: 1, y: 0 });
+      numRefs.current.forEach((el, i) => { if (el) el.textContent = stats[i].display; });
+      return;
+    }
+
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({
         scrollTrigger: {
@@ -109,7 +117,7 @@ export default function SocialProof() {
               </span>
 
               {/* Sub */}
-              <span className="text-[0.68rem] tracking-wide text-white/22">
+              <span className="text-[0.68rem] tracking-wide text-white/50">
                 {s.sub}
               </span>
             </div>

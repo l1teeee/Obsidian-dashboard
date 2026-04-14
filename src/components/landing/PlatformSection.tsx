@@ -56,6 +56,12 @@ export default function PlatformSection() {
   useLayoutEffect(() => {
     if (!rootRef.current) return;
 
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReduced) {
+      gsap.set('[data-pf="eyebrow"],[data-pf="title"],[data-pf="sub"],[data-pf="card"]', { opacity: 1, y: 0 });
+      return;
+    }
+
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({
         scrollTrigger: {
@@ -68,12 +74,12 @@ export default function PlatformSection() {
       });
 
       tl.fromTo('[data-pf="eyebrow"]',
-        { opacity: 0, y: 12, filter: 'blur(8px)' },
-        { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.4 }
+        { opacity: 0, y: 12 },
+        { opacity: 1, y: 0, duration: 0.4 }
       )
       .fromTo('[data-pf="title"]',
-        { opacity: 0, y: 20, filter: 'blur(10px)' },
-        { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.6 },
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, duration: 0.6 },
         '-=0.15'
       )
       .fromTo('[data-pf="sub"]',
@@ -121,7 +127,7 @@ export default function PlatformSection() {
           <p
             data-pf="sub"
             style={{ opacity: 0 }}
-            className="mt-5 text-[1rem] font-light leading-7 text-white/45 max-w-lg"
+            className="mt-5 text-[1rem] font-light leading-7 text-white/55 max-w-lg"
           >
             Connect Instagram, LinkedIn, and Facebook once — then manage everything from a single workspace without switching tabs.
           </p>
@@ -152,7 +158,7 @@ export default function PlatformSection() {
               <div className="relative z-10 flex flex-col flex-1">
                 {/* Tag */}
                 <div className="mb-5 flex items-center justify-between">
-                  <span className="inline-flex w-fit rounded-full border border-white/[0.07] bg-white/[0.03] px-3 py-1 text-[0.58rem] font-semibold uppercase tracking-[0.16em] text-white/35">
+                  <span className="inline-flex w-fit rounded-full border border-white/[0.07] bg-white/[0.03] px-3 py-1 text-[0.58rem] font-semibold uppercase tracking-[0.16em] text-white/55">
                     {p.tag}
                   </span>
                   {p.accent && (
@@ -174,7 +180,7 @@ export default function PlatformSection() {
                 </div>
 
                 <p className="mb-1 text-sm font-semibold text-white/70">{p.headline}</p>
-                <p className="mb-6 flex-1 text-[0.875rem] leading-[1.7] text-white/40">{p.desc}</p>
+                <p className="mb-6 flex-1 text-[0.875rem] leading-[1.7] text-white/55">{p.desc}</p>
 
                 {/* Feature list */}
                 <ul className="mb-6 space-y-2">
