@@ -1,6 +1,6 @@
 
 import { useLayoutEffect, useRef } from 'react';
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import { useFadeNav } from '@/hooks/useFadeNav';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -12,15 +12,16 @@ function Shape({
 }: {
   width: number; height: number; rotate: number; gradient: string; className?: string; delay: number;
 }) {
+  const prefersReduced = useReducedMotion();
   return (
     <motion.div
-      initial={{ opacity: 0, y: -60, rotate: rotate - 10 }}
+      initial={prefersReduced ? {} : { opacity: 0, y: -60, rotate: rotate - 10 }}
       animate={{ opacity: 1, y: 0, rotate }}
-      transition={{ duration: 2.2, delay, ease: [0.23, 0.86, 0.39, 0.96], opacity: { duration: 1.4 } }}
+      transition={prefersReduced ? { duration: 0 } : { duration: 2.2, delay, ease: [0.23, 0.86, 0.39, 0.96], opacity: { duration: 1.4 } }}
       className={`absolute pointer-events-none ${className}`}
     >
       <motion.div
-        animate={{ y: [0, 14, 0] }}
+        animate={prefersReduced ? {} : { y: [0, 14, 0] }}
         transition={{ duration: 10 + delay * 2, repeat: Infinity, ease: 'easeInOut' }}
         style={{ width, height }}
         className="relative"
@@ -40,6 +41,12 @@ export default function CTASection() {
   useLayoutEffect(() => {
     if (!sectionRef.current) return;
 
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReduced) {
+      gsap.set('[data-cta="badge"],[data-cta="title"],[data-cta="sub"],[data-cta="actions"],[data-cta="note"]', { opacity: 1, y: 0 });
+      return;
+    }
+
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({
         scrollTrigger: {
@@ -52,11 +59,11 @@ export default function CTASection() {
       });
 
       tl.fromTo('[data-cta="badge"]',
-        { opacity: 0, y: 12, filter: 'blur(8px)' },
-        { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.4 }, 0)
+        { opacity: 0, y: 12 },
+        { opacity: 1, y: 0, duration: 0.4 }, 0)
       .fromTo('[data-cta="title"]',
-        { opacity: 0, y: 30, filter: 'blur(12px)' },
-        { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.65 }, '-=0.2')
+        { opacity: 0, y: 30 },
+        { opacity: 1, y: 0, duration: 0.65 }, '-=0.2')
       .fromTo('[data-cta="sub"]',
         { opacity: 0, y: 18 },
         { opacity: 1, y: 0, duration: 0.5 }, '-=0.35')
@@ -114,7 +121,7 @@ export default function CTASection() {
         <p
           data-cta="sub"
           style={{ opacity: 0 }}
-          className="mx-auto mb-12 max-w-[520px] text-[1.05rem] font-light leading-[1.75] text-white/40"
+          className="mx-auto mb-12 max-w-[520px] text-[1.05rem] font-light leading-[1.75] text-white/55"
         >
           Join 12,000+ brands using Vielinks to publish consistently, analyze in real time, and grow their social presence from one unified platform.
         </p>
@@ -130,14 +137,14 @@ export default function CTASection() {
           </button>
           <button
             onClick={() => fadeNav('/login')}
-            className="w-full rounded-full border border-white/[0.10] bg-white/[0.03] px-10 py-4 text-sm font-semibold text-white/45 backdrop-blur-xl transition-all duration-300 hover:border-[#d394ff]/25 hover:text-white/70 sm:w-auto"
+            className="w-full rounded-full border border-white/[0.10] bg-white/[0.03] px-10 py-4 text-sm font-semibold text-white/60 backdrop-blur-xl transition-all duration-300 hover:border-[#d394ff]/25 hover:text-white/80 sm:w-auto"
           >
             Book a Demo
           </button>
         </div>
 
         {/* Note */}
-        <p data-cta="note" style={{ opacity: 0 }} className="mt-8 text-[0.75rem] tracking-wide text-white/22">
+        <p data-cta="note" style={{ opacity: 0 }} className="mt-8 text-[0.75rem] tracking-wide text-white/50">
           14-day free trial · No credit card required · Cancel anytime
         </p>
       </div>

@@ -1,5 +1,6 @@
 
 import { useLayoutEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -73,9 +74,17 @@ function CheckIcon() {
 
 export default function PricingSection() {
   const sectionRef = useRef<HTMLElement | null>(null);
+  const navigate = useNavigate();
 
   useLayoutEffect(() => {
     if (!sectionRef.current) return;
+
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReduced) {
+      gsap.set('[data-pr="eyebrow"],[data-pr="title"],[data-pr="sub"],[data-pr="card"],[data-pr="note"]', { opacity: 1, y: 0 });
+      return;
+    }
+
     const ctx = gsap.context(() => {
       gsap.set(
         ['[data-pr="orb"]','[data-pr="eyebrow"]','[data-pr="title"]','[data-pr="sub"]','[data-pr="card"]','[data-pr="note"]'],
@@ -93,8 +102,8 @@ export default function PricingSection() {
       });
 
       tl.fromTo('[data-pr="orb"]',    { opacity: 0 }, { opacity: 1, duration: 0.8 }, 0)
-        .fromTo('[data-pr="eyebrow"]', { opacity: 0, y: 12, filter: 'blur(8px)' }, { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.4 }, 0.05)
-        .fromTo('[data-pr="title"]',   { opacity: 0, y: 20, filter: 'blur(10px)' }, { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.55 }, '-=0.2')
+        .fromTo('[data-pr="eyebrow"]', { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.4 }, 0.05)
+        .fromTo('[data-pr="title"]',   { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.55 }, '-=0.2')
         .fromTo('[data-pr="sub"]',     { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.4 }, '-=0.3')
         .fromTo('[data-pr="card"]',    { opacity: 0, y: 28, scale: 0.988 }, { opacity: 1, y: 0, scale: 1, duration: 0.55, stagger: 0.09 }, '-=0.25')
         .fromTo('[data-pr="note"]',    { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.35 }, '-=0.15');
@@ -128,7 +137,7 @@ export default function PricingSection() {
               Serious results.
             </span>
           </h2>
-          <p data-pr="sub" style={{ opacity: 0 }} className="mt-5 text-[1rem] font-light leading-[1.8] text-white/45">
+          <p data-pr="sub" style={{ opacity: 0 }} className="mt-5 text-[1rem] font-light leading-[1.8] text-white/55">
             Start with a 14-day free trial. No credit card required. Upgrade, downgrade, or cancel anytime.
           </p>
         </div>
@@ -164,11 +173,11 @@ export default function PricingSection() {
               {!plan.badge && <div className="mb-5 h-6" />}
 
               {/* For who */}
-              <p className="mb-2 text-[0.65rem] font-bold uppercase tracking-[0.18em] text-white/30">{plan.forWho}</p>
+              <p className="mb-2 text-[0.65rem] font-bold uppercase tracking-[0.18em] text-white/50">{plan.forWho}</p>
 
               {/* Plan name */}
               <h3 className="mb-2 text-xl font-extrabold tracking-tight text-white">{plan.name}</h3>
-              <p className="mb-7 text-[0.875rem] leading-[1.65] text-white/40">{plan.desc}</p>
+              <p className="mb-7 text-[0.875rem] leading-[1.65] text-white/55">{plan.desc}</p>
 
               {/* Price */}
               <div className="mb-7">
@@ -177,14 +186,15 @@ export default function PricingSection() {
                 ) : (
                   <div className="flex items-end gap-1.5">
                     <span className="text-5xl font-extrabold tracking-[-0.04em] text-white">${plan.price}</span>
-                    <span className="mb-2 text-sm font-medium text-white/35">/month</span>
+                    <span className="mb-2 text-sm font-medium text-white/55">/month</span>
                   </div>
                 )}
               </div>
 
               {/* CTA */}
               <button
-                className={`mb-7 w-full rounded-2xl px-6 py-3.5 text-sm font-bold transition-all duration-300 active:scale-[0.98] ${
+                onClick={() => navigate(plan.name === 'Enterprise' ? '/login' : '/register')}
+                className={`mb-7 w-full rounded-xl px-6 py-3.5 text-sm font-bold transition-all duration-300 active:scale-[0.98] ${
                   plan.accent
                     ? 'bg-[#d394ff] text-[#4a0076] hover:shadow-[0_0_36px_rgba(211,148,255,0.32)]'
                     : 'border border-white/[0.10] bg-white/[0.04] text-white/70 hover:border-[#d394ff]/30 hover:text-white hover:bg-white/[0.07]'
@@ -195,7 +205,7 @@ export default function PricingSection() {
 
               {/* Social proof note (Pro only) */}
               {plan.note && (
-                <p className="mb-5 text-center text-[0.62rem] text-white/28">{plan.note}</p>
+                <p className="mb-5 text-center text-[0.62rem] text-white/50">{plan.note}</p>
               )}
 
               {/* Divider */}
@@ -208,7 +218,7 @@ export default function PricingSection() {
                     <span className={`mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full ${plan.accent ? 'bg-[#d394ff]/15 text-[#d394ff]' : 'bg-white/[0.06] text-white/45'}`}>
                       <CheckIcon />
                     </span>
-                    <span className="text-[0.875rem] leading-snug text-white/55">{f}</span>
+                    <span className="text-[0.875rem] leading-snug text-white/65">{f}</span>
                   </li>
                 ))}
               </ul>
@@ -217,7 +227,7 @@ export default function PricingSection() {
         </div>
 
         {/* Footer */}
-        <p data-pr="note" style={{ opacity: 0 }} className="mt-10 text-center text-[0.8rem] text-white/25">
+        <p data-pr="note" style={{ opacity: 0 }} className="mt-10 text-center text-[0.8rem] text-white/50">
           All plans include a 14-day free trial · No credit card required · Cancel anytime
         </p>
       </div>

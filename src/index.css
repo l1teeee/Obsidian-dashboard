@@ -2,10 +2,17 @@
 
 @theme {
   /* Fonts */
-  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+  --font-sans: "Manrope", system-ui, -apple-system, sans-serif;
   --font-headline: "Manrope", system-ui, sans-serif;
-  --font-body: "Inter", system-ui, sans-serif;
+  --font-body: "Manrope", system-ui, sans-serif;
   --font-mono: "JetBrains Mono", "Fira Code", monospace;
+
+  /* Z-index scale */
+  --z-layout:    10;
+  --z-sticky:    20;
+  --z-dropdown:  40;
+  --z-modal:     50;
+  --z-toast:    100;
 
   /* Easing */
   --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
@@ -94,6 +101,16 @@ body { overflow-x: hidden; }
 /* Hide scrollbar but keep functionality */
 .scrollbar-hide::-webkit-scrollbar { display: none; }
 .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* Reduced motion — disable CSS transitions and animations */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
 
 /* ── react-datepicker dark theme ─────────────────────── */
 

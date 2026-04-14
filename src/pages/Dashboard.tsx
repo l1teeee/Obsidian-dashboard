@@ -192,7 +192,7 @@ export default function Dashboard() {
       )}
 
       {/* FAB */}
-      <div className="fixed bottom-8 right-8 z-50">
+      <div className="fixed bottom-8 right-8 z-50 mb-[env(safe-area-inset-bottom,0px)]">
         <Link
           to="/composer"
           className="w-14 h-14 bg-[#d394ff] text-[#5e2388] rounded-full shadow-[0_0_20px_rgba(211,148,255,0.4)] flex items-center justify-center hover:scale-110 active:scale-95 transition-all"

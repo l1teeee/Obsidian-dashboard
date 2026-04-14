@@ -299,6 +299,7 @@ export default function Sidebar() {
               to={to}
               ref={el => { navRefs.current[i] = el; }}
               title={!isOpen ? label : undefined}
+              aria-label={!isOpen ? label : undefined}
               onClick={() => { if (window.innerWidth < 1024) toggle(); }}
               className={({ isActive }) => [
                 'flex items-center py-2.5 rounded-xl text-sm font-headline tracking-tight transition-all duration-300',

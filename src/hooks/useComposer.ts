@@ -31,9 +31,10 @@ export function useComposer(onSuccess?: (type: ActionType, names: string) => voi
   const [isDirty,         setIsDirty]         = useState(false);
   const [isScheduleMode,  setIsScheduleMode]  = useState(false);
   // Platform account info — shown in ChannelSelector and previews
-  const [fbPageName,    setFbPageName]    = useState<string | null>(null);
-  const [igAccountName, setIgAccountName] = useState<string | null>(null);
-  const [liConnected,   setLiConnected]   = useState(true); // LinkedIn: default true (API doesn't track it yet)
+  const [fbPageName,       setFbPageName]       = useState<string | null>(null);
+  const [igAccountName,    setIgAccountName]    = useState<string | null>(null);
+  const [liConnected,      setLiConnected]      = useState(true); // LinkedIn: default true (API doesn't track it yet)
+  const [connectionsLoaded, setConnectionsLoaded] = useState(false);
 
   // ── Sub-hooks ──────────────────────────────────────────────────────────────
   const markDirty = useCallback(() => setIsDirty(true), []);
@@ -68,7 +69,8 @@ export function useComposer(onSuccess?: (type: ActionType, names: string) => voi
         const li = conns.find(c => (c.platform as string) === 'linkedin');
         if (li !== undefined) setLiConnected(true);
       })
-      .catch(() => { /* no connections — silently ignore */ });
+      .catch(() => { /* no connections — silently ignore */ })
+      .finally(() => setConnectionsLoaded(true));
   }, []);
 
   // ── GSAP entrance animation ────────────────────────────────────────────────
@@ -120,9 +122,11 @@ export function useComposer(onSuccess?: (type: ActionType, names: string) => voi
     li: liConnected,
   };
 
-  const unconnectedChannelNames = selectedChannels
-    .filter(ch => !channelConnected[ch])
-    .map(ch => CHANNELS.find(c => c.id === ch)?.label ?? ch);
+  const unconnectedChannelNames = connectionsLoaded
+    ? selectedChannels
+        .filter(ch => !channelConnected[ch])
+        .map(ch => CHANNELS.find(c => c.id === ch)?.label ?? ch)
+    : [];
 
   const hasContent = caption.length > 0 || media.mediaItems.length > 0;
 

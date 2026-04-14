@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import { useFadeNav } from '@/hooks/useFadeNav';
 
 /* ── Mini dashboard mockup ───────────────────────────────── */
@@ -176,15 +176,16 @@ function ElegantShape({
   rotate?: number;
   gradient?: string;
 }) {
+  const prefersReduced = useReducedMotion();
   return (
     <motion.div
-      initial={{ opacity: 0, y: -100, rotate: rotate - 10 }}
+      initial={prefersReduced ? {} : { opacity: 0, y: -100, rotate: rotate - 10 }}
       animate={{ opacity: 1, y: 0, rotate }}
-      transition={{ duration: 2.6, delay, ease: [0.23, 0.86, 0.39, 0.96], opacity: { duration: 1.4 } }}
+      transition={prefersReduced ? { duration: 0 } : { duration: 2.6, delay, ease: [0.23, 0.86, 0.39, 0.96], opacity: { duration: 1.4 } }}
       className={`absolute pointer-events-none ${className ?? ''}`}
     >
       <motion.div
-        animate={{ y: [0, 16, 0] }}
+        animate={prefersReduced ? {} : { y: [0, 16, 0] }}
         transition={{ duration: 10 + delay * 3, repeat: Number.POSITIVE_INFINITY, ease: 'easeInOut' }}
         style={{ width, height }}
         className="relative"
@@ -206,10 +207,11 @@ function ElegantShape({
 /* ── Hero ────────────────────────────────────────────────── */
 export default function HeroGeometric() {
   const fadeNav = useFadeNav();
+  const prefersReduced = useReducedMotion();
 
   const fade = (i: number) => ({
-    hidden:  { opacity: 0, y: 22, filter: 'blur(6px)' },
-    visible: { opacity: 1, y: 0,  filter: 'blur(0px)', transition: { duration: 0.9, delay: 0.3 + i * 0.14, ease: [0.25, 0.4, 0.25, 1] as const } },
+    hidden:  prefersReduced ? {} : { opacity: 0, y: 22, filter: 'blur(6px)' },
+    visible: { opacity: 1, y: 0, filter: 'blur(0px)', transition: prefersReduced ? { duration: 0 } : { duration: 0.9, delay: 0.3 + i * 0.14, ease: [0.25, 0.4, 0.25, 1] as const } },
   });
 
   return (
@@ -282,7 +284,7 @@ export default function HeroGeometric() {
         {/* Trust line */}
         <motion.p
           variants={fade(3)} initial="hidden" animate="visible"
-          className="text-[0.72rem] text-white/22 tracking-wide mb-16"
+          className="text-[0.72rem] text-white/50 tracking-wide mb-16"
         >
           No credit card required · 14-day free trial · Cancel anytime
         </motion.p>

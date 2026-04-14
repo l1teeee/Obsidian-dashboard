@@ -87,6 +87,24 @@ export async function analyzeImageForPost(payload: AnalyzeImagePayload): Promise
   return res.data;
 }
 
+export interface CarouselSlidesPayload {
+  topic:  string;
+  count:  number;
+  style?: string;
+}
+
+export interface CarouselSlidesResult {
+  slides: string[];
+}
+
+export async function generateCarouselSlides(payload: CarouselSlidesPayload): Promise<CarouselSlidesResult> {
+  const res = await apiFetch<CarouselSlidesResult>('/ai/carousel-slides', {
+    method: 'POST',
+    body:   JSON.stringify(payload),
+  });
+  return res.data;
+}
+
 export interface EditImagePayload {
   imageDataUrl: string;
   maskDataUrl:  string;
