@@ -179,13 +179,13 @@ async function prepareForEdit(blobUrl: string): Promise<{ image: string; mask: s
 
 type ImageSize = '1024x1024' | '1792x1024' | '1024x1792';
 
-const CAROUSEL_STYLE_PRESETS: { label: string; value: string }[] = [
-  { label: 'Educational',  value: 'flat vector illustration, bold outlines, vibrant colors, clean white background, simple shapes, infographic style' },
-  { label: 'Minimal',      value: 'minimalist illustration, thin lines, soft pastel palette, white background, clean and simple' },
-  { label: 'Realistic',    value: 'professional photography, natural lighting, sharp focus, cinematic composition, realistic' },
-  { label: 'Bold',         value: 'bold graphic design, high contrast colors, geometric shapes, modern poster style, striking visuals' },
-  { label: 'Watercolor',   value: 'watercolor illustration, soft brushstrokes, warm pastel tones, artistic, hand-painted look' },
-  { label: '3D',           value: 'isometric 3D illustration, vibrant colors, clean background, modern digital art, polished render' },
+const CAROUSEL_STYLE_PRESETS: { label: string; icon: string; value: string }[] = [
+  { label: 'Educational',  icon: '📚', value: 'flat vector illustration, bold outlines, vibrant colors, clean white background, simple shapes, infographic style' },
+  { label: 'Minimal',      icon: '▪',  value: 'minimalist illustration, thin lines, soft pastel palette, white background, clean and simple' },
+  { label: 'Realistic',    icon: '📷', value: 'professional photography, natural lighting, sharp focus, cinematic composition, realistic' },
+  { label: 'Bold',         icon: '⬛', value: 'bold graphic design, high contrast colors, geometric shapes, modern poster style, striking visuals' },
+  { label: 'Watercolor',   icon: '🎨', value: 'watercolor illustration, soft brushstrokes, warm pastel tones, artistic, hand-painted look' },
+  { label: '3D',           icon: '🧊', value: 'isometric 3D illustration, vibrant colors, clean background, modern digital art, polished render' },
 ];
 
 const SIZE_OPTIONS: { value: ImageSize; label: string; icon: string }[] = [
@@ -319,6 +319,11 @@ export default function MediaUpload({
   const [slidesLoading,  setSlidesLoading]  = useState(false);
   const [slidesError,    setSlidesError]    = useState<string | null>(null);
   const [genProgress,   setGenProgress]   = useState<{ current: number; total: number } | null>(null);
+  const [expandedSlides,    setExpandedSlides]    = useState<Set<number>>(new Set());
+  const [genSuccess,        setGenSuccess]        = useState(false);
+  const [lightboxIndex,     setLightboxIndex]     = useState<number | null>(null);
+  const [showPromptTooltip, setShowPromptTooltip] = useState(false);
+  const [copiedPrompt,      setCopiedPrompt]      = useState(false);
 
   // ── Analysis panel state ──────────────────────────────────────────────────
   type AnalysisScope = 'images' | 'videos' | 'both';
@@ -394,6 +399,7 @@ export default function MediaUpload({
     setGenError(null);
     setRevisedPrompt(null);
     setGenProgress(null);
+    setGenSuccess(false);
 
     if (genMode === 'carousel') {
       const slides = carouselSlides.map(s => s.trim()).filter(Boolean);
@@ -410,6 +416,8 @@ export default function MediaUpload({
           lastRevised = result.revised_prompt;
         }
         setRevisedPrompt(lastRevised);
+        setGenSuccess(true);
+        setTimeout(() => setGenSuccess(false), 3000);
       } catch (err) {
         setGenError((err as Error).message ?? 'Image generation failed. Try again.');
       } finally {
@@ -425,6 +433,8 @@ export default function MediaUpload({
         const upload = await uploadFile(file);
         onAIImageGenerated(result.dataUrl, upload.url);
         setRevisedPrompt(result.revised_prompt);
+        setGenSuccess(true);
+        setTimeout(() => setGenSuccess(false), 3000);
       } catch (err) {
         setGenError((err as Error).message ?? 'Image generation failed. Try again.');
       } finally {
@@ -505,12 +515,27 @@ export default function MediaUpload({
     setShowAnalysis(false);
   }
 
-  const hasMedia   = mediaItems.length > 0;
-  const hasImages  = mediaItems.some(i => i.mediaType !== 'video');
-  const hasVideos  = mediaItems.some(i => i.mediaType === 'video');
+  const hasMedia    = mediaItems.length > 0;
+  const hasImages   = mediaItems.some(i => i.mediaType !== 'video');
+  const hasVideos   = mediaItems.some(i => i.mediaType === 'video');
+  const hasAIImages = mediaItems.some(i => i.isAIGenerated);
   const hasBothTypes = hasImages && hasVideos;
   const hasResults = !!analysisResult;
   const totalBytes = mediaItems.reduce((sum, i) => sum + (i.fileSize ?? 0), 0);
+
+  function toggleSlide(idx: number) {
+    setExpandedSlides(prev => {
+      const next = new Set(prev);
+      if (next.has(idx)) next.delete(idx);
+      else next.add(idx);
+      return next;
+    });
+  }
+
+  function getSlideTitle(slide: string): string {
+    const first = slide.split(',')[0].trim();
+    return first.length > 45 ? first.slice(0, 42) + '\u2026' : first;
+  }
 
   return (
     <div
@@ -548,8 +573,8 @@ export default function MediaUpload({
           )}
         </div>
         <div className="flex items-center gap-2">
-          {/* Analyze button — only when media exists */}
-          {hasMedia && (
+          {/* Analyze button — top position only for manually uploaded media */}
+          {hasMedia && !hasAIImages && (
             <button
               onClick={handleToggleAnalysis}
               disabled={analysisLoading}
@@ -596,7 +621,17 @@ export default function MediaUpload({
                   {hasBothTypes ? 'Visual Analysis' : hasVideos ? 'Video Analysis' : 'Image Analysis'}
                 </span>
               </div>
-              <span className="text-[9px] text-[#988d9c]/60 uppercase tracking-widest">GPT-4o Vision</span>
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-[#988d9c]/10 border border-[#988d9c]/20 text-[9px] font-semibold text-[#988d9c]/70">
+                <span className="material-symbols-outlined" style={{ fontSize: 10 }}>smart_toy</span>
+                GPT-4o Vision
+              </span>
+            </div>
+            {/* Disclaimer */}
+            <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-[#988d9c]/6 border border-[#988d9c]/12">
+              <span className="material-symbols-outlined text-[#988d9c]/60 shrink-0" style={{ fontSize: 12 }}>info</span>
+              <p className="text-[10px] text-[#988d9c]/60 leading-snug">
+                Generates captions and hashtags for your publication based on your media.
+              </p>
             </div>
 
             {/* Scope selector — only when both images and videos are present */}
@@ -899,7 +934,14 @@ export default function MediaUpload({
                 <span className="material-symbols-outlined text-[#d394ff] text-[16px]">auto_awesome</span>
                 <span className="text-[11px] font-bold text-[#d394ff] uppercase tracking-widest">AI Image Generator</span>
               </div>
-              <span className="text-[9px] text-[#988d9c]/60 uppercase tracking-widest">DALL·E 3</span>
+              <div className="relative group/dalle">
+                <span className="text-[13px] text-[#988d9c]/50 cursor-help select-none leading-none">ⓘ</span>
+                <div className="absolute right-0 top-full mt-1.5 hidden group-hover/dalle:block z-20 w-52">
+                  <div className="bg-[#2a2a2a] border border-[#4c4450]/40 rounded-xl px-2.5 py-1.5 text-[10px] text-[#988d9c] shadow-lg whitespace-nowrap">
+                    Images generated with DALL-E 3 by OpenAI
+                  </div>
+                </div>
+              </div>
             </div>
 
             {/* Mode toggle */}
@@ -954,12 +996,13 @@ export default function MediaUpload({
                       <button
                         key={p.label}
                         onClick={() => { setCarouselStyle(carouselStyle === p.value ? '' : p.value); setShowCustomStyle(false); }}
-                        className={`px-3 py-1 rounded-lg text-[10px] font-semibold transition-all ${
+                        className={`flex items-center gap-1 px-3 py-1 rounded-lg text-[10px] font-semibold transition-all ${
                           carouselStyle === p.value
-                            ? 'bg-[#d394ff]/20 text-[#d394ff] border border-[#d394ff]/35'
+                            ? 'bg-[#7c3aed] text-white border-transparent shadow-sm'
                             : 'bg-[#252424] text-[#988d9c] border border-[#4c4450]/20 hover:border-[#d394ff]/20 hover:text-[#cfc2d2]'
                         }`}
                       >
+                        <span className="text-[11px] leading-none">{p.icon}</span>
                         {p.label}
                       </button>
                     ))}
@@ -1022,25 +1065,44 @@ export default function MediaUpload({
                 {slidesError && <p className="text-[10px] text-red-400">{slidesError}</p>}
 
                 {carouselSlides.length > 0 && (
-                  <div className="space-y-2">
+                  <div className="space-y-1.5">
                     {carouselSlides.map((slide, i) => (
-                      <div key={i} className="flex gap-2 items-start">
-                        <span className="mt-2 text-[9px] font-bold text-[#d394ff]/50 w-4 shrink-0 text-right leading-5">{i + 1}</span>
-                        <textarea
-                          value={slide}
-                          rows={1}
-                          onChange={e => {
-                            const updated = [...carouselSlides];
-                            updated[i] = e.target.value;
-                            setCarouselSlides(updated);
-                            e.target.style.height = 'auto';
-                            e.target.style.height = `${e.target.scrollHeight}px`;
-                          }}
-                          ref={el => {
-                            if (el) { el.style.height = 'auto'; el.style.height = `${el.scrollHeight}px`; }
-                          }}
-                          className="flex-1 bg-[#252424] border border-[#4c4450]/30 rounded-xl px-3 py-2 text-[11px] text-[#e5e2e1] outline-none focus:border-[#d394ff]/50 transition-colors resize-none leading-relaxed overflow-hidden"
-                        />
+                      <div key={i} className="rounded-xl border border-[#4c4450]/25 bg-[#252424] overflow-hidden">
+                        {/* Collapsed header — always visible */}
+                        <button
+                          type="button"
+                          onClick={() => toggleSlide(i)}
+                          className="w-full flex items-center gap-2 px-3 py-2 text-left hover:bg-[#2a2929] transition-colors"
+                        >
+                          <span className="text-[9px] font-bold text-[#d394ff]/60 w-4 shrink-0 text-right">{i + 1}</span>
+                          <span className="flex-1 text-[11px] text-[#cfc2d2] truncate">{getSlideTitle(slide) || `Slide ${i + 1}`}</span>
+                          <span className="text-[9px] text-[#988d9c]/50 shrink-0">
+                            {expandedSlides.has(i) ? 'Hide ▲' : 'Prompt ▼'}
+                          </span>
+                        </button>
+                        {/* Accordion body */}
+                        <div
+                          className="overflow-hidden transition-all duration-200 ease-out"
+                          style={{ maxHeight: expandedSlides.has(i) ? '160px' : '0px' }}
+                        >
+                          <div className="px-3 pb-2">
+                            <textarea
+                              value={slide}
+                              rows={1}
+                              onChange={e => {
+                                const updated = [...carouselSlides];
+                                updated[i] = e.target.value;
+                                setCarouselSlides(updated);
+                                e.target.style.height = 'auto';
+                                e.target.style.height = `${e.target.scrollHeight}px`;
+                              }}
+                              ref={el => {
+                                if (el) { el.style.height = 'auto'; el.style.height = `${el.scrollHeight}px`; }
+                              }}
+                              className="w-full bg-[#1e1e1e] border border-[#4c4450]/30 rounded-xl px-3 py-2 text-[11px] text-[#e5e2e1] outline-none focus:border-[#d394ff]/50 transition-colors resize-none leading-relaxed overflow-hidden"
+                            />
+                          </div>
+                        </div>
                       </div>
                     ))}
                   </div>
@@ -1073,42 +1135,83 @@ export default function MediaUpload({
               const willGenerate = Math.min(filledSlides, available);
               const disabled = genLoading || !canAddMore
                 || (genMode === 'single' ? !prompt.trim() : filledSlides === 0);
+              let buttonLabel: string;
+              if (!canAddMore) buttonLabel = `Max ${MAX_MEDIA} images reached`;
+              else if (genMode === 'carousel') {
+                buttonLabel = filledSlides > 0
+                  ? `Generate ${filledSlides} Image${filledSlides !== 1 ? 's' : ''}${willGenerate < filledSlides ? ` (${available} slot${available !== 1 ? 's' : ''} left)` : ''}`
+                  : 'Generate slide prompts first';
+              } else {
+                buttonLabel = revisedPrompt ? 'Generate Another' : 'Generate Image';
+              }
               return (
-                <button
-                  onClick={handleGenerate}
-                  disabled={disabled}
-                  className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl bg-[#d394ff] text-[#5e2388] text-xs font-bold uppercase tracking-wider disabled:opacity-40 hover:brightness-110 transition-all active:scale-[0.98]"
-                >
-                  {genLoading ? (
-                    <>
-                      <span className="material-symbols-outlined text-[14px] animate-spin">progress_activity</span>
-                      {genProgress
-                        ? `Generating slide ${genProgress.current} of ${genProgress.total}…`
-                        : 'Generating…'
-                      }
-                    </>
-                  ) : (
-                    <>
-                      <span className="material-symbols-outlined text-[14px]">auto_awesome</span>
-                      {!canAddMore
-                        ? `Max ${MAX_MEDIA} images reached`
-                        : genMode === 'carousel'
-                          ? filledSlides > 0
-                            ? `Generate ${filledSlides} Image${filledSlides !== 1 ? 's' : ''}${willGenerate < filledSlides ? ` (${available} slot${available !== 1 ? 's' : ''} left)` : ''}`
-                            : 'Generate slide prompts first'
-                          : revisedPrompt ? 'Generate Another' : 'Generate Image'
-                      }
-                    </>
+                <>
+                  <button
+                    onClick={handleGenerate}
+                    disabled={disabled}
+                    className={`w-full flex items-center justify-center gap-2 py-2.5 rounded-xl bg-[#d394ff] text-[#5e2388] text-xs font-bold uppercase tracking-wider hover:brightness-110 transition-all active:scale-[0.98] ${genLoading ? 'opacity-50 cursor-not-allowed' : 'disabled:opacity-40'}`}
+                  >
+                    <span className="material-symbols-outlined text-[14px]">auto_awesome</span>
+                    {buttonLabel}
+                  </button>
+                  {genLoading && (
+                    <div className="flex justify-center">
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#d394ff]/10 border border-[#d394ff]/20 text-[10px] font-semibold text-[#d394ff]/80">
+                        <span className="material-symbols-outlined text-[11px] animate-spin">progress_activity</span>
+                        {genProgress
+                          ? `Generating image ${genProgress.current} of ${genProgress.total}…`
+                          : 'Generating…'
+                        }
+                      </span>
+                    </div>
                   )}
-                </button>
+                  {genSuccess && !genLoading && (
+                    <div className="flex justify-center">
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-green-500/10 border border-green-500/25 text-[10px] font-semibold text-green-400">
+                        <span className="material-symbols-outlined text-[11px]" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
+                        Images generated
+                      </span>
+                    </div>
+                  )}
+                </>
               );
             })()}
 
             {genError && <p className="text-[10px] text-red-400">{genError}</p>}
             {revisedPrompt && !genLoading && (
-              <div className="space-y-1">
-                <p className="text-[9px] font-bold uppercase tracking-widest text-[#4c4450]">DALL·E revised your prompt to:</p>
-                <p className="text-[10px] text-[#988d9c] leading-relaxed italic">"{revisedPrompt}"</p>
+              <div className="relative">
+                <div className="flex items-center gap-2">
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#d394ff]/10 border border-[#d394ff]/20 text-[10px] font-semibold text-[#d394ff]/80">
+                    <span className="text-[11px]">✨</span>
+                    Prompt auto-optimized
+                  </span>
+                  <button
+                    onClick={() => setShowPromptTooltip(p => !p)}
+                    className="text-[13px] text-[#988d9c]/40 hover:text-[#988d9c]/70 transition-colors leading-none select-none"
+                  >ⓘ</button>
+                </div>
+                {showPromptTooltip && (
+                  <div className="absolute bottom-full left-0 mb-2 z-20 w-72 bg-[#2a2a2a] border border-[#4c4450]/40 rounded-xl p-3 shadow-xl">
+                    <p className="text-[10px] text-[#988d9c] leading-relaxed italic mb-2.5">"{revisedPrompt}"</p>
+                    <div className="flex items-center justify-between border-t border-[#4c4450]/20 pt-2">
+                      <button
+                        onClick={() => {
+                          navigator.clipboard.writeText(revisedPrompt ?? '');
+                          setCopiedPrompt(true);
+                          setTimeout(() => setCopiedPrompt(false), 2000);
+                        }}
+                        className="flex items-center gap-1 text-[9px] text-[#d394ff]/70 hover:text-[#d394ff] transition-colors"
+                      >
+                        <span className="material-symbols-outlined text-[11px]">{copiedPrompt ? 'check' : 'content_copy'}</span>
+                        {copiedPrompt ? 'Copied!' : 'Copy prompt'}
+                      </button>
+                      <button
+                        onClick={() => setShowPromptTooltip(false)}
+                        className="text-[10px] text-[#988d9c]/40 hover:text-[#988d9c] transition-colors px-1"
+                      >✕</button>
+                    </div>
+                  </div>
+                )}
               </div>
             )}
           </div>
@@ -1158,8 +1261,10 @@ export default function MediaUpload({
                 return (
                   <div
                     key={i}
-                    className={`relative group w-24 h-24 shrink-0 snap-start rounded-xl overflow-hidden bg-[#1a1a1a] ${isVideo && !item.uploading && !item.uploadError ? 'cursor-pointer' : ''}`}
-                    onClick={isVideo && !item.uploading && !item.uploadError ? () => openVideoPreview(item.previewUrl) : undefined}
+                    className={`relative group w-24 h-24 shrink-0 snap-start rounded-xl overflow-hidden bg-[#1a1a1a] ${!item.uploading && !item.uploadError ? 'cursor-pointer' : ''}`}
+                    onClick={!item.uploading && !item.uploadError ? (
+                      isVideo ? () => openVideoPreview(item.previewUrl) : () => setLightboxIndex(i)
+                    ) : undefined}
                   >
                     {/* Skeleton shimmer — always shown until media finishes loading */}
                     {showSkeleton && (
@@ -1217,8 +1322,8 @@ export default function MediaUpload({
 
                     {/* AI badge */}
                     {item.isAIGenerated && !item.uploading && !item.uploadError && (
-                      <div className="absolute top-1 left-1 bg-[#d394ff]/80 rounded-md px-1 py-0.5">
-                        <span className="text-[7px] font-bold text-[#131313] uppercase tracking-wide">AI</span>
+                      <div className="absolute top-0.5 left-0.5 bg-[#d394ff]/40 rounded px-1 py-px">
+                        <span className="text-[7px] font-bold text-white/80 uppercase tracking-wide">AI</span>
                       </div>
                     )}
 
@@ -1247,23 +1352,8 @@ export default function MediaUpload({
                             </button>
                           </>
                         ) : (
-                          /* Images: edit + delete */
-                          <>
-                            <button
-                              onClick={e => { e.stopPropagation(); setEditingIndex(i); setEditPrompt(''); setEditError(null); }}
-                              title="Edit with AI"
-                              className="w-8 h-8 rounded-lg bg-white/10 border border-white/20 flex items-center justify-center hover:bg-[#ffd166]/25 hover:border-[#ffd166]/50 transition-all"
-                            >
-                              <span className="material-symbols-outlined text-white text-[16px]">edit</span>
-                            </button>
-                            <button
-                              onClick={e => { e.stopPropagation(); onRemove(i); }}
-                              title="Remove"
-                              className="w-8 h-8 rounded-lg bg-white/10 border border-white/20 flex items-center justify-center hover:bg-red-500/25 hover:border-red-400/50 transition-all"
-                            >
-                              <span className="material-symbols-outlined text-white text-[16px]">delete</span>
-                            </button>
-                          </>
+                          /* Images: expand icon — lightbox opens on tile click */
+                          <span className="material-symbols-outlined text-white text-[24px] opacity-80 pointer-events-none">search</span>
                         )}
                       </div>
                     )}
@@ -1282,8 +1372,27 @@ export default function MediaUpload({
             <span className="material-symbols-outlined text-[16px]">chevron_right</span>
           </button>
 
-          {/* Add more — pinned to the right */}
-          {canAddMore && (
+          {/* Analyze (AI images) or Add more (manual) — pinned to the right */}
+          {hasAIImages ? (
+            <button
+              onClick={handleToggleAnalysis}
+              disabled={analysisLoading}
+              className={`w-24 h-24 shrink-0 rounded-xl border-2 flex flex-col items-center justify-center gap-1.5 transition-all ${
+                showAnalysis
+                  ? 'border-[#d394ff]/50 bg-[#d394ff]/10'
+                  : 'border-dashed border-[#d394ff]/30 bg-[#1c1b1b] hover:border-[#d394ff]/55 hover:bg-[#d394ff]/8'
+              } disabled:opacity-50`}
+            >
+              <span
+                className={`material-symbols-outlined text-[#d394ff] text-[20px] ${analysisLoading ? 'animate-spin' : ''}`}
+              >
+                {analysisLoading ? 'progress_activity' : 'psychology'}
+              </span>
+              <span className="text-[9px] text-[#d394ff]/80 font-semibold">
+                {analysisLoading ? 'Analyzing…' : hasResults ? 'Re-analyze' : 'Analyze'}
+              </span>
+            </button>
+          ) : canAddMore ? (
             <button
               onClick={() => fileInputRef.current?.click()}
               className="w-24 h-24 shrink-0 rounded-xl border-2 border-dashed border-[#4c4450]/40 bg-[#1c1b1b] flex flex-col items-center justify-center gap-1 hover:border-[#d394ff]/50 hover:bg-[#201f1f] transition-all"
@@ -1291,9 +1400,9 @@ export default function MediaUpload({
               <span className="material-symbols-outlined text-[#d394ff] text-[20px]">add_photo_alternate</span>
               <span className="text-[9px] text-[#988d9c]">Add more</span>
             </button>
-          )}
+          ) : null}
         </div>
-      ) : (
+      ) : !showAI ? (
         <div
           className={`min-h-44 rounded-2xl border-2 border-dashed flex flex-col items-center justify-center gap-3 cursor-pointer transition-all ${
             isDragOver
@@ -1311,7 +1420,28 @@ export default function MediaUpload({
             <p className="text-[10px] text-[#988d9c]/50">JPG, PNG, MP4, MOV · up to {MAX_MEDIA} files</p>
           </div>
         </div>
-      )}
+      ) : carouselSlides.length > 0 ? (
+        /* showAI && !hasMedia && slides generated — compact upload row */
+        <button
+          type="button"
+          onClick={() => fileInputRef.current?.click()}
+          className={`w-full flex items-center gap-3 px-4 py-3 rounded-2xl border-2 border-dashed transition-all ${
+            isDragOver
+              ? 'border-[#d394ff]/60 bg-[#d394ff]/8'
+              : 'border-[#4c4450]/30 hover:border-[#d394ff]/40 hover:bg-[#201f1f]'
+          }`}
+        >
+          <div className="w-9 h-9 shrink-0 rounded-xl bg-[#d394ff]/10 flex items-center justify-center">
+            <span className="material-symbols-outlined text-[#d394ff] text-[18px]">add_photo_alternate</span>
+          </div>
+          <div className="text-left">
+            <p className="text-xs font-medium text-[#e5e2e1]">
+              Or <span className="text-[#d394ff]">browse</span> to upload
+            </p>
+            <p className="text-[10px] text-[#988d9c]/60 mt-0.5">Drop images · max 20 MB · Videos · max 50 MB</p>
+          </div>
+        </button>
+      ) : null}
 
       {/* ── Edit image panel ── */}
       {editingIndex !== null && mediaItems[editingIndex] && (
@@ -1321,7 +1451,7 @@ export default function MediaUpload({
             <div className="flex items-center gap-2">
               <span className="material-symbols-outlined text-[#ffd166] text-[16px]" style={{ fontVariationSettings: "'FILL' 1" }}>edit</span>
               <span className="text-[11px] font-bold text-[#ffd166] uppercase tracking-widest">Edit Image</span>
-              <span className="text-[9px] text-[#988d9c]/60 uppercase tracking-widest">DALL·E 2</span>
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-[#ffd166]/10 border border-[#ffd166]/20 text-[9px] font-semibold text-[#ffd166]/70">DALL·E 2</span>
             </div>
             <button
               onClick={() => { setEditingIndex(null); setEditError(null); }}
@@ -1393,6 +1523,55 @@ export default function MediaUpload({
           processFileList(files);
         }}
       />
+
+      {/* ── Image lightbox ── */}
+      {lightboxIndex !== null && mediaItems[lightboxIndex] && !mediaItems[lightboxIndex].uploading && createPortal(
+        <div
+          className="fixed inset-0 z-[9998] flex items-center justify-center bg-black/80 backdrop-blur-sm"
+          onClick={() => setLightboxIndex(null)}
+        >
+          <div
+            className="relative flex flex-col gap-3 max-w-[90vw] max-h-[90vh]"
+            onClick={e => e.stopPropagation()}
+          >
+            <img
+              src={mediaItems[lightboxIndex].previewUrl}
+              alt=""
+              className="max-w-full max-h-[75vh] object-contain rounded-xl shadow-2xl"
+            />
+            <div className="flex items-center justify-center gap-2">
+              <button
+                onClick={() => setLightboxIndex(null)}
+                className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-white/10 border border-white/20 text-white text-xs font-bold hover:bg-white/20 transition-all"
+              >
+                <span className="material-symbols-outlined text-[14px]">check</span>
+                Usar esta
+              </button>
+              <button
+                onClick={() => { const idx = lightboxIndex; setLightboxIndex(null); setEditingIndex(idx); setEditPrompt(''); setEditError(null); }}
+                className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#ffd166]/10 border border-[#ffd166]/30 text-[#ffd166] text-xs font-bold hover:bg-[#ffd166]/20 transition-all"
+              >
+                <span className="material-symbols-outlined text-[14px]">edit</span>
+                Editar con AI
+              </button>
+              <button
+                onClick={() => { const idx = lightboxIndex; setLightboxIndex(null); onRemove(idx); }}
+                className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-red-500/10 border border-red-500/30 text-red-400 text-xs font-bold hover:bg-red-500/20 transition-all"
+              >
+                <span className="material-symbols-outlined text-[14px]">delete</span>
+                Eliminar
+              </button>
+            </div>
+            <button
+              onClick={() => setLightboxIndex(null)}
+              className="absolute -top-3 -right-3 w-8 h-8 rounded-full bg-[#2a2a2a] border border-[#4c4450]/40 flex items-center justify-center text-[#988d9c] hover:text-white transition-colors"
+            >
+              <span className="material-symbols-outlined text-[16px]">close</span>
+            </button>
+          </div>
+        </div>,
+        document.body,
+      )}
 
       {/* ── Video preview modal ── */}
       {videoPreviewUrl && createPortal(
