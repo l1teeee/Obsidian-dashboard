@@ -86,7 +86,19 @@
       "Bash(npx sharp-cli:*)",
       "Bash(node -e ':*)",
       "Bash(cwebp -version)",
-      "Bash(node_modules\\\\.bin\\\\tsc.cmd:*)"
+      "Bash(node_modules\\\\.bin\\\\tsc.cmd:*)",
+      "Bash(date /t)",
+      "Bash(time /t)",
+      "Bash(echo \"2026-04-13 $\\(powershell -command \"Get-Date -Format 'HH:mm'\"\\)\")",
+      "WebFetch(domain:react.email)",
+      "WebFetch(domain:demo.react.email)",
+      "WebFetch(domain:sendlayer.com)",
+      "WebFetch(domain:next-react-email.vercel.app)",
+      "WebFetch(domain:roldanjr.github.io)",
+      "WebFetch(domain:www.freecodecamp.org)",
+      "WebFetch(domain:dev.to)",
+      "WebFetch(domain:www.kengreeff.com)",
+      "Bash(grep -n \"await dbConn.commit\\\\|return$\\\\|^}\" C:/Proyects/obsidian-backend/src/modules/platforms/platforms.service.ts)"
     ]
   }
 }
