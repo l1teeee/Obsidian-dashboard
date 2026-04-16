@@ -36,10 +36,9 @@ function Layout() {
         onClick={toggle}
         style={{ left: isOpen ? '224px' : '48px' }}
         className="hidden lg:flex fixed bottom-[130px] z-[60] w-8 h-8 rounded-full items-center justify-center
-          bg-[#0e0e0e] border border-[#d394ff]/50 text-[#d394ff]
-          shadow-[0_0_14px_rgba(211,148,255,0.35)]
-          hover:bg-[#d394ff]/10 hover:scale-110 active:scale-95
-          transition-[left,transform] duration-300 ease-in-out"
+          bg-[#1a1a1a] border border-[#3d3d3d] text-[#988d9c]
+          hover:bg-[#252525] hover:text-white active:scale-95
+          transition-[left,transform,background-color,color] duration-300 ease-in-out"
         title={isOpen ? 'Colapsar sidebar' : 'Expandir sidebar'}
       >
         <span className="material-symbols-outlined" style={{ fontSize: 16 }}>
