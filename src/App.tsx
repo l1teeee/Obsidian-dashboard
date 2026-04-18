@@ -33,6 +33,7 @@ const PostComposer   = lazy(() => import('./pages/PostComposer'));
 const Settings       = lazy(() => import('./pages/Settings'));
 const Rivals         = lazy(() => import('./pages/Rivals'));
 const AISettings     = lazy(() => import('./pages/AISettings'));
+const Brand          = lazy(() => import('./pages/Brand'));
 const Profile        = lazy(() => import('./pages/Profile'));
 
 gsap.registerPlugin(ScrollTrigger);
@@ -245,6 +246,7 @@ export default function App() {
                   <Route path="/settings"     element={<Settings />} />
                   <Route path="/rivals"       element={<Rivals />} />
                   <Route path="/ai-settings"  element={<AISettings />} />
+                  <Route path="/brand"        element={<Brand />} />
                   <Route path="/profile"      element={<Profile />} />
                 </Route>
               </Routes>
