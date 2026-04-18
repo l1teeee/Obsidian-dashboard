@@ -138,10 +138,6 @@ export default function EditImageModal({
 
   if (!isMounted || !item) return null;
 
-  const displayUrl = screen === 'result' && editResult
-    ? previewSide === 'edited' ? editResult.dataUrl : item.previewUrl
-    : item.previewUrl;
-
   return createPortal(
     <div
       className={`fixed inset-0 z-[9999] flex items-center justify-center p-4 transition-all duration-200 ${
