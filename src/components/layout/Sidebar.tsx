@@ -160,7 +160,7 @@ export default function Sidebar() {
       gsap.fromTo(btn,
         { boxShadow: '0 0 0px rgba(211,148,255,0)' },
         { boxShadow: '0 0 18px rgba(211,148,255,0.45)', duration: 0.2, ease: 'power2.out',
-          onComplete: () => gsap.to(btn, { boxShadow: '0 0 0px rgba(211,148,255,0)', duration: 0.4, ease: 'power2.in' }) },
+          onComplete: () => { gsap.to(btn, { boxShadow: '0 0 0px rgba(211,148,255,0)', duration: 0.4, ease: 'power2.in' }); } },
       );
     }
     if (wsNameRef.current) {
