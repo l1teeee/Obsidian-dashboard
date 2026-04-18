@@ -98,7 +98,9 @@
       "WebFetch(domain:www.freecodecamp.org)",
       "WebFetch(domain:dev.to)",
       "WebFetch(domain:www.kengreeff.com)",
-      "Bash(grep -n \"await dbConn.commit\\\\|return$\\\\|^}\" C:/Proyects/obsidian-backend/src/modules/platforms/platforms.service.ts)"
+      "Bash(grep -n \"await dbConn.commit\\\\|return$\\\\|^}\" C:/Proyects/obsidian-backend/src/modules/platforms/platforms.service.ts)",
+      "Bash(awk '{print $NF}')",
+      "Bash(xargs -I {} basename {})"
     ]
   }
 }

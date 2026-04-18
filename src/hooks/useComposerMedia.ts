@@ -10,6 +10,7 @@ export interface MediaItem {
   mediaType?:      'image' | 'video'; // detected from file.type on upload
   fileSize?:       number;            // original file size in bytes (only for local files)
   isAIGenerated?:  boolean;           // true only for DALL-E generated images
+  prompt?:         string;            // original prompt used to generate this image (AI only)
 }
 
 const MAX_MEDIA = 10;
@@ -21,7 +22,7 @@ export interface UseComposerMediaReturn {
   fileInputRef:           React.RefObject<HTMLInputElement | null>;
   handleFilesSelected:    (files: File[]) => void;
   handleFileChange:       (e: React.ChangeEvent<HTMLInputElement>) => void;
-  handleAIImageGenerated: (blobUrl: string, sourceUrl: string) => void;
+  handleAIImageGenerated: (blobUrl: string, sourceUrl: string, prompt?: string) => void;
   handleReplaceMedia:     (index: number, blobUrl: string, sourceUrl: string) => void;
   removeMedia:            (index: number) => void;
 }
@@ -181,10 +182,10 @@ export function useComposerMedia(onDirty: () => void): UseComposerMediaReturn {
     handleFilesSelected(files);
   }, [handleFilesSelected]);
 
-  const handleAIImageGenerated = useCallback((blobUrl: string, sourceUrl: string) => {
+  const handleAIImageGenerated = useCallback((blobUrl: string, sourceUrl: string, prompt?: string) => {
     setMediaItems(prev => {
       if (prev.length >= MAX_MEDIA) return prev;
-      return [...prev, { previewUrl: blobUrl, sourceUrl, isAIGenerated: true }];
+      return [...prev, { previewUrl: blobUrl, sourceUrl, isAIGenerated: true, prompt }];
     });
     onDirty();
   }, [onDirty]);

@@ -107,7 +107,6 @@ export async function generateCarouselSlides(payload: CarouselSlidesPayload): Pr
 
 export interface EditImagePayload {
   imageDataUrl: string;
-  maskDataUrl:  string;
   instruction:  string;
 }
 
