@@ -42,23 +42,23 @@ async function dataUrlToFile(dataUrl: string, filename: string): Promise<File> {
 
 const EDIT_MAX_PX = 1024;
 
+// gpt-image-1 accepts any PNG up to ~20MB — just resize to max 1024px
 async function resizeForEdit(dataUrl: string): Promise<string> {
-  if (!dataUrl.startsWith('blob:') && !dataUrl.startsWith('http')) return dataUrl;
-  const blob = await fetch(dataUrl).then(r => r.blob());
+  const loadSrc = dataUrl.startsWith('data:') ? dataUrl : await fetch(dataUrl).then(r => r.blob()).then(b => URL.createObjectURL(b));
   return new Promise(resolve => {
-    const img = new Image();
-    const tmp = URL.createObjectURL(blob);
+    const img    = new Image();
+    const isBlob = loadSrc.startsWith('blob:');
     img.onload = () => {
-      URL.revokeObjectURL(tmp);
+      if (isBlob) URL.revokeObjectURL(loadSrc);
       const scale  = Math.min(1, EDIT_MAX_PX / Math.max(img.naturalWidth, img.naturalHeight));
       const canvas = document.createElement('canvas');
       canvas.width  = Math.round(img.naturalWidth  * scale);
       canvas.height = Math.round(img.naturalHeight * scale);
       canvas.getContext('2d')!.drawImage(img, 0, 0, canvas.width, canvas.height);
-      resolve(canvas.toDataURL('image/jpeg', 0.85));
+      resolve(canvas.toDataURL('image/png'));
     };
-    img.onerror = () => { URL.revokeObjectURL(tmp); resolve(dataUrl); };
-    img.src = tmp;
+    img.onerror = () => { if (isBlob) URL.revokeObjectURL(loadSrc); resolve(dataUrl); };
+    img.src = loadSrc;
   });
 }
 
@@ -256,13 +256,13 @@ export default function AIGeneratorModal({
 
   return createPortal(
     <div
-      className={`fixed inset-0 z-[9999] flex items-center justify-center p-4 transition-all duration-200 ${
+      className={`fixed inset-0 z-[9999] flex items-center justify-center p-4 overflow-hidden transition-all duration-200 ${
         isVisible ? 'bg-black/80 backdrop-blur-sm' : 'bg-black/0 backdrop-blur-none pointer-events-none'
       }`}
       onClick={handleClose}
     >
       <div
-        className={`relative w-full max-w-lg bg-[#1c1b1b] rounded-2xl shadow-2xl flex flex-col max-h-[90vh] transition-all duration-200 ${
+        className={`relative w-full max-w-lg bg-[#1c1b1b] rounded-2xl shadow-2xl flex flex-col max-h-[90vh] overflow-hidden transition-all duration-200 ${
           isVisible ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-[0.97] translate-y-3'
         }`}
         onClick={e => e.stopPropagation()}
@@ -282,7 +282,7 @@ export default function AIGeneratorModal({
             )}
             <div className="w-9 h-9 rounded-xl bg-[#d394ff]/15 border border-[#d394ff]/20 flex items-center justify-center shrink-0">
               <span className="material-symbols-outlined text-[#d394ff]" style={{ fontSize: 18, fontVariationSettings: "'FILL' 1" }}>
-                {screen === 'edit-preview' ? 'auto_fix_high' : 'auto_awesome'}
+                {screen === 'edit-preview' ? 'edit' : 'flare'}
               </span>
             </div>
             <div>
@@ -437,7 +437,7 @@ export default function AIGeneratorModal({
                         disabled={!carouselTopic.trim() || slidesLoading || genLoading}
                         className="ml-auto flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[#252424] border border-[#d394ff]/25 text-[#d394ff] text-[10px] font-bold uppercase tracking-wider disabled:opacity-40 hover:bg-[#d394ff]/10 hover:border-[#d394ff]/40 transition-all active:scale-[0.98]"
                       >
-                        {slidesLoading ? <span className="material-symbols-outlined text-[13px] animate-spin">progress_activity</span> : <span className="material-symbols-outlined text-[13px]">auto_fix_high</span>}
+                        {slidesLoading ? <span className="material-symbols-outlined text-[13px] animate-spin">progress_activity</span> : <span className="material-symbols-outlined text-[13px]">flare</span>}
                         {slidesLoading ? 'Working…' : carouselSlides.length > 0 ? 'Regenerate' : 'Generate prompts'}
                       </button>
                     </div>
@@ -509,7 +509,7 @@ export default function AIGeneratorModal({
                 disabled={!canGenerate}
                 className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-[#d394ff] text-[#5e2388] text-sm font-bold uppercase tracking-wider hover:brightness-110 transition-all active:scale-[0.99] disabled:opacity-40 disabled:cursor-not-allowed"
               >
-                <span className="material-symbols-outlined text-[16px]">auto_awesome</span>
+                <span className="material-symbols-outlined text-[16px]">flare</span>
                 {genMode === 'carousel' && filledSlides > 0
                   ? `Generate ${willGenerate} Image${willGenerate !== 1 ? 's' : ''}`
                   : genMode === 'carousel' ? 'Generate prompts first'
@@ -526,73 +526,55 @@ export default function AIGeneratorModal({
         {screen === 'preview' && generatedResult && (
           <>
             <div className="flex-1 overflow-y-auto px-5 py-5 space-y-4 min-h-0">
-              {/* Generated image */}
-              <div className="rounded-2xl overflow-hidden bg-black flex items-center justify-center" style={{ minHeight: 260, maxHeight: 380 }}>
+              {/* Generated image — floating card with prompt badge */}
+              <div className="relative flex items-center justify-center py-4">
+                <div className="absolute inset-0 rounded-2xl bg-[#d394ff]/5" />
                 <img
                   src={generatedResult.dataUrl}
                   alt="Generated"
-                  className="w-full h-full object-contain"
-                  style={{ maxHeight: 380 }}
+                  className="relative rounded-2xl object-contain shadow-[0_8px_32px_rgba(0,0,0,0.5)] ring-1 ring-white/8"
+                  style={{ maxHeight: 340, maxWidth: '100%' }}
                 />
-              </div>
-
-              {/* Prompt chip — icon + tooltip */}
-              <div className="flex items-center gap-2">
-                <div className="relative">
-                  <button
-                    onClick={() => setShowPromptTip(p => !p)}
-                    className={`w-8 h-8 rounded-full flex items-center justify-center transition-all border ${
-                      showPromptTip
-                        ? 'bg-[#d394ff]/20 border-[#d394ff]/40 text-[#d394ff]'
-                        : 'bg-[#252424] border-[#4c4450]/25 text-[#988d9c] hover:text-[#d394ff] hover:border-[#d394ff]/30'
-                    }`}
-                    title="View prompt"
-                  >
-                    <span className="material-symbols-outlined text-[15px]" style={{ fontVariationSettings: "'FILL' 1" }}>auto_awesome</span>
-                  </button>
-                  {showPromptTip && (
-                    <div className="absolute bottom-full left-0 mb-2 z-20 w-72">
-                      <div className="bg-[#2a2a2a] border border-[#4c4450]/40 rounded-xl p-3 shadow-xl">
-                        {generatedResult.revisedPrompt && (
-                          <>
-                            <p className="text-[10px] font-bold uppercase tracking-widest text-[#988d9c]/60 mb-1.5">Auto-optimized prompt</p>
-                            <p className="text-[11px] text-[#e5e2e1] italic leading-relaxed mb-2.5">"{generatedResult.revisedPrompt}"</p>
-                            <div className="border-t border-[#4c4450]/20 pt-2">
-                              <button
-                                onClick={() => copyPrompt(generatedResult.revisedPrompt!)}
-                                className="flex items-center gap-1.5 text-[9px] font-semibold text-[#988d9c] hover:text-[#d394ff] transition-colors"
-                              >
-                                <span className="material-symbols-outlined text-[11px]">{promptCopied ? 'check' : 'content_copy'}</span>
-                                {promptCopied ? 'Copied!' : 'Copy prompt'}
-                              </button>
-                            </div>
-                          </>
-                        )}
-                        {!generatedResult.revisedPrompt && (
-                          <>
-                            <p className="text-[10px] font-bold uppercase tracking-widest text-[#988d9c]/60 mb-1.5">Prompt used</p>
-                            <p className="text-[11px] text-[#e5e2e1] italic leading-relaxed mb-2.5">"{generatedResult.originalPrompt}"</p>
-                            <div className="border-t border-[#4c4450]/20 pt-2">
-                              <button
-                                onClick={() => copyPrompt(generatedResult.originalPrompt)}
-                                className="flex items-center gap-1.5 text-[9px] font-semibold text-[#988d9c] hover:text-[#d394ff] transition-colors"
-                              >
-                                <span className="material-symbols-outlined text-[11px]">{promptCopied ? 'check' : 'content_copy'}</span>
-                                {promptCopied ? 'Copied!' : 'Copy prompt'}
-                              </button>
-                            </div>
-                          </>
-                        )}
+                {/* Prompt badge — floats over the image */}
+                <div className="absolute bottom-7 left-4 z-10">
+                  <div className="relative">
+                    <button
+                      onClick={() => setShowPromptTip(p => !p)}
+                      className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-full backdrop-blur-md text-[10px] font-semibold transition-all border shadow-lg ${
+                        showPromptTip
+                          ? 'bg-[#d394ff]/30 border-[#d394ff]/50 text-white'
+                          : 'bg-black/50 border-white/15 text-white/70 hover:bg-black/70 hover:text-white'
+                      }`}
+                    >
+                      <span className="material-symbols-outlined text-[12px]" style={{ fontVariationSettings: "'FILL' 1" }}>flare</span>
+                      {generatedResult.revisedPrompt ? 'Prompt' : 'Prompt'}
+                    </button>
+                    {showPromptTip && (
+                      <div className="absolute bottom-full left-0 mb-2 z-20 w-72">
+                        <div className="bg-[#2a2a2a] border border-[#4c4450]/40 rounded-xl p-3 shadow-xl">
+                          <p className="text-[10px] font-bold uppercase tracking-widest text-[#988d9c]/60 mb-1.5">
+                            {generatedResult.revisedPrompt ? 'Auto-optimized prompt' : 'Prompt used'}
+                          </p>
+                          <p className="text-[11px] text-[#e5e2e1] italic leading-relaxed mb-2.5">
+                            "{generatedResult.revisedPrompt ?? generatedResult.originalPrompt}"
+                          </p>
+                          <div className="border-t border-[#4c4450]/20 pt-2">
+                            <button
+                              onClick={() => copyPrompt(generatedResult.revisedPrompt ?? generatedResult.originalPrompt)}
+                              className="flex items-center gap-1.5 text-[9px] font-semibold text-[#988d9c] hover:text-[#d394ff] transition-colors"
+                            >
+                              <span className="material-symbols-outlined text-[11px]">{promptCopied ? 'check' : 'content_copy'}</span>
+                              {promptCopied ? 'Copied!' : 'Copy prompt'}
+                            </button>
+                          </div>
+                        </div>
+                        <div className="flex ml-3">
+                          <div className="w-2.5 h-2.5 bg-[#2a2a2a] border-b border-r border-[#4c4450]/40 rotate-45 -mt-1.5" />
+                        </div>
                       </div>
-                      <div className="flex ml-3">
-                        <div className="w-2.5 h-2.5 bg-[#2a2a2a] border-b border-r border-[#4c4450]/40 rotate-45 -mt-1.5" />
-                      </div>
-                    </div>
-                  )}
+                    )}
+                  </div>
                 </div>
-                <span className="text-[10px] text-[#988d9c]/50">
-                  {generatedResult.revisedPrompt ? 'Prompt auto-optimized by DALL·E' : 'Image generated'}
-                </span>
               </div>
 
               {/* Divider */}
@@ -610,7 +592,7 @@ export default function AIGeneratorModal({
                   className="w-full flex items-center gap-3 px-4 py-3.5 rounded-xl bg-[#252424] border border-[#ffd166]/20 hover:border-[#ffd166]/40 hover:bg-[#ffd166]/5 transition-all group text-left"
                 >
                   <div className="w-9 h-9 rounded-xl bg-[#ffd166]/15 flex items-center justify-center shrink-0 group-hover:bg-[#ffd166]/25 transition-colors">
-                    <span className="material-symbols-outlined text-[#ffd166]" style={{ fontSize: 18, fontVariationSettings: "'FILL' 1" }}>auto_fix_high</span>
+                    <span className="material-symbols-outlined text-[#ffd166]" style={{ fontSize: 18, fontVariationSettings: "'FILL' 1" }}>edit</span>
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-semibold text-white">Edit with AI</p>
@@ -655,18 +637,24 @@ export default function AIGeneratorModal({
         {screen === 'edit-preview' && generatedResult && (
           <>
             <div className="flex-1 overflow-y-auto px-5 py-5 space-y-4 min-h-0">
-              {/* Current image (will update after edit) */}
-              <div className="rounded-2xl overflow-hidden bg-black flex items-center justify-center relative" style={{ minHeight: 220, maxHeight: 300 }}>
-                <img
-                  src={generatedResult.dataUrl}
-                  alt="Image to edit"
-                  className={`w-full h-full object-contain transition-opacity duration-300 ${editLoading ? 'opacity-40' : 'opacity-100'}`}
-                  style={{ maxHeight: 300 }}
-                />
-                {editLoading && (
-                  <div className="absolute inset-0 flex items-center justify-center gap-2">
-                    <span className="material-symbols-outlined text-[#ffd166] text-[28px] animate-spin">progress_activity</span>
+              {/* Current image — floating */}
+              <div className="relative flex items-center justify-center py-3">
+                <div className="absolute inset-0 rounded-2xl bg-[#ffd166]/5" />
+                {editLoading ? (
+                  <div
+                    className="relative rounded-2xl overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.5)] ring-1 ring-white/8"
+                    style={{ maxHeight: 280, width: '100%', aspectRatio: '1 / 1' }}
+                  >
+                    <div className="absolute inset-0 bg-[#252424] animate-pulse" />
+                    <div className="absolute inset-0 -translate-x-full animate-[shimmer_1.6s_ease-in-out_infinite] bg-gradient-to-r from-transparent via-white/5 to-transparent" />
                   </div>
+                ) : (
+                  <img
+                    src={generatedResult.dataUrl}
+                    alt="Image to edit"
+                    className="relative rounded-2xl object-contain shadow-[0_8px_32px_rgba(0,0,0,0.5)] ring-1 ring-white/8"
+                    style={{ maxHeight: 280, maxWidth: '100%' }}
+                  />
                 )}
               </div>
 
@@ -711,7 +699,7 @@ export default function AIGeneratorModal({
                 {editLoading ? (
                   <><span className="material-symbols-outlined text-[16px] animate-spin">progress_activity</span>Editing…</>
                 ) : (
-                  <><span className="material-symbols-outlined text-[16px]" style={{ fontVariationSettings: "'FILL' 1" }}>auto_fix_high</span>Apply Edit</>
+                  <><span className="material-symbols-outlined text-[16px]" style={{ fontVariationSettings: "'FILL' 1" }}>edit</span>Apply Edit</>
                 )}
               </button>
               <button

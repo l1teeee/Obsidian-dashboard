@@ -96,9 +96,12 @@ export default function MediaUpload({
   }
 
   // ── AI modal state ────────────────────────────────────────────────────────
-  const [showGeneratorModal, setShowGeneratorModal] = useState(false);
-  const [showAnalyzeModal,   setShowAnalyzeModal]   = useState(false);
-  const [editingIndex,       setEditingIndex]       = useState<number | null>(null);
+  const [showGeneratorModal,   setShowGeneratorModal]   = useState(false);
+  const [showAnalyzeModal,     setShowAnalyzeModal]     = useState(false);
+  const [editingIndex,         setEditingIndex]         = useState<number | null>(null);
+  const [generatorEverOpened,  setGeneratorEverOpened]  = useState(false);
+  // Incrementing this key forces AIGeneratorModal to remount (full reset)
+  const [generatorKey,         setGeneratorKey]         = useState(0);
 
   // ── Scroll helpers ────────────────────────────────────────────────────────
   function updateScrollButtons() {
@@ -157,12 +160,13 @@ export default function MediaUpload({
   }
 
   const hasMedia     = mediaItems.length > 0;
+  const hasAIImages  = mediaItems.some(i => i.isAIGenerated);
   const totalBytes   = mediaItems.reduce((sum, i) => sum + (i.fileSize ?? 0), 0);
 
   return (
     <div
       data-editor-section
-      className="space-y-3 relative"
+      className="relative"
       onDragEnter={handleDragEnter}
       onDragLeave={handleDragLeave}
       onDragOver={handleDragOver}
@@ -179,58 +183,79 @@ export default function MediaUpload({
         </div>
       )}
 
-      {/* ── Header ── */}
-      <div className="flex justify-between items-center">
-        <div className="flex items-center gap-2">
-          <label className="text-[11px] uppercase tracking-widest text-[#988d9c] font-bold">Creative Assets</label>
-          {hasMedia && (
-            <span className="text-[10px] font-bold text-[#d394ff] bg-[#d394ff]/10 px-2 py-0.5 rounded-full">
-              {mediaItems.length}/{MAX_MEDIA}
-            </span>
-          )}
-          {totalBytes > 0 && (
-            <span className="text-[10px] text-[#988d9c]/70 tabular-nums">{formatBytes(totalBytes)}</span>
-          )}
-        </div>
+      {/* ── Card wrapper ── */}
+      <div className="bg-[#1c1b1b] border border-[#4c4450]/30 rounded-2xl overflow-hidden">
 
-        <div className="flex items-center gap-2">
-          {/* Analyze button — only when there is media */}
-          {hasMedia && (
-            <button
-              onClick={() => setShowAnalyzeModal(true)}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-[#d394ff]/10 text-[#d394ff] hover:bg-[#d394ff]/20 transition-all active:scale-95"
-            >
-              <span className="material-symbols-outlined text-[13px]">psychology</span>
-              Analyze
-            </button>
-          )}
-          {/* Generate button */}
-          <button
-            onClick={() => { if (canAddMore) setShowGeneratorModal(true); }}
-            disabled={!canAddMore}
-            title={!canAddMore ? `Max ${MAX_MEDIA} files reached` : undefined}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-[#d394ff]/10 text-[#d394ff] hover:bg-[#d394ff]/20 transition-all active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed"
-          >
-            <span className="material-symbols-outlined text-[13px]">auto_awesome</span>
-            Generate
-          </button>
-        </div>
-      </div>
-
-      {/* ── Size errors ── */}
-      {sizeErrors.length > 0 && (
-        <div className="flex items-start gap-2 px-3 py-2.5 rounded-xl bg-[#ffb4ab]/8 border border-[#ffb4ab]/20">
-          <span className="material-symbols-outlined text-[#ffb4ab] shrink-0 mt-0.5" style={{ fontSize: 14 }}>error</span>
-          <div className="flex-1 min-w-0">
-            {sizeErrors.map((err, i) => (
-              <p key={i} className="text-[10px] text-[#ffb4ab] leading-relaxed">{err}</p>
-            ))}
+        {/* Header */}
+        <div className="flex justify-between items-center px-4 pt-3 pb-2.5">
+          <div className="flex items-center gap-2">
+            <label className="text-[11px] uppercase tracking-widest text-[#988d9c] font-bold">Creative Assets</label>
+            {hasMedia && (
+              <span className="text-[10px] font-bold text-[#d394ff] bg-[#d394ff]/10 px-2 py-0.5 rounded-full">
+                {mediaItems.length}/{MAX_MEDIA}
+              </span>
+            )}
+            {totalBytes > 0 && (
+              <span className="text-[10px] text-[#988d9c]/70 tabular-nums">{formatBytes(totalBytes)}</span>
+            )}
           </div>
-          <button onClick={() => setSizeErrors([])} className="shrink-0 text-[#ffb4ab]/50 hover:text-[#ffb4ab] transition-colors">
-            <span className="material-symbols-outlined" style={{ fontSize: 14 }}>close</span>
-          </button>
+
+          <div className="flex items-center gap-2">
+            {hasMedia && (
+              <button
+                onClick={() => setShowAnalyzeModal(true)}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-[#d394ff]/10 text-[#d394ff] hover:bg-[#d394ff]/20 transition-all active:scale-95"
+              >
+                <span className="material-symbols-outlined text-[13px]">search</span>
+                Analyze
+              </button>
+            )}
+            <div className="flex items-center gap-1">
+              <button
+                onClick={() => { if (canAddMore) { setGeneratorEverOpened(true); setShowGeneratorModal(true); } }}
+                disabled={!canAddMore}
+                title={!canAddMore ? `Max ${MAX_MEDIA} files reached` : undefined}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-[#d394ff]/10 text-[#d394ff] hover:bg-[#d394ff]/20 transition-all active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed"
+              >
+                <span className="material-symbols-outlined text-[13px]">flare</span>
+                {(generatorEverOpened || hasAIImages) ? 'Continue' : 'Generate'}
+              </button>
+              {(generatorEverOpened || hasAIImages) && (
+                <button
+                  onClick={() => {
+                    setGeneratorEverOpened(false);
+                    setGeneratorKey(k => k + 1);
+                    for (let i = mediaItems.length - 1; i >= 0; i--) {
+                      if (mediaItems[i].isAIGenerated) onRemove(i);
+                    }
+                  }}
+                  title="Reset AI generator"
+                  className="w-6 h-6 flex items-center justify-center rounded-full text-[#988d9c]/60 hover:text-red-400 hover:bg-red-400/10 transition-all active:scale-95"
+                >
+                  <span className="material-symbols-outlined text-[13px]">close</span>
+                </button>
+              )}
+            </div>
+          </div>
         </div>
-      )}
+
+        {/* Size errors */}
+        {sizeErrors.length > 0 && (
+          <div className="mx-3 mb-2 flex items-start gap-2 px-3 py-2.5 rounded-xl bg-[#ffb4ab]/8 border border-[#ffb4ab]/20">
+            <span className="material-symbols-outlined text-[#ffb4ab] shrink-0 mt-0.5" style={{ fontSize: 14 }}>error</span>
+            <div className="flex-1 min-w-0">
+              {sizeErrors.map((err, i) => (
+                <p key={i} className="text-[10px] text-[#ffb4ab] leading-relaxed">{err}</p>
+              ))}
+            </div>
+            <button onClick={() => setSizeErrors([])} className="shrink-0 text-[#ffb4ab]/50 hover:text-[#ffb4ab] transition-colors">
+              <span className="material-symbols-outlined" style={{ fontSize: 14 }}>close</span>
+            </button>
+          </div>
+        )}
+
+        {/* Content */}
+        <div className="px-3 pb-3">
 
       {/* ── Media carousel ── */}
       {hasMedia ? (
@@ -317,8 +342,8 @@ export default function MediaUpload({
 
                     {/* AI badge */}
                     {item.isAIGenerated && !item.uploading && !item.uploadError && (
-                      <div className="absolute top-0.5 left-0.5 bg-[#d394ff]/40 rounded px-1 py-px">
-                        <span className="text-[7px] font-bold text-white/80 uppercase tracking-wide">AI</span>
+                      <div className="absolute bottom-1 left-1 w-[14px] h-[14px] rounded bg-[#d394ff]/90 flex items-center justify-center">
+                        <span className="material-symbols-outlined text-white" style={{ fontSize: 9, fontVariationSettings: "'FILL' 1" }}>flare</span>
                       </div>
                     )}
 
@@ -358,14 +383,14 @@ export default function MediaUpload({
                                 title="Analyze & generate caption"
                                 className="w-7 h-7 rounded-lg bg-[#d394ff]/25 border border-[#d394ff]/40 flex items-center justify-center hover:bg-[#d394ff]/50 transition-all"
                               >
-                                <span className="material-symbols-outlined text-white" style={{ fontSize: 13 }}>psychology</span>
+                                <span className="material-symbols-outlined text-white" style={{ fontSize: 13 }}>search</span>
                               </button>
                               <button
                                 onClick={e => { e.stopPropagation(); setEditingIndex(i); }}
                                 title="Edit with AI"
                                 className="w-7 h-7 rounded-lg bg-[#ffd166]/20 border border-[#ffd166]/40 flex items-center justify-center hover:bg-[#ffd166]/40 transition-all"
                               >
-                                <span className="material-symbols-outlined text-[#ffd166]" style={{ fontSize: 13, fontVariationSettings: "'FILL' 1" }}>auto_fix_high</span>
+                                <span className="material-symbols-outlined text-[#ffd166]" style={{ fontSize: 13 }}>edit</span>
                               </button>
                               <button
                                 onClick={e => { e.stopPropagation(); onRemove(i); }}
@@ -408,23 +433,25 @@ export default function MediaUpload({
       ) : (
         /* ── Empty drop zone ── */
         <div
-          className={`min-h-44 rounded-2xl border-2 border-dashed flex flex-col items-center justify-center gap-3 cursor-pointer transition-all ${
+          className={`min-h-36 rounded-xl border-2 border-dashed flex flex-col items-center justify-center gap-3 cursor-pointer transition-all ${
             isDragOver
               ? 'border-[#d394ff]/70 bg-[#d394ff]/8'
-              : 'border-[#4c4450]/40 bg-[#1c1b1b] hover:border-[#d394ff]/50 hover:bg-[#201f1f]'
+              : 'border-[#4c4450]/35 hover:border-[#d394ff]/40 hover:bg-[#201f1f]/50'
           }`}
           onClick={() => fileInputRef.current?.click()}
         >
-          <div className={`w-16 h-16 rounded-2xl flex items-center justify-center transition-colors ${isDragOver ? 'bg-[#d394ff]/15 border border-[#d394ff]/30' : 'bg-[#d394ff]/10'}`}>
-            <span className="material-symbols-outlined text-[#d394ff]" style={{ fontSize: 32, fontVariationSettings: "'FILL' 1" }}>cloud_upload</span>
+          <div className={`w-12 h-12 rounded-xl flex items-center justify-center transition-colors ${isDragOver ? 'bg-[#d394ff]/15 border border-[#d394ff]/30' : 'bg-[#d394ff]/8'}`}>
+            <span className="material-symbols-outlined text-[#d394ff]" style={{ fontSize: 24, fontVariationSettings: "'FILL' 1" }}>cloud_upload</span>
           </div>
           <div className="text-center">
             <p className="text-sm font-medium text-[#e5e2e1]">Drop or <span className="text-[#d394ff]">browse</span></p>
             <p className="text-[10px] text-[#988d9c] mt-0.5">Images · max 20 MB &nbsp;·&nbsp; Videos · max 50 MB</p>
-            <p className="text-[10px] text-[#988d9c]/50">JPG, PNG, MP4, MOV · up to {MAX_MEDIA} files</p>
           </div>
         </div>
       )}
+
+        </div>{/* end Content */}
+      </div>{/* end Card wrapper */}
 
       {/* ── Hidden file input ── */}
       <input
@@ -476,7 +503,7 @@ export default function MediaUpload({
                   onClick={() => setShowPrompt(p => !p)}
                   className="w-full flex items-center gap-2 px-4 py-2.5 hover:bg-[#1c1b1b] transition-colors text-left"
                 >
-                  <span className="material-symbols-outlined text-[#d394ff]/50 text-[13px] shrink-0" style={{ fontVariationSettings: "'FILL' 1" }}>auto_awesome</span>
+                  <span className="material-symbols-outlined text-[#d394ff]/50 text-[13px] shrink-0" style={{ fontVariationSettings: "'FILL' 1" }}>flare</span>
                   <span className="flex-1 text-[10px] text-[#988d9c]/70 font-medium">
                     {mediaItems[lightboxIndex].prompt ? 'AI Prompt' : 'AI-generated image'}
                   </span>
@@ -519,14 +546,14 @@ export default function MediaUpload({
                 onClick={() => { setLightboxIndex(null); setShowAnalyzeModal(true); }}
                 className="flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl bg-[#d394ff]/12 border border-[#d394ff]/25 text-[#d394ff] text-[11px] font-bold hover:bg-[#d394ff]/22 transition-all active:scale-[0.98]"
               >
-                <span className="material-symbols-outlined text-[14px]">psychology</span>
+                <span className="material-symbols-outlined text-[14px]">search</span>
                 Analyze
               </button>
               <button
                 onClick={() => { const idx = lightboxIndex; setLightboxIndex(null); setEditingIndex(idx); }}
                 className="flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl bg-[#ffd166]/10 border border-[#ffd166]/25 text-[#ffd166] text-[11px] font-bold hover:bg-[#ffd166]/20 transition-all active:scale-[0.98]"
               >
-                <span className="material-symbols-outlined text-[14px]" style={{ fontVariationSettings: "'FILL' 1" }}>auto_fix_high</span>
+                <span className="material-symbols-outlined text-[14px]">edit</span>
                 Edit with AI
               </button>
               <button
@@ -572,6 +599,7 @@ export default function MediaUpload({
 
       {/* ── AI Modals ── */}
       <AIGeneratorModal
+        key={generatorKey}
         isOpen={showGeneratorModal}
         onClose={() => setShowGeneratorModal(false)}
         onImageGenerated={onAIImageGenerated}

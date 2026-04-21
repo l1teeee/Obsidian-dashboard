@@ -242,7 +242,7 @@ export default function AnalyzeModal({
         <div className="flex items-center justify-between px-5 py-4 border-b border-[#4c4450]/25 shrink-0">
           <div className="flex items-center gap-3">
             <div className="w-9 h-9 rounded-xl bg-[#d394ff]/15 border border-[#d394ff]/20 flex items-center justify-center">
-              <span className="material-symbols-outlined text-[#d394ff]" style={{ fontSize: 18 }}>psychology</span>
+              <span className="material-symbols-outlined text-[#d394ff]" style={{ fontSize: 18 }}>search</span>
             </div>
             <div>
               <h2 className="text-sm font-bold text-white leading-none mb-0.5">Visual Analysis</h2>
@@ -266,8 +266,8 @@ export default function AnalyzeModal({
                   <div key={i} className="relative group w-16 h-16 rounded-xl overflow-hidden bg-[#252424] border border-[#4c4450]/25">
                     <img src={item.previewUrl} alt="" className="w-full h-full object-cover" />
                     {item.isAIGenerated && (
-                      <div className="absolute top-0.5 left-0.5 bg-[#d394ff]/50 rounded px-1 py-px">
-                        <span className="text-[6px] font-bold text-white uppercase tracking-wide">AI</span>
+                      <div className="absolute bottom-0.5 left-0.5 w-[13px] h-[13px] rounded bg-[#d394ff]/90 flex items-center justify-center">
+                        <span className="material-symbols-outlined text-white" style={{ fontSize: 8, fontVariationSettings: "'FILL' 1" }}>flare</span>
                       </div>
                     )}
                     {/* Hover: edit button */}
@@ -277,7 +277,7 @@ export default function AnalyzeModal({
                         title="Edit with AI"
                         className="w-8 h-8 rounded-lg bg-[#ffd166]/20 border border-[#ffd166]/40 flex items-center justify-center hover:bg-[#ffd166]/40 transition-all"
                       >
-                        <span className="material-symbols-outlined text-[#ffd166]" style={{ fontSize: 15, fontVariationSettings: "'FILL' 1" }}>auto_fix_high</span>
+                        <span className="material-symbols-outlined text-[#ffd166]" style={{ fontSize: 15, fontVariationSettings: "'FILL' 1" }}>edit</span>
                       </button>
                     </div>
                   </div>

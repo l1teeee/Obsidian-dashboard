@@ -8,24 +8,23 @@ import type { MediaItem } from '../../hooks/useComposer';
 
 const EDIT_MAX_PX = 1024;
 
-/** Resize + compress image to JPEG for sending to the backend. */
+// gpt-image-1 accepts any PNG — just resize to max 1024px
 async function resizeForEdit(url: string): Promise<string> {
-  if (url.startsWith('data:')) return url;
-  const blob = await fetch(url).then(r => r.blob());
+  const loadSrc = url.startsWith('data:') ? url : await fetch(url).then(r => r.blob()).then(b => URL.createObjectURL(b));
   return new Promise(resolve => {
-    const img = new Image();
-    const tmp = URL.createObjectURL(blob);
+    const img    = new Image();
+    const isBlob = loadSrc.startsWith('blob:');
     img.onload = () => {
-      URL.revokeObjectURL(tmp);
+      if (isBlob) URL.revokeObjectURL(loadSrc);
       const scale  = Math.min(1, EDIT_MAX_PX / Math.max(img.naturalWidth, img.naturalHeight));
       const canvas = document.createElement('canvas');
       canvas.width  = Math.round(img.naturalWidth  * scale);
       canvas.height = Math.round(img.naturalHeight * scale);
       canvas.getContext('2d')!.drawImage(img, 0, 0, canvas.width, canvas.height);
-      resolve(canvas.toDataURL('image/jpeg', 0.85));
+      resolve(canvas.toDataURL('image/png'));
     };
-    img.onerror = () => { URL.revokeObjectURL(tmp); resolve(url); };
-    img.src = tmp;
+    img.onerror = () => { if (isBlob) URL.revokeObjectURL(loadSrc); resolve(url); };
+    img.src = loadSrc;
   });
 }
 
@@ -155,7 +154,7 @@ export default function EditImageModal({
         <div className="flex items-center justify-between px-5 py-4 border-b border-[#4c4450]/25">
           <div className="flex items-center gap-3">
             <div className="w-9 h-9 rounded-xl bg-[#ffd166]/15 border border-[#ffd166]/20 flex items-center justify-center">
-              <span className="material-symbols-outlined text-[#ffd166]" style={{ fontSize: 18, fontVariationSettings: "'FILL' 1" }}>auto_fix_high</span>
+              <span className="material-symbols-outlined text-[#ffd166]" style={{ fontSize: 18, fontVariationSettings: "'FILL' 1" }}>edit</span>
             </div>
             <div>
               <h2 className="text-sm font-bold text-white leading-none mb-0.5">
@@ -179,13 +178,14 @@ export default function EditImageModal({
         {screen === 'form' && (
           <div className="px-5 py-5 space-y-4">
             {/* Image preview */}
-            <div className="rounded-2xl overflow-hidden bg-[#111] flex items-center justify-center relative" style={{ aspectRatio: '4/3', maxHeight: 240 }}>
-              <img src={item.previewUrl} alt="" className={`w-full h-full object-contain transition-opacity duration-300 ${editLoading ? 'opacity-30' : 'opacity-100'}`} />
-              {editLoading && (
-                <div className="absolute inset-0 flex flex-col items-center justify-center gap-2">
-                  <span className="material-symbols-outlined text-[#ffd166] text-[32px] animate-spin">progress_activity</span>
-                  <p className="text-[11px] text-[#ffd166]/80 font-medium">Editing — this may take a moment…</p>
-                </div>
+            <div className="rounded-2xl overflow-hidden relative" style={{ aspectRatio: '4/3', maxHeight: 240 }}>
+              {editLoading ? (
+                <>
+                  <div className="absolute inset-0 bg-[#252424] animate-pulse" />
+                  <div className="absolute inset-0 -translate-x-full animate-[shimmer_1.6s_ease-in-out_infinite] bg-gradient-to-r from-transparent via-white/5 to-transparent" />
+                </>
+              ) : (
+                <img src={item.previewUrl} alt="" className="w-full h-full object-contain bg-[#111]" />
               )}
             </div>
 
@@ -225,7 +225,7 @@ export default function EditImageModal({
               disabled={!editPrompt.trim() || editLoading}
               className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-[#ffd166] text-[#1a1400] text-sm font-bold transition-all disabled:opacity-40 hover:brightness-110 active:scale-[0.99] disabled:cursor-not-allowed"
             >
-              <span className="material-symbols-outlined text-[16px]" style={{ fontVariationSettings: "'FILL' 1" }}>auto_fix_high</span>
+              <span className="material-symbols-outlined text-[16px]" style={{ fontVariationSettings: "'FILL' 1" }}>edit</span>
               Apply Edit
             </button>
           </div>
@@ -251,7 +251,7 @@ export default function EditImageModal({
                   }`}
                 >
                   <span className="material-symbols-outlined" style={{ fontSize: 13 }}>
-                    {side === 'original' ? 'image' : 'auto_fix_high'}
+                    {side === 'original' ? 'image' : 'edit'}
                   </span>
                   {side === 'original' ? 'Original' : 'Edited'}
                 </button>
@@ -294,7 +294,7 @@ export default function EditImageModal({
                   }`}
                   title="View instruction"
                 >
-                  <span className="material-symbols-outlined text-[15px]" style={{ fontVariationSettings: "'FILL' 1" }}>auto_fix_high</span>
+                  <span className="material-symbols-outlined text-[15px]" style={{ fontVariationSettings: "'FILL' 1" }}>edit</span>
                 </button>
                 {showPromptTip && (
                   <div className="absolute bottom-full left-0 mb-2 z-20 w-64">

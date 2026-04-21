@@ -174,7 +174,7 @@ export default function CaptionEditor({
                   : 'text-[#d394ff] border-[#d394ff]/20 hover:bg-[#d394ff]/10'
               }`}
             >
-              <span className="material-symbols-outlined text-[11px]">auto_awesome</span>
+              <span className="material-symbols-outlined text-[11px]">flare</span>
               {hasResults ? 'Edit AI' : 'Generate with AI'}
             </button>
           )}

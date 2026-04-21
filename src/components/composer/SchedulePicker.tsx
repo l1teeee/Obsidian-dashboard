@@ -113,7 +113,7 @@ export default function SchedulePicker({
           {/* Suggest time button — hidden when schedule came from AI analysis */}
           {timeFromAnalysis ? (
             <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-[#d394ff]/8 border border-[#d394ff]/20">
-              <span className="material-symbols-outlined text-[#d394ff] text-[13px]" style={{ fontVariationSettings: "'FILL' 1" }}>auto_awesome</span>
+              <span className="material-symbols-outlined text-[#d394ff] text-[13px]" style={{ fontVariationSettings: "'FILL' 1" }}>flare</span>
               <p className="text-[10px] text-[#d394ff]/80 font-medium">Time suggested by AI analysis</p>
             </div>
           ) : (
@@ -130,7 +130,7 @@ export default function SchedulePicker({
                 </>
               ) : (
                 <>
-                  <span className="material-symbols-outlined text-[14px]" style={{ fontVariationSettings: "'FILL' 1" }}>auto_awesome</span>
+                  <span className="material-symbols-outlined text-[14px]" style={{ fontVariationSettings: "'FILL' 1" }}>flare</span>
                   Suggest best time
                 </>
               )}
