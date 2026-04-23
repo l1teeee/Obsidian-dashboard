@@ -1,28 +1,36 @@
-import CursorFollower   from '../components/landing/CursorFollower';
-import LandingNav       from '../components/landing/LandingNav';
-import HeroGeometric    from '../components/landing/HeroGeometric';
-import SocialProof      from '../components/landing/SocialProof';
-import WorkflowTimeline from '../components/ui/workflow-timeline';
-import PlatformSection  from '../components/landing/PlatformSection';
-import AnalyticsSection from '../components/landing/AnalyticsSection';
-import ShowcaseSection  from '../components/landing/ShowcaseSection';
-import PricingSection   from '../components/landing/PricingSection';
-import CTASection       from '../components/landing/CTASection';
-import ObsidianFooter   from '../components/landing/ObsidianFooter';
+import CursorFollower         from '../components/landing/CursorFollower';
+import LandingNav             from '../components/landing/LandingNav';
+import HeroGeometric          from '../components/landing/HeroGeometric';
+import SocialProof            from '../components/landing/SocialProof';
+import BenefitsSection        from '../components/landing/BenefitsSection';
+import WorkflowTimeline       from '../components/ui/workflow-timeline';
+import DifferentiatorsSection from '../components/landing/DifferentiatorsSection';
+import TestimonialsSection    from '../components/landing/TestimonialsSection';
+import PlatformSection        from '../components/landing/PlatformSection';
+import AnalyticsSection       from '../components/landing/AnalyticsSection';
+import ShowcaseSection        from '../components/landing/ShowcaseSection';
+import PricingSection         from '../components/landing/PricingSection';
+import FAQSection             from '../components/landing/FAQSection';
+import CTASection             from '../components/landing/CTASection';
+import ObsidianFooter         from '../components/landing/ObsidianFooter';
 
 export default function LandingPage() {
   return (
-    <div className="landing-page bg-[#030303] text-white overflow-x-hidden">
+    <div className="landing-page bg-[#0a0a0a] text-white overflow-x-hidden">
       <CursorFollower />
       <LandingNav />
       <main>
         <HeroGeometric />
         <SocialProof />
+        <BenefitsSection />
         <WorkflowTimeline />
+        <DifferentiatorsSection />
+        <TestimonialsSection />
         <PlatformSection />
         <AnalyticsSection />
         <ShowcaseSection />
         <PricingSection />
+        <FAQSection />
         <CTASection />
       </main>
       <ObsidianFooter />

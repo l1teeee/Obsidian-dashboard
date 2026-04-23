@@ -100,7 +100,9 @@
       "WebFetch(domain:www.kengreeff.com)",
       "Bash(grep -n \"await dbConn.commit\\\\|return$\\\\|^}\" C:/Proyects/obsidian-backend/src/modules/platforms/platforms.service.ts)",
       "Bash(awk '{print $NF}')",
-      "Bash(xargs -I {} basename {})"
+      "Bash(xargs -I {} basename {})",
+      "Bash(curl -s http://localhost:5173)",
+      "Bash(curl *)"
     ]
   }
 }

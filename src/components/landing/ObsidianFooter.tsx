@@ -77,7 +77,7 @@ export default function ObsidianFooter() {
   }, []);
 
   return (
-    <footer ref={footerRef} className="relative overflow-hidden bg-[#030303]">
+    <footer ref={footerRef} className="relative overflow-hidden bg-[#0a0a0a]">
       {/* Top separator */}
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#d394ff]/15 to-transparent" />
 
@@ -90,12 +90,10 @@ export default function ObsidianFooter() {
         <div className="grid grid-cols-2 gap-10 md:grid-cols-[1fr_auto_auto_auto] md:gap-16 lg:gap-24">
           {/* Brand column */}
           <div className="col-span-2 flex flex-col gap-6 md:col-span-1">
-            <div className="flex items-center gap-2.5">
-              <div className="flex h-7 w-7 items-center justify-center rounded-xl border border-[#d394ff]/25 bg-[#d394ff]/10">
-                <div className="h-2.5 w-2.5 rounded-full bg-[#d394ff]" />
-              </div>
+            <a href="/" className="flex items-center gap-2.5 group">
+              <img src="/favicon.png" alt="Vielinks" className="h-8 w-8 object-contain opacity-90 transition-opacity group-hover:opacity-100" />
               <span className="text-base font-extrabold tracking-tight text-white">Vielinks</span>
-            </div>
+            </a>
             <p className="max-w-[240px] text-[0.82rem] leading-[1.75] text-white/50">
               The unified command center for social media teams. Built for brands that publish with intention.
             </p>

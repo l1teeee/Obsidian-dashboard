@@ -18,6 +18,9 @@ import DashboardLayout from './components/layout/DashboardLayout';
 
 // Lazy-loaded pages — each becomes its own chunk
 const LandingPage    = lazy(() => import('./pages/LandingPage'));
+const PricingPage    = lazy(() => import('./pages/PricingPage'));
+const NotFound       = lazy(() => import('./pages/NotFound'));
+const FAQPage        = lazy(() => import('./pages/FAQPage'));
 const LoginCard      = lazy(() => import('./components/auth/LoginCard'));
 const RegisterCard   = lazy(() => import('./components/auth/RegisterCard'));
 const CheckEmail     = lazy(() => import('./pages/CheckEmail'));
@@ -76,7 +79,7 @@ function LenisProvider({ children }: { children: ReactNode }) {
   return <>{children}</>;
 }
 
-const AUTH_PATHS = ['/', '/login', '/register', '/check-email', '/complete-profile', '/create-workspace'];
+const AUTH_PATHS = ['/', '/pricing', '/faq', '/login', '/register', '/check-email', '/complete-profile', '/create-workspace'];
 
 // Fires the transition when navigating FROM auth pages TO app pages
 function TransitionDetector({ onTrigger }: { onTrigger: () => void }) {
@@ -213,6 +216,8 @@ export default function App() {
               <Routes>
                 {/* Landing page — public */}
                 <Route path="/" element={<LandingPage />} />
+                <Route path="/pricing" element={<PricingPage />} />
+                <Route path="/faq"     element={<FAQPage />} />
 
                 {/* Auth — public */}
                 <Route path="/login"        element={<LoginCard />} />
@@ -249,6 +254,9 @@ export default function App() {
                   <Route path="/brand"        element={<Brand />} />
                   <Route path="/profile"      element={<Profile />} />
                 </Route>
+
+                {/* 404 — catch-all */}
+                <Route path="*" element={<NotFound />} />
               </Routes>
               </Suspense>
             </WorkspaceGuard>

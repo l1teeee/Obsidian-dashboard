@@ -1,96 +1,280 @@
 
-import { useLayoutEffect, useRef } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
+import NumberFlow from '@number-flow/react';
+import { AnimatePresence, motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { cn } from '@/lib/utils';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const plans = [
+export type BillingPlan = 'monthly' | 'annually';
+
+export type PlanDef = {
+  id: string;
+  name: string;
+  forWho: string;
+  desc: string;
+  monthlyPrice: number | null;
+  annuallyPrice: number | null;
+  badge?: string;
+  accent?: boolean;
+  features: string[];
+  cta: string;
+  ctaRoute: string;
+  note?: string;
+};
+
+export const PLANS: PlanDef[] = [
   {
+    id: 'free',
+    name: 'Free',
+    forWho: 'For individuals getting started',
+    desc: 'Explore Vielinks with no commitment. One account, core scheduling, and basic analytics.',
+    monthlyPrice: 0,
+    annuallyPrice: 0,
+    features: [
+      '1 social account connected',
+      '10 scheduled posts per month',
+      '7-day analytics window',
+      'Content calendar view',
+      'Community support',
+    ],
+    cta: 'Get started free',
+    ctaRoute: '/register',
+  },
+  {
+    id: 'starter',
     name: 'Starter',
-    price: '29',
     forWho: 'For independent creators',
     desc: 'Everything you need to grow your personal brand across multiple platforms.',
-    accent: false,
-    badge: null,
+    monthlyPrice: 29,
+    annuallyPrice: 290,
     features: [
       '3 social accounts connected',
-      '30 scheduled posts per month',
-      'Basic analytics dashboard',
+      '60 scheduled posts per month',
+      '30-day analytics dashboard',
       'Content calendar view',
       'AI caption suggestions (10/mo)',
       'Email support',
     ],
     cta: 'Start free trial',
-    note: null,
+    ctaRoute: '/register',
   },
   {
+    id: 'pro',
     name: 'Pro',
-    price: '79',
     forWho: 'For teams & growing brands',
     desc: 'Full analytics, unlimited scheduling, and AI-powered insights for teams that publish at scale.',
-    accent: true,
+    monthlyPrice: 79,
+    annuallyPrice: 790,
     badge: 'Most Popular',
+    accent: true,
     features: [
-      '15 social accounts connected',
+      '10 social accounts connected',
       'Unlimited scheduled posts',
-      'Advanced analytics & engagement data',
+      '90-day analytics + performance reports',
       'AI best-time scheduling engine',
       'Unlimited AI caption drafting',
-      'Competitor performance tracking',
+      'Multi-workspace support (5 seats)',
       'Priority support (4h response)',
     ],
     cta: 'Start free trial',
-    note: 'Used by 78% of our paying customers',
+    ctaRoute: '/register',
+    note: 'Used by 78% of paying customers',
   },
   {
-    name: 'Enterprise',
-    price: 'Custom',
+    id: 'agency',
+    name: 'Agency',
     forWho: 'For agencies & large brands',
     desc: 'Custom workflows, white-label reporting, and dedicated support for complex operations.',
-    accent: false,
-    badge: null,
+    monthlyPrice: 149,
+    annuallyPrice: 1490,
     features: [
-      'Unlimited accounts & users',
-      'Unlimited posts & workspaces',
-      'White-label PDF reports',
+      'Unlimited accounts & workspaces',
+      'Unlimited posts & team seats',
+      'Full analytics history + white-label PDF reports',
       'API access & custom integrations',
       'SSO & advanced permissions',
-      'Dedicated success manager',
+      'Dedicated customer success manager',
     ],
     cta: 'Book a demo',
-    note: null,
+    ctaRoute: '/login',
   },
 ];
 
-function CheckIcon() {
+function CheckIcon({ accent }: { accent?: boolean }) {
   return (
-    <svg className="h-3.5 w-3.5 shrink-0" fill="none" stroke="currentColor" strokeWidth={2.4} viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-    </svg>
+    <span className={cn(
+      'mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full',
+      accent ? 'bg-[#d394ff]/15 text-[#d394ff]' : 'bg-white/[0.06] text-white/45'
+    )}>
+      <svg className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth={2.4} viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+      </svg>
+    </span>
   );
 }
 
+export function PlanCard({ plan, billing }: { plan: PlanDef; billing: BillingPlan }) {
+  const navigate = useNavigate();
+  const price = billing === 'monthly' ? plan.monthlyPrice : plan.annuallyPrice;
+  const isFree = plan.id === 'free';
+
+  return (
+    <div className={cn(
+      'group relative flex flex-col overflow-hidden rounded-[2rem] border p-8 backdrop-blur-xl transition-all duration-500 hover:-translate-y-1',
+      plan.accent
+        ? 'border-[#d394ff]/28 bg-[#181818]/85 shadow-[0_0_0_1px_rgba(211,148,255,0.07),0_40px_120px_rgba(0,0,0,0.3)]'
+        : 'border-white/[0.08] bg-[#111111]/70 hover:bg-[#181818]/70'
+    )}>
+      {/* Top sheen */}
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/[0.08] to-transparent" />
+
+      {/* Hover glow for accent */}
+      {plan.accent && (
+        <div
+          className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+          style={{ background: 'radial-gradient(ellipse at top, rgba(211,148,255,0.09) 0%, transparent 65%)' }}
+        />
+      )}
+
+      {/* Badge row */}
+      <div className="mb-5 h-6">
+        {plan.badge && (
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-[#d394ff]/25 bg-[#d394ff]/12 px-3 py-1 text-[0.62rem] font-bold uppercase tracking-[0.16em] text-[#d394ff]">
+            <span className="h-1 w-1 rounded-full bg-[#d394ff]" />
+            {plan.badge}
+          </span>
+        )}
+      </div>
+
+      {/* For who + name */}
+      <p className="mb-1.5 text-[0.65rem] font-bold uppercase tracking-[0.18em] text-white/50">{plan.forWho}</p>
+      <h3 className="mb-2 text-xl font-extrabold tracking-tight text-white">{plan.name}</h3>
+      <p className="mb-7 text-[0.875rem] leading-[1.65] text-white/55">{plan.desc}</p>
+
+      {/* Price with NumberFlow */}
+      <div className="mb-2">
+        {isFree ? (
+          <p className="text-5xl font-extrabold tracking-[-0.04em] text-white">Free</p>
+        ) : (
+          <div className="flex items-end gap-1.5">
+            <NumberFlow
+              value={price ?? 0}
+              format={{ style: 'currency', currency: 'USD', minimumFractionDigits: 0, maximumFractionDigits: 0, currencyDisplay: 'narrowSymbol' }}
+              className="text-5xl font-extrabold tracking-[-0.04em] text-white"
+            />
+            <span className="mb-2 text-sm font-medium text-white/55">
+              {billing === 'monthly' ? '/mo' : '/yr'}
+            </span>
+          </div>
+        )}
+      </div>
+
+      {/* Billing note animated */}
+      <div className="h-7 overflow-hidden mb-5">
+        <AnimatePresence mode="wait">
+          <motion.p
+            key={billing}
+            initial={{ y: 14, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: -14, opacity: 0 }}
+            transition={{ duration: 0.18, ease: 'easeOut' }}
+            className="text-[0.7rem] text-white/35"
+          >
+            {isFree
+              ? 'Free forever · no card required'
+              : billing === 'monthly'
+              ? 'Billed monthly · cancel anytime'
+              : `Save ${billing === 'annually' ? '~17%' : ''} vs monthly`}
+          </motion.p>
+        </AnimatePresence>
+      </div>
+
+      {/* CTA */}
+      <button
+        onClick={() => navigate(plan.ctaRoute)}
+        className={cn(
+          'mb-2 w-full rounded-xl px-6 py-3.5 text-sm font-bold transition-all duration-300 active:scale-[0.98]',
+          plan.accent
+            ? 'bg-[#d394ff] text-[#4a0076] hover:shadow-[0_0_36px_rgba(211,148,255,0.35)]'
+            : 'border border-white/[0.10] bg-white/[0.04] text-white/70 hover:border-[#d394ff]/30 hover:text-white hover:bg-white/[0.07]'
+        )}
+      >
+        {plan.cta}
+      </button>
+
+      {plan.note && (
+        <p className="mb-4 text-center text-[0.62rem] text-white/40">{plan.note}</p>
+      )}
+      {!plan.note && <div className="mb-4 h-5" />}
+
+      {/* Divider */}
+      <div className="mb-5 h-px bg-white/[0.06]" />
+
+      {/* Features */}
+      <ul className="mt-auto space-y-3.5">
+        {plan.features.map((f) => (
+          <li key={f} className="flex items-start gap-3">
+            <CheckIcon accent={plan.accent} />
+            <span className="text-[0.875rem] leading-snug text-white/65">{f}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+/* ── Billing toggle ───────────────────────────────────────── */
+export function BillingToggle({ billing, onSwitch }: { billing: BillingPlan; onSwitch: () => void }) {
+  return (
+    <div className="flex items-center justify-center gap-4 mt-8">
+      <span className={cn('text-sm font-medium transition-colors', billing === 'monthly' ? 'text-white' : 'text-white/40')}>
+        Monthly
+      </span>
+      <button
+        onClick={onSwitch}
+        aria-label="Toggle billing period"
+        className="relative h-7 w-12 rounded-full border border-white/[0.12] bg-white/[0.06] transition-colors focus:outline-none hover:border-[#d394ff]/30"
+      >
+        <motion.div
+          layout
+          transition={{ type: 'spring', stiffness: 700, damping: 40 }}
+          className={cn(
+            'absolute top-1 h-5 w-5 rounded-full bg-[#d394ff]',
+            billing === 'annually' ? 'left-6' : 'left-1'
+          )}
+        />
+      </button>
+      <div className="flex items-center gap-2">
+        <span className={cn('text-sm font-medium transition-colors', billing === 'annually' ? 'text-white' : 'text-white/40')}>
+          Annually
+        </span>
+        <span className="rounded-full border border-[#d394ff]/20 bg-[#d394ff]/[0.08] px-2 py-0.5 text-[0.6rem] font-bold text-[#d394ff]">
+          Save ~17%
+        </span>
+      </div>
+    </div>
+  );
+}
+
+/* ── Section ──────────────────────────────────────────────── */
 export default function PricingSection() {
   const sectionRef = useRef<HTMLElement | null>(null);
-  const navigate = useNavigate();
+  const [billing, setBilling] = useState<BillingPlan>('monthly');
 
   useLayoutEffect(() => {
     if (!sectionRef.current) return;
 
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (prefersReduced) {
-      gsap.set('[data-pr="eyebrow"],[data-pr="title"],[data-pr="sub"],[data-pr="card"],[data-pr="note"]', { opacity: 1, y: 0 });
+      gsap.set('[data-pr="eyebrow"],[data-pr="title"],[data-pr="sub"],[data-pr="toggle"],[data-pr="card"],[data-pr="note"]', { opacity: 1, y: 0 });
       return;
     }
 
     const ctx = gsap.context(() => {
-      gsap.set(
-        ['[data-pr="orb"]','[data-pr="eyebrow"]','[data-pr="title"]','[data-pr="sub"]','[data-pr="card"]','[data-pr="note"]'],
-        { willChange: 'transform, opacity, filter' }
-      );
-
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
@@ -105,8 +289,9 @@ export default function PricingSection() {
         .fromTo('[data-pr="eyebrow"]', { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.4 }, 0.05)
         .fromTo('[data-pr="title"]',   { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.55 }, '-=0.2')
         .fromTo('[data-pr="sub"]',     { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.4 }, '-=0.3')
-        .fromTo('[data-pr="card"]',    { opacity: 0, y: 28, scale: 0.988 }, { opacity: 1, y: 0, scale: 1, duration: 0.55, stagger: 0.09 }, '-=0.25')
-        .fromTo('[data-pr="note"]',    { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.35 }, '-=0.15');
+        .fromTo('[data-pr="toggle"]',  { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.35 }, '-=0.25')
+        .fromTo('[data-pr="card"]',    { opacity: 0, y: 28, scale: 0.988 }, { opacity: 1, y: 0, scale: 1, duration: 0.55, stagger: 0.08 }, '-=0.2')
+        .fromTo('[data-pr="note"]',    { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.35 }, '-=0.1');
     }, sectionRef);
 
     return () => ctx.revert();
@@ -114,121 +299,46 @@ export default function PricingSection() {
 
   return (
     <section ref={sectionRef} id="Pricing" className="relative overflow-hidden py-28 md:py-36">
-      <div data-pr="orb" style={{ opacity: 0 }} className="pointer-events-none absolute left-1/2 top-16 h-[480px] w-[600px] -translate-x-1/2 rounded-full bg-[#d394ff]/[0.05] blur-[120px]" />
+      <div data-pr="orb" style={{ opacity: 0 }} className="pointer-events-none absolute left-1/2 top-16 h-[480px] w-[700px] -translate-x-1/2 rounded-full bg-[#d394ff]/[0.05] blur-[120px]" />
 
       <div className="mx-auto max-w-[1440px] px-6 md:px-12">
         {/* Header */}
-        <div className="mb-16 text-center">
-          <span
-            data-pr="eyebrow"
-            style={{ opacity: 0 }}
-            className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#d394ff]/18 bg-[#d394ff]/10 px-4 py-1.5 text-[0.68rem] font-bold uppercase tracking-[0.22em] text-[#d394ff]"
-          >
+        <div className="mb-4 text-center">
+          <span data-pr="eyebrow" style={{ opacity: 0 }} className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#d394ff]/18 bg-[#d394ff]/10 px-4 py-1.5 text-[0.68rem] font-bold uppercase tracking-[0.22em] text-[#d394ff]">
             <span className="h-1.5 w-1.5 rounded-full bg-[#d394ff]" />
             Pricing
           </span>
-          <h2
-            data-pr="title"
-            style={{ opacity: 0 }}
-            className="mx-auto max-w-2xl text-4xl font-extrabold leading-[0.96] tracking-[-0.04em] text-white sm:text-5xl md:text-[3.4rem]"
-          >
+          <h2 data-pr="title" style={{ opacity: 0 }} className="mx-auto mt-5 max-w-2xl text-4xl font-extrabold leading-[0.96] tracking-[-0.04em] text-white sm:text-5xl md:text-[3.4rem]">
             Simple pricing.{' '}
             <span className="bg-gradient-to-b from-white via-[#f0dcff] to-[#c97cff] bg-clip-text text-transparent">
               Serious results.
             </span>
           </h2>
           <p data-pr="sub" style={{ opacity: 0 }} className="mt-5 text-[1rem] font-light leading-[1.8] text-white/55">
-            Start with a 14-day free trial. No credit card required. Upgrade, downgrade, or cancel anytime.
+            Start free, no credit card required. Upgrade, downgrade, or cancel anytime.
           </p>
+          <div data-pr="toggle" style={{ opacity: 0 }}>
+            <BillingToggle billing={billing} onSwitch={() => setBilling(b => b === 'monthly' ? 'annually' : 'monthly')} />
+          </div>
         </div>
 
-        {/* Cards */}
-        <div className="grid gap-5 md:grid-cols-3 lg:items-start">
-          {plans.map((plan) => (
-            <div
-              key={plan.name}
-              data-pr="card"
-              style={{ opacity: 0 }}
-              className={`group relative flex flex-col overflow-hidden rounded-[2rem] border p-8 backdrop-blur-xl transition-all duration-500 hover:-translate-y-1 ${
-                plan.accent
-                  ? 'border-[#d394ff]/25 bg-[#181818]/85 shadow-[0_0_0_1px_rgba(211,148,255,0.07),0_40px_120px_rgba(0,0,0,0.3)]'
-                  : 'border-white/[0.08] bg-[#111111]/70 hover:bg-[#181818]/70'
-              }`}
-            >
-              {/* Accent glow */}
-              {plan.accent && (
-                <div className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
-                  style={{ background: 'radial-gradient(ellipse at top, rgba(211,148,255,0.08) 0%, transparent 65%)' }}
-                />
-              )}
-              <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/[0.08] to-transparent" />
-
-              {/* Badge */}
-              {plan.badge && (
-                <span className="mb-5 inline-flex w-fit items-center gap-1.5 rounded-full border border-[#d394ff]/25 bg-[#d394ff]/12 px-3 py-1 text-[0.62rem] font-bold uppercase tracking-[0.16em] text-[#d394ff]">
-                  <span className="h-1 w-1 rounded-full bg-[#d394ff]" />
-                  {plan.badge}
-                </span>
-              )}
-              {!plan.badge && <div className="mb-5 h-6" />}
-
-              {/* For who */}
-              <p className="mb-2 text-[0.65rem] font-bold uppercase tracking-[0.18em] text-white/50">{plan.forWho}</p>
-
-              {/* Plan name */}
-              <h3 className="mb-2 text-xl font-extrabold tracking-tight text-white">{plan.name}</h3>
-              <p className="mb-7 text-[0.875rem] leading-[1.65] text-white/55">{plan.desc}</p>
-
-              {/* Price */}
-              <div className="mb-7">
-                {plan.price === 'Custom' ? (
-                  <p className="text-4xl font-extrabold tracking-tight text-white">Custom</p>
-                ) : (
-                  <div className="flex items-end gap-1.5">
-                    <span className="text-5xl font-extrabold tracking-[-0.04em] text-white">${plan.price}</span>
-                    <span className="mb-2 text-sm font-medium text-white/55">/month</span>
-                  </div>
-                )}
-              </div>
-
-              {/* CTA */}
-              <button
-                onClick={() => navigate(plan.name === 'Enterprise' ? '/login' : '/register')}
-                className={`mb-7 w-full rounded-xl px-6 py-3.5 text-sm font-bold transition-all duration-300 active:scale-[0.98] ${
-                  plan.accent
-                    ? 'bg-[#d394ff] text-[#4a0076] hover:shadow-[0_0_36px_rgba(211,148,255,0.32)]'
-                    : 'border border-white/[0.10] bg-white/[0.04] text-white/70 hover:border-[#d394ff]/30 hover:text-white hover:bg-white/[0.07]'
-                }`}
-              >
-                {plan.cta}
-              </button>
-
-              {/* Social proof note (Pro only) */}
-              {plan.note && (
-                <p className="mb-5 text-center text-[0.62rem] text-white/50">{plan.note}</p>
-              )}
-
-              {/* Divider */}
-              <div className="mb-5 h-px bg-white/[0.06]" />
-
-              {/* Features */}
-              <ul className="mt-auto space-y-3.5">
-                {plan.features.map((f) => (
-                  <li key={f} className="flex items-start gap-3">
-                    <span className={`mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full ${plan.accent ? 'bg-[#d394ff]/15 text-[#d394ff]' : 'bg-white/[0.06] text-white/45'}`}>
-                      <CheckIcon />
-                    </span>
-                    <span className="text-[0.875rem] leading-snug text-white/65">{f}</span>
-                  </li>
-                ))}
-              </ul>
+        {/* Cards — 4 columns */}
+        <div className="mt-12 grid gap-5 sm:grid-cols-2 xl:grid-cols-4 lg:items-start">
+          {PLANS.map((plan) => (
+            <div key={plan.id} data-pr="card" style={{ opacity: 0 }}>
+              <PlanCard plan={plan} billing={billing} />
             </div>
           ))}
         </div>
 
-        {/* Footer */}
-        <p data-pr="note" style={{ opacity: 0 }} className="mt-10 text-center text-[0.8rem] text-white/50">
-          All plans include a 14-day free trial · No credit card required · Cancel anytime
+        <p data-pr="note" style={{ opacity: 0 }} className="mt-10 text-center text-[0.8rem] text-white/45">
+          All plans include a 14-day free trial on paid features ·{' '}
+          <button
+            onClick={() => window.open('/pricing', '_self')}
+            className="text-[#d394ff]/70 underline underline-offset-2 hover:text-[#d394ff] transition-colors"
+          >
+            Compare all features
+          </button>
         </p>
       </div>
     </section>
