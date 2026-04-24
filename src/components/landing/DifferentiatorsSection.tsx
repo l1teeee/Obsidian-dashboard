@@ -121,7 +121,7 @@ export default function DifferentiatorsSection() {
       <div data-d-orb className="pointer-events-none absolute right-[4%] top-20 h-96 w-96 rounded-full bg-[#d394ff]/[0.04] blur-[120px] will-change-transform" />
       <div data-d-orb className="pointer-events-none absolute left-[3%] bottom-10 h-72 w-72 rounded-full bg-[#aa30fa]/[0.03] blur-[100px] will-change-transform" />
 
-      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#d394ff]/10 to-transparent" />
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/[0.07] to-transparent" />
 
       <div className="mx-auto max-w-[1440px] px-6 md:px-12">
         {/* Header */}
@@ -129,7 +129,7 @@ export default function DifferentiatorsSection() {
           <span
             data-d="eyebrow"
             style={{ opacity: 0 }}
-            className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#d394ff]/20 bg-[#d394ff]/[0.07] px-4 py-1.5 text-[0.68rem] font-bold uppercase tracking-[0.22em] text-[#d394ff]"
+            className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/[0.10] bg-white/[0.03] px-4 py-1.5 text-[0.68rem] font-bold uppercase tracking-[0.22em] text-white/45"
           >
             <span className="h-1.5 w-1.5 rounded-full bg-[#d394ff]" />
             Why Vielinks is different
@@ -210,20 +210,20 @@ export default function DifferentiatorsSection() {
                 key={i}
                 data-d="card"
                 style={{ opacity: 0 }}
-                className="group relative flex items-start gap-5 overflow-hidden rounded-[1.5rem] border border-[#d394ff]/12 bg-[#141414]/80 p-6 backdrop-blur-xl transition-all duration-500 hover:border-[#d394ff]/25 hover:bg-[#181818]/80"
+                className="group relative flex items-start gap-5 overflow-hidden rounded-[1.5rem] border border-white/[0.07] bg-[#141414]/80 p-6 backdrop-blur-xl transition-all duration-500 hover:border-white/[0.15] hover:bg-[#181818]/80"
               >
                 {/* Top sheen */}
                 <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/[0.06] to-transparent" />
 
                 {/* Icon */}
-                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-[#d394ff]/18 bg-[#d394ff]/10 text-[#d394ff] transition-all duration-300 group-hover:bg-[#d394ff]/20">
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-white/[0.08] bg-white/[0.05] text-white/60 transition-all duration-300 group-hover:bg-white/[0.09] group-hover:text-white/80">
                   {d.icon}
                 </div>
 
                 <div className="flex-1">
                   <div className="mb-1 flex items-center gap-3 flex-wrap">
                     <h3 className="text-[0.95rem] font-bold tracking-tight text-white">{d.title}</h3>
-                    <span className="rounded-full border border-[#d394ff]/20 bg-[#d394ff]/[0.08] px-2.5 py-0.5 text-[0.55rem] font-bold text-[#d394ff]/70">
+                    <span className="rounded-full border border-white/[0.08] bg-white/[0.04] px-2.5 py-0.5 text-[0.55rem] font-bold text-white/35">
                       {d.badge}
                     </span>
                   </div>
@@ -231,8 +231,8 @@ export default function DifferentiatorsSection() {
                 </div>
 
                 {/* Check */}
-                <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#d394ff]/10 border border-[#d394ff]/20">
-                  <svg className="h-3.5 w-3.5 text-[#d394ff]" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
+                <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-white/[0.05] border border-white/[0.08]">
+                  <svg className="h-3.5 w-3.5 text-white/45" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                   </svg>
                 </div>

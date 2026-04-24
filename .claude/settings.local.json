@@ -102,7 +102,8 @@
       "Bash(awk '{print $NF}')",
       "Bash(xargs -I {} basename {})",
       "Bash(curl -s http://localhost:5173)",
-      "Bash(curl *)"
+      "Bash(curl *)",
+      "Bash(npm list *)"
     ]
   }
 }

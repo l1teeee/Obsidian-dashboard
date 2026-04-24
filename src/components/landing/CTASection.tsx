@@ -27,7 +27,7 @@ function Shape({
         className="relative"
       >
         <div
-          className={`absolute inset-0 rounded-full bg-gradient-to-r to-transparent ${gradient} backdrop-blur-[2px] border border-[#d394ff]/[0.14] shadow-[0_8px_40px_0_rgba(211,148,255,0.08)] after:absolute after:inset-0 after:rounded-full after:bg-[radial-gradient(circle_at_40%_40%,rgba(211,148,255,0.12),transparent_65%)]`}
+          className={`absolute inset-0 rounded-full bg-gradient-to-r to-transparent ${gradient} backdrop-blur-[2px] border border-white/[0.06]`}
         />
       </motion.div>
     </motion.div>
@@ -91,17 +91,17 @@ export default function CTASection() {
       </div>
 
       {/* Border lines */}
-      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#d394ff]/12 to-transparent" />
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/[0.07] to-transparent" />
       <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-white/[0.04] to-transparent" />
 
       <div className="relative z-10 mx-auto max-w-[820px] text-center">
         {/* Badge */}
-        <div data-cta="badge" style={{ opacity: 0 }} className="mb-10 inline-flex items-center gap-2 rounded-full border border-[#d394ff]/20 bg-[#d394ff]/[0.07] px-4 py-1.5">
+        <div data-cta="badge" style={{ opacity: 0 }} className="mb-10 inline-flex items-center gap-2 rounded-full border border-white/[0.10] bg-white/[0.04] px-4 py-1.5">
           <span className="relative flex h-1.5 w-1.5">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#d394ff] opacity-60" />
             <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-[#d394ff]" />
           </span>
-          <span className="text-[0.68rem] font-bold uppercase tracking-[0.2em] text-[#d394ff]/80">Start publishing smarter</span>
+          <span className="text-[0.68rem] font-bold uppercase tracking-[0.2em] text-white/50">Start publishing smarter</span>
         </div>
 
         {/* Title */}
@@ -137,7 +137,7 @@ export default function CTASection() {
           </button>
           <button
             onClick={() => fadeNav('/login')}
-            className="w-full rounded-full border border-white/[0.10] bg-white/[0.03] px-10 py-4 text-sm font-semibold text-white/60 backdrop-blur-xl transition-all duration-300 hover:border-[#d394ff]/25 hover:text-white/80 sm:w-auto"
+            className="w-full rounded-full border border-white/[0.10] bg-white/[0.03] px-10 py-4 text-sm font-semibold text-white/60 backdrop-blur-xl transition-all duration-300 hover:border-white/[0.22] hover:text-white/80 sm:w-auto"
           >
             Book a Demo
           </button>

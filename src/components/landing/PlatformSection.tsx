@@ -80,12 +80,12 @@ export default function PlatformSection() {
     <section ref={rootRef} id="Platform" className="relative overflow-hidden py-28 md:py-36">
       <div className="pointer-events-none absolute right-0 top-0 h-80 w-80 rounded-full bg-[#d394ff]/[0.04] blur-[100px]" />
       <div className="pointer-events-none absolute bottom-0 left-0 h-64 w-64 rounded-full bg-[#aa30fa]/[0.03] blur-[80px]" />
-      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#d394ff]/10 to-transparent" />
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/[0.07] to-transparent" />
 
       <div className="mx-auto max-w-[1440px] px-6 md:px-12">
         {/* Header */}
         <div className="mb-16 max-w-2xl">
-          <span data-pf="eyebrow" style={{ opacity: 0 }} className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#d394ff]/20 bg-[#d394ff]/[0.07] px-4 py-1.5 text-[0.68rem] font-bold uppercase tracking-[0.22em] text-[#d394ff]">
+          <span data-pf="eyebrow" style={{ opacity: 0 }} className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/[0.10] bg-white/[0.03] px-4 py-1.5 text-[0.68rem] font-bold uppercase tracking-[0.22em] text-white/45">
             <span className="h-1.5 w-1.5 rounded-full bg-[#d394ff]" />
             Platform Coverage
           </span>

@@ -30,7 +30,8 @@ export default function CreateWorkspace() {
     setLoading(true);
     try {
       await createWorkspace(name.trim());
-      navigate('/dashboard');
+      const hasPendingPlan = !!sessionStorage.getItem('pending_plan');
+      navigate(hasPendingPlan ? '/checkout' : '/dashboard');
     } catch {
       setError('Could not create workspace. Please try again.');
     } finally {

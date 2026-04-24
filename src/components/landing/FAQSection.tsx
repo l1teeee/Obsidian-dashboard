@@ -66,15 +66,15 @@ export default function FAQSection() {
 
   return (
     <section ref={sectionRef} id="FAQ" className="relative overflow-hidden py-28 md:py-36">
-      <div className="pointer-events-none absolute left-1/2 top-1/4 h-[400px] w-[600px] -translate-x-1/2 rounded-full bg-[#d394ff]/[0.04] blur-[120px]" />
-      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#d394ff]/10 to-transparent" />
+      <div className="pointer-events-none absolute left-1/2 top-1/4 h-[400px] w-[600px] -translate-x-1/2 rounded-full bg-white/[0.015] blur-[120px]" />
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/[0.07] to-transparent" />
 
       <div className="mx-auto max-w-[1440px] px-6 md:px-12">
         <div className="mx-auto max-w-[780px]">
 
           {/* Header */}
           <div className="mb-12 text-center">
-            <span data-faq="eyebrow" style={{ opacity: 0 }} className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#d394ff]/20 bg-[#d394ff]/[0.07] px-4 py-1.5 text-[0.68rem] font-bold uppercase tracking-[0.22em] text-[#d394ff]">
+            <span data-faq="eyebrow" style={{ opacity: 0 }} className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/[0.10] bg-white/[0.03] px-4 py-1.5 text-[0.68rem] font-bold uppercase tracking-[0.22em] text-white/45">
               <span className="h-1.5 w-1.5 rounded-full bg-[#d394ff]" />
               FAQ
             </span>
@@ -110,7 +110,7 @@ export default function FAQSection() {
           <div data-faq="cta" style={{ opacity: 0 }} className="mt-8 text-center">
             <button
               onClick={() => navigate('/faq')}
-              className="group inline-flex items-center gap-2 text-[0.875rem] font-semibold text-[#d394ff]/65 transition-all duration-300 hover:text-[#d394ff]"
+              className="group inline-flex items-center gap-2 text-[0.875rem] font-semibold text-white/35 transition-all duration-300 hover:text-white/70"
             >
               See all 15 questions
               <svg className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">

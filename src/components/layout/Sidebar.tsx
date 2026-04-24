@@ -195,11 +195,11 @@ export default function Sidebar() {
 
   // Shared NavLink class builder
   const navLinkCls = (isActive: boolean, collapsed = false) => [
-    'flex items-center rounded-xl text-sm font-headline tracking-tight transition-all duration-200',
+    'flex items-center rounded-xl text-sm font-headline tracking-tight transition-all duration-150 select-none',
     collapsed ? 'py-2.5 px-4 lg:justify-center lg:px-0' : 'py-2.5 px-4',
     isActive
       ? 'text-[#d394ff] bg-[#d394ff]/10 font-semibold'
-      : 'text-gray-400 hover:text-white hover:bg-[#201f1f]',
+      : 'text-gray-400 hover:text-white hover:bg-[#d394ff]/[0.06] active:bg-[#d394ff]/[0.12] active:scale-[0.97]',
   ].join(' ');
 
   return (
@@ -356,11 +356,11 @@ export default function Sidebar() {
                   title={!isOpen ? entry.label : undefined}
                   aria-label={!isOpen ? entry.label : undefined}
                   className={[
-                    'w-full flex items-center rounded-xl transition-all duration-200 py-2.5',
+                    'w-full flex items-center rounded-xl transition-all duration-150 select-none py-2.5',
                     isOpen ? 'px-4' : 'px-4 lg:justify-center lg:px-0',
                     isAnyChildActive
                       ? 'text-[#d394ff]'
-                      : 'text-gray-400 hover:text-white hover:bg-[#201f1f]',
+                      : 'text-gray-400 hover:text-white hover:bg-[#d394ff]/[0.06] active:bg-[#d394ff]/[0.12] active:scale-[0.97]',
                   ].join(' ')}
                 >
                   <span
@@ -405,10 +405,10 @@ export default function Sidebar() {
                           to={child.to}
                           onClick={handleNavClick}
                           className={({ isActive }) => [
-                            'flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-headline tracking-tight transition-all duration-200',
+                            'flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-headline tracking-tight transition-all duration-150 select-none',
                             isActive
                               ? 'text-[#d394ff] bg-[#d394ff]/10 font-semibold'
-                              : 'text-[#988d9c] hover:text-white hover:bg-[#201f1f]',
+                              : 'text-[#988d9c] hover:text-white hover:bg-[#d394ff]/[0.06] hover:translate-x-0.5 active:bg-[#d394ff]/[0.12] active:scale-[0.97] active:translate-x-0',
                           ].join(' ')}
                         >
                           {({ isActive }) => (

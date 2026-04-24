@@ -79,7 +79,7 @@ export default function ObsidianFooter() {
   return (
     <footer ref={footerRef} className="relative overflow-hidden bg-[#0a0a0a]">
       {/* Top separator */}
-      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#d394ff]/15 to-transparent" />
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/[0.08] to-transparent" />
 
       {/* ── Links + brand ──────────────────────────────────── */}
       <div
@@ -105,7 +105,7 @@ export default function ObsidianFooter() {
                   key={s.label}
                   href={s.href}
                   aria-label={s.label}
-                  className="flex h-9 w-9 items-center justify-center rounded-xl border border-white/[0.08] bg-white/[0.03] text-white/50 transition-all duration-300 hover:border-[#d394ff]/30 hover:bg-[#d394ff]/[0.07] hover:text-[#d394ff]"
+                  className="flex h-9 w-9 items-center justify-center rounded-xl border border-white/[0.08] bg-white/[0.03] text-white/50 transition-all duration-300 hover:border-white/[0.20] hover:bg-white/[0.07] hover:text-white/90"
                 >
                   {s.icon}
                 </a>
@@ -124,7 +124,7 @@ export default function ObsidianFooter() {
                   <li key={link}>
                     <a
                       href="#"
-                      className="text-[0.85rem] text-white/55 transition-colors duration-300 hover:text-[#d394ff]"
+                      className="text-[0.85rem] text-white/55 transition-colors duration-300 hover:text-white/90"
                     >
                       {link}
                     </a>
@@ -161,7 +161,7 @@ export default function ObsidianFooter() {
             <a
               key={item}
               href="#"
-              className="text-[0.65rem] uppercase tracking-[0.12em] text-white/40 transition-colors duration-300 hover:text-[#d394ff]"
+              className="text-[0.65rem] uppercase tracking-[0.12em] text-white/40 transition-colors duration-300 hover:text-white/70"
             >
               {item}
             </a>

@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import TopBar from '../components/layout/TopBar';
+import { Tooltip, TooltipContent, TooltipTrigger } from '../components/ui/tooltip';
 import PostsTable from '../components/posts/PostsTable';
 import ConfirmModal from '../components/shared/ConfirmModal';
 import { usePosts } from '../hooks/usePosts';
@@ -77,14 +78,18 @@ export default function Posts() {
         title="Posts"
         actions={
           <div className="flex items-center gap-2">
-            <button
-              onClick={() => void refresh()}
-              disabled={isLoading}
-              title="Refresh"
-              className="w-8 h-8 flex items-center justify-center rounded-xl border border-[#4c4450]/20 text-[#988d9c] hover:text-white hover:border-[#4c4450]/40 transition-all disabled:opacity-40"
-            >
-              <span className={`material-symbols-outlined text-[16px] ${isLoading ? 'animate-spin' : ''}`}>refresh</span>
-            </button>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <button
+                  onClick={() => void refresh()}
+                  disabled={isLoading}
+                  className="w-8 h-8 flex items-center justify-center rounded-xl border border-[#4c4450]/20 text-[#988d9c] hover:text-white hover:border-[#4c4450]/40 active:scale-[0.92] transition-all disabled:opacity-40"
+                >
+                  <span className={`material-symbols-outlined text-[16px] ${isLoading ? 'animate-spin' : ''}`}>refresh</span>
+                </button>
+              </TooltipTrigger>
+              <TooltipContent side="bottom">{isLoading ? 'Refreshing…' : 'Refresh posts'}</TooltipContent>
+            </Tooltip>
             <Link
               to="/composer"
               className="flex items-center gap-2 px-4 py-1.5 rounded-xl bg-[#d394ff] text-[#2f004d] text-xs font-bold hover:shadow-[0_0_20px_rgba(211,148,255,0.3)] transition-all active:scale-95"

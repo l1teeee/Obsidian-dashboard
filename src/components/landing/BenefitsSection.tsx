@@ -119,12 +119,12 @@ export default function BenefitsSection() {
     <section ref={sectionRef} id="Benefits" className="relative overflow-hidden py-28 md:py-36">
       <div data-b-orb className="pointer-events-none absolute left-[5%] top-1/4 h-80 w-80 rounded-full bg-[#d394ff]/[0.04] blur-[110px] will-change-transform" />
       <div data-b-orb className="pointer-events-none absolute right-[4%] bottom-1/4 h-64 w-64 rounded-full bg-[#aa30fa]/[0.04] blur-[100px] will-change-transform" />
-      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#d394ff]/10 to-transparent" />
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/[0.07] to-transparent" />
 
       <div className="mx-auto max-w-[1440px] px-6 md:px-12">
         {/* Header — centered */}
         <div className="mb-16 text-center">
-          <span data-b="eyebrow" style={{ opacity: 0 }} className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#d394ff]/20 bg-[#d394ff]/[0.07] px-4 py-1.5 text-[0.68rem] font-bold uppercase tracking-[0.22em] text-[#d394ff]">
+          <span data-b="eyebrow" style={{ opacity: 0 }} className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/[0.10] bg-white/[0.03] px-4 py-1.5 text-[0.68rem] font-bold uppercase tracking-[0.22em] text-white/45">
             <span className="h-1.5 w-1.5 rounded-full bg-[#d394ff]" />
             Why teams switch to Vielinks
           </span>
@@ -146,7 +146,7 @@ export default function BenefitsSection() {
               key={i}
               data-b="card"
               style={{ opacity: 0 }}
-              className="group relative flex flex-col items-center text-center overflow-hidden rounded-[1.75rem] border border-white/[0.07] bg-[#111111]/80 p-10 backdrop-blur-xl transition-all duration-500 hover:-translate-y-1.5 hover:border-[#d394ff]/18 hover:bg-[#161616]/80"
+              className="group relative flex flex-col items-center text-center overflow-hidden rounded-[1.75rem] border border-white/[0.07] bg-[#111111]/80 p-10 backdrop-blur-xl transition-all duration-500 hover:-translate-y-1.5 hover:border-white/[0.15] hover:bg-[#161616]/80"
             >
               {/* Top sheen */}
               <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/[0.08] to-transparent" />
@@ -162,7 +162,7 @@ export default function BenefitsSection() {
               </CardDecorator>
 
               {/* Label */}
-              <p className="mt-6 mb-2 text-[0.62rem] font-bold uppercase tracking-[0.2em] text-[#d394ff]/60">
+              <p className="mt-6 mb-2 text-[0.62rem] font-bold uppercase tracking-[0.2em] text-white/30">
                 {b.label}
               </p>
 

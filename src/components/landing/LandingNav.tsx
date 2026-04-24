@@ -3,16 +3,27 @@ import gsap from 'gsap';
 import { useFadeNav } from '@/hooks/useFadeNav';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
+import { useNavigate } from 'react-router-dom';
 
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
-const links = ['Platform', 'Analytics', 'Showcase', 'Pricing'];
+const SCROLL_LINKS = ['Showcase', 'Pricing'];
+
+const PRODUCT_LINKS = [
+  { label: 'Dashboard',    icon: 'dashboard',   route: '/product/dashboard'    },
+  { label: 'Analytics',    icon: 'monitoring',  route: '/product/analytics'    },
+  { label: 'Scheduler',    icon: 'calendar_month', route: '/product/scheduler' },
+  { label: 'AI Insights',  icon: 'auto_awesome', route: '/product/ai-insights' },
+  { label: 'Integrations', icon: 'hub',         route: '/product/integrations' },
+];
 
 export default function LandingNav() {
-  const [scrolled, setScrolled] = useState(false);
-  const [mobileOpen, setMobileOpen] = useState(false);
-  const navRef = useRef<HTMLElement>(null);
-  const fadeNav = useFadeNav();
+  const [scrolled,     setScrolled]     = useState(false);
+  const [mobileOpen,   setMobileOpen]   = useState(false);
+  const [productOpen,  setProductOpen]  = useState(false);
+  const navRef    = useRef<HTMLElement>(null);
+  const fadeNav   = useFadeNav();
+  const navigate  = useNavigate();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -80,7 +91,36 @@ export default function LandingNav() {
 
         {/* Desktop links */}
         <div className="hidden items-center gap-8 md:flex">
-          {links.map(link => (
+          {/* Product dropdown */}
+          <div className="relative" data-nav="link" style={{ opacity: 0 }}>
+            <button
+              onClick={() => setProductOpen(v => !v)}
+              onBlur={() => setTimeout(() => setProductOpen(false), 150)}
+              className={`group flex items-center gap-1 text-[0.7rem] tracking-[0.12em] uppercase font-medium transition-colors duration-300 ${productOpen ? 'text-[#d394ff]' : 'text-[#adaaaa] hover:text-[#f3e6ff]'}`}
+            >
+              Product
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"
+                className={`transition-transform duration-200 ${productOpen ? 'rotate-180' : ''}`}>
+                <path d="M6 9l6 6 6-6"/>
+              </svg>
+            </button>
+            {productOpen && (
+              <div className="absolute top-full left-1/2 -translate-x-1/2 mt-3 w-52 rounded-2xl border border-white/[0.10] bg-[#0e0e0e]/95 backdrop-blur-2xl shadow-[0_16px_48px_rgba(0,0,0,0.6)] py-2 px-2 z-50">
+                {PRODUCT_LINKS.map(l => (
+                  <button
+                    key={l.label}
+                    onClick={() => { setProductOpen(false); navigate(l.route); }}
+                    className="flex items-center gap-3 w-full px-3 py-2.5 rounded-xl text-[0.75rem] font-medium text-white/60 hover:bg-white/[0.05] hover:text-white transition-all text-left"
+                  >
+                    <span className="material-symbols-outlined text-[#d394ff]" style={{ fontSize: 15, fontVariationSettings: "'FILL' 1" }}>{l.icon}</span>
+                    {l.label}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {SCROLL_LINKS.map(link => (
             <a
               key={link}
               data-nav="link"
@@ -136,7 +176,19 @@ export default function LandingNav() {
         {mobileOpen && (
           <div className="absolute top-full left-0 right-0 mt-2 rounded-2xl border border-white/[0.10] bg-[#0e0e0e]/95 backdrop-blur-2xl shadow-[0_16px_48px_rgba(0,0,0,0.6)] py-3 px-3 md:hidden">
             <div className="flex flex-col gap-1 mb-3">
-              {links.map(link => (
+              <p className="px-3 pt-1 pb-0.5 text-[9px] font-bold uppercase tracking-widest text-white/25">Product</p>
+              {PRODUCT_LINKS.map(l => (
+                <button
+                  key={l.label}
+                  onClick={() => { setMobileOpen(false); navigate(l.route); }}
+                  className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-sm font-medium text-white/60 transition-colors hover:bg-white/[0.05] hover:text-white text-left"
+                >
+                  <span className="material-symbols-outlined text-[#d394ff]" style={{ fontSize: 14, fontVariationSettings: "'FILL' 1" }}>{l.icon}</span>
+                  {l.label}
+                </button>
+              ))}
+              <div className="h-px bg-white/[0.06] my-1 mx-2" />
+              {SCROLL_LINKS.map(link => (
                 <a
                   key={link}
                   href={`#${link}`}

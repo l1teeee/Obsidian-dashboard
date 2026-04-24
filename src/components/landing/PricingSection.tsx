@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { cn } from '@/lib/utils';
+import PlanSignupDialog from './PlanSignupDialog';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -117,10 +118,16 @@ function CheckIcon({ accent }: { accent?: boolean }) {
   );
 }
 
-export function PlanCard({ plan, billing }: { plan: PlanDef; billing: BillingPlan }) {
+export function PlanCard({ plan, billing, onSelectPlan }: { plan: PlanDef; billing: BillingPlan; onSelectPlan?: (plan: PlanDef) => void }) {
   const navigate = useNavigate();
   const price = billing === 'monthly' ? plan.monthlyPrice : plan.annuallyPrice;
   const isFree = plan.id === 'free';
+
+  const handleCta = () => {
+    if (isFree) { navigate('/register'); return; }
+    if (plan.id === 'agency') { navigate('/login'); return; }
+    onSelectPlan?.(plan);
+  };
 
   return (
     <div className={cn(
@@ -195,7 +202,7 @@ export function PlanCard({ plan, billing }: { plan: PlanDef; billing: BillingPla
 
       {/* CTA */}
       <button
-        onClick={() => navigate(plan.ctaRoute)}
+        onClick={handleCta}
         className={cn(
           'mb-2 w-full rounded-xl px-6 py-3.5 text-sm font-bold transition-all duration-300 active:scale-[0.98]',
           plan.accent
@@ -228,28 +235,28 @@ export function PlanCard({ plan, billing }: { plan: PlanDef; billing: BillingPla
 }
 
 /* ── Billing toggle ───────────────────────────────────────── */
+import { Switch } from '../ui/switch';
+
 export function BillingToggle({ billing, onSwitch }: { billing: BillingPlan; onSwitch: () => void }) {
+  const isAnnually = billing === 'annually';
   return (
     <div className="flex items-center justify-center gap-4 mt-8">
-      <span className={cn('text-sm font-medium transition-colors', billing === 'monthly' ? 'text-white' : 'text-white/40')}>
+      <span
+        className={cn('text-sm font-medium transition-colors cursor-pointer select-none', !isAnnually ? 'text-white' : 'text-white/40')}
+        onClick={() => isAnnually && onSwitch()}
+      >
         Monthly
       </span>
-      <button
-        onClick={onSwitch}
+      <Switch
+        checked={isAnnually}
+        onCheckedChange={onSwitch}
         aria-label="Toggle billing period"
-        className="relative h-7 w-12 rounded-full border border-white/[0.12] bg-white/[0.06] transition-colors focus:outline-none hover:border-[#d394ff]/30"
-      >
-        <motion.div
-          layout
-          transition={{ type: 'spring', stiffness: 700, damping: 40 }}
-          className={cn(
-            'absolute top-1 h-5 w-5 rounded-full bg-[#d394ff]',
-            billing === 'annually' ? 'left-6' : 'left-1'
-          )}
-        />
-      </button>
+      />
       <div className="flex items-center gap-2">
-        <span className={cn('text-sm font-medium transition-colors', billing === 'annually' ? 'text-white' : 'text-white/40')}>
+        <span
+          className={cn('text-sm font-medium transition-colors cursor-pointer select-none', isAnnually ? 'text-white' : 'text-white/40')}
+          onClick={() => !isAnnually && onSwitch()}
+        >
           Annually
         </span>
         <span className="rounded-full border border-[#d394ff]/20 bg-[#d394ff]/[0.08] px-2 py-0.5 text-[0.6rem] font-bold text-[#d394ff]">
@@ -263,7 +270,8 @@ export function BillingToggle({ billing, onSwitch }: { billing: BillingPlan; onS
 /* ── Section ──────────────────────────────────────────────── */
 export default function PricingSection() {
   const sectionRef = useRef<HTMLElement | null>(null);
-  const [billing, setBilling] = useState<BillingPlan>('monthly');
+  const [billing,      setBilling]      = useState<BillingPlan>('monthly');
+  const [dialogPlan,   setDialogPlan]   = useState<PlanDef | null>(null);
 
   useLayoutEffect(() => {
     if (!sectionRef.current) return;
@@ -304,7 +312,7 @@ export default function PricingSection() {
       <div className="mx-auto max-w-[1440px] px-6 md:px-12">
         {/* Header */}
         <div className="mb-4 text-center">
-          <span data-pr="eyebrow" style={{ opacity: 0 }} className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#d394ff]/18 bg-[#d394ff]/10 px-4 py-1.5 text-[0.68rem] font-bold uppercase tracking-[0.22em] text-[#d394ff]">
+          <span data-pr="eyebrow" style={{ opacity: 0 }} className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/[0.10] bg-white/[0.03] px-4 py-1.5 text-[0.68rem] font-bold uppercase tracking-[0.22em] text-white/45">
             <span className="h-1.5 w-1.5 rounded-full bg-[#d394ff]" />
             Pricing
           </span>
@@ -326,10 +334,16 @@ export default function PricingSection() {
         <div className="mt-12 grid gap-5 sm:grid-cols-2 xl:grid-cols-4 lg:items-start">
           {PLANS.map((plan) => (
             <div key={plan.id} data-pr="card" style={{ opacity: 0 }}>
-              <PlanCard plan={plan} billing={billing} />
+              <PlanCard plan={plan} billing={billing} onSelectPlan={setDialogPlan} />
             </div>
           ))}
         </div>
+
+        <PlanSignupDialog
+          plan={dialogPlan}
+          billing={billing}
+          onClose={() => setDialogPlan(null)}
+        />
 
         <p data-pr="note" style={{ opacity: 0 }} className="mt-10 text-center text-[0.8rem] text-white/45">
           All plans include a 14-day free trial on paid features ·{' '}

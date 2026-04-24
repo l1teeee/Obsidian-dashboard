@@ -161,11 +161,23 @@ export default function RegisterCard() {
 
           {/* ── Step 1: method selection ── */}
           <div ref={step1Ref}>
-            <div style={{ viewTransitionName: 'auth-brand' }} className="mb-8 flex items-center gap-2.5">
-              <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#d394ff]/15">
-                <div className="h-2.5 w-2.5 rounded-full bg-[#d394ff]" />
+            <div style={{ viewTransitionName: 'auth-brand' }} className="mb-8 flex items-center justify-between">
+              <div className="flex items-center gap-2.5">
+                <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#d394ff]/15">
+                  <div className="h-2.5 w-2.5 rounded-full bg-[#d394ff]" />
+                </div>
+                <span className="font-headline text-base font-bold tracking-tight text-[#e5e2e1]">Vielinks</span>
               </div>
-              <span className="font-headline text-base font-bold tracking-tight text-[#e5e2e1]">Vielinks</span>
+              <button
+                type="button"
+                onClick={() => navigate('/')}
+                className="flex items-center gap-1.5 text-[0.7rem] text-[#988d9c] hover:text-white transition-colors"
+              >
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M19 12H5M12 5l-7 7 7 7"/>
+                </svg>
+                Back to home
+              </button>
             </div>
 
             <div className="mb-8 space-y-2">

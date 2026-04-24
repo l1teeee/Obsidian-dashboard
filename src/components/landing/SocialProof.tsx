@@ -112,7 +112,7 @@ export default function SocialProof() {
       style={{ opacity: 0 }}
       className="relative bg-[#0a0a0a] pt-16 pb-20 overflow-hidden"
     >
-      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#d394ff]/15 to-transparent" />
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/[0.07] to-transparent" />
       <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-white/[0.04] to-transparent" />
 
       {/* ── Trusted by label ────────────────────────── */}
@@ -147,11 +147,11 @@ export default function SocialProof() {
         {/* Purple radial glow */}
         <div className="absolute inset-0 before:absolute before:inset-0 before:bg-[radial-gradient(circle_at_bottom_center,#7c29cc,transparent_65%)] before:opacity-35" />
         {/* Curved horizon line */}
-        <div className="absolute -left-1/2 top-1/2 z-10 aspect-[1/0.55] w-[200%] rounded-[100%] border-t border-[#d394ff]/15 bg-[#0a0a0a]" />
+        <div className="absolute -left-1/2 top-1/2 z-10 aspect-[1/0.55] w-[200%] rounded-[100%] border-t border-white/[0.08] bg-[#0a0a0a]" />
         {/* Sparkles particle field */}
         <SparklesCore
           className="absolute inset-x-0 bottom-0 h-full w-full [mask-image:radial-gradient(50%_60%,white,transparent_80%)]"
-          particleColor="#d394ff"
+          particleColor="#ffffff"
           particleDensity={60}
           minSize={0.6}
           maxSize={1.4}
@@ -177,7 +177,7 @@ export default function SocialProof() {
                 <div className="absolute left-0 top-1/2 hidden h-12 w-px -translate-y-1/2 bg-gradient-to-b from-transparent via-white/[0.08] to-transparent md:block" />
               )}
               <div className="relative">
-                <div className="absolute inset-0 -z-10 blur-[28px] opacity-30 bg-[#d394ff] rounded-full scale-75" />
+                <div className="absolute inset-0 -z-10 blur-[28px] opacity-10 bg-white rounded-full scale-75" />
                 <span
                   ref={(el) => { numRefs.current[i] = el; }}
                   className="block bg-gradient-to-b from-white to-white/80 bg-clip-text text-[2.8rem] font-extrabold leading-none tracking-[-0.04em] text-transparent md:text-[3.2rem]"

@@ -169,7 +169,7 @@ function DashboardMockup() {
                   {bars.map((h, i) => (
                     <div key={i} className="flex flex-1 flex-col justify-end">
                       <div
-                        className="rounded-t-[3px] border-t border-[#d394ff]/30 bg-gradient-to-t from-[#d394ff]/55 via-[#d394ff]/20 to-[#d394ff]/5"
+                        className="rounded-t-[3px] border-t border-white/20 bg-gradient-to-t from-white/30 via-white/10 to-white/5"
                         style={{ height: `${h}%` }}
                       />
                     </div>
@@ -250,10 +250,7 @@ function ElegantShape({
           'absolute inset-0 rounded-full',
           'bg-gradient-to-r to-transparent',
           gradient,
-          'backdrop-blur-[2px] border border-[#d394ff]/[0.15]',
-          'shadow-[0_8px_40px_0_rgba(211,148,255,0.10)]',
-          'after:absolute after:inset-0 after:rounded-full',
-          'after:bg-[radial-gradient(circle_at_40%_40%,rgba(211,148,255,0.14),transparent_65%)]',
+          'backdrop-blur-[2px] border border-white/[0.06]',
         ].join(' ')} />
       </motion.div>
     </motion.div>
@@ -357,9 +354,9 @@ export default function HeroGeometric() {
 
       {/* Parallax layer 2 — floating shapes */}
       <div data-hero-parallax="shapes" className="absolute inset-0 overflow-hidden pointer-events-none will-change-transform">
-        <ElegantShape delay={0.2}  width={580} height={130} rotate={ 12} gradient="from-[#d394ff]/[0.10]" className="left-[-10%] top-[14%]" />
-        <ElegantShape delay={0.45} width={420} height={100} rotate={-13} gradient="from-[#aa30fa]/[0.09]" className="right-[-6%] top-[55%]" />
-        <ElegantShape delay={0.65} width={180} height={ 46} rotate={ 20} gradient="from-[#d394ff]/[0.08]" className="right-[16%] top-[7%]" />
+        <ElegantShape delay={0.2}  width={580} height={130} rotate={ 12} gradient="from-white/[0.05]" className="left-[-10%] top-[14%]" />
+        <ElegantShape delay={0.45} width={420} height={100} rotate={-13} gradient="from-white/[0.04]" className="right-[-6%] top-[55%]" />
+        <ElegantShape delay={0.65} width={180} height={ 46} rotate={ 20} gradient="from-white/[0.04]" className="right-[16%] top-[7%]" />
       </div>
 
       {/* Parallax layer 3 — dot grid (subtle near-mid) */}
@@ -367,7 +364,7 @@ export default function HeroGeometric() {
         data-hero-parallax="grid"
         className="absolute inset-0 pointer-events-none opacity-[0.12] will-change-transform"
         style={{
-          backgroundImage: 'radial-gradient(circle, rgba(211,148,255,0.4) 1px, transparent 1px)',
+          backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.25) 1px, transparent 1px)',
           backgroundSize: '40px 40px',
           maskImage: 'radial-gradient(ellipse 80% 55% at 50% 40%, black 20%, transparent 100%)',
         }}
@@ -379,13 +376,13 @@ export default function HeroGeometric() {
         {/* Eyebrow badge */}
         <motion.div
           variants={fade(0)} initial="hidden" animate="visible"
-          className="mb-7 inline-flex items-center gap-2 rounded-full border border-[#d394ff]/22 bg-[#d394ff]/[0.08] px-4 py-1.5"
+          className="mb-7 inline-flex items-center gap-2 rounded-full border border-white/[0.12] bg-white/[0.04] px-4 py-1.5"
         >
           <span className="relative flex h-1.5 w-1.5">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#d394ff] opacity-60" />
             <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-[#d394ff]" />
           </span>
-          <span className="text-[0.68rem] font-bold uppercase tracking-[0.2em] text-[#d394ff]/80">
+          <span className="text-[0.68rem] font-bold uppercase tracking-[0.2em] text-white/50">
             Trusted by 12,000+ social media teams
           </span>
         </motion.div>
@@ -486,7 +483,7 @@ export default function HeroGeometric() {
           <div className="flex items-center gap-3">
             <div className="flex">
               {[1,2,3,4,5].map((s) => (
-                <svg key={s} className="h-3 w-3 text-[#d394ff]" fill="currentColor" viewBox="0 0 20 20">
+                <svg key={s} className="h-3 w-3 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
                   <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                 </svg>
               ))}

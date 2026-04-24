@@ -9,6 +9,7 @@ import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 
 import { Toaster } from 'sileo';
+import { TooltipProvider } from './components/ui/tooltip';
 import { AuthProvider } from './contexts/AuthContext';
 import { WorkspaceProvider, useWorkspace } from './contexts/WorkspaceContext';
 import { useAuth } from './hooks/useAuth';
@@ -38,6 +39,12 @@ const Rivals         = lazy(() => import('./pages/Rivals'));
 const AISettings     = lazy(() => import('./pages/AISettings'));
 const Brand          = lazy(() => import('./pages/Brand'));
 const Profile        = lazy(() => import('./pages/Profile'));
+const Checkout            = lazy(() => import('./pages/Checkout'));
+const ProductDashboard    = lazy(() => import('./pages/ProductDashboard'));
+const ProductAnalytics    = lazy(() => import('./pages/ProductAnalytics'));
+const ProductScheduler    = lazy(() => import('./pages/ProductScheduler'));
+const ProductAIInsights   = lazy(() => import('./pages/ProductAIInsights'));
+const ProductIntegrations = lazy(() => import('./pages/ProductIntegrations'));
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -79,7 +86,8 @@ function LenisProvider({ children }: { children: ReactNode }) {
   return <>{children}</>;
 }
 
-const AUTH_PATHS = ['/', '/pricing', '/faq', '/login', '/register', '/check-email', '/complete-profile', '/create-workspace'];
+const AUTH_PATHS = ['/', '/pricing', '/faq', '/login', '/register', '/check-email', '/complete-profile', '/create-workspace',
+  '/product/dashboard', '/product/analytics', '/product/scheduler', '/product/ai-insights', '/product/integrations'];
 
 // Fires the transition when navigating FROM auth pages TO app pages
 function TransitionDetector({ onTrigger }: { onTrigger: () => void }) {
@@ -193,6 +201,7 @@ export default function App() {
   return (
     <AuthProvider>
       <WorkspaceProvider>
+        <TooltipProvider delayDuration={400}>
         <LenisProvider>
           <Toaster
             position="bottom-center"
@@ -219,6 +228,13 @@ export default function App() {
                 <Route path="/pricing" element={<PricingPage />} />
                 <Route path="/faq"     element={<FAQPage />} />
 
+                {/* Product pages — public */}
+                <Route path="/product/dashboard"    element={<ProductDashboard />} />
+                <Route path="/product/analytics"    element={<ProductAnalytics />} />
+                <Route path="/product/scheduler"    element={<ProductScheduler />} />
+                <Route path="/product/ai-insights"  element={<ProductAIInsights />} />
+                <Route path="/product/integrations" element={<ProductIntegrations />} />
+
                 {/* Auth — public */}
                 <Route path="/login"        element={<LoginCard />} />
                 <Route path="/register"     element={<RegisterCard />} />
@@ -234,6 +250,9 @@ export default function App() {
                 {/* Workspace creation — requires auth */}
                 <Route path="/create-workspace" element={
                   <ProtectedRoute><CreateWorkspace /></ProtectedRoute>
+                } />
+                <Route path="/checkout" element={
+                  <ProtectedRoute><Checkout /></ProtectedRoute>
                 } />
 
                 {/* Dashboard app — requires auth (pathless layout, children use absolute paths) */}
@@ -262,6 +281,7 @@ export default function App() {
             </WorkspaceGuard>
           </BrowserRouter>
         </LenisProvider>
+        </TooltipProvider>
       </WorkspaceProvider>
     </AuthProvider>
   );

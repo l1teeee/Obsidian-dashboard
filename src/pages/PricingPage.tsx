@@ -4,7 +4,8 @@ import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import LandingNav from '@/components/landing/LandingNav';
 import ObsidianFooter from '@/components/landing/ObsidianFooter';
-import { PLANS, PlanCard, BillingToggle, type BillingPlan } from '@/components/landing/PricingSection';
+import { PLANS, PlanCard, BillingToggle, type BillingPlan, type PlanDef } from '@/components/landing/PricingSection';
+import PlanSignupDialog from '@/components/landing/PlanSignupDialog';
 
 /* ── Comparison table data ───────────────────────────────── */
 type CellValue = boolean | string;
@@ -213,8 +214,9 @@ function FAQ() {
 
 /* ── Page ─────────────────────────────────────────────────── */
 export default function PricingPage() {
-  const navigate = useNavigate();
-  const [billing, setBilling] = useState<BillingPlan>('monthly');
+  const navigate    = useNavigate();
+  const [billing,    setBilling]    = useState<BillingPlan>('monthly');
+  const [dialogPlan, setDialogPlan] = useState<PlanDef | null>(null);
 
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-white overflow-x-hidden">
@@ -259,13 +261,19 @@ export default function PricingPage() {
           className="relative mt-14 grid gap-5 sm:grid-cols-2 xl:grid-cols-4 lg:items-start"
         >
           {PLANS.map((plan) => (
-            <PlanCard key={plan.id} plan={plan} billing={billing} />
+            <PlanCard key={plan.id} plan={plan} billing={billing} onSelectPlan={setDialogPlan} />
           ))}
         </motion.div>
 
         <p className="mt-8 text-center text-[0.8rem] text-white/40">
           All plans include a 14-day free trial · Cancel anytime · No hidden fees
         </p>
+
+        <PlanSignupDialog
+          plan={dialogPlan}
+          billing={billing}
+          onClose={() => setDialogPlan(null)}
+        />
 
         {/* Comparison table */}
         <ComparisonTable />
