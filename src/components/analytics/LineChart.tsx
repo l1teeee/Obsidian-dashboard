@@ -1,30 +1,17 @@
-import {
-  ResponsiveContainer,
-  LineChart as ReLineChart,
-  Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-} from 'recharts';
+import { AreaChart, Area, Grid, ChartTooltip, XAxis, YAxis } from '../ui/area-chart';
 
 const data = [
-  { day: '12 Oct', reach: 18400, impressions: 32100 },
-  { day: '15 Oct', reach: 21000, impressions: 38500 },
-  { day: '18 Oct', reach: 19800, impressions: 35200 },
-  { day: '21 Oct', reach: 26500, impressions: 47800 },
-  { day: '24 Oct', reach: 24100, impressions: 43000 },
-  { day: '27 Oct', reach: 31200, impressions: 56400 },
-  { day: '30 Oct', reach: 28900, impressions: 51200 },
-  { day: '02 Nov', reach: 35600, impressions: 63900 },
-  { day: '05 Nov', reach: 33100, impressions: 59700 },
-  { day: '09 Nov', reach: 41200, impressions: 74300 },
+  { date: '2023-10-12', reach: 18400, impressions: 32100 },
+  { date: '2023-10-15', reach: 21000, impressions: 38500 },
+  { date: '2023-10-18', reach: 19800, impressions: 35200 },
+  { date: '2023-10-21', reach: 26500, impressions: 47800 },
+  { date: '2023-10-24', reach: 24100, impressions: 43000 },
+  { date: '2023-10-27', reach: 31200, impressions: 56400 },
+  { date: '2023-10-30', reach: 28900, impressions: 51200 },
+  { date: '2023-11-02', reach: 35600, impressions: 63900 },
+  { date: '2023-11-05', reach: 33100, impressions: 59700 },
+  { date: '2023-11-09', reach: 41200, impressions: 74300 },
 ];
-
-function formatY(value: number) {
-  if (value >= 1000) return `${(value / 1000).toFixed(0)}K`;
-  return String(value);
-}
 
 export default function LineChart() {
   return (
@@ -47,53 +34,32 @@ export default function LineChart() {
       </div>
 
       <div className="h-[280px] w-full">
-        <ResponsiveContainer width="100%" height="100%">
-          <ReLineChart data={data} margin={{ top: 8, right: 8, left: 0, bottom: 0 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" vertical={false} />
-            <XAxis
-              dataKey="day"
-              tick={{ fill: '#988d9c', fontSize: 10, fontFamily: 'monospace' }}
-              axisLine={false}
-              tickLine={false}
-            />
-            <YAxis
-              tickFormatter={formatY}
-              tick={{ fill: '#988d9c', fontSize: 10, fontFamily: 'monospace' }}
-              axisLine={false}
-              tickLine={false}
-              width={40}
-            />
-            <Tooltip
-              contentStyle={{
-                background: '#1c1b1b',
-                border: '1px solid rgba(76,68,80,0.3)',
-                borderRadius: 12,
-                color: '#e5e2e1',
-                fontSize: 12,
-              }}
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              formatter={(val: any, name: any) => [
-                val != null ? Number(val).toLocaleString() : '—',
-                String(name).charAt(0).toUpperCase() + String(name).slice(1),
-              ] as [string, string]}
-              labelStyle={{ color: '#988d9c', marginBottom: 4 }}
-            />
-            <Line
-              dataKey="impressions"
-              stroke="#c5d247"
-              strokeWidth={2.5}
-              dot={false}
-              activeDot={{ r: 4, fill: '#c5d247' }}
-            />
-            <Line
-              dataKey="reach"
-              stroke="#d394ff"
-              strokeWidth={2.5}
-              dot={false}
-              activeDot={{ r: 4, fill: '#d394ff' }}
-            />
-          </ReLineChart>
-        </ResponsiveContainer>
+        <AreaChart
+          data={data}
+          xDataKey="date"
+          animationDuration={800}
+          aspectRatio="2 / 1"
+          className="h-full"
+        >
+          <Area
+            dataKey="impressions"
+            fill="#c5d247"
+            fillOpacity={0.15}
+            stroke="#c5d247"
+            strokeWidth={2.5}
+          />
+          <Area
+            dataKey="reach"
+            fill="#d394ff"
+            fillOpacity={0.15}
+            stroke="#d394ff"
+            strokeWidth={2.5}
+          />
+          <Grid horizontal vertical={false} />
+          <XAxis numTicks={5} />
+          <YAxis numTicks={5} />
+          <ChartTooltip showDatePill={false} showCrosshair={true} showDots={true} />
+        </AreaChart>
       </div>
     </div>
   );
