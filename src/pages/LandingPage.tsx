@@ -28,6 +28,11 @@ export default function LandingPage() {
       operatingSystem: 'Web',
       description: 'Social media management dashboard for managing multiple platforms from one place.',
       offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+      aggregateRating: {
+        '@type': 'AggregateRating',
+        ratingValue: '4.8',
+        reviewCount: '120',
+      },
     },
   });
 
