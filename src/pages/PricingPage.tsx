@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useSEO } from '../hooks/useSEO';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
@@ -214,6 +215,12 @@ function FAQ() {
 
 /* ── Page ─────────────────────────────────────────────────── */
 export default function PricingPage() {
+  useSEO({
+    title: 'Vielinks Pricing - Plans for Every Social Media Team',
+    description: 'Start free with 1 social account. Upgrade to Pro or Agency for unlimited posts, AI features, white-label reports, and competitor tracking.',
+    keywords: 'social media pricing, social scheduler cost, Instagram management pricing, LinkedIn tools cost',
+  });
+
   const navigate    = useNavigate();
   const [billing,    setBilling]    = useState<BillingPlan>('monthly');
   const [dialogPlan, setDialogPlan] = useState<PlanDef | null>(null);

@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { useSEO } from '../hooks/useSEO';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import gsap from 'gsap';
@@ -59,6 +60,12 @@ const STEPS = [
 ];
 
 export default function ProductDashboard() {
+  useSEO({
+    title: 'Vielinks Dashboard - Manage All Social Media in One Place',
+    description: 'One dashboard to see every metric, manage every post, and act on every insight across Instagram, LinkedIn, and Facebook.',
+    keywords: 'social media dashboard, multi-platform management, social analytics dashboard, post management',
+  });
+
   const navigate = useNavigate();
   const gridRef  = useRef<HTMLDivElement>(null);
   const stepsRef = useRef<HTMLDivElement>(null);

@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { useSEO } from '../hooks/useSEO';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import gsap from 'gsap';
@@ -30,6 +31,12 @@ const AI_FEATURES = [
 ];
 
 export default function ProductAIInsights() {
+  useSEO({
+    title: 'Vielinks AI Insights - Smart Social Media Suggestions',
+    description: 'AI that knows your audience and platforms. Get caption suggestions, optimal posting times, trending hashtags, and engagement scoring.',
+    keywords: 'social media AI, AI captions, hashtag generator, best time to post, content scoring',
+  });
+
   const navigate = useNavigate();
   const [activeCap, setActiveCap] = useState(0);
   const [typing, setTyping] = useState(false);

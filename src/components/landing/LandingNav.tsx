@@ -78,16 +78,15 @@ export default function LandingNav() {
             : 'bg-white/[0.05] backdrop-blur-xl border-white/[0.14] shadow-[0_4px_24px_rgba(0,0,0,0.3)]'
         }`}
       >
-        <button
-          type="button"
-          onClick={() => fadeNav('/')}
+        <a
+          href="/"
           data-nav="logo"
           style={{ opacity: 0 }}
-          aria-label="Go to home"
+          aria-label="Vielinks home"
           className="flex items-center"
         >
           <img src="/favicon.png" alt="Vielinks" className="h-8 w-8 object-contain" />
-        </button>
+        </a>
 
         {/* Desktop links */}
         <div className="hidden items-center gap-8 md:flex">

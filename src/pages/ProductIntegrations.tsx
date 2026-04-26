@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { useSEO } from '../hooks/useSEO';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import gsap from 'gsap';
@@ -39,6 +40,12 @@ const ALSO = [
 ];
 
 export default function ProductIntegrations() {
+  useSEO({
+    title: 'Vielinks Integrations - Connect Instagram, LinkedIn & Facebook',
+    description: 'Connect all your social platforms in one click. Vielinks supports Instagram, LinkedIn, Facebook with more platforms coming soon.',
+    keywords: 'social media integrations, Instagram API, LinkedIn scheduler, Facebook management, OAuth social',
+  });
+
   const navigate  = useNavigate();
   const howRef    = useRef<HTMLDivElement>(null);
 

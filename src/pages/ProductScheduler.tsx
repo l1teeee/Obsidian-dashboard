@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { useSEO } from '../hooks/useSEO';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import gsap from 'gsap';
@@ -28,6 +29,12 @@ const FEATURES = [
 ];
 
 export default function ProductScheduler() {
+  useSEO({
+    title: 'Vielinks Scheduler - Schedule Posts Across All Platforms',
+    description: 'Plan a full month of content in one session. Vielinks posts at the right time on the right platform automatically.',
+    keywords: 'social media scheduler, post scheduler, content calendar, bulk scheduling, best time to post',
+  });
+
   const navigate   = useNavigate();
   const [active, setActive] = useState<number | null>(null);
   const featRef = useRef<HTMLDivElement>(null);

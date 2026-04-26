@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { useSEO } from '../hooks/useSEO';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { AreaChart, Area, ResponsiveContainer, Tooltip } from 'recharts';
@@ -58,6 +59,12 @@ function AnimatedNumber({ target, suffix = '' }: { target: number; suffix?: stri
 }
 
 export default function ProductAnalytics() {
+  useSEO({
+    title: 'Vielinks Analytics - Cross-Platform Social Media Metrics',
+    description: 'Stop guessing. Vielinks gives you exact numbers to grow - broken down by platform, post, and audience with 90-day history.',
+    keywords: 'social media analytics, cross-platform metrics, social reporting, engagement tracking',
+  });
+
   const navigate   = useNavigate();
   const featRef    = useRef<HTMLDivElement>(null);
 

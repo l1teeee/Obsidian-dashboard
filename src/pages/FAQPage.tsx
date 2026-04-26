@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom';
+import { useSEO } from '../hooks/useSEO';
 import { motion } from 'framer-motion';
 import LandingNav from '@/components/landing/LandingNav';
 import ObsidianFooter from '@/components/landing/ObsidianFooter';
@@ -122,6 +123,21 @@ const groups: FAQGroup[] = [
 ];
 
 export default function FAQPage() {
+  useSEO({
+    title: 'Vielinks FAQ - Frequently Asked Questions',
+    description: 'Find answers to common questions about Vielinks social media management: setup, platforms, scheduling, analytics, billing, and security.',
+    keywords: 'vielinks FAQ, social media management FAQ, post scheduler help, social analytics questions',
+    jsonLd: {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: groups.map(g => g.items.map(i => ({
+        '@type': 'Question',
+        name: i.q,
+        acceptedAnswer: { '@type': 'Answer', text: i.a },
+      }))).flat(),
+    },
+  });
+
   const navigate = useNavigate();
 
   return (

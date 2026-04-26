@@ -3,5 +3,10 @@
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
   "framework": "vite",
-  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
+  "routes": [
+    { "src": "/robots\\.txt", "dest": "/robots.txt" },
+    { "src": "/sitemap\\.xml", "dest": "/sitemap.xml" },
+    { "src": "/(favicon\\.png|icons\\.svg)", "dest": "/$1" },
+    { "src": "/(.*)", "dest": "/index.html" }
+  ]
 }
