@@ -1,15 +1,18 @@
 import { useRef, useState } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
 import { CHAR_LIMITS, CHAR_IDEAL } from '../../domain/entities/Composer';
 import type { ChannelId } from '../../types/composer.types';
 import type { MediaItem } from '../../hooks/useComposer';
 import { getInspiration } from '../../services/ai.service';
 import { useWorkspace } from '../../contexts/WorkspaceContext';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../ui/tooltip';
 
 interface CaptionEditorProps {
   caption:             string;
   selectedChannels:    ChannelId[];
   showSuggestions:     boolean;
   mediaItems:          MediaItem[];
+  preferred:           ChannelId | null;
   onCaptionChange:     (val: string) => void;
   onToggleSuggestions: () => void;
 }
@@ -37,10 +40,10 @@ const CHANNEL_NAMES: Record<ChannelId, string> = {
 };
 
 const STATUS_META: Record<TrafficLight, { color: string; label: string }> = {
-  'too-short': { color: '#ef4444', label: 'Too short' },
-  'ideal':     { color: '#22c55e', label: 'Ideal'     },
-  'long':      { color: '#eab308', label: 'Long'      },
-  'too-long':  { color: '#ef4444', label: 'Too long'  },
+  'too-short': { color: '#4c4450', label: 'Keep writing' },
+  'ideal':     { color: '#22c55e', label: 'Ideal'        },
+  'long':      { color: '#eab308', label: 'Long'         },
+  'too-long':  { color: '#ef4444', label: 'Too long'     },
 };
 
 const MAX_IMAGE_BYTES = 2 * 1024 * 1024; // 2 MB — skip larger blobs to keep payload small
@@ -77,6 +80,7 @@ export default function CaptionEditor({
   selectedChannels,
   showSuggestions,
   mediaItems,
+  preferred,
   onCaptionChange,
   onToggleSuggestions,
 }: CaptionEditorProps) {
@@ -168,13 +172,9 @@ export default function CaptionEditor({
           {!hasAIImages && (
             <button
               onClick={onToggleSuggestions}
-              className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider transition-all active:scale-95 border ${
-                showSuggestions
-                  ? 'bg-[#d394ff]/20 text-[#d394ff] border-[#d394ff]/30'
-                  : 'text-[#d394ff] border-[#d394ff]/20 hover:bg-[#d394ff]/10'
-              }`}
+              className="flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider transition-all active:scale-95 border bg-[#d394ff]/15 text-[#d394ff] border-[#d394ff]/30 hover:bg-[#d394ff]/25"
             >
-              <span className="material-symbols-outlined text-[11px]">flare</span>
+              <span className="material-symbols-outlined text-[11px]">auto_awesome</span>
               {hasResults ? 'Edit AI' : 'Generate with AI'}
             </button>
           )}
@@ -230,10 +230,10 @@ export default function CaptionEditor({
                 <button
                   onClick={handleGenerate}
                   disabled={(!topic.trim() && !hasImages) || loading}
-                  className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-[#d394ff]/15 text-[#d394ff] text-[10px] font-bold uppercase tracking-wider hover:bg-[#d394ff]/25 disabled:opacity-40 disabled:cursor-not-allowed transition-all active:scale-95 shrink-0"
+                  className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-[#d394ff]/15 text-[#d394ff] border border-[#d394ff]/30 text-[10px] font-bold uppercase tracking-wider hover:bg-[#d394ff]/25 disabled:opacity-40 disabled:cursor-not-allowed transition-all active:scale-95 shrink-0"
                 >
                   <span className={`material-symbols-outlined text-[13px] ${loading ? 'animate-spin' : ''}`}>
-                    {loading ? 'progress_activity' : hasResults ? 'refresh' : 'bolt'}
+                    {loading ? 'progress_activity' : hasResults ? 'refresh' : 'auto_awesome'}
                   </span>
                   {loading ? 'Analyzing…' : hasResults ? 'Regenerate' : 'Generate'}
                 </button>
@@ -397,35 +397,87 @@ export default function CaptionEditor({
         </div>
       </div>
 
-      {/* Per-channel length indicators */}
-      <div className="flex items-center gap-4 flex-wrap px-1">
-        {selectedChannels.map(chId => {
-          const limit       = CHAR_LIMITS[chId];
-          const { min }     = CHAR_IDEAL[chId];
-          const status      = getStatus(caption.length, chId);
-          const { color }   = STATUS_META[status];
-          const pct         = Math.min(caption.length / limit, 1);
-          const channelName = CHANNEL_NAMES[chId];
+      {/* Character count pills — solo cuando hay caption escrito */}
+      <AnimatePresence>
+        {selectedChannels.length > 0 && caption.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: 6 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{    opacity: 0, y: 6 }}
+            transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <TooltipProvider delayDuration={200}>
+              <div className="grid grid-cols-3 gap-2">
+                <AnimatePresence mode="popLayout">
+                  {[...selectedChannels].sort((a, b) => {
+                    if (a === preferred) return -1;
+                    if (b === preferred) return 1;
+                    return 0;
+                  }).map(chId => {
+                    const status = getStatus(caption.length, chId);
+                    const limit  = CHAR_LIMITS[chId];
+                    const ideal  = CHAR_IDEAL[chId];
+                    const { color, label: statusLabel } = STATUS_META[status];
+                    const pct  = Math.min((caption.length / limit) * 100, 100);
+                    const name = CHANNEL_NAMES[chId];
 
-          return (
-            <div key={chId} className="flex items-center gap-2">
-              <span
-                className="w-2 h-2 rounded-full shrink-0 transition-colors duration-300"
-                style={{ background: color, boxShadow: `0 0 6px ${color}99` }}
-              />
-              <span className="text-[10px] font-bold tracking-wide" style={{ color }}>
-                {channelName} · {caption.length}/{min} mín.
-              </span>
-              <div className="h-[2px] w-12 rounded-full bg-[#353534] overflow-hidden">
-                <div
-                  className="h-full rounded-full transition-all duration-150"
-                  style={{ width: `${pct * 100}%`, background: color }}
-                />
+                    return (
+                      <Tooltip key={chId}>
+                        <TooltipTrigger asChild>
+                          <motion.div
+                            layout
+                            initial={{ opacity: 0, scale: 0.92 }}
+                            animate={{ opacity: 1, scale: 1    }}
+                            exit={{    opacity: 0, scale: 0.92 }}
+                            transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
+                            className="min-w-0 rounded-xl border p-3 cursor-default"
+                            style={{
+                              borderColor:     `${color}25`,
+                              backgroundColor: `${color}08`,
+                            }}
+                          >
+                            <div className="flex items-center gap-1.5 mb-1.5">
+                              <div
+                                className="w-1.5 h-1.5 rounded-full shrink-0"
+                                style={{ background: color }}
+                              />
+                              <span className="text-[10px] font-bold text-[#cfc2d2] truncate">{name}</span>
+                            </div>
+                            <div className="h-[5px] rounded-full bg-[#353534] overflow-hidden">
+                              <div
+                                className="h-full rounded-full transition-all duration-300 ease-out"
+                                style={{ width: `${pct}%`, background: color }}
+                              />
+                            </div>
+                          </motion.div>
+                        </TooltipTrigger>
+                        <TooltipContent side="top" showArrow>
+                          <div className="space-y-1.5 min-w-[130px]">
+                            <div className="flex items-center justify-between gap-4">
+                              <span className="text-[#988d9c]">Characters</span>
+                              <span className="font-semibold tabular-nums" style={{ color }}>
+                                {caption.length}<span className="text-[#4c4450]">/{limit}</span>
+                              </span>
+                            </div>
+                            <div className="flex items-center justify-between gap-4">
+                              <span className="text-[#988d9c]">Status</span>
+                              <span className="font-semibold" style={{ color }}>{statusLabel}</span>
+                            </div>
+                            <div className="flex items-center justify-between gap-4">
+                              <span className="text-[#988d9c]">Ideal</span>
+                              <span className="text-[#cfc2d2]">{ideal.min}–{ideal.softMax}</span>
+                            </div>
+                          </div>
+                        </TooltipContent>
+                      </Tooltip>
+                    );
+                  })}
+                </AnimatePresence>
               </div>
-            </div>
-          );
-        })}
-      </div>
+            </TooltipProvider>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

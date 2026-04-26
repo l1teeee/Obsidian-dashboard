@@ -6,6 +6,7 @@ import type { PostAction, PostsView } from '../../hooks/usePosts';
 import StatusBadge from '../shared/StatusBadge';
 import PlatformIcon from '../shared/PlatformIcon';
 import SocialBrandIcon from '../shared/SocialBrandIcon';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../ui/tooltip';
 
 interface PostsTableProps {
   posts:              CalendarPost[];
@@ -128,68 +129,83 @@ const TABLE_HEADERS = ['Content', 'Platform', 'Status', 'Date', 'Time', 'Actions
 function ActionButtons({ post, view, onAction }: { post: CalendarPost; view: PostsView; onAction: PostsTableProps['onAction'] }) {
   if (post.status === 'draft') {
     return (
-      <button
-        onClick={e => { e.stopPropagation(); e.preventDefault(); onAction('delete', post); }}
-        title="Delete draft"
-        className="w-7 h-7 flex items-center justify-center rounded-lg border border-transparent text-[#988d9c] hover:bg-[#ffb4ab]/10 hover:border-[#ffb4ab]/20 hover:text-[#ffb4ab] transition-all"
-      >
-        <span className="material-symbols-outlined" style={{ fontSize: 14 }}>delete_forever</span>
-      </button>
+      <TooltipProvider delayDuration={300}>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <button
+              onClick={e => { e.stopPropagation(); e.preventDefault(); onAction('delete', post); }}
+              className="w-7 h-7 flex items-center justify-center rounded-lg border border-transparent text-[#988d9c] hover:bg-[#ffb4ab]/10 hover:border-[#ffb4ab]/20 hover:text-[#ffb4ab] transition-all"
+            >
+              <span className="material-symbols-outlined" style={{ fontSize: 14 }}>delete_forever</span>
+            </button>
+          </TooltipTrigger>
+          <TooltipContent side="left" showArrow>Delete draft</TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
     );
   }
 
   if (view === 'inactive') {
     return (
-      <div className="flex items-center gap-1.5">
-        <button
-          onClick={e => { e.stopPropagation(); e.preventDefault(); onAction('activate', post); }}
-          title="Activate"
-          className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-[#c5d247]/10 border border-[#c5d247]/20 text-[#c5d247] text-[10px] font-bold uppercase tracking-wider hover:bg-[#c5d247]/20 transition-all"
-        >
-          <span className="material-symbols-outlined" style={{ fontSize: 12 }}>play_circle</span>
-          Activate
-        </button>
-        <button
-          onClick={e => { e.stopPropagation(); e.preventDefault(); onAction('delete', post); }}
-          title="Delete permanently"
-          className="w-7 h-7 flex items-center justify-center rounded-lg border border-transparent text-[#988d9c] hover:bg-[#ffb4ab]/10 hover:border-[#ffb4ab]/20 hover:text-[#ffb4ab] transition-all"
-        >
-          <span className="material-symbols-outlined" style={{ fontSize: 14 }}>delete_forever</span>
-        </button>
-      </div>
+      <TooltipProvider delayDuration={300}>
+        <div className="flex items-center gap-1.5">
+          <button
+            onClick={e => { e.stopPropagation(); e.preventDefault(); onAction('activate', post); }}
+            className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-[#c5d247]/10 border border-[#c5d247]/20 text-[#c5d247] text-[10px] font-bold uppercase tracking-wider hover:bg-[#c5d247]/20 transition-all"
+          >
+            <span className="material-symbols-outlined" style={{ fontSize: 12 }}>play_circle</span>
+            Activate
+          </button>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <button
+                onClick={e => { e.stopPropagation(); e.preventDefault(); onAction('delete', post); }}
+                className="w-7 h-7 flex items-center justify-center rounded-lg border border-transparent text-[#988d9c] hover:bg-[#ffb4ab]/10 hover:border-[#ffb4ab]/20 hover:text-[#ffb4ab] transition-all"
+              >
+                <span className="material-symbols-outlined" style={{ fontSize: 14 }}>delete_forever</span>
+              </button>
+            </TooltipTrigger>
+            <TooltipContent side="left" showArrow>Delete permanently</TooltipContent>
+          </Tooltip>
+        </div>
+      </TooltipProvider>
     );
   }
 
   return (
-    <div className="flex items-center gap-1.5">
-      {post.status === 'failed' && (
-        <button
-          onClick={e => { e.stopPropagation(); e.preventDefault(); onAction('retry', post); }}
-          title="Retry"
-          className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-[#ffd166]/10 border border-[#ffd166]/20 text-[#ffd166] text-[10px] font-bold uppercase tracking-wider hover:bg-[#ffd166]/20 transition-all"
-        >
-          <span className="material-symbols-outlined" style={{ fontSize: 12 }}>refresh</span>
-          Retry
-        </button>
-      )}
-      {post.status === 'scheduled' && (
-        <button
-          onClick={e => { e.stopPropagation(); e.preventDefault(); onAction('publish', post); }}
-          title="Publish now"
-          className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-[#c5d247]/10 border border-[#c5d247]/20 text-[#c5d247] text-[10px] font-bold uppercase tracking-wider hover:bg-[#c5d247]/20 transition-all"
-        >
-          <span className="material-symbols-outlined" style={{ fontSize: 12 }}>send</span>
-          Publish
-        </button>
-      )}
-      <button
-        onClick={e => { e.stopPropagation(); e.preventDefault(); onAction('deactivate', post); }}
-        title="Deactivate"
-        className="w-7 h-7 flex items-center justify-center rounded-lg border border-transparent text-[#988d9c] hover:bg-[#ffd166]/10 hover:border-[#ffd166]/20 hover:text-[#ffd166] transition-all"
-      >
-        <span className="material-symbols-outlined" style={{ fontSize: 14 }}>pause_circle</span>
-      </button>
-    </div>
+    <TooltipProvider delayDuration={300}>
+      <div className="flex items-center gap-1.5">
+        {post.status === 'failed' && (
+          <button
+            onClick={e => { e.stopPropagation(); e.preventDefault(); onAction('retry', post); }}
+            className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-[#ffd166]/10 border border-[#ffd166]/20 text-[#ffd166] text-[10px] font-bold uppercase tracking-wider hover:bg-[#ffd166]/20 transition-all"
+          >
+            <span className="material-symbols-outlined" style={{ fontSize: 12 }}>refresh</span>
+            Retry
+          </button>
+        )}
+        {post.status === 'scheduled' && (
+          <button
+            onClick={e => { e.stopPropagation(); e.preventDefault(); onAction('publish', post); }}
+            className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-[#c5d247]/10 border border-[#c5d247]/20 text-[#c5d247] text-[10px] font-bold uppercase tracking-wider hover:bg-[#c5d247]/20 transition-all"
+          >
+            <span className="material-symbols-outlined" style={{ fontSize: 12 }}>send</span>
+            Publish
+          </button>
+        )}
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <button
+              onClick={e => { e.stopPropagation(); e.preventDefault(); onAction('deactivate', post); }}
+              className="w-7 h-7 flex items-center justify-center rounded-lg border border-transparent text-[#988d9c] hover:bg-[#ffd166]/10 hover:border-[#ffd166]/20 hover:text-[#ffd166] transition-all"
+            >
+              <span className="material-symbols-outlined" style={{ fontSize: 14 }}>pause_circle</span>
+            </button>
+          </TooltipTrigger>
+          <TooltipContent side="left" showArrow>Deactivate</TooltipContent>
+        </Tooltip>
+      </div>
+    </TooltipProvider>
   );
 }
 

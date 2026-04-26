@@ -9,9 +9,20 @@
   to   { height: 0; }
 }
 
+@keyframes tooltip-open {
+  from { opacity: 0; transform: scale(0.92) translateY(4px); }
+  to   { opacity: 1; transform: scale(1)    translateY(0);   }
+}
+@keyframes tooltip-close {
+  from { opacity: 1; transform: scale(1)    translateY(0);   }
+  to   { opacity: 0; transform: scale(0.92) translateY(4px); }
+}
+
 @theme {
-  --animate-accordion-down: accordion-down 0.22s ease-out;
-  --animate-accordion-up:   accordion-up   0.22s ease-out;
+  --animate-accordion-down: accordion-down  0.22s ease-out;
+  --animate-accordion-up:   accordion-up    0.22s ease-out;
+  --animate-tooltip-open:   tooltip-open  0.14s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  --animate-tooltip-close:  tooltip-close 0.10s ease-in forwards;
 }
 
 @theme {
@@ -170,6 +181,10 @@ html {
 @keyframes dpSlideUp {
   from { opacity: 0; transform: scale(0.96) translateY(6px); }
   to   { opacity: 1; transform: scale(1)    translateY(0);   }
+}
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 .react-datepicker-popper[data-placement^="bottom"] .react-datepicker {
   animation: dpSlideDown 0.2s cubic-bezier(0.16, 1, 0.3, 1);

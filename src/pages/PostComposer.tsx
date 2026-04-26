@@ -10,6 +10,9 @@ import SchedulePicker from '../components/composer/SchedulePicker';
 import PreviewPanel from '../components/composer/PreviewPanel';
 import ScrollArea from '../components/shared/ScrollArea';
 import { useComposer, type ActionType } from '../hooks/useComposer';
+import type { ChannelId } from '../types/composer.types';
+import { useWorkspace } from '../contexts/WorkspaceContext';
+import { fetchPreferredChannel, savePreferredChannel } from '../services/workspaces.service';
 
 type MobileTab = 'edit' | 'preview';
 
@@ -29,6 +32,33 @@ export default function PostComposer() {
   const [actionMeta, setActionMeta] = useState<{ type: ActionType; names: string } | null>(null);
 
   const [isSavingDraft, setIsSavingDraft] = useState(false);
+
+  const { active: activeWorkspace } = useWorkspace();
+
+  const [preferredChannel, setPreferredChannel] = useState<ChannelId | null>(
+    () => localStorage.getItem('obsidian_preferred_channel') as ChannelId | null,
+  );
+
+  // Sync preferred channel from backend on mount
+  useEffect(() => {
+    if (!activeWorkspace?.id) return;
+    fetchPreferredChannel(activeWorkspace.id)
+      .then(result => {
+        setPreferredChannel(result.preferred);
+        if (result.preferred) localStorage.setItem('obsidian_preferred_channel', result.preferred);
+        else                  localStorage.removeItem('obsidian_preferred_channel');
+      })
+      .catch(() => { /* keep localStorage value on network error */ });
+  }, [activeWorkspace?.id]);
+
+  function handlePreferredChange(chId: ChannelId | null) {
+    setPreferredChannel(chId);
+    if (chId) localStorage.setItem('obsidian_preferred_channel', chId);
+    else      localStorage.removeItem('obsidian_preferred_channel');
+    if (activeWorkspace?.id) {
+      savePreferredChannel(activeWorkspace.id, chId).catch(() => {});
+    }
+  }
 
   const playSuccess = useCallback((type: ActionType, names: string) => {
     // Drafts: Sileo notification only — no animation, stay in composer
@@ -284,7 +314,13 @@ export default function PostComposer() {
             >
               <ScrollArea className="flex-1 min-h-0 p-4 md:p-8">
                 <div className="max-w-xl mx-auto space-y-6">
-                  <ChannelSelector selectedChannels={selectedChannels} onToggle={toggleChannel} fbPageName={fbPageName} igAccountName={igAccountName} />
+                  <ChannelSelector
+                    selectedChannels={selectedChannels}
+                    onToggle={toggleChannel}
+                    igAccountName={igAccountName}
+                    preferred={preferredChannel}
+                    onPreferredChange={handlePreferredChange}
+                  />
 
                   {/* No-account warning */}
                   {unconnectedChannelNames.length > 0 && (
@@ -331,6 +367,7 @@ export default function PostComposer() {
                     selectedChannels={selectedChannels}
                     showSuggestions={showSuggestions}
                     mediaItems={mediaItems}
+                    preferred={preferredChannel}
                     onCaptionChange={val => { handleCaptionChange(val); setShowSuggestions(false); }}
                     onToggleSuggestions={() => setShowSuggestions(p => !p)}
                   />

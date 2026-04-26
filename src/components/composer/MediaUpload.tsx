@@ -217,7 +217,7 @@ export default function MediaUpload({
                 title={!canAddMore ? `Max ${MAX_MEDIA} files reached` : undefined}
                 className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-[#d394ff]/10 text-[#d394ff] hover:bg-[#d394ff]/20 transition-all active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed"
               >
-                <span className="material-symbols-outlined text-[13px]">flare</span>
+                <span className="material-symbols-outlined text-[13px]">auto_awesome</span>
                 {(generatorEverOpened || hasAIImages) ? 'Continue' : 'Generate'}
               </button>
               {(generatorEverOpened || hasAIImages) && (
@@ -343,7 +343,7 @@ export default function MediaUpload({
                     {/* AI badge */}
                     {item.isAIGenerated && !item.uploading && !item.uploadError && (
                       <div className="absolute bottom-1 left-1 w-[14px] h-[14px] rounded bg-[#d394ff]/90 flex items-center justify-center">
-                        <span className="material-symbols-outlined text-white" style={{ fontSize: 9, fontVariationSettings: "'FILL' 1" }}>flare</span>
+                        <span className="material-symbols-outlined text-white" style={{ fontSize: 9, fontVariationSettings: "'FILL' 1" }}>auto_awesome</span>
                       </div>
                     )}
 
@@ -503,7 +503,7 @@ export default function MediaUpload({
                   onClick={() => setShowPrompt(p => !p)}
                   className="w-full flex items-center gap-2 px-4 py-2.5 hover:bg-[#1c1b1b] transition-colors text-left"
                 >
-                  <span className="material-symbols-outlined text-[#d394ff]/50 text-[13px] shrink-0" style={{ fontVariationSettings: "'FILL' 1" }}>flare</span>
+                  <span className="material-symbols-outlined text-[#d394ff]/50 text-[13px] shrink-0" style={{ fontVariationSettings: "'FILL' 1" }}>auto_awesome</span>
                   <span className="flex-1 text-[10px] text-[#988d9c]/70 font-medium">
                     {mediaItems[lightboxIndex].prompt ? 'AI Prompt' : 'AI-generated image'}
                   </span>

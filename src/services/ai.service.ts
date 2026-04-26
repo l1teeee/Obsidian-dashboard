@@ -2,7 +2,7 @@ import { apiFetch } from '../lib/api';
 
 export interface GenerateImagePayload {
   prompt: string;
-  size?:  '1024x1024' | '1792x1024' | '1024x1792';
+  size?:  '1024x1024' | '1536x1024' | '1024x1536';
 }
 
 export interface GenerateImageResult {

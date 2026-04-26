@@ -1,12 +1,23 @@
 import { useEffect, useRef, useState } from 'react';
 import { NavLink, useNavigate, useLocation } from 'react-router-dom';
 import gsap from 'gsap';
+import {
+  DndContext, closestCenter, PointerSensor, KeyboardSensor,
+  useSensor, useSensors, type DragEndEvent,
+} from '@dnd-kit/core';
+import {
+  SortableContext, verticalListSortingStrategy,
+  useSortable, arrayMove, sortableKeyboardCoordinates,
+} from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 import { useLayout } from '../../contexts/LayoutContext';
 import { useWorkspace } from '../../contexts/WorkspaceContext';
 import { useAuth } from '../../hooks/useAuth';
 import Modal from '../shared/Modal';
 import { getProfile } from '../../services/users.service';
 import type { UserPlan } from '../../types/users.types';
+
+const SIDEBAR_ORDER_KEY = 'obsidian_sidebar_order';
 
 // ── Nav structure ─────────────────────────────────────────────────────────────
 
@@ -75,6 +86,146 @@ const PLAN_LABEL: Record<UserPlan, string> = {
   enterprise: 'Enterprise',
 };
 
+// ── Sortable nav entry ────────────────────────────────────────────────────────
+
+interface SortableNavEntryProps {
+  entry:        NavEntry;
+  isOpen:       boolean;
+  pathname:     string;
+  openGroups:   Set<string>;
+  toggleGroup:  (key: string) => void;
+  handleNavClick: () => void;
+  navLinkCls:   (isActive: boolean, collapsed?: boolean) => string;
+}
+
+function SortableNavEntry({ entry, isOpen, pathname, openGroups, toggleGroup, handleNavClick, navLinkCls }: SortableNavEntryProps) {
+  const id = entry.kind === 'item' ? entry.to : entry.key;
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id });
+
+  const style = {
+    transform:  CSS.Transform.toString(transform),
+    transition,
+    opacity:    isDragging ? 0.4 : 1,
+    zIndex:     isDragging ? 50  : undefined,
+  };
+
+  if (entry.kind === 'item') {
+    return (
+      <div ref={setNodeRef} style={style} data-nav-item className="group relative">
+        {/* Drag handle — only visible when sidebar is open */}
+        {isOpen && (
+          <span
+            {...attributes}
+            {...listeners}
+            className="material-symbols-outlined absolute left-0 top-1/2 -translate-y-1/2 text-[#4c4450] opacity-0 group-hover:opacity-100 transition-opacity cursor-grab active:cursor-grabbing select-none"
+            style={{ fontSize: 14, touchAction: 'none' }}
+          >
+            drag_indicator
+          </span>
+        )}
+        <NavLink
+          to={entry.to}
+          title={!isOpen ? entry.label : undefined}
+          aria-label={!isOpen ? entry.label : undefined}
+          onClick={handleNavClick}
+          className={({ isActive }) => navLinkCls(isActive, !isOpen)}
+        >
+          {({ isActive }) => (
+            <>
+              <span className="material-symbols-outlined shrink-0" style={{ fontSize: 20, fontVariationSettings: isActive ? "'FILL' 1" : "'FILL' 0" }}>
+                {entry.icon}
+              </span>
+              <span className={['overflow-hidden whitespace-nowrap transition-all duration-300', isOpen ? 'max-w-[160px] opacity-100 pl-3' : 'max-w-0 opacity-0 pl-0'].join(' ')}>
+                {entry.label}
+              </span>
+            </>
+          )}
+        </NavLink>
+      </div>
+    );
+  }
+
+  // Group entry
+  const isAnyChildActive = entry.children.some(c => pathname.startsWith(c.to));
+  const isGroupOpen      = openGroups.has(entry.key) && isOpen;
+
+  return (
+    <div ref={setNodeRef} style={style} data-nav-item className="group relative">
+      {/* Drag handle */}
+      {isOpen && (
+        <span
+          {...attributes}
+          {...listeners}
+          className="material-symbols-outlined absolute left-0 top-[14px] text-[#4c4450] opacity-0 group-hover:opacity-100 transition-opacity cursor-grab active:cursor-grabbing select-none"
+          style={{ fontSize: 14, touchAction: 'none' }}
+        >
+          drag_indicator
+        </span>
+      )}
+
+      {/* Group header */}
+      <button
+        onClick={() => toggleGroup(entry.key)}
+        title={!isOpen ? entry.label : undefined}
+        aria-label={!isOpen ? entry.label : undefined}
+        className={[
+          'w-full flex items-center rounded-xl transition-all duration-150 select-none py-2.5 cursor-pointer',
+          isOpen ? 'px-4' : 'px-4 lg:justify-center lg:px-0',
+          isAnyChildActive
+            ? 'text-[#d394ff]'
+            : 'text-gray-400 hover:text-white hover:bg-[#d394ff]/[0.06] active:bg-[#d394ff]/[0.12] active:scale-[0.97]',
+          !isOpen && 'lg:hover:bg-[#d394ff]/[0.06] lg:hover:text-white',
+        ].join(' ')}
+      >
+        <span className="material-symbols-outlined shrink-0" style={{ fontSize: 20, fontVariationSettings: isAnyChildActive ? "'FILL' 1" : "'FILL' 0" }}>
+          {entry.icon}
+        </span>
+        <span className={['flex-1 text-left text-sm font-headline tracking-tight overflow-hidden whitespace-nowrap transition-all duration-300', isOpen ? 'max-w-[120px] opacity-100 pl-3' : 'max-w-0 opacity-0 pl-0'].join(' ')}>
+          {entry.label}
+        </span>
+        <span className={[
+          'material-symbols-outlined shrink-0 transition-all duration-300',
+          isOpen ? 'opacity-100' : 'opacity-0 w-0',
+          isGroupOpen ? '[transform:rotate(180deg)]' : '',
+          isAnyChildActive ? 'text-[#d394ff]' : 'text-[#4c4450]',
+        ].join(' ')} style={{ fontSize: 14 }}>
+          expand_more
+        </span>
+      </button>
+
+      {/* Accordion children */}
+      <div style={{ display: 'grid', gridTemplateRows: isGroupOpen ? '1fr' : '0fr', transition: 'grid-template-rows 220ms cubic-bezier(0.16, 1, 0.3, 1)' }}>
+        <div className="overflow-hidden">
+          <div className="flex flex-col gap-0.5 pb-0.5 pl-3 pt-0.5">
+            {entry.children.map(child => (
+              <NavLink
+                key={child.to}
+                to={child.to}
+                onClick={handleNavClick}
+                className={({ isActive }) => [
+                  'flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-headline tracking-tight transition-all duration-150 select-none',
+                  isActive
+                    ? 'text-[#d394ff] bg-[#d394ff]/10 font-semibold'
+                    : 'text-[#988d9c] hover:text-white hover:bg-[#d394ff]/[0.06] hover:translate-x-0.5 active:bg-[#d394ff]/[0.12] active:scale-[0.97] active:translate-x-0',
+                ].join(' ')}
+              >
+                {({ isActive }) => (
+                  <>
+                    <span className="material-symbols-outlined shrink-0" style={{ fontSize: 16, fontVariationSettings: isActive ? "'FILL' 1" : "'FILL' 0" }}>
+                      {child.icon}
+                    </span>
+                    {child.label}
+                  </>
+                )}
+              </NavLink>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // ── Component ─────────────────────────────────────────────────────────────────
 
 export default function Sidebar() {
@@ -100,6 +251,39 @@ export default function Sidebar() {
   const [userPlan,    setUserPlan]    = useState<UserPlan | null>(null);
   const [openGroups,  setOpenGroups]  = useState<Set<string>>(new Set());
 
+  // Drag-and-drop order — Dashboard is always fixed first, not sortable
+  const getNavId = (e: NavEntry) => e.kind === 'item' ? e.to : e.key;
+  const isSortable = (e: NavEntry) => !(e.kind === 'item' && e.to === '/dashboard');
+
+  const [navOrder, setNavOrder] = useState<string[]>(() => {
+    try {
+      const saved = localStorage.getItem(SIDEBAR_ORDER_KEY);
+      if (saved) return JSON.parse(saved) as string[];
+    } catch {}
+    return NAV_STRUCTURE.filter(isSortable).map(getNavId);
+  });
+
+  const sensors = useSensors(
+    useSensor(PointerSensor, { activationConstraint: { distance: 6 } }),
+    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }),
+  );
+
+  function handleDragStart() {
+    setOpenGroups(new Set());
+  }
+
+  function handleDragEnd(event: DragEndEvent) {
+    const { active, over } = event;
+    if (!over || active.id === over.id) return;
+    setNavOrder(prev => {
+      const oldIdx = prev.indexOf(active.id as string);
+      const newIdx = prev.indexOf(over.id   as string);
+      const next   = arrayMove(prev, oldIdx, newIdx);
+      localStorage.setItem(SIDEBAR_ORDER_KEY, JSON.stringify(next));
+      return next;
+    });
+  }
+
   const atLimit = workspaces.length >= 5;
 
   // Load user plan
@@ -120,13 +304,25 @@ export default function Sidebar() {
   }, [pathname]);
 
   // Filter entries by plan
-  const visibleEntries = userPlan
-    ? NAV_STRUCTURE.filter(e => e.plans.includes(userPlan)).map(e =>
-        e.kind === 'group'
+  const allVisible = userPlan
+    ? [...NAV_STRUCTURE]
+        .filter(e => e.plans.includes(userPlan))
+        .map(e => e.kind === 'group'
           ? { ...e, children: e.children.filter(c => c.plans.includes(userPlan)) }
           : e,
-      )
+        )
     : [];
+
+  // Dashboard is always first and fixed
+  const dashboardEntry  = allVisible.find(e => e.kind === 'item' && e.to === '/dashboard') ?? null;
+  // Remaining entries sorted by saved order
+  const sortableEntries = allVisible
+    .filter(isSortable)
+    .sort((a, b) => {
+      const ai = navOrder.indexOf(getNavId(a));
+      const bi = navOrder.indexOf(getNavId(b));
+      return (ai === -1 ? 999 : ai) - (bi === -1 ? 999 : bi);
+    });
 
   // Entrance animation
   useEffect(() => {
@@ -313,120 +509,58 @@ export default function Sidebar() {
             </div>
           ))
         ) : (
-          visibleEntries.map((entry, idx) => {
-            if (entry.kind === 'item') {
-              return (
-                <NavLink
-                  key={entry.to}
-                  to={entry.to}
-                  data-nav-item
-                  title={!isOpen ? entry.label : undefined}
-                  aria-label={!isOpen ? entry.label : undefined}
-                  onClick={handleNavClick}
-                  className={({ isActive }) => navLinkCls(isActive, !isOpen)}
-                >
-                  {({ isActive }) => (
-                    <>
-                      <span className="material-symbols-outlined shrink-0" style={{ fontSize: 20, fontVariationSettings: isActive ? "'FILL' 1" : "'FILL' 0" }}>
-                        {entry.icon}
-                      </span>
-                      <span className={['overflow-hidden whitespace-nowrap transition-all duration-300', isOpen ? 'max-w-[160px] opacity-100 pl-3' : 'max-w-0 opacity-0 pl-0'].join(' ')}>
-                        {entry.label}
-                      </span>
-                    </>
-                  )}
-                </NavLink>
-              );
-            }
-
-            // Group entry
-            const isAnyChildActive = entry.children.some(c => pathname.startsWith(c.to));
-            const isGroupOpen      = openGroups.has(entry.key) && isOpen;
-
-            return (
-              <div key={entry.key} data-nav-item>
-                {/* Subtle divider before first group */}
-                {idx === 1 && (
-                  <div className={['h-px bg-[#4c4450]/12 mx-1 mb-1.5 mt-0.5 transition-all duration-300', isOpen ? 'opacity-100' : 'opacity-0'].join(' ')} />
+          <>
+            {/* Dashboard — fijo, siempre primero, no sortable */}
+            {dashboardEntry && dashboardEntry.kind === 'item' && (
+              <NavLink
+                to={dashboardEntry.to}
+                data-nav-item
+                title={!isOpen ? dashboardEntry.label : undefined}
+                aria-label={!isOpen ? dashboardEntry.label : undefined}
+                onClick={handleNavClick}
+                className={({ isActive }) => navLinkCls(isActive, !isOpen)}
+              >
+                {({ isActive }) => (
+                  <>
+                    <span className="material-symbols-outlined shrink-0" style={{ fontSize: 20, fontVariationSettings: isActive ? "'FILL' 1" : "'FILL' 0" }}>
+                      {dashboardEntry.icon}
+                    </span>
+                    <span className={['overflow-hidden whitespace-nowrap transition-all duration-300', isOpen ? 'max-w-[160px] opacity-100 pl-3' : 'max-w-0 opacity-0 pl-0'].join(' ')}>
+                      {dashboardEntry.label}
+                    </span>
+                  </>
                 )}
+              </NavLink>
+            )}
 
-                {/* Group header */}
-                <button
-                  onClick={() => toggleGroup(entry.key)}
-                  title={!isOpen ? entry.label : undefined}
-                  aria-label={!isOpen ? entry.label : undefined}
-                  className={[
-                    'w-full flex items-center rounded-xl transition-all duration-150 select-none py-2.5',
-                    isOpen ? 'px-4' : 'px-4 lg:justify-center lg:px-0',
-                    isAnyChildActive
-                      ? 'text-[#d394ff]'
-                      : 'text-gray-400 hover:text-white hover:bg-[#d394ff]/[0.06] active:bg-[#d394ff]/[0.12] active:scale-[0.97]',
-                  ].join(' ')}
-                >
-                  <span
-                    className="material-symbols-outlined shrink-0"
-                    style={{
-                      fontSize: 20,
-                      fontVariationSettings: isAnyChildActive ? "'FILL' 1" : "'FILL' 0",
-                    }}
-                  >
-                    {entry.icon}
-                  </span>
+            {/* Separador */}
+            {dashboardEntry && sortableEntries.length > 0 && (
+              <div className="h-px bg-[#4c4450]/20 mx-1 my-1.5" />
+            )}
 
-                  {/* Label */}
-                  <span className={['flex-1 text-left text-sm font-headline tracking-tight overflow-hidden whitespace-nowrap transition-all duration-300', isOpen ? 'max-w-[120px] opacity-100 pl-3' : 'max-w-0 opacity-0 pl-0'].join(' ')}>
-                    {entry.label}
-                  </span>
-
-                  {/* Chevron */}
-                  <span className={[
-                    'material-symbols-outlined shrink-0 transition-all duration-300',
-                    isOpen ? 'opacity-100' : 'opacity-0 w-0',
-                    isGroupOpen ? '[transform:rotate(180deg)]' : '',
-                    isAnyChildActive ? 'text-[#d394ff]' : 'text-[#4c4450]',
-                  ].join(' ')} style={{ fontSize: 14 }}>
-                    expand_more
-                  </span>
-                </button>
-
-                {/* Accordion children — CSS grid trick for smooth animation */}
-                <div
-                  style={{
-                    display: 'grid',
-                    gridTemplateRows: isGroupOpen ? '1fr' : '0fr',
-                    transition: 'grid-template-rows 220ms cubic-bezier(0.16, 1, 0.3, 1)',
-                  }}
-                >
-                  <div className="overflow-hidden">
-                    <div className="flex flex-col gap-0.5 pb-0.5 pl-3 pt-0.5">
-                      {entry.children.map(child => (
-                        <NavLink
-                          key={child.to}
-                          to={child.to}
-                          onClick={handleNavClick}
-                          className={({ isActive }) => [
-                            'flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-headline tracking-tight transition-all duration-150 select-none',
-                            isActive
-                              ? 'text-[#d394ff] bg-[#d394ff]/10 font-semibold'
-                              : 'text-[#988d9c] hover:text-white hover:bg-[#d394ff]/[0.06] hover:translate-x-0.5 active:bg-[#d394ff]/[0.12] active:scale-[0.97] active:translate-x-0',
-                          ].join(' ')}
-                        >
-                          {({ isActive }) => (
-                            <>
-                              <span className="material-symbols-outlined shrink-0" style={{ fontSize: 16, fontVariationSettings: isActive ? "'FILL' 1" : "'FILL' 0" }}>
-                                {child.icon}
-                              </span>
-                              {child.label}
-                            </>
-                          )}
-                        </NavLink>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            );
-          })
+            {/* Entradas sortables */}
+            <DndContext
+              sensors={sensors}
+              collisionDetection={closestCenter}
+              onDragStart={handleDragStart}
+              onDragEnd={handleDragEnd}
+            >
+              <SortableContext items={sortableEntries.map(getNavId)} strategy={verticalListSortingStrategy}>
+                {sortableEntries.map(entry => (
+                  <SortableNavEntry
+                    key={getNavId(entry)}
+                    entry={entry}
+                    isOpen={isOpen}
+                    pathname={pathname}
+                    openGroups={openGroups}
+                    toggleGroup={toggleGroup}
+                    handleNavClick={handleNavClick}
+                    navLinkCls={navLinkCls}
+                  />
+                ))}
+              </SortableContext>
+            </DndContext>
+          </>
         )}
       </nav>
 

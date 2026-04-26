@@ -103,7 +103,8 @@
       "Bash(xargs -I {} basename {})",
       "Bash(curl -s http://localhost:5173)",
       "Bash(curl *)",
-      "Bash(npm list *)"
+      "Bash(npm list *)",
+      "PowerShell(Get-ChildItem \"C:\\\\Proyects\\\\obsidian-backend\" -Recurse -Depth 3 | Where-Object { !$_.PSIsContainer } | Select-Object FullName | Sort-Object FullName)"
     ]
   }
 }

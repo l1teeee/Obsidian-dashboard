@@ -267,7 +267,7 @@ export default function AnalyzeModal({
                     <img src={item.previewUrl} alt="" className="w-full h-full object-cover" />
                     {item.isAIGenerated && (
                       <div className="absolute bottom-0.5 left-0.5 w-[13px] h-[13px] rounded bg-[#d394ff]/90 flex items-center justify-center">
-                        <span className="material-symbols-outlined text-white" style={{ fontSize: 8, fontVariationSettings: "'FILL' 1" }}>flare</span>
+                        <span className="material-symbols-outlined text-white" style={{ fontSize: 8, fontVariationSettings: "'FILL' 1" }}>auto_awesome</span>
                       </div>
                     )}
                     {/* Hover: edit button */}

@@ -19,7 +19,10 @@ export function useComposer(onSuccess?: (type: ActionType, names: string) => voi
 
   // ── UI state owned by the coordinator ─────────────────────────────────────
   const [caption,          setCaption]         = useState('');
-  const [selectedChannels, setSelectedChannels] = useState<ChannelId[]>(['ig']);
+  const [selectedChannels, setSelectedChannels] = useState<ChannelId[]>(() => {
+    const preferred = localStorage.getItem('obsidian_preferred_channel') as ChannelId | null;
+    return preferred ? [preferred] : ['ig'];
+  });
   const [previewTab,       setPreviewTab]       = useState<ChannelId>('ig');
   const [scheduleDate,     setScheduleDate]     = useState<Date>(() => {
     const d = new Date();

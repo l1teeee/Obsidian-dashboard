@@ -5,7 +5,7 @@ import { uploadFile } from '../../services/media.service';
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
-type ImageSize   = '1024x1024' | '1792x1024' | '1024x1792';
+type ImageSize   = '1024x1024' | '1536x1024' | '1024x1536';
 type ModalScreen = 'form' | 'preview' | 'edit-preview';
 
 interface GeneratedResult {
@@ -28,8 +28,8 @@ const CAROUSEL_STYLE_PRESETS: { label: string; icon: string; value: string }[] =
 
 const SIZE_OPTIONS: { value: ImageSize; label: string; icon: string }[] = [
   { value: '1024x1024', label: 'Square',    icon: 'crop_square'    },
-  { value: '1792x1024', label: 'Landscape', icon: 'crop_landscape' },
-  { value: '1024x1792', label: 'Portrait',  icon: 'crop_portrait'  },
+  { value: '1536x1024', label: 'Landscape', icon: 'crop_landscape' },
+  { value: '1024x1536', label: 'Portrait',  icon: 'crop_portrait'  },
 ];
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
@@ -282,7 +282,7 @@ export default function AIGeneratorModal({
             )}
             <div className="w-9 h-9 rounded-xl bg-[#d394ff]/15 border border-[#d394ff]/20 flex items-center justify-center shrink-0">
               <span className="material-symbols-outlined text-[#d394ff]" style={{ fontSize: 18, fontVariationSettings: "'FILL' 1" }}>
-                {screen === 'edit-preview' ? 'edit' : 'flare'}
+                {screen === 'edit-preview' ? 'edit' : 'auto_awesome'}
               </span>
             </div>
             <div>
@@ -292,7 +292,7 @@ export default function AIGeneratorModal({
                 : 'Edit with AI'}
               </h2>
               <p className="text-[10px] text-[#988d9c]">
-                {screen === 'edit-preview' ? 'DALL·E 2 inpainting' : 'DALL·E 3 by OpenAI'}
+                {screen === 'edit-preview' ? 'gpt-image-2 editing' : 'gpt-image-2 by OpenAI'}
               </p>
             </div>
           </div>
@@ -437,7 +437,7 @@ export default function AIGeneratorModal({
                         disabled={!carouselTopic.trim() || slidesLoading || genLoading}
                         className="ml-auto flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[#252424] border border-[#d394ff]/25 text-[#d394ff] text-[10px] font-bold uppercase tracking-wider disabled:opacity-40 hover:bg-[#d394ff]/10 hover:border-[#d394ff]/40 transition-all active:scale-[0.98]"
                       >
-                        {slidesLoading ? <span className="material-symbols-outlined text-[13px] animate-spin">progress_activity</span> : <span className="material-symbols-outlined text-[13px]">flare</span>}
+                        {slidesLoading ? <span className="material-symbols-outlined text-[13px] animate-spin">progress_activity</span> : <span className="material-symbols-outlined text-[13px]">auto_awesome</span>}
                         {slidesLoading ? 'Working…' : carouselSlides.length > 0 ? 'Regenerate' : 'Generate prompts'}
                       </button>
                     </div>
@@ -509,7 +509,7 @@ export default function AIGeneratorModal({
                 disabled={!canGenerate}
                 className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-[#d394ff] text-[#5e2388] text-sm font-bold uppercase tracking-wider hover:brightness-110 transition-all active:scale-[0.99] disabled:opacity-40 disabled:cursor-not-allowed"
               >
-                <span className="material-symbols-outlined text-[16px]">flare</span>
+                <span className="material-symbols-outlined text-[16px]">auto_awesome</span>
                 {genMode === 'carousel' && filledSlides > 0
                   ? `Generate ${willGenerate} Image${willGenerate !== 1 ? 's' : ''}`
                   : genMode === 'carousel' ? 'Generate prompts first'
@@ -546,7 +546,7 @@ export default function AIGeneratorModal({
                           : 'bg-black/50 border-white/15 text-white/70 hover:bg-black/70 hover:text-white'
                       }`}
                     >
-                      <span className="material-symbols-outlined text-[12px]" style={{ fontVariationSettings: "'FILL' 1" }}>flare</span>
+                      <span className="material-symbols-outlined text-[12px]" style={{ fontVariationSettings: "'FILL' 1" }}>auto_awesome</span>
                       {generatedResult.revisedPrompt ? 'Prompt' : 'Prompt'}
                     </button>
                     {showPromptTip && (
