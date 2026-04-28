@@ -24,7 +24,9 @@ const NotFound       = lazy(() => import('./pages/NotFound'));
 const FAQPage        = lazy(() => import('./pages/FAQPage'));
 const LoginCard      = lazy(() => import('./components/auth/LoginCard'));
 const RegisterCard   = lazy(() => import('./components/auth/RegisterCard'));
-const CheckEmail     = lazy(() => import('./pages/CheckEmail'));
+const CheckEmail      = lazy(() => import('./pages/CheckEmail'));
+const ForgotPassword  = lazy(() => import('./pages/ForgotPassword'));
+const ResetPassword   = lazy(() => import('./pages/ResetPassword'));
 const CompleteProfile = lazy(() => import('./pages/CompleteProfile'));
 const CreateWorkspace = lazy(() => import('./pages/CreateWorkspace'));
 const Dashboard      = lazy(() => import('./pages/Dashboard'));
@@ -86,7 +88,7 @@ function LenisProvider({ children }: { children: ReactNode }) {
   return <>{children}</>;
 }
 
-const AUTH_PATHS = ['/', '/pricing', '/faq', '/login', '/register', '/check-email', '/complete-profile', '/create-workspace',
+const AUTH_PATHS = ['/', '/pricing', '/faq', '/login', '/register', '/check-email', '/forgot-password', '/reset-password', '/complete-profile', '/create-workspace',
   '/product/dashboard', '/product/analytics', '/product/scheduler', '/product/ai-insights', '/product/integrations'];
 
 // Fires the transition when navigating FROM auth pages TO app pages
@@ -238,7 +240,9 @@ export default function App() {
                 {/* Auth — public */}
                 <Route path="/login"        element={<LoginCard />} />
                 <Route path="/register"     element={<RegisterCard />} />
-                <Route path="/check-email"  element={<CheckEmail />} />
+                <Route path="/check-email"     element={<CheckEmail />} />
+                <Route path="/forgot-password" element={<ForgotPassword />} />
+                <Route path="/reset-password"  element={<ResetPassword />} />
 
                 {/* Profile completion — requires auth, accessible before profile is complete */}
                 <Route path="/complete-profile" element={

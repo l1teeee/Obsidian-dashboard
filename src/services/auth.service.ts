@@ -86,6 +86,28 @@ export async function loginWithGoogle(code: string): Promise<TokenPair> {
   return res.data;
 }
 
+export async function requestPasswordReset(email: string): Promise<{ devOtp?: string }> {
+  const res = await apiFetch<{ devOtp?: string }>('/auth/forgot-password', {
+    method: 'POST',
+    body: JSON.stringify({ email }),
+  });
+  return res.data;
+}
+
+export async function verifyResetOtp(email: string, otp: string): Promise<void> {
+  await apiFetch('/auth/verify-reset-otp', {
+    method: 'POST',
+    body: JSON.stringify({ email, otp }),
+  });
+}
+
+export async function resetPassword(email: string, otp: string, password: string): Promise<void> {
+  await apiFetch('/auth/reset-password', {
+    method: 'POST',
+    body: JSON.stringify({ email, otp, password }),
+  });
+}
+
 export async function logout(): Promise<void> {
   await apiFetch('/auth/logout', { method: 'POST' });
 }

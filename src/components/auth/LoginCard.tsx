@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useFadeNav } from '@/hooks/useFadeNav';
 import gsap from 'gsap';
@@ -6,6 +6,8 @@ import { useGSAP } from '../../hooks/useGSAP';
 import { useAuth } from '../../hooks/useAuth';
 import { useGoogleLogin } from '@react-oauth/google';
 import SessionConflictModal from './SessionConflictModal';
+
+const REMEMBER_KEY = 'vielinks_remembered_email';
 
 // Reusable eye toggle SVG
 function EyeIcon({ open }: { open: boolean }) {
@@ -28,15 +30,20 @@ export default function LoginCard() {
   const fadeNav = useFadeNav();
   const { login, loginWithGoogle } = useAuth();
 
-  const [email,            setEmail]            = useState('');
+  const [email,            setEmail]            = useState(() => localStorage.getItem(REMEMBER_KEY) ?? '');
+  const [emailLocked,      setEmailLocked]      = useState(() => !!localStorage.getItem(REMEMBER_KEY));
   const [password,         setPassword]         = useState('');
   const [showPass,         setShowPass]         = useState(false);
-  const [rememberMe,       setRememberMe]       = useState(true);
+  const [rememberMe,       setRememberMe]       = useState(() => !!localStorage.getItem(REMEMBER_KEY));
   const [error,            setError]            = useState<string | null>(null);
   const [loading,          setLoading]          = useState(false);
   const [googleLoading,    setGoogleLoading]    = useState(false);
   const [conflictSessions, setConflictSessions] = useState(false);
   const [forceLoading,     setForceLoading]     = useState(false);
+
+  useEffect(() => {
+    if (!rememberMe) localStorage.removeItem(REMEMBER_KEY);
+  }, [rememberMe]);
 
   const doNavigate = ({ isFirstLogin, profileCompleted }: { isFirstLogin: boolean; profileCompleted: boolean }) => {
     if (!profileCompleted) navigate('/complete-profile');
@@ -48,7 +55,10 @@ export default function LoginCard() {
     setError(null);
     setLoading(true);
     try {
-      doNavigate(await login(email, password, rememberMe));
+      const result = await login(email, password, rememberMe);
+      if (rememberMe) localStorage.setItem(REMEMBER_KEY, email);
+      else localStorage.removeItem(REMEMBER_KEY);
+      doNavigate(result);
     } catch (err) {
       const code = (err as { code?: string }).code;
       if (code === 'SESSION_LIMIT_EXCEEDED') {
@@ -164,43 +174,6 @@ export default function LoginCard() {
           </h1>
         </div>
 
-        {/* Social sign-in */}
-        <div data-login-field className="space-y-3 mb-6">
-          <button
-            type="button"
-            onClick={() => handleGoogleLogin()}
-            disabled={googleLoading}
-            className="w-full flex items-center justify-center gap-3 rounded-[0.875rem] border border-[#494847]/30 bg-white/[0.03] px-4 py-3 text-sm font-medium text-[#e5e2e1]/80 transition-all hover:border-[#494847]/60 hover:bg-white/[0.06] disabled:opacity-50 disabled:pointer-events-none"
-          >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-              <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
-              <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
-              <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/>
-              <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
-            </svg>
-            Continue with Google
-          </button>
-
-          <button
-            type="button"
-            disabled
-            title="Coming soon"
-            className="w-full flex items-center justify-center gap-3 rounded-[0.875rem] border border-[#494847]/30 bg-white/[0.03] px-4 py-3 text-sm font-medium text-[#e5e2e1]/60 cursor-not-allowed opacity-50 transition-all"
-          >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="#1877F2">
-              <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-            </svg>
-            Continue with Facebook
-            <span className="ml-auto text-[0.65rem] font-semibold uppercase tracking-wider text-[#adaaaa]/30">Soon</span>
-          </button>
-
-          <div className="flex items-center gap-3 pt-1">
-            <div className="h-px flex-1 bg-[#494847]/20" />
-            <span className="text-[0.6875rem] font-medium text-[#adaaaa]/30 uppercase tracking-widest">or</span>
-            <div className="h-px flex-1 bg-[#494847]/20" />
-          </div>
-        </div>
-
         {/* Form */}
         <form className="space-y-5" onSubmit={(e) => { void handleSubmit(e); }}>
 
@@ -209,17 +182,38 @@ export default function LoginCard() {
             <label htmlFor="login-email" className="block text-[0.6875rem] font-semibold uppercase tracking-[0.18em] text-[#adaaaa]/60">
               Email
             </label>
-            <input
-              id="login-email"
-              type="email"
-              placeholder="you@example.com"
-              required
-              autoComplete="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              disabled={loading}
-              className="w-full rounded-[0.875rem] border border-[#494847]/30 bg-white/[0.03] px-4 py-3.5 text-sm text-[#e5e2e1] placeholder:text-[#adaaaa]/35 transition-all duration-300 focus:border-[#d394ff]/40 focus:outline-none focus:ring-1 focus:ring-[#d394ff]/20"
-            />
+            <div className="relative group">
+              <input
+                id="login-email"
+                type="email"
+                placeholder="you@example.com"
+                required
+                autoComplete="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                disabled={loading}
+                readOnly={emailLocked}
+                className={`w-full rounded-[0.875rem] border text-sm placeholder:text-[#adaaaa]/35 transition-all duration-300 focus:outline-none px-4 py-3.5 pr-11 ${
+                  emailLocked
+                    ? 'border-[#d394ff]/20 bg-[#d394ff]/5 text-[#d394ff]/60 cursor-default select-none'
+                    : 'border-[#494847]/30 bg-white/[0.03] text-[#e5e2e1] focus:border-[#d394ff]/40 focus:ring-1 focus:ring-[#d394ff]/20'
+                }`}
+              />
+              {emailLocked && (
+                <button
+                  type="button"
+                  tabIndex={-1}
+                  onClick={() => setEmailLocked(false)}
+                  title="Edit email"
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 opacity-0 transition-all duration-200 group-hover:opacity-100 text-[#d394ff]/40 hover:text-[#d394ff]"
+                >
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                  </svg>
+                </button>
+              )}
+            </div>
           </div>
 
           {/* Password */}
@@ -228,9 +222,9 @@ export default function LoginCard() {
               <label htmlFor="login-password" className="block text-[0.6875rem] font-semibold uppercase tracking-[0.18em] text-[#adaaaa]/60">
                 Password
               </label>
-              <a href="#" className="text-[0.75rem] text-[#adaaaa]/50 transition-colors duration-300 hover:text-[#d394ff]">
+              <Link to="/forgot-password" className="text-[0.75rem] text-[#adaaaa]/50 transition-colors duration-300 hover:text-[#d394ff]">
                 Forgot password?
-              </a>
+              </Link>
             </div>
             <div className="relative">
               <input
@@ -299,6 +293,43 @@ export default function LoginCard() {
             {loading ? 'Signing in…' : 'Sign in'}
           </button>
         </form>
+
+        {/* Social sign-in */}
+        <div data-login-footer className="mt-5 space-y-3">
+          <div className="flex items-center gap-3">
+            <div className="h-px flex-1 bg-[#494847]/20" />
+            <span className="text-[0.6875rem] font-medium text-[#adaaaa]/30 uppercase tracking-widest">or continue with</span>
+            <div className="h-px flex-1 bg-[#494847]/20" />
+          </div>
+
+          <button
+            type="button"
+            onClick={() => handleGoogleLogin()}
+            disabled={googleLoading}
+            className="w-full flex items-center justify-center gap-3 rounded-[0.875rem] border border-[#494847]/30 bg-white/[0.03] px-4 py-3 text-sm font-medium text-[#e5e2e1]/80 transition-all hover:border-[#494847]/60 hover:bg-white/[0.06] disabled:opacity-50 disabled:pointer-events-none"
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+              <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+              <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+              <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/>
+              <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+            </svg>
+            Continue with Google
+          </button>
+
+          <button
+            type="button"
+            disabled
+            title="Coming soon"
+            className="w-full flex items-center justify-center gap-3 rounded-[0.875rem] border border-[#494847]/30 bg-white/[0.03] px-4 py-3 text-sm font-medium text-[#e5e2e1]/60 cursor-not-allowed opacity-50 transition-all"
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="#1877F2">
+              <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+            </svg>
+            Continue with Facebook
+            <span className="ml-auto text-[0.65rem] font-semibold uppercase tracking-wider text-[#adaaaa]/30">Soon</span>
+          </button>
+        </div>
 
         <p data-login-footer className="mt-6 text-center text-[0.8125rem] text-[#adaaaa]/50">
           Don't have an account?{' '}

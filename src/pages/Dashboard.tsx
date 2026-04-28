@@ -129,7 +129,7 @@ export default function Dashboard() {
             </div>
 
             {upcoming.length === 0 ? (
-              <div className="flex flex-col items-center justify-center py-10 gap-2">
+              <div className="glass-card w-full rounded-3xl border border-[#4c4450]/10 flex flex-col items-center justify-center py-14 gap-2">
                 <span className="material-symbols-outlined text-[#4c4450] text-4xl">event_note</span>
                 <p className="text-[#988d9c] text-sm">No scheduled posts.</p>
                 <Link to="/composer" className="text-xs text-[#d394ff] hover:underline mt-1">Schedule a post</Link>
@@ -174,7 +174,7 @@ export default function Dashboard() {
             </div>
             <div className="space-y-3">
               {recentPosts.length === 0 ? (
-                <div className="flex flex-col items-center justify-center py-12 gap-2">
+                <div className="glass-card w-full rounded-3xl border border-[#4c4450]/10 flex flex-col items-center justify-center py-14 gap-2">
                   <span className="material-symbols-outlined text-[#4c4450] text-4xl">article</span>
                   <p className="text-[#988d9c] text-sm">No published posts yet.</p>
                   <Link to="/composer" className="text-xs text-[#d394ff] hover:underline mt-1">Create your first post</Link>
