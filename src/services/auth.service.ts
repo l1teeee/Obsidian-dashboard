@@ -78,6 +78,14 @@ export async function resendVerification(email: string): Promise<{ devVerifyToke
   return res.data;
 }
 
+export async function loginWithGoogle(code: string): Promise<TokenPair> {
+  const res = await apiFetch<TokenPair>('/auth/google', {
+    method: 'POST',
+    body: JSON.stringify({ code }),
+  });
+  return res.data;
+}
+
 export async function logout(): Promise<void> {
   await apiFetch('/auth/logout', { method: 'POST' });
 }

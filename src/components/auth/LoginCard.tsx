@@ -4,6 +4,7 @@ import { useFadeNav } from '@/hooks/useFadeNav';
 import gsap from 'gsap';
 import { useGSAP } from '../../hooks/useGSAP';
 import { useAuth } from '../../hooks/useAuth';
+import { useGoogleLogin } from '@react-oauth/google';
 import SessionConflictModal from './SessionConflictModal';
 
 // Reusable eye toggle SVG
@@ -25,7 +26,7 @@ function EyeIcon({ open }: { open: boolean }) {
 export default function LoginCard() {
   const navigate = useNavigate();
   const fadeNav = useFadeNav();
-  const { login } = useAuth();
+  const { login, loginWithGoogle } = useAuth();
 
   const [email,            setEmail]            = useState('');
   const [password,         setPassword]         = useState('');
@@ -33,6 +34,7 @@ export default function LoginCard() {
   const [rememberMe,       setRememberMe]       = useState(true);
   const [error,            setError]            = useState<string | null>(null);
   const [loading,          setLoading]          = useState(false);
+  const [googleLoading,    setGoogleLoading]    = useState(false);
   const [conflictSessions, setConflictSessions] = useState(false);
   const [forceLoading,     setForceLoading]     = useState(false);
 
@@ -74,6 +76,22 @@ export default function LoginCard() {
       setForceLoading(false);
     }
   };
+
+  const handleGoogleLogin = useGoogleLogin({
+    flow: 'auth-code',
+    onSuccess: async ({ code }) => {
+      setError(null);
+      setGoogleLoading(true);
+      try {
+        doNavigate(await loginWithGoogle(code));
+      } catch {
+        setError('Google sign-in failed. Please try again.');
+      } finally {
+        setGoogleLoading(false);
+      }
+    },
+    onError: () => setError('Google sign-in failed. Please try again.'),
+  });
 
   const containerRef = useGSAP<HTMLDivElement>(() => {
     gsap.to('[data-orb="1"]', {
@@ -150,9 +168,9 @@ export default function LoginCard() {
         <div data-login-field className="space-y-3 mb-6">
           <button
             type="button"
-            disabled
-            title="Coming soon"
-            className="w-full flex items-center justify-center gap-3 rounded-[0.875rem] border border-[#494847]/30 bg-white/[0.03] px-4 py-3 text-sm font-medium text-[#e5e2e1]/60 cursor-not-allowed opacity-50 transition-all"
+            onClick={() => handleGoogleLogin()}
+            disabled={googleLoading}
+            className="w-full flex items-center justify-center gap-3 rounded-[0.875rem] border border-[#494847]/30 bg-white/[0.03] px-4 py-3 text-sm font-medium text-[#e5e2e1]/80 transition-all hover:border-[#494847]/60 hover:bg-white/[0.06] disabled:opacity-50 disabled:pointer-events-none"
           >
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
               <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
@@ -161,7 +179,6 @@ export default function LoginCard() {
               <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
             </svg>
             Continue with Google
-            <span className="ml-auto text-[0.65rem] font-semibold uppercase tracking-wider text-[#adaaaa]/30">Soon</span>
           </button>
 
           <button

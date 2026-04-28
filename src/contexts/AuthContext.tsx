@@ -24,6 +24,7 @@ interface AuthCtx {
   isLoading:            boolean;
   kickedByDevice:       boolean;
   login:                (email: string, password: string, rememberMe?: boolean, force?: boolean) => Promise<{ isFirstLogin: boolean; profileCompleted: boolean }>;
+  loginWithGoogle:      (code: string) => Promise<{ isFirstLogin: boolean; profileCompleted: boolean }>;
   register:             (email: string, password: string) => Promise<authService.RegisterResult>;
   verifyEmail:          (email: string, code: string) => Promise<{ isFirstLogin: boolean; profileCompleted: boolean }>;
   verifyEmailToken:     (token: string) => Promise<{ isFirstLogin: boolean; profileCompleted: boolean }>;
@@ -113,6 +114,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return { isFirstLogin: result.isFirstLogin, profileCompleted: u?.profileCompleted ?? false };
   }, []);
 
+  const loginWithGoogle = useCallback(async (code: string) => {
+    const result = await authService.loginWithGoogle(code);
+    applyTokenPair(result);
+    const u = decodeUser(result.accessToken);
+    setUser(u);
+    return { isFirstLogin: result.isFirstLogin, profileCompleted: u?.profileCompleted ?? false };
+  }, []);
+
   const register = useCallback(async (email: string, password: string) => {
     return authService.register(email, password);
     // No tokens set — user must verify email first
@@ -155,7 +164,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated: !!user, isLoading, kickedByDevice, clearKick, login, register, verifyEmail, verifyEmailToken, logout, markProfileCompleted }}>
+    <AuthContext.Provider value={{ user, isAuthenticated: !!user, isLoading, kickedByDevice, clearKick, login, loginWithGoogle, register, verifyEmail, verifyEmailToken, logout, markProfileCompleted }}>
       {children}
     </AuthContext.Provider>
   );
