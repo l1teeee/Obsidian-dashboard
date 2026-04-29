@@ -45,6 +45,7 @@ export interface CreatePostPayload {
   media_urls?:   string[];
   status?:       string;
   scheduled_at?: string;
+  page_id?:      string | null;
 }
 
 export interface UpdatePostPayload {

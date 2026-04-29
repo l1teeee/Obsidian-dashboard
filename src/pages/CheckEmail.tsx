@@ -103,7 +103,7 @@ export default function CheckEmail() {
     setResendMsg(null);
     try {
       await resendVerification(email);
-      setResendMsg('Done! Check your inbox (or use any code — dev mode).');
+      setResendMsg('Done! A new code was sent to your inbox.');
       setResendCooldown(true);
       setTimeout(() => setResendCooldown(false), 60_000);
     } catch {

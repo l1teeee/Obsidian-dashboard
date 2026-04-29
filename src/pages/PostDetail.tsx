@@ -83,7 +83,7 @@ export default function PostDetail() {
         navigate('/posts');
       }
     } catch (err) {
-      console.error(err);
+      if (import.meta.env.DEV) console.error(err);
       setAction(null);
     } finally {
       setSubmitting(false);

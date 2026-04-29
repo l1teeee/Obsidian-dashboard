@@ -17,7 +17,7 @@ export default function ForgotPassword() {
     if (!emailFromLink) return;
     setLoading(true);
     requestPasswordReset(emailFromLink)
-      .then(result => navigate('/reset-password', { state: { email: emailFromLink, devOtp: result.devOtp } }))
+      .then(() => navigate('/reset-password', { state: { email: emailFromLink } }))
       .catch(() => setError('Something went wrong. Please try again.'))
       .finally(() => setLoading(false));
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -36,7 +36,7 @@ export default function ForgotPassword() {
     setLoading(true);
     try {
       const result = await requestPasswordReset(email);
-      navigate('/reset-password', { state: { email, devOtp: result.devOtp } });
+      navigate('/reset-password', { state: { email } });
     } catch {
       setError('Something went wrong. Please try again.');
     } finally {

@@ -13,6 +13,7 @@ export interface SubmitSnapshot {
   scheduleDate:            Date;
   editId:                  string | undefined;
   unconnectedChannelNames: string[];
+  fbPageId?:               string | null;
 }
 
 export interface UseComposerSubmitReturn {
@@ -34,7 +35,7 @@ export function useComposerSubmit(): UseComposerSubmitReturn {
     showToast:  (msg: string) => void,
     onSuccess?: (type: ActionType, names: string) => void,
   ): Promise<void> => {
-    const { caption, mediaItems, selectedChannels, scheduleDate, editId, unconnectedChannelNames } = snapshot;
+    const { caption, mediaItems, selectedChannels, scheduleDate, editId, unconnectedChannelNames, fbPageId } = snapshot;
 
     // Block publish/schedule when a selected channel has no connected account
     if (type !== 'draft' && unconnectedChannelNames.length > 0) {
@@ -83,6 +84,7 @@ export function useComposerSubmit(): UseComposerSubmitReturn {
               media_urls:   mediaUrls.length ? mediaUrls : undefined,
               status:       statusMap[type],
               scheduled_at: type === 'schedule' ? scheduleDate.toISOString() : undefined,
+              page_id:      channelId === 'fb' ? fbPageId : undefined,
             })
           )
         );

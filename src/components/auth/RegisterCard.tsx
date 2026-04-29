@@ -147,7 +147,7 @@ export default function RegisterCard() {
     setLoading(true);
     try {
       const result = await register(email, password);
-      navigate('/check-email', { state: { email: result.email, devVerifyToken: result.devVerifyToken } });
+      navigate('/check-email', { state: { email: result.email } });
     } catch (err) {
       const code = (err as { code?: string }).code;
       setError(code === 'EMAIL_ALREADY_EXISTS'

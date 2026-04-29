@@ -42,6 +42,7 @@ export function usePlatforms() {
     try {
       const data = await platformsService.listConnections();
       setConnections(data);
+      return data;
     } catch (err) {
       if ((err as { status?: number }).status === 401) return; // handled globally by auth:session-expired
       sileo.error({ title: 'Could not load connections', description: 'Check your connection and try again.' });
@@ -59,8 +60,17 @@ export function usePlatforms() {
     const error     = params.get('error');
 
     if (connected === 'success') {
-      sileo.success({ title: 'Account connected!', description: 'Your social account is now linked.' });
-      reload();
+      reload().then(newConns => {
+        const fbPages = (newConns ?? []).filter(c => c.platform === 'facebook' && c.page_id);
+        if (fbPages.length > 1) {
+          sileo.success({
+            title: `${fbPages.length} Facebook pages connected!`,
+            description: fbPages.map(p => p.page_name || p.account_name).join(' · '),
+          });
+        } else {
+          sileo.success({ title: 'Account connected!', description: 'Your social account is now linked.' });
+        }
+      });
       navigate('/platforms', { replace: true });
     } else if (error) {
       sileo.error({ title: 'Connection failed', description: decodeURIComponent(error) });

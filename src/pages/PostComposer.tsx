@@ -8,6 +8,7 @@ import MediaUpload from '../components/composer/MediaUpload';
 import CaptionEditor from '../components/composer/CaptionEditor';
 import SchedulePicker from '../components/composer/SchedulePicker';
 import PreviewPanel from '../components/composer/PreviewPanel';
+import FacebookPageSelectModal from '../components/composer/FacebookPageSelectModal';
 import ScrollArea from '../components/shared/ScrollArea';
 import { useComposer, type ActionType } from '../hooks/useComposer';
 import type { ChannelId } from '../types/composer.types';
@@ -32,6 +33,8 @@ export default function PostComposer() {
   const [actionMeta, setActionMeta] = useState<{ type: ActionType; names: string } | null>(null);
 
   const [isSavingDraft, setIsSavingDraft] = useState(false);
+  const [fbPageSelectOpen, setFbPageSelectOpen] = useState(false);
+  const [pendingAction,    setPendingAction]    = useState<ActionType | null>(null);
 
   const { active: activeWorkspace } = useWorkspace();
 
@@ -112,10 +115,29 @@ export default function PostComposer() {
     autoSaveDraft, hasContent, isDirty,
     isScheduleMode, setIsScheduleMode,
     fbPageName,
+    fbPages,
     igAccountName,
     unconnectedChannelNames,
     pageRef, fileInputRef, isSubmitting, draftLoading,
   } = useComposer(playSuccess, editId);
+
+  // Intercepts publish/schedule when multiple FB pages exist
+  function triggerAction(type: ActionType) {
+    if (type !== 'draft' && selectedChannels.includes('fb') && fbPages.length > 1) {
+      setPendingAction(type);
+      setFbPageSelectOpen(true);
+      return;
+    }
+    handleAction(type);
+  }
+
+  function handleFbPageSelected(pageId: string) {
+    setFbPageSelectOpen(false);
+    if (pendingAction) {
+      handleAction(pendingAction, pageId);
+      setPendingAction(null);
+    }
+  }
 
   const [timeFromAnalysis, setTimeFromAnalysis] = useState(false);
 
@@ -271,7 +293,7 @@ export default function PostComposer() {
                   )}
                 </div>
                 <button
-                  onClick={() => handleAction(isScheduleMode ? 'schedule' : 'publish')}
+                  onClick={() => triggerAction(isScheduleMode ? 'schedule' : 'publish')}
                   disabled={isSubmitting || isSavingDraft || isUploadingMedia || hasUploadErrors}
                   title={
                     isUploadingMedia ? 'Wait for media to finish uploading'
@@ -408,7 +430,7 @@ export default function PostComposer() {
                       {isSavingDraft ? 'Saving…' : isUploadingMedia ? 'Uploading…' : 'Save Draft'}
                     </button>
                     <button
-                      onClick={() => handleAction(isScheduleMode ? 'schedule' : 'publish')}
+                      onClick={() => triggerAction(isScheduleMode ? 'schedule' : 'publish')}
                       disabled={isSubmitting || isSavingDraft || isUploadingMedia || hasUploadErrors}
                       title={
                         isUploadingMedia ? 'Wait for media to finish uploading'
@@ -447,6 +469,14 @@ export default function PostComposer() {
         </>
       )}
 
+      {fbPages.length > 1 && (
+        <FacebookPageSelectModal
+          open={fbPageSelectOpen}
+          pages={fbPages}
+          onSelect={handleFbPageSelected}
+          onClose={() => { setFbPageSelectOpen(false); setPendingAction(null); }}
+        />
+      )}
     </div>
   );
 }

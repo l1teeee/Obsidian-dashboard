@@ -213,7 +213,7 @@ export function usePosts() {
       void fetchPage(page, view, statusFilter, platformFilter, search);
       void fetchInactiveCount();
     } catch (err) {
-      console.error('Post action failed:', err);
+      if (import.meta.env.DEV) console.error('Post action failed:', err);
       void fetchPage(page, view, statusFilter, platformFilter, search);
     }
   };

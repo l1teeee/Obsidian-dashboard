@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { CHANNELS } from '../domain/entities/Composer';
 import type { ChannelId } from '../types/composer.types';
+import type { SocialConnection } from '../types/platforms.types';
 import { listConnections } from '../services/platforms.service';
 import { postsStore } from '../lib/postsStore';
 import { useComposerMedia } from './useComposerMedia';
@@ -34,6 +35,7 @@ export function useComposer(onSuccess?: (type: ActionType, names: string) => voi
   const [isDirty,         setIsDirty]         = useState(false);
   const [isScheduleMode,  setIsScheduleMode]  = useState(false);
   // Platform account info — shown in ChannelSelector and previews
+  const [fbPages,          setFbPages]          = useState<SocialConnection[]>([]);
   const [fbPageName,       setFbPageName]       = useState<string | null>(null);
   const [igAccountName,    setIgAccountName]    = useState<string | null>(null);
   const [liConnected,      setLiConnected]      = useState(true); // LinkedIn: default true (API doesn't track it yet)
@@ -63,8 +65,9 @@ export function useComposer(onSuccess?: (type: ActionType, names: string) => voi
   useEffect(() => {
     listConnections()
       .then(conns => {
-        const fb = conns.find(c => c.platform === 'facebook' && c.page_id);
-        setFbPageName(fb?.page_name ?? null);
+        const fbList = conns.filter(c => c.platform === 'facebook' && c.page_id);
+        setFbPages(fbList);
+        setFbPageName(fbList[0]?.page_name ?? null);
 
         const ig = conns.find(c => c.platform === 'instagram');
         setIgAccountName(ig?.account_name ?? null);
@@ -121,7 +124,7 @@ export function useComposer(onSuccess?: (type: ActionType, names: string) => voi
   // ── Derived values ─────────────────────────────────────────────────────────
   const channelConnected: Record<ChannelId, boolean> = {
     ig: !!igAccountName,
-    fb: !!fbPageName,
+    fb: fbPages.length > 0,
     li: liConnected,
   };
 
@@ -140,15 +143,17 @@ export function useComposer(onSuccess?: (type: ActionType, names: string) => voi
     setIsDirty(false);
   }, [draft, caption, media.mediaItems, isScheduleMode, scheduleDate, selectedChannels]);
 
-  /** Single-argument wrapper — injects current state snapshot into submit sub-hook */
-  const handleAction = useCallback(async (type: ActionType): Promise<void> => {
+  /** Single-argument wrapper — injects current state snapshot into submit sub-hook.
+   *  Pass fbPageIdOverride when the caller already knows which FB page to use. */
+  const handleAction = useCallback(async (type: ActionType, fbPageIdOverride?: string | null): Promise<void> => {
+    const fbPageId = fbPageIdOverride !== undefined ? fbPageIdOverride : (fbPages[0]?.page_id ?? null);
     await submit.handleAction(
       type,
-      { caption, mediaItems: media.mediaItems, selectedChannels, scheduleDate, editId, unconnectedChannelNames },
+      { caption, mediaItems: media.mediaItems, selectedChannels, scheduleDate, editId, unconnectedChannelNames, fbPageId },
       showToast,
       onSuccess,
     );
-  }, [submit, caption, media.mediaItems, selectedChannels, scheduleDate, editId, unconnectedChannelNames, showToast, onSuccess]);
+  }, [submit, caption, media.mediaItems, selectedChannels, scheduleDate, editId, unconnectedChannelNames, fbPages, showToast, onSuccess]);
 
   return {
     caption,           setCaption,
@@ -165,6 +170,7 @@ export function useComposer(onSuccess?: (type: ActionType, names: string) => voi
     isDirty,
     isScheduleMode,    setIsScheduleMode,
     fbPageName,
+    fbPages,
     igAccountName,
     channelConnected,
     unconnectedChannelNames,
