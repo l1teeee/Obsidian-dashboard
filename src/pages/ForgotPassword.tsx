@@ -35,7 +35,7 @@ export default function ForgotPassword() {
     setError(null);
     setLoading(true);
     try {
-      const result = await requestPasswordReset(email);
+      await requestPasswordReset(email);
       navigate('/reset-password', { state: { email } });
     } catch {
       setError('Something went wrong. Please try again.');
