@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect, useCallback, useMemo } from 'react';
+import { useRef, useState, useEffect, useCallback } from 'react';
 import gsap from 'gsap';
 import * as postsService from '../services/posts.service';
 import { listConnections } from '../services/platforms.service';
@@ -6,6 +6,7 @@ import { postsStore } from '../lib/postsStore';
 import type { CalendarPost } from '../domain/entities/CalendarPost';
 import type { PostStatus } from '../domain/entities/Post';
 import type { PlatformId } from '../domain/entities/Platform';
+import type { PageMeta } from '../lib/api';
 
 export type PostAction = 'activate' | 'deactivate' | 'delete' | 'publish' | 'retry';
 export type PostsView  = 'active' | 'inactive';
@@ -15,7 +16,7 @@ export interface PendingAction {
   post: CalendarPost;
 }
 
-// ─── Mapping ──────────────────────────────────────────────────────────────────
+const LIMIT = 10;
 
 function mapPlatform(platform: string): PlatformId {
   if (platform === 'linkedin')               return 'linkedin';
@@ -50,72 +51,92 @@ function mapApiPost(post: postsService.ApiPost): CalendarPost {
   };
 }
 
-// ─── Hook ─────────────────────────────────────────────────────────────────────
-
 export function usePosts() {
   const pageRef = useRef<HTMLDivElement>(null);
 
-  const cached = postsStore.get();
-  const [allPosts,           setAllPosts]           = useState<CalendarPost[]>(cached.active   ?? []);
-  const [inactivePosts,      setInactivePosts]      = useState<CalendarPost[]>(cached.inactive ?? []);
-  const [isLoading,          setIsLoading]          = useState(cached.active === null);
+  const [posts,              setPosts]              = useState<CalendarPost[]>([]);
+  const [meta,               setMeta]               = useState<PageMeta | null>(null);
+  const [inactiveCount,      setInactiveCount]      = useState(0);
+  const [isLoading,          setIsLoading]          = useState(true);
+  const [page,               setPage]               = useState(1);
   const [view,               setView]               = useState<PostsView>('active');
   const [search,             setSearch]             = useState('');
   const [statusFilter,       setStatusFilter]       = useState<PostStatus | 'all'>('all');
   const [platformFilter,     setPlatformFilter]     = useState<PlatformId | 'all'>('all');
   const [pendingAction,      setPendingAction]      = useState<PendingAction | null>(null);
   const [connectedPlatforms, setConnectedPlatforms] = useState<Set<string>>(new Set(['linkedin']));
+  const searchTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const fetchPosts = useCallback(async (silent = false) => {
-    let cancelled = false;
+  const fetchPage = useCallback(async (
+    p: number,
+    v: PostsView,
+    st: PostStatus | 'all',
+    pl: PlatformId | 'all',
+    q: string,
+    silent = false,
+  ) => {
     if (!silent) setIsLoading(true);
     try {
-      const [activePage, inactivePage] = await Promise.all([
-        postsService.getAll({ limit: 100 }),
-        postsService.getAll({ limit: 100, status: 'inactive' }),
-      ]);
-      if (!cancelled) {
-        const active   = activePage.posts.map(mapApiPost);
-        const inactive = inactivePage.posts.map(mapApiPost);
-        postsStore.set(active, inactive);
-        setAllPosts(active);
-        setInactivePosts(inactive);
+      // Status param: inactive view always filters by inactive; active view uses the filter
+      const statusParam = v === 'inactive'
+        ? 'inactive'
+        : st === 'all' ? undefined : st;
+
+      const res = await postsService.getAll({
+        page:     p,
+        limit:    LIMIT,
+        status:   statusParam,
+        platform: pl === 'all' ? undefined : pl,
+        search:   q || undefined,
+      });
+
+      setPosts(res.posts.map(mapApiPost));
+      setMeta(res.meta);
+
+      // Keep postsStore in sync for other hooks that read from it
+      if (v === 'active') {
+        postsStore.set(res.posts.map(mapApiPost), null);
       }
     } catch {
-      if (!cancelled) { setAllPosts([]); setInactivePosts([]); }
+      setPosts([]);
+      setMeta(null);
     } finally {
-      if (!cancelled) setIsLoading(false);
+      if (!silent) setIsLoading(false);
     }
-    return () => { cancelled = true; };
   }, []);
 
+  // Fetch inactive count badge separately (cheap: limit 1)
+  const fetchInactiveCount = useCallback(async () => {
+    try {
+      const res = await postsService.getAll({ status: 'inactive', page: 1, limit: 1 });
+      setInactiveCount(res.meta.total);
+    } catch { /* badge is non-critical */ }
+  }, []);
+
+  // Initial load + whenever view/status/platform change
   useEffect(() => {
-    // If cache hit → show immediately, revalidate silently in background
-    if (postsStore.get().active !== null) {
-      void fetchPosts(true);
-    } else {
-      void fetchPosts();
-    }
-  }, [fetchPosts]);
+    setPage(1);
+    void fetchPage(1, view, statusFilter, platformFilter, search);
+    void fetchInactiveCount();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [view, statusFilter, platformFilter]);
 
-  // Stay in sync with optimistic updates from other pages (e.g. PostComposer)
+  // Stay in sync with optimistic updates from PostComposer / other pages
   useEffect(() => postsStore.subscribe(() => {
-    const { active, inactive } = postsStore.get();
-    if (active   !== null) setAllPosts(active);
-    if (inactive !== null) setInactivePosts(inactive);
-  }), []);
+    const { active } = postsStore.get();
+    if (active !== null && view === 'active') setPosts(active);
+  }), [view]);
 
-  // Load connected platforms for warning icons in the table
+  // Connected platforms for warning icons
   useEffect(() => {
     listConnections()
       .then(conns => {
-        const connected = new Set<string>(['linkedin']); // LinkedIn: no API check, default to connected
+        const connected = new Set<string>(['linkedin']);
         if (conns.some(c => c.platform === 'instagram')) connected.add('instagram');
         if (conns.some(c => c.platform === 'facebook' && c.page_id)) connected.add('facebook');
         setConnectedPlatforms(connected);
       })
       .catch(() => {
-        // On error assume all connected (don't block the UI)
         setConnectedPlatforms(new Set(['instagram', 'facebook', 'linkedin']));
       });
   }, []);
@@ -130,22 +151,46 @@ export function usePosts() {
     return () => ctx.revert();
   }, []);
 
-  const activePosts  = useMemo(
-    () => allPosts.filter(p => p.status !== 'inactive' && p.status !== 'deleted'),
-    [allPosts],
-  );
-  const displayPosts = view === 'active' ? activePosts : inactivePosts;
+  const handleSearch = (v: string) => {
+    setSearch(v);
+    if (searchTimeout.current) clearTimeout(searchTimeout.current);
+    searchTimeout.current = setTimeout(() => {
+      setPage(1);
+      void fetchPage(1, view, statusFilter, platformFilter, v);
+    }, 350);
+  };
 
-  const lowerSearch   = useMemo(() => search.toLowerCase(), [search]);
-  const filteredPosts = useMemo(() => displayPosts.filter(p => {
-    const matchesSearch   = p.title.toLowerCase().includes(lowerSearch);
-    const matchesStatus   = statusFilter   === 'all' || p.status   === statusFilter;
-    const matchesPlatform = platformFilter === 'all' || p.platform === platformFilter;
-    return matchesSearch && matchesStatus && matchesPlatform;
-  }), [displayPosts, lowerSearch, statusFilter, platformFilter]);
+  const goPage = (p: number) => {
+    setPage(p);
+    void fetchPage(p, view, statusFilter, platformFilter, search);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleSetView = (v: PostsView) => {
+    setView(v);
+    setPage(1);
+    setStatusFilter('all');
+    setPlatformFilter('all');
+    setSearch('');
+  };
+
+  const handleSetStatusFilter = (v: PostStatus | 'all') => {
+    setStatusFilter(v);
+    setPage(1);
+  };
+
+  const handleSetPlatformFilter = (v: PlatformId | 'all') => {
+    setPlatformFilter(v);
+    setPage(1);
+  };
 
   const requestAction = (type: PostAction, post: CalendarPost) => setPendingAction({ type, post });
   const cancelAction  = () => setPendingAction(null);
+
+  const refresh = useCallback(() => {
+    void fetchPage(page, view, statusFilter, platformFilter, search);
+    void fetchInactiveCount();
+  }, [page, view, statusFilter, platformFilter, search, fetchPage, fetchInactiveCount]);
 
   const confirmAction = async () => {
     if (!pendingAction) return;
@@ -155,42 +200,41 @@ export function usePosts() {
     try {
       if (type === 'activate') {
         await postsService.update(post.id, { status: 'draft' });
-        postsStore.updateOptimistic(post.id, { status: 'draft' });
-        setInactivePosts(prev => prev.filter(p => p.id !== post.id));
-        setAllPosts(prev => [...prev, { ...post, status: 'draft' as PostStatus }]);
       } else if (type === 'deactivate') {
         await postsService.deactivate(post.id);
-        postsStore.deactivateOptimistic(post.id);
       } else if (type === 'delete') {
         await postsService.remove(post.id);
-        postsStore.removeOptimistic(post.id);
       } else if (type === 'publish') {
         await postsService.update(post.id, { status: 'published' });
-        postsStore.updateOptimistic(post.id, { status: 'published' as PostStatus });
       } else if (type === 'retry') {
         await postsService.update(post.id, { status: 'scheduled' });
-        postsStore.updateOptimistic(post.id, { status: 'scheduled' as PostStatus });
       }
+      // Refetch current page after any mutation
+      void fetchPage(page, view, statusFilter, platformFilter, search);
+      void fetchInactiveCount();
     } catch (err) {
       console.error('Post action failed:', err);
-      void fetchPosts(); // On error: full refetch to restore correct state
+      void fetchPage(page, view, statusFilter, platformFilter, search);
     }
   };
 
   return {
-    filteredPosts,
-    inactiveCount: inactivePosts.length,
+    posts,
+    meta,
+    inactiveCount,
     isLoading,
-    view,           setView,
-    search,         setSearch,
-    statusFilter,   setStatusFilter,
-    platformFilter, setPlatformFilter,
+    page,
+    goPage,
+    view,               setView: handleSetView,
+    search,             setSearch: handleSearch,
+    statusFilter,       setStatusFilter: handleSetStatusFilter,
+    platformFilter,     setPlatformFilter: handleSetPlatformFilter,
     pendingAction,
     requestAction,
     cancelAction,
     confirmAction,
     pageRef,
-    refresh: fetchPosts,
+    refresh,
     connectedPlatforms,
   };
 }

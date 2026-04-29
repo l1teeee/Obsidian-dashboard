@@ -7,6 +7,7 @@ export interface UserProfile {
   role:              string | null;
   country:           string | null;
   plan:              UserPlan;
+  is_admin:          boolean;
   profile_completed: boolean;
   created_at:        string;
 }

@@ -14,8 +14,10 @@ import { AuthProvider } from './contexts/AuthContext';
 import { WorkspaceProvider, useWorkspace } from './contexts/WorkspaceContext';
 import { useAuth } from './hooks/useAuth';
 import ProtectedRoute from './components/shared/ProtectedRoute';
+import AdminRoute     from './components/shared/AdminRoute';
 import RouteTransition from './components/shared/RouteTransition';
 import DashboardLayout from './components/layout/DashboardLayout';
+import AdminLayout     from './components/layout/AdminLayout';
 
 // Lazy-loaded pages — each becomes its own chunk
 const LandingPage    = lazy(() => import('./pages/LandingPage'));
@@ -47,6 +49,12 @@ const ProductAnalytics    = lazy(() => import('./pages/ProductAnalytics'));
 const ProductScheduler    = lazy(() => import('./pages/ProductScheduler'));
 const ProductAIInsights   = lazy(() => import('./pages/ProductAIInsights'));
 const ProductIntegrations = lazy(() => import('./pages/ProductIntegrations'));
+
+// Admin pages
+const AdminOverview    = lazy(() => import('./pages/admin/AdminOverview'));
+const AdminUsers       = lazy(() => import('./pages/admin/AdminUsers'));
+const AdminWorkspaces  = lazy(() => import('./pages/admin/AdminWorkspaces'));
+const AdminPosts       = lazy(() => import('./pages/admin/AdminPosts'));
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -91,6 +99,9 @@ function LenisProvider({ children }: { children: ReactNode }) {
 const AUTH_PATHS = ['/', '/pricing', '/faq', '/login', '/register', '/check-email', '/forgot-password', '/reset-password', '/complete-profile', '/create-workspace',
   '/product/dashboard', '/product/analytics', '/product/scheduler', '/product/ai-insights', '/product/integrations'];
 
+// Admin routes bypass WorkspaceGuard (admin doesn't need a workspace)
+const isAdminPath = (path: string) => path.startsWith('/admin');
+
 // Fires the transition when navigating FROM auth pages TO app pages
 function TransitionDetector({ onTrigger }: { onTrigger: () => void }) {
   const { pathname } = useLocation();
@@ -117,6 +128,7 @@ function WorkspaceGuard({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     if (authLoading || wsLoading || !isAuthenticated) return;
+    if (isAdminPath(pathname)) return; // admin doesn't need a workspace
     const isCreatePage = pathname === '/create-workspace';
     // Handle /create-workspace separately: redirect away if user already has workspaces
     if (isCreatePage) {
@@ -276,6 +288,16 @@ export default function App() {
                   <Route path="/ai-settings"  element={<AISettings />} />
                   <Route path="/brand"        element={<Brand />} />
                   <Route path="/profile"      element={<Profile />} />
+                </Route>
+
+                {/* Admin — requires role=admin */}
+                <Route element={
+                  <AdminRoute><AdminLayout /></AdminRoute>
+                }>
+                  <Route path="/admin"            element={<AdminOverview />} />
+                  <Route path="/admin/users"      element={<AdminUsers />} />
+                  <Route path="/admin/workspaces" element={<AdminWorkspaces />} />
+                  <Route path="/admin/posts"      element={<AdminPosts />} />
                 </Route>
 
                 {/* 404 — catch-all */}

@@ -28,6 +28,7 @@ export interface ApiPostMetrics {
 export interface GetPostsParams {
   platform?: string;
   status?:   string;
+  search?:   string;
   page?:     number;
   limit?:    number;
 }

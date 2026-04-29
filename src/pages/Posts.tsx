@@ -3,6 +3,7 @@ import TopBar from '../components/layout/TopBar';
 import { Tooltip, TooltipContent, TooltipTrigger } from '../components/ui/tooltip';
 import PostsTable from '../components/posts/PostsTable';
 import ConfirmModal from '../components/shared/ConfirmModal';
+import Pagination from '../components/shared/Pagination';
 import { usePosts } from '../hooks/usePosts';
 import type { PostStatus } from '../domain/entities/Post';
 import type { PlatformId } from '../domain/entities/Platform';
@@ -24,8 +25,9 @@ const PLATFORM_FILTERS: { value: PlatformId | 'all'; label: string; color?: stri
 
 export default function Posts() {
   const {
-    filteredPosts, inactiveCount,
+    posts, meta, inactiveCount,
     isLoading,
+    page, goPage,
     view, setView,
     search, setSearch,
     statusFilter, setStatusFilter,
@@ -136,7 +138,7 @@ export default function Posts() {
                 )}
               </button>
             </div>
-            <p className="text-[#988d9c] text-xs">{filteredPosts.length} post{filteredPosts.length !== 1 ? 's' : ''}</p>
+            <p className="text-[#988d9c] text-xs">{meta ? meta.total.toLocaleString() : posts.length} post{(meta?.total ?? posts.length) !== 1 ? 's' : ''}</p>
           </div>
 
           {/* Search */}
@@ -198,7 +200,12 @@ export default function Posts() {
 
         {/* Table */}
         <div data-posts-table>
-          <PostsTable posts={filteredPosts} view={view} onAction={requestAction} isLoading={isLoading} connectedPlatforms={connectedPlatforms} />
+          <PostsTable posts={posts} view={view} onAction={requestAction} isLoading={isLoading} connectedPlatforms={connectedPlatforms} />
+          {meta && (
+            <div className="mt-2">
+              <Pagination page={page} total={meta.total} limit={meta.limit} onPage={goPage} loading={isLoading} />
+            </div>
+          )}
         </div>
       </div>
 

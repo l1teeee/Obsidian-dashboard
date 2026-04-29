@@ -65,6 +65,8 @@ export default function LoginCard() {
         setConflictSessions(true);
       } else if (code === 'EMAIL_NOT_VERIFIED') {
         navigate('/check-email', { state: { email } });
+      } else if (code === 'ACCOUNT_DISABLED') {
+        setError('Your account has been deactivated. Please contact support@vielink.app.');
       } else {
         setError(code === 'INVALID_CREDENTIALS'
           ? 'Invalid email or password'

@@ -104,7 +104,9 @@
       "Bash(curl -s http://localhost:5173)",
       "Bash(curl *)",
       "Bash(npm list *)",
-      "PowerShell(Get-ChildItem \"C:\\\\Proyects\\\\obsidian-backend\" -Recurse -Depth 3 | Where-Object { !$_.PSIsContainer } | Select-Object FullName | Sort-Object FullName)"
+      "PowerShell(Get-ChildItem \"C:\\\\Proyects\\\\obsidian-backend\" -Recurse -Depth 3 | Where-Object { !$_.PSIsContainer } | Select-Object FullName | Sort-Object FullName)",
+      "PowerShell(Set-Location C:\\\\Proyects\\\\obsidian-backend; npx tsc --noEmit 2>&1; Write-Output \"Backend done: $LASTEXITCODE\")",
+      "PowerShell(Set-Location C:\\\\Proyects\\\\obsidian-dashboard; npx tsc --noEmit 2>&1; Write-Output \"Frontend done: $LASTEXITCODE\")"
     ]
   }
 }

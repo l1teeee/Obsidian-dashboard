@@ -14,8 +14,9 @@ export async function getAll(params: GetPostsParams = {}): Promise<PostsPage> {
   const qs = new URLSearchParams();
   if (params.platform) qs.set('platform', params.platform);
   if (params.status)   qs.set('status',   params.status);
+  if (params.search)   qs.set('search',   params.search);
   qs.set('page',  String(params.page  ?? 1));
-  qs.set('limit', String(params.limit ?? 100));
+  qs.set('limit', String(params.limit ?? 10));
 
   const res = await apiFetch<ApiPost[]>(`/posts?${qs.toString()}`);
   return { posts: res.data, meta: res.meta! };

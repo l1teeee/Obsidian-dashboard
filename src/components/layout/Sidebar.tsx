@@ -249,6 +249,7 @@ export default function Sidebar() {
   const [logoutModal, setLogoutModal] = useState(false);
   const [displayName, setDisplayName] = useState<string>('');
   const [userPlan,    setUserPlan]    = useState<UserPlan | null>(null);
+  const [isAdmin,     setIsAdmin]     = useState(false);
   const [openGroups,  setOpenGroups]  = useState<Set<string>>(new Set());
 
   // Drag-and-drop order — Dashboard is always fixed first, not sortable
@@ -286,10 +287,14 @@ export default function Sidebar() {
 
   const atLimit = workspaces.length >= 5;
 
-  // Load user plan
+  // Load user profile (plan + admin flag)
   useEffect(() => {
     getProfile()
-      .then(p => { setDisplayName(p.name ?? p.email); setUserPlan(p.plan ?? 'starter'); })
+      .then(p => {
+        setDisplayName(p.name ?? p.email);
+        setUserPlan(p.plan ?? 'starter');
+        setIsAdmin(!!p.is_admin);
+      })
       .catch(() => { setUserPlan('starter'); });
   }, []);
 
@@ -563,6 +568,41 @@ export default function Sidebar() {
           </>
         )}
       </nav>
+
+      {/* ── Admin shortcut ───────────────────────────────────────────────────── */}
+      {isAdmin && (
+        <div className="px-2 pb-2">
+          <NavLink
+            to="/admin"
+            onClick={handleNavClick}
+            title={!isOpen ? 'Admin Dashboard' : undefined}
+            className={({ isActive }) => [
+              'flex items-center rounded-xl transition-all duration-150 select-none py-2.5',
+              isOpen ? 'px-3 gap-3' : 'px-3 lg:justify-center lg:px-0',
+              isActive
+                ? 'bg-[#f87171]/10 text-[#f87171] font-semibold border border-[#f87171]/20'
+                : 'bg-[#f87171]/5 text-[#f87171]/70 hover:text-[#f87171] hover:bg-[#f87171]/10 border border-[#f87171]/10 hover:border-[#f87171]/20',
+            ].join(' ')}
+          >
+            {({ isActive }) => (
+              <>
+                <span
+                  className="material-symbols-outlined shrink-0"
+                  style={{ fontSize: 16, fontVariationSettings: isActive ? "'FILL' 1" : "'FILL' 0" }}
+                >
+                  shield
+                </span>
+                <span className={[
+                  'overflow-hidden whitespace-nowrap transition-all duration-300 text-xs font-bold tracking-wide',
+                  isOpen ? 'max-w-[160px] opacity-100' : 'max-w-0 opacity-0',
+                ].join(' ')}>
+                  Admin Dashboard
+                </span>
+              </>
+            )}
+          </NavLink>
+        </div>
+      )}
 
       {/* ── Bottom: user card + menu ──────────────────────────────────────────── */}
       <div ref={bottomRef} className="mt-4 relative">
