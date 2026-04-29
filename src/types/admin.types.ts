@@ -17,6 +17,7 @@ export interface AdminUserRow {
   name:              string | null;
   role:              string | null;
   plan:              string;
+  is_admin:          boolean;
   is_banned:         boolean;
   profile_completed: boolean;
   created_at:        string;

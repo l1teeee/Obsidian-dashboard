@@ -95,7 +95,7 @@ export function usePosts() {
 
       // Keep postsStore in sync for other hooks that read from it
       if (v === 'active') {
-        postsStore.set(res.posts.map(mapApiPost), null);
+        postsStore.set(res.posts.map(mapApiPost), postsStore.get().inactive ?? []);
       }
     } catch {
       setPosts([]);
