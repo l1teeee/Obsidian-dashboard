@@ -3,18 +3,18 @@ import type { DashboardSummary, FacebookSummary, FbPostMetric } from '../types/m
 
 export type { DashboardSummary, FacebookSummary, FbPostMetric };
 
-export async function getDashboardSummary(): Promise<DashboardSummary> {
-  const res = await apiFetch<DashboardSummary>('/metrics/dashboard/summary');
+export async function getDashboardSummary(signal?: AbortSignal): Promise<DashboardSummary> {
+  const res = await apiFetch<DashboardSummary>('/metrics/dashboard/summary', { signal });
   return res.data;
 }
 
-export async function getFacebookSummary(): Promise<FacebookSummary> {
-  const res = await apiFetch<FacebookSummary>('/metrics/facebook/summary');
+export async function getFacebookSummary(signal?: AbortSignal): Promise<FacebookSummary> {
+  const res = await apiFetch<FacebookSummary>('/metrics/facebook/summary', { signal });
   return res.data;
 }
 
-export async function getFacebookPosts(): Promise<FbPostMetric[]> {
-  const res = await apiFetch<FbPostMetric[]>('/metrics/facebook/posts');
+export async function getFacebookPosts(signal?: AbortSignal): Promise<FbPostMetric[]> {
+  const res = await apiFetch<FbPostMetric[]>('/metrics/facebook/posts', { signal });
   return res.data;
 }
 

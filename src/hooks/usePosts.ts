@@ -64,8 +64,9 @@ export function usePosts() {
   const [statusFilter,       setStatusFilter]       = useState<PostStatus | 'all'>('all');
   const [platformFilter,     setPlatformFilter]     = useState<PlatformId | 'all'>('all');
   const [pendingAction,      setPendingAction]      = useState<PendingAction | null>(null);
-  const [connectedPlatforms, setConnectedPlatforms] = useState<Set<string>>(new Set(['linkedin']));
-  const searchTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [connectedPlatforms, setConnectedPlatforms] = useState<Set<string> | null>(null);
+  const searchTimeout   = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const fetchController = useRef<AbortController | null>(null);
 
   const fetchPage = useCallback(async (
     p: number,
@@ -75,9 +76,13 @@ export function usePosts() {
     q: string,
     silent = false,
   ) => {
+    // Cancel previous in-flight request before starting a new one
+    fetchController.current?.abort();
+    const controller = new AbortController();
+    fetchController.current = controller;
+
     if (!silent) setIsLoading(true);
     try {
-      // Status param: inactive view always filters by inactive; active view uses the filter
       const statusParam = v === 'inactive'
         ? 'inactive'
         : st === 'all' ? undefined : st;
@@ -88,20 +93,20 @@ export function usePosts() {
         status:   statusParam,
         platform: pl === 'all' ? undefined : pl,
         search:   q || undefined,
-      });
+      }, controller.signal);
 
       setPosts(res.posts.map(mapApiPost));
       setMeta(res.meta);
 
-      // Keep postsStore in sync for other hooks that read from it
       if (v === 'active') {
         postsStore.set(res.posts.map(mapApiPost), postsStore.get().inactive ?? []);
       }
-    } catch {
+    } catch (err) {
+      if ((err as { name?: string }).name === 'AbortError') return;
       setPosts([]);
       setMeta(null);
     } finally {
-      if (!silent) setIsLoading(false);
+      if (!controller.signal.aborted && !silent) setIsLoading(false);
     }
   }, []);
 
@@ -112,6 +117,9 @@ export function usePosts() {
       setInactiveCount(res.meta.total);
     } catch { /* badge is non-critical */ }
   }, []);
+
+  // Cancel any in-flight requests when the component unmounts
+  useEffect(() => () => { fetchController.current?.abort(); }, []);
 
   // Initial load + whenever view/status/platform change
   useEffect(() => {
@@ -127,7 +135,7 @@ export function usePosts() {
     if (active !== null && view === 'active') setPosts(active);
   }), [view]);
 
-  // Connected platforms for warning icons
+  // Connected platforms for warning icons (null = still loading, no warnings shown yet)
   useEffect(() => {
     listConnections()
       .then(conns => {
@@ -137,6 +145,7 @@ export function usePosts() {
         setConnectedPlatforms(connected);
       })
       .catch(() => {
+        // On error assume all connected to avoid false warnings
         setConnectedPlatforms(new Set(['instagram', 'facebook', 'linkedin']));
       });
   }, []);

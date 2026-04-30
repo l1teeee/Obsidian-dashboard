@@ -7,7 +7,7 @@ import {
   useState,
   type ReactNode,
 } from 'react';
-import { apiFetch, setAccessToken, getAccessToken, refreshTokens, hasSessionCookie } from '../lib/api';
+import { apiFetch, setAccessToken, refreshTokens, hasSessionCookie } from '../lib/api';
 import * as authService from '../services/auth.service';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -72,10 +72,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       return;
     }
 
-    void refreshTokens().then((newToken) => {
-      if (newToken) setUser(decodeUser(newToken));
-      setIsLoading(false);
-    });
+    void refreshTokens()
+      .then((newToken) => {
+        if (newToken) setUser(decodeUser(newToken));
+      })
+      .catch(() => {
+        // 5xx on refresh — server error, keep session state as-is (don't log out)
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   }, []);
 
   // Handle session expiry triggered by apiFetch (token expired / unauthorized)
@@ -102,25 +108,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return () => clearInterval(id);
   }, [user]);
 
-  // Auto-logout when the user closes or navigates away from the page.
-  // keepalive: true ensures the request survives page unload.
-  // Authorization header is included as fallback in case the httpOnly cookie
-  // is not sent by the browser during unload (e.g. some cross-origin scenarios).
-  useEffect(() => {
-    if (!user) return;
-    const handleUnload = () => {
-      const apiUrl = import.meta.env.VITE_API_URL as string;
-      const token   = getAccessToken();
-      fetch(`${apiUrl}/auth/logout`, {
-        method:      'POST',
-        keepalive:   true,
-        credentials: 'include',
-        headers:     token ? { Authorization: `Bearer ${token}` } : undefined,
-      }).catch(() => {});
-    };
-    window.addEventListener('pagehide', handleUnload);
-    return () => window.removeEventListener('pagehide', handleUnload);
-  }, [user]);
 
   const login = useCallback(async (email: string, password: string, rememberMe?: boolean, force?: boolean) => {
     const result = await authService.login(email, password, rememberMe, force);

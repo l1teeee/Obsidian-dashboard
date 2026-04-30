@@ -136,17 +136,15 @@ export function useDashboard() {
   const [recentPosts, setRecentPosts] = useState<PostSummary[]>([]);
 
   // ── Fetch real data ─────────────────────────────────────────────────────────
-  const fetchData = (onDone?: () => void) => {
-    let cancelled = false;
-
+  const fetchData = (onDone?: () => void, signal?: AbortSignal) => {
     Promise.all([
-      metricsService.getDashboardSummary().catch(() => null),
-      postsService.getAll({ status: 'scheduled', limit: 10 }),
-      metricsService.getFacebookSummary().catch(() => null),
-      metricsService.getFacebookPosts().catch(() => []),
-      postsService.getAll({ status: 'published', limit: 5 }),
+      metricsService.getDashboardSummary(signal).catch(() => null),
+      postsService.getAll({ status: 'scheduled', limit: 10 }, signal),
+      metricsService.getFacebookSummary(signal).catch(() => null),
+      metricsService.getFacebookPosts(signal).catch(() => []),
+      postsService.getAll({ status: 'published', limit: 5 }, signal),
     ]).then(([localSummary, scheduledPage, fbSummary, fbPosts, publishedPage]) => {
-      if (cancelled) return;
+      if (signal?.aborted) return;
 
       // Recent posts: prefer FB data (has engagement metrics); fall back to local published posts
       const recentFromFb    = fbPosts.slice(0, 5).map(mapFbPostToSummary);
@@ -164,21 +162,25 @@ export function useDashboard() {
       setUpcoming(scheduledPage.posts.map(mapToUpcomingPost));
       setKpiCards(buildKpiCards(localSummary, fbSummary));
       setLoaded(true);
-    }).catch(() => {
-      if (!cancelled) setLoaded(true);
+    }).catch((err) => {
+      if (err?.name === 'AbortError') return;
+      setLoaded(true);
     }).finally(() => {
-      if (!cancelled) onDone?.();
+      if (!signal?.aborted) onDone?.();
     });
-
-    return () => { cancelled = true; };
   };
 
-  useEffect(() => fetchData(), []); // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => {
+    const controller = new AbortController();
+    fetchData(undefined, controller.signal);
+    return () => controller.abort();
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const refresh = () => {
     if (refreshing) return;
     setRefreshing(true);
-    fetchData(() => setRefreshing(false));
+    const controller = new AbortController();
+    fetchData(() => setRefreshing(false), controller.signal);
   };
 
   const pageCount = Math.max(1, Math.ceil(upcoming.length / VISIBLE));

@@ -1,4 +1,4 @@
-import { apiFetch, setAccessToken } from '../lib/api';
+import { apiFetch, setAccessToken, getAccessToken } from '../lib/api';
 import type { TokenPair, RegisterResult } from '../types/auth.types';
 
 export type { TokenPair, RegisterResult };
@@ -113,13 +113,21 @@ export async function logout(): Promise<void> {
 }
 
 /**
- * Fire-and-forget logout using sendBeacon — safe to call on pagehide/tab close.
- * sendBeacon is guaranteed to be sent even when the page is unloading.
+ * Fire-and-forget logout on pagehide/tab close.
+ * Uses fetch with keepalive:true so the request completes after page unload.
+ * sendBeacon was replaced because it uses same-origin credentials mode, which
+ * does NOT send httpOnly cookies for cross-origin requests (e.g. app.x.com → api.x.com).
+ * The Authorization header is included as a fallback in case the cookie is not sent.
  */
 export function logoutBeacon(): void {
-  const base = (import.meta.env.VITE_API_URL as string | undefined) ?? 'http://localhost:3000';
-  // Pass an empty JSON blob so the backend Content-Type check passes
-  navigator.sendBeacon(`${base}/auth/logout`, new Blob([], { type: 'application/json' }));
+  const base  = (import.meta.env.VITE_API_URL as string | undefined) ?? 'http://localhost:3000';
+  const token = getAccessToken();
+  fetch(`${base}/auth/logout`, {
+    method:      'POST',
+    keepalive:   true,
+    credentials: 'include',
+    headers:     token ? { Authorization: `Bearer ${token}` } : undefined,
+  }).catch(() => {});
 }
 
 export function clearTokens(): void {

@@ -22,30 +22,38 @@ export function hasSessionCookie(): boolean {
 
 // ─── Token refresh ────────────────────────────────────────────────────────────
 
+// Returns the new access token, null if definitively invalid (401), or throws on server error (5xx)
 async function callRefresh(): Promise<string | null> {
-  try {
-    const res = await fetch(`${BASE}/auth/refresh`, {
-      method:      'POST',
-      credentials: 'include',     // sends the httpOnly refresh-token cookie
-    });
+  const res = await fetch(`${BASE}/auth/refresh`, {
+    method:      'POST',
+    credentials: 'include',
+  });
 
-    type RefreshResp = { success: boolean; data: { accessToken: string } };
-    const json = (await res.json()) as RefreshResp;
-
-    if (!res.ok || !json.success) {
-      _accessToken = null;
-      return null;
-    }
-
-    _accessToken = json.data.accessToken;
-    return _accessToken;
-  } catch {
+  if (res.status === 401 || res.status === 403) {
     _accessToken = null;
     return null;
   }
+
+  if (!res.ok) {
+    // 5xx or unexpected — don't invalidate the session, let the caller decide
+    throw Object.assign(new Error('Refresh server error'), { status: res.status });
+  }
+
+  type RefreshResp = { success: boolean; data: { accessToken: string } };
+  const json = (await res.json()) as RefreshResp;
+
+  if (!json.success) {
+    _accessToken = null;
+    return null;
+  }
+
+  _accessToken = json.data.accessToken;
+  return _accessToken;
 }
 
-/** Refreshes the access token. Deduplicates concurrent calls. */
+/** Refreshes the access token. Deduplicates concurrent calls.
+ *  Returns null if the refresh token is invalid (user must re-login).
+ *  Throws if the refresh endpoint itself errored (5xx) — caller decides what to do. */
 export async function refreshTokens(): Promise<string | null> {
   if (!_refreshing) {
     _refreshing = callRefresh().finally(() => { _refreshing = null; });
@@ -95,15 +103,24 @@ export async function apiFetch<T>(
   const json = (await res.json()) as RawResp;
 
   if (!res.ok) {
-    if (_retry && json.error?.code === 'TOKEN_EXPIRED') {
-      const newToken = await refreshTokens();
-      if (newToken) return apiFetch<T>(path, options, false);
-      window.dispatchEvent(new CustomEvent('auth:session-expired'));
-      throw Object.assign(new Error('Session expired'), { code: 'SESSION_EXPIRED', status: 401 });
+    if (_retry && res.status === 401 && json.error?.code === 'TOKEN_EXPIRED') {
+      try {
+        const newToken = await refreshTokens();
+        if (newToken) return apiFetch<T>(path, options, false);
+        // Refresh returned null = refresh token definitively invalid (401/403)
+        window.dispatchEvent(new CustomEvent('auth:session-expired'));
+      } catch {
+        // Refresh returned 5xx — server error, don't log the user out
+      }
+      throw Object.assign(new Error(json.error?.message ?? 'Session expired'), {
+        code:   json.error?.code ?? 'SESSION_EXPIRED',
+        status: 401,
+      });
     }
 
-    // Any other 401 → kick out immediately; distinguish device-kick from normal expiry
-    if (res.status === 401) {
+    // Any other 401 — distinguish device-kick from normal expiry
+    // Exclude external-token codes (Facebook/Instagram token expired) to avoid false logouts
+    if (res.status === 401 && json.error?.code !== 'TOKEN_EXPIRED') {
       const event = json.error?.code === 'SESSION_REVOKED'
         ? 'auth:session-revoked'
         : 'auth:session-expired';

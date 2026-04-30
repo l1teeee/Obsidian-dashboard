@@ -13,7 +13,7 @@ interface PostsTableProps {
   view:               PostsView;
   onAction:           (type: PostAction, post: CalendarPost) => void;
   isLoading?:         boolean;
-  connectedPlatforms?: Set<string>;
+  connectedPlatforms?: Set<string> | null;
 }
 
 function NoAccountIcon({ platformName }: { platformName: string }) {
@@ -245,7 +245,7 @@ export default function PostsTable({ posts, view, onAction, isLoading, connected
               const postHref   = post.status === 'draft'
                 ? `/composer/${post.id}`
                 : `/posts/${post.id}`;
-              const noAccount  = connectedPlatforms !== undefined
+              const noAccount  = connectedPlatforms != null
                 && !connectedPlatforms.has(post.platform)
                 && post.status !== 'published';
               return (

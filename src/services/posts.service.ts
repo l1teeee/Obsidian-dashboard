@@ -10,7 +10,7 @@ import type {
 
 export type { ApiPost, ApiPostMetrics, GetPostsParams, PostsPage, CreatePostPayload, UpdatePostPayload };
 
-export async function getAll(params: GetPostsParams = {}): Promise<PostsPage> {
+export async function getAll(params: GetPostsParams = {}, signal?: AbortSignal): Promise<PostsPage> {
   const qs = new URLSearchParams();
   if (params.platform) qs.set('platform', params.platform);
   if (params.status)   qs.set('status',   params.status);
@@ -18,7 +18,7 @@ export async function getAll(params: GetPostsParams = {}): Promise<PostsPage> {
   qs.set('page',  String(params.page  ?? 1));
   qs.set('limit', String(params.limit ?? 10));
 
-  const res = await apiFetch<ApiPost[]>(`/posts?${qs.toString()}`);
+  const res = await apiFetch<ApiPost[]>(`/posts?${qs.toString()}`, { signal });
   return { posts: res.data, meta: res.meta! };
 }
 
