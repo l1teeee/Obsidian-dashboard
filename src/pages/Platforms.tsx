@@ -3,7 +3,6 @@ import TopBar from '../components/layout/TopBar';
 import { usePlatforms, getTokenExpiryInfo } from '../hooks/usePlatforms';
 import SocialBrandIcon from '../components/shared/SocialBrandIcon';
 import AddPlatformModal from '../components/platforms/AddPlatformModal';
-import { startFacebookOAuth } from '../services/platforms.service';
 import type { SocialConnection } from '../types/platforms.types';
 
 function getIconBg(platform: string): string {
@@ -30,15 +29,16 @@ function formatExpiry(expiresAt: string | null): string {
 }
 
 interface ConnectionCardProps {
-  conn:           SocialConnection;
-  disconnecting:  string | null;
-  syncingIg:      boolean;
-  hasInstagram:   boolean;
-  onDisconnect:   (id: string, name: string) => void;
+  conn:            SocialConnection;
+  disconnecting:   string | null;
+  syncingIg:       boolean;
+  hasInstagram:    boolean;
+  onDisconnect:    (id: string, name: string) => void;
   onSyncInstagram: () => void;
+  onReconnect:     () => void;
 }
 
-function ConnectionCard({ conn, disconnecting, syncingIg, hasInstagram, onDisconnect, onSyncInstagram }: ConnectionCardProps) {
+function ConnectionCard({ conn, disconnecting, syncingIg, hasInstagram, onDisconnect, onSyncInstagram, onReconnect }: ConnectionCardProps) {
   return (
     <div
       data-platform-card
@@ -145,7 +145,7 @@ function ConnectionCard({ conn, disconnecting, syncingIg, hasInstagram, onDiscon
               </p>
             </div>
             <button
-              onClick={() => startFacebookOAuth()}
+              onClick={() => onReconnect()}
               className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-lg shrink-0 transition-colors"
               style={{
                 color:      isCrit ? '#ff4b4b' : '#facc15',
@@ -248,6 +248,28 @@ export default function Platforms() {
 
   return (
     <div ref={pageRef} className="min-h-screen flex flex-col">
+
+      {/* OAuth connecting / syncing overlay */}
+      {(connecting || (loading && new URLSearchParams(window.location.search).get('connected') === 'success')) && (
+        <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#0e0e0e]/80 backdrop-blur-sm">
+          <div className="flex flex-col items-center gap-5 px-8 py-10 rounded-3xl border border-[#4c4450]/20 bg-[#1a1919]/90 shadow-2xl max-w-xs w-full text-center">
+            <div className="w-14 h-14 rounded-2xl bg-[#1877F2] flex items-center justify-center">
+              <span className="material-symbols-outlined text-white text-[28px] animate-spin">progress_activity</span>
+            </div>
+            <div>
+              <p className="font-headline text-base font-bold text-white mb-1">
+                {connecting ? 'Redirecting to Facebook…' : 'Saving your connection…'}
+              </p>
+              <p className="text-[#988d9c] text-xs leading-relaxed">
+                {connecting
+                  ? 'Complete the authorization on Facebook and you\'ll be brought back here.'
+                  : 'Fetching your pages and updating your account.'}
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+
       <TopBar
         title="Platforms"
         subtitle="Connection Manager"
@@ -317,6 +339,7 @@ export default function Platforms() {
                       hasInstagram={hasInstagram}
                       onDisconnect={handleDisconnect}
                       onSyncInstagram={handleSyncInstagram}
+                      onReconnect={() => handleConnect('facebook')}
                     />
                   ))}
                 </div>
@@ -348,6 +371,7 @@ export default function Platforms() {
                       hasInstagram={hasInstagram}
                       onDisconnect={handleDisconnect}
                       onSyncInstagram={handleSyncInstagram}
+                      onReconnect={() => handleConnect('facebook')}
                     />
                   ))}
                 </div>

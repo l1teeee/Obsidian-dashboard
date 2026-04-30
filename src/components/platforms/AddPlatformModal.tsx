@@ -152,8 +152,10 @@ export default function AddPlatformModal({
         {step === 'list' && (
           <>
             {PLATFORMS.map((platform) => {
-              const connected = !platform.comingSoon && connectedPlatforms.includes(platform.id);
-              const disabled  = connected || connecting || !!platform.comingSoon;
+              const connected  = !platform.comingSoon && connectedPlatforms.includes(platform.id);
+              // Facebook allows multiple connections (one per page)
+              const canAddMore = platform.id === 'facebook';
+              const disabled   = (connected && !canAddMore) || connecting || !!platform.comingSoon;
 
               return (
                 <div
@@ -183,7 +185,7 @@ export default function AddPlatformModal({
                     <span className="px-2 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider bg-[#4c4450]/20 text-[#988d9c] shrink-0">
                       Coming soon
                     </span>
-                  ) : connected ? (
+                  ) : connected && !canAddMore ? (
                     <span className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-[#c5d247] shrink-0">
                       <span className="w-1.5 h-1.5 rounded-full bg-[#c5d247]" />
                       Connected
@@ -192,7 +194,7 @@ export default function AddPlatformModal({
                     <span className="material-symbols-outlined text-[#988d9c] text-[18px] animate-spin shrink-0">progress_activity</span>
                   ) : (
                     <span className="flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-[#988d9c] group-hover:text-[#d394ff] transition-colors shrink-0">
-                      Connect
+                      {connected ? 'Add page' : 'Connect'}
                       <span className="material-symbols-outlined text-[14px]">arrow_forward</span>
                     </span>
                   )}
