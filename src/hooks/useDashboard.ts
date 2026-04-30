@@ -146,8 +146,21 @@ export function useDashboard() {
     ]).then(([localSummary, scheduledPage, fbSummary, fbPosts, publishedPage]) => {
       if (signal?.aborted) return;
 
-      // Recent posts: prefer FB data (has engagement metrics); fall back to local published posts
-      const recentFromFb    = fbPosts.slice(0, 5).map(mapFbPostToSummary);
+      // Build local id → first S3 URL map to enrich FB posts that have no thumbnail
+      const localMediaMap = new Map<string, string>(
+        publishedPage.posts
+          .filter(p => p.media_urls?.length)
+          .map(p => [p.id, p.media_urls![0]]),
+      );
+
+      // Recent posts: prefer FB data (has engagement metrics); fall back to local published posts.
+      // When a FB post has no thumbnail (text-only), use the local post's S3 image via local_id.
+      const recentFromFb = fbPosts.slice(0, 5).map(post => {
+        const mapped     = mapFbPostToSummary(post);
+        const localImage = post.local_id ? (localMediaMap.get(post.local_id) ?? '') : '';
+        return { ...mapped, imageUrl: mapped.imageUrl || localImage };
+      });
+
       const recentFromLocal = publishedPage.posts.slice(0, 5).map(mapToUpcomingPost).map(p => ({
         id:       p.id,
         title:    p.caption.slice(0, 72) || 'Post',

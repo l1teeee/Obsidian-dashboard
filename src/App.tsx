@@ -3,6 +3,7 @@ import { useInactivityTimer } from './hooks/useInactivityTimer';
 import SessionWarningModal    from './components/shared/SessionWarningModal';
 import KickedOutModal         from './components/shared/KickedOutModal';
 import AccountDisabledModal   from './components/shared/AccountDisabledModal';
+import FacebookTokenModal, { FB_TOKEN_DISMISSED_KEY } from './components/shared/FacebookTokenModal';
 import { BrowserRouter, Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import Lenis from 'lenis';
 import gsap from 'gsap';
@@ -172,6 +173,22 @@ function AccountDisabledGuard() {
   );
 }
 
+function FacebookTokenGuard() {
+  const [show, setShow] = useState(false);
+
+  useEffect(() => {
+    const handler = () => {
+      if (localStorage.getItem(FB_TOKEN_DISMISSED_KEY)) return;
+      setShow(true);
+    };
+    window.addEventListener('facebook:token-expired', handler);
+    return () => window.removeEventListener('facebook:token-expired', handler);
+  }, []);
+
+  if (!show) return null;
+  return <FacebookTokenModal onClose={() => setShow(false)} />;
+}
+
 // Pings /auth/ping on every route change to detect account deactivation early.
 // apiFetch handles the 401 response and dispatches auth:account-disabled if needed.
 function RouteChangeGuard() {
@@ -250,6 +267,7 @@ export default function App() {
           <BrowserRouter>
             <KickGuard />
             <AccountDisabledGuard />
+            <FacebookTokenGuard />
             <RouteChangeGuard />
             <SessionGuard />
             <ScrollToTop />

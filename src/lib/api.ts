@@ -2,6 +2,8 @@ const BASE = (import.meta.env.VITE_API_URL as string | undefined) ?? 'http://loc
 
 let _accessToken: string | null = null;
 let _refreshing: Promise<string | null> | null = null;
+// Prevent dispatching facebook:token-expired more than once per session
+let _fbTokenAlerted = false;
 
 export function setAccessToken(token: string | null): void {
   _accessToken = token;
@@ -116,6 +118,15 @@ export async function apiFetch<T>(
         code:   json.error?.code ?? 'SESSION_EXPIRED',
         status: 401,
       });
+    }
+
+    // TOKEN_EXPIRED on a retry (jwt already refreshed) → it's a Facebook/external token.
+    // Dispatch once per session so the UI can notify the user.
+    if (!_retry && res.status === 401 && json.error?.code === 'TOKEN_EXPIRED') {
+      if (!_fbTokenAlerted) {
+        _fbTokenAlerted = true;
+        window.dispatchEvent(new CustomEvent('facebook:token-expired'));
+      }
     }
 
     // Any other 401 — distinguish account-disabled, device-kick, and normal expiry

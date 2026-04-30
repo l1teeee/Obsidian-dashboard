@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { PLATFORM_REGISTRY } from '../../domain/entities/Platform';
 import type { PlatformId } from '../../domain/entities/Platform';
 
@@ -21,11 +21,17 @@ export default function PostPreviewCard({ platform, caption, mediaUrls, date, st
   const hasMedia = urls.length > 0;
   const isMulti  = urls.length > 1;
 
-  const [current, setCurrent] = useState(0);
+  const [current,    setCurrent]    = useState(0);
+  const [failedUrls, setFailedUrls] = useState<Set<string>>(new Set());
 
-  const currentUrl  = urls[current] ?? '';
+  const handleImgError = useCallback((url: string) => {
+    setFailedUrls(prev => new Set(prev).add(url));
+  }, []);
+
+  const currentUrl     = urls[current] ?? '';
   const currentIsVideo = isVideoUrl(currentUrl);
-  const hasAnyVideo = urls.some(isVideoUrl);
+  const currentFailed  = failedUrls.has(currentUrl);
+  const hasAnyVideo    = urls.some(isVideoUrl);
 
   function prev() { setCurrent(i => (i - 1 + urls.length) % urls.length); }
   function next() { setCurrent(i => (i + 1) % urls.length); }
@@ -45,13 +51,26 @@ export default function PostPreviewCard({ platform, caption, mediaUrls, date, st
               controls
               className="w-full h-full object-contain"
             />
+          ) : currentFailed ? (
+            <div
+              className="w-full h-full flex flex-col items-center justify-center gap-2"
+              style={{ background: p.color + '22' }}
+            >
+              <span
+                className="material-symbols-outlined text-[#988d9c]"
+                style={{ fontSize: 32, fontVariationSettings: "'FILL' 0" }}
+              >
+                broken_image
+              </span>
+              <span className="text-[10px] text-[#988d9c]">Image unavailable</span>
+            </div>
           ) : (
             <img
               key={currentUrl}
               src={currentUrl}
               className="w-full h-full object-cover"
               alt="Post media"
-              onError={e => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
+              onError={() => handleImgError(currentUrl)}
             />
           )}
 
@@ -134,8 +153,12 @@ export default function PostPreviewCard({ platform, caption, mediaUrls, date, st
               >
                 {isVid ? (
                   <video src={url} className="w-full h-full object-cover" muted preload="metadata" />
+                ) : failedUrls.has(url) ? (
+                  <div className="w-full h-full flex items-center justify-center bg-[#252424]">
+                    <span className="material-symbols-outlined text-[#4c4450]" style={{ fontSize: 14 }}>broken_image</span>
+                  </div>
                 ) : (
-                  <img src={url} className="w-full h-full object-cover" alt="" />
+                  <img src={url} className="w-full h-full object-cover" alt="" onError={() => handleImgError(url)} />
                 )}
                 {isVid && (
                   <div className="absolute inset-0 flex items-center justify-center bg-black/40">
