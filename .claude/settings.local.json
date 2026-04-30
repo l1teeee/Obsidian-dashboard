@@ -108,7 +108,8 @@
       "PowerShell(Set-Location C:\\\\Proyects\\\\obsidian-backend; npx tsc --noEmit 2>&1; Write-Output \"Backend done: $LASTEXITCODE\")",
       "PowerShell(Set-Location C:\\\\Proyects\\\\obsidian-dashboard; npx tsc --noEmit 2>&1; Write-Output \"Frontend done: $LASTEXITCODE\")",
       "Read(//c/Users/aleja/**)",
-      "Read(//c/Proyects/**)"
+      "Read(//c/Proyects/**)",
+      "Bash(xargs ls *)"
     ]
   }
 }

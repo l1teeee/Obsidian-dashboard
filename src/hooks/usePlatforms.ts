@@ -4,7 +4,6 @@ import gsap from 'gsap';
 import { sileo } from 'sileo';
 import * as platformsService from '../services/platforms.service';
 import type { SocialConnection } from '../types/platforms.types';
-import { useWorkspace } from '../contexts/WorkspaceContext';
 
 export type { SocialConnection };
 
@@ -27,10 +26,9 @@ export function getTokenExpiryInfo(tokenExpiresAt: string | null): TokenExpiryIn
 }
 
 export function usePlatforms() {
-  const pageRef    = useRef<HTMLDivElement>(null);
-  const location   = useLocation();
-  const navigate   = useNavigate();
-  const { active } = useWorkspace();
+  const pageRef   = useRef<HTMLDivElement>(null);
+  const location  = useLocation();
+  const navigate  = useNavigate();
 
   const [connections,    setConnections]    = useState<SocialConnection[]>([]);
   const [loading,        setLoading]        = useState(true);
@@ -42,16 +40,15 @@ export function usePlatforms() {
   const reload = useCallback(async () => {
     setLoading(true);
     try {
-      const data = await platformsService.listConnections(active?.id);
+      const data = await platformsService.listConnections();
       setConnections(data);
-      return data;
     } catch (err) {
       if ((err as { status?: number }).status === 401) return; // handled globally by auth:session-expired
       sileo.error({ title: 'Could not load connections', description: 'Check your connection and try again.' });
     } finally {
       setLoading(false);
     }
-  }, [active?.id]);
+  }, []);
 
   useEffect(() => { reload(); }, [reload]);
 
@@ -62,17 +59,8 @@ export function usePlatforms() {
     const error     = params.get('error');
 
     if (connected === 'success') {
-      reload().then(newConns => {
-        const fbPages = (newConns ?? []).filter(c => c.platform === 'facebook' && c.page_id);
-        if (fbPages.length > 1) {
-          sileo.success({
-            title: `${fbPages.length} Facebook pages connected!`,
-            description: fbPages.map(p => p.page_name || p.account_name).join(' · '),
-          });
-        } else {
-          sileo.success({ title: 'Account connected!', description: 'Your social account is now linked.' });
-        }
-      });
+      sileo.success({ title: 'Account connected!', description: 'Your social account is now linked.' });
+      reload();
       navigate('/platforms', { replace: true });
     } else if (error) {
       sileo.error({ title: 'Connection failed', description: decodeURIComponent(error) });
@@ -97,27 +85,30 @@ export function usePlatforms() {
     if (platform === 'facebook' || platform === 'instagram') {
       setConnecting(true);
       try {
-        await platformsService.startFacebookOAuth(active?.id);
+        await platformsService.startFacebookOAuth();
+        // window.location.href is set inside startFacebookOAuth — page will navigate away
       } catch {
         sileo.error({ title: 'Could not start OAuth', description: 'Check your connection and try again.' });
         setConnecting(false);
       }
     }
-  }, [active?.id]);
+  }, []);
 
   // ── Connect Instagram (uses existing FB page tokens, falls back to OAuth) ───
   const handleConnectInstagram = useCallback(async () => {
     setConnecting(true);
     try {
-      await platformsService.connectInstagramFromPages(active?.id);
+      await platformsService.connectInstagramFromPages();
       sileo.success({ title: 'Instagram connected!', description: 'Your Instagram account is now linked.' });
       await reload();
       setConnecting(false);
     } catch (err: unknown) {
       const apiErr = err as { code?: string };
       if (apiErr?.code === 'NO_IG_FOUND') {
+        // No IG linked to existing pages — fall back to full Facebook OAuth
         try {
-          await platformsService.startFacebookOAuth(active?.id);
+          await platformsService.startFacebookOAuth();
+          // Browser navigates away — connecting stays true
         } catch {
           sileo.error({ title: 'Could not start OAuth', description: 'Check your connection and try again.' });
           setConnecting(false);
@@ -127,24 +118,25 @@ export function usePlatforms() {
         setConnecting(false);
       }
     }
-  }, [reload, active?.id]);
+  }, [reload]);
 
   // ── Connect Instagram directly (Camino B — no Facebook required) ────────────
   const handleConnectInstagramDirect = useCallback(async () => {
     setConnecting(true);
     try {
-      await platformsService.startInstagramDirectOAuth(active?.id);
+      await platformsService.startInstagramDirectOAuth();
+      // window.location.href is set inside — browser navigates away
     } catch {
       sileo.error({ title: 'Could not start Instagram Login', description: 'Check your connection and try again.' });
       setConnecting(false);
     }
-  }, [active?.id]);
+  }, []);
 
   // ── Sync Instagram from existing FB page (no OAuth fallback) ────────────────
   const handleSyncInstagram = useCallback(async () => {
     setSyncingIg(true);
     try {
-      await platformsService.connectInstagramFromPages(active?.id);
+      await platformsService.connectInstagramFromPages();
       sileo.success({ title: 'Instagram connected!', description: 'Your Instagram account is now linked.' });
       await reload();
     } catch (err: unknown) {
@@ -160,7 +152,7 @@ export function usePlatforms() {
     } finally {
       setSyncingIg(false);
     }
-  }, [reload, active?.id]);
+  }, [reload]);
 
   // ── Disconnect ──────────────────────────────────────────────────────────────
   const handleDisconnect = useCallback(async (id: string, name: string) => {
