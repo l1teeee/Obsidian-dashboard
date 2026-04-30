@@ -23,6 +23,8 @@ interface AuthCtx {
   isAuthenticated:      boolean;
   isLoading:            boolean;
   kickedByDevice:       boolean;
+  accountDisabled:      boolean;
+  clearAccountDisabled: () => void;
   login:                (email: string, password: string, rememberMe?: boolean, force?: boolean) => Promise<{ isFirstLogin: boolean; profileCompleted: boolean }>;
   loginWithGoogle:      (code: string) => Promise<{ isFirstLogin: boolean; profileCompleted: boolean }>;
   register:             (email: string, password: string) => Promise<authService.RegisterResult>;
@@ -56,9 +58,10 @@ function applyTokenPair(tokens: authService.TokenPair): void {
 // ─── Provider ─────────────────────────────────────────────────────────────────
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user,           setUser]           = useState<AuthUser | null>(null);
-  const [isLoading,      setIsLoading]      = useState(true);
-  const [kickedByDevice, setKickedByDevice] = useState(false);
+  const [user,            setUser]            = useState<AuthUser | null>(null);
+  const [isLoading,       setIsLoading]       = useState(true);
+  const [kickedByDevice,  setKickedByDevice]  = useState(false);
+  const [accountDisabled, setAccountDisabled] = useState(false);
   const bootstrapped = useRef(false);
 
   // Silent refresh on mount — only attempted when obs_sid cookie is present,
@@ -96,6 +99,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const handle = () => { setUser(null); authService.clearTokens(); setKickedByDevice(true); };
     window.addEventListener('auth:session-revoked', handle);
     return () => window.removeEventListener('auth:session-revoked', handle);
+  }, []);
+
+  // Handle account disabled/banned by admin
+  useEffect(() => {
+    const handle = () => { setUser(null); authService.clearTokens(); setAccountDisabled(true); };
+    window.addEventListener('auth:account-disabled', handle);
+    return () => window.removeEventListener('auth:account-disabled', handle);
   }, []);
 
   // Poll /auth/ping every 15s while authenticated.
@@ -157,7 +167,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (newToken) setUser(decodeUser(newToken));
   }, []);
 
-  const clearKick = useCallback(() => setKickedByDevice(false), []);
+  const clearKick            = useCallback(() => setKickedByDevice(false), []);
+  const clearAccountDisabled = useCallback(() => setAccountDisabled(false), []);
 
   const logout = useCallback(async () => {
     try {
@@ -171,7 +182,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated: !!user, isLoading, kickedByDevice, clearKick, login, loginWithGoogle, register, verifyEmail, verifyEmailToken, logout, markProfileCompleted }}>
+    <AuthContext.Provider value={{ user, isAuthenticated: !!user, isLoading, kickedByDevice, accountDisabled, clearKick, clearAccountDisabled, login, loginWithGoogle, register, verifyEmail, verifyEmailToken, logout, markProfileCompleted }}>
       {children}
     </AuthContext.Provider>
   );

@@ -1,7 +1,8 @@
 import { lazy, Suspense, useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
 import { useInactivityTimer } from './hooks/useInactivityTimer';
-import SessionWarningModal from './components/shared/SessionWarningModal';
-import KickedOutModal      from './components/shared/KickedOutModal';
+import SessionWarningModal    from './components/shared/SessionWarningModal';
+import KickedOutModal         from './components/shared/KickedOutModal';
+import AccountDisabledModal   from './components/shared/AccountDisabledModal';
 import { BrowserRouter, Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import Lenis from 'lenis';
 import gsap from 'gsap';
@@ -12,6 +13,7 @@ import { TooltipProvider } from './components/ui/tooltip';
 import { AuthProvider } from './contexts/AuthContext';
 import { WorkspaceProvider, useWorkspace } from './contexts/WorkspaceContext';
 import { useAuth } from './hooks/useAuth';
+import { apiFetch } from './lib/api';
 import ProtectedRoute from './components/shared/ProtectedRoute';
 import AdminRoute     from './components/shared/AdminRoute';
 import RouteTransition from './components/shared/RouteTransition';
@@ -157,6 +159,33 @@ function KickGuard() {
   );
 }
 
+function AccountDisabledGuard() {
+  const { accountDisabled, clearAccountDisabled } = useAuth();
+  const navigate = useNavigate();
+
+  if (!accountDisabled) return null;
+
+  return (
+    <AccountDisabledModal
+      onClose={() => { clearAccountDisabled(); navigate('/login', { replace: true }); }}
+    />
+  );
+}
+
+// Pings /auth/ping on every route change to detect account deactivation early.
+// apiFetch handles the 401 response and dispatches auth:account-disabled if needed.
+function RouteChangeGuard() {
+  const { isAuthenticated } = useAuth();
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    if (!isAuthenticated) return;
+    void apiFetch('/auth/ping').catch(() => {});
+  }, [pathname, isAuthenticated]);
+
+  return null;
+}
+
 function SessionGuard() {
   const { isAuthenticated, logout, user } = useAuth();
   const navigate  = useNavigate();
@@ -220,6 +249,8 @@ export default function App() {
           />
           <BrowserRouter>
             <KickGuard />
+            <AccountDisabledGuard />
+            <RouteChangeGuard />
             <SessionGuard />
             <ScrollToTop />
             <TransitionDetector onTrigger={triggerTransition} />

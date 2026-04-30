@@ -118,12 +118,16 @@ export async function apiFetch<T>(
       });
     }
 
-    // Any other 401 — distinguish device-kick from normal expiry
-    // Exclude external-token codes (Facebook/Instagram token expired) to avoid false logouts
+    // Any other 401 — distinguish account-disabled, device-kick, and normal expiry
+    // TOKEN_EXPIRED is excluded because it's handled above (or is a Facebook token)
     if (res.status === 401 && json.error?.code !== 'TOKEN_EXPIRED') {
-      const event = json.error?.code === 'SESSION_REVOKED'
-        ? 'auth:session-revoked'
-        : 'auth:session-expired';
+      const code  = json.error?.code ?? '';
+      const DISABLED_CODES = ['ACCOUNT_DISABLED', 'ACCOUNT_INACTIVE', 'ACCOUNT_BANNED', 'USER_INACTIVE', 'USER_DISABLED'];
+      const event = DISABLED_CODES.includes(code)
+        ? 'auth:account-disabled'
+        : code === 'SESSION_REVOKED'
+          ? 'auth:session-revoked'
+          : 'auth:session-expired';
       window.dispatchEvent(new CustomEvent(event));
     }
 
