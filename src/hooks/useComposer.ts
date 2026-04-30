@@ -4,6 +4,7 @@ import { CHANNELS } from '../domain/entities/Composer';
 import type { ChannelId } from '../types/composer.types';
 import type { SocialConnection } from '../types/platforms.types';
 import { listConnections } from '../services/platforms.service';
+import { useWorkspace } from '../contexts/WorkspaceContext';
 import { postsStore } from '../lib/postsStore';
 import { useComposerMedia } from './useComposerMedia';
 import { useComposerDraft } from './useComposerDraft';
@@ -15,7 +16,8 @@ export type ActionType = 'draft' | 'publish' | 'schedule';
 export type { MediaItem } from './useComposerMedia';
 
 export function useComposer(onSuccess?: (type: ActionType, names: string) => void, editId?: string) {
-  const pageRef       = useRef<HTMLDivElement>(null);
+  const pageRef        = useRef<HTMLDivElement>(null);
+  const { active }     = useWorkspace();
   const toastTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // ── UI state owned by the coordinator ─────────────────────────────────────
@@ -63,7 +65,7 @@ export function useComposer(onSuccess?: (type: ActionType, names: string) => voi
 
   // ── Platform connections ───────────────────────────────────────────────────
   useEffect(() => {
-    listConnections()
+    listConnections(active?.id)
       .then(conns => {
         const fbList = conns.filter(c => c.platform === 'facebook' && c.page_id);
         setFbPages(fbList);
@@ -77,7 +79,7 @@ export function useComposer(onSuccess?: (type: ActionType, names: string) => voi
       })
       .catch(() => { /* no connections — silently ignore */ })
       .finally(() => setConnectionsLoaded(true));
-  }, []);
+  }, [active?.id]);
 
   // ── GSAP entrance animation ────────────────────────────────────────────────
   useEffect(() => {

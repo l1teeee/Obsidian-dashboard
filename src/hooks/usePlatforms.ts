@@ -4,6 +4,7 @@ import gsap from 'gsap';
 import { sileo } from 'sileo';
 import * as platformsService from '../services/platforms.service';
 import type { SocialConnection } from '../types/platforms.types';
+import { useWorkspace } from '../contexts/WorkspaceContext';
 
 export type { SocialConnection };
 
@@ -26,9 +27,10 @@ export function getTokenExpiryInfo(tokenExpiresAt: string | null): TokenExpiryIn
 }
 
 export function usePlatforms() {
-  const pageRef   = useRef<HTMLDivElement>(null);
-  const location  = useLocation();
-  const navigate  = useNavigate();
+  const pageRef    = useRef<HTMLDivElement>(null);
+  const location   = useLocation();
+  const navigate   = useNavigate();
+  const { active } = useWorkspace();
 
   const [connections,    setConnections]    = useState<SocialConnection[]>([]);
   const [loading,        setLoading]        = useState(true);
@@ -40,7 +42,7 @@ export function usePlatforms() {
   const reload = useCallback(async () => {
     setLoading(true);
     try {
-      const data = await platformsService.listConnections();
+      const data = await platformsService.listConnections(active?.id);
       setConnections(data);
       return data;
     } catch (err) {
@@ -49,7 +51,7 @@ export function usePlatforms() {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [active?.id]);
 
   useEffect(() => { reload(); }, [reload]);
 
@@ -95,30 +97,27 @@ export function usePlatforms() {
     if (platform === 'facebook' || platform === 'instagram') {
       setConnecting(true);
       try {
-        await platformsService.startFacebookOAuth();
-        // window.location.href is set inside startFacebookOAuth — page will navigate away
+        await platformsService.startFacebookOAuth(active?.id);
       } catch {
         sileo.error({ title: 'Could not start OAuth', description: 'Check your connection and try again.' });
         setConnecting(false);
       }
     }
-  }, []);
+  }, [active?.id]);
 
   // ── Connect Instagram (uses existing FB page tokens, falls back to OAuth) ───
   const handleConnectInstagram = useCallback(async () => {
     setConnecting(true);
     try {
-      await platformsService.connectInstagramFromPages();
+      await platformsService.connectInstagramFromPages(active?.id);
       sileo.success({ title: 'Instagram connected!', description: 'Your Instagram account is now linked.' });
       await reload();
       setConnecting(false);
     } catch (err: unknown) {
       const apiErr = err as { code?: string };
       if (apiErr?.code === 'NO_IG_FOUND') {
-        // No IG linked to existing pages — fall back to full Facebook OAuth
         try {
-          await platformsService.startFacebookOAuth();
-          // Browser navigates away — connecting stays true
+          await platformsService.startFacebookOAuth(active?.id);
         } catch {
           sileo.error({ title: 'Could not start OAuth', description: 'Check your connection and try again.' });
           setConnecting(false);
@@ -128,25 +127,24 @@ export function usePlatforms() {
         setConnecting(false);
       }
     }
-  }, [reload]);
+  }, [reload, active?.id]);
 
   // ── Connect Instagram directly (Camino B — no Facebook required) ────────────
   const handleConnectInstagramDirect = useCallback(async () => {
     setConnecting(true);
     try {
-      await platformsService.startInstagramDirectOAuth();
-      // window.location.href is set inside — browser navigates away
+      await platformsService.startInstagramDirectOAuth(active?.id);
     } catch {
       sileo.error({ title: 'Could not start Instagram Login', description: 'Check your connection and try again.' });
       setConnecting(false);
     }
-  }, []);
+  }, [active?.id]);
 
   // ── Sync Instagram from existing FB page (no OAuth fallback) ────────────────
   const handleSyncInstagram = useCallback(async () => {
     setSyncingIg(true);
     try {
-      await platformsService.connectInstagramFromPages();
+      await platformsService.connectInstagramFromPages(active?.id);
       sileo.success({ title: 'Instagram connected!', description: 'Your Instagram account is now linked.' });
       await reload();
     } catch (err: unknown) {
@@ -162,7 +160,7 @@ export function usePlatforms() {
     } finally {
       setSyncingIg(false);
     }
-  }, [reload]);
+  }, [reload, active?.id]);
 
   // ── Disconnect ──────────────────────────────────────────────────────────────
   const handleDisconnect = useCallback(async (id: string, name: string) => {
