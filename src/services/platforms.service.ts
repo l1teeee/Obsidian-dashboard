@@ -3,8 +3,9 @@ import type { SocialConnection } from '../types/platforms.types';
 
 export type { SocialConnection };
 
-export async function listConnections(): Promise<SocialConnection[]> {
-  const res = await apiFetch<SocialConnection[]>('/platforms');
+export async function listConnections(workspaceId?: string | null): Promise<SocialConnection[]> {
+  const qs  = workspaceId ? `?workspaceId=${encodeURIComponent(workspaceId)}` : '';
+  const res = await apiFetch<SocialConnection[]>(`/platforms${qs}`);
   return res.data;
 }
 
