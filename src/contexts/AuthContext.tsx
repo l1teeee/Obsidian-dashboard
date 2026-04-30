@@ -7,7 +7,7 @@ import {
   useState,
   type ReactNode,
 } from 'react';
-import { apiFetch, setAccessToken, refreshTokens, hasSessionCookie } from '../lib/api';
+import { apiFetch, setAccessToken, getAccessToken, refreshTokens, hasSessionCookie } from '../lib/api';
 import * as authService from '../services/auth.service';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -104,14 +104,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   // Auto-logout when the user closes or navigates away from the page.
   // keepalive: true ensures the request survives page unload.
+  // Authorization header is included as fallback in case the httpOnly cookie
+  // is not sent by the browser during unload (e.g. some cross-origin scenarios).
   useEffect(() => {
     if (!user) return;
     const handleUnload = () => {
       const apiUrl = import.meta.env.VITE_API_URL as string;
+      const token   = getAccessToken();
       fetch(`${apiUrl}/auth/logout`, {
-        method: 'POST',
-        keepalive: true,
+        method:      'POST',
+        keepalive:   true,
         credentials: 'include',
+        headers:     token ? { Authorization: `Bearer ${token}` } : undefined,
       }).catch(() => {});
     };
     window.addEventListener('pagehide', handleUnload);
