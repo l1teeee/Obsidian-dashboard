@@ -102,6 +102,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return () => clearInterval(id);
   }, [user]);
 
+  // Auto-logout when the user closes or navigates away from the page.
+  // keepalive: true ensures the request survives page unload.
+  useEffect(() => {
+    if (!user) return;
+    const handleUnload = () => {
+      const apiUrl = import.meta.env.VITE_API_URL as string;
+      fetch(`${apiUrl}/auth/logout`, {
+        method: 'POST',
+        keepalive: true,
+        credentials: 'include',
+      }).catch(() => {});
+    };
+    window.addEventListener('pagehide', handleUnload);
+    return () => window.removeEventListener('pagehide', handleUnload);
+  }, [user]);
+
   const login = useCallback(async (email: string, password: string, rememberMe?: boolean, force?: boolean) => {
     const result = await authService.login(email, password, rememberMe, force);
     if ('conflict' in result) {
