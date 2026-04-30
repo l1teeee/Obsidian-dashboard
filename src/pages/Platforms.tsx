@@ -389,6 +389,7 @@ export default function Platforms() {
                   hasInstagram={hasInstagram}
                   onDisconnect={handleDisconnect}
                   onSyncInstagram={handleSyncInstagram}
+                  onReconnect={() => handleConnect('facebook')}
                 />
               ))}
 
