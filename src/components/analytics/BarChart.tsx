@@ -1,12 +1,102 @@
-import { motion } from 'motion/react';
+import { useEffect, useRef } from 'react';
+import { createChart, HistogramSeries, ColorType } from 'lightweight-charts';
 
 interface BarChartProps {
   barHeights: number[];
   barDays:    string[];
 }
 
+function getLast7Dates(): string[] {
+  const dates: string[] = [];
+  const today = new Date();
+  for (let i = 6; i >= 0; i--) {
+    const d = new Date(today);
+    d.setDate(today.getDate() - i);
+    const yyyy = d.getFullYear();
+    const mm   = String(d.getMonth() + 1).padStart(2, '0');
+    const dd   = String(d.getDate()).padStart(2, '0');
+    dates.push(`${yyyy}-${mm}-${dd}`);
+  }
+  return dates;
+}
+
+function tsToDateStr(time: unknown): string {
+  if (typeof time === 'number') {
+    const d = new Date(time * 1000);
+    const yyyy = d.getUTCFullYear();
+    const mm   = String(d.getUTCMonth() + 1).padStart(2, '0');
+    const dd   = String(d.getUTCDate()).padStart(2, '0');
+    return `${yyyy}-${mm}-${dd}`;
+  }
+  if (typeof time === 'object' && time !== null) {
+    const b = time as { year: number; month: number; day: number };
+    return `${b.year}-${String(b.month).padStart(2, '0')}-${String(b.day).padStart(2, '0')}`;
+  }
+  return String(time);
+}
+
 export default function BarChart({ barHeights, barDays }: BarChartProps) {
-  const peak = Math.max(...barHeights);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const peak         = Math.max(...barHeights);
+
+  useEffect(() => {
+    if (!containerRef.current) return;
+
+    const dates = getLast7Dates();
+
+    const chart = createChart(containerRef.current, {
+      autoSize: true,
+      layout: {
+        background: { type: ColorType.Solid, color: 'transparent' },
+        textColor: '#988d9c',
+        fontFamily: "'Courier New', monospace",
+        fontSize: 11,
+      },
+      grid: {
+        vertLines: { visible: false },
+        horzLines: { color: 'rgba(76,68,80,0.3)', style: 1 },
+      },
+      timeScale: {
+        borderColor: 'transparent',
+        tickMarkFormatter: (time: unknown) => {
+          const idx = dates.indexOf(tsToDateStr(time));
+          return idx !== -1 ? barDays[idx] : '';
+        },
+        barSpacing: 30,
+        fixLeftEdge: true,
+        fixRightEdge: true,
+      },
+      rightPriceScale: {
+        borderColor: 'transparent',
+        scaleMargins: { top: 0.15, bottom: 0 },
+      },
+      crosshair: {
+        vertLine: { color: '#4c4450', width: 1, style: 2 },
+        horzLine: { visible: false, labelVisible: false },
+      },
+      handleScroll: false,
+      handleScale: false,
+    });
+
+    const series = chart.addSeries(HistogramSeries, {
+      priceLineVisible: false,
+      lastValueVisible: false,
+    });
+
+    series.setData(
+      barHeights.map((h, i) => ({
+        time:  dates[i],
+        value: h,
+        color: h === peak
+          ? 'rgba(211,148,255,0.85)'
+          : 'rgba(107,47,160,0.7)',
+      }))
+    );
+
+    chart.timeScale().fitContent();
+
+    return () => chart.remove();
+  }, [barHeights, barDays]);
 
   return (
     <div data-chart className="glass-card p-8 rounded-3xl border border-[#4c4450]/5">
@@ -14,45 +104,7 @@ export default function BarChart({ barHeights, barDays }: BarChartProps) {
         <h3 className="text-xl font-headline font-bold tracking-tight text-white">Daily Engagement</h3>
         <p className="text-sm text-[#988d9c]">Weighted interaction score</p>
       </div>
-
-      <div className="flex items-end justify-between gap-2 px-1" style={{ height: 200 }}>
-        {barHeights.map((h, i) => {
-          const isPeak = h === peak;
-          const heightPx = Math.round((h / peak) * 180);
-          return (
-            <div key={i} className="flex-1 flex flex-col items-center justify-end gap-1.5 h-full">
-              <span
-                className="text-[9px] font-mono font-bold"
-                style={{ color: isPeak ? '#d394ff' : '#4c4450' }}
-              >
-                {h}
-              </span>
-              <motion.div
-                data-bar
-                className="w-full rounded-t-md cursor-pointer hover:brightness-125"
-                initial={{ scaleY: 0 }}
-                animate={{ scaleY: 1 }}
-                transition={{ duration: 0.6, delay: i * 0.04, ease: [0.25, 0.46, 0.45, 0.94] }}
-                whileHover={{ filter: 'brightness(1.3)' }}
-                style={{
-                  height: heightPx,
-                  background: isPeak
-                    ? 'linear-gradient(180deg, #d394ff 0%, #9b40e8 100%)'
-                    : 'linear-gradient(180deg, #a05fd4 0%, #6b2fa0 100%)',
-                  boxShadow: isPeak ? '0 0 16px rgba(211,148,255,0.45)' : undefined,
-                  transformOrigin: 'bottom center',
-                }}
-              />
-            </div>
-          );
-        })}
-      </div>
-
-      <div className="flex justify-between mt-3 px-1">
-        {barDays.map((d, i) => (
-          <span key={i} className="flex-1 text-center text-[10px] font-mono text-[#988d9c]">{d}</span>
-        ))}
-      </div>
+      <div ref={containerRef} style={{ height: 200 }} className="w-full" />
     </div>
   );
 }

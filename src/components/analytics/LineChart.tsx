@@ -1,4 +1,5 @@
-import { AreaChart, Area, Grid, ChartTooltip, XAxis, YAxis } from '../ui/area-chart';
+import { useEffect, useRef } from 'react';
+import { createChart, AreaSeries, ColorType } from 'lightweight-charts';
 
 const data = [
   { date: '2023-10-12', reach: 18400, impressions: 32100 },
@@ -14,6 +15,65 @@ const data = [
 ];
 
 export default function LineChart() {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!containerRef.current) return;
+
+    const chart = createChart(containerRef.current, {
+      autoSize: true,
+      layout: {
+        background: { type: ColorType.Solid, color: 'transparent' },
+        textColor: '#988d9c',
+        fontFamily: "'Courier New', monospace",
+        fontSize: 11,
+      },
+      grid: {
+        vertLines: { visible: false },
+        horzLines: { color: 'rgba(76,68,80,0.3)', style: 1 },
+      },
+      timeScale: {
+        borderColor: 'transparent',
+        tickMarkMaxCharacterLength: 8,
+      },
+      rightPriceScale: {
+        borderColor: 'transparent',
+        scaleMargins: { top: 0.12, bottom: 0.08 },
+      },
+      crosshair: {
+        vertLine: { color: '#4c4450', width: 1, style: 2 },
+        horzLine: { color: '#4c4450', width: 1, style: 2 },
+      },
+      handleScroll: false,
+      handleScale: false,
+    });
+
+    const impressionsSeries = chart.addSeries(AreaSeries, {
+      lineColor: '#c5d247',
+      topColor: 'rgba(197,210,71,0.15)',
+      bottomColor: 'rgba(197,210,71,0)',
+      lineWidth: 2,
+      priceLineVisible: false,
+      lastValueVisible: false,
+    });
+
+    const reachSeries = chart.addSeries(AreaSeries, {
+      lineColor: '#d394ff',
+      topColor: 'rgba(211,148,255,0.15)',
+      bottomColor: 'rgba(211,148,255,0)',
+      lineWidth: 2,
+      priceLineVisible: false,
+      lastValueVisible: false,
+    });
+
+    impressionsSeries.setData(data.map(d => ({ time: d.date, value: d.impressions })));
+    reachSeries.setData(data.map(d => ({ time: d.date, value: d.reach })));
+
+    chart.timeScale().fitContent();
+
+    return () => chart.remove();
+  }, []);
+
   return (
     <div data-chart className="lg:col-span-2 glass-card p-8 rounded-3xl border border-[#4c4450]/5 shadow-[0_0_40px_rgba(211,148,255,0.08)]">
       <div className="flex justify-between items-center mb-8">
@@ -32,35 +92,7 @@ export default function LineChart() {
           </div>
         </div>
       </div>
-
-      <div className="h-[280px] w-full">
-        <AreaChart
-          data={data}
-          xDataKey="date"
-          animationDuration={800}
-          aspectRatio="2 / 1"
-          className="h-full"
-        >
-          <Area
-            dataKey="impressions"
-            fill="#c5d247"
-            fillOpacity={0.15}
-            stroke="#c5d247"
-            strokeWidth={2.5}
-          />
-          <Area
-            dataKey="reach"
-            fill="#d394ff"
-            fillOpacity={0.15}
-            stroke="#d394ff"
-            strokeWidth={2.5}
-          />
-          <Grid horizontal vertical={false} />
-          <XAxis numTicks={5} />
-          <YAxis numTicks={5} />
-          <ChartTooltip showDatePill={false} showCrosshair={true} showDots={true} />
-        </AreaChart>
-      </div>
+      <div ref={containerRef} className="h-[280px] w-full" />
     </div>
   );
 }
