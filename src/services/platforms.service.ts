@@ -30,3 +30,11 @@ export async function startInstagramDirectOAuth(workspaceId?: string | null): Pr
   const res = await apiFetch<{ url: string }>(`/platforms/connect/instagram/oauth${qs}`);
   window.location.href = res.data.url;
 }
+
+export async function selectFacebookPage(pageId: string, workspaceId?: string | null): Promise<void> {
+  const qs = workspaceId ? `?workspaceId=${encodeURIComponent(workspaceId)}` : '';
+  await apiFetch(`/platforms/connect/facebook/select-page${qs}`, {
+    method: 'POST',
+    body:   JSON.stringify({ pageId }),
+  });
+}

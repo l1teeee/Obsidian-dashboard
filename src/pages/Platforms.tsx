@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import TopBar from '../components/layout/TopBar';
 import { usePlatforms, getTokenExpiryInfo } from '../hooks/usePlatforms';
 import SocialBrandIcon from '../components/shared/SocialBrandIcon';
@@ -32,13 +32,15 @@ interface ConnectionCardProps {
   conn:            SocialConnection;
   disconnecting:   string | null;
   syncingIg:       boolean;
+  selectingPage:   boolean;
   hasInstagram:    boolean;
   onDisconnect:    (id: string, name: string) => void;
   onSyncInstagram: () => void;
   onReconnect:     () => void;
+  onSetupPage:     (conn: SocialConnection) => void;
 }
 
-function ConnectionCard({ conn, disconnecting, syncingIg, hasInstagram, onDisconnect, onSyncInstagram, onReconnect }: ConnectionCardProps) {
+function ConnectionCard({ conn, disconnecting, syncingIg, selectingPage, hasInstagram, onDisconnect, onSyncInstagram, onReconnect, onSetupPage }: ConnectionCardProps) {
   return (
     <div
       data-platform-card
@@ -111,6 +113,23 @@ function ConnectionCard({ conn, disconnecting, syncingIg, hasInstagram, onDiscon
           </div>
         )}
       </div>
+
+      {/* No page linked banner */}
+      {conn.platform === 'facebook' && !conn.page_id && (
+        <div className="flex items-center justify-between gap-2 rounded-xl px-3 py-2 mb-4 border border-[#facc15]/25" style={{ background: 'rgba(250,204,21,0.07)' }}>
+          <div className="flex items-center gap-2 min-w-0">
+            <span className="material-symbols-outlined text-[14px] text-[#facc15] shrink-0">warning</span>
+            <p className="text-[11px] font-medium text-[#facc15] truncate">No Facebook Page linked yet</p>
+          </div>
+          <button
+            onClick={() => onSetupPage(conn)}
+            disabled={selectingPage}
+            className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-lg shrink-0 text-[#facc15] bg-[#facc15]/12 hover:bg-[#facc15]/20 transition-colors disabled:opacity-50"
+          >
+            Setup Page
+          </button>
+        </div>
+      )}
 
       {/* Token expiry banner */}
       {(() => {
@@ -235,8 +254,8 @@ function ConnectionCard({ conn, disconnecting, syncingIg, hasInstagram, onDiscon
 
 export default function Platforms() {
   const {
-    connections, loading, connecting, syncingIg, disconnecting,
-    handleConnect, handleConnectInstagramDirect, handleSyncInstagram, handleDisconnect, pageRef,
+    connections, loading, connecting, syncingIg, disconnecting, selectingPage,
+    handleConnect, handleConnectInstagramDirect, handleSyncInstagram, handleDisconnect, handleSelectPage, pageRef,
   } = usePlatforms();
 
   const hasInstagram  = connections.some(c => c.platform === 'instagram');
@@ -244,7 +263,10 @@ export default function Platforms() {
   const igConnections = connections.filter(c => c.platform === 'instagram');
   const otherConns    = connections.filter(c => c.platform !== 'facebook' && c.platform !== 'instagram');
 
-  const [modalOpen, setModalOpen] = useState(false);
+  const [modalOpen,        setModalOpen]        = useState(false);
+  const [pageSetupConn,    setPageSetupConn]    = useState<SocialConnection | null>(null);
+  const [pageIdInput,      setPageIdInput]      = useState('');
+  const pageIdInputRef = useRef<HTMLInputElement>(null);
 
   return (
     <div ref={pageRef} className="min-h-screen flex flex-col">
@@ -336,10 +358,12 @@ export default function Platforms() {
                       conn={conn}
                       disconnecting={disconnecting}
                       syncingIg={syncingIg}
+                      selectingPage={selectingPage}
                       hasInstagram={hasInstagram}
                       onDisconnect={handleDisconnect}
                       onSyncInstagram={handleSyncInstagram}
                       onReconnect={() => handleConnect('facebook')}
+                      onSetupPage={(c) => { setPageSetupConn(c); setPageIdInput(''); }}
                     />
                   ))}
                 </div>
@@ -368,10 +392,12 @@ export default function Platforms() {
                       conn={conn}
                       disconnecting={disconnecting}
                       syncingIg={syncingIg}
+                      selectingPage={selectingPage}
                       hasInstagram={hasInstagram}
                       onDisconnect={handleDisconnect}
                       onSyncInstagram={handleSyncInstagram}
                       onReconnect={() => handleConnect('facebook')}
+                      onSetupPage={(c) => { setPageSetupConn(c); setPageIdInput(''); }}
                     />
                   ))}
                 </div>
@@ -428,6 +454,88 @@ export default function Platforms() {
         onConnect={(p) => { setModalOpen(false); handleConnect(p); }}
         onConnectInstagramDirect={() => { setModalOpen(false); handleConnectInstagramDirect(); }}
       />
+
+      {/* ── Facebook Page Setup Modal ─────────────────────────────────────────── */}
+      {pageSetupConn && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+          <div className="w-full max-w-md bg-[#1a1919] border border-[#4c4450]/30 rounded-3xl shadow-2xl overflow-hidden">
+            {/* Header */}
+            <div className="px-8 pt-8 pb-6 border-b border-[#4c4450]/10">
+              <div className="flex items-start justify-between">
+                <div>
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#1877F2]/10 border border-[#1877F2]/20 mb-3">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#1877F2]" />
+                    <span className="text-[10px] uppercase tracking-widest font-bold text-[#1877F2]">Facebook Page</span>
+                  </div>
+                  <h2 className="font-headline text-2xl font-extrabold tracking-tight text-white">Link your Page</h2>
+                  <p className="text-[#988d9c] text-sm mt-1">Enter your Facebook Page ID to complete the connection.</p>
+                </div>
+                <button
+                  onClick={() => setPageSetupConn(null)}
+                  className="w-9 h-9 rounded-full border border-[#4c4450]/20 flex items-center justify-center hover:bg-[#2a2a2a] transition-colors shrink-0 mt-1"
+                >
+                  <span className="material-symbols-outlined text-[#988d9c] text-[18px]">close</span>
+                </button>
+              </div>
+            </div>
+
+            {/* Body */}
+            <div className="px-8 py-6 space-y-4">
+              <div className="bg-[#1c1b1b] rounded-2xl p-4 border border-[#4c4450]/10">
+                <p className="text-[10px] uppercase tracking-widest font-bold text-[#4c4450] mb-2">Where to find your Page ID</p>
+                <p className="text-xs text-[#988d9c] leading-relaxed">
+                  Go to your Facebook Page, click <span className="text-white font-medium">About</span>, scroll to
+                  <span className="text-white font-medium"> Page transparency</span>, and copy the numeric Page ID.
+                  It looks like: <span className="font-mono text-[#d394ff]">123456789012345</span>
+                </p>
+              </div>
+
+              <div>
+                <label className="text-[10px] uppercase tracking-widest font-bold text-[#988d9c] block mb-2">
+                  Facebook Page ID
+                </label>
+                <input
+                  ref={pageIdInputRef}
+                  type="text"
+                  value={pageIdInput}
+                  onChange={e => setPageIdInput(e.target.value)}
+                  onKeyDown={e => {
+                    if (e.key === 'Enter' && pageIdInput.trim()) {
+                      handleSelectPage(pageIdInput.trim());
+                      setPageSetupConn(null);
+                    }
+                  }}
+                  placeholder="e.g. 123456789012345"
+                  className="w-full bg-[#111] border border-[#4c4450]/30 rounded-xl px-4 py-3 text-sm text-white placeholder-[#4c4450] focus:outline-none focus:border-[#1877F2]/50 font-mono"
+                  autoFocus
+                />
+              </div>
+            </div>
+
+            {/* Footer */}
+            <div className="px-8 py-5 border-t border-[#4c4450]/10 bg-[#1c1b1b]/30 flex items-center justify-end gap-3 rounded-b-3xl">
+              <button
+                onClick={() => setPageSetupConn(null)}
+                className="px-5 py-2 rounded-xl border border-[#4c4450]/20 text-xs font-semibold text-[#cfc2d2] hover:bg-[#2a2a2a] transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => {
+                  if (!pageIdInput.trim()) return;
+                  handleSelectPage(pageIdInput.trim());
+                  setPageSetupConn(null);
+                }}
+                disabled={!pageIdInput.trim() || selectingPage}
+                className="px-5 py-2 rounded-xl bg-[#1877F2] text-white text-xs font-bold uppercase tracking-wider hover:bg-[#1877F2]/85 transition-colors disabled:opacity-50 flex items-center gap-2"
+              >
+                {selectingPage && <span className="material-symbols-outlined text-[13px] animate-spin">progress_activity</span>}
+                Connect Page
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

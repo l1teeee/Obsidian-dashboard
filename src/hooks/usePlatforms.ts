@@ -37,6 +37,7 @@ export function usePlatforms() {
   const [connecting,     setConnecting]     = useState(false);
   const [syncingIg,      setSyncingIg]      = useState(false);
   const [disconnecting,  setDisconnecting]  = useState<string | null>(null);
+  const [selectingPage,  setSelectingPage]  = useState(false);
 
   // ── Load connections ────────────────────────────────────────────────────────
   const reload = useCallback(async () => {
@@ -73,6 +74,9 @@ export function usePlatforms() {
           sileo.success({ title: 'Account connected!', description: 'Your social account is now linked.' });
         }
       });
+      navigate('/platforms', { replace: true });
+    } else if (connected === 'needs_page') {
+      reload();
       navigate('/platforms', { replace: true });
     } else if (error) {
       sileo.error({ title: 'Connection failed', description: decodeURIComponent(error) });
@@ -162,6 +166,20 @@ export function usePlatforms() {
     }
   }, [reload, active?.id]);
 
+  // ── Select Facebook Page (manual fallback for NPE pages) ────────────────────
+  const handleSelectPage = useCallback(async (pageId: string) => {
+    setSelectingPage(true);
+    try {
+      await platformsService.selectFacebookPage(pageId, active?.id);
+      sileo.success({ title: 'Facebook Page connected!', description: 'Your page is now ready to publish.' });
+      await reload();
+    } catch (err) {
+      sileo.error({ title: 'Could not connect page', description: (err as Error).message ?? 'Check the Page ID and try again.' });
+    } finally {
+      setSelectingPage(false);
+    }
+  }, [reload, active?.id]);
+
   // ── Disconnect ──────────────────────────────────────────────────────────────
   const handleDisconnect = useCallback(async (id: string, name: string) => {
     setDisconnecting(id);
@@ -177,8 +195,8 @@ export function usePlatforms() {
   }, []);
 
   return {
-    connections, loading, connecting, syncingIg, disconnecting,
-    handleConnect, handleConnectInstagram, handleConnectInstagramDirect, handleSyncInstagram, handleDisconnect, reload,
+    connections, loading, connecting, syncingIg, disconnecting, selectingPage,
+    handleConnect, handleConnectInstagram, handleConnectInstagramDirect, handleSyncInstagram, handleDisconnect, handleSelectPage, reload,
     pageRef,
   };
 }
