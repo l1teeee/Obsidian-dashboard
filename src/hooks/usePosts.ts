@@ -136,7 +136,7 @@ export function usePosts() {
   }), [view]);
 
   // Connected platforms for warning icons (null = still loading, no warnings shown yet)
-  useEffect(() => {
+  const refreshConnectedPlatforms = useCallback(() => {
     listConnections()
       .then(conns => {
         const connected = new Set<string>(['linkedin']);
@@ -145,10 +145,16 @@ export function usePosts() {
         setConnectedPlatforms(connected);
       })
       .catch(() => {
-        // On error assume all connected to avoid false warnings
         setConnectedPlatforms(new Set(['instagram', 'facebook', 'linkedin']));
       });
   }, []);
+
+  useEffect(() => {
+    refreshConnectedPlatforms();
+    const handleVisibility = () => { if (document.visibilityState === 'visible') refreshConnectedPlatforms(); };
+    document.addEventListener('visibilitychange', handleVisibility);
+    return () => document.removeEventListener('visibilitychange', handleVisibility);
+  }, [refreshConnectedPlatforms]);
 
   // GSAP entrance
   useEffect(() => {
