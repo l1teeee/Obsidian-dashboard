@@ -412,10 +412,12 @@ export default function Platforms() {
                   conn={conn}
                   disconnecting={disconnecting}
                   syncingIg={syncingIg}
+                  selectingPage={selectingPage}
                   hasInstagram={hasInstagram}
                   onDisconnect={handleDisconnect}
                   onSyncInstagram={handleSyncInstagram}
                   onReconnect={() => handleConnect('facebook')}
+                  onSetupPage={(c) => { setPageSetupConn(c); setPageIdInput(''); }}
                 />
               ))}
 
