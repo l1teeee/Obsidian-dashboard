@@ -117,7 +117,18 @@
       "Bash(find *)",
       "Bash(Get-ChildItem -Recurse \"C:\\\\Proyects\\\\obsidian-backend\\\\src\\\\modules\\\\platforms\" -File)",
       "Bash(Select-Object FullName)",
-      "PowerShell(& npx tsc --noEmit --project \"C:\\\\Proyects\\\\obsidian-backend\\\\tsconfig.json\" 2>&1)"
+      "PowerShell(& npx tsc --noEmit --project \"C:\\\\Proyects\\\\obsidian-backend\\\\tsconfig.json\" 2>&1)",
+      "Bash(Find \"C:\\\\Proyects\\\\obsidian-backend\\\\src\" -type f -name \"*.ts\")",
+      "Bash(Find \"C:\\\\Proyects\\\\obsidian-dashboard\\\\src\\\\pages\" -type f)",
+      "Bash(Find \"C:\\\\Proyects\\\\obsidian-dashboard\\\\src\\\\components\" -type d -maxdepth 1)",
+      "Bash(Find C:\\\\Proyects\\\\obsidian-backend\\\\src *)",
+      "Bash(Find C:\\\\Proyects\\\\obsidian-dashboard\\\\src\\\\types *)",
+      "Bash(Find C:\\\\Proyects\\\\obsidian-dashboard\\\\src\\\\services *)",
+      "Bash(Find C:\\\\Proyects\\\\obsidian-dashboard\\\\src\\\\pages\\\\admin *)",
+      "Bash(Find C:\\\\Proyects\\\\obsidian-dashboard\\\\src *)",
+      "Bash(Find C:\\\\Proyects\\\\obsidian-backend\\\\src\\\\modules *)",
+      "Bash(Find \"C:\\\\Proyects\\\\obsidian-dashboard\\\\src\\\\components\\\\shared\" -type f -name \"*.tsx\")",
+      "Bash(Find C:\\\\Proyects\\\\obsidian-dashboard\\\\src\\\\contexts *)"
     ]
   }
 }

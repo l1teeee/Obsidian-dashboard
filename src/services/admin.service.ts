@@ -1,8 +1,11 @@
 import { apiFetch } from '../lib/api';
 import type { PageMeta } from '../lib/api';
-import type { AdminOverview, AdminUserRow, AdminWorkspaceRow, AdminPostRow, AdminEntry } from '../types/admin.types';
+import type {
+  AdminOverview, AdminUserRow, AdminWorkspaceRow, AdminPostRow, AdminEntry,
+  PermissionsData, PlanPermissions, CustomRole, RoleUser,
+} from '../types/admin.types';
 
-export type { AdminOverview, AdminUserRow, AdminWorkspaceRow, AdminPostRow, AdminEntry };
+export type { AdminOverview, AdminUserRow, AdminWorkspaceRow, AdminPostRow, AdminEntry, PermissionsData, PlanPermissions, CustomRole, RoleUser };
 
 export async function getAdmins(): Promise<AdminEntry[]> {
   const res = await apiFetch<AdminEntry[]>('/admin/admins');
@@ -84,6 +87,48 @@ export async function deactivatePost(id: string, reason: string): Promise<void> 
 
 export async function activatePost(id: string, reason: string): Promise<void> {
   await apiFetch(`/admin/posts/${id}/activate`, { method: 'PATCH', body: JSON.stringify({ reason }) });
+}
+
+// ─── Permissions & Roles ─────────────────────────────────────────────────────
+
+export async function getPermissions(): Promise<PermissionsData> {
+  const res = await apiFetch<PermissionsData>('/admin/permissions');
+  return res.data;
+}
+
+export async function setPlanPermissions(plan: string, permissions: string[]): Promise<void> {
+  await apiFetch(`/admin/permissions/${plan}`, { method: 'PUT', body: JSON.stringify({ permissions }) });
+}
+
+export async function getRoles(): Promise<CustomRole[]> {
+  const res = await apiFetch<CustomRole[]>('/admin/roles');
+  return res.data;
+}
+
+export async function createRole(data: { name: string; description?: string; color?: string; permissions: string[] }): Promise<CustomRole> {
+  const res = await apiFetch<CustomRole>('/admin/roles', { method: 'POST', body: JSON.stringify(data) });
+  return res.data;
+}
+
+export async function updateRole(id: string, data: { name: string; description?: string; color?: string; permissions: string[] }): Promise<void> {
+  await apiFetch(`/admin/roles/${id}`, { method: 'PUT', body: JSON.stringify(data) });
+}
+
+export async function deleteRole(id: string): Promise<void> {
+  await apiFetch(`/admin/roles/${id}`, { method: 'DELETE' });
+}
+
+export async function getRoleUsers(roleId: string): Promise<RoleUser[]> {
+  const res = await apiFetch<RoleUser[]>(`/admin/roles/${roleId}/users`);
+  return res.data;
+}
+
+export async function assignUserToRole(roleId: string, userId: string): Promise<void> {
+  await apiFetch(`/admin/roles/${roleId}/users`, { method: 'POST', body: JSON.stringify({ user_id: userId }) });
+}
+
+export async function removeUserFromRole(roleId: string, userId: string): Promise<void> {
+  await apiFetch(`/admin/roles/${roleId}/users/${userId}`, { method: 'DELETE' });
 }
 
 export async function getPosts(params: {

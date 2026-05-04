@@ -54,12 +54,14 @@ const ProductAIInsights   = lazy(() => import('./pages/ProductAIInsights'));
 const ProductIntegrations = lazy(() => import('./pages/ProductIntegrations'));
 
 // Admin pages
-const AdminOverview    = lazy(() => import('./pages/admin/AdminOverview'));
-const AdminUsers       = lazy(() => import('./pages/admin/AdminUsers'));
-const AdminWorkspaces  = lazy(() => import('./pages/admin/AdminWorkspaces'));
-const AdminPosts       = lazy(() => import('./pages/admin/AdminPosts'));
-const AdminAdmins      = lazy(() => import('./pages/admin/AdminAdmins'));
-const AdminInvite      = lazy(() => import('./pages/AdminInvite'));
+const AdminOverview     = lazy(() => import('./pages/admin/AdminOverview'));
+const AdminUsers        = lazy(() => import('./pages/admin/AdminUsers'));
+const AdminWorkspaces   = lazy(() => import('./pages/admin/AdminWorkspaces'));
+const AdminPosts        = lazy(() => import('./pages/admin/AdminPosts'));
+const AdminAdmins       = lazy(() => import('./pages/admin/AdminAdmins'));
+const AdminPermissions  = lazy(() => import('./pages/admin/AdminPermissions'));
+const AdminRoles        = lazy(() => import('./pages/admin/AdminRoles'));
+const AdminInvite       = lazy(() => import('./pages/AdminInvite'));
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -338,11 +340,13 @@ export default function App() {
                 <Route element={
                   <AdminRoute><AdminLayout /></AdminRoute>
                 }>
-                  <Route path="/admin"            element={<AdminOverview />} />
-                  <Route path="/admin/users"      element={<AdminUsers />} />
-                  <Route path="/admin/workspaces" element={<AdminWorkspaces />} />
-                  <Route path="/admin/posts"      element={<AdminPosts />} />
-                  <Route path="/admin/admins"     element={<AdminAdmins />} />
+                  <Route path="/admin"                 element={<AdminOverview />} />
+                  <Route path="/admin/users"           element={<AdminUsers />} />
+                  <Route path="/admin/workspaces"      element={<AdminWorkspaces />} />
+                  <Route path="/admin/posts"           element={<AdminPosts />} />
+                  <Route path="/admin/admins"          element={<AdminAdmins />} />
+                  <Route path="/admin/permissions"     element={<AdminPermissions />} />
+                  <Route path="/admin/roles"           element={<AdminRoles />} />
                 </Route>
 
                 {/* 404 — catch-all */}

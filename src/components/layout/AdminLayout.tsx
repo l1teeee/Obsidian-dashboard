@@ -4,11 +4,13 @@ import { useAuth } from '../../hooks/useAuth';
 import Modal from '../shared/Modal';
 
 const NAV = [
-  { to: '/admin',            icon: 'monitoring', label: 'Overview',   exact: true },
-  { to: '/admin/users',      icon: 'group',      label: 'Users' },
-  { to: '/admin/workspaces', icon: 'workspaces', label: 'Workspaces' },
-  { to: '/admin/posts',      icon: 'article',             label: 'Posts' },
-  { to: '/admin/admins',    icon: 'admin_panel_settings', label: 'Administrators' },
+  { to: '/admin',                 icon: 'monitoring',            label: 'Overview',       exact: true },
+  { to: '/admin/users',           icon: 'group',                 label: 'Users' },
+  { to: '/admin/workspaces',      icon: 'workspaces',            label: 'Workspaces' },
+  { to: '/admin/posts',           icon: 'article',               label: 'Posts' },
+  { to: '/admin/admins',          icon: 'admin_panel_settings',  label: 'Administrators' },
+  { to: '/admin/permissions',     icon: 'lock',                  label: 'Permissions' },
+  { to: '/admin/roles',           icon: 'badge',                 label: 'Roles' },
 ];
 
 export default function AdminLayout() {

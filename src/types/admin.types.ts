@@ -70,3 +70,40 @@ export interface AdminOverview {
   users_by_week:  AdminWeekPoint[];
   top_workspaces: AdminWorkspaceRow[];
 }
+
+// ─── Permissions & Roles ──────────────────────────────────────────────────────
+
+export interface SystemPermission {
+  key:      string;
+  name:     string;
+  category: string;
+}
+
+export interface PlanPermissions {
+  starter:    string[];
+  pro:        string[];
+  enterprise: string[];
+}
+
+export interface PermissionsData {
+  system: SystemPermission[];
+  plan:   PlanPermissions;
+}
+
+export interface CustomRole {
+  id:          string;
+  name:        string;
+  description: string | null;
+  color:       string | null;
+  permissions: string[];
+  user_count:  number;
+  created_at:  string;
+}
+
+export interface RoleUser {
+  id:          string;
+  email:       string;
+  name:        string | null;
+  plan:        string;
+  assigned_at: string;
+}
