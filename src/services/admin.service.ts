@@ -1,8 +1,25 @@
 import { apiFetch } from '../lib/api';
 import type { PageMeta } from '../lib/api';
-import type { AdminOverview, AdminUserRow, AdminWorkspaceRow, AdminPostRow } from '../types/admin.types';
+import type { AdminOverview, AdminUserRow, AdminWorkspaceRow, AdminPostRow, AdminEntry } from '../types/admin.types';
 
-export type { AdminOverview, AdminUserRow, AdminWorkspaceRow, AdminPostRow };
+export type { AdminOverview, AdminUserRow, AdminWorkspaceRow, AdminPostRow, AdminEntry };
+
+export async function getAdmins(): Promise<AdminEntry[]> {
+  const res = await apiFetch<AdminEntry[]>('/admin/admins');
+  return res.data;
+}
+
+export async function addAdmin(email: string): Promise<AdminEntry> {
+  const res = await apiFetch<AdminEntry>('/admin/admins', {
+    method: 'POST',
+    body:   JSON.stringify({ email }),
+  });
+  return res.data;
+}
+
+export async function removeAdmin(id: string): Promise<void> {
+  await apiFetch(`/admin/admins/${id}`, { method: 'DELETE' });
+}
 
 export async function getOverview(): Promise<AdminOverview> {
   const res = await apiFetch<AdminOverview>('/admin/overview');

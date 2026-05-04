@@ -67,6 +67,7 @@ const NAV_STRUCTURE: NavEntry[] = [
     children: [
       { to: '/analytics', icon: 'monitoring', label: 'Analytics',     plans: ['starter', 'pro', 'enterprise'] },
       { to: '/rivals',    icon: 'radar',      label: 'Rival Monitor', plans: ['starter', 'pro', 'enterprise'] },
+      { to: '/activity',  icon: 'history',    label: 'Activity',      plans: ['starter', 'pro', 'enterprise'] },
     ],
   },
   {
@@ -248,6 +249,7 @@ export default function Sidebar() {
   const [newName,     setNewName]     = useState('');
   const [logoutModal, setLogoutModal] = useState(false);
   const [displayName, setDisplayName] = useState<string>('');
+  const [avatarUrl,   setAvatarUrl]   = useState<string | null>(null);
   const [userPlan,    setUserPlan]    = useState<UserPlan | null>(null);
   const [isAdmin,     setIsAdmin]     = useState(false);
   const [openGroups,  setOpenGroups]  = useState<Set<string>>(new Set());
@@ -292,6 +294,7 @@ export default function Sidebar() {
     getProfile()
       .then(p => {
         setDisplayName(p.name ?? p.email);
+        setAvatarUrl(p.avatar_url ?? null);
         setUserPlan(p.plan ?? 'starter');
         setIsAdmin(!!p.is_admin);
       })
@@ -640,8 +643,11 @@ export default function Sidebar() {
           ].join(' ')}
         >
           <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-[#d394ff] to-[#9400e4] p-[1.5px] shrink-0">
-            <div className="w-full h-full rounded-full bg-[#131313] flex items-center justify-center">
-              <span className="material-symbols-outlined text-[#d394ff]" style={{ fontSize: 15 }}>person</span>
+            <div className="w-full h-full rounded-full bg-[#131313] overflow-hidden flex items-center justify-center">
+              {avatarUrl
+                ? <img src={avatarUrl} alt="Avatar" className="w-full h-full object-cover" />
+                : <span className="text-xs font-bold text-[#d394ff]">{displayName ? displayName[0].toUpperCase() : '?'}</span>
+              }
             </div>
           </div>
           <div className={`flex-1 overflow-hidden transition-all duration-300 text-left ${isOpen ? 'max-w-[120px] opacity-100' : 'max-w-0 opacity-0'}`}>

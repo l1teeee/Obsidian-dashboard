@@ -24,28 +24,41 @@ export default function ConnectedPlatformsList({ platforms }: ConnectedPlatforms
         </button>
       </div>
       <div className="divide-y divide-[#4c4450]/5">
-        {platforms.map((p) => {
-          const ok = p.status === 'connected';
-          return (
-            <div key={p.platformId} className="px-8 py-4 flex items-center justify-between hover:bg-white/[0.02] transition-colors">
-              <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-xl flex items-center justify-center text-white shrink-0" style={{ background: p.color }}>
-                  <SocialBrandIcon platformId={p.platformId} size={14} />
+        {platforms.length === 0 ? (
+          <div className="px-8 py-8 flex flex-col items-center gap-2 text-center">
+            <span className="material-symbols-outlined text-[#4c4450] text-[32px]">hub</span>
+            <p className="text-sm text-[#988d9c]">No platforms connected</p>
+            <button
+              onClick={() => navigate('/platforms')}
+              className="mt-1 text-[10px] text-[#d394ff] font-bold uppercase tracking-widest hover:text-white transition-colors"
+            >
+              Connect now
+            </button>
+          </div>
+        ) : (
+          platforms.map((p) => {
+            const ok = p.status === 'connected';
+            return (
+              <div key={p.platformId} className="px-8 py-4 flex items-center justify-between hover:bg-white/[0.02] transition-colors">
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-xl flex items-center justify-center text-white shrink-0" style={{ background: p.color }}>
+                    <SocialBrandIcon platformId={p.platformId} size={14} />
+                  </div>
+                  <div>
+                    <p className="text-sm font-semibold text-white">{p.name}</p>
+                    <p className="text-[10px] text-[#988d9c]">{p.handle}</p>
+                  </div>
                 </div>
-                <div>
-                  <p className="text-sm font-semibold text-white">{p.name}</p>
-                  <p className="text-[10px] text-[#988d9c]">{p.handle}</p>
+                <div className="flex items-center gap-2">
+                  <div className={`w-1.5 h-1.5 rounded-full ${ok ? 'bg-[#c5d247]' : 'bg-[#ffb4ab] animate-pulse'}`} />
+                  <span className={`text-[10px] uppercase tracking-wider font-medium ${ok ? 'text-[#c5d247]' : 'text-[#ffb4ab]'}`}>
+                    {ok ? 'Connected' : p.status === 'needs-reauth' ? 'Needs Re-auth' : 'Disconnected'}
+                  </span>
                 </div>
               </div>
-              <div className="flex items-center gap-2">
-                <div className={`w-1.5 h-1.5 rounded-full ${ok ? 'bg-[#c5d247]' : 'bg-[#ffb4ab] animate-pulse'}`} />
-                <span className={`text-[10px] uppercase tracking-wider font-medium ${ok ? 'text-[#c5d247]' : 'text-[#ffb4ab]'}`}>
-                  {p.status === 'connected' ? 'Connected' : p.status === 'needs-reauth' ? 'Needs Re-auth' : 'Disconnected'}
-                </span>
-              </div>
-            </div>
-          );
-        })}
+            );
+          })
+        )}
       </div>
     </div>
   );

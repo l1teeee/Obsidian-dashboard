@@ -51,6 +51,14 @@ export interface AdminPostRow {
   created_at:     string;
 }
 
+export interface AdminEntry {
+  id:         string;
+  email:      string;
+  name:       string | null;
+  created_at: string;
+  added_by:   string | null;
+}
+
 export interface AdminOverview {
   stats:          AdminStats;
   posts_by_week:  AdminWeekPoint[];

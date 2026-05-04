@@ -6,6 +6,7 @@ export interface UserProfile {
   name:              string | null;
   role:              string | null;
   country:           string | null;
+  avatar_url:        string | null;
   plan:              UserPlan;
   is_admin:          boolean;
   profile_completed: boolean;

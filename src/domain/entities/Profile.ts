@@ -1,10 +1,14 @@
 import type { PlatformId, PlatformStatus } from './Platform';
 
 export interface ProfileData {
-  name:     string;
-  email:    string;
-  role:     string;
-  timezone: string;
+  name:        string;
+  email:       string;
+  role:        string;
+  country:     string;
+  timezone:    string;
+  plan?:       string;
+  created_at?: string;
+  avatar_url?: string | null;
 }
 
 export interface ProfileStat {

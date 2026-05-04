@@ -18,15 +18,15 @@ const PLAN_META: Record<UserPlan, {
   },
   pro: {
     label:    'Pro',
-    price:    '$19/mo',
+    price:    '$79/mo',
     color:    '#d394ff',
-    features: ['3 workspaces', 'Unlimited posts', 'AI suggestions', 'Analytics export', 'Priority support'],
+    features: ['10 accounts', 'Unlimited posts', 'AI best-time engine', 'Analytics export', 'Priority support (4h)'],
   },
   enterprise: {
     label:    'Enterprise',
-    price:    '$49/mo',
+    price:    '$149/mo',
     color:    '#a78bfa',
-    features: ['Unlimited workspaces', 'Unlimited posts', 'AI suggestions', 'Advanced analytics', 'Dedicated support', 'Custom integrations'],
+    features: ['Unlimited accounts', 'Unlimited posts', 'White-label reports', 'API access', 'Dedicated CSM'],
   },
 };
 

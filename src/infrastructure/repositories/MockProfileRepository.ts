@@ -5,6 +5,7 @@ let currentProfile: ProfileData = {
   name:     'Alex Rivera',
   email:    'alex@obsidianlens.com',
   role:     'Digital Curator',
+  country:  '',
   timezone: 'UTC−6 (Mexico City)',
 };
 

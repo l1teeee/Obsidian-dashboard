@@ -44,7 +44,8 @@ const Settings       = lazy(() => import('./pages/Settings'));
 const Rivals         = lazy(() => import('./pages/Rivals'));
 const AISettings     = lazy(() => import('./pages/AISettings'));
 const Brand          = lazy(() => import('./pages/Brand'));
-const Profile        = lazy(() => import('./pages/Profile'));
+const Profile          = lazy(() => import('./pages/Profile'));
+const ActivityHistory  = lazy(() => import('./pages/ActivityHistory'));
 const Checkout            = lazy(() => import('./pages/Checkout'));
 const ProductDashboard    = lazy(() => import('./pages/ProductDashboard'));
 const ProductAnalytics    = lazy(() => import('./pages/ProductAnalytics'));
@@ -57,6 +58,7 @@ const AdminOverview    = lazy(() => import('./pages/admin/AdminOverview'));
 const AdminUsers       = lazy(() => import('./pages/admin/AdminUsers'));
 const AdminWorkspaces  = lazy(() => import('./pages/admin/AdminWorkspaces'));
 const AdminPosts       = lazy(() => import('./pages/admin/AdminPosts'));
+const AdminAdmins      = lazy(() => import('./pages/admin/AdminAdmins'));
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -327,6 +329,7 @@ export default function App() {
                   <Route path="/ai-settings"  element={<AISettings />} />
                   <Route path="/brand"        element={<Brand />} />
                   <Route path="/profile"      element={<Profile />} />
+                  <Route path="/activity"    element={<ActivityHistory />} />
                 </Route>
 
                 {/* Admin — requires role=admin */}
@@ -337,6 +340,7 @@ export default function App() {
                   <Route path="/admin/users"      element={<AdminUsers />} />
                   <Route path="/admin/workspaces" element={<AdminWorkspaces />} />
                   <Route path="/admin/posts"      element={<AdminPosts />} />
+                  <Route path="/admin/admins"     element={<AdminAdmins />} />
                 </Route>
 
                 {/* 404 — catch-all */}

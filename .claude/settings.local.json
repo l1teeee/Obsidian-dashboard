@@ -109,7 +109,14 @@
       "PowerShell(Set-Location C:\\\\Proyects\\\\obsidian-dashboard; npx tsc --noEmit 2>&1; Write-Output \"Frontend done: $LASTEXITCODE\")",
       "Read(//c/Users/aleja/**)",
       "Read(//c/Proyects/**)",
-      "Bash(xargs ls *)"
+      "Bash(xargs ls *)",
+      "Bash(Get-ChildItem -Path \"C:\\\\Proyects\\\\obsidian-dashboard\" -Recurse -Directory)",
+      "Bash(Select-Object -ExpandProperty FullName)",
+      "Bash(Get-ChildItem -Path \"C:\\\\Proyects\\\\obsidian-dashboard\" -Force)",
+      "Bash(Select-Object Name, PSIsContainer)",
+      "Bash(find *)",
+      "Bash(Get-ChildItem -Recurse \"C:\\\\Proyects\\\\obsidian-backend\\\\src\\\\modules\\\\platforms\" -File)",
+      "Bash(Select-Object FullName)"
     ]
   }
 }

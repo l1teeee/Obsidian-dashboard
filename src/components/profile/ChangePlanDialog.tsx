@@ -8,6 +8,7 @@ import { RadioGroup, RadioGroupItem } from '../ui/radio-group';
 import { Label } from '../ui/label';
 import { Input } from '../ui/input';
 import type { UserPlan } from '../../types/users.types';
+import { updatePlan } from '../../services/users.service';
 
 // ── Plan data ──────────────────────────────────────────────────────────────────
 
@@ -22,20 +23,20 @@ const PLANS: {
     id: 'starter',
     name: 'Starter',
     price: 0,
-    description: 'Free forever · 1 workspace',
+    description: 'Free forever · 1 account',
   },
   {
     id: 'pro',
     name: 'Pro',
-    price: 19,
-    description: '$19 / month · 3 workspaces',
+    price: 79,
+    description: '$79 / month · 10 accounts',
     badge: 'Popular',
   },
   {
     id: 'enterprise',
     name: 'Enterprise',
-    price: 49,
-    description: '$49 / month · Unlimited',
+    price: 149,
+    description: '$149 / month · Unlimited',
   },
 ];
 
@@ -56,12 +57,14 @@ function PlanStep({
   onSelect,
   onNext,
   onClose,
+  loading,
 }: {
   currentPlan: UserPlan;
   selected: UserPlan;
   onSelect: (p: UserPlan) => void;
   onNext: () => void;
   onClose: () => void;
+  loading?: boolean;
 }) {
   const id = useId();
   const selectedPlan = PLANS.find(p => p.id === selected)!;
@@ -141,23 +144,25 @@ function PlanStep({
       <div className="flex flex-col gap-2 pt-1">
         <button
           onClick={onNext}
-          disabled={isSame}
+          disabled={isSame || loading}
           className={[
-            'w-full py-2.5 rounded-xl text-sm font-bold transition-all duration-150 active:scale-[0.98]',
-            isSame
+            'w-full py-2.5 rounded-xl text-sm font-bold transition-all duration-150 active:scale-[0.98] flex items-center justify-center gap-2',
+            isSame || loading
               ? 'bg-[#252323] text-[#4c4450] cursor-not-allowed'
               : isDowngrade
                 ? 'bg-[#ffb4ab]/10 border border-[#ffb4ab]/30 text-[#ffb4ab] hover:bg-[#ffb4ab]/20'
                 : 'bg-[#d394ff] text-[#3a0060] shadow-[0_0_20px_rgba(211,148,255,0.25)] hover:shadow-[0_0_30px_rgba(211,148,255,0.4)] hover:bg-[#c97cff]',
           ].join(' ')}
         >
-          {isSame
-            ? 'Already on this plan'
-            : isFree
-              ? 'Downgrade to Free'
-              : isDowngrade
-                ? 'Downgrade plan'
-                : `Upgrade to ${selectedPlan.name}`}
+          {loading
+            ? <><span className="material-symbols-outlined text-[13px] animate-spin">progress_activity</span> Processing…</>
+            : isSame
+              ? 'Already on this plan'
+              : isFree
+                ? 'Downgrade to Free'
+                : isDowngrade
+                  ? 'Downgrade plan'
+                  : `Upgrade to ${selectedPlan.name}`}
         </button>
         <DialogClose asChild>
           <button
@@ -186,6 +191,7 @@ function CheckoutStep({
   const [cvc,        setCvc]        = useState('');
   const [name,       setName]       = useState('');
   const [loading,    setLoading]    = useState(false);
+  const [error,      setError]      = useState<string | null>(null);
 
   const formatCard   = (v: string) => v.replace(/\D/g, '').replace(/(.{4})/g, '$1 ').trim().slice(0, 19);
   const formatExpiry = (v: string) => {
@@ -196,9 +202,16 @@ function CheckoutStep({
   const handlePay = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    await new Promise(r => setTimeout(r, 1400));
-    setLoading(false);
-    onSuccess();
+    setError(null);
+    try {
+      await new Promise(r => setTimeout(r, 1400));
+      await updatePlan(plan.id);
+      onSuccess();
+    } catch {
+      setError('Could not update your plan. Please try again.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -300,6 +313,12 @@ function CheckoutStep({
           )}
         </button>
 
+        {error && (
+          <p className="text-xs text-[#ffb4ab] px-3 py-2 rounded-xl bg-[#ffb4ab]/10 border border-[#ffb4ab]/20 text-center">
+            {error}
+          </p>
+        )}
+
         <p className="text-center text-[10px] text-[#4c4450] flex items-center justify-center gap-1">
           <Lock size={10} />
           Payments are secure and encrypted
@@ -344,13 +363,22 @@ interface ChangePlanDialogProps {
 export default function ChangePlanDialog({ open, onOpenChange, currentPlan }: ChangePlanDialogProps) {
   const [step,     setStep]     = useState<Step>('plan');
   const [selected, setSelected] = useState<UserPlan>(currentPlan);
+  const [downgrading, setDowngrading] = useState(false);
 
   const selectedPlanData = PLANS.find(p => p.id === selected)!;
   const isFree           = selectedPlanData.price === 0;
 
-  const handleNext = () => {
+  const handleNext = async () => {
     if (isFree) {
-      setStep('success');
+      setDowngrading(true);
+      try {
+        await updatePlan(selected);
+        setStep('success');
+      } catch {
+        // keep on plan step, error is silent — user can retry
+      } finally {
+        setDowngrading(false);
+      }
     } else {
       setStep('checkout');
     }
@@ -377,8 +405,9 @@ export default function ChangePlanDialog({ open, onOpenChange, currentPlan }: Ch
                 currentPlan={currentPlan}
                 selected={selected}
                 onSelect={setSelected}
-                onNext={handleNext}
+                onNext={() => { void handleNext(); }}
                 onClose={handleClose}
+                loading={downgrading}
               />
             </motion.div>
           )}
