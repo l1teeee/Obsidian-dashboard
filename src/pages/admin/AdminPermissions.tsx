@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from 'react';
-import { toast } from 'sileo';
+import { sileo } from 'sileo';
 import { getPermissions, setPlanPermissions } from '../../services/admin.service';
 import type { SystemPermission, PlanPermissions } from '../../types/admin.types';
 
@@ -32,7 +32,7 @@ export default function AdminPermissions() {
         setPending(data.plan);
         setSaved(data.plan);
       })
-      .catch(() => toast.error('Failed to load permissions'))
+      .catch(() => sileo.error({ title: 'Failed to load permissions' }))
       .finally(() => setLoading(false));
   }, []);
 
@@ -48,9 +48,9 @@ export default function AdminPermissions() {
     try {
       await setPlanPermissions(plan, pending[plan]);
       setSaved(prev => ({ ...prev, [plan]: pending[plan] }));
-      toast.success(`${plan.charAt(0).toUpperCase() + plan.slice(1)} permissions saved`);
+      sileo.success({ title: `${plan.charAt(0).toUpperCase() + plan.slice(1)} permissions saved` });
     } catch {
-      toast.error('Failed to save permissions');
+      sileo.error({ title: 'Failed to save permissions' });
     } finally {
       setSaving(null);
     }

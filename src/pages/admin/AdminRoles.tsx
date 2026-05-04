@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from 'react';
-import { toast } from 'sileo';
+import { sileo } from 'sileo';
 import {
   getRoles, createRole, updateRole, deleteRole,
   getRoleUsers, assignUserToRole, removeUserFromRole,
@@ -49,7 +49,7 @@ export default function AdminRoles() {
   useEffect(() => {
     Promise.all([getRoles(), getPermissions()])
       .then(([r, p]) => { setRoles(r); setSystem(p.system); })
-      .catch(() => toast.error('Failed to load roles'))
+      .catch(() => sileo.error({ title: 'Failed to load roles' }))
       .finally(() => setLoading(false));
   }, []);
 
@@ -63,7 +63,7 @@ export default function AdminRoles() {
     setLoadingUsers(true);
     getRoleUsers(role.id)
       .then(u => setRoleUsers(u))
-      .catch(() => toast.error('Failed to load users'))
+      .catch(() => sileo.error({ title: 'Failed to load users' }))
       .finally(() => setLoadingUsers(false));
   }, []);
 
@@ -84,7 +84,7 @@ export default function AdminRoles() {
   };
 
   const handleSave = async () => {
-    if (!form.name.trim()) { toast.error('Name is required'); return; }
+    if (!form.name.trim()) { sileo.error({ title: 'Name is required' }); return; }
     setSaving(true);
     try {
       if (isCreating) {
@@ -92,14 +92,14 @@ export default function AdminRoles() {
         setRoles(prev => [newRole, ...prev]);
         setIsCreating(false);
         setSelectedId(newRole.id);
-        toast.success('Role created');
+        sileo.success({ title: 'Role created' });
       } else if (selectedId) {
         await updateRole(selectedId, { name: form.name, description: form.description || undefined, color: form.color, permissions: form.permissions });
         setRoles(prev => prev.map(r => r.id === selectedId ? { ...r, ...form, description: form.description || null, color: form.color } : r));
-        toast.success('Role updated');
+        sileo.success({ title: 'Role updated' });
       }
     } catch {
-      toast.error('Failed to save role');
+      sileo.error({ title: 'Failed to save role' });
     } finally {
       setSaving(false);
     }
@@ -113,9 +113,9 @@ export default function AdminRoles() {
       setSelectedId(null);
       setIsCreating(false);
       setForm(DEFAULT_FORM);
-      toast.success('Role deleted');
+      sileo.success({ title: 'Role deleted' });
     } catch {
-      toast.error('Failed to delete role');
+      sileo.error({ title: 'Failed to delete role' });
     } finally {
       setDeleteModal(false);
     }
@@ -143,9 +143,9 @@ export default function AdminRoles() {
       setRoles(prev => prev.map(r => r.id === selectedId ? { ...r, user_count: r.user_count + 1 } : r));
       setSearchResults([]);
       setUserSearch('');
-      toast.success(`${user.email} assigned`);
+      sileo.success({ title: `${user.email} assigned` });
     } catch {
-      toast.error('Failed to assign user');
+      sileo.error({ title: 'Failed to assign user' });
     }
   };
 
@@ -155,9 +155,9 @@ export default function AdminRoles() {
       await removeUserFromRole(selectedId, userId);
       setRoleUsers(prev => prev.filter(u => u.id !== userId));
       setRoles(prev => prev.map(r => r.id === selectedId ? { ...r, user_count: Math.max(0, r.user_count - 1) } : r));
-      toast.success('User removed from role');
+      sileo.success({ title: 'User removed from role' });
     } catch {
-      toast.error('Failed to remove user');
+      sileo.error({ title: 'Failed to remove user' });
     }
   };
 
