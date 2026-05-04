@@ -9,16 +9,24 @@ export async function getAdmins(): Promise<AdminEntry[]> {
   return res.data;
 }
 
-export async function addAdmin(email: string): Promise<AdminEntry> {
+export async function addAdmin(email: string, role: 'admin' | 'superadmin' = 'admin'): Promise<AdminEntry> {
   const res = await apiFetch<AdminEntry>('/admin/admins', {
     method: 'POST',
-    body:   JSON.stringify({ email }),
+    body:   JSON.stringify({ email, role }),
   });
   return res.data;
 }
 
 export async function removeAdmin(id: string): Promise<void> {
   await apiFetch(`/admin/admins/${id}`, { method: 'DELETE' });
+}
+
+export async function respondToInvite(token: string, action: 'accept' | 'reject'): Promise<{ status: string; email: string }> {
+  const res = await apiFetch<{ status: string; email: string }>('/admin/invite/respond', {
+    method: 'POST',
+    body:   JSON.stringify({ token, action }),
+  });
+  return res.data;
 }
 
 export async function getOverview(): Promise<AdminOverview> {

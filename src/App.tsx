@@ -59,6 +59,7 @@ const AdminUsers       = lazy(() => import('./pages/admin/AdminUsers'));
 const AdminWorkspaces  = lazy(() => import('./pages/admin/AdminWorkspaces'));
 const AdminPosts       = lazy(() => import('./pages/admin/AdminPosts'));
 const AdminAdmins      = lazy(() => import('./pages/admin/AdminAdmins'));
+const AdminInvite      = lazy(() => import('./pages/AdminInvite'));
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -296,6 +297,7 @@ export default function App() {
                 <Route path="/check-email"     element={<CheckEmail />} />
                 <Route path="/forgot-password" element={<ForgotPassword />} />
                 <Route path="/reset-password"  element={<ResetPassword />} />
+                <Route path="/admin-invite"    element={<AdminInvite />} />
 
                 {/* Profile completion — requires auth, accessible before profile is complete */}
                 <Route path="/complete-profile" element={

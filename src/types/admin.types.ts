@@ -51,12 +51,17 @@ export interface AdminPostRow {
   created_at:     string;
 }
 
+export type AdminRole = 'admin' | 'superadmin';
+
 export interface AdminEntry {
-  id:         string;
-  email:      string;
-  name:       string | null;
-  created_at: string;
-  added_by:   string | null;
+  id:              string;
+  email:           string;
+  name:            string | null;
+  role:            AdminRole;
+  status:          'pending' | 'accepted' | 'rejected';
+  invited_by_name: string | null;
+  created_at:      string;
+  responded_at:    string | null;
 }
 
 export interface AdminOverview {

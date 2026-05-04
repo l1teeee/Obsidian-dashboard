@@ -116,7 +116,8 @@
       "Bash(Select-Object Name, PSIsContainer)",
       "Bash(find *)",
       "Bash(Get-ChildItem -Recurse \"C:\\\\Proyects\\\\obsidian-backend\\\\src\\\\modules\\\\platforms\" -File)",
-      "Bash(Select-Object FullName)"
+      "Bash(Select-Object FullName)",
+      "PowerShell(& npx tsc --noEmit --project \"C:\\\\Proyects\\\\obsidian-backend\\\\tsconfig.json\" 2>&1)"
     ]
   }
 }
