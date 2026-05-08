@@ -10,6 +10,12 @@ const PLAN_META: Record<UserPlan, {
   color:    string;
   features: string[];
 }> = {
+  free: {
+    label:    'Free',
+    price:    '$0/mo',
+    color:    '#60a5fa',
+    features: ['1 workspace', '5 posts/month', 'Basic analytics', '1 platform'],
+  },
   starter: {
     label:    'Starter',
     price:    'Free',

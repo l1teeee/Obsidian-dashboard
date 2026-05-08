@@ -411,6 +411,12 @@ function ProfileSection() {
 /* ── Section: Billing ── */
 
 const BILLING_PLAN_INFO: Record<UserPlan, { label: string; price: string; color: string; features: string[] }> = {
+  free: {
+    label:    'Free',
+    price:    '$0/mo',
+    color:    '#60a5fa',
+    features: ['1 social account', '5 scheduled posts/mo', 'Basic analytics', 'Community support'],
+  },
   starter: {
     label:    'Starter',
     price:    'Free',
