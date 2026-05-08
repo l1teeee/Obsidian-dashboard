@@ -14,10 +14,22 @@ import { useLayout } from '../../contexts/LayoutContext';
 import { useWorkspace } from '../../contexts/WorkspaceContext';
 import { useAuth } from '../../hooks/useAuth';
 import Modal from '../shared/Modal';
+import AdminWelcomeModal, { shouldShowAdminWelcome } from '../shared/AdminWelcomeModal';
 import { getProfile } from '../../services/users.service';
 import type { UserPlan } from '../../types/users.types';
 
 const SIDEBAR_ORDER_KEY = 'obsidian_sidebar_order';
+
+const ADMIN_NAV = [
+  { to: '/admin',             icon: 'monitoring',           label: 'Overview',       exact: true,  superadminOnly: true },
+  { to: '/admin/users',       icon: 'group',                label: 'Users',                        superadminOnly: true },
+  { to: '/admin/workspaces',  icon: 'workspaces',           label: 'Workspaces' },
+  { to: '/admin/posts',       icon: 'article',              label: 'Posts' },
+  { to: '/admin/admins',      icon: 'admin_panel_settings', label: 'Administrators',               superadminOnly: true },
+  { to: '/admin/permissions', icon: 'lock',                 label: 'Permissions',                  superadminOnly: true },
+  { to: '/admin/roles',       icon: 'badge',                label: 'Roles',                        superadminOnly: true },
+  { to: '/admin/tokens',     icon: 'bolt',                 label: 'Token Usage',                  superadminOnly: true },
+];
 
 // ── Nav structure ─────────────────────────────────────────────────────────────
 
@@ -51,37 +63,38 @@ const NAV_STRUCTURE: NavEntry[] = [
   {
     kind: 'item',
     to: '/dashboard', icon: 'dashboard', label: 'Dashboard',
-    plans: ['starter', 'pro', 'enterprise'],
+    plans: ['free', 'starter', 'pro', 'enterprise'],
   },
   {
     kind: 'group', key: 'publish', icon: 'edit_note', label: 'Publish',
-    plans: ['starter', 'pro', 'enterprise'],
+    plans: ['free', 'starter', 'pro', 'enterprise'],
     children: [
-      { to: '/posts',    icon: 'article',        label: 'Posts',    plans: ['starter', 'pro', 'enterprise'] },
-      { to: '/calendar', icon: 'calendar_month', label: 'Calendar', plans: ['starter', 'pro', 'enterprise'] },
+      { to: '/posts',    icon: 'article',        label: 'Posts',    plans: ['free', 'starter', 'pro', 'enterprise'] },
+      { to: '/calendar', icon: 'calendar_month', label: 'Calendar', plans: ['free', 'starter', 'pro', 'enterprise'] },
     ],
   },
   {
     kind: 'group', key: 'insights', icon: 'monitoring', label: 'Insights',
-    plans: ['starter', 'pro', 'enterprise'],
+    plans: ['free', 'starter', 'pro', 'enterprise'],
     children: [
-      { to: '/analytics', icon: 'monitoring', label: 'Analytics',     plans: ['starter', 'pro', 'enterprise'] },
-      { to: '/rivals',    icon: 'radar',      label: 'Rival Monitor', plans: ['starter', 'pro', 'enterprise'] },
-      { to: '/activity',  icon: 'history',    label: 'Activity',      plans: ['starter', 'pro', 'enterprise'] },
+      { to: '/analytics', icon: 'monitoring', label: 'Analytics',     plans: ['free', 'starter', 'pro', 'enterprise'] },
+      { to: '/rivals',    icon: 'radar',      label: 'Rival Monitor', plans: ['free', 'starter', 'pro', 'enterprise'] },
+      { to: '/activity',  icon: 'history',    label: 'Activity',      plans: ['free', 'starter', 'pro', 'enterprise'] },
     ],
   },
   {
     kind: 'group', key: 'configure', icon: 'tune', label: 'Configure',
-    plans: ['starter', 'pro', 'enterprise'],
+    plans: ['free', 'starter', 'pro', 'enterprise'],
     children: [
-      { to: '/platforms',   icon: 'hub',          label: 'Platforms',   plans: ['starter', 'pro', 'enterprise'] },
-      { to: '/ai-settings', icon: 'auto_awesome', label: 'AI Settings', plans: ['starter', 'pro', 'enterprise'] },
-      { to: '/brand',       icon: 'style',        label: 'Brand',       plans: ['starter', 'pro', 'enterprise'] },
+      { to: '/platforms',   icon: 'hub',          label: 'Platforms',   plans: ['free', 'starter', 'pro', 'enterprise'] },
+      { to: '/ai-settings', icon: 'auto_awesome', label: 'AI Settings', plans: ['free', 'starter', 'pro', 'enterprise'] },
+      { to: '/brand',       icon: 'style',        label: 'Brand',       plans: ['free', 'starter', 'pro', 'enterprise'] },
     ],
   },
 ];
 
 const PLAN_LABEL: Record<UserPlan, string> = {
+  free:       'Free',
   starter:    'Starter',
   pro:        'Pro',
   enterprise: 'Enterprise',
@@ -252,7 +265,11 @@ export default function Sidebar() {
   const [avatarUrl,   setAvatarUrl]   = useState<string | null>(null);
   const [userPlan,    setUserPlan]    = useState<UserPlan | null>(null);
   const [isAdmin,     setIsAdmin]     = useState(false);
+  const [isSuperAdmin, setIsSuperAdmin] = useState(false);
   const [openGroups,  setOpenGroups]  = useState<Set<string>>(new Set());
+  const [adminOpen,          setAdminOpen]          = useState(false);
+  const [showAdminWelcome,   setShowAdminWelcome]   = useState(false);
+  const [adminWelcomeUserId, setAdminWelcomeUserId] = useState('');
 
   // Drag-and-drop order — Dashboard is always fixed first, not sortable
   const getNavId = (e: NavEntry) => e.kind === 'item' ? e.to : e.key;
@@ -297,6 +314,11 @@ export default function Sidebar() {
         setAvatarUrl(p.avatar_url ?? null);
         setUserPlan(p.plan ?? 'starter');
         setIsAdmin(!!p.is_admin);
+        setIsSuperAdmin(!!p.is_superadmin);
+        if (p.is_admin && shouldShowAdminWelcome(p.id)) {
+          setAdminWelcomeUserId(p.id);
+          setShowAdminWelcome(true);
+        }
       })
       .catch(() => { setUserPlan('starter'); });
   }, []);
@@ -309,6 +331,9 @@ export default function Sidebar() {
         if (hasActive) setOpenGroups(prev => new Set([...prev, entry.key]));
       }
     });
+    if (ADMIN_NAV.some(item => pathname.startsWith(item.to))) {
+      setAdminOpen(true);
+    }
   }, [pathname]);
 
   // Filter entries by plan
@@ -568,44 +593,82 @@ export default function Sidebar() {
                 ))}
               </SortableContext>
             </DndContext>
+
+            {/* Admin section — only for admins, collapsible */}
+            {isAdmin && (() => {
+              const isAnyAdminActive = ADMIN_NAV.some(item => pathname.startsWith(item.to) && (!item.exact || pathname === item.to));
+              const groupIsOpen      = adminOpen && isOpen;
+              return (
+                <>
+                  <div className="h-px bg-[#4c4450]/20 mx-1 my-1.5" />
+                  <button
+                    data-nav-item
+                    onClick={() => {
+                      if (!isOpen) { toggle(); setAdminOpen(true); return; }
+                      setAdminOpen(v => !v);
+                    }}
+                    title={!isOpen ? 'Admin' : undefined}
+                    aria-label={!isOpen ? 'Admin' : undefined}
+                    className={[
+                      'w-full flex items-center rounded-xl transition-all duration-150 select-none py-2.5 cursor-pointer',
+                      isOpen ? 'px-4' : 'px-4 lg:justify-center lg:px-0',
+                      isAnyAdminActive
+                        ? 'text-[#d394ff]'
+                        : 'text-gray-400 hover:text-white hover:bg-[#d394ff]/[0.06] active:bg-[#d394ff]/[0.12] active:scale-[0.97]',
+                      !isOpen && 'lg:hover:bg-[#d394ff]/[0.06] lg:hover:text-white',
+                    ].join(' ')}
+                  >
+                    <span className="material-symbols-outlined shrink-0" style={{ fontSize: 20, fontVariationSettings: isAnyAdminActive ? "'FILL' 1" : "'FILL' 0" }}>
+                      shield
+                    </span>
+                    <span className={['flex-1 text-left text-sm font-headline tracking-tight overflow-hidden whitespace-nowrap transition-all duration-300', isOpen ? 'max-w-[120px] opacity-100 pl-3' : 'max-w-0 opacity-0 pl-0'].join(' ')}>
+                      Admin
+                    </span>
+                    <span className={[
+                      'material-symbols-outlined shrink-0 transition-all duration-300',
+                      isOpen ? 'opacity-100' : 'opacity-0 w-0',
+                      groupIsOpen ? '[transform:rotate(180deg)]' : '',
+                      isAnyAdminActive ? 'text-[#d394ff]' : 'text-[#4c4450]',
+                    ].join(' ')} style={{ fontSize: 14 }}>
+                      expand_more
+                    </span>
+                  </button>
+
+                  <div style={{ display: 'grid', gridTemplateRows: groupIsOpen ? '1fr' : '0fr', transition: 'grid-template-rows 220ms cubic-bezier(0.16, 1, 0.3, 1)' }}>
+                    <div className="overflow-hidden">
+                      <div className="flex flex-col gap-0.5 pb-0.5 pl-3 pt-0.5">
+                        {ADMIN_NAV.filter(item => !item.superadminOnly || isSuperAdmin).map(item => (
+                          <NavLink
+                            key={item.to}
+                            to={item.to}
+                            end={item.exact}
+                            onClick={handleNavClick}
+                            className={({ isActive }) => [
+                              'flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-headline tracking-tight transition-all duration-150 select-none',
+                              isActive
+                                ? 'text-[#d394ff] bg-[#d394ff]/10 font-semibold'
+                                : 'text-[#988d9c] hover:text-white hover:bg-[#d394ff]/[0.06] hover:translate-x-0.5 active:bg-[#d394ff]/[0.12] active:scale-[0.97] active:translate-x-0',
+                            ].join(' ')}
+                          >
+                            {({ isActive }) => (
+                              <>
+                                <span className="material-symbols-outlined shrink-0" style={{ fontSize: 16, fontVariationSettings: isActive ? "'FILL' 1" : "'FILL' 0" }}>
+                                  {item.icon}
+                                </span>
+                                {item.label}
+                              </>
+                            )}
+                          </NavLink>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </>
+              );
+            })()}
           </>
         )}
       </nav>
-
-      {/* ── Admin shortcut ───────────────────────────────────────────────────── */}
-      {isAdmin && (
-        <div className="px-2 pb-2">
-          <NavLink
-            to="/admin"
-            onClick={handleNavClick}
-            title={!isOpen ? 'Admin Dashboard' : undefined}
-            className={({ isActive }) => [
-              'flex items-center rounded-xl transition-all duration-150 select-none py-2.5',
-              isOpen ? 'px-3 gap-3' : 'px-3 lg:justify-center lg:px-0',
-              isActive
-                ? 'bg-[#f87171]/10 text-[#f87171] font-semibold border border-[#f87171]/20'
-                : 'bg-[#f87171]/5 text-[#f87171]/70 hover:text-[#f87171] hover:bg-[#f87171]/10 border border-[#f87171]/10 hover:border-[#f87171]/20',
-            ].join(' ')}
-          >
-            {({ isActive }) => (
-              <>
-                <span
-                  className="material-symbols-outlined shrink-0"
-                  style={{ fontSize: 16, fontVariationSettings: isActive ? "'FILL' 1" : "'FILL' 0" }}
-                >
-                  shield
-                </span>
-                <span className={[
-                  'overflow-hidden whitespace-nowrap transition-all duration-300 text-xs font-bold tracking-wide',
-                  isOpen ? 'max-w-[160px] opacity-100' : 'max-w-0 opacity-0',
-                ].join(' ')}>
-                  Admin Dashboard
-                </span>
-              </>
-            )}
-          </NavLink>
-        </div>
-      )}
 
       {/* ── Bottom: user card + menu ──────────────────────────────────────────── */}
       <div ref={bottomRef} className="mt-4 relative">
@@ -684,6 +747,14 @@ export default function Sidebar() {
         </div>
       </div>
     </aside>
+
+    {/* Admin welcome modal — shown once after becoming admin */}
+    {showAdminWelcome && (
+      <AdminWelcomeModal
+        userId={adminWelcomeUserId}
+        onClose={() => setShowAdminWelcome(false)}
+      />
+    )}
 
     {/* Logout confirmation modal */}
     <Modal open={logoutModal} onClose={() => setLogoutModal(false)} maxWidth="max-w-sm">

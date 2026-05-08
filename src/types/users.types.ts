@@ -1,4 +1,4 @@
-export type UserPlan = 'starter' | 'pro' | 'enterprise';
+export type UserPlan = 'free' | 'starter' | 'pro' | 'enterprise';
 
 export interface UserProfile {
   id:                string;
@@ -9,6 +9,7 @@ export interface UserProfile {
   avatar_url:        string | null;
   plan:              UserPlan;
   is_admin:          boolean;
+  is_superadmin:     boolean;
   profile_completed: boolean;
   created_at:        string;
 }

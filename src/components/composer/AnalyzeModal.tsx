@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom';
 import { analyzeImageForPost } from '../../services/ai.service';
 import type { AnalyzeImageResult } from '../../services/ai.service';
 import { useWorkspace } from '../../contexts/WorkspaceContext';
+import { useAITokens } from '../../contexts/AITokenContext';
 import type { MediaItem } from '../../hooks/useComposer';
 import type { ChannelId } from '../../types/composer.types';
 
@@ -119,6 +120,7 @@ export default function AnalyzeModal({
   onRequestEditMedia,
 }: AnalyzeModalProps) {
   const { active: workspace } = useWorkspace();
+  const { allowed: aiAllowed } = useAITokens();
 
   const [isMounted, setIsMounted] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
@@ -148,7 +150,7 @@ export default function AnalyzeModal({
 
   // Auto-run on first open for single media type
   useEffect(() => {
-    if (isOpen && !hasBothTypes && !analysisResult && !analysisLoading) {
+    if (isOpen && !hasBothTypes && !analysisResult && !analysisLoading && aiAllowed) {
       runAnalysis(hasVideos ? 'videos' : 'images');
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -257,6 +259,16 @@ export default function AnalyzeModal({
         {/* ── Scrollable body ── */}
         <div className="flex-1 overflow-y-auto px-5 py-4 space-y-4 min-h-0">
 
+          {/* Token limit banner */}
+          {!aiAllowed && (
+            <div className="flex items-start gap-2.5 px-3 py-2.5 rounded-xl bg-[#f97316]/8 border border-[#f97316]/20">
+              <span className="material-symbols-outlined text-[#f97316] shrink-0 mt-0.5" style={{ fontSize: 14, fontVariationSettings: "'FILL' 1" }}>warning</span>
+              <p className="text-[10px] text-[#f97316]/90 leading-relaxed">
+                Monthly AI token limit reached. Upgrade your plan to analyze media with AI.
+              </p>
+            </div>
+          )}
+
           {/* ── Media being analyzed — with edit buttons ── */}
           {images.length > 0 && onRequestEditMedia && (
             <div className="space-y-2">
@@ -304,7 +316,7 @@ export default function AnalyzeModal({
                 <button
                   key={opt.value}
                   onClick={() => runAnalysis(opt.value)}
-                  disabled={analysisLoading}
+                  disabled={analysisLoading || !aiAllowed}
                   className={`flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-[10px] text-[10px] font-bold uppercase tracking-wider transition-all disabled:opacity-50 ${
                     analysisScope === opt.value
                       ? 'bg-[#d394ff]/20 text-[#d394ff] border border-[#d394ff]/30'
@@ -502,7 +514,8 @@ export default function AnalyzeModal({
             </button>
             <button
               onClick={() => runAnalysis(analysisScope ?? (hasVideos ? 'videos' : 'images'))}
-              className="w-full flex items-center justify-center gap-1.5 py-2 rounded-xl text-[10px] text-[#988d9c] hover:text-[#d394ff] hover:bg-[#d394ff]/8 transition-all"
+              disabled={!aiAllowed}
+              className="w-full flex items-center justify-center gap-1.5 py-2 rounded-xl text-[10px] text-[#988d9c] hover:text-[#d394ff] hover:bg-[#d394ff]/8 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
             >
               <span className="material-symbols-outlined" style={{ fontSize: 13 }}>refresh</span>
               Re-analyze

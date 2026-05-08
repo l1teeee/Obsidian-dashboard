@@ -5,6 +5,7 @@ import Sidebar from './Sidebar';
 import ErrorBoundary from '../shared/ErrorBoundary';
 import { LayoutProvider, useLayout } from '../../contexts/LayoutContext';
 import { useWorkspace } from '../../contexts/WorkspaceContext';
+import { AITokenProvider } from '../../contexts/AITokenContext';
 
 function Layout() {
   const { isOpen, toggle, close } = useLayout();
@@ -67,7 +68,9 @@ function Layout() {
 export default function DashboardLayout() {
   return (
     <LayoutProvider>
-      <Layout />
+      <AITokenProvider>
+        <Layout />
+      </AITokenProvider>
     </LayoutProvider>
   );
 }

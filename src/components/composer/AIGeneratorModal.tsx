@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { generateImage, generateCarouselSlides, editImage } from '../../services/ai.service';
 import { uploadFile } from '../../services/media.service';
+import { useAITokens } from '../../contexts/AITokenContext';
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -79,6 +80,7 @@ export default function AIGeneratorModal({
   onImageGenerated,
   availableSlots,
 }: AIGeneratorModalProps) {
+  const { allowed: aiAllowed } = useAITokens();
   const [isMounted, setIsMounted] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
 
@@ -248,7 +250,7 @@ export default function AIGeneratorModal({
 
   const filledSlides = carouselSlides.filter(s => s.trim()).length;
   const willGenerate = Math.min(filledSlides, availableSlots);
-  const canGenerate  = !genLoading && availableSlots > 0 && (
+  const canGenerate  = !genLoading && availableSlots > 0 && aiAllowed && (
     genMode === 'single' ? !!prompt.trim() : filledSlides > 0
   );
 
@@ -333,6 +335,16 @@ export default function AIGeneratorModal({
 
             {/* Body */}
             <div className="flex-1 overflow-y-auto px-5 py-4 space-y-4 min-h-0">
+              {/* Token limit banner */}
+              {!aiAllowed && (
+                <div className="flex items-start gap-2.5 px-3 py-2.5 rounded-xl bg-[#f97316]/8 border border-[#f97316]/20">
+                  <span className="material-symbols-outlined text-[#f97316] shrink-0 mt-0.5" style={{ fontSize: 14, fontVariationSettings: "'FILL' 1" }}>warning</span>
+                  <p className="text-[10px] text-[#f97316]/90 leading-relaxed">
+                    Monthly AI token limit reached. Upgrade your plan to generate more images.
+                  </p>
+                </div>
+              )}
+
               {/* Single mode */}
               {genMode === 'single' && (
                 <>
@@ -434,7 +446,7 @@ export default function AIGeneratorModal({
                       </div>
                       <button
                         onClick={handleGenerateSlides}
-                        disabled={!carouselTopic.trim() || slidesLoading || genLoading}
+                        disabled={!carouselTopic.trim() || slidesLoading || genLoading || !aiAllowed}
                         className="ml-auto flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[#252424] border border-[#d394ff]/25 text-[#d394ff] text-[10px] font-bold uppercase tracking-wider disabled:opacity-40 hover:bg-[#d394ff]/10 hover:border-[#d394ff]/40 transition-all active:scale-[0.98]"
                       >
                         {slidesLoading ? <span className="material-symbols-outlined text-[13px] animate-spin">progress_activity</span> : <span className="material-symbols-outlined text-[13px]">auto_awesome</span>}

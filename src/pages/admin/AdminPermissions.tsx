@@ -3,10 +3,25 @@ import { sileo } from 'sileo';
 import { getPermissions, setPlanPermissions } from '../../services/admin.service';
 import type { SystemPermission, PlanPermissions } from '../../types/admin.types';
 
-const PLAN_LABELS: { key: keyof PlanPermissions; label: string; color: string }[] = [
-  { key: 'starter',    label: 'Starter',    color: '#6b7280' },
-  { key: 'pro',        label: 'Pro',        color: '#a78bfa' },
-  { key: 'enterprise', label: 'Enterprise', color: '#f87171' },
+type PlanKey = keyof PlanPermissions;
+
+const PLANS: { key: PlanKey; label: string; color: string; bg: string }[] = [
+  { key: 'free',       label: 'Free',       color: '#60a5fa', bg: '#60a5fa18' },
+  { key: 'starter',    label: 'Starter',    color: '#988d9c', bg: '#988d9c18' },
+  { key: 'pro',        label: 'Pro',        color: '#d394ff', bg: '#d394ff18' },
+  { key: 'enterprise', label: 'Enterprise', color: '#c5d247', bg: '#c5d24718' },
+];
+
+// Distinctive colors per category slot — cycles if there are more categories than colors
+const CAT_PALETTE = [
+  { color: '#d394ff', bg: '#d394ff12', icon: 'article' },
+  { color: '#60a5fa', bg: '#60a5fa12', icon: 'monitoring' },
+  { color: '#c5d247', bg: '#c5d24712', icon: 'auto_awesome' },
+  { color: '#f97316', bg: '#f9731612', icon: 'workspaces' },
+  { color: '#f472b6', bg: '#f472b612', icon: 'style' },
+  { color: '#34d399', bg: '#34d39912', icon: 'hub' },
+  { color: '#a78bfa', bg: '#a78bfa12', icon: 'lock' },
+  { color: '#fb923c', bg: '#fb923c12', icon: 'tune' },
 ];
 
 function groupByCategory(perms: SystemPermission[]): [string, SystemPermission[]][] {
@@ -18,12 +33,41 @@ function groupByCategory(perms: SystemPermission[]): [string, SystemPermission[]
   return Array.from(map.entries());
 }
 
+interface CheckboxProps {
+  checked: boolean;
+  color:   string;
+}
+
+function Checkbox({ checked, color }: CheckboxProps) {
+  return (
+    <span
+      className="w-[18px] h-[18px] rounded-md border flex items-center justify-center shrink-0 transition-all duration-150"
+      style={checked
+        ? { backgroundColor: color + '28', borderColor: color + '90' }
+        : { borderColor: '#4c4450' }
+      }
+    >
+      <svg width="11" height="11" viewBox="0 0 20 20" fill="none">
+        <path
+          d="M14 7L8.5 12.5L6 10"
+          stroke={checked ? color : 'transparent'}
+          strokeWidth="2.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+    </span>
+  );
+}
+
 export default function AdminPermissions() {
-  const [system,  setSystem]  = useState<SystemPermission[]>([]);
-  const [pending, setPending] = useState<PlanPermissions>({ starter: [], pro: [], enterprise: [] });
-  const [saved,   setSaved]   = useState<PlanPermissions>({ starter: [], pro: [], enterprise: [] });
-  const [loading, setLoading] = useState(true);
-  const [saving,  setSaving]  = useState<keyof PlanPermissions | null>(null);
+  const [system,     setSystem]     = useState<SystemPermission[]>([]);
+  const [pending,    setPending]    = useState<PlanPermissions>({ free: [], starter: [], pro: [], enterprise: [] });
+  const [saved,      setSaved]      = useState<PlanPermissions>({ free: [], starter: [], pro: [], enterprise: [] });
+  const [loading,    setLoading]    = useState(true);
+  const [saving,     setSaving]     = useState<PlanKey | null>(null);
+  const [activePlan, setActivePlan] = useState<PlanKey>('free');
+  const [search,     setSearch]     = useState('');
 
   useEffect(() => {
     getPermissions()
@@ -36,14 +80,26 @@ export default function AdminPermissions() {
       .finally(() => setLoading(false));
   }, []);
 
-  const toggle = useCallback((plan: keyof PlanPermissions, key: string) => {
+  useEffect(() => { setSearch(''); }, [activePlan]);
+
+  const toggle = useCallback((plan: PlanKey, key: string) => {
     setPending(prev => {
       const has = prev[plan].includes(key);
       return { ...prev, [plan]: has ? prev[plan].filter(k => k !== key) : [...prev[plan], key] };
     });
   }, []);
 
-  const save = async (plan: keyof PlanPermissions) => {
+  const toggleCategory = useCallback((plan: PlanKey, keys: string[]) => {
+    setPending(prev => {
+      const allChecked = keys.every(k => prev[plan].includes(k));
+      if (allChecked) return { ...prev, [plan]: prev[plan].filter(k => !keys.includes(k)) };
+      const next = new Set(prev[plan]);
+      keys.forEach(k => next.add(k));
+      return { ...prev, [plan]: Array.from(next) };
+    });
+  }, []);
+
+  const save = async (plan: PlanKey) => {
     setSaving(plan);
     try {
       await setPlanPermissions(plan, pending[plan]);
@@ -56,13 +112,16 @@ export default function AdminPermissions() {
     }
   };
 
-  const isDirty = (plan: keyof PlanPermissions) =>
+  const isDirty = (plan: PlanKey) =>
     JSON.stringify([...pending[plan]].sort()) !== JSON.stringify([...saved[plan]].sort());
 
-  const groups = groupByCategory(system);
+  const groups      = groupByCategory(system);
+  const planInfo    = PLANS.find(p => p.key === activePlan)!;
+  const lowerSearch = search.toLowerCase();
 
   return (
     <div className="min-h-screen bg-[#0a0a0a] p-6 lg:p-8">
+
       {/* Header */}
       <div className="mb-8">
         <h1 className="text-2xl font-headline font-extrabold text-white tracking-tight mb-1">Plan Permissions</h1>
@@ -74,70 +133,149 @@ export default function AdminPermissions() {
           <span className="material-symbols-outlined text-[#4c4450] animate-spin" style={{ fontSize: 28 }}>progress_activity</span>
         </div>
       ) : (
-        <div className="rounded-2xl border border-[#4c4450]/15 bg-[#0e0e0e] overflow-hidden">
-          {/* Table header */}
-          <div className="grid grid-cols-[1fr_80px_80px_80px] gap-0 border-b border-[#4c4450]/15">
-            <div className="px-5 py-3.5 text-xs font-bold text-[#988d9c] uppercase tracking-widest">Feature</div>
-            {PLAN_LABELS.map(pl => (
-              <div key={pl.key} className="px-3 py-3.5 text-center">
-                <span className="text-xs font-bold uppercase tracking-widest" style={{ color: pl.color }}>{pl.label}</span>
-              </div>
-            ))}
+        <div className="flex flex-col gap-6">
+
+          {/* Plan tabs + save row */}
+          <div className="flex items-center justify-between gap-4 flex-wrap">
+            <div className="flex gap-2">
+              {PLANS.map(plan => {
+                const isActive = activePlan === plan.key;
+                const dirty    = isDirty(plan.key);
+                return (
+                  <button
+                    key={plan.key}
+                    onClick={() => setActivePlan(plan.key)}
+                    className={[
+                      'relative px-5 py-2.5 rounded-xl text-sm font-bold font-headline tracking-tight transition-all duration-150 border',
+                      isActive ? '' : 'border-transparent text-[#988d9c] hover:text-white hover:bg-white/[0.04]',
+                    ].join(' ')}
+                    style={isActive ? { color: plan.color, backgroundColor: plan.bg, borderColor: plan.color + '50' } : {}}
+                  >
+                    {plan.label}
+                    {dirty && (
+                      <span className="absolute top-1.5 right-1.5 w-1.5 h-1.5 rounded-full" style={{ backgroundColor: plan.color }} />
+                    )}
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Save + counter */}
+            <div className="flex items-center gap-3">
+              <span className="text-xs text-[#4c4450]">
+                {pending[activePlan].length} / {system.length} enabled
+              </span>
+              <button
+                onClick={() => { void save(activePlan); }}
+                disabled={!isDirty(activePlan) || saving === activePlan}
+                className="px-5 py-2.5 rounded-xl text-sm font-bold font-headline transition-all disabled:opacity-30 disabled:cursor-not-allowed border"
+                style={isDirty(activePlan) ? {
+                  backgroundColor: planInfo.color + '22',
+                  color:           planInfo.color,
+                  borderColor:     planInfo.color + '44',
+                } : { color: '#4c4450', borderColor: '#4c4450' + '30' }}
+              >
+                {saving === activePlan ? 'Saving...' : 'Save changes'}
+              </button>
+            </div>
           </div>
 
-          {/* Groups */}
-          {groups.map(([category, perms]) => (
-            <div key={category} className="border-b border-[#4c4450]/10 last:border-0">
-              <div className="px-5 py-2.5 bg-[#111]/60">
-                <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#4c4450]">{category}</span>
-              </div>
-              {perms.map(perm => (
-                <div
-                  key={perm.key}
-                  className="grid grid-cols-[1fr_80px_80px_80px] gap-0 items-center border-b border-[#4c4450]/08 last:border-0 hover:bg-white/[0.015] transition-colors"
-                >
-                  <div className="px-5 py-3 text-sm text-[#cfc2d2]">{perm.name}</div>
-                  {PLAN_LABELS.map(pl => {
-                    const checked = pending[pl.key].includes(perm.key);
-                    return (
-                      <div key={pl.key} className="px-3 py-3 flex items-center justify-center">
-                        <button
-                          onClick={() => toggle(pl.key, perm.key)}
-                          className={[
-                            'w-5 h-5 rounded-md border flex items-center justify-center transition-all',
-                            checked
-                              ? 'border-transparent'
-                              : 'border-[#4c4450]/30 hover:border-[#4c4450]/60',
-                          ].join(' ')}
-                          style={checked ? { backgroundColor: pl.color + '33', borderColor: pl.color + '66' } : {}}
-                        >
-                          {checked && (
-                            <span className="material-symbols-outlined" style={{ fontSize: 13, color: pl.color, fontVariationSettings: "'FILL' 1" }}>check</span>
-                          )}
-                        </button>
-                      </div>
-                    );
-                  })}
-                </div>
-              ))}
-            </div>
-          ))}
+          {/* Search */}
+          <div className="relative max-w-sm">
+            <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[#4c4450]" style={{ fontSize: 16 }}>search</span>
+            <input
+              value={search}
+              onChange={e => setSearch(e.target.value)}
+              placeholder="Search permissions..."
+              className="w-full pl-9 pr-4 py-2.5 rounded-xl bg-[#0e0e0e] border border-[#4c4450]/20 text-sm text-white placeholder:text-[#4c4450] focus:outline-none focus:border-[#4c4450]/50 transition-all"
+            />
+            {search && (
+              <button onClick={() => setSearch('')} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[#4c4450] hover:text-white transition-colors">
+                <span className="material-symbols-outlined" style={{ fontSize: 14 }}>close</span>
+              </button>
+            )}
+          </div>
 
-          {/* Save buttons per plan */}
-          <div className="grid grid-cols-[1fr_80px_80px_80px] gap-0 bg-[#111]/40 border-t border-[#4c4450]/15 px-5 py-3">
-            <div className="text-xs text-[#4c4450] flex items-center">Changes are saved per plan</div>
-            {PLAN_LABELS.map(pl => (
-              <div key={pl.key} className="px-1.5 flex items-center justify-center">
-                <button
-                  onClick={() => { void save(pl.key); }}
-                  disabled={!isDirty(pl.key) || saving === pl.key}
-                  className="text-[11px] font-bold px-3 py-1.5 rounded-lg transition-all disabled:opacity-30 disabled:cursor-not-allowed"
-                  style={isDirty(pl.key) ? { backgroundColor: pl.color + '22', color: pl.color, borderColor: pl.color + '44', border: '1px solid' } : { color: '#4c4450' }}
+          {/* Category grid */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            {groups.map(([category, perms], idx) => {
+              const cat        = CAT_PALETTE[idx % CAT_PALETTE.length];
+              const keys       = perms.map(p => p.key);
+              const allChecked = keys.every(k => pending[activePlan].includes(k));
+              const anyChecked = keys.some(k => pending[activePlan].includes(k));
+              const enabledCount = keys.filter(k => pending[activePlan].includes(k)).length;
+
+              return (
+                <div
+                  key={category}
+                  className="rounded-2xl border bg-[#0e0e0e] overflow-hidden flex flex-col"
+                  style={{ borderColor: cat.color + '28' }}
                 >
-                  {saving === pl.key ? '...' : 'Save'}
-                </button>
-              </div>
-            ))}
+                  {/* Card header */}
+                  <div
+                    className="flex items-center justify-between px-4 py-3"
+                    style={{ backgroundColor: cat.bg, borderBottom: `1px solid ${cat.color}20` }}
+                  >
+                    <div className="flex items-center gap-2.5">
+                      <div
+                        className="w-7 h-7 rounded-lg flex items-center justify-center shrink-0"
+                        style={{ backgroundColor: cat.color + '20' }}
+                      >
+                        <span className="material-symbols-outlined" style={{ fontSize: 15, color: cat.color, fontVariationSettings: "'FILL' 1" }}>
+                          {cat.icon}
+                        </span>
+                      </div>
+                      <div>
+                        <p className="text-sm font-bold font-headline text-white">{category}</p>
+                        <p className="text-[10px]" style={{ color: cat.color + 'bb' }}>
+                          {enabledCount} / {keys.length} enabled
+                        </p>
+                      </div>
+                    </div>
+                    <button
+                      onClick={() => toggleCategory(activePlan, keys)}
+                      className="text-[10px] font-semibold px-2.5 py-1 rounded-lg transition-all"
+                      style={anyChecked
+                        ? { color: cat.color, backgroundColor: cat.color + '18' }
+                        : { color: '#988d9c', backgroundColor: 'transparent' }
+                      }
+                    >
+                      {allChecked ? 'Deselect all' : 'Select all'}
+                    </button>
+                  </div>
+
+                  {/* Permission rows */}
+                  <div className="flex flex-col">
+                    {perms.map((perm, i) => {
+                      const isChecked = pending[activePlan].includes(perm.key);
+                      const hit = lowerSearch
+                        ? perm.name.toLowerCase().includes(lowerSearch) || perm.key.toLowerCase().includes(lowerSearch)
+                        : true;
+                      return (
+                        <div
+                          key={perm.key}
+                          onClick={() => toggle(activePlan, perm.key)}
+                          className={[
+                            'flex items-center justify-between px-4 py-3 cursor-pointer transition-all duration-150',
+                            i < perms.length - 1 ? 'border-b border-[#1c1b1b]' : '',
+                            isChecked ? 'hover:bg-white/[0.02]' : 'hover:bg-white/[0.015]',
+                            hit ? 'opacity-100' : 'opacity-[0.18]',
+                          ].join(' ')}
+                        >
+                          <div className="min-w-0 pr-4">
+                            <p className={['text-sm leading-tight transition-colors', isChecked ? 'text-white' : 'text-[#988d9c]'].join(' ')}>
+                              {perm.name}
+                            </p>
+                            <p className="text-[10px] text-[#4c4450] font-mono mt-0.5">{perm.key}</p>
+                          </div>
+                          <Checkbox checked={isChecked} color={cat.color} />
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
       )}

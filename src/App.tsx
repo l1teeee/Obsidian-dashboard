@@ -19,7 +19,6 @@ import ProtectedRoute from './components/shared/ProtectedRoute';
 import AdminRoute     from './components/shared/AdminRoute';
 import RouteTransition from './components/shared/RouteTransition';
 import DashboardLayout from './components/layout/DashboardLayout';
-import AdminLayout     from './components/layout/AdminLayout';
 
 // Lazy-loaded pages — each becomes its own chunk
 const LandingPage    = lazy(() => import('./pages/LandingPage'));
@@ -61,6 +60,7 @@ const AdminPosts        = lazy(() => import('./pages/admin/AdminPosts'));
 const AdminAdmins       = lazy(() => import('./pages/admin/AdminAdmins'));
 const AdminPermissions  = lazy(() => import('./pages/admin/AdminPermissions'));
 const AdminRoles        = lazy(() => import('./pages/admin/AdminRoles'));
+const AdminTokens       = lazy(() => import('./pages/admin/AdminTokens'));
 const AdminInvite       = lazy(() => import('./pages/AdminInvite'));
 
 gsap.registerPlugin(ScrollTrigger);
@@ -338,7 +338,7 @@ export default function App() {
 
                 {/* Admin — requires role=admin */}
                 <Route element={
-                  <AdminRoute><AdminLayout /></AdminRoute>
+                  <AdminRoute><DashboardLayout /></AdminRoute>
                 }>
                   <Route path="/admin"                 element={<AdminOverview />} />
                   <Route path="/admin/users"           element={<AdminUsers />} />
@@ -347,6 +347,7 @@ export default function App() {
                   <Route path="/admin/admins"          element={<AdminAdmins />} />
                   <Route path="/admin/permissions"     element={<AdminPermissions />} />
                   <Route path="/admin/roles"           element={<AdminRoles />} />
+                  <Route path="/admin/tokens"          element={<AdminTokens />} />
                 </Route>
 
                 {/* 404 — catch-all */}

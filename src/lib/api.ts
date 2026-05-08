@@ -142,6 +142,10 @@ export async function apiFetch<T>(
       window.dispatchEvent(new CustomEvent(event));
     }
 
+    if (res.status === 429 && json.error?.code === 'TOKEN_LIMIT_EXCEEDED') {
+      window.dispatchEvent(new CustomEvent('ai:token-limit-exceeded'));
+    }
+
     throw Object.assign(new Error(json.error?.message ?? 'Request failed'), {
       code:   json.error?.code ?? 'API_ERROR',
       status: res.status,

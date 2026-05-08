@@ -3,9 +3,10 @@ import type { PageMeta } from '../lib/api';
 import type {
   AdminOverview, AdminUserRow, AdminWorkspaceRow, AdminPostRow, AdminEntry,
   PermissionsData, PlanPermissions, CustomRole, RoleUser,
+  TokenStats, ToolBreakdown, TopUser, TokenLimit,
 } from '../types/admin.types';
 
-export type { AdminOverview, AdminUserRow, AdminWorkspaceRow, AdminPostRow, AdminEntry, PermissionsData, PlanPermissions, CustomRole, RoleUser };
+export type { AdminOverview, AdminUserRow, AdminWorkspaceRow, AdminPostRow, AdminEntry, PermissionsData, PlanPermissions, CustomRole, RoleUser, TokenStats, ToolBreakdown, TopUser, TokenLimit };
 
 export async function getAdmins(): Promise<AdminEntry[]> {
   const res = await apiFetch<AdminEntry[]>('/admin/admins');
@@ -129,6 +130,35 @@ export async function assignUserToRole(roleId: string, userId: string): Promise<
 
 export async function removeUserFromRole(roleId: string, userId: string): Promise<void> {
   await apiFetch(`/admin/roles/${roleId}/users/${userId}`, { method: 'DELETE' });
+}
+
+// ─── Token Usage ─────────────────────────────────────────────────────────────
+
+export async function getTokenStats(period = '30d'): Promise<TokenStats> {
+  const res = await apiFetch<TokenStats>(`/admin/tokens/stats?period=${period}`);
+  return res.data;
+}
+
+export async function getToolBreakdown(period = '30d'): Promise<ToolBreakdown[]> {
+  const res = await apiFetch<ToolBreakdown[]>(`/admin/tokens/by-tool?period=${period}`);
+  return res.data;
+}
+
+export async function getTopUsers(period = '30d', limit = 10): Promise<TopUser[]> {
+  const res = await apiFetch<TopUser[]>(`/admin/tokens/top-users?period=${period}&limit=${limit}`);
+  return res.data;
+}
+
+export async function getTokenLimits(): Promise<TokenLimit[]> {
+  const res = await apiFetch<TokenLimit[]>('/admin/tokens/limits');
+  return res.data;
+}
+
+export async function setTokenLimit(plan: string, monthlyLimit: number): Promise<void> {
+  await apiFetch(`/admin/tokens/limits/${plan}`, {
+    method: 'PUT',
+    body:   JSON.stringify({ monthly_limit: monthlyLimit }),
+  });
 }
 
 export async function getPosts(params: {

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import DateTimePicker from '../shared/DateTimePicker';
 import { suggestScheduleTime } from '../../services/ai.service';
 import type { ChannelId } from '../../types/composer.types';
+import { useAITokens } from '../../contexts/AITokenContext';
 
 const PLATFORM_MAP: Record<ChannelId, string> = {
   ig: 'meta',
@@ -28,6 +29,7 @@ export default function SchedulePicker({
   onDateChange,
   onScheduleToggle,
 }: SchedulePickerProps) {
+  const { allowed: aiAllowed } = useAITokens();
   const [suggesting, setSuggesting] = useState(false);
   const [suggestion, setSuggestion] = useState<string | null>(null);
   const [error,      setError]      = useState<string | null>(null);
@@ -117,24 +119,33 @@ export default function SchedulePicker({
               <p className="text-[10px] text-[#d394ff]/80 font-medium">Time suggested by AI analysis</p>
             </div>
           ) : (
-            <button
-              type="button"
-              onClick={handleSuggest}
-              disabled={suggesting}
-              className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl border border-[#d394ff]/25 bg-[#d394ff]/5 text-[#d394ff] text-xs font-bold hover:bg-[#d394ff]/10 hover:border-[#d394ff]/40 transition-all disabled:opacity-50"
-            >
-              {suggesting ? (
-                <>
-                  <span className="material-symbols-outlined text-[14px] animate-spin">progress_activity</span>
-                  Analyzing caption…
-                </>
-              ) : (
-                <>
-                  <span className="material-symbols-outlined text-[14px]" style={{ fontVariationSettings: "'FILL' 1" }}>auto_awesome</span>
-                  Suggest best time
-                </>
-              )}
-            </button>
+            {!aiAllowed ? (
+              <div className="flex items-start gap-2.5 px-3 py-2.5 rounded-xl bg-[#f97316]/8 border border-[#f97316]/20">
+                <span className="material-symbols-outlined text-[#f97316] shrink-0 mt-0.5" style={{ fontSize: 14, fontVariationSettings: "'FILL' 1" }}>warning</span>
+                <p className="text-[10px] text-[#f97316]/90 leading-relaxed">
+                  Monthly AI token limit reached. Upgrade your plan to use AI schedule suggestions.
+                </p>
+              </div>
+            ) : (
+              <button
+                type="button"
+                onClick={handleSuggest}
+                disabled={suggesting}
+                className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl border border-[#d394ff]/25 bg-[#d394ff]/5 text-[#d394ff] text-xs font-bold hover:bg-[#d394ff]/10 hover:border-[#d394ff]/40 transition-all disabled:opacity-50"
+              >
+                {suggesting ? (
+                  <>
+                    <span className="material-symbols-outlined text-[14px] animate-spin">progress_activity</span>
+                    Analyzing caption…
+                  </>
+                ) : (
+                  <>
+                    <span className="material-symbols-outlined text-[14px]" style={{ fontVariationSettings: "'FILL' 1" }}>auto_awesome</span>
+                    Suggest best time
+                  </>
+                )}
+              </button>
+            )}
           )}
 
           {/* AI suggestion reason */}

@@ -128,7 +128,12 @@
       "Bash(Find C:\\\\Proyects\\\\obsidian-dashboard\\\\src *)",
       "Bash(Find C:\\\\Proyects\\\\obsidian-backend\\\\src\\\\modules *)",
       "Bash(Find \"C:\\\\Proyects\\\\obsidian-dashboard\\\\src\\\\components\\\\shared\" -type f -name \"*.tsx\")",
-      "Bash(Find C:\\\\Proyects\\\\obsidian-dashboard\\\\src\\\\contexts *)"
+      "Bash(Find C:\\\\Proyects\\\\obsidian-dashboard\\\\src\\\\contexts *)",
+      "Bash(dir C:\\\\\\\\Proyects)",
+      "Bash(Get-ChildItem -Path \"C:\\\\Proyects\\\\obsidian-backend\\\\sql\" -File)",
+      "Bash(Select-Object Name)",
+      "Bash(Sort-Object Name)",
+      "Bash(Get-ChildItem -Path \"C:\\\\Proyects\\\\obsidian-backend\\\\src\\\\modules\" -Directory)"
     ]
   }
 }

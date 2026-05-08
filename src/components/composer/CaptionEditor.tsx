@@ -5,6 +5,7 @@ import type { ChannelId } from '../../types/composer.types';
 import type { MediaItem } from '../../hooks/useComposer';
 import { getInspiration } from '../../services/ai.service';
 import { useWorkspace } from '../../contexts/WorkspaceContext';
+import { useAITokens } from '../../contexts/AITokenContext';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../ui/tooltip';
 
 interface CaptionEditorProps {
@@ -85,6 +86,7 @@ export default function CaptionEditor({
   onToggleSuggestions,
 }: CaptionEditorProps) {
   const { active } = useWorkspace();
+  const { allowed: aiAllowed } = useAITokens();
 
   const [topic,            setTopic]            = useState('');
   const [captions,         setCaptions]         = useState<string[]>([]);
@@ -172,10 +174,11 @@ export default function CaptionEditor({
           {!hasAIImages && (
             <button
               onClick={onToggleSuggestions}
-              className="flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider transition-all active:scale-95 border bg-[#d394ff]/15 text-[#d394ff] border-[#d394ff]/30 hover:bg-[#d394ff]/25"
+              disabled={!aiAllowed}
+              className="flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider transition-all active:scale-95 border bg-[#d394ff]/15 text-[#d394ff] border-[#d394ff]/30 hover:bg-[#d394ff]/25 disabled:opacity-40 disabled:cursor-not-allowed"
             >
               <span className="material-symbols-outlined text-[11px]">auto_awesome</span>
-              {hasResults ? 'Edit AI' : 'Generate with AI'}
+              {aiAllowed ? (hasResults ? 'Edit AI' : 'Generate with AI') : 'AI limit reached'}
             </button>
           )}
         </div>
@@ -188,6 +191,16 @@ export default function CaptionEditor({
         >
           <div className="overflow-hidden">
             <div className="px-3 pt-1 pb-3 space-y-3 border-t border-[#4c4450]/15">
+
+              {/* Token limit banner */}
+              {!aiAllowed && (
+                <div className="flex items-start gap-2.5 px-3 py-2.5 rounded-xl bg-[#f97316]/8 border border-[#f97316]/20 mt-2">
+                  <span className="material-symbols-outlined text-[#f97316] shrink-0 mt-0.5" style={{ fontSize: 14, fontVariationSettings: "'FILL' 1" }}>warning</span>
+                  <p className="text-[10px] text-[#f97316]/90 leading-relaxed">
+                    Monthly AI token limit reached. Upgrade your plan to keep using AI features.
+                  </p>
+                </div>
+              )}
 
               {/* Image analysis badge */}
               {hasImages && (
@@ -229,7 +242,7 @@ export default function CaptionEditor({
                 />
                 <button
                   onClick={handleGenerate}
-                  disabled={(!topic.trim() && !hasImages) || loading}
+                  disabled={(!topic.trim() && !hasImages) || loading || !aiAllowed}
                   className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-[#d394ff]/15 text-[#d394ff] border border-[#d394ff]/30 text-[10px] font-bold uppercase tracking-wider hover:bg-[#d394ff]/25 disabled:opacity-40 disabled:cursor-not-allowed transition-all active:scale-95 shrink-0"
                 >
                   <span className={`material-symbols-outlined text-[13px] ${loading ? 'animate-spin' : ''}`}>

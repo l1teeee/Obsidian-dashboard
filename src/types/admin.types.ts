@@ -80,6 +80,7 @@ export interface SystemPermission {
 }
 
 export interface PlanPermissions {
+  free:       string[];
   starter:    string[];
   pro:        string[];
   enterprise: string[];
@@ -106,4 +107,38 @@ export interface RoleUser {
   name:        string | null;
   plan:        string;
   assigned_at: string;
+}
+
+// ─── Token Usage ──────────────────────────────────────────────────────────────
+
+export interface TokenStats {
+  total_tokens:       number;
+  input_tokens:       number;
+  output_tokens:      number;
+  total_calls:        number;
+  unique_users:       number;
+  estimated_cost_usd: number;
+  top_tool:           string | null;
+}
+
+export interface ToolBreakdown {
+  tool:          string;
+  total_tokens:  number;
+  input_tokens:  number;
+  output_tokens: number;
+  total_calls:   number;
+  pct:           number;
+}
+
+export interface TopUser {
+  user_id:      string;
+  email:        string;
+  name:         string | null;
+  total_tokens: number;
+  total_calls:  number;
+}
+
+export interface TokenLimit {
+  plan:          string;
+  monthly_limit: number;
 }
