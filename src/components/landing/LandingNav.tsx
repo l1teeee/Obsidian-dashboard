@@ -95,7 +95,7 @@ export default function LandingNav() {
             <button
               onClick={() => setProductOpen(v => !v)}
               onBlur={() => setTimeout(() => setProductOpen(false), 150)}
-              className={`group flex items-center gap-1 text-[0.7rem] tracking-[0.12em] uppercase font-medium transition-colors duration-300 ${productOpen ? 'text-[#d394ff]' : 'text-[#adaaaa] hover:text-[#f3e6ff]'}`}
+              className={`group flex items-center gap-1 text-[0.7rem] tracking-[0.12em] uppercase font-medium transition-colors duration-300 ${productOpen ? 'text-[#7DD3C7]' : 'text-[#A6A19A] hover:text-[#F4F1EC]'}`}
             >
               Product
               <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"
@@ -111,7 +111,7 @@ export default function LandingNav() {
                     onClick={() => { setProductOpen(false); navigate(l.route); }}
                     className="flex items-center gap-3 w-full px-3 py-2.5 rounded-xl text-[0.75rem] font-medium text-white/60 hover:bg-white/[0.05] hover:text-white transition-all text-left"
                   >
-                    <span className="material-symbols-outlined text-[#d394ff]" style={{ fontSize: 15, fontVariationSettings: "'FILL' 1" }}>{l.icon}</span>
+                    <span className="material-symbols-outlined text-[#7DD3C7]" style={{ fontSize: 15, fontVariationSettings: "'FILL' 1" }}>{l.icon}</span>
                     {l.label}
                   </button>
                 ))}
@@ -126,10 +126,10 @@ export default function LandingNav() {
               href={`#${link}`}
               onClick={handleScrollTo(link)}
               style={{ opacity: 0 }}
-              className="group relative text-[0.7rem] tracking-[0.12em] uppercase font-medium text-[#adaaaa] transition-colors duration-300 hover:text-[#f3e6ff]"
+              className="group relative text-[0.7rem] tracking-[0.12em] uppercase font-medium text-[#A6A19A] transition-colors duration-300 hover:text-[#F4F1EC]"
             >
               <span>{link}</span>
-              <span className="absolute left-0 top-full mt-1 h-px w-0 bg-[#d394ff] transition-all duration-300 group-hover:w-full" />
+              <span className="absolute left-0 top-full mt-1 h-px w-0 bg-[#7DD3C7] transition-all duration-300 group-hover:w-full" />
             </a>
           ))}
         </div>
@@ -139,14 +139,14 @@ export default function LandingNav() {
           <button
             type="button"
             onClick={() => fadeNav('/login')}
-            className="rounded-full border border-white/[0.10] bg-white/[0.03] px-4 py-2 text-[0.65rem] tracking-[0.1em] uppercase font-semibold text-white/60 backdrop-blur-xl hover:border-[#d394ff]/30 hover:text-[#d394ff] transition-all duration-300"
+            className="rounded-full border border-white/[0.10] bg-white/[0.03] px-4 py-2 text-[0.65rem] tracking-[0.1em] uppercase font-semibold text-white/60 backdrop-blur-xl hover:border-[#7DD3C7]/30 hover:text-[#7DD3C7] transition-all duration-300"
           >
             Sign in
           </button>
           <button
             type="button"
             onClick={() => fadeNav('/register')}
-            className="rounded-full bg-[#d394ff] px-4 py-2 text-[0.65rem] tracking-[0.1em] uppercase font-bold text-[#4a0076] shadow-[0_0_20px_rgba(211,148,255,0.2)] hover:shadow-[0_0_32px_rgba(211,148,255,0.35)] transition-all duration-300"
+            className="rounded-full bg-[#F4F1EC] px-4 py-2 text-[0.65rem] tracking-[0.1em] uppercase font-bold text-[#0B0B0A] shadow-[0_0_20px_rgba(244,241,236,0.14)] hover:shadow-[0_0_32px_rgba(244,241,236,0.22)] transition-all duration-300"
           >
             Get started
           </button>
@@ -182,7 +182,7 @@ export default function LandingNav() {
                   onClick={() => { setMobileOpen(false); navigate(l.route); }}
                   className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-sm font-medium text-white/60 transition-colors hover:bg-white/[0.05] hover:text-white text-left"
                 >
-                  <span className="material-symbols-outlined text-[#d394ff]" style={{ fontSize: 14, fontVariationSettings: "'FILL' 1" }}>{l.icon}</span>
+                  <span className="material-symbols-outlined text-[#7DD3C7]" style={{ fontSize: 14, fontVariationSettings: "'FILL' 1" }}>{l.icon}</span>
                   {l.label}
                 </button>
               ))}
@@ -202,14 +202,14 @@ export default function LandingNav() {
               <button
                 type="button"
                 onClick={() => { setMobileOpen(false); fadeNav('/login'); }}
-                className="w-full rounded-xl border border-white/[0.10] bg-white/[0.03] px-4 py-2.5 text-sm font-semibold text-white/60 transition-all hover:border-[#d394ff]/30 hover:text-[#d394ff]"
+                className="w-full rounded-xl border border-white/[0.10] bg-white/[0.03] px-4 py-2.5 text-sm font-semibold text-white/60 transition-all hover:border-[#7DD3C7]/30 hover:text-[#7DD3C7]"
               >
                 Sign in
               </button>
               <button
                 type="button"
                 onClick={() => { setMobileOpen(false); fadeNav('/register'); }}
-                className="w-full rounded-xl bg-[#d394ff] px-4 py-2.5 text-sm font-bold text-[#4a0076] transition-all hover:shadow-[0_0_24px_rgba(211,148,255,0.3)]"
+                className="w-full rounded-xl bg-[#F4F1EC] px-4 py-2.5 text-sm font-bold text-[#0B0B0A] transition-all hover:shadow-[0_0_24px_rgba(244,241,236,0.18)]"
               >
                 Get started
               </button>

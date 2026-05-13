@@ -83,7 +83,7 @@ export const PLANS: PlanDef[] = [
     ],
     cta: 'Start free trial',
     ctaRoute: '/register',
-    note: 'Used by 78% of paying customers',
+    note: 'Built for growing teams',
   },
   {
     id: 'agency',
@@ -100,8 +100,8 @@ export const PLANS: PlanDef[] = [
       'SSO & advanced permissions',
       'Dedicated customer success manager',
     ],
-    cta: 'Book a demo',
-    ctaRoute: '/login',
+    cta: 'Contact sales',
+    ctaRoute: 'mailto:hello@vielinks.com?subject=Vielinks%20Agency%20plan',
   },
 ];
 
@@ -109,7 +109,7 @@ function CheckIcon({ accent }: { accent?: boolean }) {
   return (
     <span className={cn(
       'mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full',
-      accent ? 'bg-[#d394ff]/15 text-[#d394ff]' : 'bg-white/[0.06] text-white/45'
+      accent ? 'bg-[#7DD3C7]/15 text-[#7DD3C7]' : 'bg-white/[0.06] text-white/45'
     )}>
       <svg className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth={2.4} viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
@@ -125,7 +125,10 @@ export function PlanCard({ plan, billing, onSelectPlan }: { plan: PlanDef; billi
 
   const handleCta = () => {
     if (isFree) { navigate('/register'); return; }
-    if (plan.id === 'agency') { navigate('/login'); return; }
+    if (plan.id === 'agency') {
+      window.location.href = plan.ctaRoute;
+      return;
+    }
     onSelectPlan?.(plan);
   };
 
@@ -133,8 +136,8 @@ export function PlanCard({ plan, billing, onSelectPlan }: { plan: PlanDef; billi
     <div className={cn(
       'group relative flex flex-col overflow-hidden rounded-[2rem] border p-8 backdrop-blur-xl transition-all duration-500 hover:-translate-y-1',
       plan.accent
-        ? 'border-[#d394ff]/28 bg-[#181818]/85 shadow-[0_0_0_1px_rgba(211,148,255,0.07),0_40px_120px_rgba(0,0,0,0.3)]'
-        : 'border-white/[0.08] bg-[#111111]/70 hover:bg-[#181818]/70'
+        ? 'border-[#7DD3C7]/28 bg-[#1F1D1B]/85 shadow-[0_0_0_1px_rgba(125,211,199,0.07),0_40px_120px_rgba(0,0,0,0.3)]'
+        : 'border-white/[0.08] bg-[#171615]/70 hover:bg-[#1F1D1B]/70'
     )}>
       {/* Top sheen */}
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/[0.08] to-transparent" />
@@ -143,15 +146,15 @@ export function PlanCard({ plan, billing, onSelectPlan }: { plan: PlanDef; billi
       {plan.accent && (
         <div
           className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
-          style={{ background: 'radial-gradient(ellipse at top, rgba(211,148,255,0.09) 0%, transparent 65%)' }}
+          style={{ background: 'radial-gradient(ellipse at top, rgba(125,211,199,0.09) 0%, transparent 65%)' }}
         />
       )}
 
       {/* Badge row */}
       <div className="mb-5 h-6">
         {plan.badge && (
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-[#d394ff]/25 bg-[#d394ff]/12 px-3 py-1 text-[0.62rem] font-bold uppercase tracking-[0.16em] text-[#d394ff]">
-            <span className="h-1 w-1 rounded-full bg-[#d394ff]" />
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-[#7DD3C7]/25 bg-[#7DD3C7]/12 px-3 py-1 text-[0.62rem] font-bold uppercase tracking-[0.16em] text-[#7DD3C7]">
+            <span className="h-1 w-1 rounded-full bg-[#7DD3C7]" />
             {plan.badge}
           </span>
         )}
@@ -206,8 +209,8 @@ export function PlanCard({ plan, billing, onSelectPlan }: { plan: PlanDef; billi
         className={cn(
           'mb-2 w-full rounded-xl px-6 py-3.5 text-sm font-bold transition-all duration-300 active:scale-[0.98]',
           plan.accent
-            ? 'bg-[#d394ff] text-[#4a0076] hover:shadow-[0_0_36px_rgba(211,148,255,0.35)]'
-            : 'border border-white/[0.10] bg-white/[0.04] text-white/70 hover:border-[#d394ff]/30 hover:text-white hover:bg-white/[0.07]'
+            ? 'bg-[#F4F1EC] text-[#0B0B0A] hover:shadow-[0_0_36px_rgba(244,241,236,0.2)]'
+            : 'border border-white/[0.10] bg-white/[0.04] text-white/70 hover:border-[#7DD3C7]/30 hover:text-white hover:bg-white/[0.07]'
         )}
       >
         {plan.cta}
@@ -259,7 +262,7 @@ export function BillingToggle({ billing, onSwitch }: { billing: BillingPlan; onS
         >
           Annually
         </span>
-        <span className="rounded-full border border-[#d394ff]/20 bg-[#d394ff]/[0.08] px-2 py-0.5 text-[0.6rem] font-bold text-[#d394ff]">
+        <span className="rounded-full border border-[#7DD3C7]/20 bg-[#7DD3C7]/[0.08] px-2 py-0.5 text-[0.6rem] font-bold text-[#7DD3C7]">
           Save ~17%
         </span>
       </div>
@@ -307,19 +310,19 @@ export default function PricingSection() {
 
   return (
     <section ref={sectionRef} id="Pricing" className="relative overflow-hidden py-28 md:py-36">
-      <div data-pr="orb" style={{ opacity: 0 }} className="pointer-events-none absolute left-1/2 top-16 h-[480px] w-[700px] -translate-x-1/2 rounded-full bg-[#d394ff]/[0.05] blur-[120px]" />
+      <div data-pr="orb" style={{ opacity: 0 }} className="pointer-events-none absolute left-1/2 top-16 h-[480px] w-[700px] -translate-x-1/2 rounded-full bg-[#7DD3C7]/[0.05] blur-[120px]" />
 
       <div className="mx-auto max-w-[1440px] px-6 md:px-12">
         {/* Header */}
         <div className="mb-4 text-center">
           <span data-pr="eyebrow" style={{ opacity: 0 }} className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/[0.10] bg-white/[0.03] px-4 py-1.5 text-[0.68rem] font-bold uppercase tracking-[0.22em] text-white/45">
-            <span className="h-1.5 w-1.5 rounded-full bg-[#d394ff]" />
+            <span className="h-1.5 w-1.5 rounded-full bg-[#7DD3C7]" />
             Pricing
           </span>
           <h2 data-pr="title" style={{ opacity: 0 }} className="mx-auto mt-5 max-w-2xl text-4xl font-extrabold leading-[0.96] tracking-[-0.04em] text-white sm:text-5xl md:text-[3.4rem]">
             Simple pricing.{' '}
-            <span className="bg-gradient-to-b from-white via-[#f0dcff] to-[#c97cff] bg-clip-text text-transparent">
-              Serious results.
+            <span className="text-[#7DD3C7]">
+              Clear plans.
             </span>
           </h2>
           <p data-pr="sub" style={{ opacity: 0 }} className="mt-5 text-[1rem] font-light leading-[1.8] text-white/55">
@@ -349,7 +352,7 @@ export default function PricingSection() {
           All plans include a 14-day free trial on paid features ·{' '}
           <button
             onClick={() => window.open('/pricing', '_self')}
-            className="text-[#d394ff]/70 underline underline-offset-2 hover:text-[#d394ff] transition-colors"
+            className="text-[#7DD3C7]/70 underline underline-offset-2 hover:text-[#7DD3C7] transition-colors"
           >
             Compare all features
           </button>

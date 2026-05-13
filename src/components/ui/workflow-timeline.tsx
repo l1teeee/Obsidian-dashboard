@@ -42,7 +42,7 @@ function ConnectMockup() {
               Connected
             </span>
           ) : (
-            <button className="rounded-full border border-[#d394ff]/25 bg-[#d394ff]/10 px-2.5 py-0.5 text-[0.55rem] font-bold text-[#d394ff]">
+            <button className="rounded-full border border-[#7DD3C7]/25 bg-[#7DD3C7]/10 px-2.5 py-0.5 text-[0.55rem] font-bold text-[#7DD3C7]">
               Connect
             </button>
           )}
@@ -60,7 +60,7 @@ function PlanMockup() {
         <p className="text-[0.6rem] font-bold uppercase tracking-[0.2em] text-white/30">Post Composer</p>
         <div className="flex gap-1">
           {["IG", "LI", "FB"].map((p, i) => (
-            <span key={p} className={`rounded-full px-2 py-0.5 text-[0.5rem] font-bold border ${i < 2 ? "border-[#d394ff]/25 bg-[#d394ff]/10 text-[#d394ff]" : "border-white/[0.06] bg-white/[0.03] text-white/25"}`}>{p}</span>
+            <span key={p} className={`rounded-full px-2 py-0.5 text-[0.5rem] font-bold border ${i < 2 ? "border-[#7DD3C7]/25 bg-[#7DD3C7]/10 text-[#7DD3C7]" : "border-white/[0.06] bg-white/[0.03] text-white/25"}`}>{p}</span>
           ))}
         </div>
       </div>
@@ -70,8 +70,8 @@ function PlanMockup() {
         <div className="h-2 w-3/5 rounded-full bg-white/[0.07]" />
         <div className="h-2 w-2/3 rounded-full bg-white/[0.07]" />
         <div className="mt-3 flex gap-2">
-          <span className="rounded-full border border-[#d394ff]/20 bg-[#d394ff]/8 px-2 py-0.5 text-[0.5rem] text-[#d394ff]/70">#branding</span>
-          <span className="rounded-full border border-[#d394ff]/20 bg-[#d394ff]/8 px-2 py-0.5 text-[0.5rem] text-[#d394ff]/70">#creative</span>
+          <span className="rounded-full border border-[#7DD3C7]/20 bg-[#7DD3C7]/8 px-2 py-0.5 text-[0.5rem] text-[#7DD3C7]/70">#branding</span>
+          <span className="rounded-full border border-[#7DD3C7]/20 bg-[#7DD3C7]/8 px-2 py-0.5 text-[0.5rem] text-[#7DD3C7]/70">#creative</span>
           <span className="rounded-full border border-white/[0.06] bg-white/[0.02] px-2 py-0.5 text-[0.5rem] text-white/20">+ AI hashtags</span>
         </div>
       </div>
@@ -81,7 +81,7 @@ function PlanMockup() {
           <p className="text-[0.52rem] text-white/25">Scheduled for</p>
           <p className="text-[0.65rem] font-semibold text-white/65">Wed, Apr 9 · 11:00 AM</p>
         </div>
-        <button className="rounded-full bg-[#d394ff] px-3 py-1 text-[0.55rem] font-bold text-[#3a0060]">Schedule</button>
+        <button className="rounded-full bg-[#7DD3C7] px-3 py-1 text-[0.55rem] font-bold text-[#0B0B0A]">Schedule</button>
       </div>
     </div>
   );
@@ -97,10 +97,10 @@ function PublishMockup() {
     <div className="rounded-2xl border border-white/[0.07] bg-white/[0.02] p-5 space-y-3">
       <div className="flex items-center justify-between">
         <p className="text-[0.6rem] font-bold uppercase tracking-[0.2em] text-white/30">Publishing Queue</p>
-        <span className="flex items-center gap-1 text-[0.55rem] font-bold text-[#d394ff]">
+        <span className="flex items-center gap-1 text-[0.55rem] font-bold text-[#7DD3C7]">
           <span className="relative flex h-1.5 w-1.5">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#d394ff] opacity-60" />
-            <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-[#d394ff]" />
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#7DD3C7] opacity-60" />
+            <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-[#7DD3C7]" />
           </span>
           Auto-publishing
         </span>
@@ -117,7 +117,7 @@ function PublishMockup() {
           {p.done ? (
             <span className="flex items-center gap-1 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-2 py-0.5 text-[0.5rem] font-bold text-emerald-400">✓ Published</span>
           ) : (
-            <span className="animate-pulse rounded-full border border-[#d394ff]/20 bg-[#d394ff]/10 px-2 py-0.5 text-[0.5rem] font-bold text-[#d394ff]">Publishing…</span>
+            <span className="animate-pulse rounded-full border border-[#7DD3C7]/20 bg-[#7DD3C7]/10 px-2 py-0.5 text-[0.5rem] font-bold text-[#7DD3C7]">Publishing…</span>
           )}
         </div>
       ))}
@@ -142,19 +142,19 @@ function AnalyzeMockup() {
           <div key={m.label} className="rounded-xl border border-white/[0.05] bg-white/[0.02] p-3">
             <p className="mb-1 text-[0.5rem] font-bold uppercase tracking-[0.16em] text-white/25">{m.label}</p>
             <p className="text-[0.95rem] font-bold text-white">{m.value}</p>
-            <span className="text-[0.52rem] font-semibold text-[#d394ff]">{m.delta}</span>
+            <span className="text-[0.52rem] font-semibold text-[#7DD3C7]">{m.delta}</span>
           </div>
         ))}
       </div>
       <div className="rounded-xl border border-white/[0.05] bg-white/[0.02] p-3">
         <div className="mb-2 flex items-center justify-between">
           <p className="text-[0.52rem] font-bold uppercase tracking-[0.16em] text-white/25">Weekly Reach · Apr 1–7</p>
-          <span className="rounded px-2 py-0.5 text-[0.48rem] font-bold bg-[#d394ff]/15 text-[#d394ff]">7D</span>
+          <span className="rounded px-2 py-0.5 text-[0.48rem] font-bold bg-[#7DD3C7]/15 text-[#7DD3C7]">7D</span>
         </div>
         <div className="flex h-[72px] items-end gap-1.5">
           {bars.map((h, i) => (
             <div key={i} className="flex flex-1 flex-col justify-end">
-              <div className="rounded-t-[3px] border-t border-[#d394ff]/30 bg-gradient-to-t from-[#d394ff]/60 via-[#d394ff]/20 to-[#d394ff]/5" style={{ height: `${h}%` }} />
+              <div className="rounded-t-[3px] border-t border-[#7DD3C7]/30 bg-[#7DD3C7]/45" style={{ height: `${h}%` }} />
             </div>
           ))}
         </div>
@@ -218,7 +218,7 @@ const workflowEntries: WorkflowEntry[] = [
     icon: BarChart3,
     title: "Analyze and optimize performance",
     subtitle: "Performance intelligence",
-    description: "Real-time metrics across every platform. Understand exactly which posts drove the most reach, engagement, and follower growth — then use that data to publish smarter.",
+    description: "Real-time metrics across Instagram, LinkedIn, and Facebook. Understand exactly which posts drove the most reach, engagement, and follower growth - then use that data to publish smarter.",
     items: [
       "Cross-platform reach, engagement rate, and impressions",
       "Post-level performance breakdown with benchmark comparison",
@@ -274,26 +274,26 @@ export default function WorkflowTimeline({
   return (
     <section className="relative overflow-hidden py-28 md:py-36">
       {/* Ambient */}
-      <div className="pointer-events-none absolute left-[5%] top-32 h-80 w-80 rounded-full bg-[#d394ff]/[0.04] blur-[110px]" />
-      <div className="pointer-events-none absolute bottom-24 right-[4%] h-64 w-64 rounded-full bg-[#aa30fa]/[0.04] blur-[100px]" />
+      <div className="pointer-events-none absolute left-[5%] top-32 h-80 w-80 rounded-full bg-[#7DD3C7]/[0.04] blur-[110px]" />
+      <div className="pointer-events-none absolute bottom-24 right-[4%] h-64 w-64 rounded-full bg-[#D6A86A]/[0.04] blur-[100px]" />
 
       {/* Border top */}
-      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#d394ff]/12 to-transparent" />
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#7DD3C7]/12 to-transparent" />
 
       <div className="mx-auto max-w-[1100px] px-6 md:px-12">
         {/* Header */}
-        <div className="mb-20 max-w-2xl">
-          <span className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#d394ff]/20 bg-[#d394ff]/[0.07] px-4 py-1.5 text-[0.68rem] font-bold uppercase tracking-[0.22em] text-[#d394ff]">
-            <span className="h-1.5 w-1.5 rounded-full bg-[#d394ff]" />
+        <div className="mx-auto mb-20 max-w-2xl text-center">
+          <span className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#7DD3C7]/20 bg-[#7DD3C7]/[0.07] px-4 py-1.5 text-[0.68rem] font-bold uppercase tracking-[0.22em] text-[#7DD3C7]">
+            <span className="h-1.5 w-1.5 rounded-full bg-[#7DD3C7]" />
             How It Works
           </span>
           <h2 className="text-4xl font-extrabold tracking-[-0.04em] leading-[0.96] text-white md:text-5xl">
             {title.split(" ").slice(0, -2).join(" ")}{" "}
-            <span className="bg-gradient-to-r from-[#d394ff] via-[#f0dcff] to-[#c97cff] bg-clip-text text-transparent">
+            <span className="text-[#7DD3C7]">
               {title.split(" ").slice(-2).join(" ")}
             </span>
           </h2>
-          <p className="mt-5 text-[1rem] font-light leading-[1.8] text-white/45 max-w-lg">
+          <p className="mx-auto mt-5 text-[1rem] font-light leading-[1.8] text-white/45 max-w-lg">
             {description}
           </p>
         </div>
@@ -323,7 +323,7 @@ export default function WorkflowTimeline({
                     <div className={cn(
                       "flex h-10 w-10 items-center justify-center rounded-2xl border font-bold text-xs transition-all duration-500",
                       isActive
-                        ? "border-[#d394ff]/40 bg-[#d394ff]/15 text-[#d394ff] shadow-[0_0_20px_rgba(211,148,255,0.2)]"
+                        ? "border-[#7DD3C7]/40 bg-[#7DD3C7]/15 text-[#7DD3C7] shadow-[0_0_20px_rgba(125,211,199,0.2)]"
                         : "border-white/[0.08] bg-white/[0.02] text-white/25"
                     )}>
                       {entry.step}
@@ -338,7 +338,7 @@ export default function WorkflowTimeline({
                   <div className={cn(
                     "flex h-12 w-12 items-center justify-center rounded-2xl border transition-all duration-500",
                     isActive
-                      ? "border-[#d394ff]/30 bg-[#d394ff]/12 text-[#d394ff]"
+                      ? "border-[#7DD3C7]/30 bg-[#7DD3C7]/12 text-[#7DD3C7]"
                       : "border-white/[0.07] bg-white/[0.02] text-white/20"
                   )}>
                     <entry.icon className="h-5 w-5" />
@@ -353,7 +353,7 @@ export default function WorkflowTimeline({
                     </p>
                     <p className={cn(
                       "mt-0.5 text-[0.68rem] transition-colors duration-300",
-                      isActive ? "text-[#d394ff]/70" : "text-white/20"
+                      isActive ? "text-[#7DD3C7]/70" : "text-white/20"
                     )}>
                       {entry.subtitle}
                     </p>
@@ -364,7 +364,7 @@ export default function WorkflowTimeline({
                 <article className={cn(
                   "flex-1 flex flex-col rounded-[1.75rem] border transition-all duration-500 overflow-hidden",
                   isActive
-                    ? "border-[#d394ff]/18 bg-[#141414]/90 shadow-[0_20px_80px_rgba(0,0,0,0.4),0_0_0_1px_rgba(211,148,255,0.05)]"
+                    ? "border-[#7DD3C7]/18 bg-[#171615]/90 shadow-[0_20px_80px_rgba(0,0,0,0.4),0_0_0_1px_rgba(125,211,199,0.05)]"
                     : "border-white/[0.06] bg-[#0f0f0f]/60"
                 )}>
                   {/* Top sheen */}
@@ -409,7 +409,7 @@ export default function WorkflowTimeline({
                             <ul className="space-y-2.5">
                               {entry.items.map((item, i) => (
                                 <li key={i} className="flex items-start gap-3 text-[0.85rem] text-white/50">
-                                  <div className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[#d394ff]/50" />
+                                  <div className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[#7DD3C7]/50" />
                                   <span className="leading-relaxed">{item}</span>
                                 </li>
                               ))}
@@ -438,7 +438,7 @@ export default function WorkflowTimeline({
       </div>
 
       {/* Vertical timeline line */}
-      <div className="pointer-events-none absolute left-1/2 top-[280px] hidden -translate-x-1/2 w-px h-[calc(100%-380px)] bg-gradient-to-b from-transparent via-[#d394ff]/10 to-transparent md:block" />
+      <div className="pointer-events-none absolute left-1/2 top-[280px] hidden -translate-x-1/2 w-px h-[calc(100%-380px)] bg-gradient-to-b from-transparent via-[#7DD3C7]/10 to-transparent md:block" />
     </section>
   );
 }

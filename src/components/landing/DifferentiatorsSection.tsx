@@ -1,40 +1,7 @@
 
-import React, { useLayoutEffect, useRef } from 'react';
+import { useLayoutEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
-function useOrbParallax(sectionRef: React.RefObject<HTMLElement | null>) {
-  useLayoutEffect(() => {
-    const run = () => {
-      if (!sectionRef.current) return;
-      const ctx = gsap.context(() => {
-        gsap.to('[data-d-orb]', {
-          yPercent: -20,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top bottom',
-            end: 'bottom top',
-            scrub: 1.5,
-          },
-        });
-      }, sectionRef.current);
-      return () => ctx.revert();
-    };
-
-    const w = window as Window & { __lenis?: unknown };
-    let cleanup: (() => void) | undefined;
-    if (w.__lenis) {
-      cleanup = run() ?? undefined;
-    } else {
-      const h = () => { cleanup = run() ?? undefined; };
-      window.addEventListener('lenis:ready', h, { once: true });
-      return () => { window.removeEventListener('lenis:ready', h); cleanup?.(); };
-    }
-    return () => cleanup?.();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-}
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -79,9 +46,15 @@ const differentiators = [
   },
 ];
 
+const workflowSteps = [
+  { step: '01', title: 'Plan', body: 'Map posts, owners, and dates in one shared calendar.', accent: '#7DD3C7' },
+  { step: '02', title: 'Draft', body: 'Write captions, adapt channels, and keep approvals visible.', accent: '#D6A86A' },
+  { step: '03', title: 'Publish', body: 'Queue Instagram, LinkedIn, and Facebook without tab switching.', accent: '#7DD3C7' },
+  { step: '04', title: 'Report', body: 'Review performance signals before the next content cycle.', accent: '#F4F1EC' },
+];
+
 export default function DifferentiatorsSection() {
   const sectionRef = useRef<HTMLElement | null>(null);
-  useOrbParallax(sectionRef);
 
   useLayoutEffect(() => {
     if (!sectionRef.current) return;
@@ -107,6 +80,7 @@ export default function DifferentiatorsSection() {
         .fromTo('[data-d="eyebrow"]', { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.4 })
         .fromTo('[data-d="title"]',   { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.6 }, '-=0.15')
         .fromTo('[data-d="sub"]',     { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.45 }, '-=0.3')
+        .fromTo('[data-d="workflow"]', { opacity: 0, y: 24, scale: 0.98 }, { opacity: 1, y: 0, scale: 1, duration: 0.6 }, '-=0.25')
         .fromTo('[data-d="left"]',    { opacity: 0, x: -24 }, { opacity: 1, x: 0, duration: 0.65 }, '-=0.25')
         .fromTo('[data-d="pain"]',    { opacity: 0, x: -12 }, { opacity: 1, x: 0, duration: 0.38, stagger: 0.07 }, '-=0.45')
         .fromTo('[data-d="card"]',    { opacity: 0, y: 28, scale: 0.98 }, { opacity: 1, y: 0, scale: 1, duration: 0.55, stagger: 0.09 }, '-=0.8');
@@ -117,21 +91,21 @@ export default function DifferentiatorsSection() {
 
   return (
     <section ref={sectionRef} id="Differentiators" className="relative overflow-hidden py-28 md:py-36">
-      {/* Ambient orbs — parallax driven */}
-      <div data-d-orb className="pointer-events-none absolute right-[4%] top-20 h-96 w-96 rounded-full bg-[#d394ff]/[0.04] blur-[120px] will-change-transform" />
-      <div data-d-orb className="pointer-events-none absolute left-[3%] bottom-10 h-72 w-72 rounded-full bg-[#aa30fa]/[0.03] blur-[100px] will-change-transform" />
+      {/* Static ambient color, kept intentionally subtle for performance */}
+      <div className="pointer-events-none absolute right-[4%] top-20 h-80 w-80 rounded-full bg-[#7DD3C7]/[0.03] blur-[72px]" />
+      <div className="pointer-events-none absolute left-[3%] bottom-10 h-64 w-64 rounded-full bg-[#D6A86A]/[0.025] blur-[64px]" />
 
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/[0.07] to-transparent" />
 
       <div className="mx-auto max-w-[1440px] px-6 md:px-12">
         {/* Header */}
-        <div className="mb-16 max-w-2xl">
+        <div className="mx-auto mb-16 max-w-2xl text-center">
           <span
             data-d="eyebrow"
             style={{ opacity: 0 }}
             className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/[0.10] bg-white/[0.03] px-4 py-1.5 text-[0.68rem] font-bold uppercase tracking-[0.22em] text-white/45"
           >
-            <span className="h-1.5 w-1.5 rounded-full bg-[#d394ff]" />
+            <span className="h-1.5 w-1.5 rounded-full bg-[#7DD3C7]" />
             Why Vielinks is different
           </span>
           <h2
@@ -140,17 +114,63 @@ export default function DifferentiatorsSection() {
             className="text-4xl font-extrabold tracking-[-0.04em] leading-[0.96] text-white md:text-5xl"
           >
             A cleaner workflow.{' '}
-            <span className="bg-gradient-to-r from-[#d394ff] via-[#f0dcff] to-[#c97cff] bg-clip-text text-transparent">
+            <span className="text-[#7DD3C7]">
               Not just another tool.
             </span>
           </h2>
           <p
             data-d="sub"
             style={{ opacity: 0 }}
-            className="mt-5 max-w-lg text-[1rem] font-light leading-[1.8] text-white/50"
+            className="mx-auto mt-5 max-w-lg text-[1rem] font-light leading-[1.8] text-white/50"
           >
             Most social media tools add complexity. Vielinks removes it. Here is the difference that matters.
           </p>
+        </div>
+
+        <div
+          data-d="workflow"
+          style={{ opacity: 0 }}
+          className="relative mb-10 overflow-hidden rounded-[2rem] border border-white/[0.08] bg-[#171615]/80 p-4 shadow-[0_30px_100px_rgba(0,0,0,0.28)] backdrop-blur-xl md:p-5"
+        >
+          <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/[0.10] to-transparent" />
+          <div className="grid gap-3 md:grid-cols-4">
+            {workflowSteps.map((item, index) => (
+              <div
+                key={item.step}
+                className="group relative overflow-hidden rounded-[1.25rem] border border-white/[0.07] bg-[#0B0B0A]/55 p-5 transition-all duration-300 hover:border-white/[0.14] hover:bg-[#1F1D1B]/70"
+              >
+                {index < workflowSteps.length - 1 && (
+                  <div className="pointer-events-none absolute right-[-18px] top-1/2 hidden h-px w-9 bg-white/[0.12] md:block" />
+                )}
+                <div className="mb-5 flex items-center justify-between">
+                  <span
+                    className="rounded-full border px-2.5 py-1 text-[0.58rem] font-bold uppercase tracking-[0.18em]"
+                    style={{ borderColor: `${item.accent}35`, backgroundColor: `${item.accent}12`, color: item.accent }}
+                  >
+                    {item.step}
+                  </span>
+                  <span
+                    className="h-2 w-2 rounded-full"
+                    style={{ backgroundColor: item.accent, boxShadow: `0 0 18px ${item.accent}55` }}
+                  />
+                </div>
+                <h3 className="text-base font-extrabold tracking-tight text-white">{item.title}</h3>
+                <p className="mt-2 text-[0.82rem] leading-[1.65] text-white/45">{item.body}</p>
+              </div>
+            ))}
+          </div>
+          <div className="mt-4 grid gap-3 md:grid-cols-3">
+            {[
+              ['One queue', 'All scheduled content in one operational view'],
+              ['Fewer tabs', 'Planning, publishing, and reporting stay connected'],
+              ['Clear handoff', 'Teams can see what is drafted, approved, and live'],
+            ].map(([title, body]) => (
+              <div key={title} className="rounded-2xl border border-white/[0.06] bg-white/[0.025] px-4 py-3">
+                <p className="text-[0.72rem] font-bold text-[#F4F1EC]">{title}</p>
+                <p className="mt-1 text-[0.68rem] leading-relaxed text-white/35">{body}</p>
+              </div>
+            ))}
+          </div>
         </div>
 
         {/* Main content grid */}
@@ -160,7 +180,7 @@ export default function DifferentiatorsSection() {
           <div
             data-d="left"
             style={{ opacity: 0 }}
-            className="rounded-[1.75rem] border border-white/[0.06] bg-[#0d0d0d]/60 p-7 md:p-8 backdrop-blur-xl"
+            className="rounded-[1.75rem] border border-white/[0.06] bg-[#0B0B0A]/60 p-7 md:p-8 backdrop-blur-xl"
           >
             <div className="mb-6 flex items-center gap-3">
               <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-white/[0.04] border border-white/[0.08]">
@@ -210,7 +230,7 @@ export default function DifferentiatorsSection() {
                 key={i}
                 data-d="card"
                 style={{ opacity: 0 }}
-                className="group relative flex items-start gap-5 overflow-hidden rounded-[1.5rem] border border-white/[0.07] bg-[#141414]/80 p-6 backdrop-blur-xl transition-all duration-500 hover:border-white/[0.15] hover:bg-[#181818]/80"
+                className="group relative flex items-start gap-5 overflow-hidden rounded-[1.5rem] border border-white/[0.07] bg-[#171615]/80 p-6 backdrop-blur-xl transition-all duration-500 hover:border-white/[0.15] hover:bg-[#1F1D1B]/80"
               >
                 {/* Top sheen */}
                 <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/[0.06] to-transparent" />

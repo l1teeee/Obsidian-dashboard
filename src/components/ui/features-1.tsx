@@ -1,7 +1,7 @@
 import { type ReactNode } from 'react';
 import { cn } from '@/lib/utils';
 
-/** Grid-pattern radial decorator — dark/purple variant for Vielinks */
+/** Grid-pattern radial decorator - dark/teal variant for Vielinks */
 export const CardDecorator = ({ children, className }: { children: ReactNode; className?: string }) => (
   <div
     aria-hidden
@@ -10,10 +10,10 @@ export const CardDecorator = ({ children, className }: { children: ReactNode; cl
       className
     )}
   >
-    {/* Purple grid */}
-    <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(211,148,255,0.10)_1px,transparent_1px),linear-gradient(to_bottom,rgba(211,148,255,0.10)_1px,transparent_1px)] bg-[size:22px_22px]" />
+    {/* Subtle accent grid */}
+    <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(125,211,199,0.10)_1px,transparent_1px),linear-gradient(to_bottom,rgba(125,211,199,0.10)_1px,transparent_1px)] bg-[size:22px_22px]" />
     {/* Center icon box */}
-    <div className="absolute inset-0 m-auto flex size-12 items-center justify-center rounded-xl border border-[#d394ff]/22 bg-[#d394ff]/12 text-[#d394ff]">
+    <div className="absolute inset-0 m-auto flex size-12 items-center justify-center rounded-xl border border-[#7DD3C7]/22 bg-[#7DD3C7]/12 text-[#7DD3C7]">
       {children}
     </div>
   </div>
@@ -34,8 +34,8 @@ export function BenefitCard({
       className={cn(
         'group relative flex flex-col overflow-hidden rounded-[1.75rem] border backdrop-blur-xl transition-all duration-500 hover:-translate-y-1',
         accent
-          ? 'border-[#d394ff]/22 bg-[#181818]/90 shadow-[0_0_0_1px_rgba(211,148,255,0.06),0_30px_80px_rgba(0,0,0,0.3)]'
-          : 'border-white/[0.07] bg-[#111111]/80 hover:border-[#d394ff]/16 hover:bg-[#181818]/70',
+          ? 'border-[#7DD3C7]/22 bg-[#1F1D1B]/90 shadow-[0_0_0_1px_rgba(125,211,199,0.06),0_30px_80px_rgba(0,0,0,0.3)]'
+          : 'border-white/[0.07] bg-[#171615]/80 hover:border-[#7DD3C7]/16 hover:bg-[#1F1D1B]/70',
         className
       )}
     >
@@ -44,7 +44,7 @@ export function BenefitCard({
       {/* Hover radial glow */}
       <div
         className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
-        style={{ background: 'radial-gradient(ellipse at top left, rgba(211,148,255,0.07) 0%, transparent 60%)' }}
+        style={{ background: 'radial-gradient(ellipse at top left, rgba(125,211,199,0.07) 0%, transparent 60%)' }}
       />
       {children}
     </div>

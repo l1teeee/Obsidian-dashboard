@@ -1,10 +1,6 @@
-import React, { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useFadeNav } from '@/hooks/useFadeNav';
-
-gsap.registerPlugin(ScrollTrigger);
 
 /* ── Platform pill strip ─────────────────────────────────── */
 function PlatformStrip() {
@@ -76,18 +72,18 @@ function DashboardMockup() {
 
   return (
     <div
-      className="relative mx-auto w-full max-w-[900px] overflow-hidden rounded-[1.5rem] border border-white/[0.08] bg-[#0d0d0d] shadow-[0_40px_120px_rgba(0,0,0,0.6),0_0_0_1px_rgba(211,148,255,0.06)]"
+      className="relative mx-auto w-full max-w-[900px] overflow-hidden rounded-[1.5rem] border border-white/[0.08] bg-[#0B0B0A] shadow-[0_40px_120px_rgba(0,0,0,0.6),0_0_0_1px_rgba(125,211,199,0.06)]"
       style={{ transform: 'perspective(1400px) rotateX(4deg)', transformOrigin: 'top center' }}
     >
       {/* Window chrome */}
-      <div className="flex items-center gap-2 border-b border-white/[0.06] bg-[#111111] px-5 py-3.5">
+      <div className="flex items-center gap-2 border-b border-white/[0.06] bg-[#171615] px-5 py-3.5">
         <div className="flex gap-1.5">
           <div className="h-2.5 w-2.5 rounded-full bg-[#ff5f57] opacity-75" />
           <div className="h-2.5 w-2.5 rounded-full bg-[#febc2e] opacity-75" />
           <div className="h-2.5 w-2.5 rounded-full bg-[#28c840] opacity-75" />
         </div>
         <div className="mx-auto flex items-center gap-2 rounded-md border border-white/[0.05] bg-white/[0.03] px-4 py-1">
-          <div className="h-1.5 w-1.5 rounded-full bg-[#d394ff]/50" />
+          <div className="h-1.5 w-1.5 rounded-full bg-[#7DD3C7]/50" />
           <span className="text-[0.58rem] font-medium text-white/30">app.vielinks.com</span>
         </div>
         <div className="flex gap-2">
@@ -98,10 +94,10 @@ function DashboardMockup() {
       {/* App layout */}
       <div className="flex" style={{ height: '380px' }}>
         {/* Sidebar */}
-        <div className="flex w-[52px] shrink-0 flex-col items-center gap-1 border-r border-white/[0.05] bg-[#0a0a0a] py-4">
+        <div className="flex w-[52px] shrink-0 flex-col items-center gap-1 border-r border-white/[0.05] bg-[#0B0B0A] py-4">
           {/* Logo mark */}
-          <div className="mb-4 flex h-8 w-8 items-center justify-center rounded-xl bg-[#d394ff]/15">
-            <div className="h-3.5 w-3.5 rounded-full bg-[#d394ff]" />
+          <div className="mb-4 flex h-8 w-8 items-center justify-center rounded-xl bg-[#7DD3C7]/15">
+            <div className="h-3.5 w-3.5 rounded-full bg-[#7DD3C7]" />
           </div>
           {/* Nav icons */}
           {[
@@ -112,7 +108,7 @@ function DashboardMockup() {
           ].map((d, i) => (
             <div
               key={i}
-              className={`flex h-8 w-8 items-center justify-center rounded-xl transition-colors ${i === 0 ? 'bg-[#d394ff]/12 text-[#d394ff]' : 'text-white/20 hover:text-white/40'}`}
+              className={`flex h-8 w-8 items-center justify-center rounded-xl transition-colors ${i === 0 ? 'bg-[#7DD3C7]/12 text-[#7DD3C7]' : 'text-white/20 hover:text-white/40'}`}
             >
               <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d={d} />
@@ -127,14 +123,14 @@ function DashboardMockup() {
           <div className="flex items-center justify-between border-b border-white/[0.05] px-5 py-3">
             <div>
               <p className="text-[0.7rem] font-bold text-white/80">Dashboard</p>
-              <p className="text-[0.55rem] text-white/25">April 2026 · All platforms</p>
+              <p className="text-[0.55rem] text-white/25">April 2026 - IG, LI, FB</p>
             </div>
             <div className="flex items-center gap-2">
               <div className="flex items-center gap-1.5 rounded-lg border border-white/[0.06] bg-white/[0.03] px-2.5 py-1">
-                <div className="h-1.5 w-1.5 rounded-full bg-[#d394ff]" />
+                <div className="h-1.5 w-1.5 rounded-full bg-[#7DD3C7]" />
                 <span className="text-[0.55rem] font-medium text-white/40">My Workspace</span>
               </div>
-              <div className="h-6 w-6 rounded-full bg-[#d394ff]/20 ring-1 ring-[#d394ff]/30" />
+              <div className="h-6 w-6 rounded-full bg-[#7DD3C7]/20 ring-1 ring-[#7DD3C7]/30" />
             </div>
           </div>
 
@@ -148,7 +144,7 @@ function DashboardMockup() {
                   <div key={k.label} className="rounded-xl border border-white/[0.05] bg-white/[0.02] p-3">
                     <p className="mb-1.5 text-[0.5rem] font-bold uppercase tracking-[0.18em] text-white/25">{k.label}</p>
                     <p className="text-[1.05rem] font-bold tracking-tight text-white">{k.value}</p>
-                    <span className={`text-[0.52rem] font-semibold ${k.up === true ? 'text-[#d394ff]' : k.up === false ? 'text-red-400' : 'text-white/30'}`}>
+                    <span className={`text-[0.52rem] font-semibold ${k.up === true ? 'text-[#7DD3C7]' : k.up === false ? 'text-red-400' : 'text-white/30'}`}>
                       {k.delta}
                     </span>
                   </div>
@@ -161,7 +157,7 @@ function DashboardMockup() {
                   <p className="text-[0.52rem] font-bold uppercase tracking-[0.18em] text-white/25">Weekly Engagement</p>
                   <div className="flex gap-1">
                     {['7D', '30D', '90D'].map((r, i) => (
-                      <span key={r} className={`rounded px-1.5 py-0.5 text-[0.45rem] font-bold ${i === 0 ? 'bg-[#d394ff]/15 text-[#d394ff]' : 'text-white/20'}`}>{r}</span>
+                      <span key={r} className={`rounded px-1.5 py-0.5 text-[0.45rem] font-bold ${i === 0 ? 'bg-[#7DD3C7]/15 text-[#7DD3C7]' : 'text-white/20'}`}>{r}</span>
                     ))}
                   </div>
                 </div>
@@ -188,7 +184,7 @@ function DashboardMockup() {
               <div className="rounded-xl border border-white/[0.05] bg-white/[0.02] p-3 h-full">
                 <div className="mb-3 flex items-center justify-between">
                   <p className="text-[0.52rem] font-bold uppercase tracking-[0.18em] text-white/25">Upcoming Posts</p>
-                  <span className="rounded-full bg-[#d394ff]/12 px-1.5 py-0.5 text-[0.45rem] font-bold text-[#d394ff]">28</span>
+                  <span className="rounded-full bg-[#7DD3C7]/12 px-1.5 py-0.5 text-[0.45rem] font-bold text-[#7DD3C7]">28</span>
                 </div>
                 <div className="space-y-2.5">
                   {upcoming.map((post) => (
@@ -211,7 +207,7 @@ function DashboardMockup() {
       </div>
 
       {/* Bottom glow */}
-      <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#0a0a0a] to-transparent pointer-events-none" />
+      <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#0B0B0A] to-transparent pointer-events-none" />
     </div>
   );
 }
@@ -261,70 +257,10 @@ function ElegantShape({
 export default function HeroGeometric() {
   const fadeNav = useFadeNav();
   const prefersReduced = useReducedMotion();
-  const heroRef = useRef<HTMLDivElement>(null);
-
-  /* ── Parallax background layers on scroll ─────────────── */
-  useLayoutEffect(() => {
-    if (prefersReduced) return;
-
-    const run = () => {
-      const hero = heroRef.current;
-      if (!hero) return;
-
-      const ctx = gsap.context(() => {
-        const shared = {
-          trigger: hero,
-          start: 'top top',
-          end: 'bottom top',
-          scrub: 1.2,
-        };
-
-        // Layer 1 — deepest: ambient glow (slowest)
-        gsap.to('[data-hero-parallax="glow"]', {
-          yPercent: 28,
-          ease: 'none',
-          scrollTrigger: shared,
-        });
-
-        // Layer 2 — floating shapes (medium)
-        gsap.to('[data-hero-parallax="shapes"]', {
-          yPercent: 18,
-          ease: 'none',
-          scrollTrigger: shared,
-        });
-
-        // Layer 3 — dot grid (subtle, near-mid)
-        gsap.to('[data-hero-parallax="grid"]', {
-          yPercent: 10,
-          ease: 'none',
-          scrollTrigger: shared,
-        });
-      }, hero);
-
-      return () => ctx.revert();
-    };
-
-    const w = window as Window & { __lenis?: unknown };
-    let cleanup: (() => void) | undefined;
-
-    if (w.__lenis) {
-      cleanup = run() ?? undefined;
-    } else {
-      const handler = () => { cleanup = run() ?? undefined; };
-      window.addEventListener('lenis:ready', handler, { once: true });
-      return () => {
-        window.removeEventListener('lenis:ready', handler);
-        cleanup?.();
-      };
-    }
-
-    return () => cleanup?.();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [prefersReduced]);
 
   /* Rotating title words */
   const titles = useMemo(
-    () => ['publishing smarter', 'growing faster', 'saving 5 hours weekly', 'scaling with ease', 'performing better'],
+    () => ['Plan every post.', 'Publish from one queue.', 'Measure what works.', 'Keep channels aligned.', 'Report with clarity.'],
     []
   );
   const [titleIndex, setTitleIndex] = useState(0);
@@ -342,18 +278,15 @@ export default function HeroGeometric() {
   });
 
   return (
-    <div ref={heroRef} className="relative w-full overflow-hidden bg-[#0a0a0a]" style={{ minHeight: '100vh' }}>
+    <div className="relative w-full overflow-hidden bg-[#0B0B0A]" style={{ minHeight: '100vh' }}>
       {/* Ambient background — static, no parallax needed */}
-      <div className="absolute inset-0 bg-gradient-to-br from-[#d394ff]/[0.03] via-transparent to-[#6b0fa0]/[0.05]" />
+      <div className="absolute inset-0 bg-[#0B0B0A]" />
 
       {/* Parallax layer 1 — deepest glow (slowest) */}
-      <div
-        data-hero-parallax="glow"
-        className="absolute top-[30%] left-1/2 -translate-x-1/2 -translate-y-1/2 h-[500px] w-[700px] rounded-full bg-[#d394ff]/[0.04] blur-[130px] pointer-events-none will-change-transform"
-      />
+      <div className="absolute top-[30%] left-1/2 h-[360px] w-[520px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#7DD3C7]/[0.025] blur-[72px] pointer-events-none" />
 
       {/* Parallax layer 2 — floating shapes */}
-      <div data-hero-parallax="shapes" className="absolute inset-0 overflow-hidden pointer-events-none will-change-transform">
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <ElegantShape delay={0.2}  width={580} height={130} rotate={ 12} gradient="from-white/[0.05]" className="left-[-10%] top-[14%]" />
         <ElegantShape delay={0.45} width={420} height={100} rotate={-13} gradient="from-white/[0.04]" className="right-[-6%] top-[55%]" />
         <ElegantShape delay={0.65} width={180} height={ 46} rotate={ 20} gradient="from-white/[0.04]" className="right-[16%] top-[7%]" />
@@ -361,8 +294,7 @@ export default function HeroGeometric() {
 
       {/* Parallax layer 3 — dot grid (subtle near-mid) */}
       <div
-        data-hero-parallax="grid"
-        className="absolute inset-0 pointer-events-none opacity-[0.12] will-change-transform"
+        className="absolute inset-0 pointer-events-none opacity-[0.09]"
         style={{
           backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.25) 1px, transparent 1px)',
           backgroundSize: '40px 40px',
@@ -379,11 +311,11 @@ export default function HeroGeometric() {
           className="mb-7 inline-flex items-center gap-2 rounded-full border border-white/[0.12] bg-white/[0.04] px-4 py-1.5"
         >
           <span className="relative flex h-1.5 w-1.5">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#d394ff] opacity-60" />
-            <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-[#d394ff]" />
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#7DD3C7] opacity-60" />
+            <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-[#7DD3C7]" />
           </span>
           <span className="text-[0.68rem] font-bold uppercase tracking-[0.2em] text-white/50">
-            Trusted by 12,000+ social media teams
+            Official OAuth for Instagram, LinkedIn, and Facebook
           </span>
         </motion.div>
 
@@ -392,7 +324,7 @@ export default function HeroGeometric() {
           variants={fade(1)} initial="hidden" animate="visible"
           className="text-4xl sm:text-5xl md:text-[4.5rem] font-extrabold tracking-[-0.03em] leading-[1.06] mb-6 max-w-4xl"
         >
-          <span className="bg-clip-text text-transparent bg-gradient-to-b from-white via-white to-white/75">
+          <span className="text-white">
             Stop switching tools.
           </span>
           {/* Animated rotating line */}
@@ -404,7 +336,7 @@ export default function HeroGeometric() {
             {titles.map((title, index) => (
               <motion.span
                 key={index}
-                className="absolute inset-x-0 flex justify-center font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-[#c97cff] via-[#f0dcff] to-[#aa30fa]"
+                className="absolute inset-x-0 flex justify-center font-extrabold text-[#7DD3C7]"
                 initial={{ opacity: 0, y: 80 }}
                 transition={{ type: 'spring', stiffness: 55, damping: 14 }}
                 animate={
@@ -413,7 +345,7 @@ export default function HeroGeometric() {
                     : { y: titleIndex > index ? -80 : 80, opacity: 0 }
                 }
               >
-                Start {title}.
+                {title}
               </motion.span>
             ))}
           </span>
@@ -424,7 +356,7 @@ export default function HeroGeometric() {
           variants={fade(2)} initial="hidden" animate="visible"
           className="text-[1rem] md:text-[1.12rem] text-white/50 leading-[1.8] font-light max-w-[520px] mb-10"
         >
-          One workspace for your entire social media workflow. Plan content, schedule posts, and track what performs — without jumping between tabs.
+          Plan content, schedule posts, and track performance for Instagram, LinkedIn, and Facebook from one workspace.
         </motion.p>
 
         {/* CTAs */}
@@ -434,16 +366,16 @@ export default function HeroGeometric() {
         >
           <button
             onClick={() => fadeNav('/register')}
-            className="group relative rounded-full bg-[#d394ff] px-9 py-4 text-sm font-bold tracking-wide text-[#3a0060] overflow-hidden transition-all duration-300 hover:shadow-[0_0_48px_rgba(211,148,255,0.5)] w-full sm:w-auto"
+            className="group relative rounded-full bg-[#F4F1EC] px-9 py-4 text-sm font-bold tracking-wide text-[#0B0B0A] overflow-hidden transition-all duration-300 hover:shadow-[0_0_48px_rgba(244,241,236,0.22)] w-full sm:w-auto"
           >
-            <span className="relative z-10">Start Free Trial</span>
-            <div className="absolute inset-0 bg-gradient-to-r from-[#d394ff] to-[#f0dcff] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+            <span className="relative z-10">Start free</span>
+            <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
           </button>
           <button
-            onClick={() => fadeNav('/login')}
-            className="group rounded-full border border-white/[0.12] bg-white/[0.03] px-9 py-4 text-sm font-semibold tracking-wide text-white/50 backdrop-blur-xl hover:border-[#d394ff]/30 hover:text-white/75 transition-all duration-300 w-full sm:w-auto flex items-center justify-center gap-2"
+            onClick={() => fadeNav('/pricing')}
+            className="group rounded-full border border-white/[0.12] bg-white/[0.03] px-9 py-4 text-sm font-semibold tracking-wide text-white/50 backdrop-blur-xl hover:border-[#7DD3C7]/30 hover:text-white/75 transition-all duration-300 w-full sm:w-auto flex items-center justify-center gap-2"
           >
-            Book a Demo
+            See pricing
             <svg className="h-3.5 w-3.5 opacity-60 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
             </svg>
@@ -473,7 +405,7 @@ export default function HeroGeometric() {
             ].map((av, i) => (
               <div
                 key={i}
-                className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-[#0a0a0a] text-[0.52rem] font-bold text-white"
+                className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-[#0B0B0A] text-[0.52rem] font-bold text-white"
                 style={{ backgroundColor: av.bg, marginLeft: i > 0 ? '-8px' : '0', zIndex: 4 - i }}
               >
                 {av.initials}
@@ -489,7 +421,7 @@ export default function HeroGeometric() {
               ))}
             </div>
             <span className="text-[0.72rem] text-white/40">
-              <span className="font-semibold text-white/60">4.8/5</span> from 2,400+ reviews · No credit card required
+              No credit card required - 14-day paid trial - Cancel anytime
             </span>
           </div>
         </motion.div>
@@ -505,7 +437,7 @@ export default function HeroGeometric() {
         >
           {/* Floating card — published notification (bottom-left) */}
           <FloatingCard delay={1.6} className="bottom-10 -left-4 md:-left-10 hidden sm:block">
-            <div className="flex items-center gap-2.5 rounded-2xl border border-emerald-500/20 bg-[#0d0d0d]/90 px-4 py-2.5 shadow-[0_8px_32px_rgba(0,0,0,0.5)] backdrop-blur-xl">
+            <div className="flex items-center gap-2.5 rounded-2xl border border-emerald-500/20 bg-[#0B0B0A]/90 px-4 py-2.5 shadow-[0_8px_32px_rgba(0,0,0,0.5)] backdrop-blur-xl">
               <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-emerald-500/15">
                 <svg className="h-3.5 w-3.5 text-emerald-400" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
@@ -513,29 +445,29 @@ export default function HeroGeometric() {
               </div>
               <div>
                 <p className="text-[0.65rem] font-semibold text-white/70">Published to Instagram</p>
-                <p className="text-[0.55rem] text-white/35">Just now · 2,400+ accounts notified</p>
+                <p className="text-[0.55rem] text-white/35">OAuth-secured - queue updated</p>
               </div>
             </div>
           </FloatingCard>
 
           {/* Floating card — reach spike (top-right) */}
           <FloatingCard delay={1.9} className="top-8 -right-4 md:-right-10 hidden sm:block">
-            <div className="flex items-center gap-2.5 rounded-2xl border border-[#d394ff]/20 bg-[#0d0d0d]/90 px-4 py-2.5 shadow-[0_8px_32px_rgba(0,0,0,0.5)] backdrop-blur-xl">
-              <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#d394ff]/12">
-                <svg className="h-3.5 w-3.5 text-[#d394ff]" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
+            <div className="flex items-center gap-2.5 rounded-2xl border border-[#7DD3C7]/20 bg-[#0B0B0A]/90 px-4 py-2.5 shadow-[0_8px_32px_rgba(0,0,0,0.5)] backdrop-blur-xl">
+              <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#7DD3C7]/12">
+                <svg className="h-3.5 w-3.5 text-[#7DD3C7]" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M5 10l7-7m0 0l7 7m-7-7v18" />
                 </svg>
               </div>
               <div>
-                <p className="text-[0.65rem] font-semibold text-white/70">Reach up <span className="text-[#d394ff]">+18.2%</span> this week</p>
-                <p className="text-[0.55rem] text-white/35">vs. last week · All platforms</p>
+                <p className="text-[0.65rem] font-semibold text-white/70">Reach up <span className="text-[#7DD3C7]">+18.2%</span> this week</p>
+                <p className="text-[0.55rem] text-white/35">vs. last week - IG, LI, FB</p>
               </div>
             </div>
           </FloatingCard>
 
           {/* Floating card — scheduled (right side, mid) */}
           <FloatingCard delay={2.1} className="top-1/2 -translate-y-1/2 -right-4 md:-right-12 hidden lg:block">
-            <div className="flex items-center gap-2.5 rounded-2xl border border-white/[0.08] bg-[#0d0d0d]/90 px-4 py-2.5 shadow-[0_8px_32px_rgba(0,0,0,0.5)] backdrop-blur-xl">
+            <div className="flex items-center gap-2.5 rounded-2xl border border-white/[0.08] bg-[#0B0B0A]/90 px-4 py-2.5 shadow-[0_8px_32px_rgba(0,0,0,0.5)] backdrop-blur-xl">
               <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-white/[0.04] border border-white/[0.08]">
                 <svg className="h-3.5 w-3.5 text-white/50" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
@@ -553,7 +485,7 @@ export default function HeroGeometric() {
       </div>
 
       {/* Bottom fade into next section */}
-      <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/80 to-transparent pointer-events-none z-20" />
+      <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[#0B0B0A] via-[#0B0B0A]/80 to-transparent pointer-events-none z-20" />
     </div>
   );
 }

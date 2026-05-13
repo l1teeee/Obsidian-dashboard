@@ -78,24 +78,24 @@ export default function PlatformSection() {
 
   return (
     <section ref={rootRef} id="Platform" className="relative overflow-hidden py-28 md:py-36">
-      <div className="pointer-events-none absolute right-0 top-0 h-80 w-80 rounded-full bg-[#d394ff]/[0.04] blur-[100px]" />
-      <div className="pointer-events-none absolute bottom-0 left-0 h-64 w-64 rounded-full bg-[#aa30fa]/[0.03] blur-[80px]" />
+      <div className="pointer-events-none absolute right-0 top-0 h-80 w-80 rounded-full bg-[#7DD3C7]/[0.04] blur-[100px]" />
+      <div className="pointer-events-none absolute bottom-0 left-0 h-64 w-64 rounded-full bg-[#D6A86A]/[0.03] blur-[80px]" />
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/[0.07] to-transparent" />
 
       <div className="mx-auto max-w-[1440px] px-6 md:px-12">
         {/* Header */}
-        <div className="mb-16 max-w-2xl">
+        <div className="mx-auto mb-16 max-w-2xl text-center">
           <span data-pf="eyebrow" style={{ opacity: 0 }} className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/[0.10] bg-white/[0.03] px-4 py-1.5 text-[0.68rem] font-bold uppercase tracking-[0.22em] text-white/45">
-            <span className="h-1.5 w-1.5 rounded-full bg-[#d394ff]" />
+            <span className="h-1.5 w-1.5 rounded-full bg-[#7DD3C7]" />
             Platform Coverage
           </span>
           <h2 data-pf="title" style={{ opacity: 0 }} className="text-4xl font-extrabold tracking-[-0.04em] leading-[0.96] text-white md:text-5xl">
             One dashboard.{' '}
-            <span className="bg-gradient-to-r from-[#d394ff] via-[#f0dcff] to-[#c97cff] bg-clip-text text-transparent">
-              Every platform.
+            <span className="text-[#7DD3C7]">
+              Core platforms.
             </span>
           </h2>
-          <p data-pf="sub" style={{ opacity: 0 }} className="mt-5 max-w-lg text-[1rem] font-light leading-[1.8] text-white/50">
+          <p data-pf="sub" style={{ opacity: 0 }} className="mx-auto mt-5 max-w-lg text-[1rem] font-light leading-[1.8] text-white/50">
             Connect Instagram, LinkedIn, and Facebook once — then manage everything from a single workspace without switching tabs.
           </p>
         </div>
@@ -107,7 +107,7 @@ export default function PlatformSection() {
               key={p.name}
               data-pf="card"
               style={{ opacity: 0 }}
-              className="group relative flex flex-col gap-5 overflow-hidden rounded-[1.5rem] border border-white/[0.07] bg-[#111111]/80 p-7 backdrop-blur-xl transition-all duration-500 hover:border-white/[0.12] hover:bg-[#161616]/80 sm:flex-row sm:items-center sm:gap-8"
+              className="group relative flex flex-col gap-5 overflow-hidden rounded-[1.5rem] border border-white/[0.07] bg-[#171615]/80 p-7 backdrop-blur-xl transition-all duration-500 hover:border-white/[0.12] hover:bg-[#1F1D1B]/80 sm:flex-row sm:items-center sm:gap-8"
             >
               {/* Top sheen */}
               <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/[0.07] to-transparent" />

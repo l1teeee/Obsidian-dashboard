@@ -259,7 +259,9 @@ export default function ResetPassword() {
                     onCopy={e => e.preventDefault()}
                     className="w-full rounded-[0.875rem] border border-[#494847]/30 bg-white/[0.03] px-4 py-3.5 pr-11 text-sm text-[#e5e2e1] placeholder:text-[#adaaaa]/35 transition-all duration-300 focus:border-[#d394ff]/40 focus:outline-none focus:ring-1 focus:ring-[#d394ff]/20"
                   />
-                  <button type="button" tabIndex={-1} onClick={() => setShowPass(v => !v)}
+                  <button type="button" onClick={() => setShowPass(v => !v)}
+                    aria-label={showPass ? 'Hide password' : 'Show password'}
+                    aria-pressed={showPass}
                     className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#adaaaa]/40 transition-colors duration-200 hover:text-[#d394ff]">
                     <EyeIcon open={showPass} />
                   </button>
@@ -307,7 +309,9 @@ export default function ResetPassword() {
                     onPaste={e => e.preventDefault()}
                     className="w-full rounded-[0.875rem] border border-[#494847]/30 bg-white/[0.03] px-4 py-3.5 pr-11 text-sm text-[#e5e2e1] placeholder:text-[#adaaaa]/35 transition-all duration-300 focus:border-[#d394ff]/40 focus:outline-none focus:ring-1 focus:ring-[#d394ff]/20"
                   />
-                  <button type="button" tabIndex={-1} onClick={() => setShowConfirm(v => !v)}
+                  <button type="button" onClick={() => setShowConfirm(v => !v)}
+                    aria-label={showConfirm ? 'Hide confirm password' : 'Show confirm password'}
+                    aria-pressed={showConfirm}
                     className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#adaaaa]/40 transition-colors duration-200 hover:text-[#d394ff]">
                     <EyeIcon open={showConfirm} />
                   </button>

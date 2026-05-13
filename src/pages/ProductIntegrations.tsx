@@ -42,7 +42,7 @@ const ALSO = [
 export default function ProductIntegrations() {
   useSEO({
     title: 'Vielinks Integrations - Connect Instagram, LinkedIn & Facebook',
-    description: 'Connect all your social platforms in one click. Vielinks supports Instagram, LinkedIn, Facebook with more platforms coming soon.',
+    description: 'Connect Instagram, LinkedIn, and Facebook in one click. Vielinks keeps publishing, analytics, and AI workflows in one dashboard.',
     keywords: 'social media integrations, Instagram API, LinkedIn scheduler, Facebook management, OAuth social',
   });
 
@@ -76,13 +76,13 @@ export default function ProductIntegrations() {
               <span className="h-1.5 w-1.5 rounded-full bg-[#d394ff]" /> Product · Integrations
             </span>
             <h1 className="mt-5 text-5xl md:text-[4rem] font-extrabold leading-[0.96] tracking-[-0.04em] text-white">
-              Connect every platform<br />
+              Connect your core<br />
               <span className="bg-gradient-to-r from-[#d394ff] via-[#f0dcff] to-[#aa30fa] bg-clip-text text-transparent">
-                you actually use.
+                social platforms.
               </span>
             </h1>
             <p className="mt-6 text-lg font-light text-white/55 max-w-xl mx-auto leading-relaxed">
-              Vielinks connects to the social networks that matter. More platforms are added every quarter — for free.
+              Vielinks connects to the social networks that matter. More integrations are on the roadmap.
             </p>
             <button onClick={() => navigate('/register')} className="mt-8 rounded-full bg-[#d394ff] px-8 py-3.5 text-sm font-bold text-[#4a0076] hover:shadow-[0_0_32px_rgba(211,148,255,0.4)] transition-all active:scale-[0.98]">
               Connect your accounts

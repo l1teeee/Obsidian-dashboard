@@ -4,35 +4,34 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { InfiniteSlider } from '@/components/ui/infinite-slider';
 import { SparklesCore } from '@/components/ui/sparkles';
+import SocialBrandIcon from '@/components/shared/SocialBrandIcon';
 
 gsap.registerPlugin(ScrollTrigger);
 
 const stats = [
-  { end: 12,  display: '12K+', suffix: 'K+', decimals: 0, label: 'Active users',  sub: 'Brands & creators' },
-  { end: 3,   display: '3',    suffix: '',   decimals: 0, label: 'Platforms',      sub: 'IG · LI · FB' },
-  { end: 98,  display: '98%',  suffix: '%',  decimals: 0, label: 'Satisfaction',   sub: '2,400+ reviews' },
-  { end: 4.8, display: '4.8×', suffix: '×',  decimals: 1, label: 'Time saved',     sub: 'vs. managing manually' },
+  { end: 3,   display: '3',       suffix: '',      decimals: 0, label: 'Live platforms',       sub: 'Instagram, LinkedIn, Facebook' },
+  { end: 14,  display: '14 days', suffix: ' days', decimals: 0, label: 'Paid trial',           sub: 'No card required to start' },
+  { end: 7,   display: '7 days',  suffix: ' days', decimals: 0, label: 'Refund window',        sub: 'For eligible charges' },
+  { end: 256, display: '256-bit', suffix: '-bit',  decimals: 0, label: 'Encrypted checkout',   sub: 'SSL-secured payments' },
 ];
 
 const logos = [
-  { name: 'Wavefront',  abbr: 'WF', color: '#7c3aed' },
-  { name: 'Luminary',   abbr: 'LM', color: '#0a66c2' },
-  { name: 'Stackline',  abbr: 'SL', color: '#059669' },
-  { name: 'Beacon Co',  abbr: 'BC', color: '#d97706' },
-  { name: 'Onyx Labs',  abbr: 'OX', color: '#dc2626' },
-  { name: 'Northpeak',  abbr: 'NP', color: '#7c3aed' },
-  { name: 'Meridian',   abbr: 'MD', color: '#0891b2' },
-  { name: 'Vantage',    abbr: 'VT', color: '#65a30d' },
+  { name: 'Instagram', platformId: 'instagram', color: '#E4405F' },
+  { name: 'LinkedIn',  platformId: 'linkedin',  color: '#0A66C2' },
+  { name: 'Facebook',  platformId: 'facebook',  color: '#1877F2' },
+  { name: 'Instagram', platformId: 'instagram', color: '#E4405F' },
+  { name: 'LinkedIn',  platformId: 'linkedin',  color: '#0A66C2' },
+  { name: 'Facebook',  platformId: 'facebook',  color: '#1877F2' },
 ];
 
-function LogoPill({ name, abbr, color }: { name: string; abbr: string; color: string }) {
+function LogoPill({ name, platformId, color }: { name: string; platformId: string; color: string }) {
   return (
     <div className="flex shrink-0 items-center gap-2.5 rounded-xl border border-white/[0.07] bg-white/[0.03] px-5 py-3 backdrop-blur-sm">
       <div
-        className="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg text-[0.5rem] font-extrabold text-white"
-        style={{ backgroundColor: `${color}25` }}
+        className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg border"
+        style={{ backgroundColor: `${color}18`, borderColor: `${color}30` }}
       >
-        <span style={{ color }}>{abbr}</span>
+        <SocialBrandIcon platformId={platformId} size={16} color={color} />
       </div>
       <span className="text-[0.78rem] font-semibold text-white/45 tracking-tight">{name}</span>
     </div>
@@ -110,7 +109,7 @@ export default function SocialProof() {
     <section
       ref={rootRef}
       style={{ opacity: 0 }}
-      className="relative bg-[#0a0a0a] pt-16 pb-20 overflow-hidden"
+      className="relative bg-[#0B0B0A] pt-16 pb-20 overflow-hidden"
     >
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/[0.07] to-transparent" />
       <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-white/[0.04] to-transparent" />
@@ -122,7 +121,7 @@ export default function SocialProof() {
           style={{ opacity: 0 }}
           className="mb-7 text-center text-[0.65rem] font-bold uppercase tracking-[0.22em] text-white/25"
         >
-          Trusted by teams at
+          Built around the platforms teams use
         </p>
       </div>
 
@@ -137,17 +136,17 @@ export default function SocialProof() {
           </InfiniteSlider>
 
           {/* Solid-color fade to bg — makes edges fully black, not blurred */}
-          <div className="pointer-events-none absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-[#0a0a0a] to-transparent z-10" />
-          <div className="pointer-events-none absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-[#0a0a0a] to-transparent z-10" />
+          <div className="pointer-events-none absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-[#0B0B0A] to-transparent z-10" />
+          <div className="pointer-events-none absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-[#0B0B0A] to-transparent z-10" />
         </div>
       </div>
 
       {/* ── Sparkles hemisphere ─────────────────────── */}
       <div className="relative -mt-6 h-[200px] w-full overflow-hidden [mask-image:radial-gradient(55%_60%,white,transparent)]">
-        {/* Purple radial glow */}
-        <div className="absolute inset-0 before:absolute before:inset-0 before:bg-[radial-gradient(circle_at_bottom_center,#7c29cc,transparent_65%)] before:opacity-35" />
+        {/* Subtle brand glow */}
+        <div className="absolute inset-0 before:absolute before:inset-0 before:bg-[radial-gradient(circle_at_bottom_center,#7DD3C7,transparent_65%)] before:opacity-14" />
         {/* Curved horizon line */}
-        <div className="absolute -left-1/2 top-1/2 z-10 aspect-[1/0.55] w-[200%] rounded-[100%] border-t border-white/[0.08] bg-[#0a0a0a]" />
+        <div className="absolute -left-1/2 top-1/2 z-10 aspect-[1/0.55] w-[200%] rounded-[100%] border-t border-white/[0.08] bg-[#0B0B0A]" />
         {/* Sparkles particle field */}
         <SparklesCore
           className="absolute inset-x-0 bottom-0 h-full w-full [mask-image:radial-gradient(50%_60%,white,transparent_80%)]"
@@ -180,7 +179,7 @@ export default function SocialProof() {
                 <div className="absolute inset-0 -z-10 blur-[28px] opacity-10 bg-white rounded-full scale-75" />
                 <span
                   ref={(el) => { numRefs.current[i] = el; }}
-                  className="block bg-gradient-to-b from-white to-white/80 bg-clip-text text-[2.8rem] font-extrabold leading-none tracking-[-0.04em] text-transparent md:text-[3.2rem]"
+                  className="block text-[2.8rem] font-extrabold leading-none tracking-[-0.04em] text-white md:text-[3.2rem]"
                 >
                   0{s.suffix}
                 </span>

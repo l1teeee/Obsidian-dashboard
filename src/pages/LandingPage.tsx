@@ -17,7 +17,7 @@ import ObsidianFooter         from '../components/landing/ObsidianFooter';
 
 export default function LandingPage() {
   useSEO({
-    title: 'Vielinks - Social Media Management Dashboard for Every Platform',
+    title: 'Vielinks - Social Media Workspace for Instagram, LinkedIn, and Facebook',
     description: 'Manage Instagram, LinkedIn, and Facebook from one dashboard. Schedule posts, track analytics, and grow your audience with AI-powered insights.',
     keywords: 'social media management, post scheduler, social analytics, content calendar, Instagram, LinkedIn, Facebook',
     jsonLd: {
@@ -28,16 +28,11 @@ export default function LandingPage() {
       operatingSystem: 'Web',
       description: 'Social media management dashboard for managing multiple platforms from one place.',
       offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
-      aggregateRating: {
-        '@type': 'AggregateRating',
-        ratingValue: '4.8',
-        reviewCount: '120',
-      },
     },
   });
 
   return (
-    <div className="landing-page bg-[#0a0a0a] text-white overflow-x-hidden">
+    <div className="landing-page min-h-screen w-full bg-[#0B0B0A] text-white overflow-x-hidden">
       <CursorFollower />
       <LandingNav />
       <main>

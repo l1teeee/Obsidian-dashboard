@@ -66,7 +66,7 @@ export default function LoginCard() {
       } else if (code === 'EMAIL_NOT_VERIFIED') {
         navigate('/check-email', { state: { email } });
       } else if (code === 'ACCOUNT_DISABLED') {
-        setError('Your account has been deactivated. Please contact support@vielink.app.');
+        setError('Your account has been deactivated. Please contact support@vielinks.com.');
       } else {
         setError(code === 'INVALID_CREDENTIALS'
           ? 'Invalid email or password'
@@ -204,8 +204,8 @@ export default function LoginCard() {
               {emailLocked && (
                 <button
                   type="button"
-                  tabIndex={-1}
                   onClick={() => setEmailLocked(false)}
+                  aria-label="Edit remembered email"
                   title="Edit email"
                   className="absolute right-3.5 top-1/2 -translate-y-1/2 opacity-0 transition-all duration-200 group-hover:opacity-100 text-[#d394ff]/40 hover:text-[#d394ff]"
                 >
@@ -242,8 +242,9 @@ export default function LoginCard() {
               />
               <button
                 type="button"
-                tabIndex={-1}
                 onClick={() => setShowPass(v => !v)}
+                aria-label={showPass ? 'Hide password' : 'Show password'}
+                aria-pressed={showPass}
                 className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#adaaaa]/40 transition-colors duration-200 hover:text-[#d394ff]"
               >
                 <EyeIcon open={showPass} />

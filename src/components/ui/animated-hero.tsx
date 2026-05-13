@@ -1,12 +1,12 @@
 import { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
-import { MoveRight, PhoneCall } from "lucide-react";
+import { MoveRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 function Hero() {
   const [titleNumber, setTitleNumber] = useState(0);
   const titles = useMemo(
-    () => ["publishing smarter", "growing faster", "saving hours", "scaling easily", "performing better"],
+    () => ["plan every post", "publish from one queue", "measure what works", "keep channels aligned", "report with clarity"],
     []
   );
 
@@ -27,7 +27,7 @@ function Hero() {
         <div className="flex gap-8 py-20 lg:py-40 items-center justify-center flex-col">
           <div>
             <Button variant="secondary" size="sm" className="gap-4">
-              Trusted by 12,000+ social teams <MoveRight className="w-4 h-4" />
+              Official OAuth for Instagram, LinkedIn, and Facebook <MoveRight className="w-4 h-4" />
             </Button>
           </div>
           <div className="flex gap-4 flex-col">
@@ -50,23 +50,23 @@ function Hero() {
                           }
                     }
                   >
-                    Start {title}.
+                    {title}.
                   </motion.span>
                 ))}
               </span>
             </h1>
 
             <p className="text-lg md:text-xl leading-relaxed tracking-tight text-white/50 max-w-2xl text-center">
-              One workspace for your entire social media workflow. Plan content,
-              schedule posts, and track what performs — without jumping between tabs.
+              Plan content, schedule posts, and track performance for Instagram,
+              LinkedIn, and Facebook from one workspace.
             </p>
           </div>
           <div className="flex flex-row gap-3">
             <Button size="lg" className="gap-4" variant="outline">
-              Book a Demo <PhoneCall className="w-4 h-4" />
+              See pricing <MoveRight className="w-4 h-4" />
             </Button>
             <Button size="lg" className="gap-4">
-              Start Free Trial <MoveRight className="w-4 h-4" />
+              Start free <MoveRight className="w-4 h-4" />
             </Button>
           </div>
         </div>

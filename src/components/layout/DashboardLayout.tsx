@@ -35,6 +35,8 @@ function Layout() {
       {/* Floating toggle bubble — sits on the right edge of the sidebar, desktop only */}
       <button
         onClick={toggle}
+        aria-label={isOpen ? 'Collapse sidebar' : 'Expand sidebar'}
+        aria-expanded={isOpen}
         style={{ left: isOpen ? '224px' : '48px' }}
         className="hidden lg:flex fixed bottom-[130px] z-[60] w-8 h-8 rounded-full items-center justify-center
           bg-[#1a1a1a] border border-[#3d3d3d] text-[#988d9c]

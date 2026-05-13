@@ -21,7 +21,7 @@ const BENTO = [
   {
     span: 'col-span-1',
     icon: 'hub',
-    title: 'All platforms, one view',
+    title: 'Core platforms, one view',
     desc: 'Instagram, LinkedIn and Facebook in a single unified dashboard.',
     stat: '3',
     statLabel: 'platforms connected',

@@ -248,6 +248,22 @@ function SessionGuard() {
   );
 }
 
+function RouteFallback() {
+  return (
+    <div className="flex min-h-screen items-center justify-center bg-[#0e0e0e] px-6 text-[#e5e2e1]">
+      <div className="flex flex-col items-center gap-4">
+        <div className="relative h-10 w-10">
+          <div className="absolute inset-0 rounded-full border border-[#d394ff]/20" />
+          <div className="absolute inset-1 animate-spin rounded-full border-2 border-[#d394ff] border-t-transparent" />
+        </div>
+        <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#988d9c]">
+          Loading Vielinks
+        </p>
+      </div>
+    </div>
+  );
+}
+
 export default function App() {
   const [transition, setTransition] = useState(false);
   const triggerTransition = useCallback(() => setTransition(true),  []);
@@ -279,7 +295,7 @@ export default function App() {
             <TransitionDetector onTrigger={triggerTransition} />
             <RouteTransition active={transition} onDone={doneTransition} />
             <WorkspaceGuard>
-              <Suspense fallback={null}>
+              <Suspense fallback={<RouteFallback />}>
               <Routes>
                 {/* Landing page — public */}
                 <Route path="/" element={<LandingPage />} />

@@ -84,7 +84,7 @@ function Cell({ value, accent }: { value: CellValue; accent?: boolean }) {
   if (typeof value === 'boolean') {
     return value ? (
       <span className={cn('flex h-6 w-6 mx-auto items-center justify-center rounded-full',
-        accent ? 'bg-[#d394ff]/15 text-[#d394ff]' : 'bg-white/[0.06] text-white/50'
+        accent ? 'bg-[#7DD3C7]/15 text-[#7DD3C7]' : 'bg-white/[0.06] text-white/50'
       )}>
         <svg className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth={2.4} viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
@@ -95,7 +95,7 @@ function Cell({ value, accent }: { value: CellValue; accent?: boolean }) {
     );
   }
   return (
-    <span className={cn('text-[0.8rem] font-medium', accent ? 'text-[#d394ff]' : 'text-white/70')}>
+    <span className={cn('text-[0.8rem] font-medium', accent ? 'text-[#7DD3C7]' : 'text-white/70')}>
       {value}
     </span>
   );
@@ -106,8 +106,8 @@ function ComparisonTable() {
     <div className="mt-24 mx-auto max-w-[1200px]">
       {/* Section header */}
       <div className="mb-12 text-center">
-        <span className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#d394ff]/18 bg-[#d394ff]/10 px-4 py-1.5 text-[0.68rem] font-bold uppercase tracking-[0.22em] text-[#d394ff]">
-          <span className="h-1.5 w-1.5 rounded-full bg-[#d394ff]" />
+        <span className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#7DD3C7]/18 bg-[#7DD3C7]/10 px-4 py-1.5 text-[0.68rem] font-bold uppercase tracking-[0.22em] text-[#7DD3C7]">
+          <span className="h-1.5 w-1.5 rounded-full bg-[#7DD3C7]" />
           Full comparison
         </span>
         <h2 className="mt-5 text-3xl font-extrabold tracking-[-0.03em] text-white md:text-4xl">
@@ -118,7 +118,7 @@ function ComparisonTable() {
         </p>
       </div>
 
-      <div className="overflow-x-auto rounded-[2rem] border border-white/[0.07] bg-[#111111]/70 backdrop-blur-xl">
+      <div className="overflow-x-auto rounded-[2rem] border border-white/[0.07] bg-[#171615]/70 backdrop-blur-xl">
         <table className="w-full border-collapse text-left">
           {/* Sticky column headers */}
           <thead>
@@ -131,12 +131,12 @@ function ComparisonTable() {
                   key={col.key}
                   className={cn(
                     'py-5 px-6 text-center text-[0.82rem] font-bold tracking-tight',
-                    col.accent ? 'text-[#d394ff]' : 'text-white/70'
+                    col.accent ? 'text-[#7DD3C7]' : 'text-white/70'
                   )}
                 >
                   {col.label}
                   {col.accent && (
-                    <span className="ml-2 rounded-full border border-[#d394ff]/22 bg-[#d394ff]/10 px-2 py-0.5 text-[0.52rem] font-bold uppercase text-[#d394ff]">
+                    <span className="ml-2 rounded-full border border-[#7DD3C7]/22 bg-[#7DD3C7]/10 px-2 py-0.5 text-[0.52rem] font-bold uppercase text-[#7DD3C7]">
                       Popular
                     </span>
                   )}
@@ -152,7 +152,7 @@ function ComparisonTable() {
                 <tr key={`cat-${gi}`} className="border-t border-white/[0.05]">
                   <td
                     colSpan={5}
-                    className="py-4 pl-8 text-[0.65rem] font-extrabold uppercase tracking-[0.22em] text-[#d394ff]/60"
+                    className="py-4 pl-8 text-[0.65rem] font-extrabold uppercase tracking-[0.22em] text-[#7DD3C7]/60"
                   >
                     {group.category}
                   </td>
@@ -226,7 +226,7 @@ export default function PricingPage() {
   const [dialogPlan, setDialogPlan] = useState<PlanDef | null>(null);
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-white overflow-x-hidden">
+    <div className="min-h-screen bg-[#0B0B0A] text-white overflow-x-hidden">
       <LandingNav />
 
       <main className="mx-auto max-w-[1440px] px-6 md:px-12 pt-36 pb-28">
@@ -237,14 +237,14 @@ export default function PricingPage() {
           transition={{ duration: 0.85, ease: [0.25, 0.4, 0.25, 1] }}
           className="text-center mb-4"
         >
-          <span className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#d394ff]/18 bg-[#d394ff]/10 px-4 py-1.5 text-[0.68rem] font-bold uppercase tracking-[0.22em] text-[#d394ff]">
-            <span className="h-1.5 w-1.5 rounded-full bg-[#d394ff]" />
+          <span className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#7DD3C7]/18 bg-[#7DD3C7]/10 px-4 py-1.5 text-[0.68rem] font-bold uppercase tracking-[0.22em] text-[#7DD3C7]">
+            <span className="h-1.5 w-1.5 rounded-full bg-[#7DD3C7]" />
             Pricing
           </span>
           <h1 className="mt-5 text-5xl font-extrabold leading-[0.96] tracking-[-0.04em] text-white md:text-[4rem]">
             Simple pricing.{' '}
-            <span className="bg-gradient-to-r from-[#c97cff] via-[#f0dcff] to-[#aa30fa] bg-clip-text text-transparent">
-              Serious results.
+            <span className="text-[#7DD3C7]">
+              Clear plans.
             </span>
           </h1>
           <p className="mt-5 text-[1rem] font-light leading-[1.8] text-white/55 max-w-xl mx-auto">
@@ -258,7 +258,7 @@ export default function PricingPage() {
         </motion.div>
 
         {/* Ambient glow */}
-        <div className="pointer-events-none fixed top-0 left-1/2 -translate-x-1/2 h-[400px] w-[700px] rounded-full bg-[#d394ff]/[0.04] blur-[120px]" />
+        <div className="pointer-events-none fixed top-0 left-1/2 -translate-x-1/2 h-[400px] w-[700px] rounded-full bg-[#7DD3C7]/[0.04] blur-[120px]" />
 
         {/* Plan cards */}
         <motion.div
@@ -290,25 +290,25 @@ export default function PricingPage() {
 
         {/* Bottom CTA */}
         <div className="mt-24 text-center">
-          <div className="inline-flex flex-col items-center gap-5 rounded-[2rem] border border-[#d394ff]/15 bg-[#d394ff]/[0.04] px-12 py-10 backdrop-blur-xl">
+          <div className="inline-flex flex-col items-center gap-5 rounded-[2rem] border border-[#7DD3C7]/15 bg-[#7DD3C7]/[0.04] px-12 py-10 backdrop-blur-xl">
             <h3 className="text-2xl font-extrabold tracking-[-0.03em] text-white">
               Still not sure which plan fits?
             </h3>
             <p className="text-[0.9rem] text-white/55 max-w-sm text-center">
-              Start with Free and upgrade when you are ready. Or book a 15-minute demo and we will recommend the right plan for your team.
+              Start with Free and upgrade when you are ready. Or contact us and we will recommend the right plan for your team.
             </p>
             <div className="flex flex-col sm:flex-row gap-3">
               <button
                 onClick={() => navigate('/register')}
-                className="rounded-full bg-[#d394ff] px-8 py-3.5 text-sm font-bold text-[#4a0076] transition-all hover:shadow-[0_0_36px_rgba(211,148,255,0.35)]"
+                className="rounded-full bg-[#F4F1EC] px-8 py-3.5 text-sm font-bold text-[#0B0B0A] transition-all hover:shadow-[0_0_36px_rgba(244,241,236,0.2)]"
               >
                 Start for free
               </button>
               <button
-                onClick={() => navigate('/login')}
-                className="rounded-full border border-white/[0.12] bg-white/[0.04] px-8 py-3.5 text-sm font-semibold text-white/60 hover:border-[#d394ff]/30 hover:text-white/80 transition-all"
+                onClick={() => { window.location.href = 'mailto:hello@vielinks.com?subject=Vielinks%20plan%20recommendation'; }}
+                className="rounded-full border border-white/[0.12] bg-white/[0.04] px-8 py-3.5 text-sm font-semibold text-white/60 hover:border-[#7DD3C7]/30 hover:text-white/80 transition-all"
               >
-                Book a demo
+                Contact sales
               </button>
             </div>
           </div>

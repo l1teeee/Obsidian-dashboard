@@ -75,7 +75,7 @@ export default function FAQSection() {
           {/* Header */}
           <div className="mb-12 text-center">
             <span data-faq="eyebrow" style={{ opacity: 0 }} className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/[0.10] bg-white/[0.03] px-4 py-1.5 text-[0.68rem] font-bold uppercase tracking-[0.22em] text-white/45">
-              <span className="h-1.5 w-1.5 rounded-full bg-[#d394ff]" />
+              <span className="h-1.5 w-1.5 rounded-full bg-[#7DD3C7]" />
               FAQ
             </span>
             <h2 data-faq="title" style={{ opacity: 0 }} className="mt-5 text-4xl font-extrabold tracking-[-0.04em] leading-[0.96] text-white md:text-5xl">
@@ -87,7 +87,7 @@ export default function FAQSection() {
           </div>
 
           {/* Accordion — 4 questions */}
-          <div data-faq="list" style={{ opacity: 0 }} className="rounded-[1.75rem] border border-white/[0.07] bg-[#111111]/80 px-8 backdrop-blur-xl">
+          <div data-faq="list" style={{ opacity: 0 }} className="rounded-[1.75rem] border border-white/[0.07] bg-[#171615]/80 px-8 backdrop-blur-xl">
             <Accordion type="single" collapsible defaultValue="1">
               {faqs.map((faq, i) => (
                 <AccordionItem

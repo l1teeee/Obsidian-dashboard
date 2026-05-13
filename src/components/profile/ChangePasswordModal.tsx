@@ -73,8 +73,9 @@ export default function ChangePasswordModal({ onClose }: ChangePasswordModalProp
         <button
           type="button"
           onClick={toggleShow}
+          aria-label={show ? `Hide ${label.toLowerCase()}` : `Show ${label.toLowerCase()}`}
+          aria-pressed={show}
           className="absolute right-3 top-1/2 -translate-y-1/2 text-[#988d9c] hover:text-white transition-colors"
-          tabIndex={-1}
         >
           <span className="material-symbols-outlined" style={{ fontSize: 18 }}>
             {show ? 'visibility_off' : 'visibility'}

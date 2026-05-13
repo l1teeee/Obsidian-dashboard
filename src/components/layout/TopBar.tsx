@@ -8,7 +8,7 @@ interface TopBarProps {
 }
 
 export default function TopBar({ title, subtitle, actions }: TopBarProps) {
-  const { toggle } = useLayout();
+  const { isOpen, toggle } = useLayout();
 
   return (
     <header className="h-[60px] sticky top-0 z-40 bg-[#131313]/80 backdrop-blur-xl border-b border-[#4c4450]/15 flex justify-between items-center px-4 md:px-8 shadow-[0_0_40px_rgba(211,148,255,0.08)]">
@@ -18,6 +18,8 @@ export default function TopBar({ title, subtitle, actions }: TopBarProps) {
           <TooltipTrigger asChild>
             <button
               onClick={toggle}
+              aria-label={isOpen ? 'Close navigation menu' : 'Open navigation menu'}
+              aria-expanded={isOpen}
               className="lg:hidden w-9 h-9 flex items-center justify-center rounded-xl text-[#988d9c] hover:text-white hover:bg-[#201f1f] active:scale-[0.92] transition-all shrink-0"
             >
               <span className="material-symbols-outlined" style={{ fontSize: 22 }}>menu</span>
@@ -41,7 +43,10 @@ export default function TopBar({ title, subtitle, actions }: TopBarProps) {
         </div>
         <Tooltip>
           <TooltipTrigger asChild>
-            <button className="w-9 h-9 flex items-center justify-center rounded-full text-[#988d9c] hover:text-white hover:bg-[#201f1f] active:scale-[0.92] transition-all">
+            <button
+              aria-label="Notifications"
+              className="w-9 h-9 flex items-center justify-center rounded-full text-[#988d9c] hover:text-white hover:bg-[#201f1f] active:scale-[0.92] transition-all"
+            >
               <span className="material-symbols-outlined" style={{ fontSize: 20 }}>notifications</span>
             </button>
           </TooltipTrigger>
