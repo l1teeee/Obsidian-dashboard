@@ -18,7 +18,7 @@ export default function SessionConflictModal({ onConfirm, onCancel, loading }: P
       className={`fixed inset-0 z-[200] flex items-center justify-center p-4 transition-all duration-300 ${visible ? 'bg-black/70 backdrop-blur-sm' : 'bg-transparent'}`}
     >
       <div
-        className={`w-full max-w-sm bg-[#1a1919] border border-[#4c4450]/20 rounded-3xl p-7 shadow-[0_24px_80px_rgba(0,0,0,0.7)] transition-all duration-300 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
+        className={`w-full max-w-sm bg-[#FAF7F2] border border-[#1C1814]/20 rounded-3xl p-7 shadow-[0_24px_80px_rgba(0,0,0,0.7)] transition-all duration-300 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
       >
         {/* Icon */}
         <div className="w-12 h-12 rounded-2xl bg-[#ffd166]/10 border border-[#ffd166]/20 flex items-center justify-center mb-5">
@@ -27,8 +27,8 @@ export default function SessionConflictModal({ onConfirm, onCancel, loading }: P
           </span>
         </div>
 
-        <h2 className="text-white font-bold text-lg mb-2">Account already in use</h2>
-        <p className="text-[#988d9c] text-sm mb-6 leading-relaxed">
+        <h2 className="text-[#1C1814] font-bold text-lg mb-2">Account already in use</h2>
+        <p className="text-[#6A6470] text-sm mb-6 leading-relaxed">
           Someone else is signed in to this account. Sign them out to continue.
         </p>
 
@@ -44,7 +44,7 @@ export default function SessionConflictModal({ onConfirm, onCancel, loading }: P
           <button
             onClick={onCancel}
             disabled={loading}
-            className="w-full py-2.5 rounded-xl text-[#988d9c] text-sm hover:text-white transition-colors"
+            className="w-full py-2.5 rounded-xl text-[#6A6470] text-sm hover:text-[#1C1814] transition-colors"
           >
             Cancel
           </button>

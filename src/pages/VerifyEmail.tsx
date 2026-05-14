@@ -49,23 +49,23 @@ export default function VerifyEmail() {
       ref={containerRef}
       className="auth-bg relative flex min-h-screen items-center justify-center overflow-hidden px-4 py-16"
     >
-      <div className="pointer-events-none absolute -left-32 -top-32 h-[500px] w-[500px] rounded-full bg-[#d394ff]/10 blur-[120px]" />
-      <div className="pointer-events-none absolute -bottom-32 -right-32 h-[420px] w-[420px] rounded-full bg-[#aa30fa]/10 blur-[100px]" />
+      <div className="pointer-events-none absolute -left-32 -top-32 h-[500px] w-[500px] rounded-full bg-[#7DD3C7]/10 blur-[120px]" />
+      <div className="pointer-events-none absolute -bottom-32 -right-32 h-[420px] w-[420px] rounded-full bg-inverse-primary/10 blur-[100px]" />
 
-      <div className="relative w-full max-w-[400px] overflow-hidden rounded-[2rem] border border-[#494847]/20 bg-[#1a1919]/70 p-10 text-center shadow-[0_30px_120px_rgba(0,0,0,0.28)] backdrop-blur-2xl">
+      <div className="relative w-full max-w-[400px] overflow-hidden rounded-[2rem] border border-[#1C1814]/20 bg-[#FAF7F2]/70 p-10 text-center shadow-[0_30px_120px_rgba(0,0,0,0.28)] backdrop-blur-2xl">
         <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/[0.08] to-transparent" />
 
         {/* ── Verifying ── */}
         {status === 'verifying' && (
           <>
             <div data-ve-anim className="mb-6 flex justify-center">
-              <svg className="animate-spin text-[#d394ff]" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+              <svg className="animate-spin text-[#7DD3C7]" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
                 <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" opacity="0.4"/>
-                <path d="M12 2v4" stroke="#d394ff" strokeOpacity="1"/>
+                <path d="M12 2v4" stroke="#7DD3C7" strokeOpacity="1"/>
               </svg>
             </div>
-            <p data-ve-anim className="text-[0.6875rem] font-semibold uppercase tracking-[0.24em] text-[#d394ff]/70 mb-2">Please wait</p>
-            <h1 data-ve-anim className="font-headline text-xl font-bold tracking-tight text-[#e5e2e1]">Verifying your email…</h1>
+            <p data-ve-anim className="text-[0.6875rem] font-semibold uppercase tracking-[0.24em] text-[#7DD3C7]/70 mb-2">Please wait</p>
+            <h1 data-ve-anim className="font-headline text-xl font-bold tracking-tight text-[#1C1814]">Verifying your email…</h1>
           </>
         )}
 
@@ -74,13 +74,13 @@ export default function VerifyEmail() {
           <>
             <div data-ve-anim className="mb-6 flex justify-center">
               <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
-                <circle cx="32" cy="32" r="30" stroke="#d394ff" strokeWidth="2" fill="rgba(211,148,255,0.06)"/>
-                <path d="M19 32L28 42L45 24" stroke="#d394ff" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+                <circle cx="32" cy="32" r="30" stroke="#7DD3C7" strokeWidth="2" fill="rgba(125,211,199,0.06)"/>
+                <path d="M19 32L28 42L45 24" stroke="#7DD3C7" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
             </div>
-            <p data-ve-anim className="text-[0.6875rem] font-semibold uppercase tracking-[0.24em] text-[#d394ff]/70 mb-2">Confirmed</p>
-            <h1 data-ve-anim className="font-headline text-2xl font-bold tracking-tight text-[#e5e2e1] mb-3">Email verified!</h1>
-            <p data-ve-anim className="text-sm text-[#adaaaa]/60">Redirecting you in a moment…</p>
+            <p data-ve-anim className="text-[0.6875rem] font-semibold uppercase tracking-[0.24em] text-[#7DD3C7]/70 mb-2">Confirmed</p>
+            <h1 data-ve-anim className="font-headline text-2xl font-bold tracking-tight text-[#1C1814] mb-3">Email verified!</h1>
+            <p data-ve-anim className="text-sm text-[#78736E]/60">Redirecting you in a moment…</p>
           </>
         )}
 
@@ -97,18 +97,18 @@ export default function VerifyEmail() {
               </div>
             </div>
             <p data-ve-anim className="text-[0.6875rem] font-semibold uppercase tracking-[0.24em] text-red-400/70 mb-2">Invalid link</p>
-            <h1 data-ve-anim className="font-headline text-xl font-bold tracking-tight text-[#e5e2e1] mb-3">Verification failed</h1>
-            <p data-ve-anim className="text-sm text-[#adaaaa]/60 mb-7">{errMsg}</p>
+            <h1 data-ve-anim className="font-headline text-xl font-bold tracking-tight text-[#1C1814] mb-3">Verification failed</h1>
+            <p data-ve-anim className="text-sm text-[#78736E]/60 mb-7">{errMsg}</p>
             <div data-ve-anim className="space-y-3">
               <Link
                 to="/register"
-                className="block w-full rounded-2xl bg-[#d394ff] px-6 py-3 text-sm font-bold text-[#4a0076] transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_0_40px_rgba(211,148,255,0.28)]"
+                className="block w-full rounded-2xl bg-[#7DD3C7] px-6 py-3 text-sm font-bold text-[#0B0B0A] transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_0_40px_rgba(125,211,199,0.28)]"
               >
                 Create a new account
               </Link>
               <Link
                 to="/login"
-                className="block w-full rounded-2xl border border-[#494847]/30 bg-white/[0.03] px-6 py-3 text-sm font-semibold text-[#e5e2e1] transition-all duration-200 hover:border-[#d394ff]/30 hover:bg-[#d394ff]/5 hover:text-[#d394ff]"
+                className="block w-full rounded-2xl border border-[#1C1814]/30 bg-[#1C1814]/[0.05] px-6 py-3 text-sm font-semibold text-[#1C1814] transition-all duration-200 hover:border-[#7DD3C7]/30 hover:bg-[#7DD3C7]/5 hover:text-[#7DD3C7]"
               >
                 Back to login
               </Link>

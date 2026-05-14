@@ -26,14 +26,14 @@ const logos = [
 
 function LogoPill({ name, platformId, color }: { name: string; platformId: string; color: string }) {
   return (
-    <div className="flex shrink-0 items-center gap-2.5 rounded-xl border border-white/[0.07] bg-white/[0.03] px-5 py-3 backdrop-blur-sm">
+    <div className="flex shrink-0 items-center gap-2.5 rounded-xl border border-white/[0.07] bg-[#1C1814]/[0.05] px-5 py-3 backdrop-blur-sm">
       <div
         className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg border"
         style={{ backgroundColor: `${color}18`, borderColor: `${color}30` }}
       >
         <SocialBrandIcon platformId={platformId} size={16} color={color} />
       </div>
-      <span className="text-[0.78rem] font-semibold text-white/45 tracking-tight">{name}</span>
+      <span className="text-[0.78rem] font-semibold text-[#1C1814]/45 tracking-tight">{name}</span>
     </div>
   );
 }
@@ -109,7 +109,7 @@ export default function SocialProof() {
     <section
       ref={rootRef}
       style={{ opacity: 0 }}
-      className="relative bg-[#0B0B0A] pt-16 pb-20 overflow-hidden"
+      className="relative bg-[#F4F0E8] pt-16 pb-20 overflow-hidden"
     >
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/[0.07] to-transparent" />
       <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-white/[0.04] to-transparent" />
@@ -119,7 +119,7 @@ export default function SocialProof() {
         <p
           data-sp="label"
           style={{ opacity: 0 }}
-          className="mb-7 text-center text-[0.65rem] font-bold uppercase tracking-[0.22em] text-white/25"
+          className="mb-7 text-center text-[0.65rem] font-bold uppercase tracking-[0.22em] text-[#1C1814]/25"
         >
           Built around the platforms teams use
         </p>
@@ -136,8 +136,8 @@ export default function SocialProof() {
           </InfiniteSlider>
 
           {/* Solid-color fade to bg — makes edges fully black, not blurred */}
-          <div className="pointer-events-none absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-[#0B0B0A] to-transparent z-10" />
-          <div className="pointer-events-none absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-[#0B0B0A] to-transparent z-10" />
+          <div className="pointer-events-none absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-[#F4F0E8] to-transparent z-10" />
+          <div className="pointer-events-none absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-[#F4F0E8] to-transparent z-10" />
         </div>
       </div>
 
@@ -146,7 +146,7 @@ export default function SocialProof() {
         {/* Subtle brand glow */}
         <div className="absolute inset-0 before:absolute before:inset-0 before:bg-[radial-gradient(circle_at_bottom_center,#7DD3C7,transparent_65%)] before:opacity-14" />
         {/* Curved horizon line */}
-        <div className="absolute -left-1/2 top-1/2 z-10 aspect-[1/0.55] w-[200%] rounded-[100%] border-t border-white/[0.08] bg-[#0B0B0A]" />
+        <div className="absolute -left-1/2 top-1/2 z-10 aspect-[1/0.55] w-[200%] rounded-[100%] border-t border-white/[0.08] bg-[#F4F0E8]" />
         {/* Sparkles particle field */}
         <SparklesCore
           className="absolute inset-x-0 bottom-0 h-full w-full [mask-image:radial-gradient(50%_60%,white,transparent_80%)]"
@@ -179,13 +179,13 @@ export default function SocialProof() {
                 <div className="absolute inset-0 -z-10 blur-[28px] opacity-10 bg-white rounded-full scale-75" />
                 <span
                   ref={(el) => { numRefs.current[i] = el; }}
-                  className="block text-[2.8rem] font-extrabold leading-none tracking-[-0.04em] text-white md:text-[3.2rem]"
+                  className="block text-[2.8rem] font-extrabold leading-none tracking-[-0.04em] text-[#1C1814] md:text-[3.2rem]"
                 >
                   0{s.suffix}
                 </span>
               </div>
-              <span className="text-[0.85rem] font-semibold text-white/60">{s.label}</span>
-              <span className="text-[0.68rem] tracking-wide text-white/50">{s.sub}</span>
+              <span className="text-[0.85rem] font-semibold text-[#1C1814]/60">{s.label}</span>
+              <span className="text-[0.68rem] tracking-wide text-[#1C1814]/50">{s.sub}</span>
             </div>
           ))}
         </div>

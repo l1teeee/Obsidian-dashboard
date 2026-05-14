@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import { ArrowUpRight, Link2, CalendarDays, Send, BarChart3 } from "lucide-react";
+import { ArrowUpRight, CalendarDays, Send, BarChart3, CheckCircle2, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -18,49 +18,14 @@ export type WorkflowEntry = {
 
 /* ── Mockups por paso ─────────────────────────────────────── */
 
-function ConnectMockup() {
-  const platforms = [
-    { name: "Instagram", handle: "@yourbrand", color: "#e1306c", connected: true,  icon: "IG" },
-    { name: "LinkedIn",  handle: "Your Company", color: "#0a66c2", connected: true,  icon: "LI" },
-    { name: "Facebook",  handle: "Your Page",    color: "#1877f2", connected: false, icon: "FB" },
-  ];
-  return (
-    <div className="rounded-2xl border border-white/[0.07] bg-white/[0.02] p-5 space-y-3">
-      <p className="text-[0.6rem] font-bold uppercase tracking-[0.2em] text-white/30">Connected Accounts</p>
-      {platforms.map((p) => (
-        <div key={p.name} className="flex items-center gap-3 rounded-xl border border-white/[0.05] bg-white/[0.02] px-4 py-3">
-          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl text-xs font-bold" style={{ backgroundColor: `${p.color}22`, color: p.color }}>
-            {p.icon}
-          </div>
-          <div className="flex-1">
-            <p className="text-[0.72rem] font-semibold text-white/70">{p.name}</p>
-            <p className="text-[0.6rem] text-white/30">{p.handle}</p>
-          </div>
-          {p.connected ? (
-            <span className="flex items-center gap-1 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-2.5 py-0.5 text-[0.55rem] font-bold text-emerald-400">
-              <span className="h-1 w-1 rounded-full bg-emerald-400" />
-              Connected
-            </span>
-          ) : (
-            <button className="rounded-full border border-[#7DD3C7]/25 bg-[#7DD3C7]/10 px-2.5 py-0.5 text-[0.55rem] font-bold text-[#7DD3C7]">
-              Connect
-            </button>
-          )}
-        </div>
-      ))}
-      <p className="text-center text-[0.6rem] text-white/20">OAuth-secured · Connects in under 2 minutes</p>
-    </div>
-  );
-}
-
 function PlanMockup() {
   return (
     <div className="rounded-2xl border border-white/[0.07] bg-white/[0.02] p-5 space-y-3">
       <div className="flex items-center justify-between">
-        <p className="text-[0.6rem] font-bold uppercase tracking-[0.2em] text-white/30">Post Composer</p>
+        <p className="text-[0.6rem] font-bold uppercase tracking-[0.2em] text-[#1C1814]/30">Post Composer</p>
         <div className="flex gap-1">
           {["IG", "LI", "FB"].map((p, i) => (
-            <span key={p} className={`rounded-full px-2 py-0.5 text-[0.5rem] font-bold border ${i < 2 ? "border-[#7DD3C7]/25 bg-[#7DD3C7]/10 text-[#7DD3C7]" : "border-white/[0.06] bg-white/[0.03] text-white/25"}`}>{p}</span>
+            <span key={p} className={`rounded-full px-2 py-0.5 text-[0.5rem] font-bold border ${i < 2 ? "border-[#7DD3C7]/25 bg-[#7DD3C7]/10 text-[#7DD3C7]" : "border-white/[0.06] bg-[#1C1814]/[0.05] text-[#1C1814]/25"}`}>{p}</span>
           ))}
         </div>
       </div>
@@ -72,14 +37,14 @@ function PlanMockup() {
         <div className="mt-3 flex gap-2">
           <span className="rounded-full border border-[#7DD3C7]/20 bg-[#7DD3C7]/8 px-2 py-0.5 text-[0.5rem] text-[#7DD3C7]/70">#branding</span>
           <span className="rounded-full border border-[#7DD3C7]/20 bg-[#7DD3C7]/8 px-2 py-0.5 text-[0.5rem] text-[#7DD3C7]/70">#creative</span>
-          <span className="rounded-full border border-white/[0.06] bg-white/[0.02] px-2 py-0.5 text-[0.5rem] text-white/20">+ AI hashtags</span>
+          <span className="rounded-full border border-white/[0.06] bg-white/[0.02] px-2 py-0.5 text-[0.5rem] text-[#1C1814]/20">+ AI hashtags</span>
         </div>
       </div>
       {/* Schedule row */}
       <div className="flex items-center justify-between rounded-xl border border-white/[0.05] bg-white/[0.02] px-3 py-2.5">
         <div>
-          <p className="text-[0.52rem] text-white/25">Scheduled for</p>
-          <p className="text-[0.65rem] font-semibold text-white/65">Wed, Apr 9 · 11:00 AM</p>
+          <p className="text-[0.52rem] text-[#1C1814]/25">Scheduled for</p>
+          <p className="text-[0.65rem] font-semibold text-[#1C1814]/65">Wed, Apr 9 · 11:00 AM</p>
         </div>
         <button className="rounded-full bg-[#7DD3C7] px-3 py-1 text-[0.55rem] font-bold text-[#0B0B0A]">Schedule</button>
       </div>
@@ -96,7 +61,7 @@ function PublishMockup() {
   return (
     <div className="rounded-2xl border border-white/[0.07] bg-white/[0.02] p-5 space-y-3">
       <div className="flex items-center justify-between">
-        <p className="text-[0.6rem] font-bold uppercase tracking-[0.2em] text-white/30">Publishing Queue</p>
+        <p className="text-[0.6rem] font-bold uppercase tracking-[0.2em] text-[#1C1814]/30">Publishing Queue</p>
         <span className="flex items-center gap-1 text-[0.55rem] font-bold text-[#7DD3C7]">
           <span className="relative flex h-1.5 w-1.5">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#7DD3C7] opacity-60" />
@@ -111,8 +76,8 @@ function PublishMockup() {
             {p.platform}
           </div>
           <div className="flex-1">
-            <p className="text-[0.62rem] font-medium text-white/60">{p.title}</p>
-            <p className="text-[0.5rem] text-white/25">{p.time}</p>
+            <p className="text-[0.62rem] font-medium text-[#1C1814]/60">{p.title}</p>
+            <p className="text-[0.5rem] text-[#1C1814]/25">{p.time}</p>
           </div>
           {p.done ? (
             <span className="flex items-center gap-1 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-2 py-0.5 text-[0.5rem] font-bold text-emerald-400">✓ Published</span>
@@ -122,9 +87,85 @@ function PublishMockup() {
         </div>
       ))}
       <div className="flex items-center justify-between rounded-lg border border-white/[0.04] bg-white/[0.01] px-3 py-2">
-        <p className="text-[0.55rem] text-white/22">Next post in 3h 12min</p>
-        <p className="text-[0.55rem] text-white/22">28 posts queued</p>
+        <p className="text-[0.55rem] text-[#1C1814]/22">Next post in 3h 12min</p>
+        <p className="text-[0.55rem] text-[#1C1814]/22">28 posts queued</p>
       </div>
+    </div>
+  );
+}
+
+function DraftMockup() {
+  return (
+    <div className="rounded-2xl border border-white/[0.07] bg-white/[0.02] p-5 space-y-3">
+      <div className="flex items-center justify-between">
+        <p className="text-[0.6rem] font-bold uppercase tracking-[0.2em] text-[#1C1814]/30">Post Composer</p>
+        <div className="flex gap-1">
+          {["IG", "LI", "FB"].map((p, i) => (
+            <span key={p} className={`rounded-full px-2 py-0.5 text-[0.5rem] font-bold border ${i < 2 ? "border-[#7DD3C7]/25 bg-[#7DD3C7]/10 text-[#7DD3C7]" : "border-white/[0.06] bg-[#1C1814]/[0.05] text-[#1C1814]/25"}`}>{p}</span>
+          ))}
+        </div>
+      </div>
+      <div className="rounded-xl border border-white/[0.07] bg-white/[0.02] p-3 space-y-2">
+        <p className="text-[0.6rem] font-bold text-[#1C1814]/40 mb-2">Caption</p>
+        <div className="h-2 w-11/12 rounded-full bg-white/10" />
+        <div className="h-2 w-9/12 rounded-full bg-white/[0.07]" />
+        <div className="h-2 w-8/12 rounded-full bg-white/[0.07]" />
+        <div className="mt-3 flex gap-2">
+          <span className="rounded-full border border-[#7DD3C7]/20 bg-[#7DD3C7]/8 px-2 py-0.5 text-[0.5rem] text-[#7DD3C7]/70">#branding</span>
+          <span className="rounded-full border border-[#7DD3C7]/20 bg-[#7DD3C7]/8 px-2 py-0.5 text-[0.5rem] text-[#7DD3C7]/70">#creative</span>
+          <span className="rounded-full border border-white/[0.06] bg-white/[0.02] px-2 py-0.5 text-[0.5rem] text-[#1C1814]/20">+ AI hashtags</span>
+        </div>
+      </div>
+      <div className="flex items-center gap-2 rounded-xl border border-[#7DD3C7]/15 bg-[#7DD3C7]/5 px-3 py-2.5">
+        <svg className="h-3.5 w-3.5 text-[#7DD3C7]/70 shrink-0" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+        </svg>
+        <p className="text-[0.58rem] text-[#1C1814]/50">AI suggests: <span className="text-[#7DD3C7]/80">Tuesday 9–11 AM gets 2.3x more reach</span></p>
+      </div>
+      <div className="flex items-center justify-between rounded-xl border border-white/[0.05] bg-white/[0.02] px-3 py-2.5">
+        <div>
+          <p className="text-[0.52rem] text-[#1C1814]/25">Scheduled for</p>
+          <p className="text-[0.65rem] font-semibold text-[#1C1814]/65">Wed, Apr 9 · 11:00 AM</p>
+        </div>
+        <div className="flex gap-2">
+          <button className="rounded-full border border-[#D6A86A]/25 bg-[#D6A86A]/10 px-3 py-1 text-[0.55rem] font-bold text-[#D6A86A]">Send for review</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ApproveMockup() {
+  const items = [
+    { title: "Product launch carousel", platform: "IG", color: "#e1306c", status: "approved", time: "Approved 2h ago" },
+    { title: "Q2 industry insights", platform: "LI", color: "#0a66c2", status: "pending", time: "Waiting on review" },
+    { title: "Community poll", platform: "FB", color: "#1877f2", status: "review", time: "Changes requested" },
+  ];
+  const badge = (status: string) => {
+    if (status === "approved") return <span className="flex items-center gap-1 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-2 py-0.5 text-[0.5rem] font-bold text-emerald-400">✓ Approved</span>;
+    if (status === "pending")  return <span className="rounded-full border border-[#D6A86A]/20 bg-[#D6A86A]/10 px-2 py-0.5 text-[0.5rem] font-bold text-[#D6A86A]">Pending</span>;
+    return <span className="rounded-full border border-white/10 bg-white/[0.04] px-2 py-0.5 text-[0.5rem] font-bold text-[#1C1814]/40">Review</span>;
+  };
+  return (
+    <div className="rounded-2xl border border-white/[0.07] bg-white/[0.02] p-5 space-y-3">
+      <div className="flex items-center justify-between">
+        <p className="text-[0.6rem] font-bold uppercase tracking-[0.2em] text-[#1C1814]/30">Approval Queue</p>
+        <span className="flex items-center gap-1 rounded-full border border-[#D6A86A]/20 bg-[#D6A86A]/10 px-2 py-0.5 text-[0.5rem] font-bold text-[#D6A86A]">2 pending</span>
+      </div>
+      {items.map((item) => (
+        <div key={item.title} className="flex items-center gap-3 rounded-xl border border-white/[0.05] bg-white/[0.02] px-3 py-3">
+          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-[0.45rem] font-bold"
+            style={{ backgroundColor: item.color + "22", color: item.color }}>
+            {item.platform}
+          </div>
+          <div className="flex-1 min-w-0">
+            <p className="truncate text-[0.62rem] font-medium text-[#1C1814]/60">{item.title}</p>
+            <p className="text-[0.5rem] text-[#1C1814]/25">{item.time}</p>
+          </div>
+          {badge(item.status)}
+        </div>
+      ))}
+      <p className="text-center text-[0.58rem] text-[#1C1814]/20">Posts go to queue only after approval</p>
     </div>
   );
 }
@@ -140,15 +181,15 @@ function AnalyzeMockup() {
           { label: "Top Platform", value: "IG",     delta: "47% share" },
         ].map((m) => (
           <div key={m.label} className="rounded-xl border border-white/[0.05] bg-white/[0.02] p-3">
-            <p className="mb-1 text-[0.5rem] font-bold uppercase tracking-[0.16em] text-white/25">{m.label}</p>
-            <p className="text-[0.95rem] font-bold text-white">{m.value}</p>
+            <p className="mb-1 text-[0.5rem] font-bold uppercase tracking-[0.16em] text-[#1C1814]/25">{m.label}</p>
+            <p className="text-[0.95rem] font-bold text-[#1C1814]">{m.value}</p>
             <span className="text-[0.52rem] font-semibold text-[#7DD3C7]">{m.delta}</span>
           </div>
         ))}
       </div>
       <div className="rounded-xl border border-white/[0.05] bg-white/[0.02] p-3">
         <div className="mb-2 flex items-center justify-between">
-          <p className="text-[0.52rem] font-bold uppercase tracking-[0.16em] text-white/25">Weekly Reach · Apr 1–7</p>
+          <p className="text-[0.52rem] font-bold uppercase tracking-[0.16em] text-[#1C1814]/25">Weekly Reach · Apr 1–7</p>
           <span className="rounded px-2 py-0.5 text-[0.48rem] font-bold bg-[#7DD3C7]/15 text-[#7DD3C7]">7D</span>
         </div>
         <div className="flex h-[72px] items-end gap-1.5">
@@ -160,7 +201,7 @@ function AnalyzeMockup() {
         </div>
         <div className="mt-1.5 flex gap-1.5">
           {["M","T","W","T","F","S","S"].map((d, i) => (
-            <span key={i} className="flex-1 text-center text-[0.4rem] font-bold uppercase text-white/20">{d}</span>
+            <span key={i} className="flex-1 text-center text-[0.4rem] font-bold uppercase text-[#1C1814]/20">{d}</span>
           ))}
         </div>
       </div>
@@ -172,56 +213,69 @@ function AnalyzeMockup() {
 const workflowEntries: WorkflowEntry[] = [
   {
     step: "01",
-    icon: Link2,
-    title: "Connect your accounts",
-    subtitle: "Setup · 2 minutes",
-    description: "Link Instagram, LinkedIn, and Facebook in a single OAuth flow. No API keys, no developer setup — just authorize and you're live.",
-    items: [
-      "One-click OAuth for all three platforms",
-      "Secure token storage — never stored in plaintext",
-      "Multiple accounts and workspaces supported",
-      "Reconnect or disconnect anytime from Settings",
-    ],
-    mockup: <ConnectMockup />,
-  },
-  {
-    step: "02",
     icon: CalendarDays,
-    title: "Plan and compose your content",
-    subtitle: "Content workflow",
-    description: "Write once, publish everywhere. The unified composer lets you tailor each post per platform, attach media, pick hashtags, and queue it for the perfect moment.",
+    title: "Plan your content calendar",
+    subtitle: "Content planning",
+    description: "Map out your entire content strategy in a unified calendar. See every scheduled post across Instagram, LinkedIn, and Facebook in one place before anything goes live.",
     items: [
-      "Multi-platform composer with per-channel previews",
-      "AI-assisted caption drafting and hashtag suggestions",
-      "Media library with DALL-E 3 image generation built in",
-      "Drag-and-drop calendar for visual planning",
-      "Auto-save drafts so you never lose your work",
+      "Drag-and-drop calendar for visual content planning",
+      "Multi-platform view: IG, LI, FB in one grid",
+      "Spot gaps and conflicts before they happen",
+      "Team-shared workspace — everyone sees the same plan",
     ],
     mockup: <PlanMockup />,
   },
   {
+    step: "02",
+    icon: FileText,
+    title: "Draft with AI assistance",
+    subtitle: "Composer + AI",
+    description: "Write once, adapt per platform. The composer tailors each post to the channel, suggests captions, hashtags, and recommends the best time to publish based on your audience data.",
+    items: [
+      "AI-assisted caption drafting and hashtag suggestions",
+      "Per-platform preview before submitting for review",
+      "Best-time engine trained on your historical data",
+      "Auto-save drafts — never lose work in progress",
+    ],
+    mockup: <DraftMockup />,
+  },
+  {
     step: "03",
+    icon: CheckCircle2,
+    title: "Approve before it goes live",
+    subtitle: "Team approvals",
+    description: "Nothing publishes without sign-off. Route content through your team for review, collect feedback, and keep full control over what goes out on each platform.",
+    items: [
+      "Approval workflow with role-based permissions",
+      "Comment and request changes inline",
+      "Posts only queue after explicit approval",
+      "Full audit trail of who approved what and when",
+    ],
+    mockup: <ApproveMockup />,
+  },
+  {
+    step: "04",
     icon: Send,
-    title: "Publish at exactly the right time",
+    title: "Publish at the right time",
     subtitle: "Auto-publishing engine",
-    description: "Set it and forget it. Vielinks auto-publishes your content on schedule, with AI recommendations for peak engagement windows based on your audience data.",
+    description: "Set it and forget it. Vielinks auto-publishes approved content on schedule, with real-time queue status and automatic retry on failure.",
     items: [
       "Fully automated publishing — no manual action needed",
-      "AI best-time engine trained on your historical data",
       "Real-time queue status and push notifications",
       "Failure alerts with automatic retry logic",
+      "OAuth-secured — tokens never stored in plaintext",
     ],
     mockup: <PublishMockup />,
   },
   {
-    step: "04",
+    step: "05",
     icon: BarChart3,
-    title: "Analyze and optimize performance",
+    title: "Report on what worked",
     subtitle: "Performance intelligence",
-    description: "Real-time metrics across Instagram, LinkedIn, and Facebook. Understand exactly which posts drove the most reach, engagement, and follower growth - then use that data to publish smarter.",
+    description: "Real-time metrics across Instagram, LinkedIn, and Facebook. Know exactly which posts drove reach and engagement — then use that data to plan the next cycle smarter.",
     items: [
       "Cross-platform reach, engagement rate, and impressions",
-      "Post-level performance breakdown with benchmark comparison",
+      "Post-level performance with benchmark comparison",
       "Best-performing content types and hashtag analytics",
       "Weekly performance report delivered to your inbox",
     ],
@@ -237,8 +291,8 @@ export interface WorkflowTimelineProps {
 }
 
 export default function WorkflowTimeline({
-  title = "How Vielinks works",
-  description = "From account setup to performance insights — the entire social media workflow in one place.",
+  title = "Plan. Draft. Approve. Publish. Report.",
+  description = "The complete editorial workflow for Instagram, LinkedIn, and Facebook — from first idea to performance insight.",
   entries = workflowEntries,
 }: WorkflowTimelineProps) {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -287,13 +341,10 @@ export default function WorkflowTimeline({
             <span className="h-1.5 w-1.5 rounded-full bg-[#7DD3C7]" />
             How It Works
           </span>
-          <h2 className="text-4xl font-extrabold tracking-[-0.04em] leading-[0.96] text-white md:text-5xl">
-            {title.split(" ").slice(0, -2).join(" ")}{" "}
-            <span className="text-[#7DD3C7]">
-              {title.split(" ").slice(-2).join(" ")}
-            </span>
+          <h2 className="text-4xl font-extrabold tracking-[-0.04em] leading-[1.1] text-[#1C1814] md:text-5xl">
+            {title}
           </h2>
-          <p className="mx-auto mt-5 text-[1rem] font-light leading-[1.8] text-white/45 max-w-lg">
+          <p className="mx-auto mt-5 text-[1rem] font-light leading-[1.8] text-[#1C1814]/45 max-w-lg">
             {description}
           </p>
         </div>
@@ -324,7 +375,7 @@ export default function WorkflowTimeline({
                       "flex h-10 w-10 items-center justify-center rounded-2xl border font-bold text-xs transition-all duration-500",
                       isActive
                         ? "border-[#7DD3C7]/40 bg-[#7DD3C7]/15 text-[#7DD3C7] shadow-[0_0_20px_rgba(125,211,199,0.2)]"
-                        : "border-white/[0.08] bg-white/[0.02] text-white/25"
+                        : "border-white/[0.08] bg-white/[0.02] text-[#1C1814]/25"
                     )}>
                       {entry.step}
                     </div>
@@ -339,7 +390,7 @@ export default function WorkflowTimeline({
                     "flex h-12 w-12 items-center justify-center rounded-2xl border transition-all duration-500",
                     isActive
                       ? "border-[#7DD3C7]/30 bg-[#7DD3C7]/12 text-[#7DD3C7]"
-                      : "border-white/[0.07] bg-white/[0.02] text-white/20"
+                      : "border-white/[0.07] bg-white/[0.02] text-[#1C1814]/20"
                   )}>
                     <entry.icon className="h-5 w-5" />
                   </div>
@@ -347,13 +398,13 @@ export default function WorkflowTimeline({
                   <div>
                     <p className={cn(
                       "text-sm font-bold transition-colors duration-300",
-                      isActive ? "text-white" : "text-white/35"
+                      isActive ? "text-[#1C1814]" : "text-[#1C1814]/35"
                     )}>
                       {entry.title}
                     </p>
                     <p className={cn(
                       "mt-0.5 text-[0.68rem] transition-colors duration-300",
-                      isActive ? "text-[#7DD3C7]/70" : "text-white/20"
+                      isActive ? "text-[#7DD3C7]/70" : "text-[#1C1814]/20"
                     )}>
                       {entry.subtitle}
                     </p>
@@ -364,7 +415,7 @@ export default function WorkflowTimeline({
                 <article className={cn(
                   "flex-1 flex flex-col rounded-[1.75rem] border transition-all duration-500 overflow-hidden",
                   isActive
-                    ? "border-[#7DD3C7]/18 bg-[#171615]/90 shadow-[0_20px_80px_rgba(0,0,0,0.4),0_0_0_1px_rgba(125,211,199,0.05)]"
+                    ? "border-[#7DD3C7]/18 bg-[#F3EEE6]/90 shadow-[0_20px_80px_rgba(0,0,0,0.4),0_0_0_1px_rgba(125,211,199,0.05)]"
                     : "border-white/[0.06] bg-[#0f0f0f]/60"
                 )}>
                   {/* Top sheen */}
@@ -383,13 +434,13 @@ export default function WorkflowTimeline({
                     <div>
                       <h3 className={cn(
                         "text-lg font-bold leading-snug tracking-tight transition-colors duration-300 mb-2",
-                        isActive ? "text-white" : "text-white/50"
+                        isActive ? "text-[#1C1814]" : "text-[#1C1814]/50"
                       )}>
                         {entry.title}
                       </h3>
                       <p className={cn(
                         "text-[0.9rem] leading-[1.75] transition-all duration-300",
-                        isActive ? "text-white/55 line-clamp-none" : "text-white/30 line-clamp-2"
+                        isActive ? "text-[#1C1814]/55 line-clamp-none" : "text-[#1C1814]/30 line-clamp-2"
                       )}>
                         {entry.description}
                       </p>
@@ -408,7 +459,7 @@ export default function WorkflowTimeline({
                           <div className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-4">
                             <ul className="space-y-2.5">
                               {entry.items.map((item, i) => (
-                                <li key={i} className="flex items-start gap-3 text-[0.85rem] text-white/50">
+                                <li key={i} className="flex items-start gap-3 text-[0.85rem] text-[#1C1814]/50">
                                   <div className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[#7DD3C7]/50" />
                                   <span className="leading-relaxed">{item}</span>
                                 </li>

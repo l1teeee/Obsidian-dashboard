@@ -39,9 +39,9 @@ export default function SileoToast({ visible, icon = 'draft', title, body }: Sil
     >
       <div className="flex items-center gap-3 pl-3 pr-5 py-3 rounded-2xl bg-[#1a1a1a]/95 backdrop-blur-2xl border border-white/[0.07] shadow-[0_12px_48px_rgba(0,0,0,0.6),0_0_0_0.5px_rgba(255,255,255,0.04)]">
         {/* App icon */}
-        <div className="w-10 h-10 rounded-xl bg-[#d394ff]/15 border border-[#d394ff]/20 flex items-center justify-center shrink-0">
+        <div className="w-10 h-10 rounded-xl bg-[#7DD3C7]/15 border border-[#7DD3C7]/20 flex items-center justify-center shrink-0">
           <span
-            className="material-symbols-outlined text-[#d394ff]"
+            className="material-symbols-outlined text-[#7DD3C7]"
             style={{ fontSize: 20, fontVariationSettings: "'FILL' 1" }}
           >
             {icon}
@@ -50,8 +50,8 @@ export default function SileoToast({ visible, icon = 'draft', title, body }: Sil
 
         {/* Text */}
         <div className="min-w-0">
-          <p className="text-[12px] font-semibold text-white leading-tight tracking-tight">{title}</p>
-          <p className="text-[11px] text-[#988d9c] leading-tight mt-0.5 whitespace-nowrap">{body}</p>
+          <p className="text-[12px] font-semibold text-[#1C1814] leading-tight tracking-tight">{title}</p>
+          <p className="text-[11px] text-[#6A6470] leading-tight mt-0.5 whitespace-nowrap">{body}</p>
         </div>
       </div>
     </div>

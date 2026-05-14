@@ -12,7 +12,7 @@ export default function PlatformHealthCard({ platform: p, cardRef }: PlatformHea
   return (
     <div
       ref={cardRef}
-      className="glass-card rounded-3xl p-5 border border-[#4c4450]/10 relative overflow-hidden group"
+      className="surface-card p-5 relative overflow-hidden group"
     >
       <div
         className="absolute top-0 right-0 w-28 h-28 rounded-full -mr-14 -mt-14 blur-3xl transition-all pointer-events-none"
@@ -21,27 +21,27 @@ export default function PlatformHealthCard({ platform: p, cardRef }: PlatformHea
       <div className="flex items-center justify-between relative z-10">
         <div className="flex items-center gap-3">
           <div
-            className="w-10 h-10 rounded-xl flex items-center justify-center text-white font-bold text-sm shrink-0"
+            className="w-10 h-10 rounded-xl flex items-center justify-center text-[#1C1814] font-bold text-sm shrink-0"
             style={{ background: p.color }}
           >
             {p.abbr}
           </div>
           <div>
-            <h4 className="font-bold text-white text-sm">{p.name}</h4>
+            <h4 className="font-bold text-[#1C1814] text-sm">{p.name}</h4>
             <div className="flex items-center gap-1.5 mt-0.5">
               <div className={`w-1.5 h-1.5 rounded-full ${ok ? 'bg-[#c5d247]' : 'bg-[#ffb4ab] animate-pulse'}`} />
-              <span className="text-[10px] text-[#988d9c] uppercase tracking-wider">
+              <span className="text-xs text-[#6A6470] uppercase tracking-[0.12em]">
                 {ok ? 'Connected' : 'Auth Expired'}
               </span>
             </div>
           </div>
         </div>
-        <span className="material-symbols-outlined text-[#988d9c]" style={{ fontSize: 18 }}>
+        <span className="material-symbols-outlined text-[#6A6470]" style={{ fontSize: 18 }}>
           {ok ? 'more_vert' : 'sync_problem'}
         </span>
       </div>
       {!ok && (
-        <button className="mt-3 w-full bg-[#2a2a2a] hover:bg-[#353534] text-white py-2 rounded-xl text-xs font-bold transition-all border border-[#4c4450]/10">
+        <button className="mt-3 w-full bg-[#E5DFD6] hover:bg-[#353534] text-[#1C1814] py-2 rounded-xl text-xs font-bold transition-all border border-[#1C1814]/10">
           Reconnect Account
         </button>
       )}

@@ -49,6 +49,7 @@
     "gsap": "^3.14.2",
     "lenis": "^1.3.20",
     "lightweight-charts": "^5.2.0",
+    "lottie-react": "^2.4.1",
     "lucide-react": "^1.7.0",
     "motion": "^12.38.0",
     "prop-types": "^15.8.1",

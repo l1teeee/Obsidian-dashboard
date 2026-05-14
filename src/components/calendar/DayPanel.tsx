@@ -12,20 +12,20 @@ interface DayPanelProps {
 
 export default function DayPanel({ selected, posts, panelRef }: DayPanelProps) {
   return (
-    <div ref={panelRef} className="bg-[#201f1f] rounded-2xl border border-[#4c4450]/10 overflow-hidden">
-      <div className="px-6 py-4 border-b border-[#4c4450]/5 flex items-center justify-between bg-[#2a2a2a]/30">
-        <h3 className="font-headline font-bold text-white flex items-center gap-2 text-sm">
-          <span className="material-symbols-outlined text-[#d394ff] text-[16px]">event</span>
+    <div ref={panelRef} className="bg-[#F0EBE2] rounded-2xl border border-[#1C1814]/10 overflow-hidden">
+      <div className="px-6 py-4 border-b border-[#1C1814]/5 flex items-center justify-between bg-[#E5DFD6]/30">
+        <h3 className="font-headline font-bold text-[#1C1814] flex items-center gap-2 text-sm">
+          <span className="material-symbols-outlined text-[#7DD3C7] text-[16px]">event</span>
           {format(selected, 'EEEE, MMMM d')}
           {isToday(selected) && (
-            <span className="text-[10px] bg-[#d394ff]/15 text-[#d394ff] border border-[#d394ff]/20 px-2 py-0.5 rounded-full font-bold">Today</span>
+            <span className="text-[10px] bg-[#7DD3C7]/15 text-[#7DD3C7] border border-[#7DD3C7]/20 px-2 py-0.5 rounded-full font-bold">Today</span>
           )}
         </h3>
         <div className="flex items-center gap-3">
-          <span className="text-xs text-[#988d9c]">{posts.length} post{posts.length !== 1 ? 's' : ''}</span>
+          <span className="text-xs text-[#6A6470]">{posts.length} post{posts.length !== 1 ? 's' : ''}</span>
           <Link
             to="/composer"
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#d394ff] text-[#2f004d] text-xs font-bold hover:shadow-[0_0_16px_rgba(211,148,255,0.4)] transition-all"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#7DD3C7] text-[#2f004d] text-xs font-bold hover:shadow-[0_0_16px_rgba(125,211,199,0.4)] transition-all"
           >
             <span className="material-symbols-outlined text-[13px]">add</span>
             Schedule
@@ -39,7 +39,7 @@ export default function DayPanel({ selected, posts, panelRef }: DayPanelProps) {
       ) : (
         <div className="px-6 py-8 text-center">
           <span className="material-symbols-outlined text-[#353534] text-[32px]">event_busy</span>
-          <p className="text-xs text-[#988d9c] mt-2">No posts scheduled for this day.</p>
+          <p className="text-xs text-[#6A6470] mt-2">No posts scheduled for this day.</p>
         </div>
       )}
     </div>

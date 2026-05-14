@@ -49,7 +49,7 @@ export default function ChangePasswordModal({ onClose }: ChangePasswordModalProp
     }
   };
 
-  const inputCls = 'w-full bg-[#1c1b1b] border border-[#4c4450]/30 rounded-xl px-4 py-3 text-sm text-[#e5e2e1] placeholder:text-[#988d9c]/40 focus:outline-none focus:border-[#d394ff]/60 focus:ring-1 focus:ring-[#d394ff]/20 transition-all pr-11';
+  const inputCls = 'w-full bg-[#FAF7F2] border border-[#1C1814]/30 rounded-xl px-4 py-3 text-sm text-[#1C1814] placeholder:text-[#6A6470]/40 focus:outline-none focus:border-[#7DD3C7]/60 focus:ring-1 focus:ring-[#7DD3C7]/20 transition-all pr-11';
 
   const pwField = (
     label: string,
@@ -60,7 +60,7 @@ export default function ChangePasswordModal({ onClose }: ChangePasswordModalProp
     placeholder = '••••••••',
   ) => (
     <div className="space-y-1.5">
-      <label className="text-[10px] text-[#988d9c] uppercase tracking-widest font-semibold">{label}</label>
+      <label className="text-[10px] text-[#6A6470] uppercase tracking-widest font-semibold">{label}</label>
       <div className="relative">
         <input
           type={show ? 'text' : 'password'}
@@ -75,7 +75,7 @@ export default function ChangePasswordModal({ onClose }: ChangePasswordModalProp
           onClick={toggleShow}
           aria-label={show ? `Hide ${label.toLowerCase()}` : `Show ${label.toLowerCase()}`}
           aria-pressed={show}
-          className="absolute right-3 top-1/2 -translate-y-1/2 text-[#988d9c] hover:text-white transition-colors"
+          className="absolute right-3 top-1/2 -translate-y-1/2 text-[#6A6470] hover:text-[#1C1814] transition-colors"
         >
           <span className="material-symbols-outlined" style={{ fontSize: 18 }}>
             {show ? 'visibility_off' : 'visibility'}
@@ -93,18 +93,18 @@ export default function ChangePasswordModal({ onClose }: ChangePasswordModalProp
     >
       <div
         ref={cardRef}
-        className="w-full max-w-md bg-[#1a1919] border border-[#4c4450]/20 rounded-3xl shadow-[0_32px_80px_rgba(0,0,0,0.7)] overflow-hidden"
+        className="w-full max-w-md bg-[#FAF7F2] border border-[#1C1814]/20 rounded-3xl shadow-[0_32px_80px_rgba(0,0,0,0.7)] overflow-hidden"
       >
         {/* Header */}
-        <div className="px-8 py-5 border-b border-[#4c4450]/10 flex items-center justify-between bg-[#201f1f]">
+        <div className="px-8 py-5 border-b border-[#1C1814]/10 flex items-center justify-between bg-[#F0EBE2]">
           <div>
-            <h2 className="font-headline font-bold text-white text-lg">Change Password</h2>
-            <p className="text-xs text-[#988d9c] mt-0.5">Enter your current password to confirm</p>
+            <h2 className="font-headline font-bold text-[#1C1814] text-lg">Change Password</h2>
+            <p className="text-xs text-[#6A6470] mt-0.5">Enter your current password to confirm</p>
           </div>
           <button
             onClick={handleClose}
             disabled={saving}
-            className="w-8 h-8 rounded-xl bg-[#2a2a2a] flex items-center justify-center text-[#988d9c] hover:text-white hover:bg-[#353534] transition-all disabled:opacity-50"
+            className="w-8 h-8 rounded-xl bg-[#E5DFD6] flex items-center justify-center text-[#6A6470] hover:text-[#1C1814] hover:bg-[#353534] transition-all disabled:opacity-50"
           >
             <span className="material-symbols-outlined" style={{ fontSize: 18 }}>close</span>
           </button>
@@ -115,7 +115,7 @@ export default function ChangePasswordModal({ onClose }: ChangePasswordModalProp
           {pwField('New Password',     next,    setNext,    showNew, () => setShowNew(v => !v), 'Min. 8 characters')}
 
           <div className="space-y-1.5">
-            <label className="text-[10px] text-[#988d9c] uppercase tracking-widest font-semibold">Confirm New Password</label>
+            <label className="text-[10px] text-[#6A6470] uppercase tracking-widest font-semibold">Confirm New Password</label>
             <div className="relative">
               <input
                 type={showNew ? 'text' : 'password'}
@@ -143,18 +143,18 @@ export default function ChangePasswordModal({ onClose }: ChangePasswordModalProp
         </div>
 
         {/* Footer */}
-        <div className="px-8 py-5 border-t border-[#4c4450]/10 flex items-center justify-end gap-3 bg-[#201f1f]">
+        <div className="px-8 py-5 border-t border-[#1C1814]/10 flex items-center justify-end gap-3 bg-[#F0EBE2]">
           <button
             onClick={handleClose}
             disabled={saving}
-            className="px-5 py-2.5 rounded-xl border border-[#4c4450]/30 text-sm text-[#988d9c] hover:text-white hover:border-[#4c4450]/60 transition-all disabled:opacity-50"
+            className="px-5 py-2.5 rounded-xl border border-[#1C1814]/30 text-sm text-[#6A6470] hover:text-[#1C1814] hover:border-[#1C1814]/60 transition-all disabled:opacity-50"
           >
             Cancel
           </button>
           <button
             onClick={() => { void handleSave(); }}
             disabled={saving || success || !current || !next || !confirm}
-            className="px-6 py-2.5 rounded-xl bg-[#d394ff] text-[#2f004d] text-sm font-bold shadow-[0_0_20px_rgba(211,148,255,0.25)] hover:shadow-[0_0_30px_rgba(211,148,255,0.45)] active:scale-95 transition-all disabled:opacity-60 flex items-center gap-2"
+            className="px-6 py-2.5 rounded-xl bg-[#7DD3C7] text-[#2f004d] text-sm font-bold shadow-[0_0_20px_rgba(125,211,199,0.25)] hover:shadow-[0_0_30px_rgba(125,211,199,0.45)] active:scale-95 transition-all disabled:opacity-60 flex items-center gap-2"
           >
             {saving
               ? <><span className="material-symbols-outlined text-[14px] animate-spin">progress_activity</span> Saving…</>

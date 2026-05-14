@@ -120,7 +120,7 @@ export default function PostDetail() {
   if (loading) {
     return (
       <div ref={pageRef} className="flex items-center justify-center h-64">
-        <span className="text-[#988d9c] text-sm animate-pulse">Loading post…</span>
+        <span className="text-[#6A6470] text-sm animate-pulse">Loading post…</span>
       </div>
     );
   }
@@ -128,9 +128,9 @@ export default function PostDetail() {
   if (notFound) {
     return (
       <div ref={pageRef} className="flex flex-col items-center justify-center h-64 gap-3">
-        <span className="material-symbols-outlined text-[#988d9c] text-4xl">find_in_page</span>
-        <p className="text-[#988d9c] text-sm">Post not found.</p>
-        <button onClick={handleBack} className="text-xs text-[#d394ff] hover:underline">Go back</button>
+        <span className="material-symbols-outlined text-[#6A6470] text-4xl">find_in_page</span>
+        <p className="text-[#6A6470] text-sm">Post not found.</p>
+        <button onClick={handleBack} className="text-xs text-[#7DD3C7] hover:underline">Go back</button>
       </div>
     );
   }
@@ -144,7 +144,7 @@ export default function PostDetail() {
           <>
             <button
               onClick={handleBack}
-              className="flex items-center gap-1.5 text-sm text-[#988d9c] hover:text-white transition-colors"
+              className="flex items-center gap-1.5 text-sm text-[#6A6470] hover:text-[#1C1814] transition-colors"
             >
               <span className="material-symbols-outlined text-[16px]">arrow_back</span>
               Back
@@ -158,7 +158,7 @@ export default function PostDetail() {
                 onClick={refreshMetrics}
                 disabled={metricsRefreshing}
                 title="Refresh metrics"
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-[#4c4450]/20 text-[#988d9c] hover:text-white hover:border-[#4c4450]/40 transition-all text-xs disabled:opacity-50"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-[#1C1814]/20 text-[#6A6470] hover:text-[#1C1814] hover:border-[#1C1814]/40 transition-all text-xs disabled:opacity-50"
               >
                 <span
                   className={`material-symbols-outlined ${metricsRefreshing ? 'animate-spin' : ''}`}
@@ -174,7 +174,7 @@ export default function PostDetail() {
                 href={apiPost.permalink}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-1.5 px-4 py-1.5 rounded-xl bg-[#d394ff]/10 border border-[#d394ff]/20 text-[#d394ff] text-xs font-bold hover:bg-[#d394ff]/20 transition-all"
+                className="flex items-center gap-1.5 px-4 py-1.5 rounded-xl bg-[#7DD3C7]/10 border border-[#7DD3C7]/20 text-[#7DD3C7] text-xs font-bold hover:bg-[#7DD3C7]/20 transition-all"
               >
                 <span className="material-symbols-outlined text-[14px]">open_in_new</span>
                 View on {PLATFORM_REGISTRY[displayPlatform]?.name ?? 'Platform'}
@@ -188,15 +188,15 @@ export default function PostDetail() {
                 className={[
                   'w-8 h-8 flex items-center justify-center rounded-xl border transition-all',
                   menuOpen
-                    ? 'bg-[#d394ff]/10 border-[#d394ff]/30 text-[#d394ff]'
-                    : 'border-[#4c4450]/20 text-[#988d9c] hover:border-[#4c4450]/40 hover:text-white',
+                    ? 'bg-[#7DD3C7]/10 border-[#7DD3C7]/30 text-[#7DD3C7]'
+                    : 'border-[#1C1814]/20 text-[#6A6470] hover:border-[#1C1814]/40 hover:text-[#1C1814]',
                 ].join(' ')}
               >
                 <span className="material-symbols-outlined" style={{ fontSize: 18 }}>more_vert</span>
               </button>
 
               {menuOpen && (
-                <div className="absolute right-0 top-full mt-1.5 w-48 bg-[#1c1b1b] border border-[#4c4450]/20 rounded-2xl shadow-[0_8px_40px_rgba(0,0,0,0.6)] z-50 overflow-hidden py-1">
+                <div className="absolute right-0 top-full mt-1.5 w-48 bg-[#FAF7F2] border border-[#1C1814]/20 rounded-2xl shadow-[0_8px_40px_rgba(0,0,0,0.6)] z-50 overflow-hidden py-1">
                   {isInactive ? (
                     <button
                       onClick={() => { setMenuOpen(false); setAction('activate'); }}
@@ -214,7 +214,7 @@ export default function PostDetail() {
                       Deactivate
                     </button>
                   )}
-                  <div className="h-px bg-[#4c4450]/20 mx-3" />
+                  <div className="h-px bg-[#1C1814]/20 mx-3" />
                   <button
                     onClick={() => { setMenuOpen(false); setAction('delete'); }}
                     className="flex items-center gap-3 w-full px-4 py-2.5 text-sm text-[#ffb4ab] hover:bg-[#ffb4ab]/8 transition-colors text-left"
@@ -251,57 +251,57 @@ export default function PostDetail() {
 
             {/* ── Meta chips ── */}
             <div className="flex items-center gap-2 flex-wrap">
-              <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#201f1f] border border-[#4c4450]/15">
+              <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#F0EBE2] border border-[#1C1814]/15">
                 <span
-                  className="material-symbols-outlined text-[#988d9c]"
+                  className="material-symbols-outlined text-[#6A6470]"
                   style={{ fontSize: 13, fontVariationSettings: "'FILL' 1" }}
                 >
                   {hasMedia ? (apiPost?.media_urls?.some(u => /\.(mp4|mov|webm|avi)(\?|#|$)/i.test(u)) ? 'play_circle' : 'image') : 'text_fields'}
                 </span>
-                <span className="text-xs text-[#988d9c] font-medium">
+                <span className="text-xs text-[#6A6470] font-medium">
                   {hasMedia
                     ? `${apiPost?.media_urls?.length ?? 0} ${(apiPost?.media_urls?.length ?? 0) === 1 ? 'file' : 'files'}`
                     : 'Text only'}
                 </span>
               </div>
               {apiPost?.post_type && apiPost.post_type !== 'post' && (
-                <div className="px-3 py-1.5 rounded-xl bg-[#201f1f] border border-[#4c4450]/15 text-xs text-[#988d9c] font-medium capitalize">
+                <div className="px-3 py-1.5 rounded-xl bg-[#F0EBE2] border border-[#1C1814]/15 text-xs text-[#6A6470] font-medium capitalize">
                   {apiPost.post_type}
                 </div>
               )}
-              <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#201f1f] border border-[#4c4450]/15">
-                <span className="material-symbols-outlined text-[#988d9c]" style={{ fontSize: 13 }}>schedule</span>
-                <span className="text-xs text-[#988d9c]">{displayDate}</span>
+              <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#F0EBE2] border border-[#1C1814]/15">
+                <span className="material-symbols-outlined text-[#6A6470]" style={{ fontSize: 13 }}>schedule</span>
+                <span className="text-xs text-[#6A6470]">{displayDate}</span>
               </div>
             </div>
 
             {/* ── Caption block ── */}
             {apiPost?.caption ? (
-              <div className="rounded-2xl bg-[#1a1919] border border-[#4c4450]/15 overflow-hidden">
-                <div className="flex items-center gap-2 px-4 py-2.5 border-b border-[#4c4450]/10">
-                  <span className="material-symbols-outlined text-[#988d9c]" style={{ fontSize: 13 }}>notes</span>
-                  <span className="text-[10px] font-bold uppercase tracking-widest text-[#988d9c]">Caption</span>
+              <div className="rounded-2xl bg-[#FAF7F2] border border-[#1C1814]/15 overflow-hidden">
+                <div className="flex items-center gap-2 px-4 py-2.5 border-b border-[#1C1814]/10">
+                  <span className="material-symbols-outlined text-[#6A6470]" style={{ fontSize: 13 }}>notes</span>
+                  <span className="text-[10px] font-bold uppercase tracking-widest text-[#6A6470]">Caption</span>
                 </div>
-                <p className="px-4 py-3 text-sm text-[#cfc2d2] leading-relaxed whitespace-pre-wrap">
+                <p className="px-4 py-3 text-sm text-[#5C5650] leading-relaxed whitespace-pre-wrap">
                   {apiPost.caption}
                 </p>
               </div>
             ) : (
-              <div className="flex items-center gap-2.5 px-4 py-3 rounded-2xl bg-[#1a1919] border border-[#4c4450]/15">
-                <span className="material-symbols-outlined text-[#4c4450]" style={{ fontSize: 14 }}>notes</span>
-                <p className="text-xs text-[#4c4450] italic">No caption</p>
+              <div className="flex items-center gap-2.5 px-4 py-3 rounded-2xl bg-[#FAF7F2] border border-[#1C1814]/15">
+                <span className="material-symbols-outlined text-[#1C1814]" style={{ fontSize: 14 }}>notes</span>
+                <p className="text-xs text-[#1C1814] italic">No caption</p>
               </div>
             )}
 
             {/* ── Metrics ── */}
             <div className="space-y-3">
-              <p className="text-[10px] font-bold uppercase tracking-widest text-[#4c4450] px-1">Performance</p>
+              <p className="text-[10px] font-bold uppercase tracking-widest text-[#1C1814] px-1">Performance</p>
 
               {/* Dev mode notice */}
               {!metricsLoading && metrics?.dev_mode && (
-                <div className="flex items-start gap-3 px-4 py-3 rounded-2xl bg-[#201f1f] border border-[#4c4450]/15">
-                  <span className="material-symbols-outlined text-[#988d9c] shrink-0 mt-0.5" style={{ fontSize: 14 }}>info</span>
-                  <p className="text-xs text-[#988d9c] leading-relaxed">
+                <div className="flex items-start gap-3 px-4 py-3 rounded-2xl bg-[#F0EBE2] border border-[#1C1814]/15">
+                  <span className="material-symbols-outlined text-[#6A6470] shrink-0 mt-0.5" style={{ fontSize: 14 }}>info</span>
+                  <p className="text-xs text-[#6A6470] leading-relaxed">
                     Metrics are unavailable in development mode and will appear automatically in production.
                   </p>
                 </div>
@@ -311,10 +311,10 @@ export default function PostDetail() {
               {metricsLoading && (
                 <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3 animate-pulse">
                   {Array.from({ length: 7 }).map((_, i) => (
-                    <div key={i} className="bg-[#201f1f] rounded-2xl p-5 border border-[#4c4450]/5 space-y-3">
-                      <div className="w-5 h-5 rounded bg-[#2a2a2a]" />
-                      <div className="h-7 w-14 rounded-lg bg-[#2a2a2a]" />
-                      <div className="h-2 w-16 rounded-full bg-[#2a2a2a]" />
+                    <div key={i} className="bg-[#F0EBE2] rounded-2xl p-5 border border-[#1C1814]/5 space-y-3">
+                      <div className="w-5 h-5 rounded bg-[#E5DFD6]" />
+                      <div className="h-7 w-14 rounded-lg bg-[#E5DFD6]" />
+                      <div className="h-2 w-16 rounded-full bg-[#E5DFD6]" />
                     </div>
                   ))}
                 </div>
@@ -332,7 +332,7 @@ export default function PostDetail() {
 
             {/* ── Permalink ── */}
             {apiPost?.permalink ? (
-              <div className="flex items-center gap-3 px-4 py-3 rounded-2xl bg-[#1a1919] border border-[#4c4450]/15">
+              <div className="flex items-center gap-3 px-4 py-3 rounded-2xl bg-[#FAF7F2] border border-[#1C1814]/15">
                 <span className="material-symbols-outlined text-[#c5d247] shrink-0" style={{ fontSize: 15 }}>link</span>
                 <a
                   href={apiPost.permalink}
@@ -345,15 +345,15 @@ export default function PostDetail() {
                 <button
                   onClick={() => navigator.clipboard.writeText(apiPost.permalink!)}
                   title="Copy link"
-                  className="shrink-0 w-7 h-7 flex items-center justify-center rounded-lg text-[#988d9c] hover:text-white hover:bg-white/8 transition-all"
+                  className="shrink-0 w-7 h-7 flex items-center justify-center rounded-lg text-[#6A6470] hover:text-[#1C1814] hover:bg-white/8 transition-all"
                 >
                   <span className="material-symbols-outlined" style={{ fontSize: 14 }}>content_copy</span>
                 </button>
               </div>
             ) : postStatus === 'published' ? (
-              <div className="flex items-center gap-2.5 px-4 py-3 rounded-2xl bg-[#1a1919] border border-[#4c4450]/15">
-                <span className="material-symbols-outlined text-[#4c4450] shrink-0" style={{ fontSize: 14 }}>link_off</span>
-                <p className="text-xs text-[#4c4450]">No permalink available for this post.</p>
+              <div className="flex items-center gap-2.5 px-4 py-3 rounded-2xl bg-[#FAF7F2] border border-[#1C1814]/15">
+                <span className="material-symbols-outlined text-[#1C1814] shrink-0" style={{ fontSize: 14 }}>link_off</span>
+                <p className="text-xs text-[#1C1814]">No permalink available for this post.</p>
               </div>
             ) : null}
           </div>
@@ -373,14 +373,14 @@ export default function PostDetail() {
               onClick={() => setRemoveFromFacebook(v => !v)}
               className="flex items-center gap-2.5 mt-1"
             >
-              <div className={`w-4 h-4 rounded-[4px] border shrink-0 flex items-center justify-center transition-all ${removeFromFacebook ? 'bg-[#ffb4ab] border-[#ffb4ab]' : 'border-[#4c4450]/50 bg-transparent'}`}>
+              <div className={`w-4 h-4 rounded-[4px] border shrink-0 flex items-center justify-center transition-all ${removeFromFacebook ? 'bg-[#ffb4ab] border-[#ffb4ab]' : 'border-[#1C1814]/50 bg-transparent'}`}>
                 {removeFromFacebook && (
                   <svg width="9" height="9" viewBox="0 0 9 9" fill="none">
                     <path d="M1 4.5L3.5 7L8 1.5" stroke="#2d0000" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
                 )}
               </div>
-              <span className="text-xs text-[#988d9c]">Also remove from Facebook</span>
+              <span className="text-xs text-[#6A6470]">Also remove from Facebook</span>
             </button>
           )}
         </ConfirmModal>

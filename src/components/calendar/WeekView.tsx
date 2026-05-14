@@ -19,21 +19,21 @@ export default function WeekView({ current, posts }: WeekViewProps) {
   });
 
   return (
-    <div className="bg-[#0e0e0e] rounded-3xl border border-[#4c4450]/20 overflow-hidden">
+    <div className="bg-[#F4F0E8] rounded-3xl border border-[#1C1814]/20 overflow-hidden">
       {/* Day headers */}
-      <div className="grid grid-cols-7 border-b border-[#4c4450]/15">
+      <div className="grid grid-cols-7 border-b border-[#1C1814]/15">
         {days.map((day) => (
           <div
             key={day.toISOString()}
             className={[
-              'py-3 px-2 text-center border-r border-[#4c4450]/10 last:border-r-0',
-              isToday(day) ? 'bg-[#d394ff]/8' : '',
+              'py-3 px-2 text-center border-r border-[#1C1814]/10 last:border-r-0',
+              isToday(day) ? 'bg-[#7DD3C7]/8' : '',
             ].join(' ')}
           >
-            <p className="text-[10px] font-bold uppercase tracking-widest text-[#988d9c]">{format(day, 'EEE')}</p>
+            <p className="text-[10px] font-bold uppercase tracking-widest text-[#6A6470]">{format(day, 'EEE')}</p>
             <div className={[
               'w-8 h-8 rounded-full flex items-center justify-center mx-auto mt-1 text-sm font-bold',
-              isToday(day) ? 'bg-[#d394ff] text-[#2f004d]' : 'text-white',
+              isToday(day) ? 'bg-[#7DD3C7] text-[#2f004d]' : 'text-[#1C1814]',
             ].join(' ')}>
               {format(day, 'd')}
             </div>
@@ -48,14 +48,14 @@ export default function WeekView({ current, posts }: WeekViewProps) {
             <div
               key={day.toISOString()}
               className={[
-                'p-2 border-r border-[#4c4450]/10 last:border-r-0 space-y-1.5',
-                isToday(day) ? 'bg-[#d394ff]/5' : '',
+                'p-2 border-r border-[#1C1814]/10 last:border-r-0 space-y-1.5',
+                isToday(day) ? 'bg-[#7DD3C7]/5' : '',
               ].join(' ')}
             >
               {dayPosts.length === 0 && (
                 <Link
                   to="/composer"
-                  className="flex items-center justify-center w-full h-12 rounded-xl border border-dashed border-[#4c4450]/20 text-[#4c4450] hover:border-[#d394ff]/30 hover:text-[#d394ff] transition-all opacity-0 hover:opacity-100"
+                  className="flex items-center justify-center w-full h-12 rounded-xl border border-dashed border-[#1C1814]/20 text-[#1C1814] hover:border-[#7DD3C7]/30 hover:text-[#7DD3C7] transition-all opacity-0 hover:opacity-100"
                 >
                   <span className="material-symbols-outlined text-[16px]">add</span>
                 </Link>
@@ -71,7 +71,7 @@ export default function WeekView({ current, posts }: WeekViewProps) {
                   >
                     <div className="px-1.5 py-1">
                       <p className="text-[8px] font-mono leading-none mb-0.5" style={{ color: pl.color }}>{p.time}</p>
-                      <p className="text-[9px] font-semibold text-white leading-tight truncate">{p.title}</p>
+                      <p className="text-[9px] font-semibold text-[#1C1814] leading-tight truncate">{p.title}</p>
                     </div>
                   </Link>
                 );

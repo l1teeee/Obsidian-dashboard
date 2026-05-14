@@ -18,13 +18,13 @@ export default function Dashboard() {
       <TopBar
         title="Workspace"
         actions={
-          <div className="relative">
-            <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[#988d9c]" style={{ fontSize: 16 }}>search</span>
-            <input
-              className="bg-[#1c1b1b] border border-[#4c4450]/15 rounded-full py-1.5 pl-10 pr-4 text-xs w-56 focus:outline-none focus:border-[#d394ff]/50 transition-all text-[#e5e2e1] placeholder:text-[#988d9c]/50"
-              placeholder="Search curated content..."
-            />
-          </div>
+          <Link
+            to="/composer"
+            className="inline-flex h-9 items-center gap-2 rounded-xl bg-[#1C1814] px-4 text-sm font-bold text-[#F4F0E8] transition-all hover:bg-[#2A2520] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#7DD3C7]/70"
+          >
+            <span className="material-symbols-outlined" style={{ fontSize: 17, fontVariationSettings: "'FILL' 1" }}>add</span>
+            New Post
+          </Link>
         }
       />
 
@@ -34,34 +34,34 @@ export default function Dashboard() {
 
           {/* Hero skeleton */}
           <div className="space-y-3">
-            <div className="h-10 w-72 bg-[#201f1f] rounded-2xl" />
-            <div className="h-4 w-96 bg-[#201f1f] rounded-xl" />
+            <div className="h-10 w-72 bg-[#F0EBE2] rounded-2xl" />
+            <div className="h-4 w-96 bg-[#F0EBE2] rounded-xl" />
           </div>
 
           {/* KPI skeleton */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             {Array.from({ length: 4 }).map((_, i) => (
-              <div key={i} className="glass-card rounded-3xl p-6 border border-[#4c4450]/10 space-y-4">
-                <div className="h-3 w-24 bg-[#2a2a2a] rounded-full" />
-                <div className="h-8 w-16 bg-[#2a2a2a] rounded-xl" />
-                <div className="h-1 w-full bg-[#2a2a2a] rounded-full" />
+              <div key={i} className="surface-card p-6 space-y-4">
+                <div className="h-3 w-24 bg-[#E5DFD6] rounded-full" />
+                <div className="h-8 w-16 bg-[#E5DFD6] rounded-xl" />
+                <div className="h-1 w-full bg-[#E5DFD6] rounded-full" />
               </div>
             ))}
           </div>
 
           {/* Upcoming skeleton */}
           <div className="space-y-4">
-            <div className="h-5 w-48 bg-[#201f1f] rounded-xl" />
+            <div className="h-5 w-48 bg-[#F0EBE2] rounded-xl" />
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {Array.from({ length: 3 }).map((_, i) => (
-                <div key={i} className="glass-card rounded-3xl p-5 border border-[#4c4450]/10 space-y-3">
+                <div key={i} className="surface-card p-5 space-y-3">
                   <div className="flex justify-between">
-                    <div className="h-5 w-28 bg-[#2a2a2a] rounded-full" />
-                    <div className="h-5 w-6 bg-[#2a2a2a] rounded-lg" />
+                    <div className="h-5 w-28 bg-[#E5DFD6] rounded-full" />
+                    <div className="h-5 w-6 bg-[#E5DFD6] rounded-lg" />
                   </div>
-                  <div className="h-3 w-full bg-[#2a2a2a] rounded-full" />
-                  <div className="h-3 w-4/5 bg-[#2a2a2a] rounded-full" />
-                  <div className="h-0.5 w-8 bg-[#2a2a2a] rounded-full mt-2" />
+                  <div className="h-3 w-full bg-[#E5DFD6] rounded-full" />
+                  <div className="h-3 w-4/5 bg-[#E5DFD6] rounded-full" />
+                  <div className="h-0.5 w-8 bg-[#E5DFD6] rounded-full mt-2" />
                 </div>
               ))}
             </div>
@@ -69,20 +69,20 @@ export default function Dashboard() {
 
           {/* Recent Engagement skeleton */}
           <div className="space-y-3">
-            <div className="h-6 w-48 bg-[#201f1f] rounded-xl mb-4" />
+            <div className="h-6 w-48 bg-[#F0EBE2] rounded-xl mb-4" />
             {Array.from({ length: 3 }).map((_, i) => (
-              <div key={i} className="glass-card rounded-[2rem] p-4 border border-[#4c4450]/5 flex gap-4 items-center">
-                <div className="w-20 h-20 rounded-2xl bg-[#2a2a2a] shrink-0" />
+              <div key={i} className="surface-card p-4 flex gap-4 items-center">
+                <div className="w-20 h-20 rounded-2xl bg-[#E5DFD6] shrink-0" />
                 <div className="flex-1 space-y-2">
-                  <div className="h-3 w-16 bg-[#2a2a2a] rounded-full" />
-                  <div className="h-4 w-48 bg-[#2a2a2a] rounded-full" />
-                  <div className="h-3 w-24 bg-[#2a2a2a] rounded-full" />
+                  <div className="h-3 w-16 bg-[#E5DFD6] rounded-full" />
+                  <div className="h-4 w-48 bg-[#E5DFD6] rounded-full" />
+                  <div className="h-3 w-24 bg-[#E5DFD6] rounded-full" />
                 </div>
-                <div className="flex gap-5 px-5 border-l border-[#4c4450]/10">
+                <div className="flex gap-5 px-5 border-l border-[#1C1814]/10">
                   {Array.from({ length: 3 }).map((_, j) => (
                     <div key={j} className="space-y-1 text-center">
-                      <div className="h-4 w-6 bg-[#2a2a2a] rounded mx-auto" />
-                      <div className="h-2 w-8 bg-[#2a2a2a] rounded-full mx-auto" />
+                      <div className="h-4 w-6 bg-[#E5DFD6] rounded mx-auto" />
+                      <div className="h-2 w-8 bg-[#E5DFD6] rounded-full mx-auto" />
                     </div>
                   ))}
                 </div>
@@ -92,16 +92,25 @@ export default function Dashboard() {
         </div>
       ) : (
         /* ── Real content ────────────────────────────────────────────────── */
-        <div className="p-4 md:p-8 space-y-6 md:space-y-8 max-w-[1600px] mx-auto">
+        <div className="p-4 md:p-8 space-y-6 md:space-y-8 max-w-[1500px] mx-auto">
 
           {/* Hero */}
-          <section ref={heroRef}>
-            <h2 className="font-headline text-3xl md:text-5xl font-extrabold tracking-tighter text-white mb-2">
-              Curator's Overview
-            </h2>
-            <p className="text-[#988d9c] text-sm md:text-lg font-light">
-              Welcome back. Here's your content at a glance.
-            </p>
+          <section ref={heroRef} className="flex flex-col gap-4 rounded-2xl border border-[#1C1814]/18 bg-[#F3EEE6] p-5 md:flex-row md:items-center md:justify-between md:p-6">
+            <div>
+              <p className="mb-2 text-xs font-bold uppercase tracking-[0.14em] text-[#7dd3c7]">Workspace overview</p>
+              <h2 className="font-headline text-3xl font-extrabold tracking-normal text-[#1C1814] md:text-4xl">
+                Plan, publish, and measure today.
+              </h2>
+              <p className="mt-2 max-w-2xl text-sm leading-6 text-[#5C5650] md:text-base">
+                Review scheduled posts, recent engagement, and the actions that need attention.
+              </p>
+            </div>
+            <Link
+              to="/calendar"
+              className="inline-flex h-10 items-center justify-center rounded-xl border border-[#1C1814]/30 px-4 text-sm font-semibold text-[#5C5650] transition-all hover:border-[#7DD3C7]/35 hover:text-[#1C1814] md:shrink-0"
+            >
+              View calendar
+            </Link>
           </section>
 
           {/* KPI Row */}
@@ -118,21 +127,21 @@ export default function Dashboard() {
 
           {/* Upcoming Curation */}
           <section>
-            <div className="flex justify-between items-center mb-6">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between mb-5">
               <div>
-                <h3 className="font-headline text-xl md:text-2xl font-bold text-white tracking-tight">Upcoming Curation</h3>
-                <p className="text-[#988d9c] text-xs mt-0.5">{upcoming.length} posts scheduled</p>
+                <h3 className="font-headline text-xl md:text-2xl font-bold text-[#1C1814] tracking-normal">Upcoming Curation</h3>
+                <p className="text-[#6A6470] text-sm mt-1">{upcoming.length} posts scheduled</p>
               </div>
               <div className="flex items-center gap-3">
-                <Link to="/calendar" className="text-[#d394ff] text-sm font-medium hover:underline hidden sm:block">View Calendar</Link>
+                <Link to="/calendar" className="text-[#7DD3C7] text-sm font-semibold hover:text-[#1C1814]">View Calendar</Link>
               </div>
             </div>
 
             {upcoming.length === 0 ? (
-              <div className="glass-card w-full rounded-3xl border border-[#4c4450]/10 flex flex-col items-center justify-center py-14 gap-2">
-                <span className="material-symbols-outlined text-[#4c4450] text-4xl">event_note</span>
-                <p className="text-[#988d9c] text-sm">No scheduled posts.</p>
-                <Link to="/composer" className="text-xs text-[#d394ff] hover:underline mt-1">Schedule a post</Link>
+              <div className="surface-card w-full flex flex-col items-center justify-center py-14 gap-2">
+                <span className="material-symbols-outlined text-[#1C1814] text-4xl">event_note</span>
+                <p className="text-[#6A6470] text-sm">No scheduled posts.</p>
+                <Link to="/composer" className="text-sm font-semibold text-[#7DD3C7] hover:text-[#1C1814] mt-1">Schedule a post</Link>
               </div>
             ) : (
               <PostCarousel
@@ -153,13 +162,13 @@ export default function Dashboard() {
           {/* Recent Engagement */}
           <section className="space-y-4">
             <div className="flex items-center justify-between mb-2">
-              <h3 className="font-headline text-2xl font-bold text-white tracking-tight">Recent Engagement</h3>
+              <h3 className="font-headline text-2xl font-bold text-[#1C1814] tracking-normal">Recent Engagement</h3>
               <div className="flex items-center gap-2">
                 <button
                   onClick={refresh}
                   disabled={refreshing}
                   title="Refresh metrics"
-                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-[#4c4450]/20 text-[#988d9c] hover:text-white hover:border-[#4c4450]/40 transition-all text-xs disabled:opacity-50"
+                  className="flex h-9 items-center gap-1.5 rounded-xl border border-[#1C1814]/25 px-3 text-sm font-semibold text-[#6A6470] transition-all hover:border-[#7DD3C7]/35 hover:text-[#1C1814] disabled:opacity-50"
                 >
                   <span
                     className={`material-symbols-outlined ${refreshing ? 'animate-spin' : ''}`}
@@ -167,17 +176,17 @@ export default function Dashboard() {
                   >refresh</span>
                   {refreshing ? 'Updating…' : 'Refresh'}
                 </button>
-                <Link to="/composer" className="bg-[#d394ff] text-[#5e2388] px-4 py-1.5 rounded-full text-xs font-bold">
+                <Link to="/composer" className="hidden bg-[#1C1814] text-[#F4F0E8] px-4 py-2 rounded-xl text-sm font-bold hover:bg-[#2A2520] sm:inline-flex">
                   New Post
                 </Link>
               </div>
             </div>
             <div className="space-y-3">
               {recentPosts.length === 0 ? (
-                <div className="glass-card w-full rounded-3xl border border-[#4c4450]/10 flex flex-col items-center justify-center py-14 gap-2">
-                  <span className="material-symbols-outlined text-[#4c4450] text-4xl">article</span>
-                  <p className="text-[#988d9c] text-sm">No published posts yet.</p>
-                  <Link to="/composer" className="text-xs text-[#d394ff] hover:underline mt-1">Create your first post</Link>
+                <div className="surface-card w-full flex flex-col items-center justify-center py-14 gap-2">
+                  <span className="material-symbols-outlined text-[#1C1814] text-4xl">article</span>
+                  <p className="text-[#6A6470] text-sm">No published posts yet.</p>
+                  <Link to="/composer" className="text-sm font-semibold text-[#7DD3C7] hover:text-[#1C1814] mt-1">Create your first post</Link>
                 </div>
               ) : recentPosts.map((post, i) => (
                 <RecentPostRow
@@ -192,10 +201,11 @@ export default function Dashboard() {
       )}
 
       {/* FAB */}
-      <div className="fixed bottom-8 right-8 z-50 mb-[env(safe-area-inset-bottom,0px)]">
+      <div className="fixed bottom-5 right-5 z-50 mb-[env(safe-area-inset-bottom,0px)] sm:hidden">
         <Link
           to="/composer"
-          className="w-14 h-14 bg-[#d394ff] text-[#5e2388] rounded-full shadow-[0_0_20px_rgba(211,148,255,0.4)] flex items-center justify-center hover:scale-110 active:scale-95 transition-all"
+          aria-label="Create new post"
+          className="w-14 h-14 bg-[#1C1814] text-[#F4F0E8] rounded-2xl shadow-[0_14px_32px_rgba(0,0,0,0.34)] flex items-center justify-center active:scale-95 transition-all"
         >
           <span className="material-symbols-outlined text-2xl" style={{ fontVariationSettings: "'FILL' 1" }}>add</span>
         </Link>

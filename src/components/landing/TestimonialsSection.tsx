@@ -80,17 +80,17 @@ export default function TestimonialsSection() {
           viewport={{ once: true }}
           className="mb-14 flex flex-col items-center text-center"
         >
-          <span className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/[0.10] bg-white/[0.03] px-4 py-1.5 text-[0.68rem] font-bold uppercase tracking-[0.22em] text-white/45">
+          <span className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/[0.10] bg-[#1C1814]/[0.05] px-4 py-1.5 text-[0.68rem] font-bold uppercase tracking-[0.22em] text-[#1C1814]/45">
             <span className="h-1.5 w-1.5 rounded-full bg-[#7DD3C7]" />
             Workflow signals, not vanity claims
           </span>
-          <h2 className="text-4xl font-extrabold tracking-[-0.04em] leading-[0.96] text-white md:text-5xl max-w-2xl">
+          <h2 className="text-4xl font-extrabold tracking-[-0.04em] leading-[0.96] text-[#1C1814] md:text-5xl max-w-2xl">
             What our users{' '}
             <span className="text-[#7DD3C7]">
               actually say.
             </span>
           </h2>
-          <p className="mt-5 max-w-lg text-[1rem] font-light leading-[1.8] text-white/50">
+          <p className="mt-5 max-w-lg text-[1rem] font-light leading-[1.8] text-[#1C1814]/50">
             Use these examples as the kind of operational clarity Vielinks is built to create for social media teams.
           </p>
         </motion.div>

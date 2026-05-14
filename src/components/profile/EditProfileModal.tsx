@@ -43,11 +43,11 @@ export default function EditProfileModal({ data, onSave, onClose, onChangeAvatar
     }
   };
 
-  const inputCls = 'w-full bg-[#1c1b1b] border border-[#4c4450]/30 rounded-xl px-4 py-3 text-sm text-[#e5e2e1] placeholder:text-[#988d9c]/40 focus:outline-none focus:border-[#d394ff]/60 focus:ring-1 focus:ring-[#d394ff]/20 transition-all';
+  const inputCls = 'w-full bg-[#FAF7F2] border border-[#1C1814]/30 rounded-xl px-4 py-3 text-sm text-[#1C1814] placeholder:text-[#6A6470]/40 focus:outline-none focus:border-[#7DD3C7]/60 focus:ring-1 focus:ring-[#7DD3C7]/20 transition-all';
 
   const field = (label: string, key: keyof ProfileData, placeholder = '') => (
     <div className="space-y-1.5">
-      <label className="text-[10px] text-[#988d9c] uppercase tracking-widest font-semibold">{label}</label>
+      <label className="text-[10px] text-[#6A6470] uppercase tracking-widest font-semibold">{label}</label>
       <input
         type="text"
         value={String(form[key] ?? '')}
@@ -66,18 +66,18 @@ export default function EditProfileModal({ data, onSave, onClose, onChangeAvatar
     >
       <div
         ref={cardRef}
-        className="w-full max-w-lg bg-[#1a1919] border border-[#4c4450]/20 rounded-3xl shadow-[0_32px_80px_rgba(0,0,0,0.7)] overflow-hidden"
+        className="w-full max-w-lg bg-[#FAF7F2] border border-[#1C1814]/20 rounded-3xl shadow-[0_32px_80px_rgba(0,0,0,0.7)] overflow-hidden"
       >
         {/* Header */}
-        <div className="px-8 py-5 border-b border-[#4c4450]/10 flex items-center justify-between bg-[#201f1f]">
+        <div className="px-8 py-5 border-b border-[#1C1814]/10 flex items-center justify-between bg-[#F0EBE2]">
           <div>
-            <h2 className="font-headline font-bold text-white text-lg">Edit Profile</h2>
-            <p className="text-xs text-[#988d9c] mt-0.5">Update your account information</p>
+            <h2 className="font-headline font-bold text-[#1C1814] text-lg">Edit Profile</h2>
+            <p className="text-xs text-[#6A6470] mt-0.5">Update your account information</p>
           </div>
           <button
             onClick={handleClose}
             disabled={saving}
-            className="w-8 h-8 rounded-xl bg-[#2a2a2a] flex items-center justify-center text-[#988d9c] hover:text-white hover:bg-[#353534] transition-all disabled:opacity-50"
+            className="w-8 h-8 rounded-xl bg-[#E5DFD6] flex items-center justify-center text-[#6A6470] hover:text-[#1C1814] hover:bg-[#353534] transition-all disabled:opacity-50"
           >
             <span className="material-symbols-outlined" style={{ fontSize: 18 }}>close</span>
           </button>
@@ -89,25 +89,25 @@ export default function EditProfileModal({ data, onSave, onClose, onChangeAvatar
             type="button"
             onClick={onChangeAvatar}
             disabled={!onChangeAvatar}
-            className="relative w-16 h-16 rounded-2xl bg-gradient-to-tr from-[#d394ff] to-[#9400e4] p-[2px] shrink-0 group disabled:cursor-default"
+            className="relative w-16 h-16 rounded-2xl bg-gradient-to-tr from-[#7DD3C7] to-[#D6A86A] p-[2px] shrink-0 group disabled:cursor-default"
           >
-            <div className="w-full h-full rounded-2xl bg-[#1a1919] overflow-hidden flex items-center justify-center">
+            <div className="w-full h-full rounded-2xl bg-[#FAF7F2] overflow-hidden flex items-center justify-center">
               {form.avatar_url
                 ? <img src={form.avatar_url} alt="Avatar" className="w-full h-full object-cover" />
-                : <span className="text-xl font-bold text-[#d394ff]">{(form.name || form.email).slice(0, 2).toUpperCase()}</span>
+                : <span className="text-xl font-bold text-[#7DD3C7]">{(form.name || form.email).slice(0, 2).toUpperCase()}</span>
               }
             </div>
             {onChangeAvatar && (
               <div className="absolute inset-0 rounded-2xl bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                <span className="material-symbols-outlined text-white" style={{ fontSize: 16 }}>photo_camera</span>
+                <span className="material-symbols-outlined text-[#1C1814]" style={{ fontSize: 16 }}>photo_camera</span>
               </div>
             )}
           </button>
           <div>
-            <p className="text-sm font-bold text-white font-headline">{form.name || 'No name'}</p>
-            <p className="text-xs text-[#988d9c] mt-0.5">{form.email}</p>
+            <p className="text-sm font-bold text-[#1C1814] font-headline">{form.name || 'No name'}</p>
+            <p className="text-xs text-[#6A6470] mt-0.5">{form.email}</p>
             {onChangeAvatar && (
-              <button type="button" onClick={onChangeAvatar} className="text-[10px] text-[#d394ff] hover:text-[#e8b5ff] mt-1 transition-colors">
+              <button type="button" onClick={onChangeAvatar} className="text-[10px] text-[#7DD3C7] hover:text-[#e8b5ff] mt-1 transition-colors">
                 Change photo
               </button>
             )}
@@ -122,7 +122,7 @@ export default function EditProfileModal({ data, onSave, onClose, onChangeAvatar
 
           {/* Email - readonly */}
           <div className="space-y-1.5">
-            <label className="text-[10px] text-[#988d9c] uppercase tracking-widest font-semibold">Email</label>
+            <label className="text-[10px] text-[#6A6470] uppercase tracking-widest font-semibold">Email</label>
             <input
               type="email"
               value={form.email}
@@ -133,14 +133,14 @@ export default function EditProfileModal({ data, onSave, onClose, onChangeAvatar
 
           {/* Timezone */}
           <div className="space-y-1.5">
-            <label className="text-[10px] text-[#988d9c] uppercase tracking-widest font-semibold">Timezone</label>
+            <label className="text-[10px] text-[#6A6470] uppercase tracking-widest font-semibold">Timezone</label>
             <select
               value={form.timezone}
               onChange={e => setForm(prev => ({ ...prev, timezone: e.target.value }))}
               className={`${inputCls} appearance-none cursor-pointer`}
             >
               {TIMEZONES.map(tz => (
-                <option key={tz} value={tz} className="bg-[#1c1b1b]">{tz}</option>
+                <option key={tz} value={tz} className="bg-[#FAF7F2]">{tz}</option>
               ))}
             </select>
           </div>
@@ -153,18 +153,18 @@ export default function EditProfileModal({ data, onSave, onClose, onChangeAvatar
         </div>
 
         {/* Footer */}
-        <div className="px-8 py-5 border-t border-[#4c4450]/10 flex items-center justify-end gap-3 bg-[#201f1f]">
+        <div className="px-8 py-5 border-t border-[#1C1814]/10 flex items-center justify-end gap-3 bg-[#F0EBE2]">
           <button
             onClick={handleClose}
             disabled={saving}
-            className="px-5 py-2.5 rounded-xl border border-[#4c4450]/30 text-sm text-[#988d9c] hover:text-white hover:border-[#4c4450]/60 transition-all disabled:opacity-50"
+            className="px-5 py-2.5 rounded-xl border border-[#1C1814]/30 text-sm text-[#6A6470] hover:text-[#1C1814] hover:border-[#1C1814]/60 transition-all disabled:opacity-50"
           >
             Cancel
           </button>
           <button
             onClick={() => { void handleSave(); }}
             disabled={saving || !form.name.trim()}
-            className="px-6 py-2.5 rounded-xl bg-[#d394ff] text-[#2f004d] text-sm font-bold shadow-[0_0_20px_rgba(211,148,255,0.25)] hover:shadow-[0_0_30px_rgba(211,148,255,0.45)] active:scale-95 transition-all disabled:opacity-60 flex items-center gap-2"
+            className="px-6 py-2.5 rounded-xl bg-[#7DD3C7] text-[#2f004d] text-sm font-bold shadow-[0_0_20px_rgba(125,211,199,0.25)] hover:shadow-[0_0_30px_rgba(125,211,199,0.45)] active:scale-95 transition-all disabled:opacity-60 flex items-center gap-2"
           >
             {saving
               ? <><span className="material-symbols-outlined text-[14px] animate-spin">progress_activity</span> Saving…</>

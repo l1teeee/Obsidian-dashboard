@@ -31,17 +31,17 @@ export default class ErrorBoundary extends Component<Props, State> {
 
       return (
         <div className="min-h-screen bg-[#131313] flex items-center justify-center p-8">
-          <div className="glass-card rounded-3xl border border-[#4c4450]/20 p-10 max-w-md w-full text-center space-y-5">
+          <div className="glass-card rounded-3xl border border-[#1C1814]/20 p-10 max-w-md w-full text-center space-y-5">
             <div className="w-14 h-14 rounded-2xl bg-[#ffb4ab]/10 border border-[#ffb4ab]/20 flex items-center justify-center mx-auto">
               <span className="material-symbols-outlined text-[#ffb4ab]" style={{ fontSize: 26 }}>
                 error
               </span>
             </div>
             <div>
-              <h2 className="font-headline text-xl font-extrabold text-white tracking-tight mb-1">
+              <h2 className="font-headline text-xl font-extrabold text-[#1C1814] tracking-tight mb-1">
                 Something went wrong
               </h2>
-              <p className="text-sm text-[#988d9c]">
+              <p className="text-sm text-[#6A6470]">
                 An unexpected error occurred. Try refreshing the page.
               </p>
               {import.meta.env.DEV && (
@@ -52,7 +52,7 @@ export default class ErrorBoundary extends Component<Props, State> {
             </div>
             <button
               onClick={() => window.location.reload()}
-              className="w-full py-3 rounded-xl bg-[#d394ff] text-[#5e2388] font-bold text-sm hover:bg-[#e0a8ff] transition-all"
+              className="w-full py-3 rounded-xl bg-[#7DD3C7] text-[#5e2388] font-bold text-sm hover:bg-[#e0a8ff] transition-all"
             >
               Reload page
             </button>

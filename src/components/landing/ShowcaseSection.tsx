@@ -45,8 +45,8 @@ function AnalyticsMockup() {
           { label: 'Followers',   value: '+1,842',  delta: 'this week'},
         ].map((m) => (
           <div key={m.label} className="rounded-2xl border border-white/[0.05] bg-white/[0.02] p-3">
-            <p className="mb-1.5 text-[0.52rem] font-bold uppercase tracking-[0.18em] text-white/25">{m.label}</p>
-            <p className="text-[1.1rem] font-bold tracking-tight text-white">{m.value}</p>
+            <p className="mb-1.5 text-[0.52rem] font-bold uppercase tracking-[0.18em] text-[#1C1814]/25">{m.label}</p>
+            <p className="text-[1.1rem] font-bold tracking-tight text-[#1C1814]">{m.value}</p>
             <span className="text-[0.58rem] font-semibold text-[#7DD3C7]">{m.delta}</span>
           </div>
         ))}
@@ -56,10 +56,10 @@ function AnalyticsMockup() {
       <div className="grid grid-cols-[1fr_auto] gap-3">
         <div className="rounded-2xl border border-white/[0.05] bg-white/[0.02] p-4">
           <div className="mb-3 flex items-center justify-between">
-            <p className="text-[0.58rem] font-bold uppercase tracking-[0.18em] text-white/25">Weekly Reach · Apr 1–7</p>
+            <p className="text-[0.58rem] font-bold uppercase tracking-[0.18em] text-[#1C1814]/25">Weekly Reach · Apr 1–7</p>
             <div className="flex gap-1">
               {['7D', '30D', '90D'].map((r, i) => (
-                <span key={r} className={`rounded px-2 py-0.5 text-[0.5rem] font-bold ${i === 0 ? 'bg-[#7DD3C7]/15 text-[#7DD3C7]' : 'text-white/20'}`}>{r}</span>
+                <span key={r} className={`rounded px-2 py-0.5 text-[0.5rem] font-bold ${i === 0 ? 'bg-[#7DD3C7]/15 text-[#7DD3C7]' : 'text-[#1C1814]/20'}`}>{r}</span>
               ))}
             </div>
           </div>
@@ -75,22 +75,22 @@ function AnalyticsMockup() {
           </div>
           <div className="mt-2 flex gap-1.5">
             {['Mon','Tue','Wed','Thu','Fri','Sat','Sun'].map((d) => (
-              <span key={d} className="flex-1 text-center text-[0.45rem] font-bold uppercase text-white/18">{d}</span>
+              <span key={d} className="flex-1 text-center text-[0.45rem] font-bold uppercase text-[#1C1814]/18">{d}</span>
             ))}
           </div>
         </div>
 
         {/* Platform breakdown */}
         <div className="w-[140px] rounded-2xl border border-white/[0.05] bg-white/[0.02] p-4">
-          <p className="mb-3 text-[0.52rem] font-bold uppercase tracking-[0.18em] text-white/25">By Platform</p>
+          <p className="mb-3 text-[0.52rem] font-bold uppercase tracking-[0.18em] text-[#1C1814]/25">By Platform</p>
           <div className="space-y-3">
             {platforms.map((p) => (
               <div key={p.name}>
                 <div className="mb-1 flex items-center justify-between">
-                  <span className="text-[0.52rem] font-medium text-white/45">{p.name}</span>
-                  <span className="text-[0.52rem] font-bold text-white/60">{p.eng}</span>
+                  <span className="text-[0.52rem] font-medium text-[#1C1814]/45">{p.name}</span>
+                  <span className="text-[0.52rem] font-bold text-[#1C1814]/60">{p.eng}</span>
                 </div>
-                <div className="h-1 w-full overflow-hidden rounded-full bg-white/[0.06]">
+                <div className="h-1 w-full overflow-hidden rounded-full bg-[#1C1814]/[0.05]">
                   <div className="h-full rounded-full" style={{ width: `${p.name === 'Instagram' ? 67 : p.name === 'LinkedIn' ? 44 : 40}%`, backgroundColor: p.color, opacity: 0.7 }} />
                 </div>
               </div>
@@ -116,16 +116,16 @@ function SchedulerMockup() {
       {/* Calendar */}
       <div className="w-[190px] rounded-2xl border border-white/[0.05] bg-white/[0.02] p-4">
         <div className="mb-3 flex items-center justify-between">
-          <p className="text-[0.58rem] font-bold uppercase tracking-[0.18em] text-white/30">April 2026</p>
+          <p className="text-[0.58rem] font-bold uppercase tracking-[0.18em] text-[#1C1814]/30">April 2026</p>
           <div className="flex gap-1">
             {['‹', '›'].map((a) => (
-              <button key={a} className="flex h-5 w-5 items-center justify-center rounded-md bg-white/[0.04] text-[0.6rem] text-white/30">{a}</button>
+              <button key={a} className="flex h-5 w-5 items-center justify-center rounded-md bg-white/[0.04] text-[0.6rem] text-[#1C1814]/30">{a}</button>
             ))}
           </div>
         </div>
         <div className="mb-1.5 grid grid-cols-7 gap-0.5 text-center">
           {['M','T','W','T','F','S','S'].map((d, i) => (
-            <span key={i} className="text-[0.48rem] font-bold text-white/22">{d}</span>
+            <span key={i} className="text-[0.48rem] font-bold text-[#1C1814]/22">{d}</span>
           ))}
         </div>
         <div className="grid grid-cols-7 gap-0.5">
@@ -136,7 +136,7 @@ function SchedulerMockup() {
             const today = day === 8;
             return (
               <div key={i} className={`flex h-6 w-full items-center justify-center rounded-md text-[0.5rem] font-medium
-                ${valid ? (has ? 'bg-[#7DD3C7]/18 text-[#7DD3C7] font-bold' : today ? 'bg-white/10 text-white ring-1 ring-white/15' : 'text-white/38') : 'text-transparent'}`}>
+                ${valid ? (has ? 'bg-[#7DD3C7]/18 text-[#7DD3C7] font-bold' : today ? 'bg-white/10 text-[#1C1814] ring-1 ring-white/15' : 'text-[#1C1814]/38') : 'text-transparent'}`}>
                 {valid ? day : '·'}
               </div>
             );
@@ -144,14 +144,14 @@ function SchedulerMockup() {
         </div>
         <div className="mt-3 flex items-center gap-1.5 border-t border-white/[0.05] pt-3">
           <div className="h-2 w-2 rounded-full bg-[#7DD3C7]/60" />
-          <span className="text-[0.48rem] text-white/30">7 posts this month</span>
+          <span className="text-[0.48rem] text-[#1C1814]/30">7 posts this month</span>
         </div>
       </div>
 
       {/* Queue */}
       <div className="rounded-2xl border border-white/[0.05] bg-white/[0.02] p-4">
         <div className="mb-3 flex items-center justify-between">
-          <p className="text-[0.58rem] font-bold uppercase tracking-[0.18em] text-white/30">Post Queue</p>
+          <p className="text-[0.58rem] font-bold uppercase tracking-[0.18em] text-[#1C1814]/30">Post Queue</p>
           <button className="rounded-lg border border-[#7DD3C7]/25 bg-[#7DD3C7]/10 px-2.5 py-1 text-[0.52rem] font-bold text-[#7DD3C7]">+ New post</button>
         </div>
         <div className="space-y-2">
@@ -161,10 +161,10 @@ function SchedulerMockup() {
                 {post.platform}
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-[0.62rem] font-medium text-white/65 truncate">{post.title}</p>
-                <p className="text-[0.52rem] text-white/28">{post.time}</p>
+                <p className="text-[0.62rem] font-medium text-[#1C1814]/65 truncate">{post.title}</p>
+                <p className="text-[0.52rem] text-[#1C1814]/28">{post.time}</p>
               </div>
-              <span className={`shrink-0 rounded-full px-2 py-0.5 text-[0.5rem] font-bold ${post.status === 'scheduled' ? 'bg-[#7DD3C7]/12 text-[#7DD3C7]' : 'bg-white/[0.05] text-white/30'}`}>
+              <span className={`shrink-0 rounded-full px-2 py-0.5 text-[0.5rem] font-bold ${post.status === 'scheduled' ? 'bg-[#7DD3C7]/12 text-[#7DD3C7]' : 'bg-white/[0.05] text-[#1C1814]/30'}`}>
                 {post.status}
               </span>
             </div>
@@ -194,11 +194,11 @@ function InsightsMockup() {
       <div className="grid grid-cols-[1fr_auto] gap-3">
         {/* Heatmap */}
         <div className="rounded-2xl border border-white/[0.05] bg-white/[0.02] p-4">
-          <p className="mb-3 text-[0.58rem] font-bold uppercase tracking-[0.18em] text-white/30">Best Time to Post — All Platforms</p>
+          <p className="mb-3 text-[0.58rem] font-bold uppercase tracking-[0.18em] text-[#1C1814]/30">Best Time to Post — All Platforms</p>
           <div className="flex gap-3">
             <div className="flex flex-col justify-around pt-1">
               {['Mon','Tue','Wed','Thu','Fri'].map((d) => (
-                <span key={d} className="text-[0.48rem] font-bold text-white/25">{d}</span>
+                <span key={d} className="text-[0.48rem] font-bold text-[#1C1814]/25">{d}</span>
               ))}
             </div>
             <div className="flex-1 space-y-1">
@@ -215,7 +215,7 @@ function InsightsMockup() {
               ))}
               <div className="flex gap-0.5 pt-1">
                 {['9','10','11','12','1','2','3','4','5'].map((h) => (
-                  <span key={h} className="flex-1 text-center text-[0.42rem] text-white/20">{h}</span>
+                  <span key={h} className="flex-1 text-center text-[0.42rem] text-[#1C1814]/20">{h}</span>
                 ))}
               </div>
             </div>
@@ -224,10 +224,10 @@ function InsightsMockup() {
 
         {/* AI Score */}
         <div className="flex w-[130px] flex-col items-center justify-center gap-2 rounded-2xl border border-[#7DD3C7]/15 bg-[#7DD3C7]/[0.04] p-4">
-          <p className="text-[0.52rem] font-bold uppercase tracking-[0.18em] text-white/30">Content Score</p>
+          <p className="text-[0.52rem] font-bold uppercase tracking-[0.18em] text-[#1C1814]/30">Content Score</p>
           <p className="text-[2.6rem] font-extrabold leading-none tracking-tight text-[#7DD3C7]">94</p>
-          <p className="text-center text-[0.5rem] text-white/30">Predicted engagement percentile</p>
-          <div className="mt-1 h-1 w-full overflow-hidden rounded-full bg-white/[0.06]">
+          <p className="text-center text-[0.5rem] text-[#1C1814]/30">Predicted engagement percentile</p>
+          <div className="mt-1 h-1 w-full overflow-hidden rounded-full bg-[#1C1814]/[0.05]">
             <div className="h-full w-[94%] rounded-full bg-[#7DD3C7]" />
           </div>
         </div>
@@ -235,12 +235,12 @@ function InsightsMockup() {
 
       {/* AI suggestions */}
       <div className="rounded-2xl border border-white/[0.05] bg-white/[0.02] p-4">
-        <p className="mb-3 text-[0.58rem] font-bold uppercase tracking-[0.18em] text-white/30">AI Recommendations</p>
+        <p className="mb-3 text-[0.58rem] font-bold uppercase tracking-[0.18em] text-[#1C1814]/30">AI Recommendations</p>
         <div className="space-y-2">
           {suggestions.map((s, i) => (
             <div key={i} className="flex items-start gap-3 rounded-xl border border-white/[0.04] bg-white/[0.02] p-3">
               <span className="text-sm leading-none">{s.icon}</span>
-              <p className="text-[0.62rem] leading-relaxed text-white/55">{s.text}</p>
+              <p className="text-[0.62rem] leading-relaxed text-[#1C1814]/55">{s.text}</p>
             </div>
           ))}
         </div>
@@ -318,14 +318,14 @@ export default function ShowcaseSection() {
           <h2
             data-sc="title"
             style={{ opacity: 0 }}
-            className="text-4xl font-extrabold leading-[0.96] tracking-[-0.04em] text-white sm:text-5xl md:text-[3.4rem]"
+            className="text-4xl font-extrabold leading-[0.96] tracking-[-0.04em] text-[#1C1814] sm:text-5xl md:text-[3.4rem]"
           >
             Everything you need.{' '}
             <span className="text-[#7DD3C7]">
               Nothing you don't.
             </span>
           </h2>
-          <p data-sc="sub" style={{ opacity: 0 }} className="mx-auto mt-5 max-w-lg text-[1rem] font-light leading-[1.8] text-white/45">
+          <p data-sc="sub" style={{ opacity: 0 }} className="mx-auto mt-5 max-w-lg text-[1rem] font-light leading-[1.8] text-[#1C1814]/45">
             Analytics, scheduling, and AI recommendations — each module designed to replace a separate tool. One subscription replaces four.
           </p>
         </div>
@@ -339,7 +339,7 @@ export default function ShowcaseSection() {
               className={`flex items-center gap-2.5 rounded-2xl border px-5 py-3 text-sm font-semibold transition-all duration-300 ${
                 activeTab === i
                   ? 'border-[#7DD3C7]/30 bg-[#7DD3C7]/12 text-[#7DD3C7] shadow-[0_0_24px_rgba(125,211,199,0.15)]'
-                  : 'border-white/[0.07] bg-white/[0.02] text-white/40 hover:border-white/[0.12] hover:text-white/60'
+                  : 'border-white/[0.07] bg-white/[0.02] text-[#1C1814]/40 hover:border-white/[0.12] hover:text-[#1C1814]/60'
               }`}
             >
               <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24">
@@ -354,7 +354,7 @@ export default function ShowcaseSection() {
         <div data-sc="tabs" style={{ opacity: 0 }} className="mb-8 flex items-start gap-3">
           <div className="rounded-xl border border-[#7DD3C7]/15 bg-[#7DD3C7]/[0.06] px-4 py-3">
             <p className="text-[0.78rem] font-bold text-[#7DD3C7] mb-0.5">{tabs[activeTab].tagline}</p>
-            <p className="text-[0.75rem] text-white/40">{tabs[activeTab].description}</p>
+            <p className="text-[0.75rem] text-[#1C1814]/40">{tabs[activeTab].description}</p>
           </div>
         </div>
 
@@ -362,18 +362,18 @@ export default function ShowcaseSection() {
         <div
           data-sc="window"
           style={{ opacity: 0 }}
-          className="relative overflow-hidden rounded-[2rem] border border-white/[0.08] bg-[#171615]/80 shadow-[0_40px_140px_rgba(0,0,0,0.4)] backdrop-blur-2xl"
+          className="relative overflow-hidden rounded-[2rem] border border-white/[0.08] bg-[#F3EEE6]/80 shadow-[0_40px_140px_rgba(0,0,0,0.4)] backdrop-blur-2xl"
         >
           {/* Chrome */}
-          <div className="flex items-center gap-2 border-b border-white/[0.06] bg-[#0B0B0A] px-6 py-4">
+          <div className="flex items-center gap-2 border-b border-white/[0.06] bg-[#F4F0E8] px-6 py-4">
             <div className="flex gap-1.5">
               {['bg-[#ff5f57]', 'bg-[#febc2e]', 'bg-[#28c840]'].map((c) => (
                 <div key={c} className={`h-3 w-3 rounded-full ${c} opacity-70`} />
               ))}
             </div>
-            <div className="mx-auto flex items-center gap-2 rounded-lg border border-white/[0.06] bg-white/[0.03] px-4 py-1">
+            <div className="mx-auto flex items-center gap-2 rounded-lg border border-white/[0.06] bg-[#1C1814]/[0.05] px-4 py-1">
               <div className="h-1.5 w-1.5 rounded-full bg-[#7DD3C7]/50" />
-              <span className="text-[0.6rem] font-medium text-white/30">app.vielinks.com/{tabs[activeTab].label.toLowerCase().replace(' ', '-')}</span>
+              <span className="text-[0.6rem] font-medium text-[#1C1814]/30">app.vielinks.com/{tabs[activeTab].label.toLowerCase().replace(' ', '-')}</span>
             </div>
           </div>
 
@@ -384,7 +384,7 @@ export default function ShowcaseSection() {
               {tabs.map((tab, i) => (
                 <div
                   key={tab.label}
-                  className={`flex h-9 w-9 items-center justify-center rounded-xl cursor-pointer transition-all duration-200 ${i === activeTab ? 'bg-[#7DD3C7]/15 text-[#7DD3C7]' : 'text-white/20 hover:text-white/40'}`}
+                  className={`flex h-9 w-9 items-center justify-center rounded-xl cursor-pointer transition-all duration-200 ${i === activeTab ? 'bg-[#7DD3C7]/15 text-[#7DD3C7]' : 'text-[#1C1814]/20 hover:text-[#1C1814]/40'}`}
                   onClick={() => switchTab(i)}
                 >
                   <svg className="h-4.5 w-4.5" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24">
@@ -399,13 +399,13 @@ export default function ShowcaseSection() {
               {/* Section header inside mockup */}
               <div className="mb-4 flex items-center justify-between">
                 <div>
-                  <p className="text-[0.72rem] font-bold text-white/70">{tabs[activeTab].label}</p>
-                  <p className="text-[0.55rem] text-white/25">Vielinks - IG, LI, FB - April 2026</p>
+                  <p className="text-[0.72rem] font-bold text-[#1C1814]/70">{tabs[activeTab].label}</p>
+                  <p className="text-[0.55rem] text-[#1C1814]/25">Vielinks - IG, LI, FB - April 2026</p>
                 </div>
                 <div className="flex items-center gap-2">
-                  <div className="flex items-center gap-1.5 rounded-lg border border-white/[0.06] bg-white/[0.03] px-2.5 py-1">
+                  <div className="flex items-center gap-1.5 rounded-lg border border-white/[0.06] bg-[#1C1814]/[0.05] px-2.5 py-1">
                     <div className="h-1.5 w-1.5 rounded-full bg-[#7DD3C7]" />
-                    <span className="text-[0.52rem] text-white/35">My Workspace</span>
+                    <span className="text-[0.52rem] text-[#1C1814]/35">My Workspace</span>
                   </div>
                 </div>
               </div>

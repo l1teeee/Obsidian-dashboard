@@ -30,7 +30,7 @@ export default function AdminRoute({ children }: { children: ReactNode }) {
 
   if (isLoading || role === undefined) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-[#0e0e0e]">
+      <div className="flex min-h-screen items-center justify-center bg-[#F4F0E8]">
         <div className="h-6 w-6 animate-spin rounded-full border-2 border-[#f87171] border-t-transparent" />
       </div>
     );

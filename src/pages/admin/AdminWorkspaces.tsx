@@ -86,15 +86,15 @@ export default function AdminWorkspaces() {
           <div className="w-2 h-2 rounded-full bg-[#f87171]" />
           <span className="text-[#f87171] text-xs uppercase tracking-widest font-bold">Admin</span>
         </div>
-        <h1 className="font-headline text-3xl font-extrabold tracking-tighter text-white">Workspaces</h1>
-        {meta && <p className="text-[#988d9c] text-sm mt-1">{meta.total.toLocaleString()} total workspaces</p>}
+        <h1 className="font-headline text-3xl font-extrabold tracking-tighter text-[#1C1814]">Workspaces</h1>
+        {meta && <p className="text-[#6A6470] text-sm mt-1">{meta.total.toLocaleString()} total workspaces</p>}
       </div>
 
       {/* Chart — only when not searching */}
       {!loading && !error && !search && chartData.length > 0 && (
-        <div className="glass-card rounded-3xl p-6 border border-[#4c4450]/10">
-          <p className="text-white font-headline font-bold mb-1">Top 10 by Post Count</p>
-          <p className="text-[#988d9c] text-xs mb-5">Posts published per workspace</p>
+        <div className="glass-card rounded-3xl p-6 border border-[#1C1814]/10">
+          <p className="text-[#1C1814] font-headline font-bold mb-1">Top 10 by Post Count</p>
+          <p className="text-[#6A6470] text-xs mb-5">Posts published per workspace</p>
           <ResponsiveContainer width="100%" height={200}>
             <BarChart data={chartData} barSize={20}>
               <CartesianGrid strokeDasharray="3 3" stroke="#4c4450" strokeOpacity={0.2} vertical={false} />
@@ -109,12 +109,12 @@ export default function AdminWorkspaces() {
 
       {/* Search */}
       <div className="relative max-w-xs">
-        <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[#988d9c]" style={{ fontSize: 16 }}>search</span>
+        <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[#6A6470]" style={{ fontSize: 16 }}>search</span>
         <input
           value={search}
           onChange={e => handleSearch(e.target.value)}
           placeholder="Search workspaces..."
-          className="w-full bg-[#1c1b1b] border border-[#4c4450]/20 rounded-xl py-2.5 pl-9 pr-4 text-sm text-white placeholder:text-[#4c4450] focus:outline-none focus:border-[#d394ff]/40 transition-all"
+          className="w-full bg-[#FAF7F2] border border-[#1C1814]/20 rounded-xl py-2.5 pl-9 pr-4 text-sm text-[#1C1814] placeholder:text-[#1C1814] focus:outline-none focus:border-[#7DD3C7]/40 transition-all"
         />
       </div>
 
@@ -125,39 +125,39 @@ export default function AdminWorkspaces() {
       )}
 
       {/* Table */}
-      <div className="glass-card rounded-3xl border border-[#4c4450]/10 overflow-hidden">
+      <div className="glass-card rounded-3xl border border-[#1C1814]/10 overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-[#4c4450]/10">
-                <th className="text-left px-6 py-4 text-[#988d9c] text-xs uppercase tracking-widest font-semibold">Workspace</th>
-                <th className="text-left px-6 py-4 text-[#988d9c] text-xs uppercase tracking-widest font-semibold">Owner</th>
-                <th className="text-center px-6 py-4 text-[#988d9c] text-xs uppercase tracking-widest font-semibold">Posts</th>
-                <th className="text-left px-6 py-4 text-[#988d9c] text-xs uppercase tracking-widest font-semibold">Status</th>
-                <th className="text-right px-6 py-4 text-[#988d9c] text-xs uppercase tracking-widest font-semibold">Created</th>
-                <th className="text-center px-6 py-4 text-[#988d9c] text-xs uppercase tracking-widest font-semibold">Actions</th>
+              <tr className="border-b border-[#1C1814]/10">
+                <th className="text-left px-6 py-4 text-[#6A6470] text-xs uppercase tracking-widest font-semibold">Workspace</th>
+                <th className="text-left px-6 py-4 text-[#6A6470] text-xs uppercase tracking-widest font-semibold">Owner</th>
+                <th className="text-center px-6 py-4 text-[#6A6470] text-xs uppercase tracking-widest font-semibold">Posts</th>
+                <th className="text-left px-6 py-4 text-[#6A6470] text-xs uppercase tracking-widest font-semibold">Status</th>
+                <th className="text-right px-6 py-4 text-[#6A6470] text-xs uppercase tracking-widest font-semibold">Created</th>
+                <th className="text-center px-6 py-4 text-[#6A6470] text-xs uppercase tracking-widest font-semibold">Actions</th>
               </tr>
             </thead>
             <tbody>
               {loading ? (
                 Array.from({ length: 8 }).map((_, i) => (
-                  <tr key={i} className="border-b border-[#4c4450]/5 animate-pulse">
+                  <tr key={i} className="border-b border-[#1C1814]/5 animate-pulse">
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-lg bg-[#2a2a2a]" />
-                        <div className="h-3 w-32 bg-[#2a2a2a] rounded-full" />
+                        <div className="w-8 h-8 rounded-lg bg-[#E5DFD6]" />
+                        <div className="h-3 w-32 bg-[#E5DFD6] rounded-full" />
                       </div>
                     </td>
-                    <td className="px-6 py-4"><div className="h-3 w-28 bg-[#2a2a2a] rounded-full" /></td>
-                    <td className="px-6 py-4"><div className="h-3 w-8 bg-[#2a2a2a] rounded-full mx-auto" /></td>
-                    <td className="px-6 py-4"><div className="h-3 w-16 bg-[#2a2a2a] rounded-full" /></td>
-                    <td className="px-6 py-4"><div className="h-3 w-20 bg-[#2a2a2a] rounded-full ml-auto" /></td>
-                    <td className="px-6 py-4"><div className="h-3 w-16 bg-[#2a2a2a] rounded-full mx-auto" /></td>
+                    <td className="px-6 py-4"><div className="h-3 w-28 bg-[#E5DFD6] rounded-full" /></td>
+                    <td className="px-6 py-4"><div className="h-3 w-8 bg-[#E5DFD6] rounded-full mx-auto" /></td>
+                    <td className="px-6 py-4"><div className="h-3 w-16 bg-[#E5DFD6] rounded-full" /></td>
+                    <td className="px-6 py-4"><div className="h-3 w-20 bg-[#E5DFD6] rounded-full ml-auto" /></td>
+                    <td className="px-6 py-4"><div className="h-3 w-16 bg-[#E5DFD6] rounded-full mx-auto" /></td>
                   </tr>
                 ))
               ) : workspaces.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className="px-6 py-16 text-center text-[#4c4450]">
+                  <td colSpan={6} className="px-6 py-16 text-center text-[#1C1814]">
                     <span className="material-symbols-outlined text-4xl block mb-2">workspaces</span>
                     No workspaces found
                   </td>
@@ -167,26 +167,26 @@ export default function AdminWorkspaces() {
                   <tr
                     key={ws.id}
                     className={[
-                      'border-b border-[#4c4450]/5 transition-colors',
+                      'border-b border-[#1C1814]/5 transition-colors',
                       !ws.is_active ? 'opacity-50 hover:opacity-70' : 'hover:bg-white/[0.02]',
                     ].join(' ')}
                   >
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-[#d394ff] to-[#9400e4] flex items-center justify-center shrink-0">
-                          <span className="material-symbols-outlined text-white" style={{ fontSize: 14 }}>workspaces</span>
+                        <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-[#7DD3C7] to-[#D6A86A] flex items-center justify-center shrink-0">
+                          <span className="material-symbols-outlined text-[#1C1814]" style={{ fontSize: 14 }}>workspaces</span>
                         </div>
-                        <span className="text-white font-semibold text-xs">{ws.name}</span>
+                        <span className="text-[#1C1814] font-semibold text-xs">{ws.name}</span>
                       </div>
                     </td>
                     <td className="px-6 py-4">
                       <div>
-                        <p className="text-white text-xs font-medium">{ws.owner_name ?? '—'}</p>
-                        <p className="text-[#988d9c] text-xs">{ws.owner_email}</p>
+                        <p className="text-[#1C1814] text-xs font-medium">{ws.owner_name ?? '—'}</p>
+                        <p className="text-[#6A6470] text-xs">{ws.owner_email}</p>
                       </div>
                     </td>
                     <td className="px-6 py-4 text-center">
-                      <span className="font-mono text-white text-sm">{ws.post_count}</span>
+                      <span className="font-mono text-[#1C1814] text-sm">{ws.post_count}</span>
                     </td>
                     <td className="px-6 py-4">
                       {ws.is_active ? (
@@ -201,7 +201,7 @@ export default function AdminWorkspaces() {
                         </span>
                       )}
                     </td>
-                    <td className="px-6 py-4 text-right text-[#988d9c] text-xs">{fmtDate(ws.created_at)}</td>
+                    <td className="px-6 py-4 text-right text-[#6A6470] text-xs">{fmtDate(ws.created_at)}</td>
                     <td className="px-6 py-4">
                       <div className="flex items-center justify-center">
                         {ws.is_active ? (
@@ -251,13 +251,13 @@ export default function AdminWorkspaces() {
                 </span>
               </div>
 
-              <h2 className="text-xl font-headline font-extrabold tracking-tight text-white mb-1">
+              <h2 className="text-xl font-headline font-extrabold tracking-tight text-[#1C1814] mb-1">
                 {isDeactivate ? 'Deactivate workspace?' : 'Activate workspace?'}
               </h2>
-              <p className="text-xs text-[#cfc2d2] font-semibold mb-1">{confirm.workspace.name}</p>
-              <p className="text-xs text-[#4c4450] mb-4">{confirm.workspace.owner_email}</p>
+              <p className="text-xs text-[#5C5650] font-semibold mb-1">{confirm.workspace.name}</p>
+              <p className="text-xs text-[#1C1814] mb-4">{confirm.workspace.owner_email}</p>
 
-              <p className="text-sm text-[#988d9c] mb-6">
+              <p className="text-sm text-[#6A6470] mb-6">
                 {isDeactivate
                   ? <>This workspace will be <span className="text-[#f87171] font-semibold">disabled</span> and its content will be inaccessible.</>
                   : <>This workspace will be <span className="text-[#c5d247] font-semibold">re-enabled</span> and accessible again.</>
@@ -270,7 +270,7 @@ export default function AdminWorkspaces() {
                   disabled={working}
                   className={[
                     'w-full py-3 rounded-xl font-bold text-sm transition-all disabled:opacity-40 disabled:cursor-not-allowed',
-                    isDeactivate ? 'bg-[#f87171] text-white hover:bg-[#fca5a5]' : 'bg-[#c5d247] text-[#1a1d00] hover:bg-[#d4e24f]',
+                    isDeactivate ? 'bg-[#f87171] text-[#1C1814] hover:bg-[#fca5a5]' : 'bg-[#c5d247] text-[#1a1d00] hover:bg-[#d4e24f]',
                   ].join(' ')}
                 >
                   {working
@@ -281,7 +281,7 @@ export default function AdminWorkspaces() {
                 <button
                   onClick={() => setConfirm(null)}
                   disabled={working}
-                  className="w-full py-3 rounded-xl border border-[#4c4450]/20 text-sm font-semibold text-[#cfc2d2] hover:bg-[#201f1f] hover:text-white disabled:opacity-50 transition-all"
+                  className="w-full py-3 rounded-xl border border-[#1C1814]/20 text-sm font-semibold text-[#5C5650] hover:bg-[#F0EBE2] hover:text-[#1C1814] disabled:opacity-50 transition-all"
                 >
                   Cancel
                 </button>

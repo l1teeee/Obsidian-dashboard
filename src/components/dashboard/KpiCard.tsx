@@ -11,17 +11,17 @@ export default function KpiCard({ kpi, cardRef, countRef }: KpiCardProps) {
   return (
     <div
       ref={cardRef}
-      className="glass-card rounded-3xl p-6 border border-[#4c4450]/10 hover:shadow-[0_0_40px_rgba(211,148,255,0.08)] transition-all"
+      className="surface-card p-5 transition-all hover:border-[#7DD3C7]/24 md:p-6"
     >
-      <p className="text-[#988d9c] text-xs uppercase tracking-widest font-semibold mb-4">{kpi.label}</p>
+      <p className="text-[#6A6470] text-xs uppercase tracking-[0.14em] font-bold mb-4">{kpi.label}</p>
 
       <div className="flex items-baseline gap-2 flex-wrap">
-        <span ref={countRef} className="font-mono text-3xl font-medium text-white">
+        <span ref={countRef} className="font-mono text-3xl font-medium text-[#1C1814]">
           {kpi.display}
         </span>
 
         {kpi.delta && kpi.positive !== null && (
-          <span className={`font-mono text-xs font-medium flex items-center gap-0.5 ${kpi.positive ? 'text-[#c5d247]' : 'text-[#988d9c]'}`}>
+          <span className={`font-mono text-xs font-semibold flex items-center gap-0.5 ${kpi.positive ? 'text-[#C5D247]' : 'text-[#6A6470]'}`}>
             {kpi.positive && (
               <span className="material-symbols-outlined" style={{ fontSize: 12 }}>arrow_upward</span>
             )}
@@ -29,7 +29,7 @@ export default function KpiCard({ kpi, cardRef, countRef }: KpiCardProps) {
           </span>
         )}
         {kpi.delta && kpi.positive === null && (
-          <span className="text-xs text-[#988d9c]">{kpi.delta}</span>
+          <span className="text-xs text-[#6A6470]">{kpi.delta}</span>
         )}
       </div>
 
@@ -37,7 +37,7 @@ export default function KpiCard({ kpi, cardRef, countRef }: KpiCardProps) {
       {kpi.type === 'platforms' && (
         <div className="flex items-center gap-1.5 mt-3">
           {(kpi.platforms ?? []).map(({ abbr, color }) => (
-            <div key={abbr} className="w-7 h-7 rounded-lg flex items-center justify-center font-bold text-[9px]"
+            <div key={abbr} className="w-7 h-7 rounded-lg flex items-center justify-center font-bold text-xs"
               style={{ background: color + '33', color }}>
               {abbr}
             </div>
@@ -59,7 +59,7 @@ export default function KpiCard({ kpi, cardRef, countRef }: KpiCardProps) {
             const filled = kpi.countEnd > j * 2;
             return (
               <div key={j} className="h-1 flex-1 rounded-full transition-all duration-500"
-                style={{ background: filled ? '#d394ff' : '#353534' }} />
+                style={{ background: filled ? '#7DD3C7' : '#353534' }} />
             );
           })}
         </div>

@@ -75,20 +75,20 @@ export default function RouteTransition({ active, onDone }: RouteTransitionProps
   return (
     <div
       ref={rootRef}
-      className="fixed inset-0 z-[300] bg-[#0e0e0e] flex items-center justify-center overflow-hidden"
+      className="fixed inset-0 z-[300] bg-[#F4F0E8] flex items-center justify-center overflow-hidden"
     >
       {/* Background blobs */}
-      <div ref={blob1Ref} className="absolute w-[600px] h-[600px] rounded-full bg-[#d394ff]/12 blur-[120px]" />
-      <div ref={blob2Ref} className="absolute w-[320px] h-[320px] rounded-full bg-[#9400e4]/22 blur-[80px] translate-x-32 translate-y-20" />
-      <div ref={blob3Ref} className="absolute w-[250px] h-[250px] rounded-full bg-[#d394ff]/15 blur-[70px] -translate-x-28 -translate-y-24" />
+      <div ref={blob1Ref} className="absolute w-[600px] h-[600px] rounded-full bg-[#7DD3C7]/12 blur-[120px]" />
+      <div ref={blob2Ref} className="absolute w-[320px] h-[320px] rounded-full bg-[#D6A86A]/22 blur-[80px] translate-x-32 translate-y-20" />
+      <div ref={blob3Ref} className="absolute w-[250px] h-[250px] rounded-full bg-[#7DD3C7]/15 blur-[70px] -translate-x-28 -translate-y-24" />
 
       {/* Logo */}
       <div ref={logoRef} className="relative z-10 flex items-center gap-3">
         <span
           ref={dotRef}
-          className="w-3.5 h-3.5 rounded-full bg-[#d394ff] shadow-[0_0_24px_rgba(211,148,255,1),0_0_60px_rgba(211,148,255,0.6),0_0_100px_rgba(211,148,255,0.3)]"
+          className="w-3.5 h-3.5 rounded-full bg-[#7DD3C7] shadow-[0_0_24px_rgba(125,211,199,1),0_0_60px_rgba(125,211,199,0.6),0_0_100px_rgba(125,211,199,0.3)]"
         />
-        <span className="text-[26px] font-headline font-extrabold tracking-tight text-white">
+        <span className="text-[26px] font-headline font-extrabold tracking-tight text-[#1C1814]">
           Vielinks
         </span>
       </div>

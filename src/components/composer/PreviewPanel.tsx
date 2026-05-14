@@ -31,12 +31,12 @@ export default function PreviewPanel({
   igAccountName,
 }: PreviewPanelProps) {
   return (
-    <section className="w-full bg-[#0e0e0e] flex flex-col items-center justify-center p-4 md:p-8 relative overflow-hidden min-h-0">
-      <div className="absolute -top-20 -right-20 w-80 h-80 bg-[#d394ff]/5 blur-[100px] rounded-full pointer-events-none" />
-      <div className="absolute -bottom-20 -left-20 w-80 h-80 bg-[#9400e4]/5 blur-[100px] rounded-full pointer-events-none" />
+    <section className="w-full bg-[#F4F0E8] flex flex-col items-center justify-center p-4 md:p-8 relative overflow-hidden min-h-0">
+      <div className="absolute -top-20 -right-20 w-80 h-80 bg-[#7DD3C7]/5 blur-[100px] rounded-full pointer-events-none" />
+      <div className="absolute -bottom-20 -left-20 w-80 h-80 bg-[#D6A86A]/5 blur-[100px] rounded-full pointer-events-none" />
 
       {/* Platform tabs */}
-      <div className="flex gap-1 p-1 bg-[#201f1f]/40 backdrop-blur-md rounded-full mb-8 border border-[#4c4450]/10 z-10">
+      <div className="flex gap-1 p-1 bg-[#F0EBE2]/40 backdrop-blur-md rounded-full mb-8 border border-[#1C1814]/10 z-10">
         {CHANNELS.filter(ch => selectedChannels.includes(ch.id)).map(ch => {
           const Icon = ICONS[ch.id];
           return (
@@ -45,8 +45,8 @@ export default function PreviewPanel({
               onClick={() => onTabChange(ch.id)}
               className={`flex items-center gap-2 px-5 py-2 rounded-full text-xs font-bold transition-all ${
                 previewTab === ch.id
-                  ? 'bg-[#d394ff] text-[#5e2388] shadow-lg'
-                  : 'text-[#988d9c] hover:text-white'
+                  ? 'bg-[#7DD3C7] text-[#5e2388] shadow-lg'
+                  : 'text-[#6A6470] hover:text-[#1C1814]'
               }`}
             >
               <Icon size={13} />
@@ -68,11 +68,11 @@ export default function PreviewPanel({
         {previewTab === 'fb' && <FBPreview caption={caption} mediaPreviews={mediaPreviews} pageName={fbPageName} />}
       </div>
 
-      <div className="mt-6 flex items-center gap-2 px-4 py-2 rounded-full bg-[#201f1f]/50 border border-[#4c4450]/10 z-10">
-        <span className="w-2 h-2 rounded-full bg-[#d394ff] animate-pulse" />
-        <span className="text-[10px] font-bold uppercase tracking-widest text-[#988d9c]">Real-time Preview</span>
+      <div className="mt-6 flex items-center gap-2 px-4 py-2 rounded-full bg-[#F0EBE2]/50 border border-[#1C1814]/10 z-10">
+        <span className="w-2 h-2 rounded-full bg-[#7DD3C7] animate-pulse" />
+        <span className="text-[10px] font-bold uppercase tracking-widest text-[#6A6470]">Real-time Preview</span>
         {mediaPreviews.length > 1 && (
-          <span className="text-[10px] text-[#d394ff] font-bold">{mediaPreviews.length} images</span>
+          <span className="text-[10px] text-[#7DD3C7] font-bold">{mediaPreviews.length} images</span>
         )}
       </div>
     </section>

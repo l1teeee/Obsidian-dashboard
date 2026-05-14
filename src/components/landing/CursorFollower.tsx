@@ -9,6 +9,10 @@ export default function CursorFollower() {
     const ring = ringRef.current;
     if (!dot || !ring) return;
 
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const isCoarsePointer = window.matchMedia('(pointer: coarse)').matches;
+    if (prefersReduced || isCoarsePointer) return;
+
     let mouseX = -100, mouseY = -100;
     let ringX  = -100, ringY  = -100;
     let isExpanded = false;

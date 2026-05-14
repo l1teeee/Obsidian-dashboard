@@ -35,7 +35,7 @@ export function BenefitCard({
         'group relative flex flex-col overflow-hidden rounded-[1.75rem] border backdrop-blur-xl transition-all duration-500 hover:-translate-y-1',
         accent
           ? 'border-[#7DD3C7]/22 bg-[#1F1D1B]/90 shadow-[0_0_0_1px_rgba(125,211,199,0.06),0_30px_80px_rgba(0,0,0,0.3)]'
-          : 'border-white/[0.07] bg-[#171615]/80 hover:border-[#7DD3C7]/16 hover:bg-[#1F1D1B]/70',
+          : 'border-white/[0.07] bg-[#F3EEE6]/80 hover:border-[#7DD3C7]/16 hover:bg-[#1F1D1B]/70',
         className
       )}
     >

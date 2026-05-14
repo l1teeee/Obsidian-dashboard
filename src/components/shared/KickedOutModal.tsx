@@ -18,7 +18,7 @@ export default function KickedOutModal({ onClose }: Props) {
       }`}
     >
       <div
-        className={`w-full max-w-sm bg-[#1a1919] border border-[#4c4450]/20 rounded-3xl p-7 shadow-[0_24px_80px_rgba(0,0,0,0.7)] transition-all duration-300 ${
+        className={`w-full max-w-sm bg-[#FAF7F2] border border-[#1C1814]/20 rounded-3xl p-7 shadow-[0_24px_80px_rgba(0,0,0,0.7)] transition-all duration-300 ${
           visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
         }`}
       >
@@ -32,8 +32,8 @@ export default function KickedOutModal({ onClose }: Props) {
           </span>
         </div>
 
-        <h2 className="text-white font-bold text-lg mb-2">Signed out remotely</h2>
-        <p className="text-[#988d9c] text-sm mb-6 leading-relaxed">
+        <h2 className="text-[#1C1814] font-bold text-lg mb-2">Signed out remotely</h2>
+        <p className="text-[#6A6470] text-sm mb-6 leading-relaxed">
           Your account was accessed from another device. You've been signed out for security.
         </p>
 

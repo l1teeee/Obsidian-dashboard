@@ -74,20 +74,20 @@ export default function FAQSection() {
 
           {/* Header */}
           <div className="mb-12 text-center">
-            <span data-faq="eyebrow" style={{ opacity: 0 }} className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/[0.10] bg-white/[0.03] px-4 py-1.5 text-[0.68rem] font-bold uppercase tracking-[0.22em] text-white/45">
+            <span data-faq="eyebrow" style={{ opacity: 0 }} className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/[0.10] bg-[#1C1814]/[0.05] px-4 py-1.5 text-[0.68rem] font-bold uppercase tracking-[0.22em] text-[#1C1814]/45">
               <span className="h-1.5 w-1.5 rounded-full bg-[#7DD3C7]" />
               FAQ
             </span>
-            <h2 data-faq="title" style={{ opacity: 0 }} className="mt-5 text-4xl font-extrabold tracking-[-0.04em] leading-[0.96] text-white md:text-5xl">
+            <h2 data-faq="title" style={{ opacity: 0 }} className="mt-5 text-4xl font-extrabold tracking-[-0.04em] leading-[0.96] text-[#1C1814] md:text-5xl">
               Quick answers.
             </h2>
-            <p data-faq="sub" style={{ opacity: 0 }} className="mt-4 text-[1rem] font-light leading-[1.8] text-white/50">
+            <p data-faq="sub" style={{ opacity: 0 }} className="mt-4 text-[1rem] font-light leading-[1.8] text-[#1C1814]/50">
               The questions we get asked most before signing up.
             </p>
           </div>
 
           {/* Accordion — 4 questions */}
-          <div data-faq="list" style={{ opacity: 0 }} className="rounded-[1.75rem] border border-white/[0.07] bg-[#171615]/80 px-8 backdrop-blur-xl">
+          <div data-faq="list" style={{ opacity: 0 }} className="rounded-[1.75rem] border border-white/[0.07] bg-[#F3EEE6]/80 px-8 backdrop-blur-xl">
             <Accordion type="single" collapsible defaultValue="1">
               {faqs.map((faq, i) => (
                 <AccordionItem
@@ -110,7 +110,7 @@ export default function FAQSection() {
           <div data-faq="cta" style={{ opacity: 0 }} className="mt-8 text-center">
             <button
               onClick={() => navigate('/faq')}
-              className="group inline-flex items-center gap-2 text-[0.875rem] font-semibold text-white/35 transition-all duration-300 hover:text-white/70"
+              className="group inline-flex items-center gap-2 text-[0.875rem] font-semibold text-[#1C1814]/35 transition-all duration-300 hover:text-[#1C1814]/70"
             >
               See all 15 questions
               <svg className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">

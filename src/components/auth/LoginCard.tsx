@@ -133,14 +133,14 @@ export default function LoginCard() {
       className="auth-bg relative flex min-h-screen items-center justify-center overflow-hidden px-4 py-16"
     >
       {/* Ambient orbs */}
-      <div data-orb="1" className="pointer-events-none absolute -left-32 -top-32 h-[500px] w-[500px] rounded-full bg-[#d394ff]/10 blur-[120px]" />
-      <div data-orb="2" className="pointer-events-none absolute -bottom-32 -right-32 h-[420px] w-[420px] rounded-full bg-[#aa30fa]/10 blur-[100px]" />
+      <div data-orb="1" className="pointer-events-none absolute -left-32 -top-32 h-[500px] w-[500px] rounded-full bg-[#7DD3C7]/10 blur-[120px]" />
+      <div data-orb="2" className="pointer-events-none absolute -bottom-32 -right-32 h-[420px] w-[420px] rounded-full bg-inverse-primary/10 blur-[100px]" />
 
       {/* Back button */}
       <button
         type="button"
         onClick={() => fadeNav('/')}
-        className="absolute left-6 top-6 flex items-center gap-2 text-[0.8125rem] font-medium text-[#adaaaa]/60 transition-colors duration-300 hover:text-[#e5e2e1]"
+        className="absolute left-6 top-6 flex items-center gap-2 text-[0.8125rem] font-medium text-[#78736E]/60 transition-colors duration-300 hover:text-[#1C1814]"
       >
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="shrink-0">
           <path d="M10 3L5 8L10 13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
@@ -151,27 +151,27 @@ export default function LoginCard() {
       {/* Card */}
       <div
         style={{ viewTransitionName: 'auth-card' }}
-        className="relative w-full max-w-[440px] overflow-hidden rounded-[2rem] border border-[#494847]/20 bg-[#1a1919]/70 p-10 shadow-[0_30px_120px_rgba(0,0,0,0.28)] backdrop-blur-2xl"
+        className="relative w-full max-w-[440px] overflow-hidden rounded-[2rem] border border-[#1C1814]/20 bg-[#FAF7F2]/70 p-10 shadow-[0_30px_120px_rgba(0,0,0,0.28)] backdrop-blur-2xl"
       >
         {/* Top sheen */}
         <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/[0.08] to-transparent" />
 
         {/* Brand mark */}
         <div style={{ viewTransitionName: 'auth-brand' }} className="mb-8 flex items-center gap-2.5">
-          <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#d394ff]/15">
-            <div className="h-2.5 w-2.5 rounded-full bg-[#d394ff]" />
+          <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#7DD3C7]/15">
+            <div className="h-2.5 w-2.5 rounded-full bg-[#7DD3C7]" />
           </div>
-          <span className="font-headline text-base font-bold tracking-tight text-[#e5e2e1]">
+          <span className="font-headline text-base font-bold tracking-tight text-[#1C1814]">
             Vielinks
           </span>
         </div>
 
         {/* Heading */}
         <div className="mb-8 space-y-2">
-          <p data-login-eyebrow className="text-[0.6875rem] font-semibold uppercase tracking-[0.24em] text-[#d394ff]/70">
+          <p data-login-eyebrow className="text-[0.6875rem] font-semibold uppercase tracking-[0.24em] text-[#7DD3C7]/70">
             Welcome back
           </p>
-          <h1 data-login-title className="font-headline text-2xl font-bold tracking-tight text-[#e5e2e1]">
+          <h1 data-login-title className="font-headline text-2xl font-bold tracking-tight text-[#1C1814]">
             Sign in to your account
           </h1>
         </div>
@@ -181,7 +181,7 @@ export default function LoginCard() {
 
           {/* Email */}
           <div data-login-field className="space-y-2">
-            <label htmlFor="login-email" className="block text-[0.6875rem] font-semibold uppercase tracking-[0.18em] text-[#adaaaa]/60">
+            <label htmlFor="login-email" className="block text-[0.6875rem] font-semibold uppercase tracking-[0.18em] text-[#78736E]/60">
               Email
             </label>
             <div className="relative group">
@@ -195,10 +195,10 @@ export default function LoginCard() {
                 onChange={(e) => setEmail(e.target.value)}
                 disabled={loading}
                 readOnly={emailLocked}
-                className={`w-full rounded-[0.875rem] border text-sm placeholder:text-[#adaaaa]/35 transition-all duration-300 focus:outline-none px-4 py-3.5 pr-11 ${
+                className={`w-full rounded-[0.875rem] border text-sm placeholder:text-[#78736E]/35 transition-all duration-300 focus:outline-none px-4 py-3.5 pr-11 ${
                   emailLocked
-                    ? 'border-[#d394ff]/20 bg-[#d394ff]/5 text-[#d394ff]/60 cursor-default select-none'
-                    : 'border-[#494847]/30 bg-white/[0.03] text-[#e5e2e1] focus:border-[#d394ff]/40 focus:ring-1 focus:ring-[#d394ff]/20'
+                    ? 'border-[#7DD3C7]/20 bg-[#7DD3C7]/5 text-[#7DD3C7]/60 cursor-default select-none'
+                    : 'border-[#1C1814]/30 bg-[#1C1814]/[0.05] text-[#1C1814] focus:border-[#7DD3C7]/40 focus:ring-1 focus:ring-[#7DD3C7]/20'
                 }`}
               />
               {emailLocked && (
@@ -207,7 +207,7 @@ export default function LoginCard() {
                   onClick={() => setEmailLocked(false)}
                   aria-label="Edit remembered email"
                   title="Edit email"
-                  className="absolute right-3.5 top-1/2 -translate-y-1/2 opacity-0 transition-all duration-200 group-hover:opacity-100 text-[#d394ff]/40 hover:text-[#d394ff]"
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 opacity-0 transition-all duration-200 group-hover:opacity-100 text-[#7DD3C7]/40 hover:text-[#7DD3C7]"
                 >
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
@@ -221,10 +221,10 @@ export default function LoginCard() {
           {/* Password */}
           <div data-login-field className="space-y-2">
             <div className="flex items-center justify-between">
-              <label htmlFor="login-password" className="block text-[0.6875rem] font-semibold uppercase tracking-[0.18em] text-[#adaaaa]/60">
+              <label htmlFor="login-password" className="block text-[0.6875rem] font-semibold uppercase tracking-[0.18em] text-[#78736E]/60">
                 Password
               </label>
-              <Link to="/forgot-password" className="text-[0.75rem] text-[#adaaaa]/50 transition-colors duration-300 hover:text-[#d394ff]">
+              <Link to="/forgot-password" className="text-[0.75rem] text-[#78736E]/50 transition-colors duration-300 hover:text-[#7DD3C7]">
                 Forgot password?
               </Link>
             </div>
@@ -238,14 +238,14 @@ export default function LoginCard() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 disabled={loading}
-                className="w-full rounded-[0.875rem] border border-[#494847]/30 bg-white/[0.03] px-4 py-3.5 pr-11 text-sm text-[#e5e2e1] placeholder:text-[#adaaaa]/35 transition-all duration-300 focus:border-[#d394ff]/40 focus:outline-none focus:ring-1 focus:ring-[#d394ff]/20"
+                className="w-full rounded-[0.875rem] border border-[#1C1814]/30 bg-[#1C1814]/[0.05] px-4 py-3.5 pr-11 text-sm text-[#1C1814] placeholder:text-[#78736E]/35 transition-all duration-300 focus:border-[#7DD3C7]/40 focus:outline-none focus:ring-1 focus:ring-[#7DD3C7]/20"
               />
               <button
                 type="button"
                 onClick={() => setShowPass(v => !v)}
                 aria-label={showPass ? 'Hide password' : 'Show password'}
                 aria-pressed={showPass}
-                className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#adaaaa]/40 transition-colors duration-200 hover:text-[#d394ff]"
+                className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#78736E]/40 transition-colors duration-200 hover:text-[#7DD3C7]"
               >
                 <EyeIcon open={showPass} />
               </button>
@@ -259,21 +259,21 @@ export default function LoginCard() {
               role="checkbox"
               aria-checked={rememberMe}
               onClick={() => setRememberMe(v => !v)}
-              className={`relative h-4.5 w-4.5 shrink-0 rounded-[5px] border transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#d394ff]/40 ${
+              className={`relative h-4.5 w-4.5 shrink-0 rounded-[5px] border transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#7DD3C7]/40 ${
                 rememberMe
-                  ? 'border-[#d394ff] bg-[#d394ff]'
-                  : 'border-[#494847]/50 bg-white/[0.03] hover:border-[#d394ff]/50'
+                  ? 'border-[#7DD3C7] bg-[#7DD3C7]'
+                  : 'border-[#1C1814]/50 bg-[#1C1814]/[0.05] hover:border-[#7DD3C7]/50'
               }`}
               style={{ width: 18, height: 18 }}
             >
               {rememberMe && (
                 <svg className="absolute inset-0 m-auto" width="10" height="10" viewBox="0 0 10 10" fill="none">
-                  <path d="M1.5 5L4 7.5L8.5 2.5" stroke="#4a0076" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path d="M1.5 5L4 7.5L8.5 2.5" stroke="#0B0B0A" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
               )}
             </button>
             <span
-              className="cursor-pointer select-none text-[0.8125rem] text-[#adaaaa]/60 transition-colors hover:text-[#adaaaa]/80"
+              className="cursor-pointer select-none text-[0.8125rem] text-[#78736E]/60 transition-colors hover:text-[#78736E]/80"
               onClick={() => setRememberMe(v => !v)}
             >
               Keep me signed in for 7 days
@@ -291,7 +291,7 @@ export default function LoginCard() {
             data-login-btn
             type="submit"
             disabled={loading}
-            className="mt-2 w-full rounded-xl bg-[#d394ff] px-6 py-3.5 text-sm font-bold text-[#4a0076] transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_0_40px_rgba(211,148,255,0.28)] active:scale-[0.98] disabled:opacity-60 disabled:pointer-events-none"
+            className="mt-2 w-full rounded-xl bg-[#7DD3C7] px-6 py-3.5 text-sm font-bold text-[#0B0B0A] transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_0_40px_rgba(125,211,199,0.28)] active:scale-[0.98] disabled:opacity-60 disabled:pointer-events-none"
           >
             {loading ? 'Signing in…' : 'Sign in'}
           </button>
@@ -300,16 +300,16 @@ export default function LoginCard() {
         {/* Social sign-in */}
         <div data-login-footer className="mt-5 space-y-3">
           <div className="flex items-center gap-3">
-            <div className="h-px flex-1 bg-[#494847]/20" />
-            <span className="text-[0.6875rem] font-medium text-[#adaaaa]/30 uppercase tracking-widest">or continue with</span>
-            <div className="h-px flex-1 bg-[#494847]/20" />
+            <div className="h-px flex-1 bg-[#1C1814]/20" />
+            <span className="text-[0.6875rem] font-medium text-[#78736E]/30 uppercase tracking-widest">or continue with</span>
+            <div className="h-px flex-1 bg-[#1C1814]/20" />
           </div>
 
           <button
             type="button"
             onClick={() => handleGoogleLogin()}
             disabled={googleLoading}
-            className="w-full flex items-center justify-center gap-3 rounded-[0.875rem] border border-[#494847]/30 bg-white/[0.03] px-4 py-3 text-sm font-medium text-[#e5e2e1]/80 transition-all hover:border-[#494847]/60 hover:bg-white/[0.06] disabled:opacity-50 disabled:pointer-events-none"
+            className="w-full flex items-center justify-center gap-3 rounded-[0.875rem] border border-[#1C1814]/30 bg-[#1C1814]/[0.05] px-4 py-3 text-sm font-medium text-[#1C1814]/80 transition-all hover:border-[#1C1814]/60 hover:bg-[#1C1814]/[0.05] disabled:opacity-50 disabled:pointer-events-none"
           >
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
               <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
@@ -321,12 +321,12 @@ export default function LoginCard() {
           </button>
         </div>
 
-        <p data-login-footer className="mt-6 text-center text-[0.8125rem] text-[#adaaaa]/50">
+        <p data-login-footer className="mt-6 text-center text-[0.8125rem] text-[#78736E]/50">
           Don't have an account?{' '}
           <Link
             to="/register"
             viewTransition
-            className="font-semibold text-[#d394ff] transition-colors duration-300 hover:text-[#ebd6ff]"
+            className="font-semibold text-[#7DD3C7] transition-colors duration-300 hover:text-[#9ee3db]"
           >
             Get started
           </Link>

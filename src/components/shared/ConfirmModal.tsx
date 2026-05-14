@@ -20,7 +20,7 @@ interface ConfirmModalProps {
 const VARIANT_STYLES: Record<Variant, { icon: string; btn: string; iconColor: string }> = {
   danger:  { icon: 'delete_forever', iconColor: '#ffb4ab', btn: 'bg-[#ffb4ab] text-[#2d0000] hover:bg-[#ffc9c2]' },
   warning: { icon: 'refresh',        iconColor: '#ffd166', btn: 'bg-[#ffd166] text-[#2d1800] hover:bg-[#ffe08a]' },
-  primary: { icon: 'send',           iconColor: '#d394ff', btn: 'bg-[#d394ff] text-[#2f004d] hover:bg-[#e3b5ff]' },
+  primary: { icon: 'send',           iconColor: '#7DD3C7', btn: 'bg-[#7DD3C7] text-[#2f004d] hover:bg-[#e3b5ff]' },
   success: { icon: 'send',           iconColor: '#c5d247', btn: 'bg-[#c5d247] text-[#1a2000] hover:bg-[#d4e25a]' },
 };
 
@@ -61,7 +61,7 @@ export default function ConfirmModal({
       <div
         ref={cardRef}
         onClick={e => e.stopPropagation()}
-        className="w-full max-w-md bg-[#1c1b1b] rounded-3xl border border-[#4c4450]/20 shadow-[0_24px_80px_rgba(0,0,0,0.7)] p-8 flex flex-col items-center text-center gap-4"
+        className="w-full max-w-md bg-[#FAF7F2] rounded-3xl border border-[#1C1814]/20 shadow-[0_24px_80px_rgba(0,0,0,0.7)] p-8 flex flex-col items-center text-center gap-4"
       >
         {/* Icon */}
         <div
@@ -74,14 +74,14 @@ export default function ConfirmModal({
         </div>
 
         {/* Text */}
-        <h3 className="font-headline text-lg font-bold text-white tracking-tight">{title}</h3>
-        <p className="text-sm text-[#988d9c] leading-relaxed">{message}</p>
+        <h3 className="font-headline text-lg font-bold text-[#1C1814] tracking-tight">{title}</h3>
+        <p className="text-sm text-[#6A6470] leading-relaxed">{message}</p>
 
         {/* Info note */}
         {note && (
-          <div className="w-full flex items-start gap-2.5 bg-[#ffffff]/[0.04] border border-[#4c4450]/20 rounded-xl px-4 py-3 text-left">
-            <span className="material-symbols-outlined text-[#988d9c] shrink-0 mt-0.5" style={{ fontSize: 15 }}>info</span>
-            <p className="text-xs text-[#988d9c] leading-relaxed">{note}</p>
+          <div className="w-full flex items-start gap-2.5 bg-[#ffffff]/[0.04] border border-[#1C1814]/20 rounded-xl px-4 py-3 text-left">
+            <span className="material-symbols-outlined text-[#6A6470] shrink-0 mt-0.5" style={{ fontSize: 15 }}>info</span>
+            <p className="text-xs text-[#6A6470] leading-relaxed">{note}</p>
           </div>
         )}
 
@@ -92,7 +92,7 @@ export default function ConfirmModal({
         <div className="flex gap-3 w-full mt-2">
           <button
             onClick={handleClose}
-            className="flex-1 py-2.5 rounded-xl border border-[#4c4450]/20 text-sm font-semibold text-[#cfc2d2] hover:bg-[#2a2a2a] hover:text-white transition-all"
+            className="flex-1 py-2.5 rounded-xl border border-[#1C1814]/20 text-sm font-semibold text-[#5C5650] hover:bg-[#E5DFD6] hover:text-[#1C1814] transition-all"
           >
             Cancel
           </button>

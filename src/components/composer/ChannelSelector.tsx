@@ -62,10 +62,10 @@ export default function ChannelSelector({
   return (
     <div data-editor-section className="space-y-4">
       <div className="flex items-center justify-between">
-        <label className="text-[11px] uppercase tracking-widest text-[#988d9c] font-bold">
+        <label className="text-[11px] uppercase tracking-widest text-[#6A6470] font-bold">
           Target Channels
         </label>
-        <span className="text-[10px] text-[#4c4450]">
+        <span className="text-[10px] text-[#1C1814]">
           {selectedChannels.length === 0 ? 'None selected' : `${selectedChannels.length} selected`}
         </span>
       </div>
@@ -87,10 +87,10 @@ export default function ChannelSelector({
                 className={[
                   'relative flex-1 flex items-center gap-3 py-3.5 px-4 rounded-2xl border transition-colors duration-150 select-none cursor-pointer text-sm font-medium',
                   active && isPreferred
-                    ? 'border-[#ffd166]/50 bg-[#ffd166]/8 text-white'
+                    ? 'border-[#ffd166]/50 bg-[#ffd166]/8 text-[#1C1814]'
                     : active
-                      ? 'border-[#d394ff]/30 bg-[#d394ff]/8 text-white'
-                      : 'border-[#4c4450]/15 bg-transparent text-[#988d9c] hover:border-[#4c4450]/30 hover:text-white',
+                      ? 'border-[#7DD3C7]/30 bg-[#7DD3C7]/8 text-[#1C1814]'
+                      : 'border-[#1C1814]/15 bg-transparent text-[#6A6470] hover:border-[#1C1814]/30 hover:text-[#1C1814]',
                 ].join(' ')}
               >
                 {/* Star — absolute top-right, solo cuando activo */}
@@ -115,13 +115,13 @@ export default function ChannelSelector({
                   className={[
                     'flex h-10 w-10 shrink-0 items-center justify-center rounded-xl transition-colors',
                     active && isPreferred ? 'bg-[#ffd166]/15'
-                    : active             ? 'bg-[#d394ff]/15'
+                    : active             ? 'bg-[#7DD3C7]/15'
                     :                      'bg-[#1a1a1a]',
                   ].join(' ')}
                 >
                   <span style={{
                     color: active && isPreferred ? '#ffd166'
-                         : active               ? '#d394ff'
+                         : active               ? '#7DD3C7'
                          :                        '#4c4450',
                   }}>
                     {meta.icon}
@@ -139,11 +139,11 @@ export default function ChannelSelector({
 
       {/* Instagram disclaimer */}
       {igActive && (
-        <div className="flex items-start gap-2 px-4 py-3 rounded-xl bg-[#4c4450]/10 border border-[#4c4450]/20">
-          <span className="material-symbols-outlined text-[#988d9c] mt-0.5 shrink-0" style={{ fontSize: 16 }}>info</span>
-          <p className="text-[11px] text-[#988d9c] leading-relaxed">
-            <span className="font-semibold text-[#cfc2d2]">Instagram</span>
-            {igAccountName && <span className="text-[#d394ff]"> (@{igAccountName})</span>}
+        <div className="flex items-start gap-2 px-4 py-3 rounded-xl bg-[#1C1814]/10 border border-[#1C1814]/20">
+          <span className="material-symbols-outlined text-[#6A6470] mt-0.5 shrink-0" style={{ fontSize: 16 }}>info</span>
+          <p className="text-[11px] text-[#6A6470] leading-relaxed">
+            <span className="font-semibold text-[#5C5650]">Instagram</span>
+            {igAccountName && <span className="text-[#7DD3C7]"> (@{igAccountName})</span>}
             {' '}only supports images and videos. Text-only posts are not available on Instagram.
           </p>
         </div>

@@ -31,14 +31,14 @@ function Hero() {
             </Button>
           </div>
           <div className="flex gap-4 flex-col">
-            <h1 className="text-5xl md:text-7xl max-w-2xl tracking-tighter text-center font-extrabold text-white">
+            <h1 className="text-5xl md:text-7xl max-w-2xl tracking-tighter text-center font-extrabold text-[#1C1814]">
               <span>Stop switching tools.</span>
               <span className="relative flex w-full justify-center overflow-hidden text-center md:pb-4 md:pt-1">
                 &nbsp;
                 {titles.map((title, index) => (
                   <motion.span
                     key={index}
-                    className="absolute font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-[#c97cff] via-[#f0dcff] to-[#aa30fa]"
+                    className="absolute font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-[#c97cff] via-[#f0dcff] to-inverse-primary"
                     initial={{ opacity: 0, y: "-100" }}
                     transition={{ type: "spring", stiffness: 50 }}
                     animate={
@@ -56,7 +56,7 @@ function Hero() {
               </span>
             </h1>
 
-            <p className="text-lg md:text-xl leading-relaxed tracking-tight text-white/50 max-w-2xl text-center">
+            <p className="text-lg md:text-xl leading-relaxed tracking-tight text-[#1C1814]/50 max-w-2xl text-center">
               Plan content, schedule posts, and track performance for Instagram,
               LinkedIn, and Facebook from one workspace.
             </p>

@@ -24,9 +24,9 @@ export default function ListView({ posts }: ListViewProps) {
 
   if (allDays.length === 0) {
     return (
-      <div className="bg-[#201f1f] rounded-3xl border border-[#4c4450]/10 p-12 text-center">
+      <div className="bg-[#F0EBE2] rounded-3xl border border-[#1C1814]/10 p-12 text-center">
         <span className="material-symbols-outlined text-[#353534] text-[40px]">event_busy</span>
-        <p className="text-[#988d9c] mt-3">No posts in this period.</p>
+        <p className="text-[#6A6470] mt-3">No posts in this period.</p>
       </div>
     );
   }
@@ -41,17 +41,17 @@ export default function ListView({ posts }: ListViewProps) {
           <div key={day.toISOString()} className="flex gap-4">
             {/* Date column */}
             <div className="w-20 shrink-0 pt-1 text-right">
-              <p className={`text-xs font-bold uppercase tracking-wider ${isToday(day) ? 'text-[#d394ff]' : isPast ? 'text-[#4c4450]' : 'text-[#988d9c]'}`}>
+              <p className={`text-xs font-bold uppercase tracking-wider ${isToday(day) ? 'text-[#7DD3C7]' : isPast ? 'text-[#1C1814]' : 'text-[#6A6470]'}`}>
                 {format(day, 'EEE')}
               </p>
-              <p className={`font-mono text-2xl font-bold leading-none mt-0.5 ${isToday(day) ? 'text-[#d394ff]' : isPast ? 'text-[#353534]' : 'text-white'}`}>
+              <p className={`font-mono text-2xl font-bold leading-none mt-0.5 ${isToday(day) ? 'text-[#7DD3C7]' : isPast ? 'text-[#353534]' : 'text-[#1C1814]'}`}>
                 {format(day, 'd')}
               </p>
-              <p className={`text-[10px] uppercase tracking-wider ${isPast ? 'text-[#353534]' : 'text-[#988d9c]'}`}>
+              <p className={`text-[10px] uppercase tracking-wider ${isPast ? 'text-[#353534]' : 'text-[#6A6470]'}`}>
                 {format(day, 'MMM')}
               </p>
               {isToday(day) && (
-                <span className="inline-block mt-1 w-1.5 h-1.5 rounded-full bg-[#d394ff] shadow-[0_0_6px_rgba(211,148,255,0.8)]" />
+                <span className="inline-block mt-1 w-1.5 h-1.5 rounded-full bg-[#7DD3C7] shadow-[0_0_6px_rgba(125,211,199,0.8)]" />
               )}
             </div>
 
@@ -63,14 +63,14 @@ export default function ListView({ posts }: ListViewProps) {
                   <Link
                     key={p.id}
                     to={`/posts/${p.id}`}
-                    className="flex items-center gap-4 p-4 rounded-2xl border border-[#4c4450]/10 bg-[#201f1f] hover:bg-[#2a2a2a] hover:border-[#d394ff]/20 transition-all"
+                    className="flex items-center gap-4 p-4 rounded-2xl border border-[#1C1814]/10 bg-[#F0EBE2] hover:bg-[#E5DFD6] hover:border-[#7DD3C7]/20 transition-all"
                   >
                     <div className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0" style={{ background: pl.color }}>
                       <SocialBrandIcon platformId={p.platform} size={16} />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-semibold text-white truncate">{p.title}</p>
-                      <p className="text-[10px] text-[#988d9c] mt-0.5">{pl.name} · {p.time}</p>
+                      <p className="text-sm font-semibold text-[#1C1814] truncate">{p.title}</p>
+                      <p className="text-[10px] text-[#6A6470] mt-0.5">{pl.name} · {p.time}</p>
                     </div>
                     <StatusBadge status={p.status} />
                   </Link>

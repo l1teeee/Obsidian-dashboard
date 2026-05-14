@@ -68,7 +68,7 @@ export default function ObsidianFooter() {
   }, []);
 
   return (
-    <footer ref={footerRef} className="relative overflow-hidden bg-[#0B0B0A]">
+    <footer ref={footerRef} className="relative overflow-hidden bg-[#F4F0E8]">
       {/* Top separator */}
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/[0.08] to-transparent" />
 
@@ -83,15 +83,15 @@ export default function ObsidianFooter() {
           <div className="col-span-2 flex flex-col gap-6 md:col-span-1">
             <a href="/" className="flex items-center gap-2.5 group">
               <img src="/favicon.png" alt="Vielinks" className="h-8 w-8 object-contain opacity-90 transition-opacity group-hover:opacity-100" />
-              <span className="text-base font-extrabold tracking-tight text-white">Vielinks</span>
+              <span className="text-base font-extrabold tracking-tight text-[#1C1814]">Vielinks</span>
             </a>
-            <p className="max-w-[240px] text-[0.82rem] leading-[1.75] text-white/50">
+            <p className="max-w-[240px] text-[0.82rem] leading-[1.75] text-[#1C1814]/50">
               The unified command center for social media teams. Built for brands that publish with intention.
             </p>
 
             <a
               href="mailto:hello@vielinks.com"
-              className="inline-flex w-fit items-center rounded-full border border-white/[0.08] bg-white/[0.03] px-4 py-2 text-[0.78rem] font-semibold text-white/60 transition-all duration-300 hover:border-white/[0.20] hover:bg-white/[0.07] hover:text-white/90"
+              className="inline-flex w-fit items-center rounded-full border border-white/[0.08] bg-[#1C1814]/[0.05] px-4 py-2 text-[0.78rem] font-semibold text-[#1C1814]/60 transition-all duration-300 hover:border-white/[0.20] hover:bg-white/[0.07] hover:text-[#1C1814]/90"
             >
               hello@vielinks.com
             </a>
@@ -100,7 +100,7 @@ export default function ObsidianFooter() {
           {/* Link columns */}
           {Object.entries(footerLinks).map(([section, links]) => (
             <div key={section} className="flex flex-col gap-5">
-              <h6 className="text-[0.62rem] font-bold uppercase tracking-[0.22em] text-white/45">
+              <h6 className="text-[0.62rem] font-bold uppercase tracking-[0.22em] text-[#1C1814]/45">
                 {section}
               </h6>
               <ul className="space-y-3">
@@ -108,7 +108,7 @@ export default function ObsidianFooter() {
                   <li key={link.label}>
                     <a
                       href={link.href}
-                      className="text-[0.85rem] text-white/55 transition-colors duration-300 hover:text-white/90"
+                      className="text-[0.85rem] text-[#1C1814]/55 transition-colors duration-300 hover:text-[#1C1814]/90"
                     >
                       {link.label}
                     </a>
@@ -131,11 +131,11 @@ export default function ObsidianFooter() {
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-50" />
             <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-400" />
           </span>
-          <span className="text-[0.65rem] uppercase tracking-[0.14em] text-white/40">
+          <span className="text-[0.65rem] uppercase tracking-[0.14em] text-[#1C1814]/40">
             All systems operational
           </span>
-          <span className="text-white/10">·</span>
-          <span className="text-[0.65rem] uppercase tracking-[0.14em] text-white/40">
+          <span className="text-[#1C1814]/10">·</span>
+          <span className="text-[0.65rem] uppercase tracking-[0.14em] text-[#1C1814]/40">
             © {new Date().getFullYear()} Vielinks, Inc.
           </span>
         </div>
@@ -145,7 +145,7 @@ export default function ObsidianFooter() {
             <a
               key={item.label}
               href={item.href}
-              className="text-[0.65rem] uppercase tracking-[0.12em] text-white/40 transition-colors duration-300 hover:text-white/70"
+              className="text-[0.65rem] uppercase tracking-[0.12em] text-[#1C1814]/40 transition-colors duration-300 hover:text-[#1C1814]/70"
             >
               {item.label}
             </a>

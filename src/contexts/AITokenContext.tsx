@@ -25,6 +25,7 @@ const AITokenContext = createContext<AITokenContextValue>({
   refresh: async () => {},
 });
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function useAITokens(): AITokenContextValue {
   return useContext(AITokenContext);
 }
@@ -44,6 +45,7 @@ export function AITokenProvider({ children }: { children: ReactNode }) {
   }, [isAuthenticated]);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     void refresh();
   }, [refresh]);
 

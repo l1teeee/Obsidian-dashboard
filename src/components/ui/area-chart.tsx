@@ -1,4 +1,6 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
+/* eslint-disable react-hooks/refs */
 import { localPoint } from "@visx/event";
 import { curveMonotoneX } from "@visx/curve";
 import { GridColumns, GridRows } from "@visx/grid";
@@ -20,11 +22,13 @@ import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 
 function cn(...inputs: ClassValue[]) { return twMerge(clsx(inputs)); }
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type CurveFactory = any;
 type ScaleLinearType<Output> = ReturnType<typeof scaleLinear<Output>>;
 type ScaleTimeType<Output> = ReturnType<typeof scaleTime<Output>>;
 type ScaleBandType<D extends { toString(): string }> = ReturnType<typeof scaleBand<D>>;
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const chartCssVars = {
   background: "var(--chart-background)", foreground: "var(--chart-foreground)",
   foregroundMuted: "var(--chart-foreground-muted)", label: "var(--chart-label)",
@@ -59,6 +63,7 @@ const ChartContext = createContext<ChartContextValue | null>(null);
 function ChartProvider({ children, value }: { children: ReactNode; value: ChartContextValue }) {
   return <ChartContext.Provider value={value}>{children}</ChartContext.Provider>;
 }
+// eslint-disable-next-line react-refresh/only-export-components
 export function useChart(): ChartContextValue {
   const ctx = useContext(ChartContext);
   if (!ctx) throw new Error("useChart must be used within a ChartProvider.");
@@ -131,7 +136,7 @@ function DateTicker({ currentIndex, labels, visible }: { currentIndex: number; l
   useEffect(() => { if (currentMonthIndex >= 0) { const first = prevMonthIndexRef.current === -1; const changed = prevMonthIndexRef.current !== currentMonthIndex; if (first || changed) { monthY.set(-currentMonthIndex * TICKER_ITEM_HEIGHT); prevMonthIndexRef.current = currentMonthIndex; } } }, [currentMonthIndex, monthY]);
   if (!visible || labels.length === 0) return null;
   return (
-    <motion.div className="overflow-hidden rounded-full bg-zinc-900 px-4 py-1 text-white shadow-lg dark:bg-zinc-100 dark:text-zinc-900" layout transition={{ layout: { type: "spring", stiffness: 400, damping: 35 } }}>
+    <motion.div className="overflow-hidden rounded-full bg-zinc-900 px-4 py-1 text-[#1C1814] shadow-lg dark:bg-zinc-100 dark:text-zinc-900" layout transition={{ layout: { type: "spring", stiffness: 400, damping: 35 } }}>
       <div className="relative h-6 overflow-hidden">
         <div className="flex items-center justify-center gap-1">
           <div className="relative h-6 overflow-hidden">

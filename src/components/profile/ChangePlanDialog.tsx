@@ -75,13 +75,13 @@ function PlanStep({
   return (
     <div className="space-y-5">
       <div className="flex gap-3.5 mb-2">
-        <div className="flex size-11 shrink-0 items-center justify-center rounded-full border border-[#4c4450]/30 bg-[#201f1f]">
-          <RefreshCcw size={16} className="text-[#d394ff]" strokeWidth={2} />
+        <div className="flex size-11 shrink-0 items-center justify-center rounded-full border border-[#1C1814]/30 bg-[#F0EBE2]">
+          <RefreshCcw size={16} className="text-[#7DD3C7]" strokeWidth={2} />
         </div>
         <DialogHeader>
-          <DialogTitle className="text-left text-white">Change your plan</DialogTitle>
-          <DialogDescription className="text-left text-[#988d9c]">
-            Currently on <span className="text-[#d394ff] font-semibold capitalize">{currentPlan}</span>. Pick a new plan below.
+          <DialogTitle className="text-left text-[#1C1814]">Change your plan</DialogTitle>
+          <DialogDescription className="text-left text-[#6A6470]">
+            Currently on <span className="text-[#7DD3C7] font-semibold capitalize">{currentPlan}</span>. Pick a new plan below.
           </DialogDescription>
         </DialogHeader>
       </div>
@@ -97,8 +97,8 @@ function PlanStep({
             className={[
               'relative flex w-full items-center gap-3 rounded-xl border px-4 py-3 transition-all duration-150 cursor-pointer',
               selected === plan.id
-                ? 'border-[#d394ff]/60 bg-[#d394ff]/8 shadow-[0_0_16px_rgba(211,148,255,0.12)]'
-                : 'border-[#4c4450]/25 bg-[#1a1919] hover:border-[#4c4450]/40 hover:bg-[#1e1d1d]',
+                ? 'border-[#7DD3C7]/60 bg-[#7DD3C7]/8 shadow-[0_0_16px_rgba(125,211,199,0.12)]'
+                : 'border-[#1C1814]/25 bg-[#FAF7F2] hover:border-[#1C1814]/40 hover:bg-[#1e1d1d]',
             ].join(' ')}
             onClick={() => onSelect(plan.id)}
           >
@@ -109,32 +109,32 @@ function PlanStep({
             />
             <div className="grow">
               <div className="flex items-center gap-2">
-                <Label htmlFor={`${id}-${i}`} className="text-white font-semibold cursor-pointer">
+                <Label htmlFor={`${id}-${i}`} className="text-[#1C1814] font-semibold cursor-pointer">
                   {plan.name}
                 </Label>
                 {plan.badge && (
-                  <span className="px-1.5 py-0.5 rounded-full bg-[#d394ff]/15 border border-[#d394ff]/30 text-[#d394ff] text-[9px] font-bold uppercase tracking-wider">
+                  <span className="px-1.5 py-0.5 rounded-full bg-[#7DD3C7]/15 border border-[#7DD3C7]/30 text-[#7DD3C7] text-[9px] font-bold uppercase tracking-wider">
                     {plan.badge}
                   </span>
                 )}
                 {plan.id === currentPlan && (
-                  <span className="px-1.5 py-0.5 rounded-full bg-[#988d9c]/10 text-[#988d9c] text-[9px] font-bold uppercase tracking-wider">
+                  <span className="px-1.5 py-0.5 rounded-full bg-[#988d9c]/10 text-[#6A6470] text-[9px] font-bold uppercase tracking-wider">
                     Current
                   </span>
                 )}
               </div>
-              <p className="text-xs text-[#988d9c] mt-0.5">{plan.description}</p>
+              <p className="text-xs text-[#6A6470] mt-0.5">{plan.description}</p>
             </div>
           </div>
         ))}
       </RadioGroup>
 
       <div className="space-y-2.5">
-        <p className="text-xs font-semibold text-white">All plans include:</p>
+        <p className="text-xs font-semibold text-[#1C1814]">All plans include:</p>
         <ul className="grid grid-cols-2 gap-x-3 gap-y-1.5">
           {FEATURES.map(f => (
-            <li key={f} className="flex items-start gap-1.5 text-[11px] text-[#988d9c]">
-              <Check size={12} strokeWidth={2.5} className="mt-0.5 shrink-0 text-[#d394ff]" />
+            <li key={f} className="flex items-start gap-1.5 text-[11px] text-[#6A6470]">
+              <Check size={12} strokeWidth={2.5} className="mt-0.5 shrink-0 text-[#7DD3C7]" />
               {f}
             </li>
           ))}
@@ -148,10 +148,10 @@ function PlanStep({
           className={[
             'w-full py-2.5 rounded-xl text-sm font-bold transition-all duration-150 active:scale-[0.98] flex items-center justify-center gap-2',
             isSame || loading
-              ? 'bg-[#252323] text-[#4c4450] cursor-not-allowed'
+              ? 'bg-[#252323] text-[#1C1814] cursor-not-allowed'
               : isDowngrade
                 ? 'bg-[#ffb4ab]/10 border border-[#ffb4ab]/30 text-[#ffb4ab] hover:bg-[#ffb4ab]/20'
-                : 'bg-[#d394ff] text-[#3a0060] shadow-[0_0_20px_rgba(211,148,255,0.25)] hover:shadow-[0_0_30px_rgba(211,148,255,0.4)] hover:bg-[#c97cff]',
+                : 'bg-[#7DD3C7] text-[#3a0060] shadow-[0_0_20px_rgba(125,211,199,0.25)] hover:shadow-[0_0_30px_rgba(125,211,199,0.4)] hover:bg-[#c97cff]',
           ].join(' ')}
         >
           {loading
@@ -167,7 +167,7 @@ function PlanStep({
         <DialogClose asChild>
           <button
             onClick={onClose}
-            className="w-full py-2.5 rounded-xl border border-[#4c4450]/20 text-sm text-[#988d9c] hover:text-white hover:bg-[#201f1f] transition-all"
+            className="w-full py-2.5 rounded-xl border border-[#1C1814]/20 text-sm text-[#6A6470] hover:text-[#1C1814] hover:bg-[#F0EBE2] transition-all"
           >
             Cancel
           </button>
@@ -219,14 +219,14 @@ function CheckoutStep({
       <div className="flex items-center gap-3 mb-2">
         <button
           onClick={onBack}
-          className="flex size-8 items-center justify-center rounded-lg border border-[#4c4450]/25 bg-[#1a1919] text-[#988d9c] hover:text-white hover:border-[#4c4450]/40 transition-all"
+          className="flex size-8 items-center justify-center rounded-lg border border-[#1C1814]/25 bg-[#FAF7F2] text-[#6A6470] hover:text-[#1C1814] hover:border-[#1C1814]/40 transition-all"
         >
           <ArrowLeft size={14} />
         </button>
         <div>
-          <h3 className="text-base font-bold text-white leading-tight">Payment details</h3>
-          <p className="text-xs text-[#988d9c]">
-            {plan.name} plan · <span className="text-[#d394ff] font-semibold">${plan.price}/mo</span>
+          <h3 className="text-base font-bold text-[#1C1814] leading-tight">Payment details</h3>
+          <p className="text-xs text-[#6A6470]">
+            {plan.name} plan · <span className="text-[#7DD3C7] font-semibold">${plan.price}/mo</span>
           </p>
         </div>
       </div>
@@ -234,71 +234,71 @@ function CheckoutStep({
       <form onSubmit={handlePay} className="space-y-4">
         {/* Card number */}
         <div className="space-y-1.5">
-          <Label className="text-[#988d9c] text-xs">Card Number</Label>
+          <Label className="text-[#6A6470] text-xs">Card Number</Label>
           <div className="relative">
             <Input
               placeholder="0000 0000 0000 0000"
               value={cardNumber}
               onChange={e => setCardNumber(formatCard(e.target.value))}
-              className="pl-9 bg-[#171616] border-[#4c4450]/30 text-white"
+              className="pl-9 bg-[#171616] border-[#1C1814]/30 text-[#1C1814]"
               required
             />
-            <CreditCard size={14} className="absolute left-3 top-2.5 text-[#4c4450]" />
+            <CreditCard size={14} className="absolute left-3 top-2.5 text-[#1C1814]" />
           </div>
         </div>
 
         {/* Expiry + CVC */}
         <div className="grid grid-cols-2 gap-3">
           <div className="space-y-1.5">
-            <Label className="text-[#988d9c] text-xs">Expiry</Label>
+            <Label className="text-[#6A6470] text-xs">Expiry</Label>
             <div className="relative">
               <Input
                 placeholder="MM/YY"
                 value={expiry}
                 onChange={e => setExpiry(formatExpiry(e.target.value))}
-                className="pl-9 bg-[#171616] border-[#4c4450]/30 text-white"
+                className="pl-9 bg-[#171616] border-[#1C1814]/30 text-[#1C1814]"
                 required
               />
-              <Calendar size={14} className="absolute left-3 top-2.5 text-[#4c4450]" />
+              <Calendar size={14} className="absolute left-3 top-2.5 text-[#1C1814]" />
             </div>
           </div>
           <div className="space-y-1.5">
-            <Label className="text-[#988d9c] text-xs">CVC</Label>
+            <Label className="text-[#6A6470] text-xs">CVC</Label>
             <div className="relative">
               <Input
                 placeholder="123"
                 value={cvc}
                 onChange={e => setCvc(e.target.value.replace(/\D/g, '').slice(0, 3))}
-                className="pl-9 bg-[#171616] border-[#4c4450]/30 text-white"
+                className="pl-9 bg-[#171616] border-[#1C1814]/30 text-[#1C1814]"
                 required
               />
-              <Lock size={14} className="absolute left-3 top-2.5 text-[#4c4450]" />
+              <Lock size={14} className="absolute left-3 top-2.5 text-[#1C1814]" />
             </div>
           </div>
         </div>
 
         {/* Cardholder */}
         <div className="space-y-1.5">
-          <Label className="text-[#988d9c] text-xs">Cardholder Name</Label>
+          <Label className="text-[#6A6470] text-xs">Cardholder Name</Label>
           <Input
             placeholder="John Doe"
             value={name}
             onChange={e => setName(e.target.value)}
-            className="bg-[#171616] border-[#4c4450]/30 text-white"
+            className="bg-[#171616] border-[#1C1814]/30 text-[#1C1814]"
             required
           />
         </div>
 
         {/* Summary row */}
-        <div className="flex items-center justify-between px-4 py-3 rounded-xl bg-[#d394ff]/6 border border-[#d394ff]/15">
-          <span className="text-xs text-[#988d9c]">Total today</span>
-          <span className="text-base font-extrabold text-white">${plan.price.toFixed(2)}</span>
+        <div className="flex items-center justify-between px-4 py-3 rounded-xl bg-[#7DD3C7]/6 border border-[#7DD3C7]/15">
+          <span className="text-xs text-[#6A6470]">Total today</span>
+          <span className="text-base font-extrabold text-[#1C1814]">${plan.price.toFixed(2)}</span>
         </div>
 
         <button
           type="submit"
           disabled={loading}
-          className="w-full py-2.5 rounded-xl bg-[#d394ff] text-[#3a0060] text-sm font-bold shadow-[0_0_20px_rgba(211,148,255,0.25)] hover:shadow-[0_0_30px_rgba(211,148,255,0.4)] hover:bg-[#c97cff] transition-all active:scale-[0.98] disabled:opacity-70 flex items-center justify-center gap-2"
+          className="w-full py-2.5 rounded-xl bg-[#7DD3C7] text-[#3a0060] text-sm font-bold shadow-[0_0_20px_rgba(125,211,199,0.25)] hover:shadow-[0_0_30px_rgba(125,211,199,0.4)] hover:bg-[#c97cff] transition-all active:scale-[0.98] disabled:opacity-70 flex items-center justify-center gap-2"
         >
           {loading ? (
             <>
@@ -319,7 +319,7 @@ function CheckoutStep({
           </p>
         )}
 
-        <p className="text-center text-[10px] text-[#4c4450] flex items-center justify-center gap-1">
+        <p className="text-center text-[10px] text-[#1C1814] flex items-center justify-center gap-1">
           <Lock size={10} />
           Payments are secure and encrypted
         </p>
@@ -331,18 +331,18 @@ function CheckoutStep({
 function SuccessStep({ plan, onClose }: { plan: typeof PLANS[number]; onClose: () => void }) {
   return (
     <div className="flex flex-col items-center text-center py-4 space-y-4">
-      <div className="w-16 h-16 rounded-2xl bg-[#d394ff]/10 border border-[#d394ff]/20 flex items-center justify-center shadow-[0_0_24px_rgba(211,148,255,0.2)]">
-        <Check size={28} className="text-[#d394ff]" strokeWidth={2.5} />
+      <div className="w-16 h-16 rounded-2xl bg-[#7DD3C7]/10 border border-[#7DD3C7]/20 flex items-center justify-center shadow-[0_0_24px_rgba(125,211,199,0.2)]">
+        <Check size={28} className="text-[#7DD3C7]" strokeWidth={2.5} />
       </div>
       <div>
-        <h3 className="text-lg font-extrabold text-white font-headline">Plan activated!</h3>
-        <p className="text-sm text-[#988d9c] mt-1">
-          You're now on <span className="text-[#d394ff] font-semibold">{plan.name}</span>. Enjoy the new features.
+        <h3 className="text-lg font-extrabold text-[#1C1814] font-headline">Plan activated!</h3>
+        <p className="text-sm text-[#6A6470] mt-1">
+          You're now on <span className="text-[#7DD3C7] font-semibold">{plan.name}</span>. Enjoy the new features.
         </p>
       </div>
       <button
         onClick={onClose}
-        className="w-full py-2.5 rounded-xl bg-[#d394ff] text-[#3a0060] text-sm font-bold hover:bg-[#c97cff] transition-all active:scale-[0.98]"
+        className="w-full py-2.5 rounded-xl bg-[#7DD3C7] text-[#3a0060] text-sm font-bold hover:bg-[#c97cff] transition-all active:scale-[0.98]"
       >
         Done
       </button>
@@ -391,7 +391,7 @@ export default function ChangePlanDialog({ open, onOpenChange, currentPlan }: Ch
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="bg-[#131313] border-[#4c4450]/25 text-white sm:max-w-[420px] p-6 rounded-2xl">
+      <DialogContent className="bg-[#131313] border-[#1C1814]/25 text-[#1C1814] sm:max-w-[420px] p-6 rounded-2xl">
         <AnimatePresence mode="wait">
           {step === 'plan' && (
             <motion.div

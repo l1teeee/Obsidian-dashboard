@@ -88,7 +88,7 @@ function buildKpiCards(
       delta:    fbSummary ? `${fbSummary.impressions_30d.toLocaleString()} impressions` : null,
       positive: null,
       bar:      reach !== null ? Math.min(100, reach / 10) : null,
-      barColor: '#d394ff', glow: 'rgba(211,148,255,0.5)', type: 'bar',
+      barColor: '#7DD3C7', glow: 'rgba(125,211,199,0.5)', type: 'bar',
     },
     {
       label: 'Engagement Rate',
@@ -97,7 +97,7 @@ function buildKpiCards(
       delta:    engagedUsers !== null ? `${engagedUsers} interactions` : null,
       positive: engagementRate !== null && engagementRate > 0,
       bar:      engagementRate !== null ? Math.min(100, engagementRate * 2) : null,
-      barColor: '#9400e4', glow: 'rgba(148,0,228,0.5)', type: 'bar',
+      barColor: '#D6A86A', glow: 'rgba(214,168,106,0.5)', type: 'bar',
     },
     {
       label: 'Scheduled Posts',
@@ -187,7 +187,7 @@ export function useDashboard() {
     const controller = new AbortController();
     fetchData(undefined, controller.signal);
     return () => controller.abort();
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, []);
 
   const refresh = () => {
     if (refreshing) return;

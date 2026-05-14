@@ -3,6 +3,7 @@ import { cn } from '@/lib/utils';
 import { motion, type MotionProps } from 'framer-motion';
 import type { HTMLAttributes } from 'react';
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const GRADIENT_ANGLES = {
   top: 0,
   right: 90,

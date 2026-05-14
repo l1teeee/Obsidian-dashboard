@@ -95,59 +95,90 @@ export default function CTASection() {
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/[0.07] to-transparent" />
       <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-white/[0.04] to-transparent" />
 
-      <div className="relative z-10 mx-auto max-w-[820px] text-center">
-        {/* Badge */}
-        <div data-cta="badge" style={{ opacity: 0 }} className="mb-10 inline-flex items-center gap-2 rounded-full border border-white/[0.10] bg-white/[0.04] px-4 py-1.5">
-          <span className="relative flex h-1.5 w-1.5">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#7DD3C7] opacity-60" />
-            <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-[#7DD3C7]" />
-          </span>
-          <span className="text-[0.68rem] font-bold uppercase tracking-[0.2em] text-white/50">Start publishing smarter</span>
+      <div className="relative z-10 mx-auto max-w-[860px]">
+        {/* Workspace console panel */}
+        <div data-cta="badge" style={{ opacity: 0 }} className="mx-auto mb-10 max-w-[520px] overflow-hidden rounded-2xl border border-white/[0.08] bg-[#F3EEE6]">
+          {/* Console chrome */}
+          <div className="flex items-center gap-2 border-b border-white/[0.06] bg-[#1C1B1A] px-4 py-2.5">
+            <div className="flex gap-1.5">
+              <div className="h-2 w-2 rounded-full bg-[#ff5f57]/60" />
+              <div className="h-2 w-2 rounded-full bg-[#febc2e]/60" />
+              <div className="h-2 w-2 rounded-full bg-[#28c840]/60" />
+            </div>
+            <div className="mx-auto flex items-center gap-1.5">
+              <span className="relative flex h-1.5 w-1.5">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#7DD3C7] opacity-60" />
+                <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-[#7DD3C7]" />
+              </span>
+              <span className="text-[0.6rem] font-medium text-[#1C1814]/35">Your workspace is ready</span>
+            </div>
+          </div>
+          {/* Console lines */}
+          <div className="space-y-2 p-5 font-mono">
+            {[
+              { prefix: '$', text: 'vielinks workspace create', color: 'text-[#7DD3C7]' },
+              { prefix: '>', text: 'Connecting Instagram, LinkedIn, Facebook...', color: 'text-[#1C1814]/40' },
+              { prefix: '>', text: 'OAuth secured  Content calendar ready', color: 'text-[#1C1814]/40' },
+              { prefix: '✓', text: 'Your next content cycle starts here.', color: 'text-emerald-400' },
+            ].map((line, i) => (
+              <div key={i} className="flex items-start gap-2.5">
+                <span className={`shrink-0 text-[0.6rem] font-bold ${line.color}`}>{line.prefix}</span>
+                <span className="text-[0.6rem] leading-relaxed text-[#1C1814]/50">{line.text}</span>
+              </div>
+            ))}
+            <div className="flex items-center gap-2 pt-1">
+              <span className="text-[0.6rem] font-bold text-[#7DD3C7]">$</span>
+              <div className="h-[13px] w-px bg-[#7DD3C7] animate-pulse" />
+            </div>
+          </div>
         </div>
 
         {/* Title */}
         <h2
           data-cta="title"
           style={{ opacity: 0 }}
-          className="mb-6 text-5xl font-extrabold leading-[1.02] tracking-[-0.04em] text-white md:text-[4.2rem]"
+          className="mb-6 text-center text-5xl font-extrabold leading-[1.02] tracking-[-0.04em] text-[#1C1814] md:text-[4.2rem]"
         >
-          Stop switching tabs.
+          Your next content cycle
           <br />
-          <span className="text-[#7DD3C7]">
-            Publish with control.
-          </span>
+          <span className="text-[#7DD3C7]">starts here.</span>
         </h2>
 
         {/* Subheadline */}
         <p
           data-cta="sub"
           style={{ opacity: 0 }}
-          className="mx-auto mb-12 max-w-[520px] text-[1.05rem] font-light leading-[1.75] text-white/55"
+          className="mx-auto mb-12 max-w-[520px] text-center text-[1.05rem] font-light leading-[1.75] text-[#1C1814]/55"
         >
-          Create a workspace for Instagram, LinkedIn, and Facebook. Plan content, publish consistently, and keep reporting in one place.
+          Plan, draft, approve, publish, and report — all from one workspace for Instagram, LinkedIn, and Facebook.
         </p>
 
         {/* Actions */}
         <div data-cta="actions" style={{ opacity: 0 }} className="flex flex-col items-center justify-center gap-4 sm:flex-row">
           <button
             onClick={() => fadeNav('/register')}
-            className="group relative w-full overflow-hidden rounded-full bg-[#F4F1EC] px-10 py-4 text-sm font-bold text-[#0B0B0A] transition-all duration-300 hover:shadow-[0_0_50px_rgba(244,241,236,0.22)] sm:w-auto"
+            className="group relative w-full overflow-hidden rounded-xl bg-[#1C1814] px-10 py-4 text-sm font-bold text-[#F4F0E8] transition-all duration-300 hover:shadow-[0_0_50px_rgba(125,211,199,0.28)] sm:w-auto"
           >
-            <span className="relative z-10">Start free</span>
+            <span className="relative z-10">Create your workspace</span>
             <div className="absolute inset-0 bg-white/10 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
           </button>
           <button
             onClick={() => fadeNav('/pricing')}
-            className="w-full rounded-full border border-white/[0.10] bg-white/[0.03] px-10 py-4 text-sm font-semibold text-white/60 backdrop-blur-xl transition-all duration-300 hover:border-white/[0.22] hover:text-white/80 sm:w-auto"
+            className="w-full rounded-xl border border-white/[0.10] bg-[#1C1814]/[0.05] px-10 py-4 text-sm font-semibold text-[#1C1814]/60 backdrop-blur-xl transition-all duration-300 hover:border-white/[0.18] hover:text-[#1C1814]/80 sm:w-auto"
           >
             See pricing
           </button>
         </div>
 
-        {/* Note */}
-        <p data-cta="note" style={{ opacity: 0 }} className="mt-8 text-[0.75rem] tracking-wide text-white/50">
-          14-day paid trial - No credit card required - Cancel anytime
-        </p>
+        {/* Trust row */}
+        <div data-cta="note" style={{ opacity: 0 }} className="mt-10 flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
+          {['14-day paid trial', 'No credit card required', 'Official OAuth', 'Cancel anytime'].map((t) => (
+            <span key={t} className="flex items-center gap-1.5 text-[0.72rem] text-[#1C1814]/35">
+              <span className="h-1 w-1 rounded-full bg-[#7DD3C7]/50" />
+              {t}
+            </span>
+          ))}
+        </div>
       </div>
     </section>
   );

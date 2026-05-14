@@ -58,9 +58,9 @@ export default function LineChart() {
     });
 
     const reachSeries = chart.addSeries(AreaSeries, {
-      lineColor: '#d394ff',
-      topColor: 'rgba(211,148,255,0.15)',
-      bottomColor: 'rgba(211,148,255,0)',
+      lineColor: '#7DD3C7',
+      topColor: 'rgba(125,211,199,0.15)',
+      bottomColor: 'rgba(125,211,199,0)',
       lineWidth: 2,
       priceLineVisible: false,
       lastValueVisible: false,
@@ -75,20 +75,20 @@ export default function LineChart() {
   }, []);
 
   return (
-    <div data-chart className="lg:col-span-2 glass-card p-8 rounded-3xl border border-[#4c4450]/5 shadow-[0_0_40px_rgba(211,148,255,0.08)]">
+    <div data-chart className="lg:col-span-2 glass-card p-8 rounded-3xl border border-[#1C1814]/5 shadow-[0_0_40px_rgba(125,211,199,0.08)]">
       <div className="flex justify-between items-center mb-8">
         <div>
-          <h3 className="text-xl font-headline font-bold tracking-tight text-white">Reach & Impressions</h3>
-          <p className="text-sm text-[#988d9c]">Aggregate visibility across all active platforms</p>
+          <h3 className="text-xl font-headline font-bold tracking-tight text-[#1C1814]">Reach & Impressions</h3>
+          <p className="text-sm text-[#6A6470]">Aggregate visibility across all active platforms</p>
         </div>
         <div className="flex gap-4">
           <div className="flex items-center gap-2">
-            <div className="w-3 h-3 rounded-full bg-[#d394ff]" />
-            <span className="text-xs font-mono text-[#e5e2e1]">Reach</span>
+            <div className="w-3 h-3 rounded-full bg-[#7DD3C7]" />
+            <span className="text-xs font-mono text-[#1C1814]">Reach</span>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-3 h-3 rounded-full bg-[#c5d247]" />
-            <span className="text-xs font-mono text-[#e5e2e1]">Impressions</span>
+            <span className="text-xs font-mono text-[#1C1814]">Impressions</span>
           </div>
         </div>
       </div>

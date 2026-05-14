@@ -5,7 +5,7 @@ interface MetricCardProps {
 }
 
 const METRIC_STYLE: Record<string, { icon: string; color: string }> = {
-  'Impressions': { icon: 'visibility',  color: '#d394ff' },
+  'Impressions': { icon: 'visibility',  color: '#7DD3C7' },
   'Reach':       { icon: 'group',       color: '#7eb8f7' },
   'Likes':       { icon: 'favorite',    color: '#ff6b9d' },
   'Comments':    { icon: 'chat_bubble', color: '#c5d247' },
@@ -19,7 +19,7 @@ export default function MetricCard({ metric: m }: MetricCardProps) {
   const isEmpty = m.value === '—' || m.value === '0';
 
   return (
-    <div data-metric className="relative bg-[#201f1f] rounded-2xl p-5 border border-[#4c4450]/5 overflow-hidden group">
+    <div data-metric className="relative bg-[#F0EBE2] rounded-2xl p-5 border border-[#1C1814]/5 overflow-hidden group">
 
       {/* Glow blob */}
       <div
@@ -33,11 +33,11 @@ export default function MetricCard({ metric: m }: MetricCardProps) {
           style={{ color: cfg.color, fontVariationSettings: "'FILL' 1" }}
         >{cfg.icon}</span>
 
-        <div className={`font-mono text-2xl font-bold tracking-tight mb-1 ${isEmpty ? 'text-[#4c4450]' : 'text-white'}`}>
+        <div className={`font-mono text-2xl font-bold tracking-tight mb-1 ${isEmpty ? 'text-[#1C1814]' : 'text-[#1C1814]'}`}>
           {m.value}
         </div>
 
-        <div className="text-[10px] text-[#988d9c] uppercase tracking-widest">{m.label}</div>
+        <div className="text-[10px] text-[#6A6470] uppercase tracking-widest">{m.label}</div>
       </div>
     </div>
   );

@@ -64,7 +64,7 @@ export default function PlanSignupDialog({ plan, billing, onClose }: PlanSignupD
               {/* Close */}
               <button
                 onClick={onClose}
-                className="absolute right-4 top-4 flex size-8 items-center justify-center rounded-lg border border-[#2A2826]/20 bg-[#171615] text-[#A6A19A] hover:text-white transition-colors"
+                className="absolute right-4 top-4 flex size-8 items-center justify-center rounded-lg border border-[#2A2826]/20 bg-[#F3EEE6] text-[#6A6470] hover:text-[#1C1814] transition-colors"
               >
                 <X size={14} />
               </button>
@@ -81,8 +81,8 @@ export default function PlanSignupDialog({ plan, billing, onClose }: PlanSignupD
                     </span>
                   </div>
                   <div>
-                    <p className="text-[10px] text-[#A6A19A] uppercase tracking-widest font-bold">Selected plan</p>
-                    <h2 className="text-xl font-extrabold text-white tracking-tight">{plan.name}</h2>
+                    <p className="text-[10px] text-[#6A6470] uppercase tracking-widest font-bold">Selected plan</p>
+                    <h2 className="text-xl font-extrabold text-[#1C1814] tracking-tight">{plan.name}</h2>
                   </div>
                   {plan.badge && (
                     <span className="ml-auto px-2.5 py-1 rounded-full border border-[#7DD3C7]/25 bg-[#7DD3C7]/10 text-[#7DD3C7] text-[10px] font-bold uppercase tracking-wider">
@@ -93,8 +93,8 @@ export default function PlanSignupDialog({ plan, billing, onClose }: PlanSignupD
 
                 {/* Price */}
                 <div className="flex items-baseline gap-1.5 mb-1">
-                  <span className="text-4xl font-extrabold text-white tracking-tight">${price}</span>
-                  <span className="text-sm text-[#A6A19A]">/{billing === 'monthly' ? 'mo' : 'yr'}</span>
+                  <span className="text-4xl font-extrabold text-[#1C1814] tracking-tight">${price}</span>
+                  <span className="text-sm text-[#6A6470]">/{billing === 'monthly' ? 'mo' : 'yr'}</span>
                 </div>
                 <p className="text-[11px] text-[#2A2826] mb-5">
                   {billing === 'monthly' ? 'Billed monthly · cancel anytime' : 'Billed annually · ~17% off'}
@@ -103,7 +103,7 @@ export default function PlanSignupDialog({ plan, billing, onClose }: PlanSignupD
                 {/* Features (first 4) */}
                 <div className="space-y-2 mb-6 pb-5 border-b border-[#2A2826]/15">
                   {plan.features.slice(0, 4).map(f => (
-                    <div key={f} className="flex items-center gap-2.5 text-[13px] text-[#cfc2d2]">
+                    <div key={f} className="flex items-center gap-2.5 text-[13px] text-[#5C5650]">
                       <Check size={13} strokeWidth={2.5} className="text-[#7DD3C7] shrink-0" />
                       {f}
                     </div>
@@ -115,8 +115,8 @@ export default function PlanSignupDialog({ plan, billing, onClose }: PlanSignupD
                   <span className="material-symbols-outlined text-[#7DD3C7] shrink-0" style={{ fontSize: 15, fontVariationSettings: "'FILL' 1" }}>
                     schedule
                   </span>
-                  <p className="text-[11px] text-[#A6A19A]">
-                    <span className="text-white font-semibold">14-day free trial</span> included · no credit card to start
+                  <p className="text-[11px] text-[#6A6470]">
+                    <span className="text-[#1C1814] font-semibold">14-day free trial</span> included · no credit card to start
                   </p>
                 </div>
 
@@ -124,13 +124,13 @@ export default function PlanSignupDialog({ plan, billing, onClose }: PlanSignupD
                 <div className="space-y-2.5">
                   <button
                     onClick={handleRegister}
-                    className="w-full py-3 rounded-xl bg-[#F4F1EC] text-[#0B0B0A] text-sm font-bold shadow-[0_0_24px_rgba(244,241,236,0.16)] hover:shadow-[0_0_36px_rgba(244,241,236,0.24)] hover:bg-white transition-all active:scale-[0.98]"
+                    className="w-full py-3 rounded-xl bg-[#1C1814] text-[#F4F0E8] text-sm font-bold shadow-[0_0_24px_rgba(125,211,199,0.28)] hover:shadow-[0_0_36px_rgba(125,211,199,0.28)] hover:bg-[#2A2520] transition-all active:scale-[0.98]"
                   >
                     {plan.cta} →
                   </button>
                   <button
                     onClick={handleLogin}
-                    className="w-full py-2.5 rounded-xl border border-[#2A2826]/20 text-sm text-[#A6A19A] hover:text-white hover:bg-[#1F1D1B] transition-all"
+                    className="w-full py-2.5 rounded-xl border border-[#2A2826]/20 text-sm text-[#6A6470] hover:text-[#1C1814] hover:bg-[#1F1D1B] transition-all"
                   >
                     Already have an account? <span className="text-[#7DD3C7]">Sign in</span>
                   </button>

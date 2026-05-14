@@ -21,7 +21,7 @@ export default function Calendar() {
         actions={
           <Link
             to="/composer"
-            className="flex items-center gap-2 px-4 py-1.5 rounded-xl bg-[#d394ff] text-[#2f004d] text-xs font-bold hover:shadow-[0_0_20px_rgba(211,148,255,0.3)] transition-all active:scale-95"
+            className="flex items-center gap-2 px-4 py-1.5 rounded-xl bg-[#7DD3C7] text-[#2f004d] text-xs font-bold hover:shadow-[0_0_20px_rgba(125,211,199,0.3)] transition-all active:scale-95"
           >
             <span className="material-symbols-outlined text-[14px]">add</span>
             New Post
@@ -56,11 +56,11 @@ export default function Calendar() {
               {Array.from({ length: 5 }).map((_, i) => (
                 <div key={i} className="flex gap-4">
                   <div className="w-20 shrink-0 space-y-1.5 pt-1">
-                    <div className="h-3 w-10 bg-[#2a2a2a] rounded-full ml-auto" />
-                    <div className="h-8 w-8 bg-[#2a2a2a] rounded-xl ml-auto" />
+                    <div className="h-3 w-10 bg-[#E5DFD6] rounded-full ml-auto" />
+                    <div className="h-8 w-8 bg-[#E5DFD6] rounded-xl ml-auto" />
                   </div>
                   <div className="flex-1 space-y-2">
-                    <div className="h-14 bg-[#201f1f] rounded-2xl border border-[#4c4450]/10" />
+                    <div className="h-14 bg-[#F0EBE2] rounded-2xl border border-[#1C1814]/10" />
                   </div>
                 </div>
               ))}

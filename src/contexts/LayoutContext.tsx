@@ -12,6 +12,7 @@ const LayoutContext = createContext<LayoutCtx>({
   close: () => {},
 });
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useLayout = () => useContext(LayoutContext);
 
 export function LayoutProvider({ children }: { children: ReactNode }) {

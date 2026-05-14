@@ -15,6 +15,7 @@ export default function Modal({ open, onClose, children, maxWidth = 'max-w-lg' }
 
   // Mount on open; unmount only after exit animation
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     if (open) setMounted(true);
   }, [open]);
 
@@ -67,7 +68,7 @@ export default function Modal({ open, onClose, children, maxWidth = 'max-w-lg' }
       />
       <div
         ref={panelRef}
-        className={`relative z-10 w-full ${maxWidth} glass-card rounded-3xl border border-[#4c4450]/20 shadow-2xl shadow-black/60`}
+        className={`relative z-10 w-full ${maxWidth} glass-card rounded-3xl border border-[#1C1814]/20 shadow-2xl shadow-black/60`}
       >
         {children}
       </div>

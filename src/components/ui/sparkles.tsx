@@ -94,7 +94,7 @@ export const SparklesCore = (props: ParticlesProps) => {
                 overlap: { enable: true, retries: 0 },
               },
               color: {
-                value: particleColor || "#d394ff",
+                value: particleColor || "#7DD3C7",
                 animation: {
                   h: { count: 0, enable: false, speed: 1, decay: 0, delay: 0, sync: true, offset: 0 },
                   s: { count: 0, enable: false, speed: 1, decay: 0, delay: 0, sync: true, offset: 0 },

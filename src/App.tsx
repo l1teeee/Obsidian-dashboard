@@ -228,6 +228,7 @@ function SessionGuard() {
 
   useEffect(() => {
     if (showWarning) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setMounted(true);
     } else {
       // Wait for exit animation (400ms) then unmount
@@ -250,15 +251,15 @@ function SessionGuard() {
 
 function RouteFallback() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-[#0e0e0e] px-6 text-[#e5e2e1]">
-      <div className="flex flex-col items-center gap-4">
-        <div className="relative h-10 w-10">
-          <div className="absolute inset-0 rounded-full border border-[#d394ff]/20" />
-          <div className="absolute inset-1 animate-spin rounded-full border-2 border-[#d394ff] border-t-transparent" />
-        </div>
-        <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#988d9c]">
-          Loading Vielinks
-        </p>
+    <div className="flex min-h-screen items-center justify-center bg-[#F4F0E8]">
+      <div className="flex items-center gap-1.5">
+        {[0, 1, 2].map((i) => (
+          <span
+            key={i}
+            className="h-1.5 w-1.5 rounded-full bg-[#7DD3C7]"
+            style={{ animation: `dot-pulse 1.2s ease-in-out ${i * 0.2}s infinite` }}
+          />
+        ))}
       </div>
     </div>
   );

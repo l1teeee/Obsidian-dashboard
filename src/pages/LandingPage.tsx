@@ -32,7 +32,7 @@ export default function LandingPage() {
   });
 
   return (
-    <div className="landing-page min-h-screen w-full bg-[#0B0B0A] text-white overflow-x-hidden">
+    <div className="landing-page min-h-screen w-full bg-[#F4F0E8] text-[#1C1814] overflow-x-hidden">
       <CursorFollower />
       <LandingNav />
       <main>

@@ -39,8 +39,8 @@ function Layout() {
         aria-expanded={isOpen}
         style={{ left: isOpen ? '224px' : '48px' }}
         className="hidden lg:flex fixed bottom-[130px] z-[60] w-8 h-8 rounded-full items-center justify-center
-          bg-[#1a1a1a] border border-[#3d3d3d] text-[#988d9c]
-          hover:bg-[#252525] hover:text-white active:scale-95
+          bg-[#1a1a1a] border border-[#3d3d3d] text-[#6A6470]
+          hover:bg-[#252525] hover:text-[#1C1814] active:scale-95
           transition-[left,transform,background-color,color] duration-300 ease-in-out"
         title={isOpen ? 'Colapsar sidebar' : 'Expandir sidebar'}
       >

@@ -85,17 +85,17 @@ export default function PlatformSection() {
       <div className="mx-auto max-w-[1440px] px-6 md:px-12">
         {/* Header */}
         <div className="mx-auto mb-16 max-w-2xl text-center">
-          <span data-pf="eyebrow" style={{ opacity: 0 }} className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/[0.10] bg-white/[0.03] px-4 py-1.5 text-[0.68rem] font-bold uppercase tracking-[0.22em] text-white/45">
+          <span data-pf="eyebrow" style={{ opacity: 0 }} className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/[0.10] bg-[#1C1814]/[0.05] px-4 py-1.5 text-[0.68rem] font-bold uppercase tracking-[0.22em] text-[#1C1814]/45">
             <span className="h-1.5 w-1.5 rounded-full bg-[#7DD3C7]" />
             Platform Coverage
           </span>
-          <h2 data-pf="title" style={{ opacity: 0 }} className="text-4xl font-extrabold tracking-[-0.04em] leading-[0.96] text-white md:text-5xl">
+          <h2 data-pf="title" style={{ opacity: 0 }} className="text-4xl font-extrabold tracking-[-0.04em] leading-[0.96] text-[#1C1814] md:text-5xl">
             One dashboard.{' '}
             <span className="text-[#7DD3C7]">
               Core platforms.
             </span>
           </h2>
-          <p data-pf="sub" style={{ opacity: 0 }} className="mx-auto mt-5 max-w-lg text-[1rem] font-light leading-[1.8] text-white/50">
+          <p data-pf="sub" style={{ opacity: 0 }} className="mx-auto mt-5 max-w-lg text-[1rem] font-light leading-[1.8] text-[#1C1814]/50">
             Connect Instagram, LinkedIn, and Facebook once — then manage everything from a single workspace without switching tabs.
           </p>
         </div>
@@ -107,7 +107,7 @@ export default function PlatformSection() {
               key={p.name}
               data-pf="card"
               style={{ opacity: 0 }}
-              className="group relative flex flex-col gap-5 overflow-hidden rounded-[1.5rem] border border-white/[0.07] bg-[#171615]/80 p-7 backdrop-blur-xl transition-all duration-500 hover:border-white/[0.12] hover:bg-[#1F1D1B]/80 sm:flex-row sm:items-center sm:gap-8"
+              className="group relative flex flex-col gap-5 overflow-hidden rounded-[1.5rem] border border-white/[0.07] bg-[#F3EEE6]/80 p-7 backdrop-blur-xl transition-all duration-500 hover:border-white/[0.12] hover:bg-[#1F1D1B]/80 sm:flex-row sm:items-center sm:gap-8"
             >
               {/* Top sheen */}
               <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/[0.07] to-transparent" />
@@ -120,21 +120,21 @@ export default function PlatformSection() {
                   {p.icon}
                 </div>
                 <div>
-                  <p className="text-[0.95rem] font-bold text-white">{p.name}</p>
-                  <p className="text-[0.62rem] text-white/35">{p.tag}</p>
+                  <p className="text-[0.95rem] font-bold text-[#1C1814]">{p.name}</p>
+                  <p className="text-[0.62rem] text-[#1C1814]/35">{p.tag}</p>
                 </div>
               </div>
 
               {/* Divider */}
-              <div className="hidden h-10 w-px shrink-0 bg-white/[0.06] sm:block" />
+              <div className="hidden h-10 w-px shrink-0 bg-[#1C1814]/[0.05] sm:block" />
 
               {/* Description */}
-              <p className="flex-1 text-[0.875rem] leading-[1.75] text-white/55">
+              <p className="flex-1 text-[0.875rem] leading-[1.75] text-[#1C1814]/55">
                 {p.desc}
               </p>
 
               {/* Divider */}
-              <div className="hidden h-10 w-px shrink-0 bg-white/[0.06] sm:block" />
+              <div className="hidden h-10 w-px shrink-0 bg-[#1C1814]/[0.05] sm:block" />
 
               {/* Feature pills */}
               <div className="flex shrink-0 flex-wrap gap-2 sm:w-[260px]">
@@ -161,7 +161,7 @@ export default function PlatformSection() {
         </div>
 
         {/* Footer note */}
-        <p className="mt-8 text-center text-[0.78rem] text-white/30">
+        <p className="mt-8 text-center text-[0.78rem] text-[#1C1814]/30">
           OAuth-secured · Connects in under 2 minutes · More platforms coming soon
         </p>
       </div>

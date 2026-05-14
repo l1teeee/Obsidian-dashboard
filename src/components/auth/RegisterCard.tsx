@@ -164,15 +164,15 @@ export default function RegisterCard() {
       className="auth-bg relative flex min-h-screen items-center justify-center overflow-hidden px-4 py-16"
     >
       {/* Ambient orbs */}
-      <div data-orb="1" className="pointer-events-none absolute -left-32 -top-32 h-[500px] w-[500px] rounded-full bg-[#d394ff]/10 blur-[120px]" />
-      <div data-orb="2" className="pointer-events-none absolute -bottom-32 -right-32 h-[420px] w-[420px] rounded-full bg-[#aa30fa]/10 blur-[100px]" />
+      <div data-orb="1" className="pointer-events-none absolute -left-32 -top-32 h-[500px] w-[500px] rounded-full bg-[#7DD3C7]/10 blur-[120px]" />
+      <div data-orb="2" className="pointer-events-none absolute -bottom-32 -right-32 h-[420px] w-[420px] rounded-full bg-inverse-primary/10 blur-[100px]" />
 
 
       {/* Card */}
       <div
         ref={cardRef}
         style={{ viewTransitionName: 'auth-card' }}
-        className="relative w-full max-w-[440px] overflow-hidden rounded-[2rem] border border-[#494847]/20 bg-[#1a1919]/70 p-10 shadow-[0_30px_120px_rgba(0,0,0,0.28)] backdrop-blur-2xl"
+        className="relative w-full max-w-[440px] overflow-hidden rounded-[2rem] border border-[#1C1814]/20 bg-[#FAF7F2]/70 p-10 shadow-[0_30px_120px_rgba(0,0,0,0.28)] backdrop-blur-2xl"
       >
         <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/[0.08] to-transparent" />
 
@@ -183,15 +183,15 @@ export default function RegisterCard() {
           <div ref={step1Ref}>
             <div style={{ viewTransitionName: 'auth-brand' }} className="mb-8 flex items-center justify-between">
               <div className="flex items-center gap-2.5">
-                <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#d394ff]/15">
-                  <div className="h-2.5 w-2.5 rounded-full bg-[#d394ff]" />
+                <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#7DD3C7]/15">
+                  <div className="h-2.5 w-2.5 rounded-full bg-[#7DD3C7]" />
                 </div>
-                <span className="font-headline text-base font-bold tracking-tight text-[#e5e2e1]">Vielinks</span>
+                <span className="font-headline text-base font-bold tracking-tight text-[#1C1814]">Vielinks</span>
               </div>
               <button
                 type="button"
                 onClick={() => navigate('/')}
-                className="flex items-center gap-1.5 text-[0.7rem] text-[#988d9c] hover:text-white transition-colors"
+                className="flex items-center gap-1.5 text-[0.7rem] text-[#6A6470] hover:text-[#1C1814] transition-colors"
               >
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M19 12H5M12 5l-7 7 7 7"/>
@@ -201,9 +201,9 @@ export default function RegisterCard() {
             </div>
 
             <div className="mb-8 space-y-2">
-              <p data-s1-eyebrow className="text-[0.6875rem] font-semibold uppercase tracking-[0.24em] text-[#d394ff]/70">Get started</p>
-              <h1 data-s1-title className="font-headline text-2xl font-bold tracking-tight text-[#e5e2e1]">Create your account</h1>
-              <p data-s1-title className="text-sm text-[#adaaaa]/50">Join Vielinks and start managing your social media.</p>
+              <p data-s1-eyebrow className="text-[0.6875rem] font-semibold uppercase tracking-[0.24em] text-[#7DD3C7]/70">Get started</p>
+              <h1 data-s1-title className="font-headline text-2xl font-bold tracking-tight text-[#1C1814]">Create your account</h1>
+              <p data-s1-title className="text-sm text-[#78736E]/50">Join Vielinks and start managing your social media.</p>
             </div>
 
             <div className="space-y-3">
@@ -212,7 +212,7 @@ export default function RegisterCard() {
                 data-s1-btn type="button"
                 onClick={() => handleGoogleRegister()}
                 disabled={googleLoading}
-                className="w-full flex items-center justify-center gap-3 rounded-[0.875rem] border border-[#494847]/30 bg-white/[0.03] px-4 py-3 text-sm font-medium text-[#e5e2e1]/80 transition-all hover:border-[#494847]/60 hover:bg-white/[0.06] disabled:opacity-50 disabled:pointer-events-none"
+                className="w-full flex items-center justify-center gap-3 rounded-[0.875rem] border border-[#1C1814]/30 bg-[#1C1814]/[0.05] px-4 py-3 text-sm font-medium text-[#1C1814]/80 transition-all hover:border-[#1C1814]/60 hover:bg-[#1C1814]/[0.05] disabled:opacity-50 disabled:pointer-events-none"
               >
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
                   <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
@@ -225,16 +225,16 @@ export default function RegisterCard() {
 
               {/* Divider */}
               <div data-s1-btn className="flex items-center gap-3 py-1">
-                <div className="h-px flex-1 bg-[#494847]/20" />
-                <span className="text-[0.6875rem] font-medium text-[#adaaaa]/30 uppercase tracking-widest">or</span>
-                <div className="h-px flex-1 bg-[#494847]/20" />
+                <div className="h-px flex-1 bg-[#1C1814]/20" />
+                <span className="text-[0.6875rem] font-medium text-[#78736E]/30 uppercase tracking-widest">or</span>
+                <div className="h-px flex-1 bg-[#1C1814]/20" />
               </div>
 
               {/* Continue with email */}
               <button
                 data-s1-btn type="button"
                 onClick={goToEmail}
-                className="w-full flex items-center justify-center gap-2.5 rounded-[0.875rem] border border-[#494847]/30 bg-white/[0.03] px-4 py-3 text-sm font-semibold text-[#e5e2e1] transition-all duration-200 hover:border-[#d394ff]/30 hover:bg-[#d394ff]/5 hover:text-[#d394ff]"
+                className="w-full flex items-center justify-center gap-2.5 rounded-[0.875rem] border border-[#1C1814]/30 bg-[#1C1814]/[0.05] px-4 py-3 text-sm font-semibold text-[#1C1814] transition-all duration-200 hover:border-[#7DD3C7]/30 hover:bg-[#7DD3C7]/5 hover:text-[#7DD3C7]"
               >
                 <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                   <rect x="2" y="4" width="20" height="16" rx="3"/>
@@ -244,9 +244,9 @@ export default function RegisterCard() {
               </button>
             </div>
 
-            <p data-s1-footer className="mt-7 text-center text-[0.8125rem] text-[#adaaaa]/50">
+            <p data-s1-footer className="mt-7 text-center text-[0.8125rem] text-[#78736E]/50">
               Already have an account?{' '}
-              <Link to="/login" viewTransition className="font-semibold text-[#d394ff] transition-colors duration-300 hover:text-[#ebd6ff]">
+              <Link to="/login" viewTransition className="font-semibold text-[#7DD3C7] transition-colors duration-300 hover:text-[#9ee3db]">
                 Sign in
               </Link>
             </p>
@@ -258,7 +258,7 @@ export default function RegisterCard() {
             <button
               type="button"
               onClick={goToMethod}
-              className="mb-6 flex items-center gap-1.5 text-[0.8125rem] font-medium text-[#adaaaa]/50 transition-colors hover:text-[#e5e2e1]"
+              className="mb-6 flex items-center gap-1.5 text-[0.8125rem] font-medium text-[#78736E]/50 transition-colors hover:text-[#1C1814]"
             >
               <svg width="15" height="15" viewBox="0 0 16 16" fill="none" className="shrink-0">
                 <path d="M10 3L5 8L10 13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
@@ -267,35 +267,35 @@ export default function RegisterCard() {
             </button>
 
             <div className="mb-7 space-y-1">
-              <h2 className="font-headline text-xl font-bold tracking-tight text-[#e5e2e1]">Create with email</h2>
-              <p className="text-sm text-[#adaaaa]/50">Enter your email and choose a strong password.</p>
+              <h2 className="font-headline text-xl font-bold tracking-tight text-[#1C1814]">Create with email</h2>
+              <p className="text-sm text-[#78736E]/50">Enter your email and choose a strong password.</p>
             </div>
 
             <form className="space-y-5" onSubmit={(e) => { void handleSubmit(e); }}>
               {/* Email */}
               <div className="space-y-2">
-                <label className="block text-[0.6875rem] font-semibold uppercase tracking-[0.18em] text-[#adaaaa]/60">Email</label>
+                <label className="block text-[0.6875rem] font-semibold uppercase tracking-[0.18em] text-[#78736E]/60">Email</label>
                 <input
                   type="email" placeholder="you@example.com" required autoComplete="email" autoFocus
                   value={email} onChange={e => setEmail(e.target.value)} disabled={loading}
-                  className="w-full rounded-[0.875rem] border border-[#494847]/30 bg-white/[0.03] px-4 py-3.5 text-sm text-[#e5e2e1] placeholder:text-[#adaaaa]/35 transition-all duration-300 focus:border-[#d394ff]/40 focus:outline-none focus:ring-1 focus:ring-[#d394ff]/20"
+                  className="w-full rounded-[0.875rem] border border-[#1C1814]/30 bg-[#1C1814]/[0.05] px-4 py-3.5 text-sm text-[#1C1814] placeholder:text-[#78736E]/35 transition-all duration-300 focus:border-[#7DD3C7]/40 focus:outline-none focus:ring-1 focus:ring-[#7DD3C7]/20"
                 />
               </div>
 
               {/* Password */}
               <div className="space-y-2">
-                <label className="block text-[0.6875rem] font-semibold uppercase tracking-[0.18em] text-[#adaaaa]/60">Password</label>
+                <label className="block text-[0.6875rem] font-semibold uppercase tracking-[0.18em] text-[#78736E]/60">Password</label>
                 <div className="relative">
                   <input
                     type={showPass ? 'text' : 'password'} placeholder="••••••••••••" required autoComplete="new-password"
                     value={password} onChange={e => setPassword(e.target.value)} disabled={loading}
                     onCopy={e => e.preventDefault()}
-                    className="w-full rounded-[0.875rem] border border-[#494847]/30 bg-white/[0.03] px-4 py-3.5 pr-11 text-sm text-[#e5e2e1] placeholder:text-[#adaaaa]/35 transition-all duration-300 focus:border-[#d394ff]/40 focus:outline-none focus:ring-1 focus:ring-[#d394ff]/20"
+                    className="w-full rounded-[0.875rem] border border-[#1C1814]/30 bg-[#1C1814]/[0.05] px-4 py-3.5 pr-11 text-sm text-[#1C1814] placeholder:text-[#78736E]/35 transition-all duration-300 focus:border-[#7DD3C7]/40 focus:outline-none focus:ring-1 focus:ring-[#7DD3C7]/20"
                   />
                   <button type="button" onClick={() => setShowPass(v => !v)}
                     aria-label={showPass ? 'Hide password' : 'Show password'}
                     aria-pressed={showPass}
-                    className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#adaaaa]/40 transition-colors duration-200 hover:text-[#d394ff]">
+                    className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#78736E]/40 transition-colors duration-200 hover:text-[#7DD3C7]">
                     <EyeIcon open={showPass} />
                   </button>
                 </div>
@@ -318,7 +318,7 @@ export default function RegisterCard() {
                       ['number',    'One number'],
                       ['special',   'One special character'],
                     ] as [keyof typeof pwRules, string][]).map(([key, label]) => (
-                      <span key={key} className={`flex items-center gap-1.5 text-[0.7rem] transition-colors duration-200 ${pwRules[key] ? 'text-[#22c55e]' : 'text-[#adaaaa]/45'}`}>
+                      <span key={key} className={`flex items-center gap-1.5 text-[0.7rem] transition-colors duration-200 ${pwRules[key] ? 'text-[#22c55e]' : 'text-[#78736E]/45'}`}>
                         <span className="material-symbols-outlined" style={{ fontSize: 13 }}>
                           {pwRules[key] ? 'check_circle' : 'radio_button_unchecked'}
                         </span>
@@ -331,18 +331,18 @@ export default function RegisterCard() {
 
               {/* Confirm password */}
               <div className="space-y-2">
-                <label className="block text-[0.6875rem] font-semibold uppercase tracking-[0.18em] text-[#adaaaa]/60">Confirm password</label>
+                <label className="block text-[0.6875rem] font-semibold uppercase tracking-[0.18em] text-[#78736E]/60">Confirm password</label>
                 <div className="relative">
                   <input
                     type={showConfirm ? 'text' : 'password'} placeholder="••••••••••••" required autoComplete="new-password"
                     value={confirm} onChange={e => setConfirm(e.target.value)} disabled={loading}
                     onPaste={e => e.preventDefault()}
-                    className="w-full rounded-[0.875rem] border border-[#494847]/30 bg-white/[0.03] px-4 py-3.5 pr-11 text-sm text-[#e5e2e1] placeholder:text-[#adaaaa]/35 transition-all duration-300 focus:border-[#d394ff]/40 focus:outline-none focus:ring-1 focus:ring-[#d394ff]/20"
+                    className="w-full rounded-[0.875rem] border border-[#1C1814]/30 bg-[#1C1814]/[0.05] px-4 py-3.5 pr-11 text-sm text-[#1C1814] placeholder:text-[#78736E]/35 transition-all duration-300 focus:border-[#7DD3C7]/40 focus:outline-none focus:ring-1 focus:ring-[#7DD3C7]/20"
                   />
                   <button type="button" onClick={() => setShowConfirm(v => !v)}
                     aria-label={showConfirm ? 'Hide confirm password' : 'Show confirm password'}
                     aria-pressed={showConfirm}
-                    className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#adaaaa]/40 transition-colors duration-200 hover:text-[#d394ff]">
+                    className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#78736E]/40 transition-colors duration-200 hover:text-[#7DD3C7]">
                     <EyeIcon open={showConfirm} />
                   </button>
                 </div>
@@ -356,15 +356,15 @@ export default function RegisterCard() {
 
               <button
                 type="submit" disabled={loading || !pwAllMet || password !== confirm}
-                className="mt-2 w-full rounded-2xl bg-[#d394ff] px-6 py-3.5 text-sm font-bold text-[#4a0076] transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_0_40px_rgba(211,148,255,0.28)] active:scale-[0.98] disabled:opacity-60 disabled:pointer-events-none"
+                className="mt-2 w-full rounded-2xl bg-[#7DD3C7] px-6 py-3.5 text-sm font-bold text-[#0B0B0A] transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_0_40px_rgba(125,211,199,0.28)] active:scale-[0.98] disabled:opacity-60 disabled:pointer-events-none"
               >
                 {loading ? 'Creating account…' : 'Create account'}
               </button>
             </form>
 
-            <p className="mt-6 text-center text-[0.8125rem] text-[#adaaaa]/50">
+            <p className="mt-6 text-center text-[0.8125rem] text-[#78736E]/50">
               Already have an account?{' '}
-              <Link to="/login" viewTransition className="font-semibold text-[#d394ff] transition-colors duration-300 hover:text-[#ebd6ff]">
+              <Link to="/login" viewTransition className="font-semibold text-[#7DD3C7] transition-colors duration-300 hover:text-[#9ee3db]">
                 Sign in
               </Link>
             </p>
@@ -376,13 +376,13 @@ export default function RegisterCard() {
         <div ref={successRef} style={{ display: 'none' }} className="flex-col items-center justify-center py-6 text-center">
           <div data-check-icon className="mb-6">
             <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
-              <circle ref={checkCircleRef} cx="40" cy="40" r="36" stroke="#d394ff" strokeWidth="2.5" strokeLinecap="round" fill="rgba(211,148,255,0.06)" />
-              <path ref={checkPathRef} d="M24 40.5L35 52L56 30" stroke="#d394ff" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+              <circle ref={checkCircleRef} cx="40" cy="40" r="36" stroke="#7DD3C7" strokeWidth="2.5" strokeLinecap="round" fill="rgba(125,211,199,0.06)" />
+              <path ref={checkPathRef} d="M24 40.5L35 52L56 30" stroke="#7DD3C7" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </div>
-          <p data-success-text className="mb-1 text-[0.6875rem] font-semibold uppercase tracking-[0.24em] text-[#d394ff]/70">Account created</p>
-          <h2 data-success-text className="font-headline text-2xl font-bold tracking-tight text-[#e5e2e1]">You're in!</h2>
-          <p data-success-text className="mt-3 text-sm text-[#adaaaa]/60">Setting up your workspace…</p>
+          <p data-success-text className="mb-1 text-[0.6875rem] font-semibold uppercase tracking-[0.24em] text-[#7DD3C7]/70">Account created</p>
+          <h2 data-success-text className="font-headline text-2xl font-bold tracking-tight text-[#1C1814]">You're in!</h2>
+          <p data-success-text className="mt-3 text-sm text-[#78736E]/60">Setting up your workspace…</p>
         </div>
       </div>
     </div>

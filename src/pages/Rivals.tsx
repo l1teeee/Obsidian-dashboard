@@ -95,8 +95,8 @@ function StatPill({ label, value, mine, isMe }: { label: string; value: number; 
   const { up, pct } = deltaBadge(mine, value);
   return (
     <div className="flex flex-col gap-0.5">
-      <span className="text-[10px] uppercase tracking-widest text-[#988d9c]">{label}</span>
-      <span className="text-2xl font-headline font-bold tracking-tighter text-white">{fmtNum(value)}</span>
+      <span className="text-[10px] uppercase tracking-widest text-[#6A6470]">{label}</span>
+      <span className="text-2xl font-headline font-bold tracking-tighter text-[#1C1814]">{fmtNum(value)}</span>
       {!isMe && (
         <span className={`text-[10px] font-semibold ${up ? 'text-[#c5d247]' : 'text-[#ff8a80]'}`}>
           {up ? '▲' : '▼'} {Math.abs(Number(pct))}% vs you
@@ -124,8 +124,8 @@ function RivalCard({
     <div className={[
       'glass-card rounded-3xl border p-6 flex flex-col gap-5 transition-all duration-200 group relative',
       account.isMe
-        ? 'border-[#d394ff]/25 shadow-[0_0_30px_rgba(211,148,255,0.12)]'
-        : 'border-[#4c4450]/10 hover:border-[#4c4450]/25',
+        ? 'border-[#7DD3C7]/25 shadow-[0_0_30px_rgba(125,211,199,0.12)]'
+        : 'border-[#1C1814]/10 hover:border-[#1C1814]/25',
     ].join(' ')}>
 
       {/* Delete button — rival only */}
@@ -144,27 +144,27 @@ function RivalCard({
         <div className={[
           'w-10 h-10 rounded-2xl flex items-center justify-center shrink-0',
           account.isMe
-            ? 'bg-gradient-to-tr from-[#d394ff] to-[#9400e4]'
-            : 'bg-[#1e1e1e] border border-[#4c4450]/20',
+            ? 'bg-gradient-to-tr from-[#7DD3C7] to-[#D6A86A]'
+            : 'bg-[#1e1e1e] border border-[#1C1814]/20',
         ].join(' ')}>
-          <span className="material-symbols-outlined text-white" style={{ fontSize: 18 }}>
+          <span className="material-symbols-outlined text-[#1C1814]" style={{ fontSize: 18 }}>
             {account.isMe ? 'person' : 'groups'}
           </span>
         </div>
         <div className="flex-1 min-w-0 pr-6">
           <div className="flex items-center gap-2 flex-wrap">
-            <p className="text-sm font-bold text-white font-headline leading-tight truncate">{account.name}</p>
+            <p className="text-sm font-bold text-[#1C1814] font-headline leading-tight truncate">{account.name}</p>
             {account.isMe && (
-              <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-md bg-[#d394ff]/15 text-[#d394ff] uppercase tracking-wider shrink-0">You</span>
+              <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-md bg-[#7DD3C7]/15 text-[#7DD3C7] uppercase tracking-wider shrink-0">You</span>
             )}
           </div>
-          <p className="text-[11px] text-[#988d9c] truncate">{account.handle}</p>
+          <p className="text-[11px] text-[#6A6470] truncate">{account.handle}</p>
           {/* Platform badge */}
           {pm && (
             <div className="flex items-center gap-1 mt-1">
               <div className="flex items-center gap-1.5 px-2 py-[3px] rounded-lg" style={{ background: pm.iconBg }}>
                 <SocialBrandIcon platformId={(account as Rival).platform} size={10} />
-                <span className="text-[9px] font-semibold uppercase tracking-wider text-white">{pm.label}</span>
+                <span className="text-[9px] font-semibold uppercase tracking-wider text-[#1C1814]">{pm.label}</span>
               </div>
             </div>
           )}
@@ -172,7 +172,7 @@ function RivalCard({
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-3 gap-3 pt-2 border-t border-[#4c4450]/10">
+      <div className="grid grid-cols-3 gap-3 pt-2 border-t border-[#1C1814]/10">
         <StatPill label="Followers" value={account.followers} mine={mine.followers} isMe={!!account.isMe} />
         <StatPill label="Following" value={account.following} mine={mine.following} isMe={!!account.isMe} />
         <StatPill label="Posts"     value={account.posts}     mine={mine.posts}     isMe={!!account.isMe} />
@@ -185,27 +185,27 @@ function PostRow({ post }: { post: typeof TRACKED_POSTS[number] }) {
   const color = PLATFORM_COLORS[post.platform] ?? '#988d9c';
   const icon  = PLATFORM_ICONS[post.platform]  ?? 'link';
   return (
-    <div className="flex items-center gap-4 px-5 py-3.5 rounded-2xl border border-transparent hover:border-[#4c4450]/15 hover:bg-white/[0.025] transition-all duration-150 group">
+    <div className="flex items-center gap-4 px-5 py-3.5 rounded-2xl border border-transparent hover:border-[#1C1814]/15 hover:bg-white/[0.025] transition-all duration-150 group">
       <div className="w-8 h-8 rounded-xl flex items-center justify-center shrink-0" style={{ background: `${color}18` }}>
         <span className="material-symbols-outlined" style={{ fontSize: 15, color }}>{icon}</span>
       </div>
-      <span className="text-xs font-semibold text-[#cfc2d2] w-[130px] shrink-0 truncate">{post.rivalName}</span>
-      <span className="flex-1 text-xs text-[#988d9c] truncate hidden sm:block">{post.preview}</span>
+      <span className="text-xs font-semibold text-[#5C5650] w-[130px] shrink-0 truncate">{post.rivalName}</span>
+      <span className="flex-1 text-xs text-[#6A6470] truncate hidden sm:block">{post.preview}</span>
       <a
         href={post.url}
         target="_blank"
         rel="noopener noreferrer"
         onClick={e => e.stopPropagation()}
-        className="flex items-center gap-1 text-xs text-[#d394ff] hover:text-[#e8b8ff] transition-colors shrink-0 opacity-60 group-hover:opacity-100"
+        className="flex items-center gap-1 text-xs text-[#7DD3C7] hover:text-[#e8b8ff] transition-colors shrink-0 opacity-60 group-hover:opacity-100"
       >
         <span className="material-symbols-outlined" style={{ fontSize: 13 }}>open_in_new</span>
         <span className="hidden md:block">View post</span>
       </a>
       <div className="flex items-center gap-1.5 shrink-0 w-[72px] justify-end">
-        <span className="material-symbols-outlined text-[#988d9c]" style={{ fontSize: 14 }}>chat_bubble</span>
-        <span className="text-sm font-bold text-white font-headline">{post.comments.toLocaleString()}</span>
+        <span className="material-symbols-outlined text-[#6A6470]" style={{ fontSize: 14 }}>chat_bubble</span>
+        <span className="text-sm font-bold text-[#1C1814] font-headline">{post.comments.toLocaleString()}</span>
       </div>
-      <span className="text-[10px] text-[#4c4450] w-[72px] text-right shrink-0 hidden lg:block">{post.date}</span>
+      <span className="text-[10px] text-[#1C1814] w-[72px] text-right shrink-0 hidden lg:block">{post.date}</span>
     </div>
   );
 }
@@ -227,7 +227,7 @@ const MOCK_SEARCH: Record<Platform, MockProfile[]> = {
     { id: 'ig3', name: 'PixelFlow Agency',   handle: '@pixelflow',       initials: 'PF', color: '#7bb8f5' },
     { id: 'ig4', name: 'Bold Branding Lab',  handle: '@boldlab',         initials: 'BB', color: '#ff9d7b' },
     { id: 'ig5', name: 'Social Hive Media',  handle: '@socialhive',      initials: 'SH', color: '#74d9b6' },
-    { id: 'ig6', name: 'Urban Palette',      handle: '@urbanpalette',    initials: 'UP', color: '#d394ff' },
+    { id: 'ig6', name: 'Urban Palette',      handle: '@urbanpalette',    initials: 'UP', color: '#7DD3C7' },
     { id: 'ig7', name: 'TrendSpot Agency',   handle: '@trendspot',       initials: 'TS', color: '#ffb347' },
     { id: 'ig8', name: 'Craft & Co Studio',  handle: '@craftandco',      initials: 'CC', color: '#80cbc4' },
   ],
@@ -267,6 +267,7 @@ function AddRivalModal({ open, onClose, onAdd }: {
   // Entrada/salida animada
   useEffect(() => {
     if (open) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setMounted(true);
       requestAnimationFrame(() => requestAnimationFrame(() => setVisible(true)));
     } else {
@@ -283,6 +284,7 @@ function AddRivalModal({ open, onClose, onAdd }: {
 
   // Reset search when platform changes
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setQuery(''); setResults([]); setSelected(null); setShowResults(false);
   }, [platform]);
 
@@ -290,6 +292,7 @@ function AddRivalModal({ open, onClose, onAdd }: {
   useEffect(() => {
     if (timerRef.current) clearTimeout(timerRef.current);
     if (query.length < 2) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setResults([]); setSearching(false); setShowResults(false);
       return;
     }
@@ -336,20 +339,20 @@ function AddRivalModal({ open, onClose, onAdd }: {
     >
       <div
         onClick={e => e.stopPropagation()}
-        className={`w-full max-w-md bg-[#161616] border border-[#4c4450]/20 rounded-3xl shadow-[0_24px_80px_rgba(0,0,0,0.7)] transition-all duration-250 ${visible ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-95 translate-y-4'}`}
+        className={`w-full max-w-md bg-[#161616] border border-[#1C1814]/20 rounded-3xl shadow-[0_24px_80px_rgba(0,0,0,0.7)] transition-all duration-250 ${visible ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-95 translate-y-4'}`}
       >
         <form onSubmit={handleSubmit} className="p-7 flex flex-col gap-5">
 
           {/* Header */}
           <div className="flex items-start justify-between">
             <div>
-              <h2 className="text-lg font-headline font-extrabold tracking-tight text-white">Add Rival</h2>
-              <p className="text-xs text-[#988d9c] mt-0.5">Track a competitor's social profile</p>
+              <h2 className="text-lg font-headline font-extrabold tracking-tight text-[#1C1814]">Add Rival</h2>
+              <p className="text-xs text-[#6A6470] mt-0.5">Track a competitor's social profile</p>
             </div>
             <button
               type="button"
               onClick={onClose}
-              className="w-8 h-8 rounded-xl bg-[#1e1e1e] hover:bg-[#2a2a2a] flex items-center justify-center text-[#988d9c] hover:text-white transition-colors"
+              className="w-8 h-8 rounded-xl bg-[#1e1e1e] hover:bg-[#E5DFD6] flex items-center justify-center text-[#6A6470] hover:text-[#1C1814] transition-colors"
             >
               <span className="material-symbols-outlined" style={{ fontSize: 16 }}>close</span>
             </button>
@@ -357,7 +360,7 @@ function AddRivalModal({ open, onClose, onAdd }: {
 
           {/* Platform selector */}
           <div className="flex flex-col gap-1.5">
-            <label className="text-[10px] uppercase tracking-widest text-[#988d9c] font-semibold">Platform</label>
+            <label className="text-[10px] uppercase tracking-widest text-[#6A6470] font-semibold">Platform</label>
             <div className="grid grid-cols-2 gap-2">
               {(['instagram', 'facebook'] as Platform[]).map(p => {
                 const pMeta = PLATFORM_META[p];
@@ -370,16 +373,16 @@ function AddRivalModal({ open, onClose, onAdd }: {
                     className={[
                       'flex items-center gap-2.5 px-4 py-3 rounded-2xl border transition-all duration-150',
                       active
-                        ? 'border-[#d394ff]/40 bg-[#d394ff]/8'
-                        : 'border-[#4c4450]/20 bg-[#131313] hover:border-[#4c4450]/40',
+                        ? 'border-[#7DD3C7]/40 bg-[#7DD3C7]/8'
+                        : 'border-[#1C1814]/20 bg-[#131313] hover:border-[#1C1814]/40',
                     ].join(' ')}
                   >
                     <div className="w-7 h-7 rounded-xl flex items-center justify-center shrink-0" style={{ background: pMeta.iconBg }}>
                       <SocialBrandIcon platformId={p} size={14} />
                     </div>
-                    <span className={`text-sm font-semibold transition-colors ${active ? 'text-white' : 'text-[#988d9c]'}`}>{pMeta.label}</span>
+                    <span className={`text-sm font-semibold transition-colors ${active ? 'text-[#1C1814]' : 'text-[#6A6470]'}`}>{pMeta.label}</span>
                     {active && (
-                      <span className="ml-auto material-symbols-outlined text-[#d394ff]" style={{ fontSize: 16, fontVariationSettings: "'FILL' 1" }}>radio_button_checked</span>
+                      <span className="ml-auto material-symbols-outlined text-[#7DD3C7]" style={{ fontSize: 16, fontVariationSettings: "'FILL' 1" }}>radio_button_checked</span>
                     )}
                   </button>
                 );
@@ -389,13 +392,13 @@ function AddRivalModal({ open, onClose, onAdd }: {
 
           {/* Profile search */}
           <div className="flex flex-col gap-1.5">
-            <label className="text-[10px] uppercase tracking-widest text-[#988d9c] font-semibold">
+            <label className="text-[10px] uppercase tracking-widest text-[#6A6470] font-semibold">
               Search {pm.label} profile
             </label>
 
             {selected ? (
               /* Selected profile card */
-              <div className="flex items-center gap-3 px-4 py-3 rounded-2xl border border-[#d394ff]/30 bg-[#d394ff]/[0.06]">
+              <div className="flex items-center gap-3 px-4 py-3 rounded-2xl border border-[#7DD3C7]/30 bg-[#7DD3C7]/[0.06]">
                 <div
                   className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0 text-[11px] font-extrabold text-[#131313]"
                   style={{ background: selected.color }}
@@ -403,13 +406,13 @@ function AddRivalModal({ open, onClose, onAdd }: {
                   {selected.initials}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-semibold text-white truncate">{selected.name}</p>
-                  <p className="text-[11px] text-[#988d9c]">{selected.handle}</p>
+                  <p className="text-sm font-semibold text-[#1C1814] truncate">{selected.name}</p>
+                  <p className="text-[11px] text-[#6A6470]">{selected.handle}</p>
                 </div>
                 <button
                   type="button"
                   onClick={() => setSelected(null)}
-                  className="w-7 h-7 rounded-lg flex items-center justify-center bg-[#1e1e1e] hover:bg-[#2a2a2a] text-[#988d9c] hover:text-white transition-colors shrink-0"
+                  className="w-7 h-7 rounded-lg flex items-center justify-center bg-[#1e1e1e] hover:bg-[#E5DFD6] text-[#6A6470] hover:text-[#1C1814] transition-colors shrink-0"
                   title="Remove selection"
                 >
                   <span className="material-symbols-outlined" style={{ fontSize: 14 }}>close</span>
@@ -420,7 +423,7 @@ function AddRivalModal({ open, onClose, onAdd }: {
               <div className="relative">
                 <div className="relative flex items-center">
                   <span
-                    className={`absolute left-3.5 material-symbols-outlined text-[#4c4450] pointer-events-none ${searching ? 'animate-spin' : ''}`}
+                    className={`absolute left-3.5 material-symbols-outlined text-[#1C1814] pointer-events-none ${searching ? 'animate-spin' : ''}`}
                     style={{ fontSize: 16 }}
                   >
                     {searching ? 'progress_activity' : 'search'}
@@ -431,20 +434,20 @@ function AddRivalModal({ open, onClose, onAdd }: {
                     onChange={e => setQuery(e.target.value)}
                     placeholder="Search by username or name…"
                     autoComplete="off"
-                    className="w-full bg-[#131313] border border-[#4c4450]/25 rounded-xl pl-9 pr-4 py-2.5 text-sm text-white placeholder:text-[#4c4450] focus:outline-none focus:border-[#d394ff]/40 transition-all"
+                    className="w-full bg-[#131313] border border-[#1C1814]/25 rounded-xl pl-9 pr-4 py-2.5 text-sm text-[#1C1814] placeholder:text-[#1C1814] focus:outline-none focus:border-[#7DD3C7]/40 transition-all"
                   />
                 </div>
 
                 {/* Hint */}
                 {query.length > 0 && query.length < 2 && (
-                  <p className="text-[10px] text-[#4c4450] mt-1.5 px-1">Type at least 2 characters to search</p>
+                  <p className="text-[10px] text-[#1C1814] mt-1.5 px-1">Type at least 2 characters to search</p>
                 )}
 
                 {/* Results dropdown */}
                 {showResults && (
-                  <div className="absolute top-full left-0 right-0 mt-1.5 bg-[#1a1a1a] border border-[#4c4450]/25 rounded-2xl overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.6)] z-10">
+                  <div className="absolute top-full left-0 right-0 mt-1.5 bg-[#1a1a1a] border border-[#1C1814]/25 rounded-2xl overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.6)] z-10">
                     {results.length === 0 ? (
-                      <div className="px-4 py-5 flex flex-col items-center gap-1.5 text-[#4c4450]">
+                      <div className="px-4 py-5 flex flex-col items-center gap-1.5 text-[#1C1814]">
                         <span className="material-symbols-outlined" style={{ fontSize: 22 }}>person_search</span>
                         <p className="text-xs">No profiles found for "{query}"</p>
                       </div>
@@ -456,7 +459,7 @@ function AddRivalModal({ open, onClose, onAdd }: {
                           onClick={() => handleSelect(r)}
                           className={[
                             'w-full flex items-center gap-3 px-4 py-3 hover:bg-white/[0.04] transition-colors text-left',
-                            i < results.length - 1 ? 'border-b border-[#4c4450]/10' : '',
+                            i < results.length - 1 ? 'border-b border-[#1C1814]/10' : '',
                           ].join(' ')}
                         >
                           <div
@@ -466,10 +469,10 @@ function AddRivalModal({ open, onClose, onAdd }: {
                             {r.initials}
                           </div>
                           <div className="flex-1 min-w-0">
-                            <p className="text-sm font-semibold text-white truncate">{r.name}</p>
-                            <p className="text-[11px] text-[#988d9c]">{r.handle}</p>
+                            <p className="text-sm font-semibold text-[#1C1814] truncate">{r.name}</p>
+                            <p className="text-[11px] text-[#6A6470]">{r.handle}</p>
                           </div>
-                          <span className="material-symbols-outlined text-[#4c4450]" style={{ fontSize: 15 }}>chevron_right</span>
+                          <span className="material-symbols-outlined text-[#1C1814]" style={{ fontSize: 15 }}>chevron_right</span>
                         </button>
                       ))
                     )}
@@ -481,12 +484,12 @@ function AddRivalModal({ open, onClose, onAdd }: {
 
           {/* Post URL to track */}
           <div className="flex flex-col gap-1.5">
-            <label className="text-[10px] uppercase tracking-widest text-[#988d9c] font-semibold flex items-center gap-1.5">
+            <label className="text-[10px] uppercase tracking-widest text-[#6A6470] font-semibold flex items-center gap-1.5">
               Post to track
-              <span className="normal-case tracking-normal font-normal text-[#4c4450]">— optional</span>
+              <span className="normal-case tracking-normal font-normal text-[#1C1814]">— optional</span>
             </label>
             <div className="relative flex items-center">
-              <span className="absolute left-3.5 material-symbols-outlined text-[#4c4450] pointer-events-none" style={{ fontSize: 15 }}>link</span>
+              <span className="absolute left-3.5 material-symbols-outlined text-[#1C1814] pointer-events-none" style={{ fontSize: 15 }}>link</span>
               <input
                 type="url"
                 value={trackedUrl}
@@ -494,24 +497,24 @@ function AddRivalModal({ open, onClose, onAdd }: {
                 placeholder={platform === 'instagram'
                   ? 'https://www.instagram.com/p/…'
                   : 'https://www.facebook.com/…/posts/…'}
-                className="w-full bg-[#131313] border border-[#4c4450]/25 rounded-xl pl-9 pr-4 py-2.5 text-sm text-white placeholder:text-[#4c4450] focus:outline-none focus:border-[#d394ff]/40 transition-all"
+                className="w-full bg-[#131313] border border-[#1C1814]/25 rounded-xl pl-9 pr-4 py-2.5 text-sm text-[#1C1814] placeholder:text-[#1C1814] focus:outline-none focus:border-[#7DD3C7]/40 transition-all"
               />
             </div>
             {/* Disclaimer */}
             <div className="flex items-start gap-2 mt-0.5 px-1">
               <span className="material-symbols-outlined text-amber-400/60 shrink-0 mt-px" style={{ fontSize: 13 }}>warning</span>
-              <p className="text-[10px] text-[#988d9c] leading-relaxed">
-                Post data is retrieved using your connected <span className="text-[#cfc2d2] font-semibold">{pm.label}</span> account.
-                If the target account is <span className="text-[#cfc2d2] font-semibold">private</span> or you{' '}
-                <span className="text-[#cfc2d2] font-semibold">don't follow them</span>, engagement data cannot be obtained.
+              <p className="text-[10px] text-[#6A6470] leading-relaxed">
+                Post data is retrieved using your connected <span className="text-[#5C5650] font-semibold">{pm.label}</span> account.
+                If the target account is <span className="text-[#5C5650] font-semibold">private</span> or you{' '}
+                <span className="text-[#5C5650] font-semibold">don't follow them</span>, engagement data cannot be obtained.
               </p>
             </div>
           </div>
 
           {/* Scraping info note */}
-          <div className="flex items-start gap-2.5 px-3.5 py-3 rounded-xl bg-[#d394ff]/[0.05] border border-[#d394ff]/10">
-            <span className="material-symbols-outlined text-[#d394ff]/50 shrink-0 mt-px" style={{ fontSize: 14 }}>info</span>
-            <p className="text-[11px] text-[#988d9c] leading-relaxed">
+          <div className="flex items-start gap-2.5 px-3.5 py-3 rounded-xl bg-[#7DD3C7]/[0.05] border border-[#7DD3C7]/10">
+            <span className="material-symbols-outlined text-[#7DD3C7]/50 shrink-0 mt-px" style={{ fontSize: 14 }}>info</span>
+            <p className="text-[11px] text-[#6A6470] leading-relaxed">
               Followers, posts and engagement data will be synced automatically once profile scraping is enabled.
             </p>
           </div>
@@ -521,14 +524,14 @@ function AddRivalModal({ open, onClose, onAdd }: {
             <button
               type="submit"
               disabled={!selected}
-              className="flex-1 py-3 rounded-xl bg-[#d394ff] text-[#131313] font-bold text-sm hover:bg-[#e0a8ff] disabled:opacity-35 disabled:cursor-not-allowed transition-all"
+              className="flex-1 py-3 rounded-xl bg-[#7DD3C7] text-[#131313] font-bold text-sm hover:bg-[#e0a8ff] disabled:opacity-35 disabled:cursor-not-allowed transition-all"
             >
               Add Rival
             </button>
             <button
               type="button"
               onClick={onClose}
-              className="px-5 py-3 rounded-xl border border-[#4c4450]/20 text-sm font-semibold text-[#cfc2d2] hover:bg-[#201f1f] hover:text-white transition-all"
+              className="px-5 py-3 rounded-xl border border-[#1C1814]/20 text-sm font-semibold text-[#5C5650] hover:bg-[#F0EBE2] hover:text-[#1C1814] transition-all"
             >
               Cancel
             </button>
@@ -577,12 +580,12 @@ export default function Rivals() {
           actions={
             <div className="flex items-center gap-3">
               {/* Tab switcher */}
-              <div className="flex items-center gap-1 bg-[#1c1b1b] rounded-full border border-[#4c4450]/15 p-1">
+              <div className="flex items-center gap-1 bg-[#FAF7F2] rounded-full border border-[#1C1814]/15 p-1">
                 <button
                   onClick={() => setTab('overview')}
                   className={[
                     'px-4 py-1.5 rounded-full text-xs font-semibold transition-all duration-200',
-                    tab === 'overview' ? 'bg-[#d394ff] text-[#131313]' : 'text-[#988d9c] hover:text-white',
+                    tab === 'overview' ? 'bg-[#7DD3C7] text-[#131313]' : 'text-[#6A6470] hover:text-[#1C1814]',
                   ].join(' ')}
                 >
                   Overview
@@ -591,7 +594,7 @@ export default function Rivals() {
                   onClick={() => setTab('posts')}
                   className={[
                     'px-4 py-1.5 rounded-full text-xs font-semibold transition-all duration-200',
-                    tab === 'posts' ? 'bg-[#d394ff] text-[#131313]' : 'text-[#988d9c] hover:text-white',
+                    tab === 'posts' ? 'bg-[#7DD3C7] text-[#131313]' : 'text-[#6A6470] hover:text-[#1C1814]',
                   ].join(' ')}
                 >
                   Post Tracking
@@ -601,7 +604,7 @@ export default function Rivals() {
               {/* Add rival button */}
               <button
                 onClick={() => setAddOpen(true)}
-                className="flex items-center gap-2 px-4 py-2 rounded-full bg-[#d394ff] hover:bg-[#e0a8ff] text-[#131313] text-xs font-bold transition-all duration-200 shadow-[0_0_20px_rgba(211,148,255,0.25)]"
+                className="flex items-center gap-2 px-4 py-2 rounded-full bg-[#7DD3C7] hover:bg-[#e0a8ff] text-[#131313] text-xs font-bold transition-all duration-200 shadow-[0_0_20px_rgba(125,211,199,0.25)]"
               >
                 <span className="material-symbols-outlined" style={{ fontSize: 15 }}>add</span>
                 Add Rival
@@ -618,17 +621,17 @@ export default function Rivals() {
               {/* Summary KPIs */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 {[
-                  { label: 'Rivals tracked',   value: rivals.length,  icon: 'groups',      color: '#d394ff' },
+                  { label: 'Rivals tracked',   value: rivals.length,  icon: 'groups',      color: '#7DD3C7' },
                   { label: 'Max follower gap',  value: fmtNum(rivals.length ? Math.max(...rivals.map(r => r.followers)) - MY_ACCOUNT.followers : 0), icon: 'trending_up', color: '#c5d247' },
                   { label: 'Posts tracked',     value: TRACKED_POSTS.length, icon: 'article', color: '#e4b9ff' },
                 ].map(k => (
-                  <div key={k.label} className="glass-card rounded-3xl border border-[#4c4450]/5 p-5 flex items-center gap-4 shadow-[0_0_40px_rgba(211,148,255,0.06)]">
+                  <div key={k.label} className="glass-card rounded-3xl border border-[#1C1814]/5 p-5 flex items-center gap-4 shadow-[0_0_40px_rgba(125,211,199,0.06)]">
                     <div className="w-10 h-10 rounded-2xl flex items-center justify-center shrink-0" style={{ background: `${k.color}18` }}>
                       <span className="material-symbols-outlined" style={{ fontSize: 20, color: k.color }}>{k.icon}</span>
                     </div>
                     <div>
-                      <p className="text-[10px] uppercase tracking-widest text-[#988d9c]">{k.label}</p>
-                      <p className="text-2xl font-headline font-bold tracking-tighter text-white">{k.value}</p>
+                      <p className="text-[10px] uppercase tracking-widest text-[#6A6470]">{k.label}</p>
+                      <p className="text-2xl font-headline font-bold tracking-tighter text-[#1C1814]">{k.value}</p>
                     </div>
                   </div>
                 ))}
@@ -636,14 +639,14 @@ export default function Rivals() {
 
               {/* Account comparison grid */}
               <div>
-                <h2 className="text-xs font-semibold uppercase tracking-widest text-[#988d9c] mb-4">Account Comparison</h2>
+                <h2 className="text-xs font-semibold uppercase tracking-widest text-[#6A6470] mb-4">Account Comparison</h2>
                 {rivals.length === 0 ? (
-                  <div className="glass-card rounded-3xl border border-[#4c4450]/5 py-16 flex flex-col items-center gap-3 text-[#4c4450]">
+                  <div className="glass-card rounded-3xl border border-[#1C1814]/5 py-16 flex flex-col items-center gap-3 text-[#1C1814]">
                     <span className="material-symbols-outlined text-[40px]">radar</span>
                     <p className="text-sm">No rivals added yet</p>
                     <button
                       onClick={() => setAddOpen(true)}
-                      className="mt-1 flex items-center gap-2 px-4 py-2 rounded-full bg-[#d394ff]/10 hover:bg-[#d394ff]/20 text-[#d394ff] text-xs font-bold transition-all"
+                      className="mt-1 flex items-center gap-2 px-4 py-2 rounded-full bg-[#7DD3C7]/10 hover:bg-[#7DD3C7]/20 text-[#7DD3C7] text-xs font-bold transition-all"
                     >
                       <span className="material-symbols-outlined" style={{ fontSize: 14 }}>add</span>
                       Add your first rival
@@ -661,26 +664,26 @@ export default function Rivals() {
 
               {/* Followers comparison bars */}
               {rivals.length > 0 && (
-                <div className="glass-card rounded-3xl border border-[#4c4450]/5 p-6 shadow-[0_0_40px_rgba(211,148,255,0.06)]">
-                  <h2 className="text-xs font-semibold uppercase tracking-widest text-[#988d9c] mb-6">Followers Comparison</h2>
+                <div className="glass-card rounded-3xl border border-[#1C1814]/5 p-6 shadow-[0_0_40px_rgba(125,211,199,0.06)]">
+                  <h2 className="text-xs font-semibold uppercase tracking-widest text-[#6A6470] mb-6">Followers Comparison</h2>
                   <div className="space-y-4">
                     {[MY_ACCOUNT, ...rivals].map(acc => {
                       const pct = Math.round((acc.followers / maxFollowers) * 100);
                       return (
                         <div key={acc.handle} className="flex items-center gap-4">
-                          <span className="text-xs text-[#cfc2d2] font-semibold w-[130px] shrink-0 truncate">{acc.name}</span>
+                          <span className="text-xs text-[#5C5650] font-semibold w-[130px] shrink-0 truncate">{acc.name}</span>
                           <div className="flex-1 h-2 rounded-full bg-[#1e1e1e] overflow-hidden">
                             <div
                               className="h-full rounded-full transition-all duration-500"
                               style={{
                                 width: `${pct}%`,
                                 background: acc.isMe
-                                  ? 'linear-gradient(90deg, #9400e4, #d394ff)'
+                                  ? 'linear-gradient(90deg, #D6A86A, #7DD3C7)'
                                   : 'linear-gradient(90deg, #3a3545, #6b5f72)',
                               }}
                             />
                           </div>
-                          <span className="text-xs font-bold text-white font-headline w-[52px] text-right shrink-0">{fmtNum(acc.followers)}</span>
+                          <span className="text-xs font-bold text-[#1C1814] font-headline w-[52px] text-right shrink-0">{fmtNum(acc.followers)}</span>
                         </div>
                       );
                     })}
@@ -692,10 +695,10 @@ export default function Rivals() {
 
           {/* ── POST TRACKING TAB ── */}
           {tab === 'posts' && (
-            <div className="glass-card rounded-3xl border border-[#4c4450]/5 overflow-hidden shadow-[0_0_40px_rgba(211,148,255,0.06)]">
+            <div className="glass-card rounded-3xl border border-[#1C1814]/5 overflow-hidden shadow-[0_0_40px_rgba(125,211,199,0.06)]">
               {/* Filter bar */}
-              <div className="flex items-center gap-3 px-6 py-4 border-b border-[#4c4450]/10 flex-wrap">
-                <span className="text-xs font-semibold uppercase tracking-widest text-[#988d9c]">Filter</span>
+              <div className="flex items-center gap-3 px-6 py-4 border-b border-[#1C1814]/10 flex-wrap">
+                <span className="text-xs font-semibold uppercase tracking-widest text-[#6A6470]">Filter</span>
                 <div className="flex items-center gap-2 flex-wrap">
                   {(['all', ...rivals.map(r => r.id)] as string[]).map(id => {
                     const label = id === 'all' ? 'All' : (rivals.find(r => r.id === id)?.name ?? id);
@@ -707,8 +710,8 @@ export default function Rivals() {
                         className={[
                           'px-3 py-1 rounded-full text-xs font-semibold transition-all duration-150',
                           active
-                            ? 'bg-[#d394ff]/15 text-[#d394ff] border border-[#d394ff]/30'
-                            : 'text-[#988d9c] border border-[#4c4450]/20 hover:text-white hover:border-[#4c4450]/40',
+                            ? 'bg-[#7DD3C7]/15 text-[#7DD3C7] border border-[#7DD3C7]/30'
+                            : 'text-[#6A6470] border border-[#1C1814]/20 hover:text-[#1C1814] hover:border-[#1C1814]/40',
                         ].join(' ')}
                       >
                         {label}
@@ -716,23 +719,23 @@ export default function Rivals() {
                     );
                   })}
                 </div>
-                <span className="ml-auto text-[10px] text-[#4c4450]">{filteredPosts.length} posts</span>
+                <span className="ml-auto text-[10px] text-[#1C1814]">{filteredPosts.length} posts</span>
               </div>
 
               {/* Table header */}
-              <div className="flex items-center gap-4 px-5 py-2.5 border-b border-[#4c4450]/8">
+              <div className="flex items-center gap-4 px-5 py-2.5 border-b border-[#1C1814]/8">
                 <div className="w-8 shrink-0" />
-                <span className="text-[10px] uppercase tracking-widest text-[#4c4450] w-[130px] shrink-0">Rival</span>
-                <span className="text-[10px] uppercase tracking-widest text-[#4c4450] flex-1 hidden sm:block">Preview</span>
-                <span className="text-[10px] uppercase tracking-widest text-[#4c4450] shrink-0 w-[72px] hidden md:block">Link</span>
-                <span className="text-[10px] uppercase tracking-widest text-[#4c4450] w-[72px] text-right shrink-0">Comments</span>
-                <span className="text-[10px] uppercase tracking-widest text-[#4c4450] w-[72px] text-right shrink-0 hidden lg:block">Date</span>
+                <span className="text-[10px] uppercase tracking-widest text-[#1C1814] w-[130px] shrink-0">Rival</span>
+                <span className="text-[10px] uppercase tracking-widest text-[#1C1814] flex-1 hidden sm:block">Preview</span>
+                <span className="text-[10px] uppercase tracking-widest text-[#1C1814] shrink-0 w-[72px] hidden md:block">Link</span>
+                <span className="text-[10px] uppercase tracking-widest text-[#1C1814] w-[72px] text-right shrink-0">Comments</span>
+                <span className="text-[10px] uppercase tracking-widest text-[#1C1814] w-[72px] text-right shrink-0 hidden lg:block">Date</span>
               </div>
 
               {/* Rows */}
-              <div className="divide-y divide-[#4c4450]/5 px-1">
+              <div className="divide-y divide-[#1C1814]/5 px-1">
                 {filteredPosts.length === 0 ? (
-                  <div className="py-16 flex flex-col items-center gap-3 text-[#4c4450]">
+                  <div className="py-16 flex flex-col items-center gap-3 text-[#1C1814]">
                     <span className="material-symbols-outlined text-[40px]">search_off</span>
                     <p className="text-sm">No posts tracked for this rival</p>
                   </div>

@@ -59,6 +59,7 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
     if (authLoading) return;
 
     if (!isAuthenticated) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setWorkspaces([]);
       setIsLoading(false);
       return;
@@ -119,6 +120,7 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
 
 // ─── Hook ─────────────────────────────────────────────────────────────────────
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function useWorkspace() {
   const ctx = useContext(WorkspaceContext);
   if (!ctx) throw new Error('useWorkspace must be used within WorkspaceProvider');

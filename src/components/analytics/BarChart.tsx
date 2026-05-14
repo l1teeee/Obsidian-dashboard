@@ -88,7 +88,7 @@ export default function BarChart({ barHeights, barDays }: BarChartProps) {
         time:  dates[i],
         value: h,
         color: h === peak
-          ? 'rgba(211,148,255,0.85)'
+          ? 'rgba(125,211,199,0.85)'
           : 'rgba(107,47,160,0.7)',
       }))
     );
@@ -99,10 +99,10 @@ export default function BarChart({ barHeights, barDays }: BarChartProps) {
   }, [barHeights, barDays]);
 
   return (
-    <div data-chart className="glass-card p-8 rounded-3xl border border-[#4c4450]/5">
+    <div data-chart className="glass-card p-8 rounded-3xl border border-[#1C1814]/5">
       <div className="mb-6">
-        <h3 className="text-xl font-headline font-bold tracking-tight text-white">Daily Engagement</h3>
-        <p className="text-sm text-[#988d9c]">Weighted interaction score</p>
+        <h3 className="text-xl font-headline font-bold tracking-tight text-[#1C1814]">Daily Engagement</h3>
+        <p className="text-sm text-[#6A6470]">Weighted interaction score</p>
       </div>
       <div ref={containerRef} style={{ height: 200 }} className="w-full" />
     </div>

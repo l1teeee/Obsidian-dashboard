@@ -103,7 +103,7 @@ export default function DifferentiatorsSection() {
           <span
             data-d="eyebrow"
             style={{ opacity: 0 }}
-            className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/[0.10] bg-white/[0.03] px-4 py-1.5 text-[0.68rem] font-bold uppercase tracking-[0.22em] text-white/45"
+            className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/[0.10] bg-[#1C1814]/[0.05] px-4 py-1.5 text-[0.68rem] font-bold uppercase tracking-[0.22em] text-[#1C1814]/45"
           >
             <span className="h-1.5 w-1.5 rounded-full bg-[#7DD3C7]" />
             Why Vielinks is different
@@ -111,7 +111,7 @@ export default function DifferentiatorsSection() {
           <h2
             data-d="title"
             style={{ opacity: 0 }}
-            className="text-4xl font-extrabold tracking-[-0.04em] leading-[0.96] text-white md:text-5xl"
+            className="text-4xl font-extrabold tracking-[-0.04em] leading-[0.96] text-[#1C1814] md:text-5xl"
           >
             A cleaner workflow.{' '}
             <span className="text-[#7DD3C7]">
@@ -121,7 +121,7 @@ export default function DifferentiatorsSection() {
           <p
             data-d="sub"
             style={{ opacity: 0 }}
-            className="mx-auto mt-5 max-w-lg text-[1rem] font-light leading-[1.8] text-white/50"
+            className="mx-auto mt-5 max-w-lg text-[1rem] font-light leading-[1.8] text-[#1C1814]/50"
           >
             Most social media tools add complexity. Vielinks removes it. Here is the difference that matters.
           </p>
@@ -130,14 +130,14 @@ export default function DifferentiatorsSection() {
         <div
           data-d="workflow"
           style={{ opacity: 0 }}
-          className="relative mb-10 overflow-hidden rounded-[2rem] border border-white/[0.08] bg-[#171615]/80 p-4 shadow-[0_30px_100px_rgba(0,0,0,0.28)] backdrop-blur-xl md:p-5"
+          className="relative mb-10 overflow-hidden rounded-[2rem] border border-white/[0.08] bg-[#F3EEE6]/80 p-4 shadow-[0_30px_100px_rgba(0,0,0,0.28)] backdrop-blur-xl md:p-5"
         >
           <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/[0.10] to-transparent" />
           <div className="grid gap-3 md:grid-cols-4">
             {workflowSteps.map((item, index) => (
               <div
                 key={item.step}
-                className="group relative overflow-hidden rounded-[1.25rem] border border-white/[0.07] bg-[#0B0B0A]/55 p-5 transition-all duration-300 hover:border-white/[0.14] hover:bg-[#1F1D1B]/70"
+                className="group relative overflow-hidden rounded-[1.25rem] border border-white/[0.07] bg-[#F4F0E8]/55 p-5 transition-all duration-300 hover:border-white/[0.14] hover:bg-[#1F1D1B]/70"
               >
                 {index < workflowSteps.length - 1 && (
                   <div className="pointer-events-none absolute right-[-18px] top-1/2 hidden h-px w-9 bg-white/[0.12] md:block" />
@@ -154,8 +154,8 @@ export default function DifferentiatorsSection() {
                     style={{ backgroundColor: item.accent, boxShadow: `0 0 18px ${item.accent}55` }}
                   />
                 </div>
-                <h3 className="text-base font-extrabold tracking-tight text-white">{item.title}</h3>
-                <p className="mt-2 text-[0.82rem] leading-[1.65] text-white/45">{item.body}</p>
+                <h3 className="text-base font-extrabold tracking-tight text-[#1C1814]">{item.title}</h3>
+                <p className="mt-2 text-[0.82rem] leading-[1.65] text-[#1C1814]/45">{item.body}</p>
               </div>
             ))}
           </div>
@@ -166,8 +166,8 @@ export default function DifferentiatorsSection() {
               ['Clear handoff', 'Teams can see what is drafted, approved, and live'],
             ].map(([title, body]) => (
               <div key={title} className="rounded-2xl border border-white/[0.06] bg-white/[0.025] px-4 py-3">
-                <p className="text-[0.72rem] font-bold text-[#F4F1EC]">{title}</p>
-                <p className="mt-1 text-[0.68rem] leading-relaxed text-white/35">{body}</p>
+                <p className="text-[0.72rem] font-bold text-[#1C1814]">{title}</p>
+                <p className="mt-1 text-[0.68rem] leading-relaxed text-[#1C1814]/35">{body}</p>
               </div>
             ))}
           </div>
@@ -180,15 +180,15 @@ export default function DifferentiatorsSection() {
           <div
             data-d="left"
             style={{ opacity: 0 }}
-            className="rounded-[1.75rem] border border-white/[0.06] bg-[#0B0B0A]/60 p-7 md:p-8 backdrop-blur-xl"
+            className="rounded-[1.75rem] border border-white/[0.06] bg-[#F4F0E8]/60 p-7 md:p-8 backdrop-blur-xl"
           >
             <div className="mb-6 flex items-center gap-3">
               <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-white/[0.04] border border-white/[0.08]">
-                <svg className="h-4 w-4 text-white/30" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                <svg className="h-4 w-4 text-[#1C1814]/30" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                 </svg>
               </div>
-              <p className="text-[0.78rem] font-bold uppercase tracking-[0.18em] text-white/30">Without Vielinks</p>
+              <p className="text-[0.78rem] font-bold uppercase tracking-[0.18em] text-[#1C1814]/30">Without Vielinks</p>
             </div>
 
             <ul className="space-y-4">
@@ -204,22 +204,22 @@ export default function DifferentiatorsSection() {
                       <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                     </svg>
                   </div>
-                  <span className="text-[0.875rem] leading-[1.6] text-white/40">{item}</span>
+                  <span className="text-[0.875rem] leading-[1.6] text-[#1C1814]/40">{item}</span>
                 </li>
               ))}
             </ul>
 
             {/* Simulated chaos visual */}
             <div className="mt-8 rounded-xl border border-white/[0.04] bg-white/[0.01] p-4">
-              <p className="mb-3 text-[0.55rem] font-bold uppercase tracking-[0.18em] text-white/18">Your current stack</p>
+              <p className="mb-3 text-[0.55rem] font-bold uppercase tracking-[0.18em] text-[#1C1814]/18">Your current stack</p>
               <div className="flex flex-wrap gap-2">
                 {['Hootsuite', 'Buffer', 'Sprout', 'Google Sheets', 'Canva', 'Notion', '...'].map((t) => (
-                  <span key={t} className="rounded-lg border border-white/[0.06] bg-white/[0.02] px-2.5 py-1 text-[0.6rem] font-medium text-white/25">
+                  <span key={t} className="rounded-lg border border-white/[0.06] bg-white/[0.02] px-2.5 py-1 text-[0.6rem] font-medium text-[#1C1814]/25">
                     {t}
                   </span>
                 ))}
               </div>
-              <p className="mt-3 text-[0.58rem] text-white/20">$180–$320 /mo combined · 6+ tabs open at once</p>
+              <p className="mt-3 text-[0.58rem] text-[#1C1814]/20">$180–$320 /mo combined · 6+ tabs open at once</p>
             </div>
           </div>
 
@@ -230,29 +230,29 @@ export default function DifferentiatorsSection() {
                 key={i}
                 data-d="card"
                 style={{ opacity: 0 }}
-                className="group relative flex items-start gap-5 overflow-hidden rounded-[1.5rem] border border-white/[0.07] bg-[#171615]/80 p-6 backdrop-blur-xl transition-all duration-500 hover:border-white/[0.15] hover:bg-[#1F1D1B]/80"
+                className="group relative flex items-start gap-5 overflow-hidden rounded-[1.5rem] border border-white/[0.07] bg-[#F3EEE6]/80 p-6 backdrop-blur-xl transition-all duration-500 hover:border-white/[0.15] hover:bg-[#1F1D1B]/80"
               >
                 {/* Top sheen */}
                 <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/[0.06] to-transparent" />
 
                 {/* Icon */}
-                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-white/[0.08] bg-white/[0.05] text-white/60 transition-all duration-300 group-hover:bg-white/[0.09] group-hover:text-white/80">
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-white/[0.08] bg-white/[0.05] text-[#1C1814]/60 transition-all duration-300 group-hover:bg-white/[0.09] group-hover:text-[#1C1814]/80">
                   {d.icon}
                 </div>
 
                 <div className="flex-1">
                   <div className="mb-1 flex items-center gap-3 flex-wrap">
-                    <h3 className="text-[0.95rem] font-bold tracking-tight text-white">{d.title}</h3>
-                    <span className="rounded-full border border-white/[0.08] bg-white/[0.04] px-2.5 py-0.5 text-[0.55rem] font-bold text-white/35">
+                    <h3 className="text-[0.95rem] font-bold tracking-tight text-[#1C1814]">{d.title}</h3>
+                    <span className="rounded-full border border-white/[0.08] bg-white/[0.04] px-2.5 py-0.5 text-[0.55rem] font-bold text-[#1C1814]/35">
                       {d.badge}
                     </span>
                   </div>
-                  <p className="text-[0.875rem] leading-[1.75] text-white/50">{d.body}</p>
+                  <p className="text-[0.875rem] leading-[1.75] text-[#1C1814]/50">{d.body}</p>
                 </div>
 
                 {/* Check */}
                 <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-white/[0.05] border border-white/[0.08]">
-                  <svg className="h-3.5 w-3.5 text-white/45" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
+                  <svg className="h-3.5 w-3.5 text-[#1C1814]/45" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                   </svg>
                 </div>

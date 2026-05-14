@@ -27,6 +27,7 @@ export type PlanDef = {
   note?: string;
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const PLANS: PlanDef[] = [
   {
     id: 'free',
@@ -109,7 +110,7 @@ function CheckIcon({ accent }: { accent?: boolean }) {
   return (
     <span className={cn(
       'mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full',
-      accent ? 'bg-[#7DD3C7]/15 text-[#7DD3C7]' : 'bg-white/[0.06] text-white/45'
+      accent ? 'bg-[#7DD3C7]/15 text-[#7DD3C7]' : 'bg-[#1C1814]/[0.05] text-[#1C1814]/45'
     )}>
       <svg className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth={2.4} viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
@@ -137,7 +138,7 @@ export function PlanCard({ plan, billing, onSelectPlan }: { plan: PlanDef; billi
       'group relative flex flex-col overflow-hidden rounded-[2rem] border p-8 backdrop-blur-xl transition-all duration-500 hover:-translate-y-1',
       plan.accent
         ? 'border-[#7DD3C7]/28 bg-[#1F1D1B]/85 shadow-[0_0_0_1px_rgba(125,211,199,0.07),0_40px_120px_rgba(0,0,0,0.3)]'
-        : 'border-white/[0.08] bg-[#171615]/70 hover:bg-[#1F1D1B]/70'
+        : 'border-white/[0.08] bg-[#F3EEE6]/70 hover:bg-[#1F1D1B]/70'
     )}>
       {/* Top sheen */}
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/[0.08] to-transparent" />
@@ -161,22 +162,22 @@ export function PlanCard({ plan, billing, onSelectPlan }: { plan: PlanDef; billi
       </div>
 
       {/* For who + name */}
-      <p className="mb-1.5 text-[0.65rem] font-bold uppercase tracking-[0.18em] text-white/50">{plan.forWho}</p>
-      <h3 className="mb-2 text-xl font-extrabold tracking-tight text-white">{plan.name}</h3>
-      <p className="mb-7 text-[0.875rem] leading-[1.65] text-white/55">{plan.desc}</p>
+      <p className="mb-1.5 text-[0.65rem] font-bold uppercase tracking-[0.18em] text-[#1C1814]/50">{plan.forWho}</p>
+      <h3 className="mb-2 text-xl font-extrabold tracking-tight text-[#1C1814]">{plan.name}</h3>
+      <p className="mb-7 text-[0.875rem] leading-[1.65] text-[#1C1814]/55">{plan.desc}</p>
 
       {/* Price with NumberFlow */}
       <div className="mb-2">
         {isFree ? (
-          <p className="text-5xl font-extrabold tracking-[-0.04em] text-white">Free</p>
+          <p className="text-5xl font-extrabold tracking-[-0.04em] text-[#1C1814]">Free</p>
         ) : (
           <div className="flex items-end gap-1.5">
             <NumberFlow
               value={price ?? 0}
               format={{ style: 'currency', currency: 'USD', minimumFractionDigits: 0, maximumFractionDigits: 0, currencyDisplay: 'narrowSymbol' }}
-              className="text-5xl font-extrabold tracking-[-0.04em] text-white"
+              className="text-5xl font-extrabold tracking-[-0.04em] text-[#1C1814]"
             />
-            <span className="mb-2 text-sm font-medium text-white/55">
+            <span className="mb-2 text-sm font-medium text-[#1C1814]/55">
               {billing === 'monthly' ? '/mo' : '/yr'}
             </span>
           </div>
@@ -192,7 +193,7 @@ export function PlanCard({ plan, billing, onSelectPlan }: { plan: PlanDef; billi
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: -14, opacity: 0 }}
             transition={{ duration: 0.18, ease: 'easeOut' }}
-            className="text-[0.7rem] text-white/35"
+            className="text-[0.7rem] text-[#1C1814]/35"
           >
             {isFree
               ? 'Free forever · no card required'
@@ -209,27 +210,27 @@ export function PlanCard({ plan, billing, onSelectPlan }: { plan: PlanDef; billi
         className={cn(
           'mb-2 w-full rounded-xl px-6 py-3.5 text-sm font-bold transition-all duration-300 active:scale-[0.98]',
           plan.accent
-            ? 'bg-[#F4F1EC] text-[#0B0B0A] hover:shadow-[0_0_36px_rgba(244,241,236,0.2)]'
-            : 'border border-white/[0.10] bg-white/[0.04] text-white/70 hover:border-[#7DD3C7]/30 hover:text-white hover:bg-white/[0.07]'
+            ? 'bg-[#1C1814] text-[#F4F0E8] hover:shadow-[0_0_36px_rgba(125,211,199,0.28)]'
+            : 'border border-white/[0.10] bg-white/[0.04] text-[#1C1814]/70 hover:border-[#7DD3C7]/30 hover:text-[#1C1814] hover:bg-white/[0.07]'
         )}
       >
         {plan.cta}
       </button>
 
       {plan.note && (
-        <p className="mb-4 text-center text-[0.62rem] text-white/40">{plan.note}</p>
+        <p className="mb-4 text-center text-[0.62rem] text-[#1C1814]/40">{plan.note}</p>
       )}
       {!plan.note && <div className="mb-4 h-5" />}
 
       {/* Divider */}
-      <div className="mb-5 h-px bg-white/[0.06]" />
+      <div className="mb-5 h-px bg-[#1C1814]/[0.05]" />
 
       {/* Features */}
       <ul className="mt-auto space-y-3.5">
         {plan.features.map((f) => (
           <li key={f} className="flex items-start gap-3">
             <CheckIcon accent={plan.accent} />
-            <span className="text-[0.875rem] leading-snug text-white/65">{f}</span>
+            <span className="text-[0.875rem] leading-snug text-[#1C1814]/65">{f}</span>
           </li>
         ))}
       </ul>
@@ -245,7 +246,7 @@ export function BillingToggle({ billing, onSwitch }: { billing: BillingPlan; onS
   return (
     <div className="flex items-center justify-center gap-4 mt-8">
       <span
-        className={cn('text-sm font-medium transition-colors cursor-pointer select-none', !isAnnually ? 'text-white' : 'text-white/40')}
+        className={cn('text-sm font-medium transition-colors cursor-pointer select-none', !isAnnually ? 'text-[#1C1814]' : 'text-[#1C1814]/40')}
         onClick={() => isAnnually && onSwitch()}
       >
         Monthly
@@ -257,7 +258,7 @@ export function BillingToggle({ billing, onSwitch }: { billing: BillingPlan; onS
       />
       <div className="flex items-center gap-2">
         <span
-          className={cn('text-sm font-medium transition-colors cursor-pointer select-none', isAnnually ? 'text-white' : 'text-white/40')}
+          className={cn('text-sm font-medium transition-colors cursor-pointer select-none', isAnnually ? 'text-[#1C1814]' : 'text-[#1C1814]/40')}
           onClick={() => !isAnnually && onSwitch()}
         >
           Annually
@@ -315,17 +316,17 @@ export default function PricingSection() {
       <div className="mx-auto max-w-[1440px] px-6 md:px-12">
         {/* Header */}
         <div className="mb-4 text-center">
-          <span data-pr="eyebrow" style={{ opacity: 0 }} className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/[0.10] bg-white/[0.03] px-4 py-1.5 text-[0.68rem] font-bold uppercase tracking-[0.22em] text-white/45">
+          <span data-pr="eyebrow" style={{ opacity: 0 }} className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/[0.10] bg-[#1C1814]/[0.05] px-4 py-1.5 text-[0.68rem] font-bold uppercase tracking-[0.22em] text-[#1C1814]/45">
             <span className="h-1.5 w-1.5 rounded-full bg-[#7DD3C7]" />
             Pricing
           </span>
-          <h2 data-pr="title" style={{ opacity: 0 }} className="mx-auto mt-5 max-w-2xl text-4xl font-extrabold leading-[0.96] tracking-[-0.04em] text-white sm:text-5xl md:text-[3.4rem]">
+          <h2 data-pr="title" style={{ opacity: 0 }} className="mx-auto mt-5 max-w-2xl text-4xl font-extrabold leading-[0.96] tracking-[-0.04em] text-[#1C1814] sm:text-5xl md:text-[3.4rem]">
             Simple pricing.{' '}
             <span className="text-[#7DD3C7]">
               Clear plans.
             </span>
           </h2>
-          <p data-pr="sub" style={{ opacity: 0 }} className="mt-5 text-[1rem] font-light leading-[1.8] text-white/55">
+          <p data-pr="sub" style={{ opacity: 0 }} className="mt-5 text-[1rem] font-light leading-[1.8] text-[#1C1814]/55">
             Start free, no credit card required. Upgrade, downgrade, or cancel anytime.
           </p>
           <div data-pr="toggle" style={{ opacity: 0 }}>
@@ -348,7 +349,7 @@ export default function PricingSection() {
           onClose={() => setDialogPlan(null)}
         />
 
-        <p data-pr="note" style={{ opacity: 0 }} className="mt-10 text-center text-[0.8rem] text-white/45">
+        <p data-pr="note" style={{ opacity: 0 }} className="mt-10 text-center text-[0.8rem] text-[#1C1814]/45">
           All plans include a 14-day free trial on paid features ·{' '}
           <button
             onClick={() => window.open('/pricing', '_self')}

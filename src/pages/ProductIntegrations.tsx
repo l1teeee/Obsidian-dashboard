@@ -69,22 +69,22 @@ export default function ProductIntegrations() {
     <ProductShell>
       {/* Hero */}
       <section className="relative pt-36 pb-16 overflow-hidden">
-        <div className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[400px] rounded-full bg-[#d394ff]/[0.06] blur-[130px]" />
+        <div className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[400px] rounded-full bg-[#7DD3C7]/[0.06] blur-[130px]" />
         <div className="mx-auto max-w-5xl px-6 text-center relative">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-            <span className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#d394ff]/20 bg-[#d394ff]/8 px-4 py-1.5 text-[0.68rem] font-bold uppercase tracking-[0.22em] text-[#d394ff]">
-              <span className="h-1.5 w-1.5 rounded-full bg-[#d394ff]" /> Product · Integrations
+            <span className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#7DD3C7]/20 bg-[#7DD3C7]/8 px-4 py-1.5 text-[0.68rem] font-bold uppercase tracking-[0.22em] text-[#7DD3C7]">
+              <span className="h-1.5 w-1.5 rounded-full bg-[#7DD3C7]" /> Product · Integrations
             </span>
-            <h1 className="mt-5 text-5xl md:text-[4rem] font-extrabold leading-[0.96] tracking-[-0.04em] text-white">
+            <h1 className="mt-5 text-5xl md:text-[4rem] font-extrabold leading-[0.96] tracking-[-0.04em] text-[#1C1814]">
               Connect your core<br />
-              <span className="bg-gradient-to-r from-[#d394ff] via-[#f0dcff] to-[#aa30fa] bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-[#7DD3C7] via-[#f0dcff] to-inverse-primary bg-clip-text text-transparent">
                 social platforms.
               </span>
             </h1>
-            <p className="mt-6 text-lg font-light text-white/55 max-w-xl mx-auto leading-relaxed">
+            <p className="mt-6 text-lg font-light text-[#1C1814]/55 max-w-xl mx-auto leading-relaxed">
               Vielinks connects to the social networks that matter. More integrations are on the roadmap.
             </p>
-            <button onClick={() => navigate('/register')} className="mt-8 rounded-full bg-[#d394ff] px-8 py-3.5 text-sm font-bold text-[#4a0076] hover:shadow-[0_0_32px_rgba(211,148,255,0.4)] transition-all active:scale-[0.98]">
+            <button onClick={() => navigate('/register')} className="mt-8 rounded-full bg-[#7DD3C7] px-8 py-3.5 text-sm font-bold text-[#0B0B0A] hover:shadow-[0_0_32px_rgba(125,211,199,0.4)] transition-all active:scale-[0.98]">
               Connect your accounts
             </button>
           </motion.div>
@@ -114,8 +114,8 @@ export default function ProductIntegrations() {
                     {st.label}
                   </span>
                 </div>
-                <h3 className="text-base font-bold text-white mb-1">{p.name}</h3>
-                <p className="text-xs text-white/40">{p.desc}</p>
+                <h3 className="text-base font-bold text-[#1C1814] mb-1">{p.name}</h3>
+                <p className="text-xs text-[#1C1814]/40">{p.desc}</p>
               </div>
             );
           })}
@@ -124,7 +124,7 @@ export default function ProductIntegrations() {
         {/* Legend */}
         <div className="flex flex-wrap items-center justify-center gap-5 mt-8">
           {Object.entries(STATUS_STYLE).map(([key, val]) => (
-            <span key={key} className="flex items-center gap-2 text-xs text-white/40">
+            <span key={key} className="flex items-center gap-2 text-xs text-[#1C1814]/40">
               <span className="w-2 h-2 rounded-full" style={{ backgroundColor: val.color }} />
               {val.label}
             </span>
@@ -135,21 +135,21 @@ export default function ProductIntegrations() {
       {/* How connecting works */}
       <section className="py-16 border-y border-white/[0.05] mx-auto max-w-5xl px-6" ref={howRef}>
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-extrabold tracking-tight text-white">Connect in 3 steps</h2>
-          <p className="mt-2 text-white/45">No developers. No API keys. No headaches.</p>
+          <h2 className="text-3xl font-extrabold tracking-tight text-[#1C1814]">Connect in 3 steps</h2>
+          <p className="mt-2 text-[#1C1814]/45">No developers. No API keys. No headaches.</p>
         </div>
         <div className="grid md:grid-cols-3 gap-6">
           {HOW.map((h) => (
             <div key={h.step} data-how style={{ opacity: 0 }} className="flex gap-4">
               <div className="shrink-0">
-                <div className="w-10 h-10 rounded-xl bg-[#d394ff]/10 border border-[#d394ff]/15 flex items-center justify-center">
-                  <span className="material-symbols-outlined text-[#d394ff]" style={{ fontSize: 18, fontVariationSettings: "'FILL' 1" }}>{h.icon}</span>
+                <div className="w-10 h-10 rounded-xl bg-[#7DD3C7]/10 border border-[#7DD3C7]/15 flex items-center justify-center">
+                  <span className="material-symbols-outlined text-[#7DD3C7]" style={{ fontSize: 18, fontVariationSettings: "'FILL' 1" }}>{h.icon}</span>
                 </div>
               </div>
               <div>
-                <span className="text-[10px] font-bold text-[#d394ff]/60 uppercase tracking-widest">{h.step}</span>
-                <h3 className="text-sm font-bold text-white mt-0.5 mb-1">{h.title}</h3>
-                <p className="text-xs text-white/45 leading-relaxed">{h.body}</p>
+                <span className="text-[10px] font-bold text-[#7DD3C7]/60 uppercase tracking-widest">{h.step}</span>
+                <h3 className="text-sm font-bold text-[#1C1814] mt-0.5 mb-1">{h.title}</h3>
+                <p className="text-xs text-[#1C1814]/45 leading-relaxed">{h.body}</p>
               </div>
             </div>
           ))}
@@ -159,8 +159,8 @@ export default function ProductIntegrations() {
       {/* Also integrates with */}
       <section className="py-20 mx-auto max-w-5xl px-6">
         <div className="text-center mb-12">
-          <h2 className="text-2xl font-extrabold tracking-tight text-white">Also works with</h2>
-          <p className="mt-2 text-white/45 text-sm">Beyond social networks — Vielinks connects to your workflow.</p>
+          <h2 className="text-2xl font-extrabold tracking-tight text-[#1C1814]">Also works with</h2>
+          <p className="mt-2 text-[#1C1814]/45 text-sm">Beyond social networks — Vielinks connects to your workflow.</p>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
           {ALSO.map((a) => (
@@ -169,13 +169,13 @@ export default function ProductIntegrations() {
               initial={{ opacity: 0, y: 12 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="rounded-2xl border border-white/[0.07] bg-[#111]/70 p-5 text-center hover:border-[#d394ff]/20 transition-all duration-300 group"
+              className="rounded-2xl border border-white/[0.07] bg-[#111]/70 p-5 text-center hover:border-[#7DD3C7]/20 transition-all duration-300 group"
             >
-              <div className="w-10 h-10 rounded-xl bg-[#d394ff]/8 border border-[#d394ff]/12 flex items-center justify-center mb-3 mx-auto group-hover:bg-[#d394ff]/15 transition-colors">
-                <span className="material-symbols-outlined text-[#d394ff]" style={{ fontSize: 18, fontVariationSettings: "'FILL' 1" }}>{a.icon}</span>
+              <div className="w-10 h-10 rounded-xl bg-[#7DD3C7]/8 border border-[#7DD3C7]/12 flex items-center justify-center mb-3 mx-auto group-hover:bg-[#7DD3C7]/15 transition-colors">
+                <span className="material-symbols-outlined text-[#7DD3C7]" style={{ fontSize: 18, fontVariationSettings: "'FILL' 1" }}>{a.icon}</span>
               </div>
-              <p className="text-sm font-bold text-white mb-1">{a.name}</p>
-              <p className="text-[11px] text-white/40 leading-snug">{a.desc}</p>
+              <p className="text-sm font-bold text-[#1C1814] mb-1">{a.name}</p>
+              <p className="text-[11px] text-[#1C1814]/40 leading-snug">{a.desc}</p>
             </motion.div>
           ))}
         </div>

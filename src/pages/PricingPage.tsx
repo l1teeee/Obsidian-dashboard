@@ -84,7 +84,7 @@ function Cell({ value, accent }: { value: CellValue; accent?: boolean }) {
   if (typeof value === 'boolean') {
     return value ? (
       <span className={cn('flex h-6 w-6 mx-auto items-center justify-center rounded-full',
-        accent ? 'bg-[#7DD3C7]/15 text-[#7DD3C7]' : 'bg-white/[0.06] text-white/50'
+        accent ? 'bg-[#7DD3C7]/15 text-[#7DD3C7]' : 'bg-[#1C1814]/[0.05] text-[#1C1814]/50'
       )}>
         <svg className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth={2.4} viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
@@ -95,7 +95,7 @@ function Cell({ value, accent }: { value: CellValue; accent?: boolean }) {
     );
   }
   return (
-    <span className={cn('text-[0.8rem] font-medium', accent ? 'text-[#7DD3C7]' : 'text-white/70')}>
+    <span className={cn('text-[0.8rem] font-medium', accent ? 'text-[#7DD3C7]' : 'text-[#1C1814]/70')}>
       {value}
     </span>
   );
@@ -110,20 +110,20 @@ function ComparisonTable() {
           <span className="h-1.5 w-1.5 rounded-full bg-[#7DD3C7]" />
           Full comparison
         </span>
-        <h2 className="mt-5 text-3xl font-extrabold tracking-[-0.03em] text-white md:text-4xl">
+        <h2 className="mt-5 text-3xl font-extrabold tracking-[-0.03em] text-[#1C1814] md:text-4xl">
           Everything, side by side.
         </h2>
-        <p className="mt-3 text-[0.95rem] font-light text-white/50">
+        <p className="mt-3 text-[0.95rem] font-light text-[#1C1814]/50">
           Every feature across every plan — no surprises.
         </p>
       </div>
 
-      <div className="overflow-x-auto rounded-[2rem] border border-white/[0.07] bg-[#171615]/70 backdrop-blur-xl">
+      <div className="overflow-x-auto rounded-[2rem] border border-white/[0.07] bg-[#F3EEE6]/70 backdrop-blur-xl">
         <table className="w-full border-collapse text-left">
           {/* Sticky column headers */}
           <thead>
             <tr className="border-b border-white/[0.07]">
-              <th className="py-5 pl-8 pr-4 text-[0.7rem] font-bold uppercase tracking-[0.18em] text-white/30 w-[260px]">
+              <th className="py-5 pl-8 pr-4 text-[0.7rem] font-bold uppercase tracking-[0.18em] text-[#1C1814]/30 w-[260px]">
                 Feature
               </th>
               {PLAN_COLS.map((col) => (
@@ -131,7 +131,7 @@ function ComparisonTable() {
                   key={col.key}
                   className={cn(
                     'py-5 px-6 text-center text-[0.82rem] font-bold tracking-tight',
-                    col.accent ? 'text-[#7DD3C7]' : 'text-white/70'
+                    col.accent ? 'text-[#7DD3C7]' : 'text-[#1C1814]/70'
                   )}
                 >
                   {col.label}
@@ -167,7 +167,7 @@ function ComparisonTable() {
                       ri % 2 === 0 ? 'bg-transparent' : 'bg-white/[0.015]'
                     )}
                   >
-                    <td className="py-4 pl-8 pr-4 text-[0.85rem] text-white/60">{row.label}</td>
+                    <td className="py-4 pl-8 pr-4 text-[0.85rem] text-[#1C1814]/60">{row.label}</td>
                     {PLAN_COLS.map((col) => (
                       <td key={col.key} className="py-4 px-6 text-center">
                         <Cell value={row[col.key] as CellValue} accent={col.accent} />
@@ -195,7 +195,7 @@ const FAQS = [
 function FAQ() {
   return (
     <div className="mt-24 mx-auto max-w-[860px]">
-      <h3 className="mb-10 text-center text-2xl font-extrabold tracking-[-0.03em] text-white">
+      <h3 className="mb-10 text-center text-2xl font-extrabold tracking-[-0.03em] text-[#1C1814]">
         Frequently asked questions
       </h3>
       <div className="grid gap-4 md:grid-cols-2">
@@ -204,8 +204,8 @@ function FAQ() {
             key={faq.q}
             className="rounded-2xl border border-white/[0.07] bg-white/[0.02] p-6 backdrop-blur-sm"
           >
-            <p className="mb-2 text-[0.9rem] font-semibold text-white/85">{faq.q}</p>
-            <p className="text-[0.85rem] leading-[1.7] text-white/50">{faq.a}</p>
+            <p className="mb-2 text-[0.9rem] font-semibold text-[#1C1814]/85">{faq.q}</p>
+            <p className="text-[0.85rem] leading-[1.7] text-[#1C1814]/50">{faq.a}</p>
           </div>
         ))}
       </div>
@@ -226,7 +226,7 @@ export default function PricingPage() {
   const [dialogPlan, setDialogPlan] = useState<PlanDef | null>(null);
 
   return (
-    <div className="min-h-screen bg-[#0B0B0A] text-white overflow-x-hidden">
+    <div className="min-h-screen bg-[#F4F0E8] text-[#1C1814] overflow-x-hidden">
       <LandingNav />
 
       <main className="mx-auto max-w-[1440px] px-6 md:px-12 pt-36 pb-28">
@@ -241,13 +241,13 @@ export default function PricingPage() {
             <span className="h-1.5 w-1.5 rounded-full bg-[#7DD3C7]" />
             Pricing
           </span>
-          <h1 className="mt-5 text-5xl font-extrabold leading-[0.96] tracking-[-0.04em] text-white md:text-[4rem]">
+          <h1 className="mt-5 text-5xl font-extrabold leading-[0.96] tracking-[-0.04em] text-[#1C1814] md:text-[4rem]">
             Simple pricing.{' '}
             <span className="text-[#7DD3C7]">
               Clear plans.
             </span>
           </h1>
-          <p className="mt-5 text-[1rem] font-light leading-[1.8] text-white/55 max-w-xl mx-auto">
+          <p className="mt-5 text-[1rem] font-light leading-[1.8] text-[#1C1814]/55 max-w-xl mx-auto">
             Start free, no credit card required. Every paid plan includes a 14-day free trial.
             Upgrade, downgrade, or cancel anytime.
           </p>
@@ -272,7 +272,7 @@ export default function PricingPage() {
           ))}
         </motion.div>
 
-        <p className="mt-8 text-center text-[0.8rem] text-white/40">
+        <p className="mt-8 text-center text-[0.8rem] text-[#1C1814]/40">
           All plans include a 14-day free trial · Cancel anytime · No hidden fees
         </p>
 
@@ -291,22 +291,22 @@ export default function PricingPage() {
         {/* Bottom CTA */}
         <div className="mt-24 text-center">
           <div className="inline-flex flex-col items-center gap-5 rounded-[2rem] border border-[#7DD3C7]/15 bg-[#7DD3C7]/[0.04] px-12 py-10 backdrop-blur-xl">
-            <h3 className="text-2xl font-extrabold tracking-[-0.03em] text-white">
+            <h3 className="text-2xl font-extrabold tracking-[-0.03em] text-[#1C1814]">
               Still not sure which plan fits?
             </h3>
-            <p className="text-[0.9rem] text-white/55 max-w-sm text-center">
+            <p className="text-[0.9rem] text-[#1C1814]/55 max-w-sm text-center">
               Start with Free and upgrade when you are ready. Or contact us and we will recommend the right plan for your team.
             </p>
             <div className="flex flex-col sm:flex-row gap-3">
               <button
                 onClick={() => navigate('/register')}
-                className="rounded-full bg-[#F4F1EC] px-8 py-3.5 text-sm font-bold text-[#0B0B0A] transition-all hover:shadow-[0_0_36px_rgba(244,241,236,0.2)]"
+                className="rounded-full bg-[#1C1814] px-8 py-3.5 text-sm font-bold text-[#F4F0E8] transition-all hover:shadow-[0_0_36px_rgba(125,211,199,0.28)]"
               >
                 Start for free
               </button>
               <button
                 onClick={() => { window.location.href = 'mailto:hello@vielinks.com?subject=Vielinks%20plan%20recommendation'; }}
-                className="rounded-full border border-white/[0.12] bg-white/[0.04] px-8 py-3.5 text-sm font-semibold text-white/60 hover:border-[#7DD3C7]/30 hover:text-white/80 transition-all"
+                className="rounded-full border border-white/[0.12] bg-white/[0.04] px-8 py-3.5 text-sm font-semibold text-[#1C1814]/60 hover:border-[#7DD3C7]/30 hover:text-[#1C1814]/80 transition-all"
               >
                 Contact sales
               </button>

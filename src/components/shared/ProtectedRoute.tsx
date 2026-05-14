@@ -13,8 +13,8 @@ export default function ProtectedRoute({ children, requireProfileCompleted = tru
 
   if (isLoading) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-[#0e0e0e]">
-        <div className="h-6 w-6 animate-spin rounded-full border-2 border-[#d394ff] border-t-transparent" />
+      <div className="flex min-h-screen items-center justify-center bg-[#F4F0E8]">
+        <div className="h-6 w-6 animate-spin rounded-full border-2 border-[#7DD3C7] border-t-transparent" />
       </div>
     );
   }

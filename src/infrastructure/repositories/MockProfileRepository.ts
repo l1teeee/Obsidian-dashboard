@@ -24,8 +24,8 @@ const CONNECTED_PLATFORMS: ConnectedPlatformEntry[] = [
 
 const ACTIVITY: ActivityEntry[] = [
   { action: 'Published post',     detail: '"The Future of Digital Curation"', time: '2 hours ago', icon: 'publish',       color: '#c5d247' },
-  { action: 'Scheduled 3 posts',  detail: 'Instagram · LinkedIn · Facebook',  time: '5 hours ago', icon: 'schedule',      color: '#d394ff' },
-  { action: 'Connected platform', detail: 'Instagram reconnected',            time: 'Yesterday',   icon: 'link',          color: '#d394ff' },
+  { action: 'Scheduled 3 posts',  detail: 'Instagram · LinkedIn · Facebook',  time: '5 hours ago', icon: 'schedule',      color: '#7DD3C7' },
+  { action: 'Connected platform', detail: 'Instagram reconnected',            time: 'Yesterday',   icon: 'link',          color: '#7DD3C7' },
   { action: 'Export report',      detail: 'Post #88291 analytics PDF',        time: '2 days ago',  icon: 'download',      color: '#988d9c' },
   { action: 'Post failed',        detail: '"Tech Nostalgia: Why We Crave…"',  time: '3 days ago',  icon: 'error_outline', color: '#ffb4ab' },
 ];

@@ -10,27 +10,27 @@ export default function ConnectedPlatformsList({ platforms }: ConnectedPlatforms
   const navigate = useNavigate();
 
   return (
-    <div data-section className="bg-[#201f1f] rounded-3xl border border-[#4c4450]/10 overflow-hidden">
-      <div className="px-8 py-5 border-b border-[#4c4450]/5 flex items-center justify-between bg-[#2a2a2a]/20">
-        <h3 className="font-headline font-bold text-white flex items-center gap-2">
-          <span className="material-symbols-outlined text-[#d394ff] text-[18px]">hub</span>
+    <div data-section className="bg-[#F0EBE2] rounded-3xl border border-[#1C1814]/10 overflow-hidden">
+      <div className="px-8 py-5 border-b border-[#1C1814]/5 flex items-center justify-between bg-[#E5DFD6]/20">
+        <h3 className="font-headline font-bold text-[#1C1814] flex items-center gap-2">
+          <span className="material-symbols-outlined text-[#7DD3C7] text-[18px]">hub</span>
           Connected Platforms
         </h3>
         <button
           onClick={() => navigate('/platforms')}
-          className="text-[10px] text-[#d394ff] font-bold uppercase tracking-widest hover:text-white transition-colors"
+          className="text-[10px] text-[#7DD3C7] font-bold uppercase tracking-widest hover:text-[#1C1814] transition-colors"
         >
           Manage
         </button>
       </div>
-      <div className="divide-y divide-[#4c4450]/5">
+      <div className="divide-y divide-[#1C1814]/5">
         {platforms.length === 0 ? (
           <div className="px-8 py-8 flex flex-col items-center gap-2 text-center">
-            <span className="material-symbols-outlined text-[#4c4450] text-[32px]">hub</span>
-            <p className="text-sm text-[#988d9c]">No platforms connected</p>
+            <span className="material-symbols-outlined text-[#1C1814] text-[32px]">hub</span>
+            <p className="text-sm text-[#6A6470]">No platforms connected</p>
             <button
               onClick={() => navigate('/platforms')}
-              className="mt-1 text-[10px] text-[#d394ff] font-bold uppercase tracking-widest hover:text-white transition-colors"
+              className="mt-1 text-[10px] text-[#7DD3C7] font-bold uppercase tracking-widest hover:text-[#1C1814] transition-colors"
             >
               Connect now
             </button>
@@ -41,12 +41,12 @@ export default function ConnectedPlatformsList({ platforms }: ConnectedPlatforms
             return (
               <div key={p.platformId} className="px-8 py-4 flex items-center justify-between hover:bg-white/[0.02] transition-colors">
                 <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-xl flex items-center justify-center text-white shrink-0" style={{ background: p.color }}>
+                  <div className="w-8 h-8 rounded-xl flex items-center justify-center text-[#1C1814] shrink-0" style={{ background: p.color }}>
                     <SocialBrandIcon platformId={p.platformId} size={14} />
                   </div>
                   <div>
-                    <p className="text-sm font-semibold text-white">{p.name}</p>
-                    <p className="text-[10px] text-[#988d9c]">{p.handle}</p>
+                    <p className="text-sm font-semibold text-[#1C1814]">{p.name}</p>
+                    <p className="text-[10px] text-[#6A6470]">{p.handle}</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-2">

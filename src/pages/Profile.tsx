@@ -47,7 +47,7 @@ export default function Profile() {
           actions={
             <button
               onClick={() => navigate(-1)}
-              className="flex items-center gap-1.5 text-sm text-[#988d9c] hover:text-white transition-colors"
+              className="flex items-center gap-1.5 text-sm text-[#6A6470] hover:text-[#1C1814] transition-colors"
             >
               <span className="material-symbols-outlined text-[16px]">arrow_back</span>
               Back
@@ -57,14 +57,14 @@ export default function Profile() {
 
         {!profile ? (
           <div className="p-6 md:p-10 max-w-6xl mx-auto space-y-8 animate-pulse">
-            <div className="h-56 rounded-3xl bg-[#201f1f] border border-[#4c4450]/10" />
+            <div className="h-56 rounded-3xl bg-[#F0EBE2] border border-[#1C1814]/10" />
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               <div className="lg:col-span-2 space-y-8">
-                <div className="h-64 rounded-3xl bg-[#201f1f] border border-[#4c4450]/10" />
-                <div className="h-40 rounded-3xl bg-[#201f1f] border border-[#4c4450]/10" />
+                <div className="h-64 rounded-3xl bg-[#F0EBE2] border border-[#1C1814]/10" />
+                <div className="h-40 rounded-3xl bg-[#F0EBE2] border border-[#1C1814]/10" />
               </div>
               <div className="space-y-8">
-                <div className="h-48 rounded-3xl bg-[#201f1f] border border-[#4c4450]/10" />
+                <div className="h-48 rounded-3xl bg-[#F0EBE2] border border-[#1C1814]/10" />
               </div>
             </div>
           </div>
@@ -83,7 +83,7 @@ export default function Profile() {
                 <PlanCard />
                 <ActivityFeed activity={activity} />
 
-                <div data-section className="bg-[#201f1f] rounded-3xl border border-[#ffb4ab]/10 overflow-hidden">
+                <div data-section className="bg-[#F0EBE2] rounded-3xl border border-[#ffb4ab]/10 overflow-hidden">
                   <div className="px-6 py-5 border-b border-[#ffb4ab]/5 bg-[#ffb4ab]/5">
                     <h3 className="font-headline font-bold text-[#ffb4ab] flex items-center gap-2 text-sm">
                       <span className="material-symbols-outlined text-[18px]">warning</span>
@@ -91,7 +91,7 @@ export default function Profile() {
                     </h3>
                   </div>
                   <div className="p-6 space-y-3">
-                    <button className="w-full py-2.5 rounded-xl border border-[#4c4450]/20 text-[#988d9c] text-sm hover:border-[#ffb4ab]/30 hover:text-[#ffb4ab] transition-all">
+                    <button className="w-full py-2.5 rounded-xl border border-[#1C1814]/20 text-[#6A6470] text-sm hover:border-[#ffb4ab]/30 hover:text-[#ffb4ab] transition-all">
                       Deactivate Account
                     </button>
                     <button className="w-full py-2.5 rounded-xl border border-[#ffb4ab]/20 text-[#ffb4ab] text-sm hover:bg-[#ffb4ab]/10 transition-all">

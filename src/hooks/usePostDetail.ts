@@ -21,6 +21,7 @@ export function usePostDetail() {
   useEffect(() => {
     if (!resolvedId) return;
     let cancelled = false;
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setLoading(true);
     setNotFound(false);
     postsService.getById(resolvedId)
@@ -34,6 +35,7 @@ export function usePostDetail() {
   useEffect(() => {
     if (!apiPost) return;
     let cancelled = false;
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMetricsLoading(true);
     postsService.getMetrics(resolvedId)
       .then(m  => { if (!cancelled) setMetrics(m); })

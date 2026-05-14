@@ -25,14 +25,14 @@ export default function PostPill({ post, compact = false }: PostPillProps) {
   return (
     <Link
       to={`/posts/${post.id}`}
-      className="flex items-center gap-2 px-3 py-2 rounded-xl border border-[#4c4450]/10 bg-[#1c1b1b] hover:bg-[#201f1f] hover:border-[#d394ff]/20 transition-all group"
+      className="flex items-center gap-2 px-3 py-2 rounded-xl border border-[#1C1814]/10 bg-[#FAF7F2] hover:bg-[#F0EBE2] hover:border-[#7DD3C7]/20 transition-all group"
     >
       <div className="w-5 h-5 rounded-lg flex items-center justify-center shrink-0" style={{ background: p.color }}>
         <SocialBrandIcon platformId={post.platform} size={11} />
       </div>
       <div className="flex-1 min-w-0">
-        <p className="text-xs font-semibold text-white truncate leading-tight">{post.title}</p>
-        <p className="text-[10px] text-[#988d9c]">{post.time}</p>
+        <p className="text-xs font-semibold text-[#1C1814] truncate leading-tight">{post.title}</p>
+        <p className="text-[10px] text-[#6A6470]">{post.time}</p>
       </div>
       <span className="shrink-0 hidden sm:block">
         <StatusBadge status={post.status} size="xs" />

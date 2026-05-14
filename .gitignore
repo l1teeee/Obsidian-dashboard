@@ -19,7 +19,19 @@ dist-ssr
 *.local
 
 # Claude Code internals
+.claude/
 .claude/worktrees/
+.agents/
+.opencode/
+
+# AI agent instructions / local orchestration notes
+CLAUDE.md
+AUDITORIA_PROMPT_POR_FASES.md
+ORQUESTACION_*.md
+PALETAS_Y_ORQUESTACION_*.md
+PROMPT_*.md
+*_PROMPT_*.md
+COMPONENTES_*.md
 
 # Editor directories and files
 .vscode/*

@@ -20,12 +20,12 @@ function isVideoUrl(url: string): boolean {
   return /\.(mp4|mov|webm|avi)(\?|#|$)/i.test(url);
 }
 
-/** Interpolate between #4c4450 (gray) and #d394ff (purple) based on queue fill 0–10 */
+/** Interpolate between warm gray and teal based on queue fill. */
 function scheduleColor(total: number): string {
   const fill = Math.min(total / 10, 1);
-  const r = Math.round(76  + (211 - 76)  * fill);
-  const g = Math.round(68  + (148 - 68)  * fill);
-  const b = Math.round(80  + (255 - 80)  * fill);
+  const r = Math.round(73  + (125 - 73)  * fill);
+  const g = Math.round(72  + (211 - 72)  * fill);
+  const b = Math.round(71  + (199 - 71)  * fill);
   return `rgb(${r},${g},${b})`;
 }
 
@@ -52,15 +52,15 @@ function UpcomingCard({
     <div
       ref={cardRef}
       onClick={() => navigate(`/posts/${item.id}`)}
-      className={`glass-card rounded-3xl p-5 border border-[#4c4450]/10 hover:border-[#d394ff]/30 transition-all cursor-pointer ${className}`}
+      className={`surface-card p-5 transition-all cursor-pointer hover:border-[#7DD3C7]/30 hover:bg-[#F0EBE2] ${className}`}
     >
       {/* Header row — date + platform badge */}
       <div className="flex justify-between items-start mb-3">
-        <span className="bg-[#d394ff]/10 text-[#d394ff] px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">
+        <span className="bg-[#7DD3C7]/10 text-[#7DD3C7] px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-[0.12em]">
           {item.date}
         </span>
         <div
-          className="w-6 h-6 rounded font-bold text-[8px] text-white flex items-center justify-center shrink-0"
+          className="w-6 h-6 rounded-md font-bold text-xs text-[#1C1814] flex items-center justify-center shrink-0"
           style={{ background: p.color }}
         >
           {p.abbr}
@@ -90,22 +90,22 @@ function UpcomingCard({
           {/* Video badge */}
           {isVideo && (
             <div className="absolute bottom-1.5 left-1.5 flex items-center gap-1 bg-black/70 backdrop-blur-sm px-1.5 py-0.5 rounded-md">
-              <span className="material-symbols-outlined text-white" style={{ fontSize: 9, fontVariationSettings: "'FILL' 1" }}>play_arrow</span>
-              <span className="text-[8px] font-bold text-white uppercase tracking-wide">Video</span>
+              <span className="material-symbols-outlined text-[#1C1814]" style={{ fontSize: 9, fontVariationSettings: "'FILL' 1" }}>play_arrow</span>
+              <span className="text-xs font-bold text-[#1C1814] uppercase tracking-wide">Video</span>
             </div>
           )}
 
           {/* Multi-media count */}
           {isMulti && (
             <div className="absolute top-1.5 right-1.5 bg-black/60 backdrop-blur-sm px-1.5 py-0.5 rounded-md">
-              <span className="text-[8px] font-bold text-white">+{item.mediaUrls.length - 1}</span>
+              <span className="text-xs font-bold text-[#1C1814]">+{item.mediaUrls.length - 1}</span>
             </div>
           )}
         </div>
       )}
 
       {/* Caption */}
-      <p className="text-[#cfc2d2] text-sm line-clamp-3 italic leading-relaxed">
+      <p className="text-[#5C5650] text-sm line-clamp-3 italic leading-relaxed">
         {item.caption || 'No caption'}
       </p>
 
@@ -136,7 +136,7 @@ export default function PostCarousel({
             key={i}
             item={item}
             total={upcoming.length}
-            className="snap-start shrink-0 w-[75vw] sm:w-[45vw]"
+            className="snap-start shrink-0 w-[82vw] sm:w-[45vw]"
           />
         ))}
       </div>
@@ -173,11 +173,12 @@ export default function PostCarousel({
           <button
             key={i}
             onClick={() => setCarouselIdx(i)}
+            aria-label={`Go to upcoming posts page ${i + 1}`}
             className="rounded-full transition-all"
             style={{
               width:      i === carouselIdx ? 20 : 6,
               height:     6,
-              background: i === carouselIdx ? '#d394ff' : 'rgba(76,68,80,0.6)',
+              background: i === carouselIdx ? '#7DD3C7' : 'rgba(73,72,71,0.68)',
             }}
           />
         ))}
@@ -188,14 +189,16 @@ export default function PostCarousel({
         <button
           onClick={() => scrollCarousel(-1)}
           disabled={carouselIdx === 0}
-          className="w-8 h-8 rounded-full border border-[#4c4450]/30 flex items-center justify-center text-[#988d9c] hover:text-white hover:border-[#d394ff]/40 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+          aria-label="Previous upcoming posts"
+          className="w-8 h-8 rounded-full border border-[#1C1814]/30 flex items-center justify-center text-[#6A6470] hover:text-[#1C1814] hover:border-[#7DD3C7]/40 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
         >
           <span className="material-symbols-outlined" style={{ fontSize: 16 }}>chevron_left</span>
         </button>
         <button
           onClick={() => scrollCarousel(1)}
           disabled={carouselIdx >= maxIdx}
-          className="w-8 h-8 rounded-full border border-[#4c4450]/30 flex items-center justify-center text-[#988d9c] hover:text-white hover:border-[#d394ff]/40 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+          aria-label="Next upcoming posts"
+          className="w-8 h-8 rounded-full border border-[#1C1814]/30 flex items-center justify-center text-[#6A6470] hover:text-[#1C1814] hover:border-[#7DD3C7]/40 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
         >
           <span className="material-symbols-outlined" style={{ fontSize: 16 }}>chevron_right</span>
         </button>
@@ -203,3 +206,4 @@ export default function PostCarousel({
     </>
   );
 }
+

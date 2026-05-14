@@ -22,7 +22,7 @@ export default function SessionWarningModal({
       const id = requestAnimationFrame(() => setVisible(true));
       return () => cancelAnimationFrame(id);
     } else {
-      setVisible(false);
+      requestAnimationFrame(() => setVisible(false));
     }
   }, [show]);
 
@@ -36,14 +36,14 @@ export default function SessionWarningModal({
 
       {/* Card — fades in + slides up */}
       <div
-        className="relative w-full max-w-sm bg-[#131313] border border-[#4c4450]/30 rounded-3xl shadow-[0_40px_100px_rgba(0,0,0,0.8)] overflow-hidden transition-all duration-500 ease-out"
+        className="relative w-full max-w-sm bg-[#131313] border border-[#1C1814]/30 rounded-3xl shadow-[0_40px_100px_rgba(0,0,0,0.8)] overflow-hidden transition-all duration-500 ease-out"
         style={{
           opacity:   visible ? 1 : 0,
           transform: visible ? 'translateY(0) scale(1)' : 'translateY(24px) scale(0.97)',
         }}
       >
         {/* Top glow */}
-        <div className="absolute -top-20 left-1/2 -translate-x-1/2 w-64 h-40 bg-[#d394ff]/10 blur-[60px] rounded-full pointer-events-none" />
+        <div className="absolute -top-20 left-1/2 -translate-x-1/2 w-64 h-40 bg-[#7DD3C7]/10 blur-[60px] rounded-full pointer-events-none" />
 
         <div className="relative p-8 flex flex-col items-center text-center gap-5">
 
@@ -54,7 +54,7 @@ export default function SessionWarningModal({
               <circle
                 cx="40" cy="40" r="34"
                 fill="none"
-                stroke={countdown <= 10 ? '#ff6b6b' : '#d394ff'}
+                stroke={countdown <= 10 ? '#ff6b6b' : '#7DD3C7'}
                 strokeWidth="5"
                 strokeLinecap="round"
                 strokeDasharray={`${2 * Math.PI * 34}`}
@@ -64,7 +64,7 @@ export default function SessionWarningModal({
             </svg>
             <div className="absolute inset-0 flex items-center justify-center">
               <span className={`text-2xl font-black font-mono tabular-nums transition-colors duration-300 ${
-                countdown <= 10 ? 'text-[#ff6b6b]' : 'text-white'
+                countdown <= 10 ? 'text-[#ff6b6b]' : 'text-[#1C1814]'
               }`}>
                 {countdown}
               </span>
@@ -73,8 +73,8 @@ export default function SessionWarningModal({
 
           {/* Text */}
           <div className="space-y-1.5">
-            <h2 className="text-lg font-extrabold text-white tracking-tight">Still there?</h2>
-            <p className="text-sm text-[#988d9c] leading-relaxed">
+            <h2 className="text-lg font-extrabold text-[#1C1814] tracking-tight">Still there?</h2>
+            <p className="text-sm text-[#6A6470] leading-relaxed">
               Your session will expire due to inactivity.
               <br />
               Keep it active or you'll be signed out.
@@ -85,13 +85,13 @@ export default function SessionWarningModal({
           <div className="flex flex-col gap-2 w-full pt-1">
             <button
               onClick={onKeepAlive}
-              className="w-full py-3 rounded-2xl bg-[#d394ff] text-[#2f004d] text-sm font-extrabold hover:brightness-110 active:scale-[0.98] transition-all shadow-[0_0_24px_rgba(211,148,255,0.3)]"
+              className="w-full py-3 rounded-2xl bg-[#7DD3C7] text-[#2f004d] text-sm font-extrabold hover:brightness-110 active:scale-[0.98] transition-all shadow-[0_0_24px_rgba(125,211,199,0.3)]"
             >
               Keep session active
             </button>
             <button
               onClick={onLogout}
-              className="w-full py-2.5 rounded-2xl text-[#988d9c] text-sm font-medium hover:text-white transition-colors"
+              className="w-full py-2.5 rounded-2xl text-[#6A6470] text-sm font-medium hover:text-[#1C1814] transition-colors"
             >
               Sign out
             </button>
