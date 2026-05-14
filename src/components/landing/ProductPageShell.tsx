@@ -5,7 +5,7 @@ import type { ReactNode } from 'react';
 
 export default function ProductPageShell({ children }: { children: ReactNode }) {
   return (
-    <div className="landing-page bg-[#F4F0E8] text-[#1C1814] overflow-x-hidden">
+    <div className="landing-page bg-[#F8F5FF] text-[#18111F] overflow-x-hidden">
       <CursorFollower />
       <LandingNav />
       <main>{children}</main>

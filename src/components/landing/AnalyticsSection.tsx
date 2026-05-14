@@ -100,8 +100,8 @@ export default function AnalyticsSection() {
 
   return (
     <section ref={sectionRef} id="Analytics" className="relative overflow-hidden py-28 md:py-36">
-      <div data-a="orb-1" style={{ opacity: 0 }} className="pointer-events-none absolute left-[6%] top-20 h-72 w-72 rounded-full bg-[#7DD3C7]/[0.06] blur-[110px]" />
-      <div data-a="orb-2" style={{ opacity: 0 }} className="pointer-events-none absolute bottom-10 right-[4%] h-72 w-72 rounded-full bg-[#D6A86A]/[0.06] blur-[110px]" />
+      <div data-a="orb-1" style={{ opacity: 0 }} className="pointer-events-none absolute left-[6%] top-20 h-72 w-72 rounded-full bg-[#7C3AED]/[0.06] blur-[110px]" />
+      <div data-a="orb-2" style={{ opacity: 0 }} className="pointer-events-none absolute bottom-10 right-[4%] h-72 w-72 rounded-full bg-[#D946EF]/[0.06] blur-[110px]" />
 
       <div className="mx-auto grid max-w-[1440px] items-center gap-16 px-6 md:px-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-20">
 
@@ -110,20 +110,20 @@ export default function AnalyticsSection() {
           <span
             data-a="eyebrow"
             style={{ opacity: 0 }}
-            className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#7DD3C7]/18 bg-[#7DD3C7]/10 px-4 py-1.5 text-[0.68rem] font-bold uppercase tracking-[0.22em] text-[#7DD3C7]"
+            className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#7C3AED]/18 bg-[#7C3AED]/10 px-4 py-1.5 text-[0.68rem] font-bold uppercase tracking-[0.22em] text-[#7C3AED]"
           >
-            <span className="h-1.5 w-1.5 rounded-full bg-[#7DD3C7]" />
+            <span className="h-1.5 w-1.5 rounded-full bg-[#7C3AED]" />
             Performance Intelligence
           </span>
 
           <h2
             data-a="title"
             style={{ opacity: 0 }}
-            className="text-4xl font-extrabold leading-[0.96] tracking-[-0.04em] text-[#1C1814] sm:text-5xl md:text-[3.4rem]"
+            className="text-4xl font-extrabold leading-[0.96] tracking-[-0.04em] text-[#18111F] sm:text-5xl md:text-[3.4rem]"
           >
             Know exactly what's
             <br />
-            <span className="text-[#7DD3C7]">
+            <span className="text-[#7C3AED]">
               working and why.
             </span>
           </h2>
@@ -131,7 +131,7 @@ export default function AnalyticsSection() {
           <p
             data-a="desc"
             style={{ opacity: 0 }}
-            className="mx-auto mt-6 max-w-[520px] text-[1rem] font-light leading-[1.8] text-[#1C1814]/55 lg:mx-0"
+            className="mx-auto mt-6 max-w-[520px] text-[1rem] font-light leading-[1.8] text-[#18111F]/55 lg:mx-0"
           >
             Real-time metrics across Instagram, LinkedIn, and Facebook - reach, engagement rate, impressions, and follower growth. All in one view, updated continuously.
           </p>
@@ -139,12 +139,12 @@ export default function AnalyticsSection() {
           <ul className="mt-9 space-y-4">
             {features.map((f) => (
               <li key={f.label} data-a="feature" style={{ opacity: 0 }} className="group flex items-center gap-4">
-                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[#7DD3C7]/18 bg-[#7DD3C7]/10 text-[#7DD3C7] transition-all duration-300 group-hover:bg-[#7DD3C7] group-hover:text-[#0B0B0A]">
+                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[#7C3AED]/18 bg-[#7C3AED]/10 text-[#7C3AED] transition-all duration-300 group-hover:bg-[#7C3AED] group-hover:text-white">
                   <svg className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth={2.2} viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" d={f.icon} />
                   </svg>
                 </div>
-                <span className="text-sm font-medium text-[#1C1814]/65">{f.label}</span>
+                <span className="text-sm font-medium text-[#18111F]/65">{f.label}</span>
               </li>
             ))}
           </ul>
@@ -155,25 +155,25 @@ export default function AnalyticsSection() {
           <div data-a="chart-shell" style={{ opacity: 0 }} className="relative mx-auto max-w-[520px]">
             <div
               data-a="chart-glow"
-              className="pointer-events-none absolute inset-x-10 top-8 h-32 rounded-full bg-[#7DD3C7]/10 blur-[80px]"
+              className="pointer-events-none absolute inset-x-10 top-8 h-32 rounded-full bg-[#7C3AED]/10 blur-[80px]"
             />
 
-            <div className="relative overflow-hidden rounded-[2rem] border border-white/[0.08] bg-[#F3EEE6]/80 p-6 shadow-[0_30px_100px_rgba(0,0,0,0.35)] backdrop-blur-2xl md:p-7">
-              <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.025)_0%,rgba(255,255,255,0.00)_40%)]" />
-              <div className="absolute inset-x-0 top-0 h-px bg-white/[0.09]" />
+            <div className="relative overflow-hidden rounded-[2rem] border border-[rgba(24,17,31,0.16)] bg-[#FFFFFF] p-6 shadow-[0_20px_60px_rgba(24,17,31,0.10)] md:p-7">
+              <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(124,58,237,0.04)_0%,rgba(124,58,237,0.00)_40%)]" />
+              <div className="absolute inset-x-0 top-0 h-px bg-[rgba(24,17,31,0.10)]" />
 
               <div className="relative z-10">
                 {/* Header row */}
                 <div className="mb-2 flex items-start justify-between gap-4">
                   <div>
-                    <p data-a="metric" style={{ opacity: 0 }} className="mb-1 text-[0.6rem] font-bold uppercase tracking-[0.22em] text-[#1C1814]/30">
+                    <p data-a="metric" style={{ opacity: 0 }} className="mb-1 text-[0.6rem] font-bold uppercase tracking-[0.22em] text-[#18111F]/45">
                       Weekly Reach · Apr 1–7, 2026
                     </p>
                     <div className="flex items-end gap-2.5">
-                      <p data-a="metric" style={{ opacity: 0 }} className="text-[2rem] font-extrabold tracking-[-0.04em] text-[#1C1814] md:text-[2.4rem]">
+                      <p data-a="metric" style={{ opacity: 0 }} className="text-[2rem] font-extrabold tracking-[-0.04em] text-[#18111F] md:text-[2.4rem]">
                         144.3K
                       </p>
-                      <span data-a="metric" style={{ opacity: 0 }} className="mb-1 inline-flex items-center gap-1 rounded-full border border-[#7DD3C7]/16 bg-[#7DD3C7]/10 px-2.5 py-0.5 text-[0.7rem] font-semibold text-[#7DD3C7]">
+                      <span data-a="metric" style={{ opacity: 0 }} className="mb-1 inline-flex items-center gap-1 rounded-full border border-[#7C3AED]/16 bg-[#7C3AED]/10 px-2.5 py-0.5 text-[0.7rem] font-semibold text-[#7C3AED]">
                         <svg className="h-2.5 w-2.5" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" d="M5 10l7-7m0 0l7 7m-7-7v18" />
                         </svg>
@@ -184,7 +184,7 @@ export default function AnalyticsSection() {
 
                   <div data-a="metric" style={{ opacity: 0 }} className="flex gap-1.5 pt-1">
                     {['7D', '30D', '90D'].map((r, i) => (
-                      <button key={r} className={`rounded-lg px-2.5 py-1 text-[0.58rem] font-bold transition-colors duration-200 ${i === 0 ? 'bg-[#7DD3C7]/15 text-[#7DD3C7]' : 'text-[#1C1814]/25 hover:text-[#1C1814]/50'}`}>
+                      <button key={r} className={`rounded-lg px-2.5 py-1 text-[0.58rem] font-bold transition-colors duration-200 ${i === 0 ? 'bg-[#7C3AED]/15 text-[#7C3AED]' : 'text-[#18111F]/40 hover:text-[#18111F]/60'}`}>
                         {r}
                       </button>
                     ))}
@@ -194,10 +194,10 @@ export default function AnalyticsSection() {
                 {/* Secondary metrics row */}
                 <div data-a="metric" style={{ opacity: 0 }} className="mb-6 grid grid-cols-3 gap-2">
                   {metrics.map((m) => (
-                    <div key={m.label} className="rounded-xl border border-white/[0.05] bg-white/[0.02] px-3 py-2.5">
-                      <p className="mb-1 text-[0.52rem] font-bold uppercase tracking-[0.16em] text-[#1C1814]/25">{m.label}</p>
-                      <p className="text-[0.92rem] font-bold text-[#1C1814]">{m.value}</p>
-                      <span className={`text-[0.58rem] font-semibold ${m.up === true ? 'text-[#7DD3C7]' : 'text-[#1C1814]/30'}`}>{m.delta}</span>
+                    <div key={m.label} className="rounded-xl border border-[rgba(24,17,31,0.10)] bg-[#FBFAFF] px-3 py-2.5">
+                      <p className="mb-1 text-[0.52rem] font-bold uppercase tracking-[0.16em] text-[#18111F]/40">{m.label}</p>
+                      <p className="text-[0.92rem] font-bold text-[#18111F]">{m.value}</p>
+                      <span className={`text-[0.58rem] font-semibold ${m.up === true ? 'text-[#7C3AED]' : 'text-[#18111F]/30'}`}>{m.delta}</span>
                     </div>
                   ))}
                 </div>
@@ -213,14 +213,14 @@ export default function AnalyticsSection() {
                     >
                       {/* Tooltip on hover */}
                       <div className="absolute -top-8 left-1/2 -translate-x-1/2 opacity-0 group-hover/bar:opacity-100 transition-opacity duration-200 pointer-events-none">
-                        <div className="rounded-md border border-white/[0.08] bg-[#1a1a1a] px-2 py-1 text-[0.5rem] font-semibold text-[#1C1814] whitespace-nowrap shadow-lg">
+                        <div className="rounded-md border border-[rgba(24,17,31,0.08)] bg-[#FFFFFF] px-2 py-1 text-[0.5rem] font-semibold text-[#18111F] whitespace-nowrap shadow-sm">
                           {(bar.reach / 1000).toFixed(1)}K
                         </div>
                       </div>
-                      <div className="relative h-[118px] overflow-hidden rounded-[10px] border border-white/[0.04] bg-white/[0.02]">
+                      <div className="relative h-[118px] overflow-hidden rounded-[10px] border border-[rgba(24,17,31,0.08)] bg-[#FBFAFF]">
                         <div
                           data-a="bar-fill"
-                          className="absolute inset-x-0 bottom-0 rounded-[9px] border-t border-[#7DD3C7]/30 bg-[#7DD3C7]/45"
+                          className="absolute inset-x-0 bottom-0 rounded-[9px] border-t border-[#7C3AED]/30 bg-[#7C3AED]/45"
                           style={{ height: `${(bar.reach / maxReach) * 100}%` }}
                         />
                       </div>
@@ -235,7 +235,7 @@ export default function AnalyticsSection() {
                       key={bar.day}
                       data-a="day"
                       style={{ opacity: 0 }}
-                      className="flex-1 text-center text-[0.58rem] font-bold uppercase tracking-[0.18em] text-[#1C1814]/22"
+                      className="flex-1 text-center text-[0.58rem] font-bold uppercase tracking-[0.18em] text-[#18111F]/35"
                     >
                       {bar.day}
                     </span>
@@ -243,8 +243,8 @@ export default function AnalyticsSection() {
                 </div>
 
                 {/* Platform breakdown */}
-                <div data-a="metric" style={{ opacity: 0 }} className="mt-5 flex items-center gap-4 border-t border-white/[0.05] pt-4">
-                  <span className="text-[0.58rem] font-bold uppercase tracking-[0.18em] text-[#1C1814]/25">By platform</span>
+                <div data-a="metric" style={{ opacity: 0 }} className="mt-5 flex items-center gap-4 border-t border-[rgba(24,17,31,0.08)] pt-4">
+                  <span className="text-[0.58rem] font-bold uppercase tracking-[0.18em] text-[#18111F]/45">By platform</span>
                   <div className="flex flex-1 items-center gap-3">
                     {[
                       { name: 'Instagram', pct: 47, color: '#e1306c' },
@@ -253,7 +253,7 @@ export default function AnalyticsSection() {
                     ].map((p) => (
                       <div key={p.name} className="flex items-center gap-1.5">
                         <div className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: p.color }} />
-                        <span className="text-[0.58rem] text-[#1C1814]/40">{p.name} {p.pct}%</span>
+                        <span className="text-[0.58rem] text-[#18111F]/40">{p.name} {p.pct}%</span>
                       </div>
                     ))}
                   </div>

@@ -1,6 +1,14 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { useFadeNav } from '@/hooks/useFadeNav';
+import { GradientBackground } from '@/components/ui/gradient-backgrounds';
+
+const ROTATING_WORDS = [
+  'social media teams.',
+  'content creators.',
+  'growing brands.',
+  'digital agencies.',
+];
 
 /* ── Platform pill strip ─────────────────────────────────── */
 function PlatformStrip() {
@@ -19,17 +27,17 @@ function PlatformStrip() {
     },
   ];
   return (
-    <div className="flex items-center gap-2 flex-wrap justify-center">
-      <span className="text-[0.65rem] font-medium text-[#1C1814]/25 tracking-wide mr-1">Works with</span>
+    <div className="mx-auto flex max-w-[22rem] items-center justify-center gap-2 flex-wrap sm:max-w-none">
+      <span className="text-[0.65rem] font-medium text-[#AA9AB8] tracking-wide sm:mr-1">Works with</span>
       {platforms.map((p) => (
         <div
           key={p.name}
-          className="flex items-center gap-2 rounded-full border border-white/[0.07] bg-[#1C1814]/[0.05] px-3 py-1.5 backdrop-blur-sm"
+          className="flex items-center gap-2 rounded-full border border-[rgba(24,17,31,0.14)] bg-[#FFFFFF] px-2.5 py-1.5 sm:px-3"
         >
           <svg className="h-3.5 w-3.5" fill="currentColor" viewBox="0 0 24 24" style={{ color: p.color }}>
             {p.icon}
           </svg>
-          <span className="text-[0.65rem] font-semibold text-[#1C1814]/45">{p.name}</span>
+          <span className="text-[0.65rem] font-semibold text-[#71657E]">{p.name}</span>
         </div>
       ))}
     </div>
@@ -77,19 +85,19 @@ function DashboardMockup() {
 
   return (
     <div
-      className="relative mx-auto w-full max-w-[900px] overflow-hidden rounded-[1.5rem] border border-white/[0.08] bg-[#F4F0E8] shadow-[0_40px_120px_rgba(0,0,0,0.6),0_0_0_1px_rgba(125,211,199,0.06)]"
+      className="relative mx-auto w-full max-w-[900px] overflow-hidden rounded-[1.5rem] border border-[rgba(24,17,31,0.18)] bg-[#FFFFFF] shadow-[0_30px_80px_rgba(24,17,31,0.14),0_0_0_1px_rgba(46,16,101,0.12)]"
       style={{ transform: 'perspective(1400px) rotateX(4deg)', transformOrigin: 'top center' }}
     >
       {/* Window chrome */}
-      <div className="flex items-center gap-2 border-b border-white/[0.06] bg-[#F3EEE6] px-5 py-3.5">
+      <div className="flex items-center gap-2 border-b border-[rgba(24,17,31,0.12)] bg-[#ECE4F8] px-5 py-3.5">
         <div className="flex gap-1.5">
           <div className="h-2.5 w-2.5 rounded-full bg-[#ff5f57] opacity-75" />
           <div className="h-2.5 w-2.5 rounded-full bg-[#febc2e] opacity-75" />
           <div className="h-2.5 w-2.5 rounded-full bg-[#28c840] opacity-75" />
         </div>
-        <div className="mx-auto flex items-center gap-2 rounded-md border border-white/[0.05] bg-[#1C1814]/[0.05] px-4 py-1">
-          <div className="h-1.5 w-1.5 rounded-full bg-[#7DD3C7]/50" />
-          <span className="text-[0.58rem] font-medium text-[#1C1814]/30">app.vielinks.com</span>
+        <div className="mx-auto flex items-center gap-2 rounded-md border border-[rgba(24,17,31,0.10)] bg-[#FFFFFF] px-4 py-1">
+          <div className="h-1.5 w-1.5 rounded-full bg-[#7C3AED]/50" />
+          <span className="text-[0.58rem] font-medium text-[#18111F]/30">app.vielinks.com</span>
         </div>
         <div className="flex gap-2">
           <div className="h-6 w-6 rounded-md bg-white/[0.04]" />
@@ -99,10 +107,10 @@ function DashboardMockup() {
       {/* App layout */}
       <div className="flex" style={{ height: '380px' }}>
         {/* Sidebar */}
-        <div className="flex w-[52px] shrink-0 flex-col items-center gap-1 border-r border-white/[0.05] bg-[#F4F0E8] py-4">
+        <div className="flex w-[52px] shrink-0 flex-col items-center gap-1 border-r border-[rgba(24,17,31,0.10)] bg-[#F1ECFA] py-4">
           {/* Logo mark */}
-          <div className="mb-4 flex h-8 w-8 items-center justify-center rounded-xl bg-[#7DD3C7]/15">
-            <div className="h-3.5 w-3.5 rounded-full bg-[#7DD3C7]" />
+          <div className="mb-4 flex h-8 w-8 items-center justify-center rounded-xl bg-[#7C3AED]/15">
+            <div className="h-3.5 w-3.5 rounded-full bg-[#7C3AED]" />
           </div>
           {/* Nav icons */}
           {[
@@ -113,7 +121,7 @@ function DashboardMockup() {
           ].map((d, i) => (
             <div
               key={i}
-              className={`flex h-8 w-8 items-center justify-center rounded-xl transition-colors ${i === 0 ? 'bg-[#7DD3C7]/12 text-[#7DD3C7]' : 'text-[#1C1814]/20 hover:text-[#1C1814]/40'}`}
+              className={`flex h-8 w-8 items-center justify-center rounded-xl transition-colors ${i === 0 ? 'bg-[#7C3AED]/12 text-[#7C3AED]' : 'text-[#18111F]/20 hover:text-[#18111F]/40'}`}
             >
               <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d={d} />
@@ -125,17 +133,17 @@ function DashboardMockup() {
         {/* Main content */}
         <div className="flex flex-1 flex-col overflow-hidden">
           {/* Top bar */}
-          <div className="flex items-center justify-between border-b border-white/[0.05] px-5 py-3">
+          <div className="flex items-center justify-between border-b border-[rgba(24,17,31,0.10)] px-5 py-3">
             <div>
-              <p className="text-[0.7rem] font-bold text-[#1C1814]/80">Dashboard</p>
-              <p className="text-[0.55rem] text-[#1C1814]/25">April 2026 - IG, LI, FB</p>
+              <p className="text-[0.7rem] font-bold text-[#18111F]/80">Dashboard</p>
+              <p className="text-[0.55rem] text-[#18111F]/40">April 2026 - IG, LI, FB</p>
             </div>
             <div className="flex items-center gap-2">
-              <div className="flex items-center gap-1.5 rounded-lg border border-white/[0.06] bg-[#1C1814]/[0.05] px-2.5 py-1">
-                <div className="h-1.5 w-1.5 rounded-full bg-[#7DD3C7]" />
-                <span className="text-[0.55rem] font-medium text-[#1C1814]/40">My Workspace</span>
+              <div className="flex items-center gap-1.5 rounded-lg border border-[rgba(24,17,31,0.10)] bg-[#FFFFFF] px-2.5 py-1">
+                <div className="h-1.5 w-1.5 rounded-full bg-[#7C3AED]" />
+                <span className="text-[0.55rem] font-medium text-[#18111F]/40">My Workspace</span>
               </div>
-              <div className="h-6 w-6 rounded-full bg-[#7DD3C7]/20 ring-1 ring-[#7DD3C7]/30" />
+              <div className="h-6 w-6 rounded-full bg-[#7C3AED]/20 ring-1 ring-[#7C3AED]/30" />
             </div>
           </div>
 
@@ -146,10 +154,10 @@ function DashboardMockup() {
               {/* KPI cards */}
               <div className="grid grid-cols-3 gap-2.5">
                 {kpis.map((k) => (
-                  <div key={k.label} className="rounded-xl border border-white/[0.05] bg-white/[0.02] p-3">
-                    <p className="mb-1.5 text-[0.5rem] font-bold uppercase tracking-[0.18em] text-[#1C1814]/25">{k.label}</p>
-                    <p className="text-[1.05rem] font-bold tracking-tight text-[#1C1814]">{k.value}</p>
-                    <span className={`text-[0.52rem] font-semibold ${k.up === true ? 'text-[#7DD3C7]' : k.up === false ? 'text-red-400' : 'text-[#1C1814]/30'}`}>
+                  <div key={k.label} className="rounded-xl border border-[rgba(24,17,31,0.10)] bg-[#FFFFFF] p-3">
+                    <p className="mb-1.5 text-[0.5rem] font-bold uppercase tracking-[0.18em] text-[#18111F]/40">{k.label}</p>
+                    <p className="text-[1.05rem] font-bold tracking-tight text-[#18111F]">{k.value}</p>
+                    <span className={`text-[0.52rem] font-semibold ${k.up === true ? 'text-[#7C3AED]' : k.up === false ? 'text-red-400' : 'text-[#18111F]/30'}`}>
                       {k.delta}
                     </span>
                   </div>
@@ -157,12 +165,12 @@ function DashboardMockup() {
               </div>
 
               {/* Chart */}
-              <div className="flex-1 rounded-xl border border-white/[0.05] bg-white/[0.02] p-3">
+              <div className="flex-1 rounded-xl border border-[rgba(24,17,31,0.10)] bg-[#FFFFFF] p-3">
                 <div className="mb-2 flex items-center justify-between">
-                  <p className="text-[0.52rem] font-bold uppercase tracking-[0.18em] text-[#1C1814]/25">Weekly Engagement</p>
+                  <p className="text-[0.52rem] font-bold uppercase tracking-[0.18em] text-[#18111F]/40">Weekly Engagement</p>
                   <div className="flex gap-1">
                     {['7D', '30D', '90D'].map((r, i) => (
-                      <span key={r} className={`rounded px-1.5 py-0.5 text-[0.45rem] font-bold ${i === 0 ? 'bg-[#7DD3C7]/15 text-[#7DD3C7]' : 'text-[#1C1814]/20'}`}>{r}</span>
+                      <span key={r} className={`rounded px-1.5 py-0.5 text-[0.45rem] font-bold ${i === 0 ? 'bg-[#7C3AED]/15 text-[#7C3AED]' : 'text-[#18111F]/20'}`}>{r}</span>
                     ))}
                   </div>
                 </div>
@@ -170,7 +178,7 @@ function DashboardMockup() {
                   {bars.map((h, i) => (
                     <div key={i} className="flex flex-1 flex-col justify-end">
                       <div
-                        className="rounded-t-[3px] border-t border-white/20 bg-gradient-to-t from-white/30 via-white/10 to-white/5"
+                        className="rounded-t-[3px] border-t border-[#7C3AED]/20 bg-gradient-to-t from-[#7C3AED]/40 via-[#7C3AED]/20 to-[#7C3AED]/5"
                         style={{ height: `${h}%` }}
                       />
                     </div>
@@ -178,7 +186,7 @@ function DashboardMockup() {
                 </div>
                 <div className="mt-1.5 flex gap-1">
                   {days.map((d, i) => (
-                    <span key={i} className="flex-1 text-center text-[0.4rem] font-bold uppercase text-[#1C1814]/20">{d}</span>
+                    <span key={i} className="flex-1 text-center text-[0.4rem] font-bold uppercase text-[#18111F]/20">{d}</span>
                   ))}
                 </div>
               </div>
@@ -187,32 +195,32 @@ function DashboardMockup() {
             {/* Right: Approvals + Upcoming */}
             <div className="w-[190px] shrink-0 flex flex-col gap-3">
               {/* Approvals mini */}
-              <div className="rounded-xl border border-white/[0.05] bg-white/[0.02] p-3">
+              <div className="rounded-xl border border-[rgba(24,17,31,0.10)] bg-[#FFFFFF] p-3">
                 <div className="mb-2 flex items-center justify-between">
-                  <p className="text-[0.52rem] font-bold uppercase tracking-[0.18em] text-[#1C1814]/25">Approvals</p>
-                  <span className="rounded-full bg-[#D6A86A]/12 px-1.5 py-0.5 text-[0.45rem] font-bold text-[#D6A86A]">2</span>
+                  <p className="text-[0.52rem] font-bold uppercase tracking-[0.18em] text-[#18111F]/40">Approvals</p>
+                  <span className="rounded-full bg-[#D946EF]/12 px-1.5 py-0.5 text-[0.45rem] font-bold text-[#D946EF]">2</span>
                 </div>
                 {approvals.map((a) => (
-                  <div key={a.label} className="mb-1.5 flex items-center gap-1.5 rounded-lg border border-white/[0.05] bg-white/[0.02] px-2 py-1.5">
+                  <div key={a.label} className="mb-1.5 flex items-center gap-1.5 rounded-lg border border-[rgba(24,17,31,0.10)] bg-[#FFFFFF] px-2 py-1.5">
                     <div className="flex h-4 w-4 shrink-0 items-center justify-center rounded-md text-[0.42rem] font-bold"
                       style={{ backgroundColor: a.color + '22', color: a.color }}>{a.platform}</div>
-                    <p className="flex-1 truncate text-[0.48rem] text-[#1C1814]/45 leading-tight">{a.label}</p>
+                    <p className="flex-1 truncate text-[0.48rem] text-[#18111F]/45 leading-tight">{a.label}</p>
                     {a.status === 'approved'
                       ? <span className="shrink-0 text-[0.42rem] font-bold text-emerald-400">✓</span>
-                      : <span className="shrink-0 rounded-full bg-[#D6A86A]/15 px-1 py-0.5 text-[0.4rem] font-bold text-[#D6A86A]">•••</span>
+                      : <span className="shrink-0 rounded-full bg-[#D946EF]/15 px-1 py-0.5 text-[0.4rem] font-bold text-[#D946EF]">•••</span>
                     }
                   </div>
                 ))}
               </div>
               {/* Upcoming posts */}
-              <div className="flex-1 rounded-xl border border-white/[0.05] bg-white/[0.02] p-3">
+              <div className="flex-1 rounded-xl border border-[rgba(24,17,31,0.10)] bg-[#FFFFFF] p-3">
                 <div className="mb-2.5 flex items-center justify-between">
-                  <p className="text-[0.52rem] font-bold uppercase tracking-[0.18em] text-[#1C1814]/25">Upcoming</p>
-                  <span className="rounded-full bg-[#7DD3C7]/12 px-1.5 py-0.5 text-[0.45rem] font-bold text-[#7DD3C7]">28</span>
+                  <p className="text-[0.52rem] font-bold uppercase tracking-[0.18em] text-[#18111F]/40">Upcoming</p>
+                  <span className="rounded-full bg-[#7C3AED]/12 px-1.5 py-0.5 text-[0.45rem] font-bold text-[#7C3AED]">28</span>
                 </div>
                 <div className="space-y-2">
                   {upcoming.map((post) => (
-                    <div key={post.label} className="rounded-lg border border-white/[0.04] bg-white/[0.02] p-2">
+                    <div key={post.label} className="rounded-lg border border-[rgba(24,17,31,0.08)] bg-[#FBFAFF] p-2">
                       <div className="mb-1 flex items-center gap-1.5">
                         <div className="flex h-4 w-4 items-center justify-center rounded-md text-[0.42rem] font-bold"
                           style={{ backgroundColor: `${post.color}22`, color: post.color }}>
@@ -220,8 +228,8 @@ function DashboardMockup() {
                         </div>
                         <div className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: post.color, opacity: 0.7 }} />
                       </div>
-                      <p className="mb-0.5 text-[0.5rem] font-medium text-[#1C1814]/55 leading-tight">{post.label}</p>
-                      <p className="text-[0.44rem] text-[#1C1814]/25">{post.time}</p>
+                      <p className="mb-0.5 text-[0.5rem] font-medium text-[#18111F]/60 leading-tight">{post.label}</p>
+                      <p className="text-[0.44rem] text-[#18111F]/40">{post.time}</p>
                     </div>
                   ))}
                 </div>
@@ -232,7 +240,7 @@ function DashboardMockup() {
       </div>
 
       {/* Bottom glow */}
-      <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#F4F0E8] to-transparent pointer-events-none" />
+      <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#F8F5FF] to-transparent pointer-events-none" />
     </div>
   );
 }
@@ -244,7 +252,7 @@ function ElegantShape({
   width = 400,
   height = 100,
   rotate = 0,
-  gradient = 'from-white/[0.08]',
+  gradient = 'from-[#7C3AED]/[0.08]',
 }: {
   className?: string;
   delay?: number;
@@ -271,7 +279,7 @@ function ElegantShape({
           'absolute inset-0 rounded-full',
           'bg-gradient-to-r to-transparent',
           gradient,
-          'backdrop-blur-[2px] border border-white/[0.06]',
+          'backdrop-blur-[2px] border border-[#7C3AED]/[0.08]',
         ].join(' ')} />
       </motion.div>
     </motion.div>
@@ -282,84 +290,91 @@ function ElegantShape({
 export default function HeroGeometric() {
   const fadeNav = useFadeNav();
   const prefersReduced = useReducedMotion();
+  const [wordIndex, setWordIndex] = useState(0);
+
+  useEffect(() => {
+    const t = setTimeout(() =>
+      setWordIndex(i => (i + 1) % ROTATING_WORDS.length), 2600
+    );
+    return () => clearTimeout(t);
+  }, [wordIndex]);
 
   const fade = (i: number) => ({
-    hidden:  prefersReduced ? {} : { opacity: 0, y: 22, filter: 'blur(6px)' },
-    visible: { opacity: 1, y: 0, filter: 'blur(0px)', transition: prefersReduced ? { duration: 0 } : { duration: 0.9, delay: 0.3 + i * 0.14, ease: [0.25, 0.4, 0.25, 1] as const } },
+    hidden:  prefersReduced ? {} : { opacity: 0, y: 30, filter: 'blur(8px)' },
+    visible: { opacity: 1, y: 0, filter: 'blur(0px)', transition: prefersReduced ? { duration: 0 } : { duration: 1.0, delay: 0.2 + i * 0.18, ease: [0.25, 0.4, 0.25, 1] as const } },
   });
 
   return (
-    <div className="relative w-full overflow-hidden bg-[#F4F0E8] min-h-[88svh]">
-      {/* Ambient background — static, no parallax needed */}
-      <div className="absolute inset-0 bg-[#F4F0E8]" />
-
-      {/* Parallax layer 1 — deepest glow (slowest) */}
-      <div className="absolute top-[34%] left-1/2 h-[260px] w-[420px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#7DD3C7]/[0.025] blur-[56px] pointer-events-none" />
+    <div className="relative w-full overflow-hidden bg-[#F8F5FF] min-h-screen">
+      {/* Radial gradient background — barely-there purple tint at the outer edges */}
+      <GradientBackground color="rgba(124,58,237,0.62)" position="50% 90%" centerStop="46%" />
 
       {/* Parallax layer 2 — floating shapes */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <ElegantShape delay={0.2} width={420} height={96} rotate={12} gradient="from-white/[0.035]" className="left-[-18%] top-[18%] hidden md:block" />
-        <ElegantShape delay={0.45} width={320} height={80} rotate={-13} gradient="from-white/[0.03]" className="right-[-10%] top-[58%] hidden lg:block" />
+        <ElegantShape delay={0.2} width={420} height={96} rotate={12} gradient="from-[#7C3AED]/[0.08]" className="left-[-18%] top-[18%] hidden md:block" />
+        <ElegantShape delay={0.45} width={320} height={80} rotate={-13} gradient="from-[#D946EF]/[0.07]" className="right-[-10%] top-[58%] hidden lg:block" />
       </div>
 
       {/* Parallax layer 3 — dot grid (subtle near-mid) */}
       <div
-        className="absolute inset-0 pointer-events-none opacity-[0.09]"
+        className="absolute inset-0 pointer-events-none opacity-[0.16]"
         style={{
-          backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.25) 1px, transparent 1px)',
+          backgroundImage: 'radial-gradient(circle, rgba(124,58,237,0.22) 1px, transparent 1px)',
           backgroundSize: '40px 40px',
           maskImage: 'radial-gradient(ellipse 80% 55% at 50% 40%, black 20%, transparent 100%)',
         }}
       />
 
       {/* Content */}
-      <div className="relative z-10 mx-auto flex w-full max-w-5xl flex-col items-center px-5 pt-28 pb-0 text-center sm:px-6 md:pt-32">
-
-        {/* Eyebrow badge */}
-        <motion.div
-          variants={fade(0)} initial="hidden" animate="visible"
-          className="mb-6 inline-flex max-w-full items-center gap-2 rounded-xl border border-white/[0.12] bg-white/[0.04] px-3.5 py-2 sm:px-4"
-        >
-          <span className="relative flex h-1.5 w-1.5">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#7DD3C7] opacity-60" />
-            <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-[#7DD3C7]" />
-          </span>
-          <span className="text-xs font-bold uppercase tracking-[0.14em] text-[#1C1814]/60">
-            Official OAuth for Instagram, LinkedIn, and Facebook
-          </span>
-        </motion.div>
+      <div className="relative z-10 mx-auto flex w-full max-w-5xl flex-col items-center px-5 pt-44 pb-0 text-center sm:px-6 md:pt-52">
 
         {/* Headline */}
         <motion.h1
-          variants={fade(1)} initial="hidden" animate="visible"
-          className="mb-6 max-w-4xl text-4xl font-extrabold leading-[1.06] tracking-normal text-[#1C1814] sm:text-5xl md:text-[4.25rem]"
+          variants={fade(0)} initial="hidden" animate="visible"
+          className="mb-5 max-w-[18rem] text-[2.1rem] font-extrabold leading-[1.12] tracking-tight text-[#18111F] sm:max-w-3xl sm:text-[3rem] md:text-[3.8rem]"
         >
-          Planifica, publica y mide desde un solo workspace.
+          One workspace for your
+          <span className="relative mt-1 flex w-full justify-center overflow-hidden md:mt-2" style={{ height: '1.18em' }}>
+            {ROTATING_WORDS.map((word, index) => (
+              <motion.span
+                key={index}
+                className="absolute text-[#7C3AED]"
+                initial={{ opacity: 0, y: 60 }}
+                transition={prefersReduced ? { duration: 0 } : { type: 'spring', stiffness: 60, damping: 18 }}
+                animate={
+                  wordIndex === index
+                    ? { y: 0, opacity: 1 }
+                    : { y: wordIndex > index ? -60 : 60, opacity: 0 }
+                }
+              >
+                {word}
+              </motion.span>
+            ))}
+          </span>
         </motion.h1>
 
         {/* Subheadline */}
         <motion.p
-          variants={fade(2)} initial="hidden" animate="visible"
-          className="mb-9 max-w-[620px] text-base leading-[1.75] text-[#1C1814]/62 md:text-lg"
+          variants={fade(1)} initial="hidden" animate="visible"
+          className="mb-9 max-w-[14rem] text-sm font-light leading-[1.8] text-[#71657E] sm:max-w-[480px] md:text-[0.95rem]"
         >
-          Gestiona Instagram, LinkedIn y Facebook en un solo lugar, con calendario, reportes y asistencia de IA para publicar con mas control y menos friccion.
+          Schedule, analyze, and collaborate across Instagram, LinkedIn, and Facebook — without switching tabs.
         </motion.p>
 
         {/* CTAs */}
         <motion.div
-          variants={fade(3)} initial="hidden" animate="visible"
+          variants={fade(2)} initial="hidden" animate="visible"
           className="flex flex-col sm:flex-row items-center gap-3 mb-6"
         >
           <button
             onClick={() => fadeNav('/register')}
-            className="group relative w-full overflow-hidden rounded-xl bg-[#1C1814] px-8 py-3.5 text-sm font-bold tracking-wide text-[#F4F0E8] transition-all duration-300 hover:shadow-[0_0_34px_rgba(125,211,199,0.28)] sm:w-auto"
+            className="group relative w-full overflow-hidden rounded-xl bg-[#7C3AED] px-8 py-3.5 text-sm font-bold tracking-wide text-white transition-all duration-300 hover:bg-[#6D28D9] sm:w-auto"
           >
             <span className="relative z-10">Start free</span>
-            <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
           </button>
           <button
             onClick={() => fadeNav('/pricing')}
-            className="group flex w-full items-center justify-center gap-2 rounded-xl border border-white/[0.12] bg-[#1C1814]/[0.05] px-8 py-3.5 text-sm font-semibold tracking-wide text-[#1C1814]/68 transition-all duration-300 hover:border-[#7DD3C7]/30 hover:text-[#1C1814] sm:w-auto"
+            className="group flex w-full items-center justify-center gap-2 rounded-xl border border-[#CDB9DF] bg-[#FFFFFF] px-8 py-3.5 text-sm font-semibold tracking-wide text-[#4A4057] transition-all duration-300 hover:bg-[#ECE4F8] sm:w-auto"
           >
             See pricing
             <svg className="h-3.5 w-3.5 opacity-60 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
@@ -370,7 +385,7 @@ export default function HeroGeometric() {
 
         {/* Platform strip */}
         <motion.div
-          variants={fade(4)} initial="hidden" animate="visible"
+          variants={fade(3)} initial="hidden" animate="visible"
           className="mb-8"
         >
           <PlatformStrip />
@@ -378,8 +393,8 @@ export default function HeroGeometric() {
 
         {/* Trust strip with avatars */}
         <motion.div
-          variants={fade(5)} initial="hidden" animate="visible"
-          className="mb-12 flex flex-col items-center gap-3 sm:flex-row"
+          variants={fade(4)} initial="hidden" animate="visible"
+          className="mb-24 flex flex-col items-center gap-3 sm:flex-row md:mb-32"
         >
           {/* Avatar stack */}
           <div className="flex items-center">
@@ -391,14 +406,14 @@ export default function HeroGeometric() {
             ].map((av, i) => (
               <div
                 key={i}
-                className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-[#0B0B0A] text-[0.52rem] font-bold text-[#1C1814]"
+                className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-[#E6DDF0] text-[0.52rem] font-bold text-white"
                 style={{ backgroundColor: av.bg, marginLeft: i > 0 ? '-8px' : '0', zIndex: 4 - i }}
               >
                 {av.initials}
               </div>
             ))}
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex flex-col items-center justify-center gap-2 sm:flex-row sm:gap-3">
             <div className="flex">
               {[1,2,3,4,5].map((s) => (
                 <svg key={s} className="h-3 w-3 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
@@ -406,7 +421,7 @@ export default function HeroGeometric() {
                 </svg>
               ))}
             </div>
-            <span className="text-[0.72rem] text-[#1C1814]/40">
+            <span className="max-w-[18rem] text-center text-[0.72rem] leading-relaxed text-[#18111F]/40 sm:max-w-none">
               No credit card required - 14-day paid trial - Cancel anytime
             </span>
           </div>
@@ -418,60 +433,64 @@ export default function HeroGeometric() {
             hidden:  { opacity: 0, y: 48, filter: 'blur(12px)' },
             visible: { opacity: 1, y: 0,  filter: 'blur(0px)', transition: { duration: 1.1, delay: 0.85, ease: [0.25, 0.4, 0.25, 1] } },
           }}
-          initial="hidden" animate="visible"
+          initial={false} animate="visible"
           className="relative w-full"
         >
           {/* Floating card — published notification (bottom-left) */}
           <FloatingCard delay={1.6} className="bottom-10 -left-4 md:-left-10 hidden sm:block">
-            <div className="flex items-center gap-2.5 rounded-2xl border border-emerald-500/20 bg-[#F4F0E8]/90 px-4 py-2.5 shadow-[0_8px_32px_rgba(0,0,0,0.5)] backdrop-blur-xl">
+            <div className="flex items-center gap-2.5 rounded-2xl border border-emerald-500/20 bg-[#FFFFFF]/90 px-4 py-2.5 shadow-[0_8px_24px_rgba(28,24,20,0.10)] backdrop-blur-xl">
               <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-emerald-500/15">
                 <svg className="h-3.5 w-3.5 text-emerald-400" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                 </svg>
               </div>
               <div>
-                <p className="text-[0.65rem] font-semibold text-[#1C1814]/70">Published to Instagram</p>
-                <p className="text-[0.55rem] text-[#1C1814]/35">OAuth-secured - queue updated</p>
+                <p className="text-[0.65rem] font-semibold text-[#18111F]/70">Published to Instagram</p>
+                <p className="text-[0.55rem] text-[#18111F]/35">OAuth-secured - queue updated</p>
               </div>
             </div>
           </FloatingCard>
 
           {/* Floating card — reach spike (top-right) */}
           <FloatingCard delay={1.9} className="top-8 -right-4 md:-right-10 hidden sm:block">
-            <div className="flex items-center gap-2.5 rounded-2xl border border-[#7DD3C7]/20 bg-[#F4F0E8]/90 px-4 py-2.5 shadow-[0_8px_32px_rgba(0,0,0,0.5)] backdrop-blur-xl">
-              <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#7DD3C7]/12">
-                <svg className="h-3.5 w-3.5 text-[#7DD3C7]" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
+            <div className="flex items-center gap-2.5 rounded-2xl border border-[#7C3AED]/20 bg-[#FFFFFF]/90 px-4 py-2.5 shadow-[0_8px_24px_rgba(28,24,20,0.10)] backdrop-blur-xl">
+              <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#7C3AED]/12">
+                <svg className="h-3.5 w-3.5 text-[#7C3AED]" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M5 10l7-7m0 0l7 7m-7-7v18" />
                 </svg>
               </div>
               <div>
-                <p className="text-[0.65rem] font-semibold text-[#1C1814]/70">Reach up <span className="text-[#7DD3C7]">+18.2%</span> this week</p>
-                <p className="text-[0.55rem] text-[#1C1814]/35">vs. last week - IG, LI, FB</p>
+                <p className="text-[0.65rem] font-semibold text-[#18111F]/70">Reach up <span className="text-[#7C3AED]">+18.2%</span> this week</p>
+                <p className="text-[0.55rem] text-[#18111F]/35">vs. last week - IG, LI, FB</p>
               </div>
             </div>
           </FloatingCard>
 
           {/* Floating card — scheduled (right side, mid) */}
           <FloatingCard delay={2.1} className="top-1/2 -translate-y-1/2 -right-4 md:-right-12 hidden lg:block">
-            <div className="flex items-center gap-2.5 rounded-2xl border border-white/[0.08] bg-[#F4F0E8]/90 px-4 py-2.5 shadow-[0_8px_32px_rgba(0,0,0,0.5)] backdrop-blur-xl">
-              <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-white/[0.04] border border-white/[0.08]">
-                <svg className="h-3.5 w-3.5 text-[#1C1814]/50" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+            <div className="flex items-center gap-2.5 rounded-2xl border border-[rgba(24,17,31,0.12)] bg-[#FFFFFF]/90 px-4 py-2.5 shadow-[0_8px_24px_rgba(24,17,31,0.10)] backdrop-blur-xl">
+              <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#F1ECFA] border border-[rgba(24,17,31,0.10)]">
+                <svg className="h-3.5 w-3.5 text-[#18111F]/50" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                 </svg>
               </div>
               <div>
-                <p className="text-[0.65rem] font-semibold text-[#1C1814]/70"><span className="text-[#1C1814]/90">28 posts</span> queued</p>
-                <p className="text-[0.55rem] text-[#1C1814]/35">Next: Today at 9:00 AM</p>
+                <p className="text-[0.65rem] font-semibold text-[#18111F]/70"><span className="text-[#18111F]/90">28 posts</span> queued</p>
+                <p className="text-[0.55rem] text-[#18111F]/35">Next: Today at 9:00 AM</p>
               </div>
             </div>
           </FloatingCard>
 
-          <DashboardMockup />
+          <div className="relative mx-auto h-[210px] w-full overflow-hidden sm:h-auto sm:overflow-visible">
+            <div className="absolute left-1/2 top-0 w-[720px] origin-top -translate-x-1/2 scale-[0.42] sm:static sm:w-full sm:translate-x-0 sm:scale-100">
+              <DashboardMockup />
+            </div>
+          </div>
         </motion.div>
       </div>
 
       {/* Bottom fade into next section */}
-      <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[#F4F0E8] via-[#0B0B0A]/80 to-transparent pointer-events-none z-20" />
+      <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[#F8F5FF] to-transparent pointer-events-none z-20" />
     </div>
   );
 }

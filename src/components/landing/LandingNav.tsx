@@ -41,22 +41,11 @@ export default function LandingNav() {
 
   useLayoutEffect(() => {
     if (!navRef.current) return;
-
-    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReduced) {
-      gsap.set('[data-nav="inner"]', { opacity: 1, y: 0 });
-      gsap.set('[data-nav="logo"],[data-nav="link"],[data-nav="actions"]', { opacity: 1, y: 0 });
-      return;
-    }
-
-    const ctx = gsap.context(() => {
-      const tl = gsap.timeline({ defaults: { ease: 'power2.out' } });
-      tl.fromTo('[data-nav="inner"]',   { opacity: 0, y: -10, filter: 'blur(10px)' }, { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.5 })
-        .fromTo('[data-nav="logo"]',    { opacity: 0, y: -8,  filter: 'blur(8px)'  }, { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.35 }, '-=0.28')
-        .fromTo('[data-nav="link"]',    { opacity: 0, y: -8,  filter: 'blur(6px)'  }, { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.28, stagger: 0.05 }, '-=0.18')
-        .fromTo('[data-nav="actions"]', { opacity: 0, y: -6,  filter: 'blur(6px)'  }, { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.3 }, '-=0.16');
-    }, navRef);
-    return () => ctx.revert();
+    gsap.set('[data-nav="inner"],[data-nav="logo"],[data-nav="link"],[data-nav="actions"]', {
+      opacity: 1,
+      y: 0,
+      filter: 'blur(0px)',
+    });
   }, []);
 
   const handleScrollTo = (id: string) => (e: React.MouseEvent<HTMLAnchorElement>) => {
@@ -71,31 +60,30 @@ export default function LandingNav() {
     <nav ref={navRef} className="fixed top-6 inset-x-0 z-50 flex justify-center pointer-events-none">
       <div
         data-nav="inner"
-        style={{ opacity: 0 }}
         className={`pointer-events-auto relative flex items-center justify-between gap-10 px-6 py-3 rounded-full border transition-all duration-500 ${
           scrolled
-            ? 'bg-white/[0.07] backdrop-blur-2xl border-white/20 shadow-[0_8px_32px_rgba(0,0,0,0.5)]'
-            : 'bg-white/[0.05] backdrop-blur-xl border-white/[0.14] shadow-[0_4px_24px_rgba(0,0,0,0.3)]'
+            ? 'bg-white/75 backdrop-blur-xl border-[rgba(24,17,31,0.10)] shadow-[0_8px_28px_rgba(24,17,31,0.06)]'
+            : 'bg-[#FFFFFF] border-[rgba(24,17,31,0.12)] shadow-[0_2px_12px_rgba(24,17,31,0.05)]'
         }`}
       >
         <a
           href="/"
           data-nav="logo"
-          style={{ opacity: 0 }}
           aria-label="Vielinks home"
-          className="flex items-center"
+          className="flex items-center gap-2.5"
         >
           <img src="/favicon.png" alt="Vielinks" className="h-8 w-8 object-contain" />
+          <span className="hidden text-sm font-extrabold tracking-tight text-[#18111F] sm:inline">Vielinks</span>
         </a>
 
         {/* Desktop links */}
         <div className="hidden items-center gap-8 md:flex">
           {/* Product dropdown */}
-          <div className="relative" data-nav="link" style={{ opacity: 0 }}>
+          <div className="relative" data-nav="link">
             <button
               onClick={() => setProductOpen(v => !v)}
               onBlur={() => setTimeout(() => setProductOpen(false), 150)}
-              className={`group flex items-center gap-1 text-[0.7rem] tracking-[0.12em] uppercase font-medium transition-colors duration-300 ${productOpen ? 'text-[#7DD3C7]' : 'text-[#6A6470] hover:text-[#1C1814]'}`}
+              className={`group flex items-center gap-1 text-[0.7rem] tracking-[0.12em] uppercase font-medium transition-colors duration-300 ${productOpen ? 'text-[#7C3AED]' : 'text-[#71657E] hover:text-[#18111F]'}`}
             >
               Product
               <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"
@@ -104,14 +92,14 @@ export default function LandingNav() {
               </svg>
             </button>
             {productOpen && (
-              <div className="absolute top-full left-1/2 -translate-x-1/2 mt-3 w-52 rounded-2xl border border-white/[0.10] bg-[#F4F0E8]/95 backdrop-blur-2xl shadow-[0_16px_48px_rgba(0,0,0,0.6)] py-2 px-2 z-50">
+              <div className="absolute top-full left-1/2 -translate-x-1/2 mt-3 w-52 rounded-2xl border border-[rgba(24,17,31,0.14)] bg-[#FFFFFF] shadow-[0_8px_32px_rgba(24,17,31,0.12)] py-2 px-2 z-50">
                 {PRODUCT_LINKS.map(l => (
                   <button
                     key={l.label}
                     onClick={() => { setProductOpen(false); navigate(l.route); }}
-                    className="flex items-center gap-3 w-full px-3 py-2.5 rounded-xl text-[0.75rem] font-medium text-[#1C1814]/60 hover:bg-white/[0.05] hover:text-[#1C1814] transition-all text-left"
+                    className="flex items-center gap-3 w-full px-3 py-2.5 rounded-xl text-[0.75rem] font-medium text-[#71657E] hover:bg-[#F1ECFA] hover:text-[#18111F] transition-all text-left"
                   >
-                    <span className="material-symbols-outlined text-[#7DD3C7]" style={{ fontSize: 15, fontVariationSettings: "'FILL' 1" }}>{l.icon}</span>
+                    <span className="material-symbols-outlined text-[#7C3AED]" style={{ fontSize: 15, fontVariationSettings: "'FILL' 1" }}>{l.icon}</span>
                     {l.label}
                   </button>
                 ))}
@@ -125,28 +113,27 @@ export default function LandingNav() {
               data-nav="link"
               href={`#${link}`}
               onClick={handleScrollTo(link)}
-              style={{ opacity: 0 }}
-              className="group relative text-[0.7rem] tracking-[0.12em] uppercase font-medium text-[#6A6470] transition-colors duration-300 hover:text-[#1C1814]"
+              className="group relative text-[0.7rem] tracking-[0.12em] uppercase font-medium text-[#71657E] transition-colors duration-300 hover:text-[#18111F]"
             >
               <span>{link}</span>
-              <span className="absolute left-0 top-full mt-1 h-px w-0 bg-[#7DD3C7] transition-all duration-300 group-hover:w-full" />
+              <span className="absolute left-0 top-full mt-1 h-px w-0 bg-[#7C3AED] transition-all duration-300 group-hover:w-full" />
             </a>
           ))}
         </div>
 
         {/* Desktop actions */}
-        <div data-nav="actions" style={{ opacity: 0 }} className="hidden items-center gap-3 md:flex">
+        <div data-nav="actions" className="hidden items-center gap-3 md:flex">
           <button
             type="button"
             onClick={() => fadeNav('/login')}
-            className="rounded-full border border-white/[0.10] bg-[#1C1814]/[0.05] px-4 py-2 text-[0.65rem] tracking-[0.1em] uppercase font-semibold text-[#1C1814]/60 backdrop-blur-xl hover:border-[#7DD3C7]/30 hover:text-[#7DD3C7] transition-all duration-300"
+            className="rounded-full border border-[#CDB9DF] bg-[#FFFFFF] px-4 py-2 text-[0.65rem] tracking-[0.1em] uppercase font-semibold text-[#4A4057] hover:bg-[#ECE4F8] transition-all duration-300"
           >
             Sign in
           </button>
           <button
             type="button"
             onClick={() => fadeNav('/register')}
-            className="rounded-full bg-[#1C1814] px-4 py-2 text-[0.65rem] tracking-[0.1em] uppercase font-bold text-[#F4F0E8] shadow-[0_0_20px_rgba(125,211,199,0.28)] hover:shadow-[0_0_32px_rgba(125,211,199,0.28)] transition-all duration-300"
+            className="rounded-full bg-[#7C3AED] px-4 py-2 text-[0.65rem] tracking-[0.1em] uppercase font-bold text-white hover:bg-[#6D28D9] transition-all duration-300"
           >
             Get started
           </button>
@@ -158,7 +145,7 @@ export default function LandingNav() {
           aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
           aria-expanded={mobileOpen}
           onClick={() => setMobileOpen(v => !v)}
-          className="flex h-8 w-8 items-center justify-center text-[#1C1814]/60 transition-colors hover:text-[#1C1814] md:hidden"
+          className="flex h-8 w-8 items-center justify-center text-[#71657E] transition-colors hover:text-[#18111F] md:hidden"
         >
           {mobileOpen ? (
             <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
@@ -173,43 +160,43 @@ export default function LandingNav() {
 
         {/* Mobile dropdown */}
         {mobileOpen && (
-          <div className="absolute top-full left-0 right-0 mt-2 rounded-2xl border border-white/[0.10] bg-[#F4F0E8]/95 backdrop-blur-2xl shadow-[0_16px_48px_rgba(0,0,0,0.6)] py-3 px-3 md:hidden">
+          <div className="absolute top-full left-0 right-0 mt-2 rounded-2xl border border-[rgba(24,17,31,0.14)] bg-[#FFFFFF] shadow-[0_8px_32px_rgba(24,17,31,0.12)] py-3 px-3 md:hidden">
             <div className="flex flex-col gap-1 mb-3">
-              <p className="px-3 pt-1 pb-0.5 text-[9px] font-bold uppercase tracking-widest text-[#1C1814]/25">Product</p>
+              <p className="px-3 pt-1 pb-0.5 text-[9px] font-bold uppercase tracking-widest text-[#AA9AB8]">Product</p>
               {PRODUCT_LINKS.map(l => (
                 <button
                   key={l.label}
                   onClick={() => { setMobileOpen(false); navigate(l.route); }}
-                  className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-sm font-medium text-[#1C1814]/60 transition-colors hover:bg-white/[0.05] hover:text-[#1C1814] text-left"
+                  className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-sm font-medium text-[#71657E] transition-colors hover:bg-[#F1ECFA] hover:text-[#18111F] text-left"
                 >
-                  <span className="material-symbols-outlined text-[#7DD3C7]" style={{ fontSize: 14, fontVariationSettings: "'FILL' 1" }}>{l.icon}</span>
+                  <span className="material-symbols-outlined text-[#7C3AED]" style={{ fontSize: 14, fontVariationSettings: "'FILL' 1" }}>{l.icon}</span>
                   {l.label}
                 </button>
               ))}
-              <div className="h-px bg-[#1C1814]/[0.05] my-1 mx-2" />
+              <div className="h-px bg-[rgba(24,17,31,0.10)] my-1 mx-2" />
               {SCROLL_LINKS.map(link => (
                 <a
                   key={link}
                   href={`#${link}`}
                   onClick={handleScrollTo(link)}
-                  className="flex items-center px-3 py-2.5 rounded-xl text-sm font-medium text-[#1C1814]/60 transition-colors hover:bg-white/[0.05] hover:text-[#1C1814]"
+                  className="flex items-center px-3 py-2.5 rounded-xl text-sm font-medium text-[#71657E] transition-colors hover:bg-[#F1ECFA] hover:text-[#18111F]"
                 >
                   {link}
                 </a>
               ))}
             </div>
-            <div className="border-t border-white/[0.06] pt-3 flex flex-col gap-2">
+            <div className="border-t border-[rgba(24,17,31,0.12)] pt-3 flex flex-col gap-2">
               <button
                 type="button"
                 onClick={() => { setMobileOpen(false); fadeNav('/login'); }}
-                className="w-full rounded-xl border border-white/[0.10] bg-[#1C1814]/[0.05] px-4 py-2.5 text-sm font-semibold text-[#1C1814]/60 transition-all hover:border-[#7DD3C7]/30 hover:text-[#7DD3C7]"
+                className="w-full rounded-xl border border-[#CDB9DF] bg-[#FFFFFF] px-4 py-2.5 text-sm font-semibold text-[#4A4057] transition-all hover:bg-[#ECE4F8]"
               >
                 Sign in
               </button>
               <button
                 type="button"
                 onClick={() => { setMobileOpen(false); fadeNav('/register'); }}
-                className="w-full rounded-xl bg-[#1C1814] px-4 py-2.5 text-sm font-bold text-[#F4F0E8] transition-all hover:shadow-[0_0_24px_rgba(125,211,199,0.28)]"
+                className="w-full rounded-xl bg-[#7C3AED] px-4 py-2.5 text-sm font-bold text-white transition-all hover:bg-[#6D28D9]"
               >
                 Get started
               </button>

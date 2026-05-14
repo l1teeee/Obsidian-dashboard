@@ -6,7 +6,6 @@ import SocialProof            from '../components/landing/SocialProof';
 import BenefitsSection        from '../components/landing/BenefitsSection';
 import WorkflowTimeline       from '../components/ui/workflow-timeline';
 import DifferentiatorsSection from '../components/landing/DifferentiatorsSection';
-import TestimonialsSection    from '../components/landing/TestimonialsSection';
 import PlatformSection        from '../components/landing/PlatformSection';
 import AnalyticsSection       from '../components/landing/AnalyticsSection';
 import ShowcaseSection        from '../components/landing/ShowcaseSection';
@@ -32,7 +31,7 @@ export default function LandingPage() {
   });
 
   return (
-    <div className="landing-page min-h-screen w-full bg-[#F4F0E8] text-[#1C1814] overflow-x-hidden">
+    <div className="landing-page min-h-screen w-full bg-[#F8F5FF] text-[#18111F] overflow-x-hidden">
       <CursorFollower />
       <LandingNav />
       <main>
@@ -41,7 +40,6 @@ export default function LandingPage() {
         <BenefitsSection />
         <WorkflowTimeline />
         <DifferentiatorsSection />
-        <TestimonialsSection />
         <PlatformSection />
         <AnalyticsSection />
         <ShowcaseSection />

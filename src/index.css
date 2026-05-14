@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap');
 @import "tailwindcss";
 
 @keyframes dot-pulse {
@@ -37,9 +38,9 @@
 
 @theme {
   /* Fonts */
-  --font-sans: "Manrope", system-ui, -apple-system, sans-serif;
-  --font-headline: "Manrope", system-ui, sans-serif;
-  --font-body: "Manrope", system-ui, sans-serif;
+  --font-sans: "DM Sans", "Inter", "Manrope", system-ui, -apple-system, sans-serif;
+  --font-headline: "DM Sans", "Inter", "Manrope", system-ui, sans-serif;
+  --font-body: "DM Sans", "Inter", "Manrope", system-ui, sans-serif;
   --font-mono: "JetBrains Mono", "Fira Code", monospace;
 
   /* Z-index scale */
@@ -54,54 +55,54 @@
   --ease-smooth: cubic-bezier(0.25, 0.46, 0.45, 0.94);
 
   /* Design System Colors — Vielinks Light */
-  --color-primary:                  #7dd3c7;
-  --color-primary-container:        #7dd3c7;
-  --color-primary-fixed:            #d8f5ef;
-  --color-primary-fixed-dim:        #a9e6dd;
-  --color-on-primary:               #1c1814;
-  --color-on-primary-container:     #123d38;
-  --color-on-primary-fixed:         #062320;
-  --color-on-primary-fixed-variant: #285f58;
-  --color-inverse-primary:          #257a70;
+  --color-primary:                  #7c3aed;
+  --color-primary-container:        #ede9fe;
+  --color-primary-fixed:            #ede9fe;
+  --color-primary-fixed-dim:        #c4b5fd;
+  --color-on-primary:               #ffffff;
+  --color-on-primary-container:     #3b166e;
+  --color-on-primary-fixed:         #2e1065;
+  --color-on-primary-fixed-variant: #6d28d9;
+  --color-inverse-primary:          #6d28d9;
 
-  --color-secondary:                #d6a86a;
-  --color-secondary-container:      #d6a86a;
-  --color-secondary-fixed:          #f6e2c1;
-  --color-secondary-fixed-dim:      #e4c28b;
-  --color-on-secondary:             #1c1814;
-  --color-on-secondary-container:   #3f2c12;
-  --color-on-secondary-fixed:       #241708;
-  --color-on-secondary-fixed-variant: #674719;
+  --color-secondary:                #d946ef;
+  --color-secondary-container:      #fae8ff;
+  --color-secondary-fixed:          #fae8ff;
+  --color-secondary-fixed-dim:      #f0abfc;
+  --color-on-secondary:             #ffffff;
+  --color-on-secondary-container:   #701a75;
+  --color-on-secondary-fixed:       #581c87;
+  --color-on-secondary-fixed-variant: #a21caf;
 
-  --color-tertiary:                 #c5d247;
-  --color-tertiary-container:       #aab62c;
-  --color-tertiary-fixed:           #dfec5e;
-  --color-tertiary-fixed-dim:       #c3cf44;
-  --color-on-tertiary:              #2f3300;
-  --color-on-tertiary-container:    #3f4500;
-  --color-on-tertiary-fixed:        #1a1d00;
-  --color-on-tertiary-fixed-variant:#454b00;
+  --color-tertiary:                 #0ea5e9;
+  --color-tertiary-container:       #e0f2fe;
+  --color-tertiary-fixed:           #e0f2fe;
+  --color-tertiary-fixed-dim:       #bae6fd;
+  --color-on-tertiary:              #ffffff;
+  --color-on-tertiary-container:    #075985;
+  --color-on-tertiary-fixed:        #082f49;
+  --color-on-tertiary-fixed-variant:#0369a1;
 
-  --color-surface:                  #f4f0e8;
-  --color-surface-dim:              #ede8df;
+  --color-surface:                  #f8f5ff;
+  --color-surface-dim:              #efe7f8;
   --color-surface-bright:           #ffffff;
-  --color-surface-container-lowest: #fdfaf8;
-  --color-surface-container-low:    #f3eee6;
-  --color-surface-container:        #faf7f2;
-  --color-surface-container-high:   #ede8df;
-  --color-surface-container-highest:#e5dfd6;
-  --color-surface-variant:          #e8e3da;
-  --color-surface-tint:             #7dd3c7;
-  --color-inverse-surface:          #1c1814;
-  --color-inverse-on-surface:       #f4f0e8;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-low:    #f1ecfa;
+  --color-surface-container:        #fbfaff;
+  --color-surface-container-high:   #efe7f8;
+  --color-surface-container-highest:#e6ddf0;
+  --color-surface-variant:          #eae0f4;
+  --color-surface-tint:             #7c3aed;
+  --color-inverse-surface:          #18111f;
+  --color-inverse-on-surface:       #f8f5ff;
 
-  --color-background:               #f4f0e8;
-  --color-on-background:            #1c1814;
-  --color-on-surface:               #1c1814;
-  --color-on-surface-variant:       #5c5650;
+  --color-background:               #f8f5ff;
+  --color-on-background:            #18111f;
+  --color-on-surface:               #18111f;
+  --color-on-surface-variant:       #4A4057;
 
-  --color-outline:                  #7a7470;
-  --color-outline-variant:          #c5beb5;
+  --color-outline:                  #71657E;
+  --color-outline-variant:          #c7b8d8;
 
   --color-error:                    #c0392b;
   --color-error-container:          #fddbd8;
@@ -109,19 +110,19 @@
   --color-on-error-container:       #7a0000;
 
   /* Semantic aliases — light mode */
-  --color-card:                     #faf7f2;
-  --color-card-foreground:          #1c1814;
-  --color-popover:                  #faf7f2;
-  --color-popover-foreground:       #1c1814;
-  --color-muted:                    #e5dfd6;
-  --color-muted-foreground:         #7a7470;
-  --color-accent:                   #7dd3c7;
-  --color-accent-foreground:        #1c1814;
-  --color-border:                   rgba(28, 24, 20, 0.12);
-  --color-ring:                     rgba(125, 211, 199, 0.62);
+  --color-card:                     #fbfaff;
+  --color-card-foreground:          #18111f;
+  --color-popover:                  #fbfaff;
+  --color-popover-foreground:       #18111f;
+  --color-muted:                    #e6ddf0;
+  --color-muted-foreground:         #71657E;
+  --color-accent:                   #7c3aed;
+  --color-accent-foreground:        #18111f;
+  --color-border:                   rgba(24, 17, 31, 0.12);
+  --color-ring:                     rgba(124, 58, 237, 0.62);
   --color-success:                  #16a34a;
   --color-warning:                  #d97706;
-  --color-info:                     #257a70;
+  --color-info:                     #6d28d9;
 }
 
 /* Base */
@@ -129,17 +130,17 @@
 .font-mono     { font-family: var(--font-mono); }
 
 :root {
-  --surface-bg: #f4f0e8;
-  --surface-card: #faf7f2;
-  --surface-card-raised: #f0ebe2;
-  --surface-panel: #ede8df;
-  --surface-border: rgba(28, 24, 20, 0.12);
-  --surface-border-soft: rgba(28, 24, 20, 0.08);
-  --text-primary: #1c1814;
-  --text-secondary: #5c5650;
-  --text-muted: #7a7470;
-  --brand-primary: #7dd3c7;
-  --brand-accent: #7dd3c7;
+  --surface-bg: #f8f5ff;
+  --surface-card: #fbfaff;
+  --surface-card-raised: #efe7f8;
+  --surface-panel: #efe7f8;
+  --surface-border: rgba(24, 17, 31, 0.12);
+  --surface-border-soft: rgba(24, 17, 31, 0.08);
+  --text-primary: #18111f;
+  --text-secondary: #4A4057;
+  --text-muted: #71657E;
+  --brand-primary: #7c3aed;
+  --brand-accent: #7c3aed;
   --state-success: #16a34a;
   --state-warning: #d97706;
   --state-error: #c0392b;
@@ -150,8 +151,8 @@
 }
 
 html {
-  background: #f4f0e8;
-  color: #1c1814;
+  background: #f8f5ff;
+  color: #18111f;
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -160,14 +161,14 @@ html {
 body { overflow-x: hidden; }
 
 ::selection {
-  background: rgba(125, 211, 199, 0.35);
-  color: #1c1814;
+  background: rgba(124, 58, 237, 0.35);
+  color: #18111f;
 }
 
 /* Scrollbars */
 ::-webkit-scrollbar { width: 4px; height: 4px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: #c5beb5; border-radius: 10px; }
+::-webkit-scrollbar-thumb { background: #c7b8d8; border-radius: 10px; }
 
 /* Hide scrollbar but keep functionality */
 .scrollbar-hide::-webkit-scrollbar { display: none; }
@@ -241,29 +242,29 @@ body { overflow-x: hidden; }
 .react-datepicker-popper { z-index: 9999 !important; }
 
 .react-datepicker {
-  background: #faf7f2 !important;
+  background: #fbfaff !important;
   border: 1px solid rgba(28,24,20,0.12) !important;
   border-radius: 1.25rem !important;
   font-family: inherit !important;
-  box-shadow: 0 16px 48px rgba(0,0,0,0.12), 0 0 0 1px rgba(125,211,199,0.12) !important;
+  box-shadow: 0 16px 48px rgba(0,0,0,0.12), 0 0 0 1px rgba(124,58,237,0.12) !important;
   overflow: hidden !important;
 }
 .react-datepicker__triangle { display: none !important; }
 
 .react-datepicker__header {
-  background: #f4f0e8 !important;
+  background: #f8f5ff !important;
   border-bottom: 1px solid rgba(28,24,20,0.08) !important;
   padding: 14px 0 10px !important;
   border-radius: 0 !important;
 }
 .react-datepicker__current-month {
-  color: #1c1814 !important;
+  color: #18111f !important;
   font-weight: 700 !important;
   font-size: 13px !important;
   letter-spacing: -0.02em !important;
 }
 .react-datepicker__day-name {
-  color: #7a7470 !important;
+  color: #71657E !important;
   font-size: 10px !important;
   font-weight: 700 !important;
   text-transform: uppercase !important;
@@ -271,7 +272,7 @@ body { overflow-x: hidden; }
   width: 2rem !important;
 }
 .react-datepicker__day {
-  color: #5c5650 !important;
+  color: #4A4057 !important;
   border-radius: 0.5rem !important;
   width: 2rem !important;
   line-height: 2rem !important;
@@ -279,30 +280,30 @@ body { overflow-x: hidden; }
   transition: background 0.15s, color 0.15s !important;
 }
 .react-datepicker__day:hover:not(.react-datepicker__day--selected) {
-  background: rgba(125,211,199,0.18) !important;
-  color: #257a70 !important;
+  background: rgba(124,58,237,0.18) !important;
+  color: #6d28d9 !important;
 }
 .react-datepicker__day--selected,
 .react-datepicker__day--keyboard-selected {
-  background: #7dd3c7 !important;
-  color: #1c1814 !important;
+  background: #7c3aed !important;
+  color: #18111f !important;
   font-weight: 700 !important;
 }
 .react-datepicker__day--today:not(.react-datepicker__day--selected) {
-  color: #257a70 !important;
+  color: #6d28d9 !important;
   font-weight: 700 !important;
-  background: rgba(125,211,199,0.12) !important;
+  background: rgba(124,58,237,0.12) !important;
 }
-.react-datepicker__day--outside-month { color: #c5beb5 !important; }
-.react-datepicker__day--disabled { color: #d5d0cb !important; cursor: not-allowed !important; }
+.react-datepicker__day--outside-month { color: #c7b8d8 !important; }
+.react-datepicker__day--disabled { color: #d8cee4 !important; cursor: not-allowed !important; }
 
 .react-datepicker__navigation { top: 14px !important; }
 .react-datepicker__navigation-icon::before {
-  border-color: #7a7470 !important;
+  border-color: #71657E !important;
   border-width: 2px 2px 0 0 !important;
 }
 .react-datepicker__navigation:hover .react-datepicker__navigation-icon::before {
-  border-color: #7dd3c7 !important;
+  border-color: #7c3aed !important;
 }
 
 /* Time-only picker */
@@ -311,34 +312,34 @@ body { overflow-x: hidden; }
   width: 110px !important;
 }
 .react-datepicker__time-container .react-datepicker__time {
-  background: #faf7f2 !important;
+  background: #fbfaff !important;
   border-radius: 0 0 1.25rem 0 !important;
 }
 .react-datepicker__time-container .react-datepicker__time-box {
   width: 110px !important;
 }
 .react-datepicker__time-list-item {
-  color: #5c5650 !important;
+  color: #4A4057 !important;
   font-size: 12px !important;
   border-radius: 0.4rem !important;
   transition: background 0.1s, color 0.1s !important;
 }
 .react-datepicker__time-list-item:hover {
-  background: rgba(125,211,199,0.18) !important;
-  color: #257a70 !important;
+  background: rgba(124,58,237,0.18) !important;
+  color: #6d28d9 !important;
 }
 .react-datepicker__time-list-item--selected {
-  background: #7dd3c7 !important;
-  color: #1c1814 !important;
+  background: #7c3aed !important;
+  color: #18111f !important;
   font-weight: 700 !important;
 }
 .react-datepicker__header--time {
-  background: #f4f0e8 !important;
+  background: #f8f5ff !important;
   border-bottom: 1px solid rgba(28,24,20,0.08) !important;
   padding: 10px 0 !important;
 }
 .react-datepicker-time__header {
-  color: #7a7470 !important;
+  color: #71657E !important;
   font-size: 10px !important;
   font-weight: 700 !important;
   text-transform: uppercase !important;
@@ -360,15 +361,15 @@ body { overflow-x: hidden; }
 .auth-bg {
   background: linear-gradient(
     -45deg,
-    #f4f0e8 0%,
-    #f8f5ef 12%,
-    #f1ede5 25%,
-    #f6f2eb 37%,
-    #f4f0e8 50%,
-    #f0ece3 62%,
-    #f5f1ea 75%,
-    #f3efe7 87%,
-    #f4f0e8 100%
+    #f8f5ff 0%,
+    #fbfaff 12%,
+    #f3eefa 25%,
+    #f7f3fc 37%,
+    #f8f5ff 50%,
+    #efe7f8 62%,
+    #f6f1fb 75%,
+    #f3edfa 87%,
+    #f8f5ff 100%
   );
   background-size: 400% 400%;
   animation: authBgShift 20s ease infinite;
@@ -469,7 +470,7 @@ body { overflow-x: hidden; }
   transition: background-color 0.2s ease;
 }
 
-.calendar-day:hover { background-color: #f3eee6; }
+.calendar-day:hover { background-color: #f1ecfa; }
 
 /* View Transitions for auth */
 ::view-transition-old(auth-card),

@@ -5,12 +5,55 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const pain = [
-  'Paying for Hootsuite, Buffer, AND a separate analytics tool',
-  'Writing captions in Google Docs, then copy-pasting everywhere',
-  'Losing track of scheduled posts across multiple tabs',
-  'Guessing the best time to post without real data',
-  'Reporting performance from different platform dashboards',
+const workflowSteps = [
+  {
+    step: '01',
+    icon: (
+      <svg className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth={1.7} viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+      </svg>
+    ),
+    title: 'Plan',
+    body: 'Map every post, owner, and publish date across all platforms in one shared content calendar. Assign ownership before a single caption is written.',
+    tag: 'One shared view',
+    accent: '#7C3AED',
+  },
+  {
+    step: '02',
+    icon: (
+      <svg className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth={1.7} viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+      </svg>
+    ),
+    title: 'Draft',
+    body: 'Write captions with AI assist, adapt copy per platform, and tag posts for review — all without leaving the editor or switching tools.',
+    tag: 'AI-powered writing',
+    accent: '#D946EF',
+  },
+  {
+    step: '03',
+    icon: (
+      <svg className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth={1.7} viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+    ),
+    title: 'Approve',
+    body: 'Route content through your team with one-click approvals and comment threads. Nothing goes live until someone signs off.',
+    tag: 'Team-gated publishing',
+    accent: '#7C3AED',
+  },
+  {
+    step: '04',
+    icon: (
+      <svg className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth={1.7} viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+      </svg>
+    ),
+    title: 'Report',
+    body: 'Pull cross-platform performance data after every cycle. Know what drove reach, what fell flat, and what to repeat next week.',
+    tag: 'Closed-loop analytics',
+    accent: '#7C3AED',
+  },
 ];
 
 const differentiators = [
@@ -46,13 +89,6 @@ const differentiators = [
   },
 ];
 
-const workflowSteps = [
-  { step: '01', title: 'Plan', body: 'Map posts, owners, and dates in one shared calendar.', accent: '#7DD3C7' },
-  { step: '02', title: 'Draft', body: 'Write captions, adapt channels, and keep approvals visible.', accent: '#D6A86A' },
-  { step: '03', title: 'Publish', body: 'Queue Instagram, LinkedIn, and Facebook without tab switching.', accent: '#7DD3C7' },
-  { step: '04', title: 'Report', body: 'Review performance signals before the next content cycle.', accent: '#F4F1EC' },
-];
-
 export default function DifferentiatorsSection() {
   const sectionRef = useRef<HTMLElement | null>(null);
 
@@ -61,7 +97,7 @@ export default function DifferentiatorsSection() {
 
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (prefersReduced) {
-      gsap.set('[data-d="eyebrow"],[data-d="title"],[data-d="sub"],[data-d="pain"],[data-d="card"]', { opacity: 1, y: 0, x: 0 });
+      gsap.set('[data-d="eyebrow"],[data-d="title"],[data-d="sub"],[data-d="workflow"],[data-d="card"]', { opacity: 1, y: 0 });
       return;
     }
 
@@ -77,13 +113,11 @@ export default function DifferentiatorsSection() {
       });
 
       tl
-        .fromTo('[data-d="eyebrow"]', { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.4 })
-        .fromTo('[data-d="title"]',   { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.6 }, '-=0.15')
-        .fromTo('[data-d="sub"]',     { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.45 }, '-=0.3')
-        .fromTo('[data-d="workflow"]', { opacity: 0, y: 24, scale: 0.98 }, { opacity: 1, y: 0, scale: 1, duration: 0.6 }, '-=0.25')
-        .fromTo('[data-d="left"]',    { opacity: 0, x: -24 }, { opacity: 1, x: 0, duration: 0.65 }, '-=0.25')
-        .fromTo('[data-d="pain"]',    { opacity: 0, x: -12 }, { opacity: 1, x: 0, duration: 0.38, stagger: 0.07 }, '-=0.45')
-        .fromTo('[data-d="card"]',    { opacity: 0, y: 28, scale: 0.98 }, { opacity: 1, y: 0, scale: 1, duration: 0.55, stagger: 0.09 }, '-=0.8');
+        .fromTo('[data-d="eyebrow"]',  { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.4 })
+        .fromTo('[data-d="title"]',    { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.6 }, '-=0.15')
+        .fromTo('[data-d="sub"]',      { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.45 }, '-=0.3')
+        .fromTo('[data-d="workflow"]', { opacity: 0, y: 24, scale: 0.98 }, { opacity: 1, y: 0, scale: 1, duration: 0.65 }, '-=0.25')
+        .fromTo('[data-d="card"]',     { opacity: 0, y: 28, scale: 0.98 }, { opacity: 1, y: 0, scale: 1, duration: 0.55, stagger: 0.1 }, '-=0.3');
     }, sectionRef);
 
     return () => ctx.revert();
@@ -91,175 +125,144 @@ export default function DifferentiatorsSection() {
 
   return (
     <section ref={sectionRef} id="Differentiators" className="relative overflow-hidden py-28 md:py-36">
-      {/* Static ambient color, kept intentionally subtle for performance */}
-      <div className="pointer-events-none absolute right-[4%] top-20 h-80 w-80 rounded-full bg-[#7DD3C7]/[0.03] blur-[72px]" />
-      <div className="pointer-events-none absolute left-[3%] bottom-10 h-64 w-64 rounded-full bg-[#D6A86A]/[0.025] blur-[64px]" />
-
-      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/[0.07] to-transparent" />
+      <div className="pointer-events-none absolute right-[4%] top-20 h-80 w-80 rounded-full bg-[#7C3AED]/[0.03] blur-[72px]" />
+      <div className="pointer-events-none absolute left-[3%] bottom-10 h-64 w-64 rounded-full bg-[#D946EF]/[0.025] blur-[64px]" />
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#E6DDF0] to-transparent" />
 
       <div className="mx-auto max-w-[1440px] px-6 md:px-12">
+
         {/* Header */}
         <div className="mx-auto mb-16 max-w-2xl text-center">
           <span
             data-d="eyebrow"
             style={{ opacity: 0 }}
-            className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/[0.10] bg-[#1C1814]/[0.05] px-4 py-1.5 text-[0.68rem] font-bold uppercase tracking-[0.22em] text-[#1C1814]/45"
+            className="mb-5 inline-flex items-center gap-2 rounded-full border border-[rgba(24,17,31,0.14)] bg-[#FFFFFF] px-4 py-1.5 text-[0.68rem] font-bold uppercase tracking-[0.22em] text-[#62536F]"
           >
-            <span className="h-1.5 w-1.5 rounded-full bg-[#7DD3C7]" />
+            <span className="h-1.5 w-1.5 rounded-full bg-[#7C3AED]" />
             Why Vielinks is different
           </span>
           <h2
             data-d="title"
             style={{ opacity: 0 }}
-            className="text-4xl font-extrabold tracking-[-0.04em] leading-[0.96] text-[#1C1814] md:text-5xl"
+            className="mt-5 text-4xl font-extrabold tracking-[-0.04em] leading-[0.96] text-[#18111F] md:text-5xl"
           >
             A cleaner workflow.{' '}
-            <span className="text-[#7DD3C7]">
-              Not just another tool.
-            </span>
+            <span className="text-[#7C3AED]">Not just another tool.</span>
           </h2>
           <p
             data-d="sub"
             style={{ opacity: 0 }}
-            className="mx-auto mt-5 max-w-lg text-[1rem] font-light leading-[1.8] text-[#1C1814]/50"
+            className="mx-auto mt-5 max-w-lg text-[1rem] font-light leading-[1.8] text-[#18111F]/55"
           >
-            Most social media tools add complexity. Vielinks removes it. Here is the difference that matters.
+            From first idea to final report, every step happens in one place. No tab switching, no copy-pasting, no guessing.
           </p>
         </div>
 
+        {/* ── Workflow steps ─────────────────────────────────── */}
         <div
           data-d="workflow"
           style={{ opacity: 0 }}
-          className="relative mb-10 overflow-hidden rounded-[2rem] border border-white/[0.08] bg-[#F3EEE6]/80 p-4 shadow-[0_30px_100px_rgba(0,0,0,0.28)] backdrop-blur-xl md:p-5"
+          className="relative mb-10 overflow-hidden rounded-[2rem] border border-[rgba(24,17,31,0.16)] bg-[#FFFFFF] p-6 shadow-[0_20px_60px_rgba(24,17,31,0.08),0_0_0_1px_rgba(46,16,101,0.06)] md:p-8"
         >
-          <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/[0.10] to-transparent" />
+          <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#7C3AED]/20 to-transparent" />
+
+          {/* "How it works" label */}
+          <p className="mb-6 text-[0.6rem] font-bold uppercase tracking-[0.24em] text-[#18111F]/40">How it works</p>
+
           <div className="grid gap-3 md:grid-cols-4">
             {workflowSteps.map((item, index) => (
-              <div
-                key={item.step}
-                className="group relative overflow-hidden rounded-[1.25rem] border border-white/[0.07] bg-[#F4F0E8]/55 p-5 transition-all duration-300 hover:border-white/[0.14] hover:bg-[#1F1D1B]/70"
-              >
+              <div key={item.step} className="relative">
+                {/* Connector arrow between steps */}
                 {index < workflowSteps.length - 1 && (
-                  <div className="pointer-events-none absolute right-[-18px] top-1/2 hidden h-px w-9 bg-white/[0.12] md:block" />
+                  <div className="pointer-events-none absolute right-[-10px] top-[22px] z-10 hidden md:flex items-center">
+                    <svg className="h-4 w-4 text-[rgba(24,17,31,0.18)]" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                    </svg>
+                  </div>
                 )}
-                <div className="mb-5 flex items-center justify-between">
+
+                <div className="group flex h-full flex-col rounded-[1.25rem] border border-[rgba(24,17,31,0.12)] bg-[#FBFAFF] p-5 transition-all duration-300 hover:border-[rgba(124,58,237,0.30)] hover:bg-[#F1ECFA] hover:shadow-[0_8px_24px_rgba(124,58,237,0.08)]">
+
+                  {/* Top row: step number + icon */}
+                  <div className="mb-4 flex items-start justify-between">
+                    <span
+                      className="rounded-full border px-2.5 py-1 text-[0.55rem] font-bold uppercase tracking-[0.2em]"
+                      style={{
+                        borderColor: `${item.accent}40`,
+                        backgroundColor: `${item.accent}12`,
+                        color: item.accent,
+                      }}
+                    >
+                      {item.step}
+                    </span>
+                    <div
+                      className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-[rgba(24,17,31,0.10)] bg-[#FFFFFF] transition-colors duration-300 group-hover:border-[rgba(124,58,237,0.20)] group-hover:bg-[#ECE4F8]"
+                      style={{ color: item.accent }}
+                    >
+                      {item.icon}
+                    </div>
+                  </div>
+
+                  {/* Title + body */}
+                  <h3 className="mb-2 text-[0.95rem] font-extrabold tracking-tight text-[#18111F]">{item.title}</h3>
+                  <p className="mb-5 flex-1 text-[0.8rem] leading-[1.7] text-[#18111F]/55">{item.body}</p>
+
+                  {/* Outcome tag */}
                   <span
-                    className="rounded-full border px-2.5 py-1 text-[0.58rem] font-bold uppercase tracking-[0.18em]"
-                    style={{ borderColor: `${item.accent}35`, backgroundColor: `${item.accent}12`, color: item.accent }}
+                    className="inline-flex w-fit items-center gap-1.5 rounded-full border px-2.5 py-1 text-[0.55rem] font-bold"
+                    style={{
+                      borderColor: `${item.accent}35`,
+                      backgroundColor: `${item.accent}09`,
+                      color: item.accent + 'CC',
+                    }}
                   >
-                    {item.step}
+                    <span className="h-1 w-1 rounded-full" style={{ backgroundColor: item.accent }} />
+                    {item.tag}
                   </span>
-                  <span
-                    className="h-2 w-2 rounded-full"
-                    style={{ backgroundColor: item.accent, boxShadow: `0 0 18px ${item.accent}55` }}
-                  />
                 </div>
-                <h3 className="text-base font-extrabold tracking-tight text-[#1C1814]">{item.title}</h3>
-                <p className="mt-2 text-[0.82rem] leading-[1.65] text-[#1C1814]/45">{item.body}</p>
-              </div>
-            ))}
-          </div>
-          <div className="mt-4 grid gap-3 md:grid-cols-3">
-            {[
-              ['One queue', 'All scheduled content in one operational view'],
-              ['Fewer tabs', 'Planning, publishing, and reporting stay connected'],
-              ['Clear handoff', 'Teams can see what is drafted, approved, and live'],
-            ].map(([title, body]) => (
-              <div key={title} className="rounded-2xl border border-white/[0.06] bg-white/[0.025] px-4 py-3">
-                <p className="text-[0.72rem] font-bold text-[#1C1814]">{title}</p>
-                <p className="mt-1 text-[0.68rem] leading-relaxed text-[#1C1814]/35">{body}</p>
               </div>
             ))}
           </div>
         </div>
 
-        {/* Main content grid */}
-        <div className="grid gap-6 lg:grid-cols-[1fr_1.4fr] lg:gap-10">
+        {/* ── Differentiator cards — full width 3 columns ─────── */}
+        <div className="grid gap-5 md:grid-cols-3">
+          {differentiators.map((d, i) => (
+            <div
+              key={i}
+              data-d="card"
+              style={{ opacity: 0 }}
+              className="group relative flex flex-col overflow-hidden rounded-[1.5rem] border border-[rgba(24,17,31,0.14)] bg-[#FFFFFF] p-6 backdrop-blur-xl transition-all duration-500 hover:border-[#4C1D95]/30 hover:bg-[#F1ECFA]"
+            >
+              <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#E6DDF0] to-transparent" />
 
-          {/* Left: The old way */}
-          <div
-            data-d="left"
-            style={{ opacity: 0 }}
-            className="rounded-[1.75rem] border border-white/[0.06] bg-[#F4F0E8]/60 p-7 md:p-8 backdrop-blur-xl"
-          >
-            <div className="mb-6 flex items-center gap-3">
-              <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-white/[0.04] border border-white/[0.08]">
-                <svg className="h-4 w-4 text-[#1C1814]/30" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </div>
-              <p className="text-[0.78rem] font-bold uppercase tracking-[0.18em] text-[#1C1814]/30">Without Vielinks</p>
-            </div>
-
-            <ul className="space-y-4">
-              {pain.map((item, i) => (
-                <li
-                  key={i}
-                  data-d="pain"
-                  style={{ opacity: 0 }}
-                  className="flex items-start gap-3"
-                >
-                  <div className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-red-500/10 border border-red-500/15">
-                    <svg className="h-2.5 w-2.5 text-red-400/70" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                  </div>
-                  <span className="text-[0.875rem] leading-[1.6] text-[#1C1814]/40">{item}</span>
-                </li>
-              ))}
-            </ul>
-
-            {/* Simulated chaos visual */}
-            <div className="mt-8 rounded-xl border border-white/[0.04] bg-white/[0.01] p-4">
-              <p className="mb-3 text-[0.55rem] font-bold uppercase tracking-[0.18em] text-[#1C1814]/18">Your current stack</p>
-              <div className="flex flex-wrap gap-2">
-                {['Hootsuite', 'Buffer', 'Sprout', 'Google Sheets', 'Canva', 'Notion', '...'].map((t) => (
-                  <span key={t} className="rounded-lg border border-white/[0.06] bg-white/[0.02] px-2.5 py-1 text-[0.6rem] font-medium text-[#1C1814]/25">
-                    {t}
-                  </span>
-                ))}
-              </div>
-              <p className="mt-3 text-[0.58rem] text-[#1C1814]/20">$180–$320 /mo combined · 6+ tabs open at once</p>
-            </div>
-          </div>
-
-          {/* Right: differentiator cards */}
-          <div className="flex flex-col gap-5">
-            {differentiators.map((d, i) => (
-              <div
-                key={i}
-                data-d="card"
-                style={{ opacity: 0 }}
-                className="group relative flex items-start gap-5 overflow-hidden rounded-[1.5rem] border border-white/[0.07] bg-[#F3EEE6]/80 p-6 backdrop-blur-xl transition-all duration-500 hover:border-white/[0.15] hover:bg-[#1F1D1B]/80"
-              >
-                {/* Top sheen */}
-                <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/[0.06] to-transparent" />
-
-                {/* Icon */}
-                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-white/[0.08] bg-white/[0.05] text-[#1C1814]/60 transition-all duration-300 group-hover:bg-white/[0.09] group-hover:text-[#1C1814]/80">
+              {/* Icon + badge */}
+              <div className="mb-5 flex items-start justify-between">
+                <div className="flex h-11 w-11 items-center justify-center rounded-2xl border border-[rgba(24,17,31,0.10)] bg-[#F1ECFA] text-[#4A2D8A] transition-all duration-300 group-hover:bg-[#ECE4F8] group-hover:text-[#18111F]">
                   {d.icon}
                 </div>
+                <span className="rounded-full border border-[rgba(24,17,31,0.12)] bg-[#F1ECFA] px-2.5 py-0.5 text-[0.55rem] font-bold text-[#62536F]">
+                  {d.badge}
+                </span>
+              </div>
 
-                <div className="flex-1">
-                  <div className="mb-1 flex items-center gap-3 flex-wrap">
-                    <h3 className="text-[0.95rem] font-bold tracking-tight text-[#1C1814]">{d.title}</h3>
-                    <span className="rounded-full border border-white/[0.08] bg-white/[0.04] px-2.5 py-0.5 text-[0.55rem] font-bold text-[#1C1814]/35">
-                      {d.badge}
-                    </span>
-                  </div>
-                  <p className="text-[0.875rem] leading-[1.75] text-[#1C1814]/50">{d.body}</p>
-                </div>
+              {/* Content */}
+              <h3 className="mb-2 text-[0.95rem] font-bold tracking-tight text-[#18111F]">{d.title}</h3>
+              <p className="mb-6 flex-1 text-[0.875rem] leading-[1.75] text-[#18111F]/55">{d.body}</p>
 
-                {/* Check */}
-                <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-white/[0.05] border border-white/[0.08]">
-                  <svg className="h-3.5 w-3.5 text-[#1C1814]/45" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
+              {/* Check mark footer */}
+              <div className="flex items-center gap-2">
+                <div className="flex h-6 w-6 items-center justify-center rounded-full border border-[rgba(24,17,31,0.10)] bg-[#F1ECFA]">
+                  <svg className="h-3 w-3 text-[#7C3AED]/70" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                   </svg>
                 </div>
+                <span className="text-[0.65rem] font-semibold text-[#18111F]/35">Included in all plans</span>
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
         </div>
+
       </div>
     </section>
   );
