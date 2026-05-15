@@ -12,7 +12,7 @@ const SCROLL_LINKS = ['Showcase', 'Pricing'];
 const PRODUCT_LINKS = [
   { label: 'Dashboard',    icon: 'dashboard',   route: '/product/dashboard'    },
   { label: 'Analytics',    icon: 'monitoring',  route: '/product/analytics'    },
-  { label: 'Scheduler',    icon: 'calendar_month', route: '/product/scheduler' },
+  { label: 'Calendar',     icon: 'calendar_month', route: '/product/scheduler' },
   { label: 'AI Insights',  icon: 'auto_awesome', route: '/product/ai-insights' },
   { label: 'Integrations', icon: 'hub',         route: '/product/integrations' },
 ];

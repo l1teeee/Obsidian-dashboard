@@ -99,7 +99,7 @@ export default function RegisterCard() {
       <button
         type="button"
         onClick={() => fadeNav('/')}
-        className="absolute left-5 top-5 z-10 inline-flex h-10 items-center gap-2 rounded-full px-3 text-[13px] font-medium text-[#6B655B] transition-colors duration-200 hover:bg-[#EFE9DC] hover:text-[#15140F] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C8553A]/35 sm:left-8 sm:top-8"
+        className="absolute left-5 top-5 z-10 inline-flex h-10 cursor-pointer items-center gap-2 rounded-full px-3 text-[13px] font-medium text-[#6B655B] transition-colors duration-200 hover:bg-[#EFE9DC] hover:text-[#15140F] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C8553A]/35 sm:left-8 sm:top-8"
       >
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="shrink-0">
           <path d="M10 3L5 8L10 13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />

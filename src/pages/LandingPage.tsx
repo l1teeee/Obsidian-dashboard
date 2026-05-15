@@ -1,8 +1,11 @@
 import { useState, useRef, useLayoutEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { AnimatePresence, motion } from 'framer-motion';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useSEO } from '../hooks/useSEO';
+import SiteNav from '../components/landing/SiteNav';
+import { ContainerScroll } from '../components/ui/container-scroll-animation';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -92,46 +95,6 @@ const reduced = () => window.matchMedia('(prefers-reduced-motion: reduce)').matc
 const PREVIEW_BARS = [32, 58, 41, 75, 53, 88, 67];
 const PREVIEW_DAYS = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
 
-// ─── Nav ─────────────────────────────────────────────────────────────────────
-
-function Nav() {
-  const ref = useRef<HTMLElement>(null);
-
-  useLayoutEffect(() => {
-    if (reduced()) return;
-    const ctx = gsap.context(() => {
-      gsap.fromTo(ref.current,
-        { y: -48, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.6, ease: 'power3.out', delay: 0.05 }
-      );
-    });
-    return () => ctx.revert();
-  }, []);
-
-  return (
-    <nav ref={ref} className="fixed top-0 left-0 right-0 z-50 w-full bg-[rgba(246,242,234,0.82)] backdrop-blur-lg border-b border-border">
-      <div className="max-w-300 mx-auto px-8 flex items-center justify-between h-16">
-        <a href="/" className="flex items-center">
-          <span className="font-medium text-[18px] text-[#15140F] tracking-[-0.02em]">Vielinks</span>
-        </a>
-        <div className="hidden md:flex gap-9">
-          {[['Product', '#features'], ['Pricing', '#pricing'], ['FAQ', '#faq'], ['Changelog', '#']].map(([label, href]) => (
-            <a key={label} href={href} className="text-[14px] text-[#6B655B] hover:text-[#15140F] transition-colors duration-200">{label}</a>
-          ))}
-        </div>
-        <div className="flex gap-2 items-center">
-          <Link to="/login" className="inline-flex items-center text-[14px] font-medium text-[#3D3A30] px-[18px] py-2.5 rounded-[10px] hover:bg-[#EFE9DC] transition-all duration-200">
-            Sign in
-          </Link>
-          <Link to="/register" className="inline-flex items-center text-[14px] font-medium bg-[#15140F] text-[#F6F2EA] px-[18px] py-2.5 rounded-[10px] hover:bg-[#3D3A30] transition-all duration-200">
-            Start free
-          </Link>
-        </div>
-      </div>
-    </nav>
-  );
-}
-
 // ─── Hero ─────────────────────────────────────────────────────────────────────
 
 function Hero() {
@@ -210,142 +173,327 @@ function Hero() {
 
 // ─── Product Preview ──────────────────────────────────────────────────────────
 
-function ProductPreview() {
-  const ref = useRef<HTMLDivElement>(null);
-  const barsRef = useRef<(HTMLDivElement | null)[]>([]);
-  const navItems = [
-    { icon: <IconDashboard className="w-4 h-4" />, label: 'Dashboard', active: true },
-    { icon: <IconCalendar className="w-4 h-4" />, label: 'Calendar' },
-    { icon: <IconAnalytics className="w-4 h-4" />, label: 'Analytics' },
-    { icon: <IconHub className="w-4 h-4" />, label: 'Platforms' },
-    { icon: <IconSparkle className="w-4 h-4" />, label: 'AI Insights' },
-  ];
-  const kpis = [
-    { label: 'Total reach', value: '2.4M', delta: '↑ 18.2%', color: '#4F7A4A' },
-    { label: 'Engagement', value: '342K', delta: '↑ 12.4%', color: '#4F7A4A' },
-    { label: 'Scheduled', value: '28', delta: 'this week', color: '#6B655B' },
-  ];
+const CAL_EVENTS: Record<number, string[]> = {
+  5:  ['#E1306C'],
+  8:  ['#0A66C2'],
+  12: ['#E1306C', '#1877F2'],
+  15: ['#0A66C2'],
+  19: ['#E1306C'],
+  22: ['#1877F2'],
+  26: ['#0A66C2', '#E1306C'],
+  29: ['#1877F2'],
+};
 
-  useLayoutEffect(() => {
-    if (reduced()) return;
-    const ctx = gsap.context(() => {
-      const innerEl = ref.current?.querySelector<HTMLElement>('[data-pp="inner"]');
-      if (innerEl) gsap.set(innerEl, { opacity: 1, y: 0, filter: 'blur(0px)' });
-
-      if (innerEl) {
-        gsap.fromTo(innerEl,
-          { opacity: 0.96, y: 18, filter: 'blur(2px)' },
-          {
-            opacity: 1,
-            y: 0,
-            filter: 'blur(0px)',
-            duration: 0.8,
-            ease: 'power3.out',
-            immediateRender: false,
-            scrollTrigger: { trigger: ref.current, start: 'top 88%', once: true },
-          }
-        );
-      }
-
-      // Frame slides up
-      gsap.fromTo('[data-pp="frame"]',
-        { opacity: 0, y: 80 },
-        {
-          opacity: 1, y: 0, duration: 1.0, ease: 'power3.out',
-          scrollTrigger: { trigger: ref.current, start: 'top 82%', once: true },
-        }
-      );
-      // Bars grow from 0
-      barsRef.current.forEach((el, i) => {
-        if (!el) return;
-        const target = PREVIEW_BARS[i];
-        gsap.fromTo(el,
-          { height: '0%', opacity: 0 },
-          {
-            height: `${target}%`, opacity: 1, duration: 0.6, ease: 'power2.out',
-            delay: i * 0.06,
-            scrollTrigger: { trigger: ref.current, start: 'top 75%', once: true },
-          }
-        );
-      });
-
-      if (innerEl) {
-        gsap.to(innerEl, {
-          opacity: 0,
-          y: -60,
-          filter: 'blur(6px)',
-          ease: 'none',
-          scrollTrigger: {
-            trigger: ref.current,
-            start: 'bottom 50%',
-            end: 'bottom top',
-            scrub: 1.5,
-          },
-        });
-      }
-    }, ref);
-    return () => ctx.revert();
-  }, []);
-
+function DashboardContent() {
   return (
-    <div ref={ref} className="max-w-275 mx-auto px-8 mt-24">
-      <div data-pp="inner">
-        <div data-pp="frame" className="bg-[#FBF8F2] border border-border rounded-[20px] overflow-hidden shadow-[0_4px_0_rgba(21,20,15,0.02),0_32px_80px_rgba(21,20,15,0.10)]">
-          <div className="flex items-center gap-2 px-[18px] py-3.5 border-b border-border bg-[#EFE9DC]">
-            <span className="w-2.5 h-2.5 rounded-full bg-[#A39B8B] opacity-50" />
-            <span className="w-2.5 h-2.5 rounded-full bg-[#A39B8B] opacity-50" />
-            <span className="w-2.5 h-2.5 rounded-full bg-[#A39B8B] opacity-50" />
-            <span className="ml-4 font-mono text-[12px] text-[#6B655B]">app.vielinks.com/dashboard</span>
-          </div>
-          <div className="p-8 min-h-[480px] grid grid-cols-1 md:grid-cols-[220px_1fr] gap-6">
-            <div className="hidden md:flex flex-col gap-1">
-              {navItems.map(item => (
-                <div key={item.label} className={`flex items-center gap-2.5 px-3 py-2.5 text-[13px] rounded-[10px] ${item.active ? 'bg-[#EFE9DC] text-[#15140F] font-medium' : 'text-[#6B655B]'}`}>
-                  {item.icon} {item.label}
-                </div>
-              ))}
+    <div className="p-3 md:p-4 flex flex-col gap-3 h-full overflow-auto">
+      <div className="flex items-center justify-between rounded-xl bg-[#EFE9DC] border border-[#15140F]/8 px-3.5 py-2.5 shrink-0">
+        <div>
+          <p className="text-[8.5px] font-bold uppercase tracking-[0.14em] text-[#C8553A] mb-0.5">Workspace overview</p>
+          <p className="text-[12px] font-semibold tracking-tight text-[#15140F]">Plan, publish, and measure today.</p>
+        </div>
+      </div>
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 shrink-0">
+        {([
+          { label: 'Total Reach', value: '2.4M', delta: '↑ 18.2%', positive: true,  type: 'bar',       bar: 72, barColor: '#4F7A4A' },
+          { label: 'Engagement',  value: '342K', delta: '↑ 12.4%', positive: true,  type: 'bar',       bar: 58, barColor: '#C8553A' },
+          { label: 'Scheduled',   value: '28',   delta: 'this week',positive: null,  type: 'dots'                                   },
+          { label: 'Platforms',   value: '3',                                        type: 'platforms'                              },
+        ] as Array<{label:string;value:string;delta?:string;positive?:boolean|null;type:string;bar?:number;barColor?:string}>).map(k => (
+          <div key={k.label} className="bg-[#F6F2EA] border border-[#E7E0D0] rounded-xl px-3 py-2.5">
+            <p className="text-[8px] font-bold uppercase tracking-[0.14em] text-[#6B655B] mb-1.5">{k.label}</p>
+            <div className="flex items-baseline gap-1.5 flex-wrap">
+              <span className="text-[16px] font-medium tracking-tight text-[#15140F]">{k.value}</span>
+              {k.delta && <span className={`text-[8.5px] font-semibold ${k.positive ? 'text-[#4F7A4A]' : 'text-[#6B655B]'}`}>{k.delta}</span>}
             </div>
-            <div className="flex flex-col gap-4">
-              <div>
-                <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-[#6B655B] mb-1.5">Workspace overview</p>
-                <p className="text-[28px] tracking-[-0.03em] font-medium text-[#15140F]">Plan, publish, measure.</p>
-              </div>
-              <div className="grid grid-cols-3 gap-3">
-                {kpis.map(k => (
-                  <div key={k.label} className="bg-[#F6F2EA] border border-border rounded-xl px-4 py-3.5">
-                    <div className="text-[10px] font-medium uppercase tracking-[0.14em] text-[#6B655B] mb-1.5">{k.label}</div>
-                    <div className="text-[24px] font-semibold tracking-[-0.02em] text-[#15140F]">{k.value}</div>
-                    <div className="text-[11px] mt-1" style={{ color: k.color }}>{k.delta}</div>
-                  </div>
-                ))}
-              </div>
-              <div className="bg-[#F6F2EA] border border-border rounded-xl p-4 flex flex-col gap-3 flex-1">
-                <div className="flex justify-between items-baseline">
-                  <span className="text-[13px] font-medium text-[#15140F]">Weekly engagement</span>
-                  <span className="text-[11px] text-[#6B655B]">Last 7 days</span>
-                </div>
-                <div className="flex gap-1.5 h-[90px] items-end">
-                  {PREVIEW_BARS.map((_, i) => (
-                    <div key={i} className="flex-1 flex flex-col justify-end h-full">
-                      <div
-                        ref={el => { barsRef.current[i] = el; }}
-                        className="bg-[#F4E0D6] rounded-t-[3px] w-full"
-                        style={{ height: `${PREVIEW_BARS[i]}%` }}
-                      />
-                    </div>
-                  ))}
-                </div>
-                <div className="flex gap-1.5">
-                  {PREVIEW_DAYS.map((d, i) => (
-                    <span key={i} className="flex-1 text-center text-[10px] font-medium text-[#A39B8B] uppercase">{d}</span>
-                  ))}
-                </div>
-              </div>
-            </div>
+            {k.type === 'bar' && <div className="mt-2 h-[3px] w-full bg-[#D8D2C4] rounded-full overflow-hidden"><div className="h-full rounded-full" style={{ width: `${k.bar}%`, background: k.barColor }} /></div>}
+            {k.type === 'dots' && <div className="mt-2 flex gap-1">{Array.from({ length: 5 }, (_, j) => <div key={j} className="h-[3px] flex-1 rounded-full" style={{ background: j < 4 ? '#C8553A' : '#D8D2C4' }} />)}</div>}
+            {k.type === 'platforms' && <div className="mt-2 flex gap-1.5">{([{abbr:'IG',c:'#E1306C'},{abbr:'LI',c:'#0A66C2'},{abbr:'FB',c:'#1877F2'}] as Array<{abbr:string;c:string}>).map(p=><div key={p.abbr} className="w-5 h-5 rounded-md flex items-center justify-center text-[7.5px] font-bold" style={{background:p.c+'33',color:p.c}}>{p.abbr}</div>)}</div>}
           </div>
+        ))}
+      </div>
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr_200px] gap-2.5 flex-1 min-h-0">
+        <div className="bg-[#F6F2EA] border border-[#E7E0D0] rounded-xl p-3.5 flex flex-col gap-2.5 min-h-0">
+          <div className="flex justify-between items-baseline shrink-0">
+            <span className="text-[11px] font-medium text-[#15140F]">Weekly engagement</span>
+            <span className="text-[9.5px] text-[#6B655B]">Last 7 days</span>
+          </div>
+          <div className="flex gap-1.5 flex-1 items-end min-h-0">
+            {PREVIEW_BARS.map((h, i) => <div key={i} className="flex-1 flex flex-col justify-end h-full"><div className="bg-[#F4E0D6] rounded-t-sm w-full" style={{ height: `${h}%` }} /></div>)}
+          </div>
+          <div className="flex gap-1.5 shrink-0">
+            {PREVIEW_DAYS.map((d, i) => <span key={i} className="flex-1 text-center text-[8.5px] font-medium text-[#A39B8B] uppercase">{d}</span>)}
+          </div>
+        </div>
+        <div className="hidden lg:flex flex-col gap-2 min-h-0 overflow-auto">
+          <p className="text-[10.5px] font-semibold text-[#15140F] shrink-0">Upcoming</p>
+          {([
+            { p:'IG', c:'#E1306C', title:'Product launch',    time:'Today · 2PM',    s:'Pending'  },
+            { p:'LI', c:'#0A66C2', title:'Q2 highlights',     time:'Tomorrow · 9AM', s:'Approved' },
+            { p:'FB', c:'#1877F2', title:'Behind the scenes',  time:'Wed · 6PM',      s:'Draft'    },
+          ] as Array<{p:string;c:string;title:string;time:string;s:string}>).map(post => (
+            <div key={post.title} className="bg-[#F6F2EA] border border-[#E7E0D0] rounded-xl px-2.5 py-2">
+              <div className="flex items-center justify-between mb-1">
+                <div className="w-4 h-4 rounded-[4px] flex items-center justify-center text-[7px] font-bold" style={{ background: post.c+'33', color: post.c }}>{post.p}</div>
+                <span className="text-[7.5px] font-medium text-[#6B655B] bg-[#EFE9DC] px-1.5 py-0.5 rounded-full">{post.s}</span>
+              </div>
+              <p className="text-[10.5px] font-medium text-[#15140F] leading-tight">{post.title}</p>
+              <p className="text-[8.5px] text-[#A39B8B] mt-0.5">{post.time}</p>
+            </div>
+          ))}
         </div>
       </div>
     </div>
+  );
+}
+
+function CalendarContent() {
+  const calCells = [...Array(4).fill(null), ...Array.from({ length: 31 }, (_, i) => i + 1)];
+  return (
+    <div className="p-3 flex flex-col gap-2.5 h-full overflow-auto">
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-1">
+          <button className="w-5 h-5 rounded-md bg-[#EFE9DC] flex items-center justify-center text-[#6B655B] text-[10px]">‹</button>
+          <span className="text-[11px] font-semibold text-[#15140F] px-2">May 2025</span>
+          <button className="w-5 h-5 rounded-md bg-[#EFE9DC] flex items-center justify-center text-[#6B655B] text-[10px]">›</button>
+        </div>
+        <div className="flex rounded-lg overflow-hidden border border-[#E7E0D0]">
+          {['Month', 'Week', 'List'].map((v, i) => (
+            <span key={v} className={`text-[8.5px] font-medium px-2 py-1 ${i === 0 ? 'bg-[#15140F] text-[#F6F2EA]' : 'text-[#6B655B] bg-[#F6F2EA]'}`}>{v}</span>
+          ))}
+        </div>
+      </div>
+      <div className="flex gap-1.5">
+        {([{label:'IG',c:'#E1306C'},{label:'LI',c:'#0A66C2'},{label:'FB',c:'#1877F2'}] as Array<{label:string;c:string}>).map(p => (
+          <div key={p.label} className="flex items-center gap-1 px-2 py-0.5 rounded-full text-[8px] font-medium border" style={{ borderColor: p.c+'40', color: p.c, background: p.c+'12' }}>
+            <span className="w-1 h-1 rounded-full shrink-0" style={{ background: p.c }} />{p.label}
+          </div>
+        ))}
+      </div>
+      <div className="grid grid-cols-7">
+        {['S','M','T','W','T','F','S'].map((d, i) => <div key={i} className="text-center text-[8px] font-semibold text-[#A39B8B] py-1">{d}</div>)}
+      </div>
+      <div className="grid grid-cols-7 gap-[2px] flex-1">
+        {calCells.map((day, i) => (
+          <div key={i} className={`min-h-6 p-[3px] rounded-md flex flex-col ${day === 15 ? 'bg-[#EFE9DC]' : ''}`}>
+            {day && <span className={`text-[8px] font-medium leading-none ${day === 15 ? 'text-[#C8553A]' : 'text-[#6B655B]'}`}>{day}</span>}
+            {day && CAL_EVENTS[day] && (
+              <div className="flex gap-[2px] mt-[2px] flex-wrap">
+                {CAL_EVENTS[day].map((c, j) => <div key={j} className="w-1 h-1 rounded-full" style={{ background: c }} />)}
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function AnalyticsContent() {
+  return (
+    <div className="p-3 flex flex-col gap-2.5 h-full overflow-auto">
+      <div className="grid grid-cols-3 gap-2 shrink-0">
+        {([
+          { label: 'Total Reach', value: '2.4M', delta: '↑ 18.2%', c: '#4F7A4A' },
+          { label: 'Engagements', value: '342K',  delta: '↑ 12.4%', c: '#C8553A' },
+          { label: 'Avg Score',   value: '7.8',   delta: '↑ 0.4',   c: '#7C3AED' },
+        ] as Array<{label:string;value:string;delta:string;c:string}>).map(k => (
+          <div key={k.label} className="bg-[#F6F2EA] border border-[#E7E0D0] rounded-xl px-2.5 py-2">
+            <p className="text-[7.5px] font-bold uppercase tracking-[0.14em] text-[#6B655B] mb-1">{k.label}</p>
+            <p className="text-[14px] font-semibold text-[#15140F] leading-none">{k.value}</p>
+            <p className="text-[8px] font-semibold mt-1" style={{ color: k.c }}>{k.delta}</p>
+          </div>
+        ))}
+      </div>
+      <div className="grid grid-cols-[1fr_90px] gap-2 flex-1 min-h-0">
+        <div className="bg-[#F6F2EA] border border-[#E7E0D0] rounded-xl p-3 flex flex-col min-h-0">
+          <div className="flex justify-between items-baseline mb-2 shrink-0">
+            <span className="text-[10px] font-medium text-[#15140F]">Reach over time</span>
+            <span className="text-[8px] text-[#6B655B]">30 days</span>
+          </div>
+          <svg className="flex-1 w-full" viewBox="0 0 200 70" preserveAspectRatio="none">
+            <defs>
+              <linearGradient id="anaGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor="#C8553A" stopOpacity="0.18" />
+                <stop offset="100%" stopColor="#C8553A" stopOpacity="0" />
+              </linearGradient>
+            </defs>
+            <path d="M0 55 C25 50,45 35,70 30 S100 18,125 16 S155 24,175 12 S190 6,200 5" fill="none" stroke="#C8553A" strokeWidth="1.5" strokeLinecap="round" />
+            <path d="M0 55 C25 50,45 35,70 30 S100 18,125 16 S155 24,175 12 S190 6,200 5 L200 70 L0 70Z" fill="url(#anaGrad)" />
+          </svg>
+        </div>
+        <div className="flex flex-col gap-1.5">
+          {([
+            { abbr:'IG', c:'#E1306C', pct:68, reach:'1.6M' },
+            { abbr:'LI', c:'#0A66C2', pct:24, reach:'580K' },
+            { abbr:'FB', c:'#1877F2', pct:8,  reach:'210K' },
+          ] as Array<{abbr:string;c:string;pct:number;reach:string}>).map(p => (
+            <div key={p.abbr} className="bg-[#F6F2EA] border border-[#E7E0D0] rounded-xl p-2 flex-1">
+              <div className="flex items-center gap-1 mb-1">
+                <div className="w-4 h-4 rounded-md flex items-center justify-center text-[6px] font-bold shrink-0" style={{ background: p.c+'22', color: p.c }}>{p.abbr}</div>
+                <span className="text-[8px] font-semibold text-[#15140F]">{p.reach}</span>
+              </div>
+              <div className="h-[2px] bg-[#E7E0D0] rounded-full overflow-hidden">
+                <div className="h-full rounded-full" style={{ width: `${p.pct}%`, background: p.c }} />
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function PlatformsContent() {
+  return (
+    <div className="p-3 flex flex-col gap-2 h-full overflow-auto">
+      <div className="flex items-center justify-between mb-0.5">
+        <span className="text-[11px] font-semibold text-[#15140F]">Connected platforms</span>
+        <span className="text-[8.5px] font-medium text-white bg-[#C8553A] px-2.5 py-1 rounded-lg">+ Connect</span>
+      </div>
+      {([
+        { name:'acme_brand', platform:'Instagram', abbr:'IG', c:'#E1306C', type:'Business', followers:'12.4K' },
+        { name:'Acme Corp',  platform:'LinkedIn',  abbr:'LI', c:'#0A66C2', type:'Company',  followers:'8.2K'  },
+        { name:'Acme Brand', platform:'Facebook',  abbr:'FB', c:'#1877F2', type:'Page',     followers:'5.7K'  },
+      ] as Array<{name:string;platform:string;abbr:string;c:string;type:string;followers:string}>).map(p => (
+        <div key={p.platform} className="bg-[#F6F2EA] border border-[#E7E0D0] rounded-xl p-2.5">
+          <div className="flex items-center gap-2 mb-2">
+            <div className="w-7 h-7 rounded-xl flex items-center justify-center text-[8px] font-black text-white shrink-0" style={{ background: p.c }}>{p.abbr}</div>
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center gap-1.5">
+                <p className="text-[10.5px] font-semibold text-[#15140F] truncate">{p.name}</p>
+                <span className="text-[7px] font-bold px-1.5 py-0.5 rounded-full shrink-0" style={{ background: p.c+'18', color: p.c }}>Connected</span>
+              </div>
+              <p className="text-[8px] text-[#6B655B]">{p.platform} · {p.type} · {p.followers} followers</p>
+            </div>
+          </div>
+          <div className="flex gap-1.5">
+            <span className="text-[8px] text-[#6B655B] font-medium border border-[#E7E0D0] rounded-lg px-2 py-0.5">Reconnect</span>
+            <span className="text-[8px] text-[#C8553A] font-medium border border-[#E7E0D0] rounded-lg px-2 py-0.5">Disconnect</span>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function AiInsightsContent() {
+  const fields = [
+    { label: 'Brand Persona',    value: 'A bold, modern brand that champions creativity for visual storytellers.' },
+    { label: 'Brand Voice',      value: 'Conversational, inspiring, confident — never corporate or jargon-heavy.' },
+    { label: 'Target Audience',  value: 'Creative professionals, 25-40, primarily Instagram and LinkedIn.' },
+    { label: 'Content Pillars',  value: 'Education · Inspiration · Behind-the-scenes · Product showcases' },
+  ];
+  return (
+    <div className="p-3 flex flex-col gap-2 h-full overflow-auto">
+      <div className="flex items-center justify-between mb-0.5">
+        <span className="text-[11px] font-semibold text-[#15140F]">AI Configuration</span>
+        <span className="text-[8.5px] font-medium text-[#4F7A4A] bg-[#4F7A4A]/10 px-2 py-0.5 rounded-full">Ready</span>
+      </div>
+      {fields.map(f => (
+        <div key={f.label} className="bg-[#F6F2EA] border border-[#E7E0D0] rounded-xl p-2.5">
+          <p className="text-[7.5px] font-bold uppercase tracking-[0.14em] text-[#C8553A] mb-1">{f.label}</p>
+          <p className="text-[9.5px] text-[#3D3A30] leading-relaxed">{f.value}</p>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+const URL_MAP: Record<string, string> = {
+  Dashboard:    'app.vielinks.com/dashboard',
+  Calendar:     'app.vielinks.com/calendar',
+  Analytics:    'app.vielinks.com/analytics',
+  Platforms:    'app.vielinks.com/platforms',
+  'AI Insights':'app.vielinks.com/ai-insights',
+};
+
+function ProductPreview() {
+  const [activeTab, setActiveTab] = useState('Dashboard');
+
+  const navItems = [
+    { icon: <IconDashboard className="w-3.5 h-3.5" />, label: 'Dashboard'  },
+    { icon: <IconCalendar  className="w-3.5 h-3.5" />, label: 'Calendar'   },
+    { icon: <IconAnalytics className="w-3.5 h-3.5" />, label: 'Analytics'  },
+    { icon: <IconHub       className="w-3.5 h-3.5" />, label: 'Platforms'  },
+    { icon: <IconSparkle   className="w-3.5 h-3.5" />, label: 'AI Insights'},
+  ];
+
+  const titleComponent = (
+    <div className="max-w-2xl mx-auto px-4">
+      <span className="text-[11px] font-medium uppercase tracking-[0.18em] text-[#C8553A] mb-4 inline-block">
+        Live preview
+      </span>
+      <h2 className="text-[clamp(28px,4.5vw,52px)] leading-[1.1] tracking-[-0.04em] font-medium text-[#15140F] mb-4">
+        Your workspace,<br />
+        <em className="not-italic text-[#C8553A]">at a glance.</em>
+      </h2>
+      <p className="text-[16px] leading-[1.65] text-[#6B655B]">
+        Real metrics, real scheduling, real analytics — all in one clean interface.
+      </p>
+    </div>
+  );
+
+  return (
+    <ContainerScroll titleComponent={titleComponent}>
+      <div className="h-full flex flex-col bg-[#FBF8F2] overflow-hidden">
+
+        {/* Browser chrome */}
+        <div className="flex items-center gap-2 px-4 py-2.5 border-b border-[#E7E0D0] bg-[#EFE9DC] shrink-0">
+          <span className="w-2.5 h-2.5 rounded-full bg-[#A39B8B] opacity-50" />
+          <span className="w-2.5 h-2.5 rounded-full bg-[#A39B8B] opacity-50" />
+          <span className="w-2.5 h-2.5 rounded-full bg-[#A39B8B] opacity-50" />
+          <span className="ml-3 font-mono text-[11px] text-[#6B655B] transition-all duration-200">{URL_MAP[activeTab]}</span>
+        </div>
+
+        {/* App layout */}
+        <div className="flex flex-1 overflow-hidden">
+
+          {/* Sidebar */}
+          <div className="hidden md:flex flex-col w-44 shrink-0 border-r border-[#E7E0D0] bg-[#F6F2EA] p-3 gap-1">
+            <div className="flex items-center gap-2 px-2.5 pb-2.5 mb-1.5 border-b border-[#E7E0D0]">
+              <div className="w-5 h-5 rounded-md bg-[#C8553A] flex items-center justify-center shrink-0">
+                <span className="text-white text-[9px] font-black">V</span>
+              </div>
+              <span className="text-[12px] font-bold tracking-tight text-[#15140F]">Vielinks</span>
+            </div>
+            {navItems.map(item => (
+              <button
+                key={item.label}
+                onClick={() => setActiveTab(item.label)}
+                className={`flex items-center gap-2.5 px-2.5 py-2 text-[11.5px] rounded-[9px] text-left w-full transition-colors ${
+                  activeTab === item.label
+                    ? 'bg-[#EFE9DC] text-[#15140F] font-medium'
+                    : 'text-[#6B655B] hover:bg-[#EFE9DC] hover:text-[#15140F]'
+                }`}
+              >
+                {item.icon} {item.label}
+              </button>
+            ))}
+          </div>
+
+          {/* Main content — switches by tab */}
+          <div className="flex-1 overflow-hidden relative">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeTab}
+                initial={{ opacity: 0, y: 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -6 }}
+                transition={{ duration: 0.18, ease: 'easeInOut' }}
+                className="h-full"
+              >
+                {activeTab === 'Dashboard'   && <DashboardContent />}
+                {activeTab === 'Calendar'    && <CalendarContent />}
+                {activeTab === 'Analytics'   && <AnalyticsContent />}
+                {activeTab === 'Platforms'   && <PlatformsContent />}
+                {activeTab === 'AI Insights' && <AiInsightsContent />}
+              </motion.div>
+            </AnimatePresence>
+          </div>
+        </div>
+      </div>
+    </ContainerScroll>
   );
 }
 
@@ -354,12 +502,12 @@ function ProductPreview() {
 function Features() {
   const ref = useRef<HTMLElement>(null);
   const features = [
-    { icon: <IconCalendar className="w-4.5 h-4.5" />, title: 'Calendar that just plans', body: 'Drag posts between days. See the whole month in one view. Every platform on one timeline, color-coded but quiet.' },
-    { icon: <IconSparkle className="w-4.5 h-4.5" />, title: 'AI that drafts captions', body: "Stuck on a caption? Drop in the image and a brief, get three options in your tone. Edit, post, move on." },
-    { icon: <IconAnalytics className="w-4.5 h-4.5" />, title: 'Numbers, not dashboards', body: "What got reach, when. What got engagement, why. Per platform, per post, per week. No vanity metrics." },
-    { icon: <IconHub className="w-4.5 h-4.5" />, title: 'Three platforms, one tab', body: 'Instagram, LinkedIn, Facebook. Connect once, post everywhere, with previews that show what each network will actually render.' },
-    { icon: <IconClock className="w-4.5 h-4.5" />, title: 'Approval queues', body: 'A reviewer, a clock, a green checkmark. Drafts route to whoever needs to see them before they go out.' },
-    { icon: <IconLinkIcon className="w-4.5 h-4.5" />, title: 'Link in bio, but quiet', body: "A small, hosted page you can update from the same workspace. No third-party tools, no extra subscriptions." },
+    { icon: <IconCalendar className="w-4.5 h-4.5" />, title: 'Calendar that just plans', body: 'Drag posts between days. See the whole month in one view. Every platform on one timeline, color-coded but quiet.', route: '/product/scheduler' },
+    { icon: <IconSparkle className="w-4.5 h-4.5" />, title: 'AI that drafts captions', body: "Stuck on a caption? Drop in the image and a brief, get three options in your tone. Edit, post, move on.", route: '/product/ai-insights' },
+    { icon: <IconAnalytics className="w-4.5 h-4.5" />, title: 'Numbers, not dashboards', body: "What got reach, when. What got engagement, why. Per platform, per post, per week. No vanity metrics.", route: '/product/analytics' },
+    { icon: <IconHub className="w-4.5 h-4.5" />, title: 'Three platforms, one tab', body: 'Instagram, LinkedIn, Facebook. Connect once, post everywhere, with previews that show what each network will actually render.', route: '/product/integrations' },
+    { icon: <IconClock className="w-4.5 h-4.5" />, title: 'Approval queues', body: 'A reviewer, a clock, a green checkmark. Drafts route to whoever needs to see them before they go out.', route: '/product/scheduler' },
+    { icon: <IconLinkIcon className="w-4.5 h-4.5" />, title: 'Link in bio, but quiet', body: "A small, hosted page you can update from the same workspace. No third-party tools, no extra subscriptions.", route: null },
   ];
 
   useLayoutEffect(() => {
@@ -432,6 +580,16 @@ function Features() {
               </div>
               <h3 className="text-[18px] font-semibold tracking-[-0.01em] text-[#15140F] transition-colors duration-300 ease-out group-hover:text-white">{f.title}</h3>
               <p className="text-[14px] leading-[1.6] text-[#6B655B] transition-colors duration-300 ease-out group-hover:text-[#F6F2EA]">{f.body}</p>
+              {f.route && (
+                <Link
+                  to={f.route}
+                  onClick={e => e.stopPropagation()}
+                  className="mt-1 inline-flex items-center gap-1 text-[11px] font-medium tracking-wide text-[#A39B8B] transition-colors duration-300 ease-out group-hover:text-white/50 hover:!text-white/80 w-fit"
+                >
+                  Learn more
+                  <IconArrow className="w-2.5 h-2.5" />
+                </Link>
+              )}
             </div>
           ))}
         </div>
@@ -501,7 +659,7 @@ function Pricing() {
   }, []);
 
   return (
-    <section ref={ref} id="pricing" className="py-24 bg-[#FBF8F2] border-t border-b border-border">
+    <section ref={ref} id="pricing" className="py-24 bg-[#FBF8F2]">
       <div data-pr="inner" className="max-w-300 mx-auto px-8">
         <div data-pr="head">
           <span className="text-[11px] font-medium uppercase tracking-[0.18em] text-[#C8553A] mb-3 inline-block">Pricing</span>
@@ -731,10 +889,24 @@ function BigCTA() {
 
 function Footer() {
   const ref = useRef<HTMLElement>(null);
+  const navigate = useNavigate();
   const cols = [
-    { heading: 'Product', links: ['Calendar', 'Analytics', 'AI Insights', 'Integrations'] },
-    { heading: 'Company', links: ['About', 'Pricing', 'Changelog', 'Contact'] },
-    { heading: 'Legal', links: ['Terms', 'Privacy', 'Security', 'DPA'] },
+    { heading: 'Product', links: [
+      { label: 'Calendar',     href: '/product/scheduler'    },
+      { label: 'Analytics',    href: '/product/analytics'    },
+      { label: 'AI Insights',  href: '/product/ai-insights'  },
+      { label: 'Integrations', href: '/product/integrations' },
+    ]},
+    { heading: 'Company', links: [
+      { label: 'Pricing',   href: '/pricing' },
+      { label: 'FAQ',       href: '/faq'     },
+      { label: 'Contact',   href: 'mailto:hello@vielinks.com' },
+    ]},
+    { heading: 'Legal', links: [
+      { label: 'Terms',    href: 'mailto:hello@vielinks.com?subject=Terms%20of%20service'  },
+      { label: 'Privacy',  href: 'mailto:hello@vielinks.com?subject=Privacy%20policy'      },
+      { label: 'Security', href: 'mailto:hello@vielinks.com?subject=Security%20question'   },
+    ]},
   ];
 
   useLayoutEffect(() => {
@@ -766,8 +938,12 @@ function Footer() {
               <p className="text-[12px] font-medium uppercase tracking-[0.18em] mb-4" style={{ color: 'rgba(251,248,242,0.4)' }}>{col.heading}</p>
               <ul className="list-none flex flex-col gap-2.5">
                 {col.links.map(link => (
-                  <li key={link}>
-                    <a href="#" className="text-[14px] transition-colors duration-200 hover:text-[#F6F2EA]" style={{ color: 'rgba(251,248,242,0.7)' }}>{link}</a>
+                  <li key={link.label}>
+                    {link.href.startsWith('mailto:') ? (
+                      <a href={link.href} className="text-[14px] transition-colors duration-200 hover:text-[#F6F2EA]" style={{ color: 'rgba(251,248,242,0.7)' }}>{link.label}</a>
+                    ) : (
+                      <button onClick={() => navigate(link.href)} className="text-[14px] transition-colors duration-200 hover:text-[#F6F2EA]" style={{ color: 'rgba(251,248,242,0.7)' }}>{link.label}</button>
+                    )}
                   </li>
                 ))}
               </ul>
@@ -803,12 +979,14 @@ export default function LandingPage() {
 
   return (
     <div className="min-h-screen w-full bg-[#F6F2EA] text-[#15140F] overflow-x-hidden">
-      <Nav />
+      <SiteNav />
       <main>
         <Hero />
         <ProductPreview />
         <Features />
+        <div className="h-20 bg-linear-to-b from-[#F6F2EA] to-[#FBF8F2]" />
         <Pricing />
+        <div className="h-20 bg-linear-to-b from-[#FBF8F2] to-[#F6F2EA]" />
         <FAQ />
         <BigCTA />
       </main>

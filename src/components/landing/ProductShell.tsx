@@ -1,6 +1,6 @@
 ﻿import { type ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
-import LandingNav from './LandingNav';
+import SiteNav from './SiteNav';
 import ObsidianFooter from './ObsidianFooter';
 
 interface ProductShellProps {
@@ -42,7 +42,7 @@ export function ProductCTA() {
 export default function ProductShell({ children }: ProductShellProps) {
   return (
     <div className="min-h-screen bg-[#F6F2EA] text-[#15140F] overflow-x-hidden">
-      <LandingNav />
+      <SiteNav />
       <main>{children}</main>
       <ProductCTA />
       <ObsidianFooter />

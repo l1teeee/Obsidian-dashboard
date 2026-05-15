@@ -1,0 +1,65 @@
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
+import gsap from 'gsap';
+
+const reduced = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+export default function SiteNav() {
+  const ref   = useRef<HTMLElement>(null);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 20);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  useLayoutEffect(() => {
+    if (reduced()) return;
+    const ctx = gsap.context(() => {
+      gsap.fromTo(ref.current,
+        { y: -48, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.6, ease: 'power3.out', delay: 0.05 }
+      );
+    });
+    return () => ctx.revert();
+  }, []);
+
+  return (
+    <nav
+      ref={ref}
+      className={`fixed top-0 left-0 right-0 z-50 w-full border-b border-[rgba(21,20,15,0.10)] backdrop-blur-lg transition-colors duration-300 ${
+        scrolled ? 'bg-[rgba(246,242,234,0.95)]' : 'bg-[rgba(246,242,234,0.82)]'
+      }`}
+    >
+      <div className="max-w-[1440px] mx-auto px-8 flex items-center h-16 relative">
+        {/* Vielinks — left when not scrolled, centered when scrolled */}
+        <div className={`transition-all duration-300 ${scrolled ? 'absolute left-1/2 -translate-x-1/2' : ''}`}>
+          {scrolled ? (
+            <button
+              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+              className="font-medium text-[18px] text-[#15140F] tracking-[-0.02em]"
+            >
+              Vielinks
+            </button>
+          ) : (
+            <Link to="/" className="flex items-center">
+              <span className="font-medium text-[18px] text-[#15140F] tracking-[-0.02em]">Vielinks</span>
+            </Link>
+          )}
+        </div>
+
+        {/* Buttons — hidden when scrolled */}
+        <div
+          className={`flex gap-2 items-center ml-auto transition-all duration-300 ${
+            scrolled ? 'opacity-0 pointer-events-none' : 'opacity-100'
+          }`}
+        >
+          <Link to="/login"    className="inline-flex items-center text-[14px] font-medium text-[#3D3A30] px-[18px] py-2.5 rounded-[10px] hover:bg-[#EFE9DC] transition-all duration-200">Sign in</Link>
+          <Link to="/register" className="inline-flex items-center text-[14px] font-medium bg-[#15140F] text-[#F6F2EA] px-[18px] py-2.5 rounded-[10px] hover:bg-[#3D3A30] transition-all duration-200">Start free</Link>
+        </div>
+      </div>
+    </nav>
+  );
+}

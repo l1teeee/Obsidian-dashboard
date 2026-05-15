@@ -1,4 +1,5 @@
 ﻿import { useLayoutEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -8,7 +9,7 @@ const footerLinks = {
   Product: [
     { label: 'Dashboard', href: '/product/dashboard' },
     { label: 'Analytics', href: '/product/analytics' },
-    { label: 'Scheduler', href: '/product/scheduler' },
+    { label: 'Calendar', href: '/product/scheduler' },
     { label: 'AI Insights', href: '/product/ai-insights' },
     { label: 'Integrations', href: '/product/integrations' },
   ],
@@ -33,6 +34,7 @@ const bottomLinks = [
 
 export default function ObsidianFooter() {
   const footerRef = useRef<HTMLElement | null>(null);
+  const navigate  = useNavigate();
   useLayoutEffect(() => {
     if (!footerRef.current) return;
 
@@ -81,10 +83,10 @@ export default function ObsidianFooter() {
         <div className="grid grid-cols-2 gap-10 md:grid-cols-[1fr_auto_auto_auto] md:gap-16 lg:gap-24">
           {/* Brand column */}
           <div className="col-span-2 flex flex-col gap-6 md:col-span-1">
-            <a href="/" className="flex items-center gap-2.5 group">
+            <button onClick={() => navigate('/')} className="flex items-center gap-2.5 group">
               <img src="/favicon.png" alt="Vielinks" className="h-8 w-8 object-contain opacity-90 transition-opacity group-hover:opacity-100" />
               <span className="text-base font-extrabold tracking-tight text-[#15140F]">Vielinks</span>
-            </a>
+            </button>
             <p className="max-w-[240px] text-[0.82rem] leading-[1.75] text-[#15140F]/50">
               The unified command center for social media teams. Built for brands that publish with intention.
             </p>
@@ -106,12 +108,21 @@ export default function ObsidianFooter() {
               <ul className="space-y-3">
                 {links.map((link) => (
                   <li key={link.label}>
-                    <a
-                      href={link.href}
-                      className="text-[0.85rem] text-[#15140F]/55 transition-colors duration-300 hover:text-[#15140F]/90"
-                    >
-                      {link.label}
-                    </a>
+                    {link.href.startsWith('mailto:') ? (
+                      <a
+                        href={link.href}
+                        className="text-[0.85rem] text-[#15140F]/55 transition-colors duration-300 hover:text-[#15140F]/90"
+                      >
+                        {link.label}
+                      </a>
+                    ) : (
+                      <button
+                        onClick={() => navigate(link.href)}
+                        className="text-[0.85rem] text-[#15140F]/55 transition-colors duration-300 hover:text-[#15140F]/90"
+                      >
+                        {link.label}
+                      </button>
+                    )}
                   </li>
                 ))}
               </ul>
