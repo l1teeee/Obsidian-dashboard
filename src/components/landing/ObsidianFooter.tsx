@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef } from 'react';
+﻿import { useLayoutEffect, useRef } from 'react';
 
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -68,9 +68,9 @@ export default function ObsidianFooter() {
   }, []);
 
   return (
-    <footer ref={footerRef} className="relative overflow-hidden bg-[#F8F5FF]">
+    <footer ref={footerRef} className="relative overflow-hidden bg-[#F6F2EA]">
       {/* Top separator */}
-      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#E6DDF0] to-transparent" />
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#E7E0D0] to-transparent" />
 
       {/* ── Links + brand ──────────────────────────────────── */}
       <div
@@ -83,15 +83,15 @@ export default function ObsidianFooter() {
           <div className="col-span-2 flex flex-col gap-6 md:col-span-1">
             <a href="/" className="flex items-center gap-2.5 group">
               <img src="/favicon.png" alt="Vielinks" className="h-8 w-8 object-contain opacity-90 transition-opacity group-hover:opacity-100" />
-              <span className="text-base font-extrabold tracking-tight text-[#18111F]">Vielinks</span>
+              <span className="text-base font-extrabold tracking-tight text-[#15140F]">Vielinks</span>
             </a>
-            <p className="max-w-[240px] text-[0.82rem] leading-[1.75] text-[#18111F]/50">
+            <p className="max-w-[240px] text-[0.82rem] leading-[1.75] text-[#15140F]/50">
               The unified command center for social media teams. Built for brands that publish with intention.
             </p>
 
             <a
               href="mailto:hello@vielinks.com"
-              className="inline-flex w-fit items-center rounded-full border border-[#CDB9DF] bg-[#FBFAFF] px-4 py-2 text-[0.78rem] font-semibold text-[#4A4057] transition-all duration-300 hover:border-[#7C3AED]/40 hover:bg-[#ECE4F8] hover:text-[#18111F]"
+              className="inline-flex w-fit items-center rounded-full border border-[#D8D2C4] bg-[#FBF8F2] px-4 py-2 text-[0.78rem] font-semibold text-[#3D3A30] transition-all duration-300 hover:border-[#C8553A]/40 hover:bg-[#EFE9DC] hover:text-[#15140F]"
             >
               hello@vielinks.com
             </a>
@@ -100,7 +100,7 @@ export default function ObsidianFooter() {
           {/* Link columns */}
           {Object.entries(footerLinks).map(([section, links]) => (
             <div key={section} className="flex flex-col gap-5">
-              <h6 className="text-[0.62rem] font-bold uppercase tracking-[0.22em] text-[#18111F]/45">
+              <h6 className="text-[0.62rem] font-bold uppercase tracking-[0.22em] text-[#15140F]/45">
                 {section}
               </h6>
               <ul className="space-y-3">
@@ -108,7 +108,7 @@ export default function ObsidianFooter() {
                   <li key={link.label}>
                     <a
                       href={link.href}
-                      className="text-[0.85rem] text-[#18111F]/55 transition-colors duration-300 hover:text-[#18111F]/90"
+                      className="text-[0.85rem] text-[#15140F]/55 transition-colors duration-300 hover:text-[#15140F]/90"
                     >
                       {link.label}
                     </a>
@@ -124,18 +124,18 @@ export default function ObsidianFooter() {
       <div
         data-ft="bottom"
         style={{ opacity: 0 }}
-        className="mx-auto flex max-w-[1440px] flex-col items-center justify-between gap-4 border-t border-[#E6DDF0] px-6 py-6 md:flex-row md:px-12"
+        className="mx-auto flex max-w-[1440px] flex-col items-center justify-between gap-4 border-t border-[#E7E0D0] px-6 py-6 md:flex-row md:px-12"
       >
         <div className="flex items-center gap-3">
           <span className="relative flex h-1.5 w-1.5">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-50" />
             <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-400" />
           </span>
-          <span className="text-[0.65rem] uppercase tracking-[0.14em] text-[#18111F]/55">
+          <span className="text-[0.65rem] uppercase tracking-[0.14em] text-[#15140F]/55">
             All systems operational
           </span>
-          <span className="text-[#18111F]/10">·</span>
-          <span className="text-[0.65rem] uppercase tracking-[0.14em] text-[#18111F]/55">
+          <span className="text-[#15140F]/10">·</span>
+          <span className="text-[0.65rem] uppercase tracking-[0.14em] text-[#15140F]/55">
             © {new Date().getFullYear()} Vielinks, Inc.
           </span>
         </div>
@@ -145,7 +145,7 @@ export default function ObsidianFooter() {
             <a
               key={item.label}
               href={item.href}
-              className="text-[0.65rem] uppercase tracking-[0.12em] text-[#18111F]/55 transition-colors duration-300 hover:text-[#18111F]/70"
+              className="text-[0.65rem] uppercase tracking-[0.12em] text-[#15140F]/55 transition-colors duration-300 hover:text-[#15140F]/70"
             >
               {item.label}
             </a>

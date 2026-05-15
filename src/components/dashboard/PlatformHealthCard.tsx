@@ -1,4 +1,4 @@
-import type { RefObject } from 'react';
+﻿import type { RefObject } from 'react';
 import type { ConnectedPlatform } from '../../domain/entities/Platform';
 
 interface PlatformHealthCardProps {
@@ -21,27 +21,27 @@ export default function PlatformHealthCard({ platform: p, cardRef }: PlatformHea
       <div className="flex items-center justify-between relative z-10">
         <div className="flex items-center gap-3">
           <div
-            className="w-10 h-10 rounded-xl flex items-center justify-center text-[#1C1814] font-bold text-sm shrink-0"
+            className="w-10 h-10 rounded-xl flex items-center justify-center text-[#15140F] font-bold text-sm shrink-0"
             style={{ background: p.color }}
           >
             {p.abbr}
           </div>
           <div>
-            <h4 className="font-bold text-[#1C1814] text-sm">{p.name}</h4>
+            <h4 className="font-bold text-[#15140F] text-sm">{p.name}</h4>
             <div className="flex items-center gap-1.5 mt-0.5">
-              <div className={`w-1.5 h-1.5 rounded-full ${ok ? 'bg-[#c5d247]' : 'bg-[#ffb4ab] animate-pulse'}`} />
-              <span className="text-xs text-[#6A6470] uppercase tracking-[0.12em]">
+              <div className={`w-1.5 h-1.5 rounded-full ${ok ? 'bg-[#4F7A4A]' : 'bg-[#ffb4ab] animate-pulse'}`} />
+              <span className="text-xs text-[#6B655B] uppercase tracking-[0.12em]">
                 {ok ? 'Connected' : 'Auth Expired'}
               </span>
             </div>
           </div>
         </div>
-        <span className="material-symbols-outlined text-[#6A6470]" style={{ fontSize: 18 }}>
+        <span className="material-symbols-outlined text-[#6B655B]" style={{ fontSize: 18 }}>
           {ok ? 'more_vert' : 'sync_problem'}
         </span>
       </div>
       {!ok && (
-        <button className="mt-3 w-full bg-[#E5DFD6] hover:bg-[#353534] text-[#1C1814] py-2 rounded-xl text-xs font-bold transition-all border border-[#1C1814]/10">
+        <button className="mt-3 w-full bg-[#E7E0D0] hover:bg-[#D8D2C4] text-[#15140F] py-2 rounded-xl text-xs font-bold transition-all border border-[#15140F]/10">
           Reconnect Account
         </button>
       )}

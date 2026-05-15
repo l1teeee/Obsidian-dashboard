@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+﻿import { useEffect, useRef, useState } from 'react';
 import * as adminService from '../../services/admin.service';
 import type { AdminUserRow } from '../../types/admin.types';
 import type { PageMeta } from '../../lib/api';
@@ -8,9 +8,9 @@ import Pagination from '../../components/shared/Pagination';
 const PLANS = ['starter', 'pro', 'enterprise'];
 
 const PLAN_COLORS: Record<string, string> = {
-  starter:    'text-[#6A6470] bg-[#988d9c]/10',
-  pro:        'text-[#7DD3C7] bg-[#7DD3C7]/10',
-  enterprise: 'text-[#c5d247] bg-[#c5d247]/10',
+  starter:    'text-[#6B655B] bg-[#988d9c]/10',
+  pro:        'text-[#C8553A] bg-[#C8553A]/10',
+  enterprise: 'text-[#4F7A4A] bg-[#4F7A4A]/10',
 };
 
 const DEACTIVATE_REASONS = [
@@ -35,8 +35,8 @@ function fmtDate(iso: string) {
 function Avatar({ name, email }: { name: string | null; email: string }) {
   const letter = (name ?? email)[0].toUpperCase();
   return (
-    <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-[#7DD3C7]/30 to-[#D6A86A]/30 border border-[#7DD3C7]/20 flex items-center justify-center shrink-0">
-      <span className="text-xs font-bold text-[#7DD3C7]">{letter}</span>
+    <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-[#C8553A]/30 to-[#D6A86A]/30 border border-[#C8553A]/20 flex items-center justify-center shrink-0">
+      <span className="text-xs font-bold text-[#C8553A]">{letter}</span>
     </div>
   );
 }
@@ -114,19 +114,19 @@ export default function AdminUsers() {
           <div className="w-2 h-2 rounded-full bg-[#f87171]" />
           <span className="text-[#f87171] text-xs uppercase tracking-widest font-bold">Admin</span>
         </div>
-        <h1 className="font-headline text-3xl font-extrabold tracking-tighter text-[#1C1814]">Users</h1>
-        {meta && <p className="text-[#6A6470] text-sm mt-1">{meta.total.toLocaleString()} total users</p>}
+        <h1 className="font-headline text-3xl font-extrabold tracking-tighter text-[#15140F]">Users</h1>
+        {meta && <p className="text-[#6B655B] text-sm mt-1">{meta.total.toLocaleString()} total users</p>}
       </div>
 
       {/* Filters */}
       <div className="flex flex-wrap gap-3">
         <div className="relative flex-1 min-w-[220px] max-w-xs">
-          <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[#6A6470]" style={{ fontSize: 16 }}>search</span>
+          <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[#6B655B]" style={{ fontSize: 16 }}>search</span>
           <input
             value={search}
             onChange={e => handleSearch(e.target.value)}
             placeholder="Search by email or name..."
-            className="w-full bg-[#FAF7F2] border border-[#1C1814]/20 rounded-xl py-2.5 pl-9 pr-4 text-sm text-[#1C1814] placeholder:text-[#1C1814] focus:outline-none focus:border-[#7DD3C7]/40 transition-all"
+            className="w-full bg-[#FBF8F2] border border-[#15140F]/20 rounded-xl py-2.5 pl-9 pr-4 text-sm text-[#15140F] placeholder:text-[#3D3A30] focus:outline-none focus:border-[#C8553A]/40 transition-all"
           />
         </div>
 
@@ -139,7 +139,7 @@ export default function AdminUsers() {
                 'px-3 py-2 rounded-xl text-xs font-semibold transition-all border',
                 plan === p
                   ? 'bg-[#f87171]/10 border-[#f87171]/30 text-[#f87171]'
-                  : 'bg-transparent border-[#1C1814]/20 text-[#6A6470] hover:text-[#1C1814] hover:border-[#1C1814]/40',
+                  : 'bg-transparent border-[#15140F]/20 text-[#6B655B] hover:text-[#15140F] hover:border-[#15140F]/40',
               ].join(' ')}
             >
               {p || 'All plans'}
@@ -155,41 +155,41 @@ export default function AdminUsers() {
       )}
 
       {/* Table */}
-      <div className="glass-card rounded-3xl border border-[#1C1814]/10 overflow-hidden">
+      <div className="glass-card rounded-3xl border border-[#15140F]/10 overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-[#1C1814]/10">
-                <th className="text-left px-6 py-4 text-[#6A6470] text-xs uppercase tracking-widest font-semibold">User</th>
-                <th className="text-left px-6 py-4 text-[#6A6470] text-xs uppercase tracking-widest font-semibold">Plan</th>
-                <th className="text-center px-6 py-4 text-[#6A6470] text-xs uppercase tracking-widest font-semibold">Workspaces</th>
-                <th className="text-center px-6 py-4 text-[#6A6470] text-xs uppercase tracking-widest font-semibold">Posts</th>
-                <th className="text-left px-6 py-4 text-[#6A6470] text-xs uppercase tracking-widest font-semibold">Status</th>
-                <th className="text-right px-6 py-4 text-[#6A6470] text-xs uppercase tracking-widest font-semibold">Joined</th>
-                <th className="text-center px-6 py-4 text-[#6A6470] text-xs uppercase tracking-widest font-semibold">Actions</th>
+              <tr className="bg-[#EFE9DC] border-b border-[#15140F]/10">
+                <th className="text-left px-6 py-4 text-[#6B655B] text-xs uppercase tracking-widest font-semibold">User</th>
+                <th className="text-left px-6 py-4 text-[#6B655B] text-xs uppercase tracking-widest font-semibold">Plan</th>
+                <th className="text-center px-6 py-4 text-[#6B655B] text-xs uppercase tracking-widest font-semibold">Workspaces</th>
+                <th className="text-center px-6 py-4 text-[#6B655B] text-xs uppercase tracking-widest font-semibold">Posts</th>
+                <th className="text-left px-6 py-4 text-[#6B655B] text-xs uppercase tracking-widest font-semibold">Status</th>
+                <th className="text-right px-6 py-4 text-[#6B655B] text-xs uppercase tracking-widest font-semibold">Joined</th>
+                <th className="text-center px-6 py-4 text-[#6B655B] text-xs uppercase tracking-widest font-semibold">Actions</th>
               </tr>
             </thead>
             <tbody>
               {loading ? (
                 Array.from({ length: 8 }).map((_, i) => (
-                  <tr key={i} className="border-b border-[#1C1814]/5 animate-pulse">
+                  <tr key={i} className="bg-white border-b border-[#15140F]/5 animate-pulse">
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-full bg-[#E5DFD6]" />
+                        <div className="w-8 h-8 rounded-full bg-[#E7E0D0]" />
                         <div className="space-y-1.5">
-                          <div className="h-3 w-32 bg-[#E5DFD6] rounded-full" />
-                          <div className="h-2.5 w-24 bg-[#E5DFD6] rounded-full" />
+                          <div className="h-3 w-32 bg-[#E7E0D0] rounded-full" />
+                          <div className="h-2.5 w-24 bg-[#E7E0D0] rounded-full" />
                         </div>
                       </div>
                     </td>
                     {Array.from({ length: 6 }).map((_, j) => (
-                      <td key={j} className="px-6 py-4"><div className="h-3 w-16 bg-[#E5DFD6] rounded-full mx-auto" /></td>
+                      <td key={j} className="px-6 py-4"><div className="h-3 w-16 bg-[#E7E0D0] rounded-full mx-auto" /></td>
                     ))}
                   </tr>
                 ))
               ) : users.length === 0 ? (
                 <tr>
-                  <td colSpan={7} className="px-6 py-16 text-center text-[#1C1814]">
+                  <td colSpan={7} className="px-6 py-16 text-center text-[#15140F]">
                     <span className="material-symbols-outlined text-4xl block mb-2">group</span>
                     No users found
                   </td>
@@ -199,50 +199,50 @@ export default function AdminUsers() {
                   <tr
                     key={u.id}
                     className={[
-                      'border-b border-[#1C1814]/5 transition-colors',
-                      u.is_banned ? 'opacity-50 hover:opacity-70' : 'hover:bg-white/[0.02]',
+                      'bg-white border-b border-[#15140F]/5 transition-colors',
+                      u.is_banned ? 'opacity-50 hover:opacity-70' : 'hover:bg-[#FBF8F2]',
                     ].join(' ')}
                   >
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-3">
                         <Avatar name={u.name} email={u.email} />
                         <div>
-                          <p className="text-[#1C1814] text-xs font-semibold leading-tight">{u.name ?? '—'}</p>
-                          <p className="text-[#6A6470] text-xs mt-0.5">{u.email}</p>
+                          <p className="text-[#15140F] text-xs font-semibold leading-tight">{u.name ?? '—'}</p>
+                          <p className="text-[#6B655B] text-xs mt-0.5">{u.email}</p>
                         </div>
                       </div>
                     </td>
                     <td className="px-6 py-4">
-                      <span className={`px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wide ${PLAN_COLORS[u.plan] ?? 'text-[#6A6470] bg-[#988d9c]/10'}`}>
+                      <span className={`px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wide ${PLAN_COLORS[u.plan] ?? 'text-[#6B655B] bg-[#988d9c]/10'}`}>
                         {u.plan}
                       </span>
                     </td>
                     <td className="px-6 py-4 text-center">
-                      <span className="font-mono text-[#1C1814] text-sm">{u.workspace_count}</span>
+                      <span className="font-mono text-[#15140F] text-sm">{u.workspace_count}</span>
                     </td>
                     <td className="px-6 py-4 text-center">
-                      <span className="font-mono text-[#1C1814] text-sm">{u.post_count}</span>
+                      <span className="font-mono text-[#15140F] text-sm">{u.post_count}</span>
                     </td>
                     <td className="px-6 py-4">
                       {u.is_banned ? (
-                        <span className="flex items-center gap-1.5 text-[#f87171] text-xs">
-                          <span className="w-1.5 h-1.5 rounded-full bg-[#f87171]" />
+                        <span className="flex items-center gap-1.5 text-[#C0392B] text-xs">
+                          <span className="w-1.5 h-1.5 rounded-full bg-[#C0392B]" />
                           Deactivated
                         </span>
                       ) : (
-                        <span className="flex items-center gap-1.5 text-[#c5d247] text-xs">
-                          <span className="w-1.5 h-1.5 rounded-full bg-[#c5d247]" />
+                        <span className="flex items-center gap-1.5 text-[#4F7A4A] text-xs">
+                          <span className="w-1.5 h-1.5 rounded-full bg-[#4F7A4A]" />
                           Active
                         </span>
                       )}
                     </td>
-                    <td className="px-6 py-4 text-right text-[#6A6470] text-xs">{fmtDate(u.created_at)}</td>
+                    <td className="px-6 py-4 text-right text-[#6B655B] text-xs">{fmtDate(u.created_at)}</td>
                     <td className="px-6 py-4">
                       <div className="flex items-center justify-center">
                         {u.is_banned ? (
                           <button
                             onClick={() => openConfirm({ user: u, action: 'activate' })}
-                            className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-[10px] font-bold text-[#c5d247] bg-[#c5d247]/8 border border-[#c5d247]/20 hover:bg-[#c5d247]/15 hover:border-[#c5d247]/35 transition-all whitespace-nowrap"
+                            className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-[10px] font-bold text-[#4F7A4A] bg-[#4F7A4A]/8 border border-[#4F7A4A]/20 hover:bg-[#4F7A4A]/15 hover:border-[#4F7A4A]/35 transition-all whitespace-nowrap"
                           >
                             <span className="material-symbols-outlined" style={{ fontSize: 11, fontVariationSettings: "'FILL' 1" }}>play_circle</span>
                             Activate
@@ -276,36 +276,36 @@ export default function AdminUsers() {
           <div className="p-8">
             <div className={[
               'w-12 h-12 rounded-2xl flex items-center justify-center mb-5 border',
-              isDeactivate ? 'bg-[#f87171]/10 border-[#f87171]/20' : 'bg-[#c5d247]/10 border-[#c5d247]/20',
+              isDeactivate ? 'bg-[#f87171]/10 border-[#f87171]/20' : 'bg-[#4F7A4A]/10 border-[#4F7A4A]/20',
             ].join(' ')}>
               <span
                 className="material-symbols-outlined"
-                style={{ fontSize: 22, color: isDeactivate ? '#f87171' : '#c5d247', fontVariationSettings: "'FILL' 1" }}
+                style={{ fontSize: 22, color: isDeactivate ? '#f87171' : '#4F7A4A', fontVariationSettings: "'FILL' 1" }}
               >
                 {isDeactivate ? 'block' : 'play_circle'}
               </span>
             </div>
 
-            <h2 className="text-xl font-headline font-extrabold tracking-tight text-[#1C1814] mb-1">
+            <h2 className="text-xl font-headline font-extrabold tracking-tight text-[#15140F] mb-1">
               {isDeactivate ? 'Deactivate account?' : 'Activate account?'}
             </h2>
 
-            <p className="text-xs text-[#6A6470] mb-1">
-              <span className="text-[#5C5650] font-semibold">{confirm.user.name ?? confirm.user.email}</span>
+            <p className="text-xs text-[#6B655B] mb-1">
+              <span className="text-[#3D3A30] font-semibold">{confirm.user.name ?? confirm.user.email}</span>
             </p>
-            <p className="text-xs text-[#1C1814] mb-4">{confirm.user.email}</p>
+            <p className="text-xs text-[#15140F] mb-4">{confirm.user.email}</p>
 
-            <p className="text-sm text-[#6A6470] mb-4">
+            <p className="text-sm text-[#6B655B] mb-4">
               {isDeactivate
                 ? <>The user will be <span className="text-[#f87171] font-semibold">immediately logged out</span> and unable to sign in.</>
-                : <>The user will be able to <span className="text-[#c5d247] font-semibold">sign in again</span>.</>
+                : <>The user will be able to <span className="text-[#4F7A4A] font-semibold">sign in again</span>.</>
               }
             </p>
 
             {/* Reason selector */}
             <div className="mb-5">
-              <p className="text-[10px] font-bold text-[#6A6470] uppercase tracking-widest mb-2.5">
-                Reason <span className="text-[#f87171]">*</span>
+              <p className="text-[10px] font-bold text-[#6B655B] uppercase tracking-widest mb-2.5">
+                Reason <span className="text-[#C0392B]">*</span>
               </p>
               <div className="flex flex-col gap-2">
                 {(isDeactivate ? DEACTIVATE_REASONS : ACTIVATE_REASONS).map(r => (
@@ -315,15 +315,15 @@ export default function AdminUsers() {
                       className={[
                         'w-4 h-4 rounded-full border-2 flex items-center justify-center shrink-0 transition-all cursor-pointer',
                         reason === r
-                          ? isDeactivate ? 'border-[#f87171] bg-[#f87171]' : 'border-[#c5d247] bg-[#c5d247]'
-                          : 'border-[#1C1814]/40 bg-transparent group-hover:border-[#988d9c]',
+                          ? isDeactivate ? 'border-[#C0392B] bg-[#C0392B]' : 'border-[#4F7A4A] bg-[#4F7A4A]'
+                          : 'border-[#15140F]/40 bg-transparent group-hover:border-[#6B655B]',
                       ].join(' ')}
                     >
                       {reason === r && <div className="w-1.5 h-1.5 rounded-full bg-white" />}
                     </div>
                     <span
                       onClick={() => setReason(r)}
-                      className={`text-sm transition-colors cursor-pointer ${reason === r ? 'text-[#1C1814] font-medium' : 'text-[#6A6470] group-hover:text-[#5C5650]'}`}
+                      className={`text-sm transition-colors cursor-pointer ${reason === r ? 'text-[#15140F] font-medium' : 'text-[#6B655B] group-hover:text-[#3D3A30]'}`}
                     >
                       {r}
                     </span>
@@ -336,12 +336,12 @@ export default function AdminUsers() {
                   onChange={e => setCustomReason(e.target.value)}
                   placeholder="Describe the reason..."
                   rows={3}
-                  className="mt-3 w-full bg-[#FAF7F2] border border-[#1C1814]/20 rounded-xl p-3 text-sm text-[#1C1814] placeholder:text-[#1C1814] focus:outline-none focus:border-[#7DD3C7]/40 resize-none transition-all"
+                  className="mt-3 w-full bg-[#FBF8F2] border border-[#15140F]/20 rounded-xl p-3 text-sm text-[#15140F] placeholder:text-[#6B655B] focus:outline-none focus:border-[#C8553A]/40 resize-none transition-all"
                 />
               )}
             </div>
 
-            <p className="text-xs text-[#1C1814] mb-6 flex items-center gap-1.5">
+            <p className="text-xs text-[#15140F] mb-6 flex items-center gap-1.5">
               <span className="material-symbols-outlined" style={{ fontSize: 13 }}>mail</span>
               An email with this reason will be sent to the user.
             </p>
@@ -352,7 +352,7 @@ export default function AdminUsers() {
                 disabled={working || !finalReason}
                 className={[
                   'w-full py-3 rounded-xl font-bold text-sm transition-all disabled:opacity-40 disabled:cursor-not-allowed',
-                  isDeactivate ? 'bg-[#f87171] text-[#1C1814] hover:bg-[#fca5a5]' : 'bg-[#c5d247] text-[#1a1d00] hover:bg-[#d4e24f]',
+                  isDeactivate ? 'bg-[#C0392B] text-white hover:bg-[#e74c3c]' : 'bg-[#4F7A4A] text-white hover:bg-[#15803d]',
                 ].join(' ')}
               >
                 {working
@@ -363,7 +363,7 @@ export default function AdminUsers() {
               <button
                 onClick={() => setConfirm(null)}
                 disabled={working}
-                className="w-full py-3 rounded-xl border border-[#1C1814]/20 text-sm font-semibold text-[#5C5650] hover:bg-[#F0EBE2] hover:text-[#1C1814] disabled:opacity-50 transition-all"
+                className="w-full py-3 rounded-xl border border-[#15140F]/20 text-sm font-semibold text-[#3D3A30] hover:bg-[#EFE9DC] hover:text-[#15140F] disabled:opacity-50 transition-all"
               >
                 Cancel
               </button>

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+﻿import { useEffect, useRef, useState } from 'react';
 import {
   format, addMonths, subMonths, startOfMonth, endOfMonth,
   startOfWeek, endOfWeek, eachDayOfInterval,
@@ -55,7 +55,7 @@ function CalendarGrid({
       {/* Day-of-week headers */}
       <div className="grid grid-cols-7 mb-1">
         {DOW.map(d => (
-          <div key={d} className="text-center text-[10px] font-bold text-[#1C1814] py-1">{d}</div>
+          <div key={d} className="text-center text-[10px] font-bold text-[#15140F] py-1">{d}</div>
         ))}
       </div>
 
@@ -76,14 +76,14 @@ function CalendarGrid({
               className={[
                 'h-8 w-8 mx-auto flex items-center justify-center rounded-full text-[12px] font-medium transition-all',
                 isSelected
-                  ? 'bg-[#7DD3C7] text-[#2f004d] font-bold'
+                  ? 'bg-[#C8553A] text-[#2f004d] font-bold'
                   : isPast
-                  ? 'text-[#1C1814] cursor-not-allowed'
+                  ? 'text-[#15140F] cursor-not-allowed'
                   : !isCurrentMonth
-                  ? 'text-[#1C1814]/50 hover:text-[#6A6470]'
+                  ? 'text-[#15140F]/50 hover:text-[#6B655B]'
                   : isTodayDate
-                  ? 'text-[#7DD3C7] font-bold hover:bg-[#7DD3C7]/15'
-                  : 'text-[#1C1814] hover:bg-[#7DD3C7]/15',
+                  ? 'text-[#C8553A] font-bold hover:bg-[#C8553A]/15'
+                  : 'text-[#15140F] hover:bg-[#C8553A]/15',
               ].join(' ')}
             >
               {format(day, 'd')}
@@ -110,7 +110,7 @@ function Stepper({
     <div className="flex flex-col items-center gap-1">
       <button
         type="button" onClick={onUp}
-        className="w-8 h-6 flex items-center justify-center rounded-lg text-[#6A6470] hover:text-[#7DD3C7] hover:bg-[#7DD3C7]/10 transition-all"
+        className="w-8 h-6 flex items-center justify-center rounded-lg text-[#6B655B] hover:text-[#C8553A] hover:bg-[#C8553A]/10 transition-all"
       >
         <span className="material-symbols-outlined" style={{ fontSize: 16 }}>keyboard_arrow_up</span>
       </button>
@@ -123,15 +123,15 @@ function Stepper({
         onBlur={e => onCommit(e.target.value)}
         onKeyDown={e => { if (e.key === 'Enter') (e.target as HTMLInputElement).blur(); }}
         onFocus={e => e.target.select()}
-        className="w-12 text-center text-xl font-bold font-mono text-[#1C1814] bg-[#131313] border border-[#1C1814]/30 rounded-lg py-1 focus:outline-none focus:border-[#7DD3C7]/50 transition-colors"
+        className="w-12 text-center text-xl font-bold font-mono text-[#15140F] bg-white border border-border rounded-lg py-1 focus:outline-none focus:border-[#C8553A]/50 transition-colors"
       />
       <button
         type="button" onClick={onDown}
-        className="w-8 h-6 flex items-center justify-center rounded-lg text-[#6A6470] hover:text-[#7DD3C7] hover:bg-[#7DD3C7]/10 transition-all"
+        className="w-8 h-6 flex items-center justify-center rounded-lg text-[#6B655B] hover:text-[#C8553A] hover:bg-[#C8553A]/10 transition-all"
       >
         <span className="material-symbols-outlined" style={{ fontSize: 16 }}>keyboard_arrow_down</span>
       </button>
-      <span className="text-[9px] uppercase tracking-widest text-[#1C1814] font-bold">{label}</span>
+      <span className="text-[9px] uppercase tracking-widest text-[#15140F] font-bold">{label}</span>
     </div>
   );
 }
@@ -180,7 +180,7 @@ function TimeSelector({
   };
 
   return (
-    <div className="flex items-center justify-center gap-3 pt-3 mt-3 border-t border-[#1C1814]/20">
+    <div className="flex items-center justify-center gap-3 pt-3 mt-3 border-t border-[#15140F]/20">
       <Stepper
         draft={hrDraft}
         onDraftChange={setHrDraft}
@@ -189,7 +189,7 @@ function TimeSelector({
         onCommit={applyHours}
         label="hr"
       />
-      <span className="text-xl font-bold text-[#1C1814] mb-5">:</span>
+      <span className="text-xl font-bold text-[#15140F] mb-5">:</span>
       <Stepper
         draft={minDraft}
         onDraftChange={setMinDraft}
@@ -235,38 +235,38 @@ export default function DateTimePicker({ value, onChange, minDate }: DateTimePic
         type="button"
         onClick={() => setOpen(v => !v)}
         className={[
-          'w-full flex items-center gap-0 bg-[#FAF7F2] border rounded-2xl overflow-hidden transition-colors text-left',
-          open ? 'border-[#7DD3C7]/50' : 'border-[#1C1814]/30 hover:border-[#7DD3C7]/40',
+          'w-full flex items-center gap-0 bg-[#FBF8F2] border rounded-2xl overflow-hidden transition-colors text-left',
+          open ? 'border-[#C8553A]/50' : 'border-[#15140F]/30 hover:border-[#C8553A]/40',
         ].join(' ')}
       >
         {/* Date side */}
         <div className="flex items-center gap-3 px-4 py-3.5 flex-1">
-          <div className="w-8 h-8 rounded-xl bg-[#7DD3C7]/10 flex items-center justify-center shrink-0">
-            <span className="material-symbols-outlined text-[#7DD3C7]" style={{ fontSize: 16 }}>calendar_today</span>
+          <div className="w-8 h-8 rounded-xl bg-[#C8553A]/10 flex items-center justify-center shrink-0">
+            <span className="material-symbols-outlined text-[#C8553A]" style={{ fontSize: 16 }}>calendar_today</span>
           </div>
           <div className="flex flex-col">
-            <span className="text-[9px] font-bold uppercase tracking-widest text-[#1C1814]">Date</span>
-            <span className="text-sm font-semibold text-[#1C1814] leading-tight">{format(value, 'MMM d, yyyy')}</span>
+            <span className="text-[9px] font-bold uppercase tracking-widest text-[#15140F]">Date</span>
+            <span className="text-sm font-semibold text-[#15140F] leading-tight">{format(value, 'MMM d, yyyy')}</span>
           </div>
         </div>
 
         {/* Divider */}
-        <div className="w-px self-stretch bg-[#1C1814]/25" />
+        <div className="w-px self-stretch bg-[#15140F]/25" />
 
         {/* Time side */}
         <div className="flex items-center gap-3 px-4 py-3.5 flex-1">
-          <div className="w-8 h-8 rounded-xl bg-[#7DD3C7]/10 flex items-center justify-center shrink-0">
-            <span className="material-symbols-outlined text-[#7DD3C7]" style={{ fontSize: 16 }}>schedule</span>
+          <div className="w-8 h-8 rounded-xl bg-[#C8553A]/10 flex items-center justify-center shrink-0">
+            <span className="material-symbols-outlined text-[#C8553A]" style={{ fontSize: 16 }}>schedule</span>
           </div>
           <div className="flex flex-col">
-            <span className="text-[9px] font-bold uppercase tracking-widest text-[#1C1814]">Time</span>
-            <span className="text-sm font-semibold text-[#1C1814] leading-tight">{format(value, 'HH:mm')}</span>
+            <span className="text-[9px] font-bold uppercase tracking-widest text-[#15140F]">Time</span>
+            <span className="text-sm font-semibold text-[#15140F] leading-tight">{format(value, 'HH:mm')}</span>
           </div>
         </div>
 
         {/* Chevron */}
         <div className="pr-3">
-          <span className={`material-symbols-outlined text-[#6A6470] transition-transform duration-200 ${open ? '[transform:rotate(180deg)]' : ''}`} style={{ fontSize: 18 }}>
+          <span className={`material-symbols-outlined text-[#6B655B] transition-transform duration-200 ${open ? '[transform:rotate(180deg)]' : ''}`} style={{ fontSize: 18 }}>
             expand_more
           </span>
         </div>
@@ -274,21 +274,21 @@ export default function DateTimePicker({ value, onChange, minDate }: DateTimePic
 
       {/* Dropdown panel */}
       {open && (
-        <div className="absolute bottom-full mb-3 left-0 z-50 w-[300px] bg-[#FAF7F2] border border-[#1C1814]/30 rounded-2xl shadow-[0_16px_60px_rgba(0,0,0,0.7)] p-4">
+        <div className="absolute bottom-full mb-3 left-0 z-50 w-[300px] bg-[#FBF8F2] border border-[#15140F]/30 rounded-2xl shadow-[0_16px_60px_rgba(0,0,0,0.7)] p-4">
           {/* Month navigation */}
           <div className="flex items-center justify-between mb-3">
             <button
               type="button"
               onClick={() => setMonth(m => subMonths(m, 1))}
-              className="w-8 h-8 flex items-center justify-center rounded-xl text-[#6A6470] hover:text-[#1C1814] hover:bg-[#1C1814]/[0.05] transition-all"
+              className="w-8 h-8 flex items-center justify-center rounded-xl text-[#6B655B] hover:text-[#15140F] hover:bg-[#15140F]/[0.05] transition-all"
             >
               <span className="material-symbols-outlined" style={{ fontSize: 18 }}>chevron_left</span>
             </button>
-            <span className="text-sm font-bold text-[#1C1814]">{format(month, 'MMMM yyyy')}</span>
+            <span className="text-sm font-bold text-[#15140F]">{format(month, 'MMMM yyyy')}</span>
             <button
               type="button"
               onClick={() => setMonth(m => addMonths(m, 1))}
-              className="w-8 h-8 flex items-center justify-center rounded-xl text-[#6A6470] hover:text-[#1C1814] hover:bg-[#1C1814]/[0.05] transition-all"
+              className="w-8 h-8 flex items-center justify-center rounded-xl text-[#6B655B] hover:text-[#15140F] hover:bg-[#15140F]/[0.05] transition-all"
             >
               <span className="material-symbols-outlined" style={{ fontSize: 18 }}>chevron_right</span>
             </button>

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+﻿import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 const STORAGE_KEY = 'fb_token_expired_dismissed';
@@ -29,7 +29,7 @@ export default function FacebookTokenModal({ onClose }: Props) {
       onClick={e => { if (e.target === e.currentTarget) handleClose(); }}
     >
       <div
-        className={`w-full max-w-sm bg-[#FAF7F2] border border-[#1C1814]/20 rounded-3xl p-6 shadow-[0_24px_80px_rgba(0,0,0,0.6)] transition-all duration-300 ${
+        className={`w-full max-w-sm bg-[#FBF8F2] border border-[#15140F]/20 rounded-3xl p-6 shadow-[0_24px_80px_rgba(0,0,0,0.6)] transition-all duration-300 ${
           visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
         }`}
       >
@@ -41,8 +41,8 @@ export default function FacebookTokenModal({ onClose }: Props) {
             </svg>
           </div>
           <div className="min-w-0">
-            <h3 className="text-[#1C1814] font-bold text-sm">Facebook token expired</h3>
-            <p className="text-[#6A6470] text-xs mt-0.5 leading-relaxed">
+            <h3 className="text-[#15140F] font-bold text-sm">Facebook token expired</h3>
+            <p className="text-[#6B655B] text-xs mt-0.5 leading-relaxed">
               Your Facebook connection has expired. Reconnect to keep syncing metrics and posts.
             </p>
           </div>
@@ -59,7 +59,7 @@ export default function FacebookTokenModal({ onClose }: Props) {
           </Link>
           <button
             onClick={handleClose}
-            className="w-full py-2 rounded-xl text-[#6A6470] text-xs hover:text-[#1C1814] transition-colors"
+            className="w-full py-2 rounded-xl text-[#6B655B] text-xs hover:text-[#15140F] transition-colors"
           >
             Dismiss
           </button>
@@ -71,9 +71,9 @@ export default function FacebookTokenModal({ onClose }: Props) {
             type="checkbox"
             checked={noRepeat}
             onChange={e => setNoRepeat(e.target.checked)}
-            className="w-3.5 h-3.5 rounded accent-[#7DD3C7] cursor-pointer"
+            className="w-3.5 h-3.5 rounded accent-[#C8553A] cursor-pointer"
           />
-          <span className="text-[11px] text-[#1C1814] group-hover:text-[#6A6470] transition-colors select-none">
+          <span className="text-[11px] text-[#15140F] group-hover:text-[#6B655B] transition-colors select-none">
             Don't show this again
           </span>
         </label>

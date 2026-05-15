@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+﻿import { useEffect, useRef, useState } from 'react';
 import { useSEO } from '../hooks/useSEO';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
@@ -83,22 +83,22 @@ export default function ProductAnalytics() {
     <ProductShell>
       {/* Hero */}
       <section className="relative pt-36 pb-16 overflow-hidden">
-        <div className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[400px] rounded-full bg-[#7DD3C7]/[0.06] blur-[130px]" />
+        <div className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[400px] rounded-full bg-[#C8553A]/[0.06] blur-[130px]" />
         <div className="mx-auto max-w-5xl px-6 text-center relative">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-            <span className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#7DD3C7]/20 bg-[#7DD3C7]/8 px-4 py-1.5 text-[0.68rem] font-bold uppercase tracking-[0.22em] text-[#7DD3C7]">
-              <span className="h-1.5 w-1.5 rounded-full bg-[#7DD3C7]" /> Product · Analytics
+            <span className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#C8553A]/20 bg-[#C8553A]/8 px-4 py-1.5 text-[0.68rem] font-bold uppercase tracking-[0.22em] text-[#C8553A]">
+              <span className="h-1.5 w-1.5 rounded-full bg-[#C8553A]" /> Product · Analytics
             </span>
-            <h1 className="mt-5 text-5xl md:text-[4rem] font-extrabold leading-[0.96] tracking-[-0.04em] text-[#1C1814]">
+            <h1 className="mt-5 text-5xl md:text-[4rem] font-extrabold leading-[0.96] tracking-[-0.04em] text-[#15140F]">
               Data that tells you<br />
-              <span className="bg-gradient-to-r from-[#7DD3C7] via-[#f0dcff] to-inverse-primary bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-[#C8553A] via-[#f0dcff] to-inverse-primary bg-clip-text text-transparent">
                 what to do next.
               </span>
             </h1>
-            <p className="mt-6 text-lg font-light text-[#1C1814]/55 max-w-xl mx-auto leading-relaxed">
+            <p className="mt-6 text-lg font-light text-[#6B655B] max-w-xl mx-auto leading-relaxed">
               Stop guessing. Vielinks gives you the exact numbers you need to grow — broken down by platform, post, and audience.
             </p>
-            <button onClick={() => navigate('/register')} className="mt-8 rounded-full bg-[#7DD3C7] px-8 py-3.5 text-sm font-bold text-[#0B0B0A] hover:shadow-[0_0_32px_rgba(125,211,199,0.4)] transition-all active:scale-[0.98]">
+            <button onClick={() => navigate('/register')} className="mt-8 rounded-full bg-[#C8553A] px-8 py-3.5 text-sm font-bold text-white hover:bg-[#A53F28] hover:shadow-[0_0_32px_rgba(200,85,58,0.4)] transition-all active:scale-[0.98]">
               Start free — see your analytics
             </button>
           </motion.div>
@@ -115,13 +115,13 @@ export default function ProductAnalytics() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.45 }}
-              className="rounded-2xl border border-white/[0.07] bg-[#111]/80 p-5"
+              className="rounded-2xl border border-[rgba(21,20,15,0.10)] bg-[#FFFFFF] p-5"
             >
-              <span className="material-symbols-outlined text-[#7DD3C7] mb-3 block" style={{ fontSize: 20, fontVariationSettings: "'FILL' 1" }}>
+              <span className="material-symbols-outlined text-[#C8553A] mb-3 block" style={{ fontSize: 20, fontVariationSettings: "'FILL' 1" }}>
                 {m.icon}
               </span>
-              <p className="text-2xl font-extrabold text-[#1C1814]">{m.value}</p>
-              <p className="text-xs text-[#1C1814]/40 mt-0.5">{m.label}</p>
+              <p className="text-2xl font-extrabold text-[#15140F]">{m.value}</p>
+              <p className="text-xs text-[#3D3A30] mt-0.5">{m.label}</p>
               <span className={`mt-2 inline-block text-[10px] font-bold px-2 py-0.5 rounded-full ${m.up ? 'text-emerald-400 bg-emerald-400/10' : 'text-red-400 bg-red-400/10'}`}>
                 {m.change}
               </span>
@@ -130,14 +130,14 @@ export default function ProductAnalytics() {
         </div>
 
         {/* Chart preview */}
-        <div className="rounded-3xl border border-white/[0.07] bg-[#111]/70 p-6 md:p-8">
+        <div className="rounded-3xl border border-[rgba(21,20,15,0.10)] bg-[#FFFFFF] p-6 md:p-8">
           <div className="flex items-center justify-between mb-6">
             <div>
-              <h3 className="text-base font-bold text-[#1C1814]">Weekly overview</h3>
-              <p className="text-xs text-[#1C1814]/40 mt-0.5">Reach & engagement — last 7 days</p>
+              <h3 className="text-base font-bold text-[#15140F]">Weekly overview</h3>
+              <p className="text-xs text-[#3D3A30] mt-0.5">Reach & engagement — last 7 days</p>
             </div>
-            <div className="flex gap-4 text-xs text-[#1C1814]/50">
-              <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-[#7DD3C7] inline-block" />Reach</span>
+            <div className="flex gap-4 text-xs text-[#6B655B]">
+              <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-[#C8553A] inline-block" />Reach</span>
               <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-[#a78bfa] inline-block" />Engagement</span>
             </div>
           </div>
@@ -146,8 +146,8 @@ export default function ProductAnalytics() {
               <AreaChart data={CHART_DATA}>
                 <defs>
                   <linearGradient id="reach" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%"  stopColor="#7DD3C7" stopOpacity={0.3} />
-                    <stop offset="95%" stopColor="#7DD3C7" stopOpacity={0} />
+                    <stop offset="5%"  stopColor="#C8553A" stopOpacity={0.3} />
+                    <stop offset="95%" stopColor="#C8553A" stopOpacity={0} />
                   </linearGradient>
                   <linearGradient id="eng" x1="0" y1="0" x2="0" y2="1">
                     <stop offset="5%"  stopColor="#a78bfa" stopOpacity={0.3} />
@@ -155,9 +155,9 @@ export default function ProductAnalytics() {
                   </linearGradient>
                 </defs>
                 <Tooltip
-                  contentStyle={{ background: '#1a1919', border: '1px solid rgba(76,68,80,0.3)', borderRadius: 12, color: '#e5e2e1', fontSize: 12 }}
+                  contentStyle={{ background: '#FFFFFF', border: '1px solid rgba(21,20,15,0.12)', borderRadius: 12, color: '#15140F', fontSize: 12 }}
                 />
-                <Area type="monotone" dataKey="reach" stroke="#7DD3C7" strokeWidth={2} fill="url(#reach)" />
+                <Area type="monotone" dataKey="reach" stroke="#C8553A" strokeWidth={2} fill="url(#reach)" />
                 <Area type="monotone" dataKey="eng"   stroke="#a78bfa" strokeWidth={2} fill="url(#eng)"   />
               </AreaChart>
             </ResponsiveContainer>
@@ -166,7 +166,7 @@ export default function ProductAnalytics() {
       </section>
 
       {/* Big stats */}
-      <section className="py-16 border-y border-white/[0.05]">
+      <section className="py-16 border-y border-[rgba(21,20,15,0.08)]">
         <div className="mx-auto max-w-5xl px-6 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
           {[
             { n: 2400000, s: '+', label: 'Posts analyzed/month' },
@@ -175,10 +175,10 @@ export default function ProductAnalytics() {
             { n: 4, s: 'h', label: 'Priority support response' },
           ].map((item) => (
             <div key={item.label}>
-              <p className="text-4xl font-extrabold text-[#1C1814]">
+              <p className="text-4xl font-extrabold text-[#15140F]">
                 <AnimatedNumber target={item.n} />{item.s}
               </p>
-              <p className="text-sm text-[#1C1814]/40 mt-1">{item.label}</p>
+              <p className="text-sm text-[#6B655B] mt-1">{item.label}</p>
             </div>
           ))}
         </div>
@@ -187,17 +187,17 @@ export default function ProductAnalytics() {
       {/* Feature grid */}
       <section className="py-20 mx-auto max-w-6xl px-6">
         <div className="text-center mb-14">
-          <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight text-[#1C1814]">Everything in the numbers</h2>
-          <p className="mt-3 text-[#1C1814]/45 max-w-lg mx-auto">Every analytics feature you need, without the spreadsheet nightmare.</p>
+          <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight text-[#15140F]">Everything in the numbers</h2>
+          <p className="mt-3 text-[#6B655B] max-w-lg mx-auto">Every analytics feature you need, without the spreadsheet nightmare.</p>
         </div>
         <div ref={featRef} className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
           {FEATURES.map((f) => (
-            <div key={f.title} data-feat style={{ opacity: 0 }} className="rounded-2xl border border-white/[0.07] bg-[#111]/70 p-6 hover:border-[#7DD3C7]/20 hover:bg-[#181818]/80 transition-all duration-300">
-              <span className="material-symbols-outlined text-[#7DD3C7] mb-4 block" style={{ fontSize: 22, fontVariationSettings: "'FILL' 1" }}>
+            <div key={f.title} data-feat style={{ opacity: 0 }} className="rounded-2xl border border-[rgba(21,20,15,0.10)] bg-[#FFFFFF] p-6 hover:border-[#C8553A]/20 hover:bg-[#EFE9DC] transition-all duration-300">
+              <span className="material-symbols-outlined text-[#C8553A] mb-4 block" style={{ fontSize: 22, fontVariationSettings: "'FILL' 1" }}>
                 {f.icon}
               </span>
-              <h3 className="text-sm font-bold text-[#1C1814] mb-2">{f.title}</h3>
-              <p className="text-sm text-[#1C1814]/45 leading-relaxed">{f.body}</p>
+              <h3 className="text-sm font-bold text-[#15140F] mb-2">{f.title}</h3>
+              <p className="text-sm text-[#6B655B] leading-relaxed">{f.body}</p>
             </div>
           ))}
         </div>

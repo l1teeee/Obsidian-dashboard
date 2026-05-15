@@ -1,4 +1,4 @@
-import { Navigate, useLocation } from 'react-router-dom';
+﻿import { Navigate, useLocation } from 'react-router-dom';
 import type { ReactNode } from 'react';
 import { useAuth } from '../../hooks/useAuth';
 
@@ -13,8 +13,8 @@ export default function ProtectedRoute({ children, requireProfileCompleted = tru
 
   if (isLoading) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-[#F4F0E8]">
-        <div className="h-6 w-6 animate-spin rounded-full border-2 border-[#7DD3C7] border-t-transparent" />
+      <div className="flex min-h-screen items-center justify-center bg-[#F6F2EA]">
+        <div className="h-6 w-6 animate-spin rounded-full border-2 border-[#C8553A] border-t-transparent" />
       </div>
     );
   }

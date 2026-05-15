@@ -1,9 +1,9 @@
-import type { PostStatus } from '../../domain/entities/Post';
+﻿import type { PostStatus } from '../../domain/entities/Post';
 
 const STYLES: Record<PostStatus, string> = {
-  published: 'bg-[#c5d247]/15 text-[#c5d247] border-[#c5d247]/20',
-  scheduled: 'bg-[#7DD3C7]/15 text-[#7DD3C7] border-[#7DD3C7]/20',
-  draft:     'bg-white/5 text-[#78736E] border-white/10',
+  published: 'bg-[#4F7A4A]/15 text-[#4F7A4A] border-[#4F7A4A]/20',
+  scheduled: 'bg-[#C8553A]/15 text-[#C8553A] border-[#C8553A]/20',
+  draft:     'bg-white/5 text-[#A39B8B] border-white/10',
   failed:    'bg-[#ffb4ab]/15 text-[#ffb4ab] border-[#ffb4ab]/20',
   inactive:  'bg-[#ffd166]/10 text-[#ffd166] border-[#ffd166]/20',
   deleted:   'bg-[#ffb4ab]/10 text-[#ffb4ab]/60 border-[#ffb4ab]/10 line-through',

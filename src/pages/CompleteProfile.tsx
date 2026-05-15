@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+﻿import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Select, { type StylesConfig } from 'react-select';
 import gsap from 'gsap';
@@ -33,25 +33,25 @@ interface SelectOption {
 const selectStyles: StylesConfig<SelectOption> = {
   control: (base, state) => ({
     ...base,
-    backgroundColor:  'rgba(255,255,255,0.03)',
+    backgroundColor:  '#ffffff',
     border:           state.isFocused
-      ? '1px solid rgba(125,211,199,0.45)'
-      : '1px solid rgba(73,72,71,0.30)',
+      ? '1px solid rgba(200,85,58,0.45)'
+      : '1px solid rgba(21,20,15,0.20)',
     borderRadius:     '0.875rem',
     padding:          '4px 4px',
     boxShadow:        state.isFocused
-      ? '0 0 0 3px rgba(125,211,199,0.12)'
+      ? '0 0 0 3px rgba(200,85,58,0.12)'
       : 'none',
     cursor:           'pointer',
     transition:       'all 200ms',
-    '&:hover': { borderColor: 'rgba(125,211,199,0.35)' },
+    '&:hover': { borderColor: 'rgba(200,85,58,0.35)' },
   }),
   menu: (base) => ({
     ...base,
-    backgroundColor: '#1c1b1b',
-    border:          '1px solid rgba(76,68,80,0.30)',
+    backgroundColor: '#FBF8F2',
+    border:          '1px solid rgba(21,20,15,0.12)',
     borderRadius:    '1rem',
-    boxShadow:       '0 16px 48px rgba(0,0,0,0.5)',
+    boxShadow:       '0 16px 48px rgba(0,0,0,0.12)',
     overflow:        'hidden',
     zIndex:          9999,
   }),
@@ -63,37 +63,37 @@ const selectStyles: StylesConfig<SelectOption> = {
   option: (base, state) => ({
     ...base,
     backgroundColor: state.isSelected
-      ? 'rgba(125,211,199,0.18)'
+      ? 'rgba(200,85,58,0.12)'
       : state.isFocused
-        ? 'rgba(255,255,255,0.05)'
+        ? 'rgba(200,85,58,0.06)'
         : 'transparent',
-    color:           state.isSelected ? '#7DD3C7' : '#e5e2e1',
+    color:           state.isSelected ? '#C8553A' : '#15140F',
     borderRadius:    '0.5rem',
     cursor:          'pointer',
     fontSize:        '0.875rem',
     padding:         '8px 12px',
     transition:      'background 150ms',
   }),
-  singleValue:        (base) => ({ ...base, color: '#e5e2e1', fontSize: '0.875rem' }),
-  input:              (base) => ({ ...base, color: '#e5e2e1', fontSize: '0.875rem' }),
-  placeholder:        (base) => ({ ...base, color: 'rgba(173,170,170,0.40)', fontSize: '0.875rem' }),
+  singleValue:        (base) => ({ ...base, color: '#15140F', fontSize: '0.875rem' }),
+  input:              (base) => ({ ...base, color: '#15140F', fontSize: '0.875rem' }),
+  placeholder:        (base) => ({ ...base, color: 'rgba(113,101,126,0.50)', fontSize: '0.875rem' }),
   indicatorSeparator: ()    => ({ display: 'none' }),
   dropdownIndicator:  (base, state) => ({
     ...base,
-    color:      'rgba(173,170,170,0.45)',
+    color:      'rgba(98,83,111,0.6)',
     transition: 'transform 200ms',
     transform:  state.selectProps.menuIsOpen ? 'rotate(180deg)' : 'rotate(0deg)',
-    '&:hover':  { color: '#7DD3C7' },
+    '&:hover':  { color: '#C8553A' },
   }),
   clearIndicator: (base) => ({
     ...base,
-    color:     'rgba(173,170,170,0.45)',
-    '&:hover': { color: '#ffb4ab' },
+    color:     'rgba(98,83,111,0.6)',
+    '&:hover': { color: '#c0392b' },
     padding:   '0 6px',
   }),
   noOptionsMessage: (base) => ({
     ...base,
-    color:    'rgba(173,170,170,0.50)',
+    color:    'rgba(113,101,126,0.60)',
     fontSize: '0.8125rem',
     padding:  '12px',
   }),
@@ -101,7 +101,7 @@ const selectStyles: StylesConfig<SelectOption> = {
 
 // ─── Shared input class ───────────────────────────────────────────────────────
 
-const INPUT = 'w-full rounded-[0.875rem] border border-[#1C1814]/30 bg-[#1C1814]/[0.05] px-4 py-3 text-sm text-[#1C1814] placeholder:text-[#78736E]/35 transition-all duration-300 focus:border-[#7DD3C7]/40 focus:outline-none focus:ring-1 focus:ring-[#7DD3C7]/20';
+const INPUT = 'w-full rounded-[0.875rem] border border-[#15140F]/20 bg-white px-4 py-3 text-sm text-[#15140F] placeholder:text-[#A39B8B]/50 transition-all duration-300 focus:border-[#C8553A]/40 focus:outline-none focus:ring-1 focus:ring-[#C8553A]/20';
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
@@ -214,36 +214,36 @@ export default function CompleteProfile() {
     <>
     <div
       ref={containerRef}
-      className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#F4F0E8] px-4 py-16"
+      className="auth-bg relative flex min-h-screen items-center justify-center overflow-hidden px-4 py-16"
     >
       {/* Ambient orbs */}
-      <div data-orb="1" className="pointer-events-none absolute -left-32 -top-32 h-[500px] w-[500px] rounded-full bg-[#7DD3C7]/10 blur-[120px]" />
+      <div data-orb="1" className="pointer-events-none absolute -left-32 -top-32 h-[500px] w-[500px] rounded-full bg-[#C8553A]/10 blur-[120px]" />
       <div data-orb="2" className="pointer-events-none absolute -bottom-32 -right-32 h-[420px] w-[420px] rounded-full bg-inverse-primary/10 blur-[100px]" />
 
       {/* Card */}
-      <div className="relative w-full max-w-[480px] overflow-hidden rounded-[2rem] border border-[#1C1814]/20 bg-[#FAF7F2]/70 p-10 shadow-[0_30px_120px_rgba(0,0,0,0.28)] backdrop-blur-2xl">
+      <div className="relative w-full max-w-[480px] overflow-hidden rounded-[2rem] border border-[#15140F]/20 bg-[#FBF8F2]/80 p-10 shadow-[0_30px_120px_rgba(0,0,0,0.18)] backdrop-blur-2xl">
         {/* Top sheen */}
-        <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/[0.08] to-transparent" />
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent" />
 
         {/* Brand mark */}
         <div className="mb-8 flex items-center gap-2.5">
-          <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#7DD3C7]/15">
-            <div className="h-2.5 w-2.5 rounded-full bg-[#7DD3C7]" />
+          <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#C8553A]/15">
+            <div className="h-2.5 w-2.5 rounded-full bg-[#C8553A]" />
           </div>
-          <span className="font-headline text-base font-bold tracking-tight text-[#1C1814]">
+          <span className="font-headline text-base font-bold tracking-tight text-[#15140F]">
             Vielinks
           </span>
         </div>
 
         {/* Header */}
         <div className="mb-8 space-y-2">
-          <p data-cp-eyebrow className="text-[0.6875rem] font-semibold uppercase tracking-[0.24em] text-[#7DD3C7]/70">
+          <p data-cp-eyebrow className="text-[0.6875rem] font-semibold uppercase tracking-[0.24em] text-[#C8553A]/70">
             One last step
           </p>
-          <h1 data-cp-title className="font-headline text-2xl font-bold tracking-tight text-[#1C1814]">
+          <h1 data-cp-title className="font-headline text-2xl font-bold tracking-tight text-[#15140F]">
             Complete your profile
           </h1>
-          <p data-cp-title className="mt-1 text-sm text-[#78736E]/60 leading-relaxed">
+          <p data-cp-title className="mt-1 text-sm text-[#A39B8B]/60 leading-relaxed">
             Tell us a bit about yourself so we can personalize your experience.
           </p>
         </div>
@@ -252,7 +252,7 @@ export default function CompleteProfile() {
 
           {/* Full name */}
           <div data-cp-field className="space-y-2">
-            <label className="block text-[0.6875rem] font-semibold uppercase tracking-[0.18em] text-[#78736E]/60">
+            <label className="block text-[0.6875rem] font-semibold uppercase tracking-[0.18em] text-[#A39B8B]/60">
               Full name
             </label>
             <input
@@ -270,7 +270,7 @@ export default function CompleteProfile() {
 
           {/* Role */}
           <div data-cp-field className="space-y-2">
-            <label className="block text-[0.6875rem] font-semibold uppercase tracking-[0.18em] text-[#78736E]/60">
+            <label className="block text-[0.6875rem] font-semibold uppercase tracking-[0.18em] text-[#A39B8B]/60">
               Your role
             </label>
             <div className="grid grid-cols-2 gap-2">
@@ -283,8 +283,8 @@ export default function CompleteProfile() {
                   className={[
                     'px-3 py-2.5 rounded-2xl text-xs font-semibold text-left transition-all duration-200 border',
                     role === r
-                      ? 'bg-[#7DD3C7]/15 border-[#7DD3C7]/40 text-[#7DD3C7]'
-                      : 'bg-white/[0.02] border-[#1C1814]/25 text-[#78736E]/70 hover:border-[#7DD3C7]/25 hover:text-[#1C1814]',
+                      ? 'bg-[#C8553A]/10 border-[#C8553A]/40 text-[#C8553A]'
+                      : 'bg-white border-[#15140F]/20 text-[#6B655B] hover:border-[#C8553A]/30 hover:text-[#15140F]',
                     r === 'Other' ? 'col-span-2' : '',
                   ].join(' ')}
                 >
@@ -308,7 +308,7 @@ export default function CompleteProfile() {
 
           {/* Country */}
           <div data-cp-field className="space-y-2">
-            <label className="block text-[0.6875rem] font-semibold uppercase tracking-[0.18em] text-[#78736E]/60">
+            <label className="block text-[0.6875rem] font-semibold uppercase tracking-[0.18em] text-[#A39B8B]/60">
               Country
             </label>
             <Select<SelectOption>
@@ -338,7 +338,7 @@ export default function CompleteProfile() {
             data-cp-btn
             type="submit"
             disabled={!canSubmit}
-            className="mt-2 w-full rounded-2xl bg-[#7DD3C7] px-6 py-3.5 text-sm font-bold text-[#0B0B0A] transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_0_40px_rgba(125,211,199,0.28)] active:scale-[0.98] disabled:opacity-40 disabled:pointer-events-none"
+            className="mt-2 w-full rounded-2xl bg-[#C8553A] px-6 py-3.5 text-sm font-bold text-white transition-all duration-300 hover:scale-[1.02] hover:bg-[#A53F28] hover:shadow-[0_0_40px_rgba(200,85,58,0.28)] active:scale-[0.98] disabled:opacity-40 disabled:pointer-events-none"
           >
             {loading ? (
               <span className="flex items-center justify-center gap-2">
@@ -367,10 +367,10 @@ export default function CompleteProfile() {
 
         {/* Text */}
         <div className="space-y-1.5">
-          <h2 className="text-lg font-extrabold text-[#1C1814] tracking-tight">
+          <h2 className="text-lg font-extrabold text-[#15140F] tracking-tight">
             Are you sure you want to leave?
           </h2>
-          <p className="text-sm text-[#6A6470] leading-relaxed">
+          <p className="text-sm text-[#6B655B] leading-relaxed">
             You haven't completed your profile yet.<br />
             All progress will be lost if you go back.
           </p>
@@ -380,13 +380,13 @@ export default function CompleteProfile() {
         <div className="flex flex-col gap-2 w-full pt-1">
           <button
             onClick={() => setShowLeaveModal(false)}
-            className="w-full py-3 rounded-2xl bg-[#7DD3C7] text-[#2f004d] text-sm font-extrabold hover:brightness-110 active:scale-[0.98] transition-all shadow-[0_0_24px_rgba(125,211,199,0.3)]"
+            className="w-full py-3 rounded-2xl bg-[#C8553A] text-white text-sm font-extrabold hover:bg-[#A53F28] active:scale-[0.98] transition-all shadow-[0_0_24px_rgba(200,85,58,0.25)]"
           >
             Stay and finish
           </button>
           <button
             onClick={() => { completedRef.current = true; void logout().then(() => navigate('/login', { replace: true })); }}
-            className="w-full py-2.5 rounded-2xl text-[#6A6470] text-sm font-medium hover:text-[#1C1814] transition-colors"
+            className="w-full py-2.5 rounded-2xl text-[#6B655B] text-sm font-medium hover:text-[#15140F] transition-colors"
           >
             Leave anyway
           </button>

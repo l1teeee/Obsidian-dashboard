@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+﻿import { useEffect, useRef, useState } from 'react';
 import { useSEO } from '../hooks/useSEO';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
@@ -54,22 +54,22 @@ export default function ProductScheduler() {
     <ProductShell>
       {/* Hero */}
       <section className="relative pt-36 pb-16 overflow-hidden">
-        <div className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[400px] rounded-full bg-[#7DD3C7]/[0.06] blur-[130px]" />
+        <div className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[400px] rounded-full bg-[#C8553A]/[0.06] blur-[130px]" />
         <div className="mx-auto max-w-5xl px-6 text-center relative">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-            <span className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#7DD3C7]/20 bg-[#7DD3C7]/8 px-4 py-1.5 text-[0.68rem] font-bold uppercase tracking-[0.22em] text-[#7DD3C7]">
-              <span className="h-1.5 w-1.5 rounded-full bg-[#7DD3C7]" /> Product · Scheduler
+            <span className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#C8553A]/20 bg-[#C8553A]/8 px-4 py-1.5 text-[0.68rem] font-bold uppercase tracking-[0.22em] text-[#C8553A]">
+              <span className="h-1.5 w-1.5 rounded-full bg-[#C8553A]" /> Product · Scheduler
             </span>
-            <h1 className="mt-5 text-5xl md:text-[4rem] font-extrabold leading-[0.96] tracking-[-0.04em] text-[#1C1814]">
+            <h1 className="mt-5 text-5xl md:text-[4rem] font-extrabold leading-[0.96] tracking-[-0.04em] text-[#15140F]">
               Schedule once,<br />
-              <span className="bg-gradient-to-r from-[#7DD3C7] via-[#f0dcff] to-inverse-primary bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-[#C8553A] via-[#f0dcff] to-inverse-primary bg-clip-text text-transparent">
                 publish everywhere.
               </span>
             </h1>
-            <p className="mt-6 text-lg font-light text-[#1C1814]/55 max-w-xl mx-auto leading-relaxed">
+            <p className="mt-6 text-lg font-light text-[#6B655B] max-w-xl mx-auto leading-relaxed">
               Plan a full month of content in one session. Vielinks posts it at the right time, on the right platform — automatically.
             </p>
-            <button onClick={() => navigate('/register')} className="mt-8 rounded-full bg-[#7DD3C7] px-8 py-3.5 text-sm font-bold text-[#0B0B0A] hover:shadow-[0_0_32px_rgba(125,211,199,0.4)] transition-all active:scale-[0.98]">
+            <button onClick={() => navigate('/register')} className="mt-8 rounded-full bg-[#C8553A] px-8 py-3.5 text-sm font-bold text-white hover:bg-[#A53F28] hover:shadow-[0_0_32px_rgba(200,85,58,0.4)] transition-all active:scale-[0.98]">
               Start scheduling free
             </button>
           </motion.div>
@@ -78,36 +78,36 @@ export default function ProductScheduler() {
 
       {/* Interactive calendar preview */}
       <section className="py-12 mx-auto max-w-5xl px-6">
-        <div className="rounded-3xl border border-white/[0.07] bg-[#111]/70 overflow-hidden">
+        <div className="rounded-3xl border border-[rgba(21,20,15,0.10)] bg-[#FFFFFF] overflow-hidden">
           {/* Calendar header */}
-          <div className="px-6 py-4 border-b border-white/[0.06] flex items-center justify-between">
+          <div className="px-6 py-4 border-b border-[rgba(21,20,15,0.08)] flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <span className="material-symbols-outlined text-[#7DD3C7]" style={{ fontSize: 18 }}>calendar_month</span>
-              <span className="text-sm font-bold text-[#1C1814]">Content Calendar</span>
+              <span className="material-symbols-outlined text-[#C8553A]" style={{ fontSize: 18 }}>calendar_month</span>
+              <span className="text-sm font-bold text-[#15140F]">Content Calendar</span>
             </div>
-            <div className="flex items-center gap-2 text-xs text-[#1C1814]/40">
-              <span className="px-2.5 py-1 rounded-full bg-[#7DD3C7]/10 text-[#7DD3C7] font-semibold">April 2026</span>
+            <div className="flex items-center gap-2 text-xs text-[#3D3A30]">
+              <span className="px-2.5 py-1 rounded-full bg-[#C8553A]/10 text-[#C8553A] font-semibold">April 2026</span>
             </div>
           </div>
 
           {/* Day headers */}
-          <div className="grid grid-cols-7 border-b border-white/[0.06]">
+          <div className="grid grid-cols-7 border-b border-[rgba(21,20,15,0.08)]">
             {DAYS.map(d => (
-              <div key={d} className="py-3 text-center text-[10px] font-bold uppercase tracking-widest text-[#1C1814]/30">{d}</div>
+              <div key={d} className="py-3 text-center text-[10px] font-bold uppercase tracking-widest text-[#3D3A30]">{d}</div>
             ))}
           </div>
 
           {/* Calendar cells */}
-          <div className="grid grid-cols-7 gap-px bg-[#1C1814]/[0.05]">
+          <div className="grid grid-cols-7 gap-px bg-[rgba(21,20,15,0.04)]">
             {Array.from({ length: 7 }).map((_, i) => {
               const posts = POSTS[i] ?? [];
               return (
                 <div
                   key={i}
-                  className={`bg-[#0f0f0f] min-h-[90px] p-2 cursor-pointer transition-all duration-200 ${active === i ? 'bg-[#FAF7F2]' : 'hover:bg-[#141313]'}`}
+                  className={`min-h-[90px] p-2 cursor-pointer transition-all duration-200 ${active === i ? 'bg-[#EFE9DC]' : 'bg-[#FBF8F2] hover:bg-[#F6F2EA]'}`}
                   onClick={() => setActive(active === i ? null : i)}
                 >
-                  <span className="text-[10px] text-[#1C1814]/30 font-semibold block mb-1.5">{i + 7}</span>
+                  <span className="text-[10px] text-[#3D3A30] font-semibold block mb-1.5">{i + 7}</span>
                   <div className="space-y-1">
                     {posts.map((p, j) => (
                       <div key={j} className="flex items-center gap-1 rounded-md px-1.5 py-1" style={{ backgroundColor: `${p.color}18`, border: `1px solid ${p.color}30` }}>
@@ -131,7 +131,7 @@ export default function ProductScheduler() {
                 animate={{ height: 'auto', opacity: 1 }}
                 exit={{ height: 0, opacity: 0 }}
                 transition={{ duration: 0.25 }}
-                className="overflow-hidden border-t border-white/[0.06]"
+                className="overflow-hidden border-t border-[rgba(21,20,15,0.08)]"
               >
                 <div className="px-6 py-4 flex gap-4">
                   {POSTS[active]?.map((p, j) => (
@@ -141,7 +141,7 @@ export default function ProductScheduler() {
                       </span>
                       <div>
                         <p className="text-xs font-semibold" style={{ color: p.color }}>{p.label}</p>
-                        <p className="text-[10px] text-[#1C1814]/40">{p.time} · {DAYS[active]}</p>
+                        <p className="text-[10px] text-[#6B655B]">{p.time} · {DAYS[active]}</p>
                       </div>
                     </div>
                   ))}
@@ -150,23 +150,23 @@ export default function ProductScheduler() {
             )}
           </AnimatePresence>
         </div>
-        <p className="text-center text-xs text-[#1C1814]/30 mt-3">Click a day to see scheduled posts</p>
+        <p className="text-center text-xs text-[#A39B8B] mt-3">Click a day to see scheduled posts</p>
       </section>
 
       {/* Features */}
       <section className="py-20 mx-auto max-w-6xl px-6">
         <div className="text-center mb-14">
-          <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight text-[#1C1814]">Built for serious publishers</h2>
-          <p className="mt-3 text-[#1C1814]/45 max-w-lg mx-auto">Every tool you need to maintain a consistent publishing cadence.</p>
+          <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight text-[#15140F]">Built for serious publishers</h2>
+          <p className="mt-3 text-[#6B655B] max-w-lg mx-auto">Every tool you need to maintain a consistent publishing cadence.</p>
         </div>
         <div ref={featRef} className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
           {FEATURES.map((f) => (
-            <div key={f.title} data-feat style={{ opacity: 0 }} className="rounded-2xl border border-white/[0.07] bg-[#111]/70 p-6 hover:border-[#7DD3C7]/20 hover:bg-[#181818]/80 transition-all duration-300 group">
-              <div className="w-10 h-10 rounded-xl bg-[#7DD3C7]/8 border border-[#7DD3C7]/12 flex items-center justify-center mb-4 group-hover:bg-[#7DD3C7]/15 transition-colors">
-                <span className="material-symbols-outlined text-[#7DD3C7]" style={{ fontSize: 18, fontVariationSettings: "'FILL' 1" }}>{f.icon}</span>
+            <div key={f.title} data-feat style={{ opacity: 0 }} className="rounded-2xl border border-[rgba(21,20,15,0.10)] bg-[#FFFFFF] p-6 hover:border-[#C8553A]/20 hover:bg-[#EFE9DC] transition-all duration-300 group">
+              <div className="w-10 h-10 rounded-xl bg-[#C8553A]/8 border border-[#C8553A]/12 flex items-center justify-center mb-4 group-hover:bg-[#C8553A]/15 transition-colors">
+                <span className="material-symbols-outlined text-[#C8553A]" style={{ fontSize: 18, fontVariationSettings: "'FILL' 1" }}>{f.icon}</span>
               </div>
-              <h3 className="text-sm font-bold text-[#1C1814] mb-2">{f.title}</h3>
-              <p className="text-sm text-[#1C1814]/45 leading-relaxed">{f.body}</p>
+              <h3 className="text-sm font-bold text-[#15140F] mb-2">{f.title}</h3>
+              <p className="text-sm text-[#6B655B] leading-relaxed">{f.body}</p>
             </div>
           ))}
         </div>

@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+﻿import { Link } from 'react-router-dom';
 import type { RefObject } from 'react';
 import { PLATFORM_REGISTRY } from '../../domain/entities/Platform';
 import StatusBadge from '../shared/StatusBadge';
@@ -9,7 +9,7 @@ interface RecentPostRowProps {
   rowRef:  RefObject<HTMLAnchorElement | null>;
 }
 
-const ROW_CLASS = 'surface-card p-4 flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-5 transition-all cursor-pointer hover:bg-[#F0EBE2] hover:border-[#7DD3C7]/24 group';
+const ROW_CLASS = 'surface-card p-4 flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-5 transition-all cursor-pointer hover:bg-[#EFE9DC] hover:border-[#C8553A]/24 group';
 
 export default function RecentPostRow({ post, rowRef }: RecentPostRowProps) {
   const p = PLATFORM_REGISTRY[post.platform];
@@ -23,7 +23,7 @@ export default function RecentPostRow({ post, rowRef }: RecentPostRowProps) {
         {post.imageUrl
           ? <img src={post.imageUrl} className="w-full h-full object-cover" alt="" loading="lazy" />
           : (
-            <span className="text-3xl sm:text-2xl font-black uppercase select-none text-[#1C1814]">
+            <span className="text-3xl sm:text-2xl font-black uppercase select-none text-[#15140F]">
               {(post.title ?? '?')[0]}
             </span>
           )
@@ -33,22 +33,22 @@ export default function RecentPostRow({ post, rowRef }: RecentPostRowProps) {
       <div className="grow min-w-0">
         <div className="flex items-center gap-2 mb-1.5">
           <div
-            className="w-5 h-5 rounded-md flex items-center justify-center text-xs text-[#1C1814] font-bold"
+            className="w-5 h-5 rounded-md flex items-center justify-center text-xs text-[#15140F] font-bold"
             style={{ background: p.color }}
           >
             {p.abbr}
           </div>
           <StatusBadge status={post.status} size="xs" />
         </div>
-        <h4 className="text-[#1C1814] text-sm font-semibold truncate">{post.title}</h4>
-        <p className="text-[#6A6470] text-xs mt-0.5">{post.date}</p>
+        <h4 className="text-[#15140F] text-sm font-semibold truncate">{post.title}</h4>
+        <p className="text-[#6B655B] text-xs mt-0.5">{post.date}</p>
       </div>
 
-      <div className="flex gap-4 sm:gap-5 sm:px-5 sm:border-l border-[#1C1814]/10 shrink-0">
+      <div className="flex gap-4 sm:gap-5 sm:px-5 sm:border-l border-[#15140F]/10 shrink-0">
         {[['Likes', post.likes], ['Comments', post.comments], ['Shares', post.shares]].map(([l, v]) => (
           <div key={l} className="text-center">
-            <p className="font-mono text-sm text-[#1C1814]">{v}</p>
-            <p className="text-xs text-[#6A6470] uppercase tracking-[0.12em]">{l}</p>
+            <p className="font-mono text-sm text-[#15140F]">{v}</p>
+            <p className="text-xs text-[#6B655B] uppercase tracking-[0.12em]">{l}</p>
           </div>
         ))}
       </div>

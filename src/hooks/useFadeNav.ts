@@ -3,8 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import gsap from 'gsap';
 
 /**
- * Navega a una ruta con un fade-to-black suave antes de cambiar de página.
- * Usado en la landing para transiciones landing → login / register.
+ * Navigates with a warm fade before changing public pages.
  */
 export function useFadeNav() {
   const navigate = useNavigate();
@@ -12,27 +11,27 @@ export function useFadeNav() {
   return useCallback((to: string) => {
     const overlay = document.createElement('div');
     Object.assign(overlay.style, {
-      position:      'fixed',
-      inset:         '0',
-      zIndex:        '9999',
-      background:    '#0a0a0a',
-      opacity:       '0',
+      position: 'fixed',
+      inset: '0',
+      zIndex: '9999',
+      background: '#F6F2EA',
+      opacity: '0',
       pointerEvents: 'all',
     });
     document.body.appendChild(overlay);
 
     gsap.to(overlay, {
-      opacity:  1,
+      opacity: 1,
       duration: 0.32,
-      ease:     'power2.in',
+      ease: 'power2.in',
       onComplete() {
         navigate(to);
         requestAnimationFrame(() => {
           gsap.to(overlay, {
-            opacity:  0,
+            opacity: 0,
             duration: 0.38,
-            delay:    0.06,
-            ease:     'power2.out',
+            delay: 0.06,
+            ease: 'power2.out',
             onComplete: () => overlay.remove(),
           });
         });

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+﻿import { useEffect, useState } from 'react';
 
 interface Props {
   onClose: () => void;
@@ -18,7 +18,7 @@ export default function AccountDisabledModal({ onClose }: Props) {
       }`}
     >
       <div
-        className={`w-full max-w-sm bg-[#FAF7F2] border border-[#1C1814]/20 rounded-3xl p-7 shadow-[0_24px_80px_rgba(0,0,0,0.7)] transition-all duration-300 ${
+        className={`w-full max-w-sm bg-[#FBF8F2] border border-[#15140F]/20 rounded-3xl p-7 shadow-[0_24px_80px_rgba(0,0,0,0.7)] transition-all duration-300 ${
           visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
         }`}
       >
@@ -31,8 +31,8 @@ export default function AccountDisabledModal({ onClose }: Props) {
           </span>
         </div>
 
-        <h2 className="text-[#1C1814] font-bold text-lg mb-2">Account disabled</h2>
-        <p className="text-[#6A6470] text-sm mb-6 leading-relaxed">
+        <h2 className="text-[#15140F] font-bold text-lg mb-2">Account disabled</h2>
+        <p className="text-[#6B655B] text-sm mb-6 leading-relaxed">
           Your account has been disabled. Please contact support if you think this is a mistake.
         </p>
 

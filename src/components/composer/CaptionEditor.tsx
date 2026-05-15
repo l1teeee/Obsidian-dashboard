@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+﻿import { useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { CHAR_LIMITS, CHAR_IDEAL } from '../../domain/entities/Composer';
 import type { ChannelId } from '../../types/composer.types';
@@ -166,16 +166,16 @@ export default function CaptionEditor({
     <div data-editor-section className="space-y-2">
 
       {/* Unified caption card */}
-      <div className="bg-[#FAF7F2] border border-[#1C1814]/30 rounded-2xl overflow-hidden">
+      <div className="bg-[#FBF8F2] border border-[#15140F]/30 rounded-2xl overflow-hidden">
 
         {/* Card header — always visible */}
         <div className="flex justify-between items-center px-4 pt-3 pb-2.5">
-          <label className="text-[11px] uppercase tracking-widest text-[#6A6470] font-bold">Caption</label>
+          <label className="text-[11px] uppercase tracking-widest text-[#6B655B] font-bold">Caption</label>
           {!hasAIImages && (
             <button
               onClick={onToggleSuggestions}
               disabled={!aiAllowed}
-              className="flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider transition-all active:scale-95 border bg-[#7DD3C7]/15 text-[#7DD3C7] border-[#7DD3C7]/30 hover:bg-[#7DD3C7]/25 disabled:opacity-40 disabled:cursor-not-allowed"
+              className="flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider transition-all active:scale-95 border bg-[#C8553A]/15 text-[#C8553A] border-[#C8553A]/30 hover:bg-[#C8553A]/25 disabled:opacity-40 disabled:cursor-not-allowed"
             >
               <span className="material-symbols-outlined text-[11px]">auto_awesome</span>
               {aiAllowed ? (hasResults ? 'Edit AI' : 'Generate with AI') : 'AI limit reached'}
@@ -190,7 +190,7 @@ export default function CaptionEditor({
           }`}
         >
           <div className="overflow-hidden">
-            <div className="px-3 pt-1 pb-3 space-y-3 border-t border-[#1C1814]/15">
+            <div className="px-3 pt-1 pb-3 space-y-3 border-t border-[#15140F]/15">
 
               {/* Token limit banner */}
               {!aiAllowed && (
@@ -204,7 +204,7 @@ export default function CaptionEditor({
 
               {/* Image analysis badge */}
               {hasImages && (
-                <div className="flex items-center gap-2 px-2.5 py-2 rounded-xl bg-[#7DD3C7]/8 border border-[#7DD3C7]/15 mt-2">
+                <div className="flex items-center gap-2 px-2.5 py-2 rounded-xl bg-[#C8553A]/8 border border-[#C8553A]/15 mt-2">
                   <div className="flex -space-x-1.5 shrink-0">
                     {imageItems.slice(0, 3).map((item, i) => (
                       <img
@@ -215,12 +215,12 @@ export default function CaptionEditor({
                       />
                     ))}
                     {imageItems.length > 3 && (
-                      <div className="w-6 h-6 rounded-md bg-[#7DD3C7]/20 border border-[#1c1b1b] flex items-center justify-center">
-                        <span className="text-[8px] font-bold text-[#7DD3C7]">+{imageItems.length - 3}</span>
+                      <div className="w-6 h-6 rounded-md bg-[#C8553A]/20 border border-[#1c1b1b] flex items-center justify-center">
+                        <span className="text-[8px] font-bold text-[#C8553A]">+{imageItems.length - 3}</span>
                       </div>
                     )}
                   </div>
-                  <p className="text-[10px] text-[#7DD3C7]/80 leading-tight">
+                  <p className="text-[10px] text-[#C8553A]/80 leading-tight">
                     <span className="font-bold">{imageItems.length} image{imageItems.length > 1 ? 's' : ''}</span> will be analyzed by GPT-4o Vision
                   </p>
                 </div>
@@ -238,12 +238,12 @@ export default function CaptionEditor({
                     ? 'Optional: add context, mood or message…'
                     : "What's your post about? e.g. summer launch, mindset shift…"
                   }
-                  className="flex-1 bg-[#252525] border border-[#1C1814]/40 rounded-xl px-3 py-2 text-xs text-[#1C1814] placeholder:text-[#6A6470]/50 focus:outline-none focus:border-[#7DD3C7]/50 focus:ring-1 focus:ring-[#7DD3C7]/20 transition-all"
+                  className="flex-1 bg-white border border-border rounded-xl px-3 py-2 text-xs text-[#15140F] placeholder:text-[#6B655B]/50 focus:outline-none focus:border-[#C8553A]/50 focus:ring-1 focus:ring-[#C8553A]/20 transition-all"
                 />
                 <button
                   onClick={handleGenerate}
                   disabled={(!topic.trim() && !hasImages) || loading || !aiAllowed}
-                  className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-[#7DD3C7]/15 text-[#7DD3C7] border border-[#7DD3C7]/30 text-[10px] font-bold uppercase tracking-wider hover:bg-[#7DD3C7]/25 disabled:opacity-40 disabled:cursor-not-allowed transition-all active:scale-95 shrink-0"
+                  className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-[#C8553A]/15 text-[#C8553A] border border-[#C8553A]/30 text-[10px] font-bold uppercase tracking-wider hover:bg-[#C8553A]/25 disabled:opacity-40 disabled:cursor-not-allowed transition-all active:scale-95 shrink-0"
                 >
                   <span className={`material-symbols-outlined text-[13px] ${loading ? 'animate-spin' : ''}`}>
                     {loading ? 'progress_activity' : hasResults ? 'refresh' : 'auto_awesome'}
@@ -266,13 +266,13 @@ export default function CaptionEditor({
               {loading && (
                 <div className="flex flex-col gap-2">
                   {hasImages && (
-                    <p className="text-[10px] text-[#7DD3C7]/60 px-1 flex items-center gap-1.5 animate-pulse">
+                    <p className="text-[10px] text-[#C8553A]/60 px-1 flex items-center gap-1.5 animate-pulse">
                       <span className="material-symbols-outlined text-[12px]">image_search</span>
                       Reading your images…
                     </p>
                   )}
-                  {[1, 2, 3].map(i => <div key={i} className="h-10 rounded-xl bg-[#7DD3C7]/5 animate-pulse" />)}
-                  <div className="h-6 w-3/4 rounded-full bg-[#7DD3C7]/5 animate-pulse mt-1" />
+                  {[1, 2, 3].map(i => <div key={i} className="h-10 rounded-xl bg-[#C8553A]/5 animate-pulse" />)}
+                  <div className="h-6 w-3/4 rounded-full bg-[#C8553A]/5 animate-pulse mt-1" />
                 </div>
               )}
 
@@ -281,7 +281,7 @@ export default function CaptionEditor({
                 <>
                   {/* Caption suggestions */}
                   <div className="space-y-1">
-                    <p className="text-[9px] font-bold uppercase tracking-widest text-[#1C1814] px-1">
+                    <p className="text-[9px] font-bold uppercase tracking-widest text-[#15140F] px-1">
                       Captions — select one
                     </p>
                     {captions.map((c, i) => {
@@ -293,15 +293,15 @@ export default function CaptionEditor({
                           className={[
                             'w-full text-left p-3 rounded-xl transition-all text-xs leading-relaxed border',
                             picked
-                              ? 'bg-[#7DD3C7]/12 border-[#7DD3C7]/40 text-[#1C1814]'
-                              : 'text-[#5C5650] border-transparent hover:bg-[#7DD3C7]/8 hover:border-[#7DD3C7]/15',
+                              ? 'bg-[#C8553A]/12 border-[#C8553A]/40 text-[#15140F]'
+                              : 'text-[#3D3A30] border-transparent hover:bg-[#C8553A]/8 hover:border-[#C8553A]/15',
                           ].join(' ')}
                         >
                           <div className="flex items-start gap-2">
                             <span
                               className={[
                                 'material-symbols-outlined shrink-0 mt-0.5 transition-all',
-                                picked ? 'text-[#7DD3C7]' : 'text-[#1C1814]',
+                                picked ? 'text-[#C8553A]' : 'text-[#15140F]',
                               ].join(' ')}
                               style={{ fontSize: 13, fontVariationSettings: picked ? "'FILL' 1" : "'FILL' 0" }}
                             >
@@ -316,8 +316,8 @@ export default function CaptionEditor({
 
                   {/* Hashtags */}
                   {hashtags.length > 0 && (
-                    <div className="space-y-2 pt-1 border-t border-[#1C1814]/15">
-                      <p className="text-[9px] font-bold uppercase tracking-widest text-[#1C1814] px-1">
+                    <div className="space-y-2 pt-1 border-t border-[#15140F]/15">
+                      <p className="text-[9px] font-bold uppercase tracking-widest text-[#15140F] px-1">
                         Trending Hashtags — click to select
                       </p>
                       <div className="flex flex-wrap gap-1.5 px-1">
@@ -331,8 +331,8 @@ export default function CaptionEditor({
                               className={[
                                 'flex items-center gap-1 px-2.5 py-1 rounded-full border text-[10px] font-medium transition-all active:scale-95',
                                 picked
-                                  ? 'bg-[#7DD3C7]/20 border-[#7DD3C7]/50 text-[#7DD3C7]'
-                                  : 'bg-[#7DD3C7]/5 border-[#7DD3C7]/12 text-[#7DD3C7]/60 hover:bg-[#7DD3C7]/12 hover:text-[#7DD3C7] hover:border-[#7DD3C7]/25',
+                                  ? 'bg-[#C8553A]/20 border-[#C8553A]/50 text-[#C8553A]'
+                                  : 'bg-[#C8553A]/5 border-[#C8553A]/12 text-[#C8553A]/60 hover:bg-[#C8553A]/12 hover:text-[#C8553A] hover:border-[#C8553A]/25',
                               ].join(' ')}
                             >
                               {picked && (
@@ -346,7 +346,7 @@ export default function CaptionEditor({
                       <div className="flex items-center gap-2 px-1">
                         <button
                           onClick={() => setPickedHashtags(hashtags)}
-                          className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[10px] text-[#6A6470] hover:text-[#7DD3C7] hover:bg-[#7DD3C7]/8 transition-all"
+                          className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[10px] text-[#6B655B] hover:text-[#C8553A] hover:bg-[#C8553A]/8 transition-all"
                         >
                           <span className="material-symbols-outlined" style={{ fontSize: 13 }}>select_all</span>
                           Select all
@@ -354,7 +354,7 @@ export default function CaptionEditor({
                         {pickedHashtags.length > 0 && (
                           <button
                             onClick={() => setPickedHashtags([])}
-                            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[10px] text-[#6A6470] hover:text-[#ffb4ab] hover:bg-[#ffb4ab]/8 transition-all"
+                            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[10px] text-[#6B655B] hover:text-[#ffb4ab] hover:bg-[#ffb4ab]/8 transition-all"
                           >
                             <span className="material-symbols-outlined" style={{ fontSize: 13 }}>deselect</span>
                             Clear
@@ -365,11 +365,11 @@ export default function CaptionEditor({
                   )}
 
                   {/* Apply button */}
-                  <div className="pt-1 border-t border-[#1C1814]/15">
+                  <div className="pt-1 border-t border-[#15140F]/15">
                     <button
                       onClick={handleApply}
                       disabled={!pickedCaption && pickedHashtags.length === 0}
-                      className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl bg-[#7DD3C7] hover:bg-[#e0a8ff] text-[#131313] text-xs font-bold transition-all disabled:opacity-30 disabled:cursor-not-allowed active:scale-[0.98]"
+                      className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl bg-[#C8553A] hover:bg-[#A53F28] text-white text-xs font-bold transition-all disabled:opacity-30 disabled:cursor-not-allowed active:scale-[0.98]"
                     >
                       <span className="material-symbols-outlined" style={{ fontSize: 14, fontVariationSettings: "'FILL' 1" }}>check_circle</span>
                       Apply to caption
@@ -385,7 +385,7 @@ export default function CaptionEditor({
 
               {/* Empty state */}
               {!loading && !hasResults && !error && (
-                <p className="text-[10px] text-[#6A6470]/50 px-1 pb-1">
+                <p className="text-[10px] text-[#6B655B]/50 px-1 pb-1">
                   {hasImages
                     ? 'Hit Generate — GPT-4o will analyze your images and write 3 captions.'
                     : 'Enter your topic and hit Generate. ChatGPT will write 3 captions + trending hashtags.'
@@ -395,7 +395,7 @@ export default function CaptionEditor({
             </div>
 
             {/* Separator before textarea */}
-            <div className="border-t border-[#1C1814]/15 mx-3" />
+            <div className="border-t border-[#15140F]/15 mx-3" />
           </div>
         </div>
 
@@ -404,7 +404,7 @@ export default function CaptionEditor({
           <textarea
             value={caption}
             onChange={e => onCaptionChange(e.target.value)}
-            className="w-full h-28 bg-[#252424] border border-[#1C1814]/20 rounded-xl p-3 text-sm text-[#1C1814] focus:ring-2 focus:ring-[#7DD3C7]/20 focus:border-[#7DD3C7] outline-none transition-all placeholder:text-[#6A6470]/50 resize-none leading-relaxed"
+            className="w-full h-28 bg-[#252424] border border-[#15140F]/20 rounded-xl p-3 text-sm text-[#15140F] focus:ring-2 focus:ring-[#C8553A]/20 focus:border-[#C8553A] outline-none transition-all placeholder:text-[#6B655B]/50 resize-none leading-relaxed"
             placeholder="Write your caption…"
           />
         </div>
@@ -454,9 +454,9 @@ export default function CaptionEditor({
                                 className="w-1.5 h-1.5 rounded-full shrink-0"
                                 style={{ background: color }}
                               />
-                              <span className="text-[10px] font-bold text-[#5C5650] truncate">{name}</span>
+                              <span className="text-[10px] font-bold text-[#3D3A30] truncate">{name}</span>
                             </div>
-                            <div className="h-[5px] rounded-full bg-[#353534] overflow-hidden">
+                            <div className="h-[5px] rounded-full bg-[#D8D2C4] overflow-hidden">
                               <div
                                 className="h-full rounded-full transition-all duration-300 ease-out"
                                 style={{ width: `${pct}%`, background: color }}
@@ -467,18 +467,18 @@ export default function CaptionEditor({
                         <TooltipContent side="top" showArrow>
                           <div className="space-y-1.5 min-w-[130px]">
                             <div className="flex items-center justify-between gap-4">
-                              <span className="text-[#6A6470]">Characters</span>
+                              <span className="text-[#6B655B]">Characters</span>
                               <span className="font-semibold tabular-nums" style={{ color }}>
-                                {caption.length}<span className="text-[#1C1814]">/{limit}</span>
+                                {caption.length}<span className="text-[#15140F]">/{limit}</span>
                               </span>
                             </div>
                             <div className="flex items-center justify-between gap-4">
-                              <span className="text-[#6A6470]">Status</span>
+                              <span className="text-[#6B655B]">Status</span>
                               <span className="font-semibold" style={{ color }}>{statusLabel}</span>
                             </div>
                             <div className="flex items-center justify-between gap-4">
-                              <span className="text-[#6A6470]">Ideal</span>
-                              <span className="text-[#5C5650]">{ideal.min}–{ideal.softMax}</span>
+                              <span className="text-[#6B655B]">Ideal</span>
+                              <span className="text-[#3D3A30]">{ideal.min}–{ideal.softMax}</span>
                             </div>
                           </div>
                         </TooltipContent>

@@ -1,4 +1,4 @@
-import type { ProfileData } from '../../domain/entities/Profile';
+﻿import type { ProfileData } from '../../domain/entities/Profile';
 
 interface AccountInfoProps {
   profile:          ProfileData;
@@ -17,38 +17,38 @@ export default function AccountInfo({ profile, onEdit, onChangePassword }: Accou
   ];
 
   return (
-    <div data-section className="bg-[#F0EBE2] rounded-3xl border border-[#1C1814]/10 overflow-hidden">
-      <div className="px-8 py-5 border-b border-[#1C1814]/5 flex items-center justify-between bg-[#E5DFD6]/20">
-        <h3 className="font-headline font-bold text-[#1C1814] flex items-center gap-2">
-          <span className="material-symbols-outlined text-[#7DD3C7] text-[18px]">manage_accounts</span>
+    <div data-section className="bg-[#EFE9DC] rounded-3xl border border-[#15140F]/10 overflow-hidden">
+      <div className="px-8 py-5 border-b border-[#15140F]/5 flex items-center justify-between bg-[#E7E0D0]/20">
+        <h3 className="font-headline font-bold text-[#15140F] flex items-center gap-2">
+          <span className="material-symbols-outlined text-[#C8553A] text-[18px]">manage_accounts</span>
           Account Information
         </h3>
         <button
           onClick={onEdit}
-          className="text-[10px] text-[#7DD3C7] font-bold uppercase tracking-widest hover:text-[#1C1814] transition-colors flex items-center gap-1"
+          className="text-[10px] text-[#C8553A] font-bold uppercase tracking-widest hover:text-[#15140F] transition-colors flex items-center gap-1"
         >
           <span className="material-symbols-outlined text-[12px]">edit</span>
           Edit
         </button>
       </div>
-      <div className="divide-y divide-[#1C1814]/5">
+      <div className="divide-y divide-[#15140F]/5">
         {rows.map(({ label, value, icon }) => (
           <div key={label} className="px-8 py-4 flex items-center justify-between hover:bg-white/[0.02] transition-colors">
             <div className="flex items-center gap-3">
-              <span className="material-symbols-outlined text-[#1C1814] text-[16px]">{icon}</span>
-              <span className="text-xs text-[#6A6470] uppercase tracking-widest w-28">{label}</span>
+              <span className="material-symbols-outlined text-[#15140F] text-[16px]">{icon}</span>
+              <span className="text-xs text-[#6B655B] uppercase tracking-widest w-28">{label}</span>
             </div>
-            <span className="text-sm text-[#1C1814] font-medium">{value}</span>
+            <span className="text-sm text-[#15140F] font-medium">{value}</span>
           </div>
         ))}
         <div className="px-8 py-4 flex items-center justify-between hover:bg-white/[0.02] transition-colors">
           <div className="flex items-center gap-3">
-            <span className="material-symbols-outlined text-[#1C1814] text-[16px]">lock</span>
-            <span className="text-xs text-[#6A6470] uppercase tracking-widest w-28">Password</span>
+            <span className="material-symbols-outlined text-[#15140F] text-[16px]">lock</span>
+            <span className="text-xs text-[#6B655B] uppercase tracking-widest w-28">Password</span>
           </div>
           <button
             onClick={onChangePassword}
-            className="text-xs text-[#7DD3C7] font-semibold hover:text-[#e8b5ff] transition-colors flex items-center gap-1"
+            className="text-xs text-[#C8553A] font-semibold hover:text-[#e8b5ff] transition-colors flex items-center gap-1"
           >
             <span className="material-symbols-outlined text-[13px]">lock_reset</span>
             Change Password

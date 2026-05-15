@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+﻿import { useState, useRef, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import type { RefObject } from 'react';
 import type { MediaItem } from '../../hooks/useComposer';
@@ -173,29 +173,29 @@ export default function MediaUpload({
     >
       {/* ── Drag-over overlay ── */}
       {isDragOver && (
-        <div className="absolute inset-0 z-20 rounded-2xl border-2 border-dashed border-[#7DD3C7] bg-[#131313]/80 backdrop-blur-sm flex flex-col items-center justify-center gap-3 pointer-events-none">
-          <div className="w-16 h-16 rounded-2xl bg-[#7DD3C7]/15 border border-[#7DD3C7]/30 flex items-center justify-center">
-            <span className="material-symbols-outlined text-[#7DD3C7]" style={{ fontSize: 32, fontVariationSettings: "'FILL' 1" }}>cloud_upload</span>
+        <div className="absolute inset-0 z-20 rounded-2xl border-2 border-dashed border-[#C8553A] bg-[#131313]/80 backdrop-blur-sm flex flex-col items-center justify-center gap-3 pointer-events-none">
+          <div className="w-16 h-16 rounded-2xl bg-[#C8553A]/15 border border-[#C8553A]/30 flex items-center justify-center">
+            <span className="material-symbols-outlined text-[#C8553A]" style={{ fontSize: 32, fontVariationSettings: "'FILL' 1" }}>cloud_upload</span>
           </div>
-          <p className="text-sm font-semibold text-[#7DD3C7]">Drop to add</p>
-          <p className="text-[10px] text-[#7DD3C7]/60">Images · max 20 MB &nbsp;·&nbsp; Videos · max 50 MB</p>
+          <p className="text-sm font-semibold text-[#C8553A]">Drop to add</p>
+          <p className="text-[10px] text-[#C8553A]/60">Images · max 20 MB &nbsp;·&nbsp; Videos · max 50 MB</p>
         </div>
       )}
 
       {/* ── Card wrapper ── */}
-      <div className="bg-[#FAF7F2] border border-[#1C1814]/30 rounded-2xl overflow-hidden">
+      <div className="bg-[#FBF8F2] border border-[#15140F]/30 rounded-2xl overflow-hidden">
 
         {/* Header */}
         <div className="flex justify-between items-center px-4 pt-3 pb-2.5">
           <div className="flex items-center gap-2">
-            <label className="text-[11px] uppercase tracking-widest text-[#6A6470] font-bold">Creative Assets</label>
+            <label className="text-[11px] uppercase tracking-widest text-[#6B655B] font-bold">Creative Assets</label>
             {hasMedia && (
-              <span className="text-[10px] font-bold text-[#7DD3C7] bg-[#7DD3C7]/10 px-2 py-0.5 rounded-full">
+              <span className="text-[10px] font-bold text-[#C8553A] bg-[#C8553A]/10 px-2 py-0.5 rounded-full">
                 {mediaItems.length}/{MAX_MEDIA}
               </span>
             )}
             {totalBytes > 0 && (
-              <span className="text-[10px] text-[#6A6470]/70 tabular-nums">{formatBytes(totalBytes)}</span>
+              <span className="text-[10px] text-[#6B655B]/70 tabular-nums">{formatBytes(totalBytes)}</span>
             )}
           </div>
 
@@ -203,7 +203,7 @@ export default function MediaUpload({
             {hasMedia && (
               <button
                 onClick={() => setShowAnalyzeModal(true)}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-[#7DD3C7]/10 text-[#7DD3C7] hover:bg-[#7DD3C7]/20 transition-all active:scale-95"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-[#C8553A]/10 text-[#C8553A] hover:bg-[#C8553A]/20 transition-all active:scale-95"
               >
                 <span className="material-symbols-outlined text-[13px]">search</span>
                 Analyze
@@ -214,7 +214,7 @@ export default function MediaUpload({
                 onClick={() => { if (canAddMore) { setGeneratorEverOpened(true); setShowGeneratorModal(true); } }}
                 disabled={!canAddMore}
                 title={!canAddMore ? `Max ${MAX_MEDIA} files reached` : undefined}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-[#7DD3C7]/10 text-[#7DD3C7] hover:bg-[#7DD3C7]/20 transition-all active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-[#C8553A]/10 text-[#C8553A] hover:bg-[#C8553A]/20 transition-all active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed"
               >
                 <span className="material-symbols-outlined text-[13px]">auto_awesome</span>
                 {(generatorEverOpened || hasAIImages) ? 'Continue' : 'Generate'}
@@ -229,7 +229,7 @@ export default function MediaUpload({
                     }
                   }}
                   title="Reset AI generator"
-                  className="w-6 h-6 flex items-center justify-center rounded-full text-[#6A6470]/60 hover:text-red-400 hover:bg-red-400/10 transition-all active:scale-95"
+                  className="w-6 h-6 flex items-center justify-center rounded-full text-[#6B655B]/60 hover:text-red-400 hover:bg-red-400/10 transition-all active:scale-95"
                 >
                   <span className="material-symbols-outlined text-[13px]">close</span>
                 </button>
@@ -258,12 +258,12 @@ export default function MediaUpload({
 
       {/* ── Media carousel ── */}
       {hasMedia ? (
-        <div className="flex items-center gap-2 bg-[#161515] border border-[#1C1814]/25 rounded-2xl px-3 py-3">
+        <div className="flex items-center gap-2 bg-[#161515] border border-[#15140F]/25 rounded-2xl px-3 py-3">
           {/* Scroll left */}
           <button
             onClick={() => scrollStrip('left')}
             disabled={!canScrollLeft}
-            className="w-7 h-7 shrink-0 flex items-center justify-center rounded-lg border border-[#1C1814]/30 bg-[#FAF7F2] text-[#6A6470] hover:text-[#1C1814] hover:border-[#1C1814]/60 transition-all disabled:opacity-20 disabled:cursor-default"
+            className="w-7 h-7 shrink-0 flex items-center justify-center rounded-lg border border-[#15140F]/30 bg-[#FBF8F2] text-[#6B655B] hover:text-[#15140F] hover:border-[#15140F]/60 transition-all disabled:opacity-20 disabled:cursor-default"
           >
             <span className="material-symbols-outlined text-[16px]">chevron_left</span>
           </button>
@@ -283,7 +283,7 @@ export default function MediaUpload({
                 return (
                   <div
                     key={i}
-                    className={`relative group w-24 h-24 shrink-0 snap-start rounded-xl overflow-hidden bg-[#1a1a1a] ${!item.uploading && !item.uploadError ? 'cursor-pointer' : ''}`}
+                    className={`relative group w-24 h-24 shrink-0 snap-start rounded-xl overflow-hidden bg-[#EFE9DC] ${!item.uploading && !item.uploadError ? 'cursor-pointer' : ''}`}
                     onClick={!item.uploading && !item.uploadError ? (
                       isVideo ? () => openVideoPreview(item.previewUrl) : () => openLightbox(i)
                     ) : undefined}
@@ -318,16 +318,16 @@ export default function MediaUpload({
                     {/* Video badge */}
                     {isVideo && !item.uploading && (
                       <div className="absolute bottom-1 left-1 flex items-center gap-1 bg-black/60 rounded-md px-1.5 py-0.5">
-                        <span className="material-symbols-outlined text-[#1C1814]" style={{ fontSize: 10, fontVariationSettings: "'FILL' 1" }}>play_arrow</span>
-                        <span className="text-[7px] font-bold text-[#1C1814] uppercase tracking-wide">Video</span>
+                        <span className="material-symbols-outlined text-[#15140F]" style={{ fontSize: 10, fontVariationSettings: "'FILL' 1" }}>play_arrow</span>
+                        <span className="text-[7px] font-bold text-[#15140F] uppercase tracking-wide">Video</span>
                       </div>
                     )}
 
                     {/* Uploading overlay */}
                     {item.uploading && (
                       <div className="absolute inset-0 bg-black/60 flex flex-col items-center justify-center gap-1">
-                        <span className="material-symbols-outlined text-[#1C1814] text-[20px] animate-spin">progress_activity</span>
-                        <span className="text-[8px] text-[#1C1814]/80 font-bold uppercase tracking-wider">Uploading…</span>
+                        <span className="material-symbols-outlined text-[#15140F] text-[20px] animate-spin">progress_activity</span>
+                        <span className="text-[8px] text-[#15140F]/80 font-bold uppercase tracking-wider">Uploading…</span>
                       </div>
                     )}
 
@@ -341,15 +341,15 @@ export default function MediaUpload({
 
                     {/* AI badge */}
                     {item.isAIGenerated && !item.uploading && !item.uploadError && (
-                      <div className="absolute bottom-1 left-1 w-[14px] h-[14px] rounded bg-[#7DD3C7]/90 flex items-center justify-center">
-                        <span className="material-symbols-outlined text-[#1C1814]" style={{ fontSize: 9, fontVariationSettings: "'FILL' 1" }}>auto_awesome</span>
+                      <div className="absolute bottom-1 left-1 w-[14px] h-[14px] rounded bg-[#C8553A]/90 flex items-center justify-center">
+                        <span className="material-symbols-outlined text-[#15140F]" style={{ fontSize: 9, fontVariationSettings: "'FILL' 1" }}>auto_awesome</span>
                       </div>
                     )}
 
                     {/* Index badge */}
                     {!item.uploading && (
                       <div className="absolute top-1 right-1 bg-black/50 rounded-full w-4 h-4 flex items-center justify-center">
-                        <span className="text-[8px] font-bold text-[#1C1814]">{i + 1}</span>
+                        <span className="text-[8px] font-bold text-[#15140F]">{i + 1}</span>
                       </div>
                     )}
 
@@ -362,7 +362,7 @@ export default function MediaUpload({
                             <div />
                             <div className="flex items-center justify-center gap-1">
                               <div className="w-7 h-7 rounded-lg bg-white/15 border border-white/25 flex items-center justify-center pointer-events-none">
-                                <span className="material-symbols-outlined text-[#1C1814]" style={{ fontSize: 14, fontVariationSettings: "'FILL' 1" }}>play_arrow</span>
+                                <span className="material-symbols-outlined text-[#15140F]" style={{ fontSize: 14, fontVariationSettings: "'FILL' 1" }}>play_arrow</span>
                               </div>
                               <button
                                 onClick={e => { e.stopPropagation(); onRemove(i); }}
@@ -380,9 +380,9 @@ export default function MediaUpload({
                               <button
                                 onClick={e => { e.stopPropagation(); setShowAnalyzeModal(true); }}
                                 title="Analyze & generate caption"
-                                className="w-7 h-7 rounded-lg bg-[#7DD3C7]/25 border border-[#7DD3C7]/40 flex items-center justify-center hover:bg-[#7DD3C7]/50 transition-all"
+                                className="w-7 h-7 rounded-lg bg-[#C8553A]/25 border border-[#C8553A]/40 flex items-center justify-center hover:bg-[#C8553A]/50 transition-all"
                               >
-                                <span className="material-symbols-outlined text-[#1C1814]" style={{ fontSize: 13 }}>search</span>
+                                <span className="material-symbols-outlined text-[#15140F]" style={{ fontSize: 13 }}>search</span>
                               </button>
                               <button
                                 onClick={e => { e.stopPropagation(); setEditingIndex(i); }}
@@ -413,7 +413,7 @@ export default function MediaUpload({
           <button
             onClick={() => scrollStrip('right')}
             disabled={!canScrollRight}
-            className="w-7 h-7 shrink-0 flex items-center justify-center rounded-lg border border-[#1C1814]/30 bg-[#FAF7F2] text-[#6A6470] hover:text-[#1C1814] hover:border-[#1C1814]/60 transition-all disabled:opacity-20 disabled:cursor-default"
+            className="w-7 h-7 shrink-0 flex items-center justify-center rounded-lg border border-[#15140F]/30 bg-[#FBF8F2] text-[#6B655B] hover:text-[#15140F] hover:border-[#15140F]/60 transition-all disabled:opacity-20 disabled:cursor-default"
           >
             <span className="material-symbols-outlined text-[16px]">chevron_right</span>
           </button>
@@ -422,10 +422,10 @@ export default function MediaUpload({
           {canAddMore && (
             <button
               onClick={() => fileInputRef.current?.click()}
-              className="w-24 h-24 shrink-0 rounded-xl border-2 border-dashed border-[#1C1814]/40 bg-[#FAF7F2] flex flex-col items-center justify-center gap-1 hover:border-[#7DD3C7]/50 hover:bg-[#F0EBE2] transition-all"
+              className="w-24 h-24 shrink-0 rounded-xl border-2 border-dashed border-[#15140F]/40 bg-[#FBF8F2] flex flex-col items-center justify-center gap-1 hover:border-[#C8553A]/50 hover:bg-[#EFE9DC] transition-all"
             >
-              <span className="material-symbols-outlined text-[#7DD3C7] text-[20px]">add_photo_alternate</span>
-              <span className="text-[9px] text-[#6A6470]">Add more</span>
+              <span className="material-symbols-outlined text-[#C8553A] text-[20px]">add_photo_alternate</span>
+              <span className="text-[9px] text-[#6B655B]">Add more</span>
             </button>
           )}
         </div>
@@ -434,17 +434,17 @@ export default function MediaUpload({
         <div
           className={`min-h-36 rounded-xl border-2 border-dashed flex flex-col items-center justify-center gap-3 cursor-pointer transition-all ${
             isDragOver
-              ? 'border-[#7DD3C7]/70 bg-[#7DD3C7]/8'
-              : 'border-[#1C1814]/35 hover:border-[#7DD3C7]/40 hover:bg-[#F0EBE2]/50'
+              ? 'border-[#C8553A]/70 bg-[#C8553A]/8'
+              : 'border-[#15140F]/35 hover:border-[#C8553A]/40 hover:bg-[#EFE9DC]/50'
           }`}
           onClick={() => fileInputRef.current?.click()}
         >
-          <div className={`w-12 h-12 rounded-xl flex items-center justify-center transition-colors ${isDragOver ? 'bg-[#7DD3C7]/15 border border-[#7DD3C7]/30' : 'bg-[#7DD3C7]/8'}`}>
-            <span className="material-symbols-outlined text-[#7DD3C7]" style={{ fontSize: 24, fontVariationSettings: "'FILL' 1" }}>cloud_upload</span>
+          <div className={`w-12 h-12 rounded-xl flex items-center justify-center transition-colors ${isDragOver ? 'bg-[#C8553A]/15 border border-[#C8553A]/30' : 'bg-[#C8553A]/8'}`}>
+            <span className="material-symbols-outlined text-[#C8553A]" style={{ fontSize: 24, fontVariationSettings: "'FILL' 1" }}>cloud_upload</span>
           </div>
           <div className="text-center">
-            <p className="text-sm font-medium text-[#1C1814]">Drop or <span className="text-[#7DD3C7]">browse</span></p>
-            <p className="text-[10px] text-[#6A6470] mt-0.5">Images · max 20 MB &nbsp;·&nbsp; Videos · max 50 MB</p>
+            <p className="text-sm font-medium text-[#15140F]">Drop or <span className="text-[#C8553A]">browse</span></p>
+            <p className="text-[10px] text-[#6B655B] mt-0.5">Images · max 20 MB &nbsp;·&nbsp; Videos · max 50 MB</p>
           </div>
         </div>
       )}
@@ -473,13 +473,13 @@ export default function MediaUpload({
           onClick={() => setLightboxIndex(null)}
         >
           <div
-            className="relative w-full max-w-xl bg-[#FAF7F2] rounded-2xl shadow-2xl flex flex-col my-auto"
+            className="relative w-full max-w-xl bg-[#FBF8F2] rounded-2xl shadow-2xl flex flex-col my-auto"
             onClick={e => e.stopPropagation()}
           >
             {/* Close */}
             <button
               onClick={() => setLightboxIndex(null)}
-              className="absolute top-3 right-3 z-10 w-8 h-8 rounded-full bg-black/60 backdrop-blur-sm flex items-center justify-center text-[#1C1814]/70 hover:text-[#1C1814] hover:bg-black/80 transition-all"
+              className="absolute top-3 right-3 z-10 w-8 h-8 rounded-full bg-black/60 backdrop-blur-sm flex items-center justify-center text-[#15140F]/70 hover:text-[#15140F] hover:bg-black/80 transition-all"
             >
               <span className="material-symbols-outlined text-[16px]">close</span>
             </button>
@@ -496,19 +496,19 @@ export default function MediaUpload({
 
             {/* Prompt row — AI generated only, collapsible */}
             {mediaItems[lightboxIndex].isAIGenerated && (
-              <div className="border-t border-[#1C1814]/20 bg-[#161515]">
+              <div className="border-t border-[#15140F]/20 bg-[#161515]">
                 {/* Toggle row */}
                 <button
                   onClick={() => setShowPrompt(p => !p)}
-                  className="w-full flex items-center gap-2 px-4 py-2.5 hover:bg-[#FAF7F2] transition-colors text-left"
+                  className="w-full flex items-center gap-2 px-4 py-2.5 hover:bg-[#FBF8F2] transition-colors text-left"
                 >
-                  <span className="material-symbols-outlined text-[#7DD3C7]/50 text-[13px] shrink-0" style={{ fontVariationSettings: "'FILL' 1" }}>auto_awesome</span>
-                  <span className="flex-1 text-[10px] text-[#6A6470]/70 font-medium">
+                  <span className="material-symbols-outlined text-[#C8553A]/50 text-[13px] shrink-0" style={{ fontVariationSettings: "'FILL' 1" }}>auto_awesome</span>
+                  <span className="flex-1 text-[10px] text-[#6B655B]/70 font-medium">
                     {mediaItems[lightboxIndex].prompt ? 'AI Prompt' : 'AI-generated image'}
                   </span>
                   {mediaItems[lightboxIndex].prompt && (
                     <span
-                      className="material-symbols-outlined text-[#6A6470]/40 text-[15px] transition-transform duration-200"
+                      className="material-symbols-outlined text-[#6B655B]/40 text-[15px] transition-transform duration-200"
                       style={{ transform: showPrompt ? 'rotate(180deg)' : 'rotate(0deg)' }}
                     >expand_more</span>
                   )}
@@ -521,12 +521,12 @@ export default function MediaUpload({
                     style={{ maxHeight: showPrompt ? '200px' : '0px' }}
                   >
                     <div className="px-4 pb-3 space-y-2">
-                      <p className="text-[11px] text-[#6A6470] italic leading-relaxed">
+                      <p className="text-[11px] text-[#6B655B] italic leading-relaxed">
                         "{mediaItems[lightboxIndex].prompt}"
                       </p>
                       <button
                         onClick={() => copyPrompt(mediaItems[lightboxIndex].prompt!)}
-                        className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-[#252424] border border-[#1C1814]/25 text-[10px] font-semibold text-[#6A6470] hover:text-[#1C1814] hover:border-[#1C1814]/50 transition-all active:scale-[0.97]"
+                        className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-[#252424] border border-[#15140F]/25 text-[10px] font-semibold text-[#6B655B] hover:text-[#15140F] hover:border-[#15140F]/50 transition-all active:scale-[0.97]"
                       >
                         <span className="material-symbols-outlined text-[12px]" style={{ fontVariationSettings: promptCopied ? "'FILL' 1" : "'FILL' 0" }}>
                           {promptCopied ? 'check' : 'content_copy'}
@@ -540,10 +540,10 @@ export default function MediaUpload({
             )}
 
             {/* Action buttons */}
-            <div className="flex items-center gap-2 px-4 py-3.5 border-t border-[#1C1814]/20">
+            <div className="flex items-center gap-2 px-4 py-3.5 border-t border-[#15140F]/20">
               <button
                 onClick={() => { setLightboxIndex(null); setShowAnalyzeModal(true); }}
-                className="flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl bg-[#7DD3C7]/12 border border-[#7DD3C7]/25 text-[#7DD3C7] text-[11px] font-bold hover:bg-[#7DD3C7]/22 transition-all active:scale-[0.98]"
+                className="flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl bg-[#C8553A]/12 border border-[#C8553A]/25 text-[#C8553A] text-[11px] font-bold hover:bg-[#C8553A]/22 transition-all active:scale-[0.98]"
               >
                 <span className="material-symbols-outlined text-[14px]">search</span>
                 Analyze
@@ -575,17 +575,17 @@ export default function MediaUpload({
           onClick={closeVideoPreview}
         >
           <div
-            className={`relative w-full max-w-2xl bg-[#FAF7F2] rounded-2xl overflow-hidden shadow-2xl transition-all duration-200 ${isVideoVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}
+            className={`relative w-full max-w-2xl bg-[#FBF8F2] rounded-2xl overflow-hidden shadow-2xl transition-all duration-200 ${isVideoVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}
             onClick={e => e.stopPropagation()}
           >
-            <div className="flex items-center justify-between px-4 py-3 border-b border-[#1C1814]/30">
+            <div className="flex items-center justify-between px-4 py-3 border-b border-[#15140F]/30">
               <div className="flex items-center gap-2">
-                <span className="material-symbols-outlined text-[#7DD3C7] text-[16px]" style={{ fontVariationSettings: "'FILL' 1" }}>play_circle</span>
-                <span className="text-[#1C1814] text-sm font-semibold">Video Preview</span>
+                <span className="material-symbols-outlined text-[#C8553A] text-[16px]" style={{ fontVariationSettings: "'FILL' 1" }}>play_circle</span>
+                <span className="text-[#15140F] text-sm font-semibold">Video Preview</span>
               </div>
               <button
                 onClick={closeVideoPreview}
-                className="w-7 h-7 flex items-center justify-center rounded-lg text-[#6A6470] hover:text-[#1C1814] hover:bg-white/10 transition-all"
+                className="w-7 h-7 flex items-center justify-center rounded-lg text-[#6B655B] hover:text-[#15140F] hover:bg-white/10 transition-all"
               >
                 <span className="material-symbols-outlined text-[18px]">close</span>
               </button>

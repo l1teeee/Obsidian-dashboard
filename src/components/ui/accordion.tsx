@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import * as AccordionPrimitive from "@radix-ui/react-accordion";
 import * as React from "react";
@@ -12,7 +12,7 @@ const AccordionItem = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <AccordionPrimitive.Item
     ref={ref}
-    className={cn("border-b border-white/[0.07]", className)}
+    className={cn("border-b border-[rgba(21,20,15,0.10)]", className)}
     {...props}
   />
 ));
@@ -26,7 +26,7 @@ const AccordionTrigger = React.forwardRef<
     <AccordionPrimitive.Trigger
       ref={ref}
       className={cn(
-        "flex flex-1 items-center justify-between py-5 text-left font-semibold text-[#1C1814]/80 transition-all hover:text-[#1C1814] [&[data-state=open]>svg]:rotate-180 [&[data-state=open]]:text-[#1C1814]",
+        "flex flex-1 items-center justify-between py-5 text-left font-semibold text-[#15140F]/80 transition-all hover:text-[#15140F] [&[data-state=open]>svg]:rotate-180 data-[state=open]:text-[#15140F]",
         className,
       )}
       {...props}
@@ -42,7 +42,7 @@ const AccordionTrigger = React.forwardRef<
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
-        className="shrink-0 text-[#7DD3C7]/70 transition-transform duration-200"
+        className="shrink-0 text-[#C8553A]/70 transition-transform duration-200"
         aria-hidden="true"
       >
         <path d="m6 9 6 6 6-6" />
@@ -61,7 +61,7 @@ const AccordionContent = React.forwardRef<
     className="overflow-hidden text-sm data-[state=closed]:animate-[accordion-up_0.22s_ease-out] data-[state=open]:animate-[accordion-down_0.22s_ease-out]"
     {...props}
   >
-    <div className={cn("pb-5 pt-0 text-[#1C1814]/50 leading-[1.8]", className)}>{children}</div>
+    <div className={cn("pb-5 pt-0 text-[#6B655B] leading-[1.8]", className)}>{children}</div>
   </AccordionPrimitive.Content>
 ));
 AccordionContent.displayName = AccordionPrimitive.Content.displayName;

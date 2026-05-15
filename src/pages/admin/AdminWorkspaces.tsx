@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+﻿import { useEffect, useRef, useState } from 'react';
 import {
   ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip,
 } from 'recharts';
@@ -86,22 +86,22 @@ export default function AdminWorkspaces() {
           <div className="w-2 h-2 rounded-full bg-[#f87171]" />
           <span className="text-[#f87171] text-xs uppercase tracking-widest font-bold">Admin</span>
         </div>
-        <h1 className="font-headline text-3xl font-extrabold tracking-tighter text-[#1C1814]">Workspaces</h1>
-        {meta && <p className="text-[#6A6470] text-sm mt-1">{meta.total.toLocaleString()} total workspaces</p>}
+        <h1 className="font-headline text-3xl font-extrabold tracking-tighter text-[#15140F]">Workspaces</h1>
+        {meta && <p className="text-[#6B655B] text-sm mt-1">{meta.total.toLocaleString()} total workspaces</p>}
       </div>
 
       {/* Chart — only when not searching */}
       {!loading && !error && !search && chartData.length > 0 && (
-        <div className="glass-card rounded-3xl p-6 border border-[#1C1814]/10">
-          <p className="text-[#1C1814] font-headline font-bold mb-1">Top 10 by Post Count</p>
-          <p className="text-[#6A6470] text-xs mb-5">Posts published per workspace</p>
+        <div className="glass-card rounded-3xl p-6 border border-[#15140F]/10">
+          <p className="text-[#15140F] font-headline font-bold mb-1">Top 10 by Post Count</p>
+          <p className="text-[#6B655B] text-xs mb-5">Posts published per workspace</p>
           <ResponsiveContainer width="100%" height={200}>
             <BarChart data={chartData} barSize={20}>
               <CartesianGrid strokeDasharray="3 3" stroke="#4c4450" strokeOpacity={0.2} vertical={false} />
               <XAxis dataKey="name" tick={{ fill: '#988d9c', fontSize: 10 }} axisLine={false} tickLine={false} />
               <YAxis tick={{ fill: '#988d9c', fontSize: 10 }} axisLine={false} tickLine={false} width={28} />
               <Tooltip contentStyle={chartTooltipStyle} cursor={{ fill: 'rgba(197,210,71,0.06)' }} labelStyle={{ color: '#cfc2d2', marginBottom: 4 }} />
-              <Bar dataKey="posts" name="Posts" fill="#c5d247" radius={[6, 6, 0, 0]} />
+              <Bar dataKey="posts" name="Posts" fill="#4F7A4A" radius={[6, 6, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </div>
@@ -109,12 +109,12 @@ export default function AdminWorkspaces() {
 
       {/* Search */}
       <div className="relative max-w-xs">
-        <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[#6A6470]" style={{ fontSize: 16 }}>search</span>
+        <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[#6B655B]" style={{ fontSize: 16 }}>search</span>
         <input
           value={search}
           onChange={e => handleSearch(e.target.value)}
           placeholder="Search workspaces..."
-          className="w-full bg-[#FAF7F2] border border-[#1C1814]/20 rounded-xl py-2.5 pl-9 pr-4 text-sm text-[#1C1814] placeholder:text-[#1C1814] focus:outline-none focus:border-[#7DD3C7]/40 transition-all"
+          className="w-full bg-[#FBF8F2] border border-[#15140F]/20 rounded-xl py-2.5 pl-9 pr-4 text-sm text-[#15140F] placeholder:text-[#6B655B] focus:outline-none focus:border-[#C8553A]/40 transition-all"
         />
       </div>
 
@@ -125,39 +125,39 @@ export default function AdminWorkspaces() {
       )}
 
       {/* Table */}
-      <div className="glass-card rounded-3xl border border-[#1C1814]/10 overflow-hidden">
+      <div className="glass-card rounded-3xl border border-[#15140F]/10 overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-[#1C1814]/10">
-                <th className="text-left px-6 py-4 text-[#6A6470] text-xs uppercase tracking-widest font-semibold">Workspace</th>
-                <th className="text-left px-6 py-4 text-[#6A6470] text-xs uppercase tracking-widest font-semibold">Owner</th>
-                <th className="text-center px-6 py-4 text-[#6A6470] text-xs uppercase tracking-widest font-semibold">Posts</th>
-                <th className="text-left px-6 py-4 text-[#6A6470] text-xs uppercase tracking-widest font-semibold">Status</th>
-                <th className="text-right px-6 py-4 text-[#6A6470] text-xs uppercase tracking-widest font-semibold">Created</th>
-                <th className="text-center px-6 py-4 text-[#6A6470] text-xs uppercase tracking-widest font-semibold">Actions</th>
+              <tr className="bg-[#EFE9DC] border-b border-[#15140F]/10">
+                <th className="text-left px-6 py-4 text-[#6B655B] text-xs uppercase tracking-widest font-semibold">Workspace</th>
+                <th className="text-left px-6 py-4 text-[#6B655B] text-xs uppercase tracking-widest font-semibold">Owner</th>
+                <th className="text-center px-6 py-4 text-[#6B655B] text-xs uppercase tracking-widest font-semibold">Posts</th>
+                <th className="text-left px-6 py-4 text-[#6B655B] text-xs uppercase tracking-widest font-semibold">Status</th>
+                <th className="text-right px-6 py-4 text-[#6B655B] text-xs uppercase tracking-widest font-semibold">Created</th>
+                <th className="text-center px-6 py-4 text-[#6B655B] text-xs uppercase tracking-widest font-semibold">Actions</th>
               </tr>
             </thead>
             <tbody>
               {loading ? (
                 Array.from({ length: 8 }).map((_, i) => (
-                  <tr key={i} className="border-b border-[#1C1814]/5 animate-pulse">
+                  <tr key={i} className="bg-white border-b border-[#15140F]/5 animate-pulse">
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-lg bg-[#E5DFD6]" />
-                        <div className="h-3 w-32 bg-[#E5DFD6] rounded-full" />
+                        <div className="w-8 h-8 rounded-lg bg-[#E7E0D0]" />
+                        <div className="h-3 w-32 bg-[#E7E0D0] rounded-full" />
                       </div>
                     </td>
-                    <td className="px-6 py-4"><div className="h-3 w-28 bg-[#E5DFD6] rounded-full" /></td>
-                    <td className="px-6 py-4"><div className="h-3 w-8 bg-[#E5DFD6] rounded-full mx-auto" /></td>
-                    <td className="px-6 py-4"><div className="h-3 w-16 bg-[#E5DFD6] rounded-full" /></td>
-                    <td className="px-6 py-4"><div className="h-3 w-20 bg-[#E5DFD6] rounded-full ml-auto" /></td>
-                    <td className="px-6 py-4"><div className="h-3 w-16 bg-[#E5DFD6] rounded-full mx-auto" /></td>
+                    <td className="px-6 py-4"><div className="h-3 w-28 bg-[#E7E0D0] rounded-full" /></td>
+                    <td className="px-6 py-4"><div className="h-3 w-8 bg-[#E7E0D0] rounded-full mx-auto" /></td>
+                    <td className="px-6 py-4"><div className="h-3 w-16 bg-[#E7E0D0] rounded-full" /></td>
+                    <td className="px-6 py-4"><div className="h-3 w-20 bg-[#E7E0D0] rounded-full ml-auto" /></td>
+                    <td className="px-6 py-4"><div className="h-3 w-16 bg-[#E7E0D0] rounded-full mx-auto" /></td>
                   </tr>
                 ))
               ) : workspaces.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className="px-6 py-16 text-center text-[#1C1814]">
+                  <td colSpan={6} className="px-6 py-16 text-center text-[#15140F]">
                     <span className="material-symbols-outlined text-4xl block mb-2">workspaces</span>
                     No workspaces found
                   </td>
@@ -167,41 +167,41 @@ export default function AdminWorkspaces() {
                   <tr
                     key={ws.id}
                     className={[
-                      'border-b border-[#1C1814]/5 transition-colors',
-                      !ws.is_active ? 'opacity-50 hover:opacity-70' : 'hover:bg-white/[0.02]',
+                      'bg-white border-b border-[#15140F]/5 transition-colors',
+                      !ws.is_active ? 'opacity-50 hover:opacity-70' : 'hover:bg-[#FBF8F2]',
                     ].join(' ')}
                   >
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-[#7DD3C7] to-[#D6A86A] flex items-center justify-center shrink-0">
-                          <span className="material-symbols-outlined text-[#1C1814]" style={{ fontSize: 14 }}>workspaces</span>
+                        <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-[#C8553A] to-[#D6A86A] flex items-center justify-center shrink-0">
+                          <span className="material-symbols-outlined text-white" style={{ fontSize: 14 }}>workspaces</span>
                         </div>
-                        <span className="text-[#1C1814] font-semibold text-xs">{ws.name}</span>
+                        <span className="text-[#15140F] font-semibold text-xs">{ws.name}</span>
                       </div>
                     </td>
                     <td className="px-6 py-4">
                       <div>
-                        <p className="text-[#1C1814] text-xs font-medium">{ws.owner_name ?? '—'}</p>
-                        <p className="text-[#6A6470] text-xs">{ws.owner_email}</p>
+                        <p className="text-[#15140F] text-xs font-medium">{ws.owner_name ?? '—'}</p>
+                        <p className="text-[#6B655B] text-xs">{ws.owner_email}</p>
                       </div>
                     </td>
                     <td className="px-6 py-4 text-center">
-                      <span className="font-mono text-[#1C1814] text-sm">{ws.post_count}</span>
+                      <span className="font-mono text-[#15140F] text-sm">{ws.post_count}</span>
                     </td>
                     <td className="px-6 py-4">
                       {ws.is_active ? (
-                        <span className="flex items-center gap-1.5 text-[#c5d247] text-xs">
-                          <span className="w-1.5 h-1.5 rounded-full bg-[#c5d247]" />
+                        <span className="flex items-center gap-1.5 text-[#4F7A4A] text-xs">
+                          <span className="w-1.5 h-1.5 rounded-full bg-[#4F7A4A]" />
                           Active
                         </span>
                       ) : (
-                        <span className="flex items-center gap-1.5 text-[#f87171] text-xs">
-                          <span className="w-1.5 h-1.5 rounded-full bg-[#f87171]" />
+                        <span className="flex items-center gap-1.5 text-[#C0392B] text-xs">
+                          <span className="w-1.5 h-1.5 rounded-full bg-[#C0392B]" />
                           Deactivated
                         </span>
                       )}
                     </td>
-                    <td className="px-6 py-4 text-right text-[#6A6470] text-xs">{fmtDate(ws.created_at)}</td>
+                    <td className="px-6 py-4 text-right text-[#6B655B] text-xs">{fmtDate(ws.created_at)}</td>
                     <td className="px-6 py-4">
                       <div className="flex items-center justify-center">
                         {ws.is_active ? (
@@ -215,7 +215,7 @@ export default function AdminWorkspaces() {
                         ) : (
                           <button
                             onClick={() => setConfirm({ workspace: ws, action: 'activate' })}
-                            className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-[10px] font-bold text-[#c5d247] bg-[#c5d247]/8 border border-[#c5d247]/20 hover:bg-[#c5d247]/15 hover:border-[#c5d247]/35 transition-all whitespace-nowrap"
+                            className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-[10px] font-bold text-[#4F7A4A] bg-[#4F7A4A]/8 border border-[#4F7A4A]/20 hover:bg-[#4F7A4A]/15 hover:border-[#4F7A4A]/35 transition-all whitespace-nowrap"
                           >
                             <span className="material-symbols-outlined" style={{ fontSize: 11, fontVariationSettings: "'FILL' 1" }}>play_circle</span>
                             Activate
@@ -241,26 +241,26 @@ export default function AdminWorkspaces() {
             <div className="p-8">
               <div className={[
                 'w-12 h-12 rounded-2xl flex items-center justify-center mb-5 border',
-                isDeactivate ? 'bg-[#f87171]/10 border-[#f87171]/20' : 'bg-[#c5d247]/10 border-[#c5d247]/20',
+                isDeactivate ? 'bg-[#f87171]/10 border-[#f87171]/20' : 'bg-[#4F7A4A]/10 border-[#4F7A4A]/20',
               ].join(' ')}>
                 <span
                   className="material-symbols-outlined"
-                  style={{ fontSize: 22, color: isDeactivate ? '#f87171' : '#c5d247', fontVariationSettings: "'FILL' 1" }}
+                  style={{ fontSize: 22, color: isDeactivate ? '#f87171' : '#4F7A4A', fontVariationSettings: "'FILL' 1" }}
                 >
                   {isDeactivate ? 'block' : 'play_circle'}
                 </span>
               </div>
 
-              <h2 className="text-xl font-headline font-extrabold tracking-tight text-[#1C1814] mb-1">
+              <h2 className="text-xl font-headline font-extrabold tracking-tight text-[#15140F] mb-1">
                 {isDeactivate ? 'Deactivate workspace?' : 'Activate workspace?'}
               </h2>
-              <p className="text-xs text-[#5C5650] font-semibold mb-1">{confirm.workspace.name}</p>
-              <p className="text-xs text-[#1C1814] mb-4">{confirm.workspace.owner_email}</p>
+              <p className="text-xs text-[#3D3A30] font-semibold mb-1">{confirm.workspace.name}</p>
+              <p className="text-xs text-[#15140F] mb-4">{confirm.workspace.owner_email}</p>
 
-              <p className="text-sm text-[#6A6470] mb-6">
+              <p className="text-sm text-[#6B655B] mb-6">
                 {isDeactivate
                   ? <>This workspace will be <span className="text-[#f87171] font-semibold">disabled</span> and its content will be inaccessible.</>
-                  : <>This workspace will be <span className="text-[#c5d247] font-semibold">re-enabled</span> and accessible again.</>
+                  : <>This workspace will be <span className="text-[#4F7A4A] font-semibold">re-enabled</span> and accessible again.</>
                 }
               </p>
 
@@ -270,7 +270,7 @@ export default function AdminWorkspaces() {
                   disabled={working}
                   className={[
                     'w-full py-3 rounded-xl font-bold text-sm transition-all disabled:opacity-40 disabled:cursor-not-allowed',
-                    isDeactivate ? 'bg-[#f87171] text-[#1C1814] hover:bg-[#fca5a5]' : 'bg-[#c5d247] text-[#1a1d00] hover:bg-[#d4e24f]',
+                    isDeactivate ? 'bg-[#C0392B] text-white hover:bg-[#e74c3c]' : 'bg-[#4F7A4A] text-white hover:bg-[#15803d]',
                   ].join(' ')}
                 >
                   {working
@@ -281,7 +281,7 @@ export default function AdminWorkspaces() {
                 <button
                   onClick={() => setConfirm(null)}
                   disabled={working}
-                  className="w-full py-3 rounded-xl border border-[#1C1814]/20 text-sm font-semibold text-[#5C5650] hover:bg-[#F0EBE2] hover:text-[#1C1814] disabled:opacity-50 transition-all"
+                  className="w-full py-3 rounded-xl border border-[#15140F]/20 text-sm font-semibold text-[#3D3A30] hover:bg-[#EFE9DC] hover:text-[#15140F] disabled:opacity-50 transition-all"
                 >
                   Cancel
                 </button>

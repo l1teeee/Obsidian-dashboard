@@ -1,4 +1,4 @@
-import type { RefObject } from 'react';
+﻿import type { RefObject } from 'react';
 import type { KpiCard as KpiCardData } from '../../hooks/useDashboard';
 
 interface KpiCardProps {
@@ -11,17 +11,17 @@ export default function KpiCard({ kpi, cardRef, countRef }: KpiCardProps) {
   return (
     <div
       ref={cardRef}
-      className="surface-card p-5 transition-all hover:border-[#7DD3C7]/24 md:p-6"
+      className="surface-card p-5 transition-all hover:border-[#C8553A]/24 md:p-6"
     >
-      <p className="text-[#6A6470] text-xs uppercase tracking-[0.14em] font-bold mb-4">{kpi.label}</p>
+      <p className="text-[#6B655B] text-xs uppercase tracking-[0.14em] font-bold mb-4">{kpi.label}</p>
 
       <div className="flex items-baseline gap-2 flex-wrap">
-        <span ref={countRef} className="font-mono text-3xl font-medium text-[#1C1814]">
+        <span ref={countRef} className="font-mono text-3xl font-medium text-[#15140F]">
           {kpi.display}
         </span>
 
         {kpi.delta && kpi.positive !== null && (
-          <span className={`font-mono text-xs font-semibold flex items-center gap-0.5 ${kpi.positive ? 'text-[#C5D247]' : 'text-[#6A6470]'}`}>
+          <span className={`font-mono text-xs font-semibold flex items-center gap-0.5 ${kpi.positive ? 'text-[#4F7A4A]' : 'text-[#6B655B]'}`}>
             {kpi.positive && (
               <span className="material-symbols-outlined" style={{ fontSize: 12 }}>arrow_upward</span>
             )}
@@ -29,7 +29,7 @@ export default function KpiCard({ kpi, cardRef, countRef }: KpiCardProps) {
           </span>
         )}
         {kpi.delta && kpi.positive === null && (
-          <span className="text-xs text-[#6A6470]">{kpi.delta}</span>
+          <span className="text-xs text-[#6B655B]">{kpi.delta}</span>
         )}
       </div>
 
@@ -47,7 +47,7 @@ export default function KpiCard({ kpi, cardRef, countRef }: KpiCardProps) {
 
       {/* Progress bar */}
       {kpi.type === 'bar' && (
-        <div className="mt-4 h-1 w-full bg-[#353534] rounded-full overflow-hidden">
+        <div className="mt-4 h-1 w-full bg-[#D8D2C4] rounded-full overflow-hidden">
           <div className="h-full rounded-full" style={{ width: `${kpi.bar}%`, background: kpi.barColor, boxShadow: `0 0 10px ${kpi.glow}` }} />
         </div>
       )}
@@ -59,7 +59,7 @@ export default function KpiCard({ kpi, cardRef, countRef }: KpiCardProps) {
             const filled = kpi.countEnd > j * 2;
             return (
               <div key={j} className="h-1 flex-1 rounded-full transition-all duration-500"
-                style={{ background: filled ? '#7DD3C7' : '#353534' }} />
+                style={{ background: filled ? '#C8553A' : '#D8D2C4' }} />
             );
           })}
         </div>

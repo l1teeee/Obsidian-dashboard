@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+﻿import { useEffect, useRef, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useGSAP } from '../hooks/useGSAP';
 import gsap from 'gsap';
@@ -115,19 +115,19 @@ export default function ResetPassword() {
   if (success) {
     return (
       <div className="auth-bg relative flex min-h-screen items-center justify-center overflow-hidden px-4 py-16">
-        <div className="pointer-events-none absolute -left-32 -top-32 h-[500px] w-[500px] rounded-full bg-[#7DD3C7]/10 blur-[120px]" />
+        <div className="pointer-events-none absolute -left-32 -top-32 h-[500px] w-[500px] rounded-full bg-[#C8553A]/10 blur-[120px]" />
         <div className="pointer-events-none absolute -bottom-32 -right-32 h-[420px] w-[420px] rounded-full bg-inverse-primary/10 blur-[100px]" />
-        <div ref={successRef} className="relative w-full max-w-[400px] overflow-hidden rounded-[2rem] border border-[#1C1814]/20 bg-[#FAF7F2]/70 p-10 text-center shadow-[0_30px_120px_rgba(0,0,0,0.28)] backdrop-blur-2xl">
+        <div ref={successRef} className="relative w-full max-w-[400px] overflow-hidden rounded-[2rem] border border-[#15140F]/20 bg-[#FBF8F2]/70 p-10 text-center shadow-[0_30px_120px_rgba(0,0,0,0.28)] backdrop-blur-2xl">
           <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/[0.08] to-transparent" />
           <div className="mb-6 flex justify-center">
             <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
-              <circle cx="32" cy="32" r="30" stroke="#7DD3C7" strokeWidth="2" fill="rgba(125,211,199,0.06)"/>
-              <path d="M19 32L28 42L45 24" stroke="#7DD3C7" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+              <circle cx="32" cy="32" r="30" stroke="#C8553A" strokeWidth="2" fill="rgba(200,85,58,0.06)"/>
+              <path d="M19 32L28 42L45 24" stroke="#C8553A" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
           </div>
-          <p className="text-[0.6875rem] font-semibold uppercase tracking-[0.24em] text-[#7DD3C7]/70 mb-2">Done</p>
-          <h1 className="font-headline text-2xl font-bold tracking-tight text-[#1C1814] mb-3">Password updated!</h1>
-          <p className="text-sm text-[#78736E]/60">Redirecting you to login…</p>
+          <p className="text-[0.6875rem] font-semibold uppercase tracking-[0.24em] text-[#C8553A]/70 mb-2">Done</p>
+          <h1 className="font-headline text-2xl font-bold tracking-tight text-[#15140F] mb-3">Password updated!</h1>
+          <p className="text-sm text-[#A39B8B]/60">Redirecting you to login…</p>
         </div>
       </div>
     );
@@ -138,29 +138,29 @@ export default function ResetPassword() {
       ref={containerRef}
       className="auth-bg relative flex min-h-screen items-center justify-center overflow-hidden px-4 py-16"
     >
-      <div className="pointer-events-none absolute -left-32 -top-32 h-[500px] w-[500px] rounded-full bg-[#7DD3C7]/10 blur-[120px]" />
+      <div className="pointer-events-none absolute -left-32 -top-32 h-[500px] w-[500px] rounded-full bg-[#C8553A]/10 blur-[120px]" />
       <div className="pointer-events-none absolute -bottom-32 -right-32 h-[420px] w-[420px] rounded-full bg-inverse-primary/10 blur-[100px]" />
 
-      <div className="relative w-full max-w-[440px] overflow-hidden rounded-[2rem] border border-[#1C1814]/20 bg-[#FAF7F2]/70 p-10 shadow-[0_30px_120px_rgba(0,0,0,0.28)] backdrop-blur-2xl">
+      <div className="relative w-full max-w-[440px] overflow-hidden rounded-[2rem] border border-[#15140F]/20 bg-[#FBF8F2]/70 p-10 shadow-[0_30px_120px_rgba(0,0,0,0.28)] backdrop-blur-2xl">
         <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/[0.08] to-transparent" />
 
         {/* Header */}
         <div data-rp-anim className="mb-8 flex items-center justify-between">
           <div className="flex items-center gap-2.5">
-            <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#7DD3C7]/15">
-              <div className="h-2.5 w-2.5 rounded-full bg-[#7DD3C7]" />
+            <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#C8553A]/15">
+              <div className="h-2.5 w-2.5 rounded-full bg-[#C8553A]" />
             </div>
-            <span className="font-headline text-base font-bold tracking-tight text-[#1C1814]">Vielinks</span>
+            <span className="font-headline text-base font-bold tracking-tight text-[#15140F]">Vielinks</span>
           </div>
           {step === 1 ? (
-            <Link to="/forgot-password" className="flex items-center gap-1.5 text-[0.7rem] text-[#6A6470] hover:text-[#1C1814] transition-colors">
+            <Link to="/forgot-password" className="flex items-center gap-1.5 text-[0.7rem] text-[#6B655B] hover:text-[#15140F] transition-colors">
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M19 12H5M12 5l-7 7 7 7"/>
               </svg>
               Back
             </Link>
           ) : (
-            <button type="button" onClick={() => { setStep(1); setError(null); }} className="flex items-center gap-1.5 text-[0.7rem] text-[#6A6470] hover:text-[#1C1814] transition-colors">
+            <button type="button" onClick={() => { setStep(1); setError(null); }} className="flex items-center gap-1.5 text-[0.7rem] text-[#6B655B] hover:text-[#15140F] transition-colors">
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M19 12H5M12 5l-7 7 7 7"/>
               </svg>
@@ -171,34 +171,34 @@ export default function ResetPassword() {
 
         {/* Step indicator */}
         <div data-rp-anim className="mb-6 flex items-center gap-2">
-          <div className={`h-1.5 flex-1 rounded-full transition-all duration-300 ${step >= 1 ? 'bg-[#7DD3C7]' : 'bg-[#1C1814]/30'}`} />
-          <div className={`h-1.5 flex-1 rounded-full transition-all duration-300 ${step >= 2 ? 'bg-[#7DD3C7]' : 'bg-[#1C1814]/30'}`} />
+          <div className={`h-1.5 flex-1 rounded-full transition-all duration-300 ${step >= 1 ? 'bg-[#C8553A]' : 'bg-[#15140F]/30'}`} />
+          <div className={`h-1.5 flex-1 rounded-full transition-all duration-300 ${step >= 2 ? 'bg-[#C8553A]' : 'bg-[#15140F]/30'}`} />
         </div>
 
         {/* ── Step 1: Verify OTP ── */}
         {step === 1 && (
           <>
             <div data-rp-anim className="mb-8 space-y-2">
-              <p className="text-[0.6875rem] font-semibold uppercase tracking-[0.24em] text-[#7DD3C7]/70">Step 1 of 2</p>
-              <h1 className="font-headline text-2xl font-bold tracking-tight text-[#1C1814]">Enter your reset code</h1>
-              <p className="text-sm text-[#78736E]/50">
-                We sent a 6-digit code to <span className="text-[#1C1814]/70">{email}</span>.
+              <p className="text-[0.6875rem] font-semibold uppercase tracking-[0.24em] text-[#C8553A]/70">Step 1 of 2</p>
+              <h1 className="font-headline text-2xl font-bold tracking-tight text-[#15140F]">Enter your reset code</h1>
+              <p className="text-sm text-[#A39B8B]/50">
+                We sent a 6-digit code to <span className="text-[#15140F]/70">{email}</span>.
               </p>
             </div>
 
-            <div data-rp-anim className={`mb-6 flex items-center gap-2 text-xs font-medium ${expired ? 'text-red-400' : 'text-[#78736E]/60'}`}>
+            <div data-rp-anim className={`mb-6 flex items-center gap-2 text-xs font-medium ${expired ? 'text-red-400' : 'text-[#A39B8B]/60'}`}>
               <span className="material-symbols-outlined" style={{ fontSize: 14 }}>
                 {expired ? 'timer_off' : 'timer'}
               </span>
               {expired ? 'Code expired' : `Code expires in ${timeLeft}s`}
               {expired && (
-                <Link to="/forgot-password" className="ml-auto text-[#7DD3C7] hover:underline">Resend</Link>
+                <Link to="/forgot-password" className="ml-auto text-[#C8553A] hover:underline">Resend</Link>
               )}
             </div>
 
             <form className="space-y-5" onSubmit={(e) => { void handleVerifyOtp(e); }}>
               <div data-rp-anim className="space-y-2">
-                <label className="block text-[0.6875rem] font-semibold uppercase tracking-[0.18em] text-[#78736E]/60">
+                <label className="block text-[0.6875rem] font-semibold uppercase tracking-[0.18em] text-[#A39B8B]/60">
                   Reset code
                 </label>
                 <input
@@ -212,7 +212,7 @@ export default function ResetPassword() {
                   value={otp}
                   onChange={e => setOtp(e.target.value.replace(/\D/g, '').slice(0, 6))}
                   disabled={loading || expired}
-                  className="w-full rounded-[0.875rem] border border-[#1C1814]/30 bg-[#1C1814]/[0.05] px-4 py-3.5 text-center text-lg font-bold tracking-[0.5em] text-[#1C1814] placeholder:text-[#78736E]/35 transition-all duration-300 focus:border-[#7DD3C7]/40 focus:outline-none focus:ring-1 focus:ring-[#7DD3C7]/20 disabled:opacity-40"
+                  className="w-full rounded-[0.875rem] border border-[#15140F]/30 bg-[#FBF8F2] px-4 py-3.5 text-center text-lg font-bold tracking-[0.5em] text-[#15140F] placeholder:text-[#A39B8B]/35 transition-all duration-300 focus:border-[#C8553A]/40 focus:outline-none focus:ring-1 focus:ring-[#C8553A]/20 disabled:opacity-40"
                 />
               </div>
 
@@ -226,7 +226,7 @@ export default function ResetPassword() {
                 data-rp-anim
                 type="submit"
                 disabled={loading || expired || otp.length !== 6}
-                className="w-full rounded-xl bg-[#7DD3C7] px-6 py-3.5 text-sm font-bold text-[#0B0B0A] transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_0_40px_rgba(125,211,199,0.28)] active:scale-[0.98] disabled:opacity-60 disabled:pointer-events-none"
+                className="w-full rounded-xl bg-[#C8553A] px-6 py-3.5 text-sm font-bold text-white transition-all duration-300 hover:scale-[1.02] hover:bg-[#A53F28] hover:shadow-[0_0_40px_rgba(200,85,58,0.28)] active:scale-[0.98] disabled:opacity-60 disabled:pointer-events-none"
               >
                 {loading ? 'Verifying…' : 'Verify code'}
               </button>
@@ -238,14 +238,14 @@ export default function ResetPassword() {
         {step === 2 && (
           <>
             <div data-rp-anim className="mb-8 space-y-2">
-              <p className="text-[0.6875rem] font-semibold uppercase tracking-[0.24em] text-[#7DD3C7]/70">Step 2 of 2</p>
-              <h1 className="font-headline text-2xl font-bold tracking-tight text-[#1C1814]">Set your new password</h1>
-              <p className="text-sm text-[#78736E]/50">Choose a strong password for your account.</p>
+              <p className="text-[0.6875rem] font-semibold uppercase tracking-[0.24em] text-[#C8553A]/70">Step 2 of 2</p>
+              <h1 className="font-headline text-2xl font-bold tracking-tight text-[#15140F]">Set your new password</h1>
+              <p className="text-sm text-[#A39B8B]/50">Choose a strong password for your account.</p>
             </div>
 
             <form className="space-y-5" onSubmit={(e) => { void handleResetPassword(e); }}>
               <div data-rp-anim className="space-y-2">
-                <label className="block text-[0.6875rem] font-semibold uppercase tracking-[0.18em] text-[#78736E]/60">New password</label>
+                <label className="block text-[0.6875rem] font-semibold uppercase tracking-[0.18em] text-[#A39B8B]/60">New password</label>
                 <div className="relative">
                   <input
                     type={showPass ? 'text' : 'password'}
@@ -257,12 +257,12 @@ export default function ResetPassword() {
                     onChange={e => setPassword(e.target.value)}
                     disabled={loading}
                     onCopy={e => e.preventDefault()}
-                    className="w-full rounded-[0.875rem] border border-[#1C1814]/30 bg-[#1C1814]/[0.05] px-4 py-3.5 pr-11 text-sm text-[#1C1814] placeholder:text-[#78736E]/35 transition-all duration-300 focus:border-[#7DD3C7]/40 focus:outline-none focus:ring-1 focus:ring-[#7DD3C7]/20"
+                    className="w-full rounded-[0.875rem] border border-[#15140F]/30 bg-[#FBF8F2] px-4 py-3.5 pr-11 text-sm text-[#15140F] placeholder:text-[#A39B8B]/35 transition-all duration-300 focus:border-[#C8553A]/40 focus:outline-none focus:ring-1 focus:ring-[#C8553A]/20"
                   />
                   <button type="button" onClick={() => setShowPass(v => !v)}
                     aria-label={showPass ? 'Hide password' : 'Show password'}
                     aria-pressed={showPass}
-                    className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#78736E]/40 transition-colors duration-200 hover:text-[#7DD3C7]">
+                    className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#A39B8B]/40 transition-colors duration-200 hover:text-[#C8553A]">
                     <EyeIcon open={showPass} />
                   </button>
                 </div>
@@ -284,7 +284,7 @@ export default function ResetPassword() {
                       ['number',    'One number'],
                       ['special',   'One special character'],
                     ] as [keyof typeof pwRules, string][]).map(([key, label]) => (
-                      <span key={key} className={`flex items-center gap-1.5 text-[0.7rem] transition-colors duration-200 ${pwRules[key] ? 'text-[#22c55e]' : 'text-[#78736E]/45'}`}>
+                      <span key={key} className={`flex items-center gap-1.5 text-[0.7rem] transition-colors duration-200 ${pwRules[key] ? 'text-[#22c55e]' : 'text-[#A39B8B]/60'}`}>
                         <span className="material-symbols-outlined" style={{ fontSize: 13 }}>
                           {pwRules[key] ? 'check_circle' : 'radio_button_unchecked'}
                         </span>
@@ -296,7 +296,7 @@ export default function ResetPassword() {
               )}
 
               <div data-rp-anim className="space-y-2">
-                <label className="block text-[0.6875rem] font-semibold uppercase tracking-[0.18em] text-[#78736E]/60">Confirm new password</label>
+                <label className="block text-[0.6875rem] font-semibold uppercase tracking-[0.18em] text-[#A39B8B]/60">Confirm new password</label>
                 <div className="relative">
                   <input
                     type={showConfirm ? 'text' : 'password'}
@@ -307,12 +307,12 @@ export default function ResetPassword() {
                     onChange={e => setConfirm(e.target.value)}
                     disabled={loading}
                     onPaste={e => e.preventDefault()}
-                    className="w-full rounded-[0.875rem] border border-[#1C1814]/30 bg-[#1C1814]/[0.05] px-4 py-3.5 pr-11 text-sm text-[#1C1814] placeholder:text-[#78736E]/35 transition-all duration-300 focus:border-[#7DD3C7]/40 focus:outline-none focus:ring-1 focus:ring-[#7DD3C7]/20"
+                    className="w-full rounded-[0.875rem] border border-[#15140F]/30 bg-[#FBF8F2] px-4 py-3.5 pr-11 text-sm text-[#15140F] placeholder:text-[#A39B8B]/35 transition-all duration-300 focus:border-[#C8553A]/40 focus:outline-none focus:ring-1 focus:ring-[#C8553A]/20"
                   />
                   <button type="button" onClick={() => setShowConfirm(v => !v)}
                     aria-label={showConfirm ? 'Hide confirm password' : 'Show confirm password'}
                     aria-pressed={showConfirm}
-                    className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#78736E]/40 transition-colors duration-200 hover:text-[#7DD3C7]">
+                    className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#A39B8B]/40 transition-colors duration-200 hover:text-[#C8553A]">
                     <EyeIcon open={showConfirm} />
                   </button>
                 </div>
@@ -328,7 +328,7 @@ export default function ResetPassword() {
                 data-rp-anim
                 type="submit"
                 disabled={loading || !pwAllMet || password !== confirm}
-                className="w-full rounded-xl bg-[#7DD3C7] px-6 py-3.5 text-sm font-bold text-[#0B0B0A] transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_0_40px_rgba(125,211,199,0.28)] active:scale-[0.98] disabled:opacity-60 disabled:pointer-events-none"
+                className="w-full rounded-xl bg-[#C8553A] px-6 py-3.5 text-sm font-bold text-white transition-all duration-300 hover:scale-[1.02] hover:bg-[#A53F28] hover:shadow-[0_0_40px_rgba(200,85,58,0.28)] active:scale-[0.98] disabled:opacity-60 disabled:pointer-events-none"
               >
                 {loading ? 'Updating password…' : 'Update password'}
               </button>

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+﻿import { useEffect, useState } from 'react';
 import Select, { type StylesConfig } from 'react-select';
 import { apiFetch } from '../../lib/api';
 import { useAuth } from '../../hooks/useAuth';
@@ -31,16 +31,16 @@ const selectStyles: StylesConfig<SelectOption> = {
     ...base,
     backgroundColor:  'rgba(255,255,255,0.03)',
     border:           state.isFocused
-      ? '1px solid rgba(125,211,199,0.45)'
+      ? '1px solid rgba(200,85,58,0.45)'
       : '1px solid rgba(73,72,71,0.30)',
     borderRadius:     '0.875rem',
     padding:          '4px 4px',
     boxShadow:        state.isFocused
-      ? '0 0 0 3px rgba(125,211,199,0.12)'
+      ? '0 0 0 3px rgba(200,85,58,0.12)'
       : 'none',
     cursor:           'pointer',
     transition:       'all 200ms',
-    '&:hover': { borderColor: 'rgba(125,211,199,0.35)' },
+    '&:hover': { borderColor: 'rgba(200,85,58,0.35)' },
   }),
   menu: (base) => ({
     ...base,
@@ -59,11 +59,11 @@ const selectStyles: StylesConfig<SelectOption> = {
   option: (base, state) => ({
     ...base,
     backgroundColor: state.isSelected
-      ? 'rgba(125,211,199,0.18)'
+      ? 'rgba(200,85,58,0.18)'
       : state.isFocused
         ? 'rgba(255,255,255,0.05)'
         : 'transparent',
-    color:           state.isSelected ? '#7DD3C7' : '#e5e2e1',
+    color:           state.isSelected ? '#C8553A' : '#e5e2e1',
     borderRadius:    '0.5rem',
     cursor:          'pointer',
     fontSize:        '0.875rem',
@@ -79,7 +79,7 @@ const selectStyles: StylesConfig<SelectOption> = {
     color:      'rgba(173,170,170,0.45)',
     transition: 'transform 200ms',
     transform:  state.selectProps.menuIsOpen ? 'rotate(180deg)' : 'rotate(0deg)',
-    '&:hover':  { color: '#7DD3C7' },
+    '&:hover':  { color: '#C8553A' },
   }),
   clearIndicator: (base) => ({
     ...base,
@@ -102,7 +102,7 @@ const selectStyles: StylesConfig<SelectOption> = {
 
 // ─── Shared input class ───────────────────────────────────────────────────────
 
-const INPUT = 'w-full rounded-[0.875rem] border border-[#1C1814]/30 bg-[#1C1814]/[0.05] px-4 py-3 text-sm text-[#1C1814] placeholder:text-[#78736E]/35 transition-all duration-300 focus:border-[#7DD3C7]/40 focus:outline-none focus:ring-1 focus:ring-[#7DD3C7]/20';
+const INPUT = 'w-full rounded-[0.875rem] border border-[#15140F]/30 bg-[#15140F]/[0.05] px-4 py-3 text-sm text-[#15140F] placeholder:text-[#A39B8B]/35 transition-all duration-300 focus:border-[#C8553A]/40 focus:outline-none focus:ring-1 focus:ring-[#C8553A]/20';
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
@@ -171,14 +171,14 @@ export default function CompleteProfileModal() {
 
   return (
     <div
-      className="fixed inset-0 z-[998] flex items-center justify-center p-4 transition-opacity duration-500 ease-out bg-[#F4F0E8]"
+      className="fixed inset-0 z-[998] flex items-center justify-center p-4 transition-opacity duration-500 ease-out bg-[#F6F2EA]"
       style={{ opacity: visible ? 1 : 0 }}
     >
       {/* Ambient glow */}
-      <div className="pointer-events-none absolute -top-32 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-[#7DD3C7]/8 blur-[100px] rounded-full" />
+      <div className="pointer-events-none absolute -top-32 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-[#C8553A]/8 blur-[100px] rounded-full" />
 
       <div
-        className="relative w-full max-w-[480px] rounded-[2rem] border border-[#1C1814]/20 bg-[#FAF7F2]/90 p-10 shadow-[0_40px_120px_rgba(0,0,0,0.5)] backdrop-blur-2xl transition-all duration-500 ease-out"
+        className="relative w-full max-w-[480px] rounded-[2rem] border border-[#15140F]/20 bg-[#FBF8F2]/90 p-10 shadow-[0_40px_120px_rgba(0,0,0,0.5)] backdrop-blur-2xl transition-all duration-500 ease-out"
         style={{
           opacity:   visible ? 1 : 0,
           transform: visible ? 'translateY(0) scale(1)' : 'translateY(24px) scale(0.97)',
@@ -189,16 +189,16 @@ export default function CompleteProfileModal() {
 
         {/* Header */}
         <div className="mb-8">
-          <div className="w-11 h-11 rounded-2xl bg-[#7DD3C7]/15 border border-[#7DD3C7]/20 flex items-center justify-center mb-5">
-            <span className="material-symbols-outlined text-[#7DD3C7]" style={{ fontSize: 22 }}>person_add</span>
+          <div className="w-11 h-11 rounded-2xl bg-[#C8553A]/15 border border-[#C8553A]/20 flex items-center justify-center mb-5">
+            <span className="material-symbols-outlined text-[#C8553A]" style={{ fontSize: 22 }}>person_add</span>
           </div>
-          <p className="text-[0.6875rem] font-semibold uppercase tracking-[0.24em] text-[#7DD3C7]/70 mb-2">
+          <p className="text-[0.6875rem] font-semibold uppercase tracking-[0.24em] text-[#C8553A]/70 mb-2">
             One last step
           </p>
-          <h2 className="text-2xl font-headline font-bold tracking-tight text-[#1C1814]">
+          <h2 className="text-2xl font-headline font-bold tracking-tight text-[#15140F]">
             Complete your profile
           </h2>
-          <p className="mt-2 text-sm text-[#78736E]/60 leading-relaxed">
+          <p className="mt-2 text-sm text-[#A39B8B]/60 leading-relaxed">
             Tell us a bit about yourself so we can personalize your experience.
           </p>
         </div>
@@ -207,7 +207,7 @@ export default function CompleteProfileModal() {
 
           {/* Full name */}
           <div className="space-y-2">
-            <label className="block text-[0.6875rem] font-semibold uppercase tracking-[0.18em] text-[#78736E]/60">
+            <label className="block text-[0.6875rem] font-semibold uppercase tracking-[0.18em] text-[#A39B8B]/60">
               Full name
             </label>
             <input
@@ -225,7 +225,7 @@ export default function CompleteProfileModal() {
 
           {/* Role */}
           <div className="space-y-2">
-            <label className="block text-[0.6875rem] font-semibold uppercase tracking-[0.18em] text-[#78736E]/60">
+            <label className="block text-[0.6875rem] font-semibold uppercase tracking-[0.18em] text-[#A39B8B]/60">
               Your role
             </label>
             <div className="grid grid-cols-2 gap-2">
@@ -238,8 +238,8 @@ export default function CompleteProfileModal() {
                   className={[
                     'px-3 py-2.5 rounded-2xl text-xs font-semibold text-left transition-all duration-200 border',
                     role === r
-                      ? 'bg-[#7DD3C7]/15 border-[#7DD3C7]/40 text-[#7DD3C7]'
-                      : 'bg-white/[0.02] border-[#1C1814]/25 text-[#78736E]/70 hover:border-[#7DD3C7]/25 hover:text-[#1C1814]',
+                      ? 'bg-[#C8553A]/15 border-[#C8553A]/40 text-[#C8553A]'
+                      : 'bg-white/[0.02] border-[#15140F]/25 text-[#A39B8B]/70 hover:border-[#C8553A]/25 hover:text-[#15140F]',
                     r === 'Other' ? 'col-span-2' : '',
                   ].join(' ')}
                 >
@@ -265,7 +265,7 @@ export default function CompleteProfileModal() {
 
           {/* Country */}
           <div className="space-y-2">
-            <label className="block text-[0.6875rem] font-semibold uppercase tracking-[0.18em] text-[#78736E]/60">
+            <label className="block text-[0.6875rem] font-semibold uppercase tracking-[0.18em] text-[#A39B8B]/60">
               Country
             </label>
             <Select<SelectOption>
@@ -292,7 +292,7 @@ export default function CompleteProfileModal() {
           <button
             type="submit"
             disabled={!canSubmit}
-            className="w-full rounded-2xl bg-[#7DD3C7] px-6 py-3.5 text-sm font-bold text-[#0B0B0A] transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_0_40px_rgba(125,211,199,0.28)] active:scale-[0.98] disabled:opacity-40 disabled:pointer-events-none mt-2"
+            className="w-full rounded-2xl bg-[#C8553A] px-6 py-3.5 text-sm font-bold text-[#0B0B0A] transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_0_40px_rgba(200,85,58,0.28)] active:scale-[0.98] disabled:opacity-40 disabled:pointer-events-none mt-2"
           >
             {loading ? (
               <span className="flex items-center justify-center gap-2">

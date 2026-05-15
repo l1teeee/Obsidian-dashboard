@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+﻿import { useEffect, useRef } from 'react';
 import { useSEO } from '../hooks/useSEO';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
@@ -69,22 +69,22 @@ export default function ProductIntegrations() {
     <ProductShell>
       {/* Hero */}
       <section className="relative pt-36 pb-16 overflow-hidden">
-        <div className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[400px] rounded-full bg-[#7DD3C7]/[0.06] blur-[130px]" />
+        <div className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[400px] rounded-full bg-[#C8553A]/[0.06] blur-[130px]" />
         <div className="mx-auto max-w-5xl px-6 text-center relative">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-            <span className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#7DD3C7]/20 bg-[#7DD3C7]/8 px-4 py-1.5 text-[0.68rem] font-bold uppercase tracking-[0.22em] text-[#7DD3C7]">
-              <span className="h-1.5 w-1.5 rounded-full bg-[#7DD3C7]" /> Product · Integrations
+            <span className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#C8553A]/20 bg-[#C8553A]/8 px-4 py-1.5 text-[0.68rem] font-bold uppercase tracking-[0.22em] text-[#C8553A]">
+              <span className="h-1.5 w-1.5 rounded-full bg-[#C8553A]" /> Product · Integrations
             </span>
-            <h1 className="mt-5 text-5xl md:text-[4rem] font-extrabold leading-[0.96] tracking-[-0.04em] text-[#1C1814]">
+            <h1 className="mt-5 text-5xl md:text-[4rem] font-extrabold leading-[0.96] tracking-[-0.04em] text-[#15140F]">
               Connect your core<br />
-              <span className="bg-gradient-to-r from-[#7DD3C7] via-[#f0dcff] to-inverse-primary bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-[#C8553A] via-[#f0dcff] to-inverse-primary bg-clip-text text-transparent">
                 social platforms.
               </span>
             </h1>
-            <p className="mt-6 text-lg font-light text-[#1C1814]/55 max-w-xl mx-auto leading-relaxed">
+            <p className="mt-6 text-lg font-light text-[#6B655B] max-w-xl mx-auto leading-relaxed">
               Vielinks connects to the social networks that matter. More integrations are on the roadmap.
             </p>
-            <button onClick={() => navigate('/register')} className="mt-8 rounded-full bg-[#7DD3C7] px-8 py-3.5 text-sm font-bold text-[#0B0B0A] hover:shadow-[0_0_32px_rgba(125,211,199,0.4)] transition-all active:scale-[0.98]">
+            <button onClick={() => navigate('/register')} className="mt-8 rounded-full bg-[#C8553A] px-8 py-3.5 text-sm font-bold text-white hover:bg-[#A53F28] hover:shadow-[0_0_32px_rgba(200,85,58,0.4)] transition-all active:scale-[0.98]">
               Connect your accounts
             </button>
           </motion.div>
@@ -101,7 +101,7 @@ export default function ProductIntegrations() {
                 key={p.name}
                 data-platform
                 style={{ opacity: 0 }}
-                className="group rounded-3xl border border-white/[0.07] bg-[#111]/70 p-6 hover:border-white/[0.12] hover:bg-[#181818]/80 transition-all duration-300 relative overflow-hidden"
+                className="group rounded-3xl border border-[rgba(21,20,15,0.10)] bg-[#FFFFFF] p-6 hover:border-[#C8553A]/20 hover:bg-[#EFE9DC] transition-all duration-300 relative overflow-hidden"
               >
                 <div className="pointer-events-none absolute top-0 right-0 w-24 h-24 rounded-full blur-[40px] opacity-0 group-hover:opacity-100 transition-opacity" style={{ backgroundColor: `${p.color}18` }} />
                 <div className="flex items-start justify-between mb-4">
@@ -114,8 +114,8 @@ export default function ProductIntegrations() {
                     {st.label}
                   </span>
                 </div>
-                <h3 className="text-base font-bold text-[#1C1814] mb-1">{p.name}</h3>
-                <p className="text-xs text-[#1C1814]/40">{p.desc}</p>
+                <h3 className="text-base font-bold text-[#15140F] mb-1">{p.name}</h3>
+                <p className="text-xs text-[#6B655B]">{p.desc}</p>
               </div>
             );
           })}
@@ -124,7 +124,7 @@ export default function ProductIntegrations() {
         {/* Legend */}
         <div className="flex flex-wrap items-center justify-center gap-5 mt-8">
           {Object.entries(STATUS_STYLE).map(([key, val]) => (
-            <span key={key} className="flex items-center gap-2 text-xs text-[#1C1814]/40">
+            <span key={key} className="flex items-center gap-2 text-xs text-[#6B655B]">
               <span className="w-2 h-2 rounded-full" style={{ backgroundColor: val.color }} />
               {val.label}
             </span>
@@ -133,23 +133,23 @@ export default function ProductIntegrations() {
       </section>
 
       {/* How connecting works */}
-      <section className="py-16 border-y border-white/[0.05] mx-auto max-w-5xl px-6" ref={howRef}>
+      <section className="py-16 border-y border-[rgba(21,20,15,0.08)] mx-auto max-w-5xl px-6" ref={howRef}>
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-extrabold tracking-tight text-[#1C1814]">Connect in 3 steps</h2>
-          <p className="mt-2 text-[#1C1814]/45">No developers. No API keys. No headaches.</p>
+          <h2 className="text-3xl font-extrabold tracking-tight text-[#15140F]">Connect in 3 steps</h2>
+          <p className="mt-2 text-[#6B655B]">No developers. No API keys. No headaches.</p>
         </div>
         <div className="grid md:grid-cols-3 gap-6">
           {HOW.map((h) => (
             <div key={h.step} data-how style={{ opacity: 0 }} className="flex gap-4">
               <div className="shrink-0">
-                <div className="w-10 h-10 rounded-xl bg-[#7DD3C7]/10 border border-[#7DD3C7]/15 flex items-center justify-center">
-                  <span className="material-symbols-outlined text-[#7DD3C7]" style={{ fontSize: 18, fontVariationSettings: "'FILL' 1" }}>{h.icon}</span>
+                <div className="w-10 h-10 rounded-xl bg-[#C8553A]/10 border border-[#C8553A]/15 flex items-center justify-center">
+                  <span className="material-symbols-outlined text-[#C8553A]" style={{ fontSize: 18, fontVariationSettings: "'FILL' 1" }}>{h.icon}</span>
                 </div>
               </div>
               <div>
-                <span className="text-[10px] font-bold text-[#7DD3C7]/60 uppercase tracking-widest">{h.step}</span>
-                <h3 className="text-sm font-bold text-[#1C1814] mt-0.5 mb-1">{h.title}</h3>
-                <p className="text-xs text-[#1C1814]/45 leading-relaxed">{h.body}</p>
+                <span className="text-[10px] font-bold text-[#C8553A]/60 uppercase tracking-widest">{h.step}</span>
+                <h3 className="text-sm font-bold text-[#15140F] mt-0.5 mb-1">{h.title}</h3>
+                <p className="text-xs text-[#15140F]/45 leading-relaxed">{h.body}</p>
               </div>
             </div>
           ))}
@@ -159,8 +159,8 @@ export default function ProductIntegrations() {
       {/* Also integrates with */}
       <section className="py-20 mx-auto max-w-5xl px-6">
         <div className="text-center mb-12">
-          <h2 className="text-2xl font-extrabold tracking-tight text-[#1C1814]">Also works with</h2>
-          <p className="mt-2 text-[#1C1814]/45 text-sm">Beyond social networks — Vielinks connects to your workflow.</p>
+          <h2 className="text-2xl font-extrabold tracking-tight text-[#15140F]">Also works with</h2>
+          <p className="mt-2 text-[#15140F]/45 text-sm">Beyond social networks — Vielinks connects to your workflow.</p>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
           {ALSO.map((a) => (
@@ -169,13 +169,13 @@ export default function ProductIntegrations() {
               initial={{ opacity: 0, y: 12 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="rounded-2xl border border-white/[0.07] bg-[#111]/70 p-5 text-center hover:border-[#7DD3C7]/20 transition-all duration-300 group"
+              className="rounded-2xl border border-white/[0.07] bg-[#111]/70 p-5 text-center hover:border-[#C8553A]/20 transition-all duration-300 group"
             >
-              <div className="w-10 h-10 rounded-xl bg-[#7DD3C7]/8 border border-[#7DD3C7]/12 flex items-center justify-center mb-3 mx-auto group-hover:bg-[#7DD3C7]/15 transition-colors">
-                <span className="material-symbols-outlined text-[#7DD3C7]" style={{ fontSize: 18, fontVariationSettings: "'FILL' 1" }}>{a.icon}</span>
+              <div className="w-10 h-10 rounded-xl bg-[#C8553A]/8 border border-[#C8553A]/12 flex items-center justify-center mb-3 mx-auto group-hover:bg-[#C8553A]/15 transition-colors">
+                <span className="material-symbols-outlined text-[#C8553A]" style={{ fontSize: 18, fontVariationSettings: "'FILL' 1" }}>{a.icon}</span>
               </div>
-              <p className="text-sm font-bold text-[#1C1814] mb-1">{a.name}</p>
-              <p className="text-[11px] text-[#1C1814]/40 leading-snug">{a.desc}</p>
+              <p className="text-sm font-bold text-[#15140F] mb-1">{a.name}</p>
+              <p className="text-[11px] text-[#15140F]/40 leading-snug">{a.desc}</p>
             </motion.div>
           ))}
         </div>

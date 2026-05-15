@@ -1,4 +1,4 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
 import DateTimePicker from '../shared/DateTimePicker';
 import { suggestScheduleTime } from '../../services/ai.service';
 import type { ChannelId } from '../../types/composer.types';
@@ -63,20 +63,20 @@ export default function SchedulePicker({
 
   return (
     <div data-editor-section className="space-y-3 pb-10">
-      <label className="text-[11px] uppercase tracking-widest text-[#6A6470] font-bold">
+      <label className="text-[11px] uppercase tracking-widest text-[#6B655B] font-bold">
         Distribution
       </label>
 
       {/* Segment control */}
-      <div className="flex rounded-2xl bg-[#FAF7F2] border border-[#1C1814]/20 p-1 gap-1">
+      <div className="flex rounded-2xl bg-[#FBF8F2] border border-[#15140F]/20 p-1 gap-1">
         <button
           type="button"
           onClick={() => onScheduleToggle(false)}
           className={[
             'flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-xs font-bold transition-all',
             !isScheduleMode
-              ? 'bg-[#7DD3C7] text-[#2f004d] shadow-[0_0_16px_rgba(125,211,199,0.3)]'
-              : 'text-[#6A6470] hover:text-[#1C1814]',
+              ? 'bg-[#C8553A] text-[#2f004d] shadow-[0_0_16px_rgba(200,85,58,0.3)]'
+              : 'text-[#6B655B] hover:text-[#15140F]',
           ].join(' ')}
         >
           <span className="material-symbols-outlined text-[15px]" style={{ fontVariationSettings: "'FILL' 1" }}>
@@ -91,8 +91,8 @@ export default function SchedulePicker({
           className={[
             'flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-xs font-bold transition-all',
             isScheduleMode
-              ? 'bg-[#7DD3C7] text-[#2f004d] shadow-[0_0_16px_rgba(125,211,199,0.3)]'
-              : 'text-[#6A6470] hover:text-[#1C1814]',
+              ? 'bg-[#C8553A] text-[#2f004d] shadow-[0_0_16px_rgba(200,85,58,0.3)]'
+              : 'text-[#6B655B] hover:text-[#15140F]',
           ].join(' ')}
         >
           <span className="material-symbols-outlined text-[15px]">schedule</span>
@@ -114,9 +114,9 @@ export default function SchedulePicker({
 
           {/* Suggest time button — hidden when schedule came from AI analysis */}
           {timeFromAnalysis ? (
-            <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-[#7DD3C7]/8 border border-[#7DD3C7]/20">
-              <span className="material-symbols-outlined text-[#7DD3C7] text-[13px]" style={{ fontVariationSettings: "'FILL' 1" }}>auto_awesome</span>
-              <p className="text-[10px] text-[#7DD3C7]/80 font-medium">Time suggested by AI analysis</p>
+            <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-[#C8553A]/8 border border-[#C8553A]/20">
+              <span className="material-symbols-outlined text-[#C8553A] text-[13px]" style={{ fontVariationSettings: "'FILL' 1" }}>auto_awesome</span>
+              <p className="text-[10px] text-[#C8553A]/80 font-medium">Time suggested by AI analysis</p>
             </div>
           ) : !aiAllowed ? (
             <div className="flex items-start gap-2.5 px-3 py-2.5 rounded-xl bg-[#f97316]/8 border border-[#f97316]/20">
@@ -130,7 +130,7 @@ export default function SchedulePicker({
               type="button"
               onClick={handleSuggest}
               disabled={suggesting}
-              className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl border border-[#7DD3C7]/25 bg-[#7DD3C7]/5 text-[#7DD3C7] text-xs font-bold hover:bg-[#7DD3C7]/10 hover:border-[#7DD3C7]/40 transition-all disabled:opacity-50"
+              className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl border border-[#C8553A]/25 bg-[#C8553A]/5 text-[#C8553A] text-xs font-bold hover:bg-[#C8553A]/10 hover:border-[#C8553A]/40 transition-all disabled:opacity-50"
             >
               {suggesting ? (
                 <>
@@ -148,7 +148,7 @@ export default function SchedulePicker({
 
           {/* AI suggestion reason */}
           {suggestion && (
-            <p className="text-[10px] text-[#c5d247] font-medium flex items-start gap-2 px-1">
+            <p className="text-[10px] text-[#4F7A4A] font-medium flex items-start gap-2 px-1">
               <span className="material-symbols-outlined text-[13px] shrink-0 mt-0.5">auto_awesome</span>
               {suggestion}
             </p>

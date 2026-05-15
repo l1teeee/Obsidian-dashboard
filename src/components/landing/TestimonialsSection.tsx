@@ -1,4 +1,4 @@
-
+﻿
 import { motion } from 'framer-motion';
 import { TestimonialsColumn, type Testimonial } from '@/components/ui/testimonials-columns-1';
 
@@ -67,8 +67,8 @@ export default function TestimonialsSection() {
   return (
     <section id="Testimonials" className="relative overflow-hidden py-28 md:py-36">
       {/* Ambient */}
-      <div className="pointer-events-none absolute left-[8%] top-20 h-80 w-80 rounded-full bg-[#7C3AED]/[0.04] blur-[120px]" />
-      <div className="pointer-events-none absolute right-[6%] bottom-10 h-72 w-72 rounded-full bg-[#D946EF]/[0.04] blur-[100px]" />
+      <div className="pointer-events-none absolute left-[8%] top-20 h-80 w-80 rounded-full bg-[#C8553A]/[0.04] blur-[120px]" />
+      <div className="pointer-events-none absolute right-[6%] bottom-10 h-72 w-72 rounded-full bg-[#A53F28]/[0.04] blur-[100px]" />
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/[0.07] to-transparent" />
 
       <div className="relative z-10 mx-auto max-w-[1440px] px-6 md:px-12">
@@ -80,17 +80,17 @@ export default function TestimonialsSection() {
           viewport={{ once: true }}
           className="mb-14 flex flex-col items-center text-center"
         >
-          <span className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/[0.10] bg-[#18111F]/[0.05] px-4 py-1.5 text-[0.68rem] font-bold uppercase tracking-[0.22em] text-[#18111F]/45">
-            <span className="h-1.5 w-1.5 rounded-full bg-[#7C3AED]" />
+          <span className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/[0.10] bg-[#15140F]/[0.05] px-4 py-1.5 text-[0.68rem] font-bold uppercase tracking-[0.22em] text-[#15140F]/45">
+            <span className="h-1.5 w-1.5 rounded-full bg-[#C8553A]" />
             Workflow signals, not vanity claims
           </span>
-          <h2 className="text-4xl font-extrabold tracking-[-0.04em] leading-[0.96] text-[#18111F] md:text-5xl max-w-2xl">
+          <h2 className="text-4xl font-extrabold tracking-[-0.04em] leading-[0.96] text-[#15140F] md:text-5xl max-w-2xl">
             What our users{' '}
-            <span className="text-[#7C3AED]">
+            <span className="text-[#C8553A]">
               actually say.
             </span>
           </h2>
-          <p className="mt-5 max-w-lg text-[1rem] font-light leading-[1.8] text-[#18111F]/50">
+          <p className="mt-5 max-w-lg text-[1rem] font-light leading-[1.8] text-[#15140F]/50">
             Use these examples as the kind of operational clarity Vielinks is built to create for social media teams.
           </p>
         </motion.div>

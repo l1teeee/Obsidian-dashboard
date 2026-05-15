@@ -1,4 +1,4 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
 
 interface LIPreviewProps {
   caption:       string;
@@ -17,7 +17,7 @@ function MediaCarousel({ images }: { images: string[] }) {
 
       {count > 1 && (
         <div className="absolute top-2 right-2 bg-black/60 rounded-full px-2 py-0.5">
-          <span className="text-[10px] font-bold text-[#1C1814]">{current + 1}/{count}</span>
+          <span className="text-[10px] font-bold text-[#15140F]">{current + 1}/{count}</span>
         </div>
       )}
 
@@ -26,7 +26,7 @@ function MediaCarousel({ images }: { images: string[] }) {
           onClick={() => setCurrent(i => i - 1)}
           className="absolute left-1.5 top-1/2 -translate-y-1/2 w-7 h-7 rounded-full bg-black/50 flex items-center justify-center hover:bg-black/70 transition-colors"
         >
-          <span className="material-symbols-outlined text-[#1C1814] text-[16px]">chevron_left</span>
+          <span className="material-symbols-outlined text-[#15140F] text-[16px]">chevron_left</span>
         </button>
       )}
       {count > 1 && current < count - 1 && (
@@ -34,7 +34,7 @@ function MediaCarousel({ images }: { images: string[] }) {
           onClick={() => setCurrent(i => i + 1)}
           className="absolute right-1.5 top-1/2 -translate-y-1/2 w-7 h-7 rounded-full bg-black/50 flex items-center justify-center hover:bg-black/70 transition-colors"
         >
-          <span className="material-symbols-outlined text-[#1C1814] text-[16px]">chevron_right</span>
+          <span className="material-symbols-outlined text-[#15140F] text-[16px]">chevron_right</span>
         </button>
       )}
 
@@ -71,9 +71,9 @@ export default function LIPreview({ caption, mediaPreviews }: LIPreviewProps) {
         <div className="bg-white mx-2 mt-2 rounded-xl border border-[#e0e0e0] overflow-hidden">
           {/* Author row */}
           <div className="flex items-start gap-2 p-3">
-            <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-[#7DD3C7] to-[#D6A86A] p-[1.5px] shrink-0">
+            <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-[#C8553A] to-[#D6A86A] p-[1.5px] shrink-0">
               <div className="w-full h-full rounded-full bg-white flex items-center justify-center">
-                <span className="material-symbols-outlined text-[#7DD3C7] text-[13px]">person</span>
+                <span className="material-symbols-outlined text-[#C8553A] text-[13px]">person</span>
               </div>
             </div>
             <div className="min-w-0 flex-1">

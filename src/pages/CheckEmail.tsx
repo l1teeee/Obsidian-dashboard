@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+﻿import { useRef, useState } from 'react';
 import { useLocation, useNavigate, Link } from 'react-router-dom';
 import { useGSAP } from '../hooks/useGSAP';
 import { useAuth } from '../hooks/useAuth';
@@ -123,18 +123,18 @@ export default function CheckEmail() {
       ref={containerRef}
       className="auth-bg relative flex min-h-screen items-center justify-center overflow-hidden px-4 py-16"
     >
-      <div className="pointer-events-none absolute -left-32 -top-32 h-[500px] w-[500px] rounded-full bg-[#7DD3C7]/10 blur-[120px]" />
+      <div className="pointer-events-none absolute -left-32 -top-32 h-[500px] w-[500px] rounded-full bg-[#C8553A]/10 blur-[120px]" />
       <div className="pointer-events-none absolute -bottom-32 -right-32 h-[420px] w-[420px] rounded-full bg-inverse-primary/10 blur-[100px]" />
 
-      <div className="relative w-full max-w-[440px] overflow-hidden rounded-[2rem] border border-[#1C1814]/20 bg-[#FAF7F2]/70 shadow-[0_30px_120px_rgba(0,0,0,0.28)] backdrop-blur-2xl">
-        <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/[0.08] to-transparent" />
+      <div className="relative w-full max-w-[440px] overflow-hidden rounded-[2rem] border border-[#15140F]/20 bg-[#FBF8F2]/80 shadow-[0_30px_120px_rgba(0,0,0,0.18)] backdrop-blur-2xl">
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent" />
 
         {/* ── Form ── */}
         <div ref={formRef} className="p-10">
           {/* Icon */}
           <div data-ce-anim className="mb-7 flex justify-center">
-            <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-[#7DD3C7]/10 border border-[#7DD3C7]/20">
-              <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#7DD3C7" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+            <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-[#C8553A]/10 border border-[#C8553A]/20">
+              <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#C8553A" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
                 <rect x="2" y="4" width="20" height="16" rx="3"/>
                 <path d="M2 8l10 6 10-6"/>
               </svg>
@@ -142,14 +142,14 @@ export default function CheckEmail() {
           </div>
 
           <div data-ce-anim className="mb-2 text-center">
-            <p className="text-[0.6875rem] font-semibold uppercase tracking-[0.24em] text-[#7DD3C7]/70">Confirm your email</p>
+            <p className="text-[0.6875rem] font-semibold uppercase tracking-[0.24em] text-[#C8553A]/70">Confirm your email</p>
           </div>
-          <h1 data-ce-anim className="mb-3 text-center font-headline text-2xl font-bold tracking-tight text-[#1C1814]">
+          <h1 data-ce-anim className="mb-3 text-center font-headline text-2xl font-bold tracking-tight text-[#15140F]">
             Enter the code
           </h1>
-          <p data-ce-anim className="mb-7 text-center text-sm text-[#78736E]/60 leading-relaxed">
+          <p data-ce-anim className="mb-7 text-center text-sm text-[#A39B8B]/60 leading-relaxed">
             We sent a code to{' '}
-            <span className="font-semibold text-[#1C1814]">{email}</span>.
+            <span className="font-semibold text-[#15140F]">{email}</span>.
           </p>
 
           <form data-ce-anim onSubmit={(e) => { void handleSubmit(e); }} className="space-y-4">
@@ -173,10 +173,10 @@ export default function CheckEmail() {
                 }}
                 disabled={loading}
                 autoFocus
-                className={`w-full rounded-[0.875rem] border bg-[#1C1814]/[0.05] px-4 py-4 text-center text-2xl font-bold tracking-[0.4em] placeholder:text-[#78736E]/20 placeholder:tracking-[0.4em] transition-all duration-300 focus:outline-none focus:ring-1 ${
+                className={`w-full rounded-[0.875rem] border bg-white px-4 py-4 text-center text-2xl font-bold tracking-[0.4em] placeholder:text-[#A39B8B]/30 placeholder:tracking-[0.4em] transition-all duration-300 focus:outline-none focus:ring-1 ${
                   codeStatus === 'error'
                     ? 'border-red-500/60 text-red-400 focus:border-red-500/60 focus:ring-red-500/20'
-                    : 'border-[#1C1814]/30 text-[#1C1814] focus:border-[#7DD3C7]/40 focus:ring-[#7DD3C7]/20'
+                    : 'border-[#15140F]/20 text-[#15140F] focus:border-[#C8553A]/40 focus:ring-[#C8553A]/20'
                 }`}
               />
               {codeStatus === 'error' && (
@@ -192,7 +192,7 @@ export default function CheckEmail() {
             <button
               type="submit"
               disabled={loading || code.length !== 6}
-              className="w-full rounded-2xl bg-[#7DD3C7] px-6 py-3.5 text-sm font-bold text-[#0B0B0A] transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_0_40px_rgba(125,211,199,0.28)] active:scale-[0.98] disabled:opacity-60 disabled:pointer-events-none"
+              className="w-full rounded-2xl bg-[#C8553A] px-6 py-3.5 text-sm font-bold text-white transition-all duration-300 hover:scale-[1.02] hover:bg-[#A53F28] hover:shadow-[0_0_40px_rgba(200,85,58,0.28)] active:scale-[0.98] disabled:opacity-60 disabled:pointer-events-none"
             >
               {loading ? 'Verifying…' : 'Verify email'}
             </button>
@@ -204,18 +204,18 @@ export default function CheckEmail() {
               type="button"
               onClick={() => { void handleResend(); }}
               disabled={resending || resendCooldown}
-              className="text-[0.8125rem] text-[#78736E]/50 transition-colors hover:text-[#7DD3C7] disabled:opacity-40 disabled:pointer-events-none"
+              className="text-[0.8125rem] text-[#A39B8B]/60 transition-colors hover:text-[#C8553A] disabled:opacity-40 disabled:pointer-events-none"
             >
               {resending ? 'Sending…' : resendCooldown ? 'Sent — try again in 60s' : "Didn't receive it? Resend"}
             </button>
             {resendMsg && (
-              <p className="text-[0.8125rem] text-[#78736E]/50">{resendMsg}</p>
+              <p className="text-[0.8125rem] text-[#A39B8B]/60">{resendMsg}</p>
             )}
           </div>
 
-          <p data-ce-anim className="mt-6 text-center text-[0.8125rem] text-[#78736E]/50">
+          <p data-ce-anim className="mt-6 text-center text-[0.8125rem] text-[#A39B8B]/60">
             Wrong email?{' '}
-            <Link to="/register" className="font-semibold text-[#7DD3C7] transition-colors hover:text-[#9ee3db]">
+            <Link to="/register" className="font-semibold text-[#C8553A] transition-colors hover:text-[#A53F28]">
               Start over
             </Link>
           </p>
@@ -225,13 +225,13 @@ export default function CheckEmail() {
         <div ref={successRef} style={{ display: 'none' }} className="absolute inset-0 flex-col items-center justify-center p-10 text-center">
           <div className="mb-6">
             <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
-              <circle ref={checkCircleRef} cx="40" cy="40" r="36" stroke="#7DD3C7" strokeWidth="2.5" strokeLinecap="round" fill="rgba(125,211,199,0.06)" />
-              <path ref={checkPathRef} d="M24 40.5L35 52L56 30" stroke="#7DD3C7" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+              <circle ref={checkCircleRef} cx="40" cy="40" r="36" stroke="#C8553A" strokeWidth="2.5" strokeLinecap="round" fill="rgba(200,85,58,0.06)" />
+              <path ref={checkPathRef} d="M24 40.5L35 52L56 30" stroke="#C8553A" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </div>
-          <p data-success-text className="mb-1 text-[0.6875rem] font-semibold uppercase tracking-[0.24em] text-[#7DD3C7]/70">Code correct</p>
-          <h2 data-success-text className="font-headline text-2xl font-bold tracking-tight text-[#1C1814]">Email verified!</h2>
-          <p data-success-text className="mt-3 text-sm text-[#78736E]/60">Sending you to the dashboard…</p>
+          <p data-success-text className="mb-1 text-[0.6875rem] font-semibold uppercase tracking-[0.24em] text-[#C8553A]/70">Code correct</p>
+          <h2 data-success-text className="font-headline text-2xl font-bold tracking-tight text-[#15140F]">Email verified!</h2>
+          <p data-success-text className="mt-3 text-sm text-[#A39B8B]/60">Sending you to the dashboard…</p>
         </div>
       </div>
     </div>

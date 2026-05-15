@@ -1,4 +1,4 @@
-import { PLATFORM_REGISTRY, type PlatformId } from '../../domain/entities/Platform';
+﻿import { PLATFORM_REGISTRY, type PlatformId } from '../../domain/entities/Platform';
 import SocialBrandIcon from '../shared/SocialBrandIcon';
 
 interface PlatformFilterProps {
@@ -11,7 +11,7 @@ const FILTER_PLATFORMS: PlatformId[] = ['instagram', 'facebook', 'linkedin'];
 export default function PlatformFilter({ activePlatforms, onToggle }: PlatformFilterProps) {
   return (
     <div className="flex items-center gap-2 flex-wrap">
-      <span className="text-[11px] font-bold uppercase tracking-widest text-[#1C1814] mr-1">Platforms</span>
+      <span className="text-[11px] font-bold uppercase tracking-widest text-[#15140F] mr-1">Platforms</span>
       {FILTER_PLATFORMS.map(id => {
         const p      = PLATFORM_REGISTRY[id];
         const active = activePlatforms.includes(id);
@@ -22,8 +22,8 @@ export default function PlatformFilter({ activePlatforms, onToggle }: PlatformFi
             className={[
               'flex items-center gap-1.5 px-3 py-1.5 rounded-xl border text-xs font-semibold transition-all',
               active
-                ? 'border-transparent text-[#1C1814]'
-                : 'bg-transparent border-[#1C1814]/20 text-[#6A6470] hover:border-[#1C1814]/40 hover:text-[#1C1814]',
+                ? 'border-transparent text-[#15140F]'
+                : 'bg-transparent border-[#15140F]/20 text-[#6B655B] hover:border-[#15140F]/40 hover:text-[#15140F]',
             ].join(' ')}
             style={active ? { background: p.color + '22', borderColor: p.color + '60', color: p.color } : {}}
           >

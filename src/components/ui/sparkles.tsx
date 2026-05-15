@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useId, useEffect, useState } from "react";
 import Particles, { initParticlesEngine } from "@tsparticles/react";
 import type { Container, SingleOrMultiple } from "@tsparticles/engine";
@@ -94,7 +94,7 @@ export const SparklesCore = (props: ParticlesProps) => {
                 overlap: { enable: true, retries: 0 },
               },
               color: {
-                value: particleColor || "#7DD3C7",
+                value: particleColor || "#C8553A",
                 animation: {
                   h: { count: 0, enable: false, speed: 1, decay: 0, delay: 0, sync: true, offset: 0 },
                   s: { count: 0, enable: false, speed: 1, decay: 0, delay: 0, sync: true, offset: 0 },

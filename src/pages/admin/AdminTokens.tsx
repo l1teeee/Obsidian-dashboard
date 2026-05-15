@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from 'react';
+﻿import { useEffect, useState, useCallback } from 'react';
 import { sileo } from 'sileo';
 import {
   getTokenStats, getToolBreakdown, getTopUsers, getTokenLimits, setTokenLimit,
@@ -31,13 +31,13 @@ const TOOL_ICONS: Record<string, string> = {
   carousel_slides:     'view_carousel',
   image_analyze:       'image_search',
 };
-const TOOL_COLORS = ['#7DD3C7', '#60a5fa', '#c5d247', '#f97316', '#f472b6', '#34d399'];
+const TOOL_COLORS = ['#C8553A', '#60a5fa', '#4F7A4A', '#f97316', '#f472b6', '#34d399'];
 
 const PLAN_META: Record<string, { label: string; color: string }> = {
   free:       { label: 'Free',       color: '#60a5fa' },
   starter:    { label: 'Starter',    color: '#988d9c' },
-  pro:        { label: 'Pro',        color: '#7DD3C7' },
-  enterprise: { label: 'Enterprise', color: '#c5d247' },
+  pro:        { label: 'Pro',        color: '#C8553A' },
+  enterprise: { label: 'Enterprise', color: '#4F7A4A' },
 };
 
 const PERIODS = [
@@ -49,19 +49,19 @@ const PERIODS = [
 
 // ── Sub-components ────────────────────────────────────────────────────────────
 
-function StatCard({ icon, label, value, sub, color = '#7DD3C7' }: {
+function StatCard({ icon, label, value, sub, color = '#C8553A' }: {
   icon: string; label: string; value: string; sub?: string; color?: string;
 }) {
   return (
-    <div className="rounded-2xl border border-[#1C1814]/15 bg-[#F4F0E8] p-5">
+    <div className="rounded-2xl border border-[#15140F]/15 bg-[#F6F2EA] p-5">
       <div className="flex items-center gap-2.5 mb-3">
         <div className="w-8 h-8 rounded-xl flex items-center justify-center" style={{ backgroundColor: color + '18' }}>
           <span className="material-symbols-outlined" style={{ fontSize: 16, color, fontVariationSettings: "'FILL' 1" }}>{icon}</span>
         </div>
-        <span className="text-xs text-[#6A6470] font-semibold uppercase tracking-wider">{label}</span>
+        <span className="text-xs text-[#6B655B] font-semibold uppercase tracking-wider">{label}</span>
       </div>
-      <p className="text-2xl font-headline font-extrabold text-[#1C1814] tracking-tight">{value}</p>
-      {sub && <p className="text-xs text-[#1C1814] mt-1">{sub}</p>}
+      <p className="text-2xl font-headline font-extrabold text-[#15140F] tracking-tight">{value}</p>
+      {sub && <p className="text-xs text-[#15140F] mt-1">{sub}</p>}
     </div>
   );
 }
@@ -129,22 +129,22 @@ export default function AdminTokens() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] p-6 lg:p-8">
+    <div className="min-h-screen bg-[#F6F2EA] p-6 lg:p-8">
 
       {/* Header */}
       <div className="flex items-start justify-between gap-4 flex-wrap mb-8">
         <div>
-          <h1 className="text-2xl font-headline font-extrabold text-[#1C1814] tracking-tight mb-1">Token Usage</h1>
-          <p className="text-sm text-[#6A6470]">Monitor AI token consumption across all users and tools.</p>
+          <h1 className="text-2xl font-headline font-extrabold text-[#15140F] tracking-tight mb-1">Token Usage</h1>
+          <p className="text-sm text-[#6B655B]">Monitor AI token consumption across all users and tools.</p>
         </div>
-        <div className="flex gap-1.5 bg-[#F4F0E8] border border-[#1C1814]/15 rounded-xl p-1">
+        <div className="flex gap-1.5 bg-[#F6F2EA] border border-[#15140F]/15 rounded-xl p-1">
           {PERIODS.map(p => (
             <button
               key={p.key}
               onClick={() => setPeriod(p.key)}
               className={[
                 'px-3.5 py-1.5 rounded-lg text-xs font-bold font-headline transition-all duration-150',
-                period === p.key ? 'bg-[#7DD3C7]/15 text-[#7DD3C7]' : 'text-[#6A6470] hover:text-[#1C1814]',
+                period === p.key ? 'bg-[#C8553A]/15 text-[#C8553A]' : 'text-[#6B655B] hover:text-[#15140F]',
               ].join(' ')}
             >
               {p.label}
@@ -155,7 +155,7 @@ export default function AdminTokens() {
 
       {loading ? (
         <div className="flex items-center justify-center h-64">
-          <span className="material-symbols-outlined text-[#1C1814] animate-spin" style={{ fontSize: 28 }}>progress_activity</span>
+          <span className="material-symbols-outlined text-[#15140F] animate-spin" style={{ fontSize: 28 }}>progress_activity</span>
         </div>
       ) : (
         <div className="flex flex-col gap-6">
@@ -167,14 +167,14 @@ export default function AdminTokens() {
               label="Total Tokens"
               value={fmtTokens(stats?.total_tokens ?? 0)}
               sub={`${fmtTokens(stats?.input_tokens ?? 0)} in · ${fmtTokens(stats?.output_tokens ?? 0)} out`}
-              color="#7DD3C7"
+              color="#C8553A"
             />
             <StatCard
               icon="payments"
               label="Est. Cost"
               value={fmtCost(stats?.estimated_cost_usd ?? 0)}
               sub={`${stats?.total_calls ?? 0} API calls`}
-              color="#c5d247"
+              color="#4F7A4A"
             />
             <StatCard
               icon="auto_awesome"
@@ -199,14 +199,14 @@ export default function AdminTokens() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
 
             {/* Tool breakdown */}
-            <div className="rounded-2xl border border-[#1C1814]/15 bg-[#F4F0E8] overflow-hidden">
-              <div className="px-5 py-4 border-b border-[#1C1814]/15">
-                <h2 className="text-sm font-headline font-bold text-[#1C1814]">Usage by Tool</h2>
-                <p className="text-xs text-[#1C1814] mt-0.5">Tokens consumed per AI feature</p>
+            <div className="rounded-2xl border border-[#15140F]/15 bg-[#F6F2EA] overflow-hidden">
+              <div className="px-5 py-4 border-b border-[#15140F]/15">
+                <h2 className="text-sm font-headline font-bold text-[#15140F]">Usage by Tool</h2>
+                <p className="text-xs text-[#15140F] mt-0.5">Tokens consumed per AI feature</p>
               </div>
               <div className="p-5 flex flex-col gap-4">
                 {tools.length === 0 ? (
-                  <p className="text-sm text-[#1C1814] text-center py-6">No AI usage recorded yet.</p>
+                  <p className="text-sm text-[#15140F] text-center py-6">No AI usage recorded yet.</p>
                 ) : tools.map((tool, idx) => {
                   const color  = TOOL_COLORS[idx % TOOL_COLORS.length];
                   const icon   = TOOL_ICONS[tool.tool] ?? 'hub';
@@ -216,20 +216,20 @@ export default function AdminTokens() {
                       <div className="flex items-center justify-between mb-1.5">
                         <div className="flex items-center gap-2">
                           <span className="material-symbols-outlined" style={{ fontSize: 14, color }}>{icon}</span>
-                          <span className="text-sm text-[#1C1814] font-semibold font-headline">{label}</span>
+                          <span className="text-sm text-[#15140F] font-semibold font-headline">{label}</span>
                         </div>
                         <div className="text-right">
                           <span className="text-sm font-bold font-mono" style={{ color }}>{fmtTokens(tool.total_tokens)}</span>
-                          <span className="text-xs text-[#1C1814] ml-2">{tool.total_calls} calls</span>
+                          <span className="text-xs text-[#15140F] ml-2">{tool.total_calls} calls</span>
                         </div>
                       </div>
-                      <div className="h-2 rounded-full bg-[#FAF7F2] overflow-hidden">
+                      <div className="h-2 rounded-full bg-[#FBF8F2] overflow-hidden">
                         <div
                           className="h-full rounded-full transition-all duration-500"
                           style={{ width: `${tool.pct}%`, backgroundColor: color + 'cc' }}
                         />
                       </div>
-                      <p className="text-[10px] text-[#1C1814] mt-1">
+                      <p className="text-[10px] text-[#15140F] mt-1">
                         {fmtTokens(tool.input_tokens)} in · {fmtTokens(tool.output_tokens)} out · {tool.pct}%
                       </p>
                     </div>
@@ -239,13 +239,13 @@ export default function AdminTokens() {
             </div>
 
             {/* Top users */}
-            <div className="rounded-2xl border border-[#1C1814]/15 bg-[#F4F0E8] overflow-hidden">
-              <div className="px-5 py-4 border-b border-[#1C1814]/15">
-                <h2 className="text-sm font-headline font-bold text-[#1C1814]">Top Users</h2>
-                <p className="text-xs text-[#1C1814] mt-0.5">Highest token consumers this period</p>
+            <div className="rounded-2xl border border-[#15140F]/15 bg-[#F6F2EA] overflow-hidden">
+              <div className="px-5 py-4 border-b border-[#15140F]/15">
+                <h2 className="text-sm font-headline font-bold text-[#15140F]">Top Users</h2>
+                <p className="text-xs text-[#15140F] mt-0.5">Highest token consumers this period</p>
               </div>
               {users.length === 0 ? (
-                <p className="text-sm text-[#1C1814] text-center py-10">No usage data yet.</p>
+                <p className="text-sm text-[#15140F] text-center py-10">No usage data yet.</p>
               ) : (
                 <div className="divide-y divide-[#1c1b1b]">
                   {users.map((u, idx) => {
@@ -254,17 +254,17 @@ export default function AdminTokens() {
                     const pct = Math.round((u.total_tokens / totalAll) * 100);
                     return (
                       <div key={u.user_id} className="flex items-center gap-3 px-5 py-3.5">
-                        <span className="text-xs text-[#1C1814] w-5 shrink-0 text-right font-mono">{idx + 1}</span>
-                        <div className="w-8 h-8 rounded-full bg-[#7DD3C7]/15 flex items-center justify-center shrink-0">
-                          <span className="text-xs font-bold text-[#7DD3C7]">{initial}</span>
+                        <span className="text-xs text-[#15140F] w-5 shrink-0 text-right font-mono">{idx + 1}</span>
+                        <div className="w-8 h-8 rounded-full bg-[#C8553A]/15 flex items-center justify-center shrink-0">
+                          <span className="text-xs font-bold text-[#C8553A]">{initial}</span>
                         </div>
                         <div className="flex-1 min-w-0">
-                          <p className="text-sm text-[#1C1814] font-semibold truncate">{u.name ?? u.email}</p>
-                          {u.name && <p className="text-[10px] text-[#1C1814] truncate">{u.email}</p>}
+                          <p className="text-sm text-[#15140F] font-semibold truncate">{u.name ?? u.email}</p>
+                          {u.name && <p className="text-[10px] text-[#15140F] truncate">{u.email}</p>}
                         </div>
                         <div className="text-right shrink-0">
-                          <p className="text-sm font-bold font-mono text-[#7DD3C7]">{fmtTokens(u.total_tokens)}</p>
-                          <p className="text-[10px] text-[#1C1814]">{pct}% · {u.total_calls} calls</p>
+                          <p className="text-sm font-bold font-mono text-[#C8553A]">{fmtTokens(u.total_tokens)}</p>
+                          <p className="text-[10px] text-[#15140F]">{pct}% · {u.total_calls} calls</p>
                         </div>
                       </div>
                     );
@@ -275,10 +275,10 @@ export default function AdminTokens() {
           </div>
 
           {/* Plan limits */}
-          <div className="rounded-2xl border border-[#1C1814]/15 bg-[#F4F0E8] overflow-hidden">
-            <div className="px-5 py-4 border-b border-[#1C1814]/15">
-              <h2 className="text-sm font-headline font-bold text-[#1C1814]">Monthly Token Limits</h2>
-              <p className="text-xs text-[#1C1814] mt-0.5">Set 0 for unlimited. Resets on the 1st of each month.</p>
+          <div className="rounded-2xl border border-[#15140F]/15 bg-[#F6F2EA] overflow-hidden">
+            <div className="px-5 py-4 border-b border-[#15140F]/15">
+              <h2 className="text-sm font-headline font-bold text-[#15140F]">Monthly Token Limits</h2>
+              <p className="text-xs text-[#15140F] mt-0.5">Set 0 for unlimited. Resets on the 1st of each month.</p>
             </div>
             <div className="divide-y divide-[#1c1b1b]">
               {limits.map(limit => {
@@ -299,11 +299,11 @@ export default function AdminTokens() {
                         min="0"
                         value={val}
                         onChange={e => setLimitEdits(prev => ({ ...prev, [limit.plan]: e.target.value }))}
-                        className="w-full bg-[#141414] border border-[#1C1814]/20 rounded-xl px-4 py-2.5 text-sm text-[#1C1814] font-mono focus:outline-none focus:border-[#1C1814]/50 transition-all"
+                        className="w-full bg-white border border-border rounded-xl px-4 py-2.5 text-sm text-[#15140F] font-mono focus:outline-none focus:border-[#15140F]/50 transition-all"
                         placeholder="0"
                       />
                     </div>
-                    <div className="text-xs text-[#1C1814] w-28 shrink-0">
+                    <div className="text-xs text-[#15140F] w-28 shrink-0">
                       {val === '0' ? '∞ unlimited' : `${Number(val).toLocaleString()} tokens/mo`}
                     </div>
                     <button

@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from 'react';
+﻿import { useEffect, useState, useCallback } from 'react';
 import { sileo } from 'sileo';
 import { getPermissions, setPlanPermissions } from '../../services/admin.service';
 import type { SystemPermission, PlanPermissions } from '../../types/admin.types';
@@ -8,15 +8,15 @@ type PlanKey = keyof PlanPermissions;
 const PLANS: { key: PlanKey; label: string; color: string; bg: string }[] = [
   { key: 'free',       label: 'Free',       color: '#60a5fa', bg: '#60a5fa18' },
   { key: 'starter',    label: 'Starter',    color: '#988d9c', bg: '#988d9c18' },
-  { key: 'pro',        label: 'Pro',        color: '#7DD3C7', bg: '#7DD3C718' },
-  { key: 'enterprise', label: 'Enterprise', color: '#c5d247', bg: '#c5d24718' },
+  { key: 'pro',        label: 'Pro',        color: '#C8553A', bg: '#C8553A18' },
+  { key: 'enterprise', label: 'Enterprise', color: '#4F7A4A', bg: '#4F7A4A18' },
 ];
 
 // Distinctive colors per category slot — cycles if there are more categories than colors
 const CAT_PALETTE = [
-  { color: '#7DD3C7', bg: '#7DD3C712', icon: 'article' },
+  { color: '#C8553A', bg: '#C8553A12', icon: 'article' },
   { color: '#60a5fa', bg: '#60a5fa12', icon: 'monitoring' },
-  { color: '#c5d247', bg: '#c5d24712', icon: 'auto_awesome' },
+  { color: '#4F7A4A', bg: '#4F7A4A12', icon: 'auto_awesome' },
   { color: '#f97316', bg: '#f9731612', icon: 'workspaces' },
   { color: '#f472b6', bg: '#f472b612', icon: 'style' },
   { color: '#34d399', bg: '#34d39912', icon: 'hub' },
@@ -120,17 +120,17 @@ export default function AdminPermissions() {
   const lowerSearch = search.toLowerCase();
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] p-6 lg:p-8">
+    <div className="min-h-screen bg-[#F6F2EA] p-6 lg:p-8">
 
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-2xl font-headline font-extrabold text-[#1C1814] tracking-tight mb-1">Plan Permissions</h1>
-        <p className="text-sm text-[#6A6470]">Configure which features each subscription plan can access.</p>
+        <h1 className="text-2xl font-headline font-extrabold text-[#15140F] tracking-tight mb-1">Plan Permissions</h1>
+        <p className="text-sm text-[#6B655B]">Configure which features each subscription plan can access.</p>
       </div>
 
       {loading ? (
         <div className="flex items-center justify-center h-64">
-          <span className="material-symbols-outlined text-[#1C1814] animate-spin" style={{ fontSize: 28 }}>progress_activity</span>
+          <span className="material-symbols-outlined text-[#15140F] animate-spin" style={{ fontSize: 28 }}>progress_activity</span>
         </div>
       ) : (
         <div className="flex flex-col gap-6">
@@ -147,7 +147,7 @@ export default function AdminPermissions() {
                     onClick={() => setActivePlan(plan.key)}
                     className={[
                       'relative px-5 py-2.5 rounded-xl text-sm font-bold font-headline tracking-tight transition-all duration-150 border',
-                      isActive ? '' : 'border-transparent text-[#6A6470] hover:text-[#1C1814] hover:bg-white/[0.04]',
+                      isActive ? '' : 'border-transparent text-[#6B655B] hover:text-[#15140F] hover:bg-white/[0.04]',
                     ].join(' ')}
                     style={isActive ? { color: plan.color, backgroundColor: plan.bg, borderColor: plan.color + '50' } : {}}
                   >
@@ -162,7 +162,7 @@ export default function AdminPermissions() {
 
             {/* Save + counter */}
             <div className="flex items-center gap-3">
-              <span className="text-xs text-[#1C1814]">
+              <span className="text-xs text-[#15140F]">
                 {pending[activePlan].length} / {system.length} enabled
               </span>
               <button
@@ -182,15 +182,15 @@ export default function AdminPermissions() {
 
           {/* Search */}
           <div className="relative max-w-sm">
-            <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[#1C1814]" style={{ fontSize: 16 }}>search</span>
+            <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[#15140F]" style={{ fontSize: 16 }}>search</span>
             <input
               value={search}
               onChange={e => setSearch(e.target.value)}
               placeholder="Search permissions..."
-              className="w-full pl-9 pr-4 py-2.5 rounded-xl bg-[#F4F0E8] border border-[#1C1814]/20 text-sm text-[#1C1814] placeholder:text-[#1C1814] focus:outline-none focus:border-[#1C1814]/50 transition-all"
+              className="w-full pl-9 pr-4 py-2.5 rounded-xl bg-[#F6F2EA] border border-[#15140F]/20 text-sm text-[#15140F] placeholder:text-[#15140F] focus:outline-none focus:border-[#15140F]/50 transition-all"
             />
             {search && (
-              <button onClick={() => setSearch('')} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[#1C1814] hover:text-[#1C1814] transition-colors">
+              <button onClick={() => setSearch('')} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[#15140F] hover:text-[#15140F] transition-colors">
                 <span className="material-symbols-outlined" style={{ fontSize: 14 }}>close</span>
               </button>
             )}
@@ -208,7 +208,7 @@ export default function AdminPermissions() {
               return (
                 <div
                   key={category}
-                  className="rounded-2xl border bg-[#F4F0E8] overflow-hidden flex flex-col"
+                  className="rounded-2xl border bg-[#F6F2EA] overflow-hidden flex flex-col"
                   style={{ borderColor: cat.color + '28' }}
                 >
                   {/* Card header */}
@@ -226,7 +226,7 @@ export default function AdminPermissions() {
                         </span>
                       </div>
                       <div>
-                        <p className="text-sm font-bold font-headline text-[#1C1814]">{category}</p>
+                        <p className="text-sm font-bold font-headline text-[#15140F]">{category}</p>
                         <p className="text-[10px]" style={{ color: cat.color + 'bb' }}>
                           {enabledCount} / {keys.length} enabled
                         </p>
@@ -263,10 +263,10 @@ export default function AdminPermissions() {
                           ].join(' ')}
                         >
                           <div className="min-w-0 pr-4">
-                            <p className={['text-sm leading-tight transition-colors', isChecked ? 'text-[#1C1814]' : 'text-[#6A6470]'].join(' ')}>
+                            <p className={['text-sm leading-tight transition-colors', isChecked ? 'text-[#15140F]' : 'text-[#6B655B]'].join(' ')}>
                               {perm.name}
                             </p>
-                            <p className="text-[10px] text-[#1C1814] font-mono mt-0.5">{perm.key}</p>
+                            <p className="text-[10px] text-[#15140F] font-mono mt-0.5">{perm.key}</p>
                           </div>
                           <Checkbox checked={isChecked} color={cat.color} />
                         </div>

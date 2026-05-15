@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+﻿import { useEffect, useRef, useState } from 'react';
 import { NavLink, useNavigate, useLocation } from 'react-router-dom';
 import gsap from 'gsap';
 import {
@@ -131,7 +131,7 @@ function SortableNavEntry({ entry, isOpen, pathname, openGroups, toggleGroup, ha
           <span
             {...attributes}
             {...listeners}
-            className="material-symbols-outlined absolute left-0 top-1/2 -translate-y-1/2 text-[#1C1814] opacity-0 group-hover:opacity-100 transition-opacity cursor-grab active:cursor-grabbing select-none"
+            className="material-symbols-outlined absolute left-0 top-1/2 -translate-y-1/2 text-[#6B655B] opacity-0 group-hover:opacity-100 transition-opacity cursor-grab active:cursor-grabbing select-none"
             style={{ fontSize: 14, touchAction: 'none' }}
           >
             drag_indicator
@@ -170,7 +170,7 @@ function SortableNavEntry({ entry, isOpen, pathname, openGroups, toggleGroup, ha
         <span
           {...attributes}
           {...listeners}
-          className="material-symbols-outlined absolute left-0 top-[14px] text-[#1C1814] opacity-0 group-hover:opacity-100 transition-opacity cursor-grab active:cursor-grabbing select-none"
+          className="material-symbols-outlined absolute left-0 top-[14px] text-[#6B655B] opacity-0 group-hover:opacity-100 transition-opacity cursor-grab active:cursor-grabbing select-none"
           style={{ fontSize: 14, touchAction: 'none' }}
         >
           drag_indicator
@@ -186,9 +186,9 @@ function SortableNavEntry({ entry, isOpen, pathname, openGroups, toggleGroup, ha
           'w-full flex items-center rounded-xl transition-all duration-150 select-none py-2.5 cursor-pointer',
           isOpen ? 'px-4' : 'px-4 lg:justify-center lg:px-0',
           isAnyChildActive
-            ? 'text-[#7DD3C7]'
-            : 'text-gray-400 hover:text-[#1C1814] hover:bg-[#7DD3C7]/6 active:bg-[#7DD3C7]/12 active:scale-[0.97]',
-          !isOpen && 'lg:hover:bg-[#7DD3C7]/6 lg:hover:text-[#1C1814]',
+            ? 'text-[#C8553A]'
+            : 'text-[#6B655B] hover:text-[#15140F] hover:bg-[#EFE9DC] active:bg-[#C8553A]/10 active:scale-[0.97]',
+          !isOpen && 'lg:hover:bg-[#EFE9DC] lg:hover:text-[#15140F]',
         ].join(' ')}
       >
         <span className="material-symbols-outlined shrink-0" style={{ fontSize: 20, fontVariationSettings: isAnyChildActive ? "'FILL' 1" : "'FILL' 0" }}>
@@ -201,7 +201,7 @@ function SortableNavEntry({ entry, isOpen, pathname, openGroups, toggleGroup, ha
           'material-symbols-outlined shrink-0 transition-all duration-300',
           isOpen ? 'opacity-100' : 'opacity-0 w-0',
           isGroupOpen ? '[transform:rotate(180deg)]' : '',
-          isAnyChildActive ? 'text-[#7DD3C7]' : 'text-[#1C1814]',
+          isAnyChildActive ? 'text-[#C8553A]' : 'text-[#6B655B]',
         ].join(' ')} style={{ fontSize: 14 }}>
           expand_more
         </span>
@@ -219,8 +219,8 @@ function SortableNavEntry({ entry, isOpen, pathname, openGroups, toggleGroup, ha
                 className={({ isActive }) => [
                   'flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-headline tracking-tight transition-all duration-150 select-none',
                   isActive
-                    ? 'text-[#7DD3C7] bg-[#7DD3C7]/10 font-semibold'
-                    : 'text-[#6A6470] hover:text-[#1C1814] hover:bg-[#7DD3C7]/6 hover:translate-x-0.5 active:bg-[#7DD3C7]/12 active:scale-[0.97] active:translate-x-0',
+                    ? 'text-[#C8553A] bg-[#C8553A]/10 font-semibold'
+                    : 'text-[#6B655B] hover:text-[#15140F] hover:bg-[#EFE9DC] hover:translate-x-0.5 active:bg-[#C8553A]/10 active:scale-[0.97] active:translate-x-0',
                 ].join(' ')}
               >
                 {({ isActive }) => (
@@ -388,9 +388,9 @@ export default function Sidebar() {
     const btn = wsRef.current?.querySelector('button');
     if (btn) {
       gsap.fromTo(btn,
-        { boxShadow: '0 0 0px rgba(125,211,199,0)' },
-        { boxShadow: '0 0 18px rgba(125,211,199,0.45)', duration: 0.2, ease: 'power2.out',
-          onComplete: () => { gsap.to(btn, { boxShadow: '0 0 0px rgba(125,211,199,0)', duration: 0.4, ease: 'power2.in' }); } },
+        { boxShadow: '0 0 0px rgba(200,85,58,0)' },
+        { boxShadow: '0 0 18px rgba(200,85,58,0.25)', duration: 0.2, ease: 'power2.out',
+          onComplete: () => { gsap.to(btn, { boxShadow: '0 0 0px rgba(200,85,58,0)', duration: 0.4, ease: 'power2.in' }); } },
       );
     }
     if (wsNameRef.current) {
@@ -428,8 +428,8 @@ export default function Sidebar() {
     'flex items-center rounded-xl text-sm font-headline tracking-tight transition-all duration-150 select-none',
     collapsed ? 'py-2.5 px-4 lg:justify-center lg:px-0' : 'py-2.5 px-4',
     isActive
-      ? 'text-[#7DD3C7] bg-[#7DD3C7]/10 font-semibold'
-      : 'text-gray-400 hover:text-[#1C1814] hover:bg-[#7DD3C7]/6 active:bg-[#7DD3C7]/12 active:scale-[0.97]',
+      ? 'text-[#C8553A] bg-[#C8553A]/10 font-semibold'
+      : 'text-[#6B655B] hover:text-[#15140F] hover:bg-[#EFE9DC] active:bg-[#C8553A]/10 active:scale-[0.97]',
   ].join(' ');
 
   return (
@@ -438,7 +438,7 @@ export default function Sidebar() {
       ref={asideRef}
       className={[
         'fixed left-0 top-0 h-full flex flex-col py-8 z-50',
-        'bg-[#F4F0E8] border-r border-[#1C1814]/15',
+        'bg-[#FBF8F2] border-r border-[rgba(21,20,15,0.10)]',
         'transition-all duration-300 ease-in-out',
         isOpen
           ? 'w-[240px] translate-x-0 px-4'
@@ -449,13 +449,13 @@ export default function Sidebar() {
       {/* Brand */}
       <div ref={brandRef} className={`mb-8 flex items-center ${isOpen ? 'px-2' : 'px-2 lg:justify-center lg:px-0'}`}>
         <span className={[
-          'text-xl font-bold tracking-tighter text-[#1C1814] font-headline whitespace-nowrap overflow-hidden transition-all duration-300',
+          'text-xl font-bold tracking-tighter text-[#15140F] font-headline whitespace-nowrap overflow-hidden transition-all duration-300',
           isOpen ? 'max-w-[200px] opacity-100' : 'max-w-0 opacity-0',
         ].join(' ')}>
           Vielinks
         </span>
         <span className={[
-          'w-2.5 h-2.5 rounded-full bg-[#7DD3C7] shrink-0 shadow-[0_0_8px_rgba(125,211,199,0.7)] transition-all duration-300',
+          'w-2.5 h-2.5 rounded-full bg-[#C8553A] shrink-0 shadow-[0_0_8px_rgba(200,85,58,0.5)] transition-all duration-300',
           isOpen ? 'hidden' : 'hidden lg:block',
         ].join(' ')} />
       </div>
@@ -468,63 +468,63 @@ export default function Sidebar() {
           className={[
             'w-full flex items-center rounded-xl border transition-all duration-300 py-2',
             isOpen ? 'px-3 gap-2.5' : 'px-3 lg:justify-center lg:px-0',
-            wsOpen ? 'bg-[#7DD3C7]/10 border-[#7DD3C7]/25' : 'bg-[#1a1a1a] border-[#1C1814]/15 hover:border-[#7DD3C7]/20',
+            wsOpen ? 'bg-[#C8553A]/10 border-[#C8553A]/25' : 'bg-white border-border hover:border-[#C8553A]/30',
           ].join(' ')}
         >
-          <div className="w-6 h-6 rounded-md bg-gradient-to-tr from-[#7DD3C7] to-inverse-primary flex items-center justify-center shrink-0">
-            <span className="material-symbols-outlined text-[#1C1814]" style={{ fontSize: 13 }}>workspaces</span>
+          <div className="w-6 h-6 rounded-md bg-gradient-to-tr from-[#C8553A] to-[#A53F28] flex items-center justify-center shrink-0">
+            <span className="material-symbols-outlined text-white" style={{ fontSize: 13 }}>workspaces</span>
           </div>
           <span ref={wsNameRef} className={[
-            'flex-1 text-left text-xs font-bold text-[#1C1814] truncate transition-all duration-300',
+            'flex-1 text-left text-xs font-bold text-[#15140F] truncate transition-all duration-300',
             isOpen ? 'max-w-[130px] opacity-100' : 'max-w-0 opacity-0',
           ].join(' ')}>
             {active?.name ?? 'No workspace'}
           </span>
           <span className={[
-            'material-symbols-outlined text-[#6A6470] shrink-0 transition-all duration-300',
+            'material-symbols-outlined text-[#6B655B] shrink-0 transition-all duration-300',
             isOpen ? 'opacity-100' : 'opacity-0 w-0',
             wsOpen ? '[transform:rotate(180deg)]' : '',
           ].join(' ')} style={{ fontSize: 14 }}>expand_more</span>
         </button>
 
         {wsOpen && isOpen && (
-          <div className="absolute top-full left-0 mt-1.5 w-full bg-[#FAF7F2] rounded-2xl border border-[#1C1814]/20 shadow-[0_8px_40px_rgba(0,0,0,0.6)] z-[100] overflow-hidden py-1.5">
+          <div className="absolute top-full left-0 mt-1.5 w-full bg-[#FBF8F2] rounded-2xl border border-border shadow-[0_8px_32px_rgba(0,0,0,0.12)] z-100 overflow-hidden py-1.5">
             {workspaces.map(ws => (
               <button
                 key={ws.id}
                 onClick={() => { switchWorkspace(ws.id); setWsOpen(false); }}
                 className={[
                   'flex items-center gap-2.5 w-full px-3.5 py-2.5 text-xs transition-colors text-left',
-                  ws.id === active?.id ? 'text-[#7DD3C7] bg-[#7DD3C7]/8' : 'text-[#5C5650] hover:text-[#1C1814] hover:bg-white/[0.04]',
+                  ws.id === active?.id ? 'text-[#C8553A] bg-[#C8553A]/8' : 'text-on-surface-variant hover:text-[#15140F] hover:bg-[#EFE9DC]',
                 ].join(' ')}
               >
                 <span className="material-symbols-outlined" style={{ fontSize: 14, fontVariationSettings: ws.id === active?.id ? "'FILL' 1" : "'FILL' 0" }}>workspaces</span>
                 <span className="flex-1 truncate font-semibold">{ws.name}</span>
-                {ws.id === active?.id && <span className="w-1.5 h-1.5 rounded-full bg-[#7DD3C7] shrink-0" />}
+                {ws.id === active?.id && <span className="w-1.5 h-1.5 rounded-full bg-[#C8553A] shrink-0" />}
               </button>
             ))}
 
-            <div className="h-px bg-[#1C1814]/20 mx-3 my-1" />
+            <div className="h-px bg-[rgba(21,20,15,0.10)] mx-3 my-1" />
 
             {creating ? (
               <form onSubmit={handleCreateWs} className="px-2 pb-2 pt-1 flex flex-col gap-2">
                 <input
                   autoFocus value={newName} onChange={e => setNewName(e.target.value)}
                   placeholder="Workspace name…"
-                  className="w-full bg-[#131313] border border-[#1C1814]/30 rounded-lg px-3 py-2 text-xs text-[#1C1814] placeholder:text-[#1C1814] focus:outline-none focus:border-[#7DD3C7]/40 transition-all"
+                  className="w-full bg-white border border-border rounded-lg px-3 py-2 text-xs text-[#15140F] placeholder:text-[#A39B8B] focus:outline-none focus:border-[#C8553A]/40 transition-all"
                 />
                 <div className="flex gap-2">
-                  <button type="submit" disabled={!newName.trim()} className="flex-1 py-1.5 rounded-lg bg-[#7DD3C7] text-[#131313] font-bold text-[10px] disabled:opacity-40 hover:bg-[#9ee3db] transition-all">Create</button>
-                  <button type="button" onClick={() => { setCreating(false); setNewName(''); }} className="px-3 py-1.5 rounded-lg border border-[#1C1814]/20 text-[10px] text-[#6A6470] hover:text-[#1C1814] transition-colors">Cancel</button>
+                  <button type="submit" disabled={!newName.trim()} className="flex-1 py-1.5 rounded-lg bg-[#C8553A] text-white font-bold text-[10px] disabled:opacity-40 hover:bg-[#A53F28] transition-all">Create</button>
+                  <button type="button" onClick={() => { setCreating(false); setNewName(''); }} className="px-3 py-1.5 rounded-lg border border-border text-[10px] text-[#6B655B] hover:text-[#15140F] hover:bg-[#EFE9DC] transition-colors">Cancel</button>
                 </div>
               </form>
             ) : atLimit ? (
-              <div className="flex items-center gap-2 w-full px-3.5 py-2.5 text-xs text-[#1C1814] cursor-not-allowed select-none">
+              <div className="flex items-center gap-2 w-full px-3.5 py-2.5 text-xs text-[#15140F] cursor-not-allowed select-none">
                 <span className="material-symbols-outlined" style={{ fontSize: 14 }}>lock</span>
                 Limit reached (5/5)
               </div>
             ) : (
-              <button onClick={() => setCreating(true)} className="flex items-center gap-2 w-full px-3.5 py-2.5 text-xs text-[#6A6470] hover:text-[#1C1814] hover:bg-white/[0.04] transition-colors">
+              <button onClick={() => setCreating(true)} className="flex items-center gap-2 w-full px-3.5 py-2.5 text-xs text-[#6B655B] hover:text-[#15140F] hover:bg-[#EFE9DC] transition-colors">
                 <span className="material-symbols-outlined" style={{ fontSize: 14 }}>add</span>
                 New Workspace
               </button>
@@ -538,8 +538,8 @@ export default function Sidebar() {
         {userPlan === null ? (
           Array.from({ length: 5 }).map((_, i) => (
             <div key={i} className={['flex items-center py-2.5 rounded-xl animate-pulse', isOpen ? 'px-4 gap-3' : 'px-4 lg:justify-center lg:px-0'].join(' ')}>
-              <div className="w-5 h-5 rounded-md bg-[#E5DFD6] shrink-0" />
-              <div className={['h-3 bg-[#E5DFD6] rounded-full transition-all duration-300', isOpen ? 'w-24 opacity-100' : 'w-0 opacity-0'].join(' ')} />
+              <div className="w-5 h-5 rounded-md bg-[#E7E0D0] shrink-0" />
+              <div className={['h-3 bg-[#E7E0D0] rounded-full transition-all duration-300', isOpen ? 'w-24 opacity-100' : 'w-0 opacity-0'].join(' ')} />
             </div>
           ))
         ) : (
@@ -569,7 +569,7 @@ export default function Sidebar() {
 
             {/* Separador */}
             {dashboardEntry && sortableEntries.length > 0 && (
-              <div className="h-px bg-[#1C1814]/20 mx-1 my-1.5" />
+              <div className="h-px bg-[rgba(21,20,15,0.10)] mx-1 my-1.5" />
             )}
 
             {/* Entradas sortables */}
@@ -601,7 +601,7 @@ export default function Sidebar() {
               const groupIsOpen      = adminOpen && isOpen;
               return (
                 <>
-                  <div className="h-px bg-[#1C1814]/20 mx-1 my-1.5" />
+                  <div className="h-px bg-[rgba(21,20,15,0.10)] mx-1 my-1.5" />
                   <button
                     data-nav-item
                     onClick={() => {
@@ -614,9 +614,9 @@ export default function Sidebar() {
                       'w-full flex items-center rounded-xl transition-all duration-150 select-none py-2.5 cursor-pointer',
                       isOpen ? 'px-4' : 'px-4 lg:justify-center lg:px-0',
                       isAnyAdminActive
-                        ? 'text-[#7DD3C7]'
-                        : 'text-gray-400 hover:text-[#1C1814] hover:bg-[#7DD3C7]/6 active:bg-[#7DD3C7]/12 active:scale-[0.97]',
-                      !isOpen && 'lg:hover:bg-[#7DD3C7]/6 lg:hover:text-[#1C1814]',
+                        ? 'text-[#C8553A]'
+                        : 'text-[#6B655B] hover:text-[#15140F] hover:bg-[#EFE9DC] active:bg-[#C8553A]/10 active:scale-[0.97]',
+                      !isOpen && 'lg:hover:bg-[#EFE9DC] lg:hover:text-[#15140F]',
                     ].join(' ')}
                   >
                     <span className="material-symbols-outlined shrink-0" style={{ fontSize: 20, fontVariationSettings: isAnyAdminActive ? "'FILL' 1" : "'FILL' 0" }}>
@@ -629,7 +629,7 @@ export default function Sidebar() {
                       'material-symbols-outlined shrink-0 transition-all duration-300',
                       isOpen ? 'opacity-100' : 'opacity-0 w-0',
                       groupIsOpen ? '[transform:rotate(180deg)]' : '',
-                      isAnyAdminActive ? 'text-[#7DD3C7]' : 'text-[#1C1814]',
+                      isAnyAdminActive ? 'text-[#C8553A]' : 'text-[#6B655B]',
                     ].join(' ')} style={{ fontSize: 14 }}>
                       expand_more
                     </span>
@@ -647,8 +647,8 @@ export default function Sidebar() {
                             className={({ isActive }) => [
                               'flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-headline tracking-tight transition-all duration-150 select-none',
                               isActive
-                                ? 'text-[#7DD3C7] bg-[#7DD3C7]/10 font-semibold'
-                                : 'text-[#6A6470] hover:text-[#1C1814] hover:bg-[#7DD3C7]/6 hover:translate-x-0.5 active:bg-[#7DD3C7]/12 active:scale-[0.97] active:translate-x-0',
+                                ? 'text-[#C8553A] bg-[#C8553A]/10 font-semibold'
+                                : 'text-[#6B655B] hover:text-[#15140F] hover:bg-[#EFE9DC] hover:translate-x-0.5 active:bg-[#C8553A]/10 active:scale-[0.97] active:translate-x-0',
                             ].join(' ')}
                           >
                             {({ isActive }) => (
@@ -677,20 +677,20 @@ export default function Sidebar() {
         {/* Desktop floating dropdown */}
         <div className={[
           'hidden lg:flex flex-col absolute bottom-full left-0 mb-2 w-full min-w-[200px]',
-          'bg-[#FAF7F2] rounded-2xl border border-[#1C1814]/20 shadow-[0_8px_40px_rgba(0,0,0,0.6)]',
-          'z-[100] overflow-hidden py-1 origin-bottom transition-all duration-200 ease-out',
+          'bg-[#FBF8F2] rounded-2xl border border-border shadow-[0_8px_32px_rgba(0,0,0,0.12)]',
+          'z-100 overflow-hidden py-1 origin-bottom transition-all duration-200 ease-out',
           menuOpen ? 'opacity-100 scale-100 translate-y-0 pointer-events-auto' : 'opacity-0 scale-95 translate-y-1 pointer-events-none',
         ].join(' ')}>
-          <button onClick={() => handleMenuNav('/profile')} className="flex items-center gap-3 px-4 py-3 text-sm text-[#5C5650] hover:text-[#1C1814] hover:bg-white/[0.04] transition-colors w-full text-left cursor-pointer">
-            <span className="material-symbols-outlined text-[#7DD3C7]" style={{ fontSize: 18 }}>account_circle</span>
+          <button onClick={() => handleMenuNav('/profile')} className="flex items-center gap-3 px-4 py-3 text-sm text-on-surface-variant hover:text-[#15140F] hover:bg-[#EFE9DC] transition-colors w-full text-left cursor-pointer">
+            <span className="material-symbols-outlined text-[#C8553A]" style={{ fontSize: 18 }}>account_circle</span>
             <span className="font-headline">View Profile</span>
           </button>
-          <button onClick={() => handleMenuNav('/settings')} className="flex items-center gap-3 px-4 py-3 text-sm text-[#5C5650] hover:text-[#1C1814] hover:bg-white/[0.04] transition-colors w-full text-left cursor-pointer">
-            <span className="material-symbols-outlined text-[#6A6470]" style={{ fontSize: 18 }}>settings</span>
+          <button onClick={() => handleMenuNav('/settings')} className="flex items-center gap-3 px-4 py-3 text-sm text-on-surface-variant hover:text-[#15140F] hover:bg-[#EFE9DC] transition-colors w-full text-left cursor-pointer">
+            <span className="material-symbols-outlined text-[#6B655B]" style={{ fontSize: 18 }}>settings</span>
             <span className="font-headline">Settings</span>
           </button>
-          <div className="h-px bg-[#1C1814]/20 mx-3 my-1" />
-          <button onClick={handleLogout} className="flex items-center gap-3 px-4 py-3 text-sm text-[#ffb4ab] hover:text-[#1C1814] hover:bg-[#ffb4ab]/10 transition-colors w-full text-left cursor-pointer">
+          <div className="h-px bg-[rgba(21,20,15,0.10)] mx-3 my-1" />
+          <button onClick={handleLogout} className="flex items-center gap-3 px-4 py-3 text-sm text-red-600 hover:text-red-700 hover:bg-red-50 transition-colors w-full text-left cursor-pointer">
             <span className="material-symbols-outlined" style={{ fontSize: 18 }}>logout</span>
             <span className="font-headline">Log out</span>
           </button>
@@ -703,26 +703,26 @@ export default function Sidebar() {
           className={[
             'w-full rounded-2xl border flex items-center transition-all duration-300 cursor-pointer',
             isOpen ? 'px-2 py-3 gap-3' : 'px-2 py-3 lg:p-2 lg:justify-center',
-            menuOpen ? 'bg-[#7DD3C7]/10 border-[#7DD3C7]/30' : 'bg-[#F0EBE2] border-[#1C1814]/10 hover:border-[#7DD3C7]/20 hover:bg-[#E5DFD6]',
+            menuOpen ? 'bg-[#C8553A]/10 border-[#C8553A]/30' : 'bg-[#EFE9DC] border-border hover:border-[#C8553A]/30 hover:bg-[#E7E0D0]',
           ].join(' ')}
         >
-          <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-[#7DD3C7] to-inverse-primary p-[1.5px] shrink-0">
-            <div className="w-full h-full rounded-full bg-[#131313] overflow-hidden flex items-center justify-center">
+          <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-[#C8553A] to-[#A53F28] p-[1.5px] shrink-0">
+            <div className="w-full h-full rounded-full bg-white overflow-hidden flex items-center justify-center">
               {avatarUrl
                 ? <img src={avatarUrl} alt="Avatar" className="w-full h-full object-cover" />
-                : <span className="text-xs font-bold text-[#7DD3C7]">{displayName ? displayName[0].toUpperCase() : '?'}</span>
+                : <span className="text-xs font-bold text-[#C8553A]">{displayName ? displayName[0].toUpperCase() : '?'}</span>
               }
             </div>
           </div>
           <div className={`flex-1 overflow-hidden transition-all duration-300 text-left ${isOpen ? 'max-w-[120px] opacity-100' : 'max-w-0 opacity-0'}`}>
-            <p className="text-sm font-bold text-[#1C1814] leading-tight font-headline whitespace-nowrap">{displayName || '—'}</p>
+            <p className="text-sm font-bold text-[#15140F] leading-tight font-headline whitespace-nowrap">{displayName || '—'}</p>
             {userPlan === null
-              ? <div className="h-2 w-16 bg-[#E5DFD6] rounded-full animate-pulse mt-0.5" />
-              : <p className="text-[10px] text-[#6A6470] uppercase tracking-widest whitespace-nowrap">{PLAN_LABEL[userPlan]} Plan</p>
+              ? <div className="h-2 w-16 bg-[#E7E0D0] rounded-full animate-pulse mt-0.5" />
+              : <p className="text-[10px] text-[#6B655B] uppercase tracking-widest whitespace-nowrap">{PLAN_LABEL[userPlan]} Plan</p>
             }
           </div>
           <span className={[
-            'material-symbols-outlined text-[#6A6470] transition-all duration-300 shrink-0',
+            'material-symbols-outlined text-[#6B655B] transition-all duration-300 shrink-0',
             isOpen ? 'opacity-100' : 'opacity-0 w-0',
             menuOpen ? '[transform:rotate(180deg)]' : '',
           ].join(' ')} style={{ fontSize: 16 }}>expand_less</span>
@@ -733,15 +733,15 @@ export default function Sidebar() {
           'lg:hidden mt-1 space-y-0.5 overflow-hidden transition-all duration-200 ease-out',
           menuOpen ? 'opacity-100 max-h-40' : 'opacity-0 max-h-0',
         ].join(' ')}>
-          <button onClick={() => handleMenuNav('/profile')} className="flex items-center gap-3 w-full px-4 py-2.5 rounded-xl text-sm text-[#5C5650] hover:text-[#1C1814] hover:bg-[#F0EBE2] transition-colors cursor-pointer">
-            <span className="material-symbols-outlined text-[#7DD3C7]" style={{ fontSize: 18 }}>account_circle</span>
+          <button onClick={() => handleMenuNav('/profile')} className="flex items-center gap-3 w-full px-4 py-2.5 rounded-xl text-sm text-on-surface-variant hover:text-[#15140F] hover:bg-[#EFE9DC] transition-colors cursor-pointer">
+            <span className="material-symbols-outlined text-[#C8553A]" style={{ fontSize: 18 }}>account_circle</span>
             <span className="font-headline">View Profile</span>
           </button>
-          <button onClick={() => handleMenuNav('/settings')} className="flex items-center gap-3 w-full px-4 py-2.5 rounded-xl text-sm text-[#5C5650] hover:text-[#1C1814] hover:bg-[#F0EBE2] transition-colors cursor-pointer">
-            <span className="material-symbols-outlined text-[#6A6470]" style={{ fontSize: 18 }}>settings</span>
+          <button onClick={() => handleMenuNav('/settings')} className="flex items-center gap-3 w-full px-4 py-2.5 rounded-xl text-sm text-on-surface-variant hover:text-[#15140F] hover:bg-[#EFE9DC] transition-colors cursor-pointer">
+            <span className="material-symbols-outlined text-[#6B655B]" style={{ fontSize: 18 }}>settings</span>
             <span className="font-headline">Settings</span>
           </button>
-          <button onClick={handleLogout} className="flex items-center gap-3 w-full px-4 py-2.5 rounded-xl text-sm text-[#ffb4ab] hover:text-[#1C1814] hover:bg-[#ffb4ab]/10 transition-colors cursor-pointer">
+          <button onClick={handleLogout} className="flex items-center gap-3 w-full px-4 py-2.5 rounded-xl text-sm text-red-600 hover:text-red-700 hover:bg-red-50 transition-colors cursor-pointer">
             <span className="material-symbols-outlined" style={{ fontSize: 18 }}>logout</span>
             <span className="font-headline">Log out</span>
           </button>
@@ -760,16 +760,16 @@ export default function Sidebar() {
     {/* Logout confirmation modal */}
     <Modal open={logoutModal} onClose={() => setLogoutModal(false)} maxWidth="max-w-sm">
       <div className="p-8">
-        <div className="w-12 h-12 rounded-2xl bg-[#ffb4ab]/10 border border-[#ffb4ab]/20 flex items-center justify-center mb-5">
-          <span className="material-symbols-outlined text-[#ffb4ab]" style={{ fontSize: 22 }}>logout</span>
+        <div className="w-12 h-12 rounded-2xl bg-red-50 border border-red-200 flex items-center justify-center mb-5">
+          <span className="material-symbols-outlined text-red-500" style={{ fontSize: 22 }}>logout</span>
         </div>
-        <h2 className="text-xl font-headline font-extrabold tracking-tight text-[#1C1814] mb-1">Log out?</h2>
-        <p className="text-sm text-[#6A6470] mb-7">You'll be redirected to the login screen. Your workspaces and data will be saved.</p>
+        <h2 className="text-xl font-headline font-extrabold tracking-tight text-[#15140F] mb-1">Log out?</h2>
+        <p className="text-sm text-[#6B655B] mb-7">You'll be redirected to the login screen. Your workspaces and data will be saved.</p>
         <div className="flex flex-col gap-2.5">
-          <button onClick={() => { void confirmLogout(); }} className="w-full py-3 rounded-xl bg-[#ffb4ab] text-[#131313] font-bold text-sm hover:bg-[#ffccc7] transition-all">
+          <button onClick={() => { void confirmLogout(); }} className="w-full py-3 rounded-xl bg-red-600 text-white font-bold text-sm hover:bg-red-700 transition-all">
             Yes, log out
           </button>
-          <button onClick={() => setLogoutModal(false)} className="w-full py-3 rounded-xl border border-[#1C1814]/20 text-sm font-semibold text-[#5C5650] hover:bg-[#F0EBE2] hover:text-[#1C1814] transition-all">
+          <button onClick={() => setLogoutModal(false)} className="w-full py-3 rounded-xl border border-border text-sm font-semibold text-on-surface-variant hover:bg-[#EFE9DC] hover:text-[#15140F] transition-all">
             Cancel
           </button>
         </div>

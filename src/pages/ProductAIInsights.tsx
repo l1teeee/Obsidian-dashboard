@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+﻿import { useEffect, useRef, useState } from 'react';
 import { useSEO } from '../hooks/useSEO';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
@@ -70,22 +70,22 @@ export default function ProductAIInsights() {
     <ProductShell>
       {/* Hero */}
       <section className="relative pt-36 pb-16 overflow-hidden">
-        <div className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[400px] rounded-full bg-[#7DD3C7]/[0.06] blur-[130px]" />
+        <div className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[400px] rounded-full bg-[#C8553A]/[0.06] blur-[130px]" />
         <div className="mx-auto max-w-5xl px-6 text-center relative">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-            <span className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#7DD3C7]/20 bg-[#7DD3C7]/8 px-4 py-1.5 text-[0.68rem] font-bold uppercase tracking-[0.22em] text-[#7DD3C7]">
-              <span className="h-1.5 w-1.5 rounded-full bg-[#7DD3C7]" /> Product · AI Insights
+            <span className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#C8553A]/20 bg-[#C8553A]/8 px-4 py-1.5 text-[0.68rem] font-bold uppercase tracking-[0.22em] text-[#C8553A]">
+              <span className="h-1.5 w-1.5 rounded-full bg-[#C8553A]" /> Product · AI Insights
             </span>
-            <h1 className="mt-5 text-5xl md:text-[4rem] font-extrabold leading-[0.96] tracking-[-0.04em] text-[#1C1814]">
+            <h1 className="mt-5 text-5xl md:text-[4rem] font-extrabold leading-[0.96] tracking-[-0.04em] text-[#15140F]">
               Write smarter.<br />
-              <span className="bg-gradient-to-r from-[#7DD3C7] via-[#f0dcff] to-inverse-primary bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-[#C8553A] via-[#f0dcff] to-inverse-primary bg-clip-text text-transparent">
                 Post at the right time.
               </span>
             </h1>
-            <p className="mt-6 text-lg font-light text-[#1C1814]/55 max-w-xl mx-auto leading-relaxed">
+            <p className="mt-6 text-lg font-light text-[#6B655B] max-w-xl mx-auto leading-relaxed">
               AI that knows your audience, your platforms, and your voice. Captions, timing, hashtags — handled.
             </p>
-            <button onClick={() => navigate('/register')} className="mt-8 rounded-full bg-[#7DD3C7] px-8 py-3.5 text-sm font-bold text-[#0B0B0A] hover:shadow-[0_0_32px_rgba(125,211,199,0.4)] transition-all active:scale-[0.98]">
+            <button onClick={() => navigate('/register')} className="mt-8 rounded-full bg-[#C8553A] px-8 py-3.5 text-sm font-bold text-white hover:bg-[#A53F28] hover:shadow-[0_0_32px_rgba(200,85,58,0.4)] transition-all active:scale-[0.98]">
               Try AI for free
             </button>
           </motion.div>
@@ -94,17 +94,17 @@ export default function ProductAIInsights() {
 
       {/* Caption generator demo */}
       <section className="py-12 mx-auto max-w-4xl px-6">
-        <div className="rounded-3xl border border-white/[0.07] bg-[#111]/70 overflow-hidden">
-          <div className="px-6 py-4 border-b border-white/[0.06] flex items-center gap-3">
-            <span className="material-symbols-outlined text-[#7DD3C7]" style={{ fontSize: 18, fontVariationSettings: "'FILL' 1" }}>auto_awesome</span>
-            <span className="text-sm font-bold text-[#1C1814]">AI Caption Generator</span>
+        <div className="rounded-3xl border border-[rgba(21,20,15,0.10)] bg-[#FFFFFF] overflow-hidden">
+          <div className="px-6 py-4 border-b border-[rgba(21,20,15,0.08)] flex items-center gap-3">
+            <span className="material-symbols-outlined text-[#C8553A]" style={{ fontSize: 18, fontVariationSettings: "'FILL' 1" }}>auto_awesome</span>
+            <span className="text-sm font-bold text-[#15140F]">AI Caption Generator</span>
             <div className="ml-auto flex gap-2">
               {CAPTIONS.map((c, i) => (
                 <button
                   key={i}
                   onClick={() => setActiveCap(i)}
                   className="px-3 py-1 rounded-full text-[10px] font-bold border transition-all"
-                  style={activeCap === i ? { borderColor: `${c.color}50`, color: c.color, backgroundColor: `${c.color}15` } : { borderColor: 'rgba(255,255,255,0.07)', color: 'rgba(255,255,255,0.3)' }}
+                  style={activeCap === i ? { borderColor: `${c.color}50`, color: c.color, backgroundColor: `${c.color}15` } : { borderColor: 'rgba(21,20,15,0.12)', color: '#6B655B' }}
                 >
                   {c.label}
                 </button>
@@ -120,7 +120,7 @@ export default function ProductAIInsights() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -8 }}
                   transition={{ duration: 0.3 }}
-                  className="text-sm text-[#1C1814]/80 leading-relaxed"
+                  className="text-sm text-[#15140F]/80 leading-relaxed"
                 >
                   {cap.text}
                 </motion.p>
@@ -137,23 +137,23 @@ export default function ProductAIInsights() {
                       key={i}
                       animate={{ y: [0, -4, 0] }}
                       transition={{ duration: 0.4, repeat: Infinity, delay: i * 0.1 }}
-                      className="w-1.5 h-1.5 rounded-full bg-[#7DD3C7]"
+                      className="w-1.5 h-1.5 rounded-full bg-[#C8553A]"
                     />
                   ))}
                 </motion.div>
               )}
             </AnimatePresence>
           </div>
-          <div className="px-6 py-3 border-t border-white/[0.04] flex items-center justify-between">
-            <span className="text-[10px] text-[#1C1814]/25">Generated in 0.8s · optimized for {cap?.label}</span>
-            <button className="text-[10px] font-semibold text-[#7DD3C7] hover:text-[#c97cff] transition-colors">Regenerate →</button>
+          <div className="px-6 py-3 border-t border-[rgba(21,20,15,0.06)] flex items-center justify-between">
+            <span className="text-[10px] text-[#A39B8B]">Generated in 0.8s · optimized for {cap?.label}</span>
+            <button className="text-[10px] font-semibold text-[#C8553A] hover:text-[#A53F28] transition-colors">Regenerate →</button>
           </div>
         </div>
       </section>
 
       {/* Insight cards */}
       <section className="py-8 mx-auto max-w-5xl px-6">
-        <p className="text-[0.68rem] font-bold uppercase tracking-[0.2em] text-[#7DD3C7] mb-6 text-center">Live AI insights for your account</p>
+        <p className="text-[0.68rem] font-bold uppercase tracking-[0.2em] text-[#C8553A] mb-6 text-center">Live AI insights for your account</p>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
           {INSIGHTS.map((ins) => (
             <motion.div
@@ -161,15 +161,15 @@ export default function ProductAIInsights() {
               initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="rounded-2xl border border-white/[0.07] bg-[#111]/70 p-4"
+              className="rounded-2xl border border-[rgba(21,20,15,0.10)] bg-[#FFFFFF] p-4"
             >
               <div className="flex items-center justify-between mb-3">
-                <span className="material-symbols-outlined text-[#7DD3C7]" style={{ fontSize: 16, fontVariationSettings: "'FILL' 1" }}>{ins.icon}</span>
-                <span className="px-1.5 py-0.5 rounded-full bg-[#7DD3C7]/10 text-[#7DD3C7] text-[9px] font-bold">{ins.badge}</span>
+                <span className="material-symbols-outlined text-[#C8553A]" style={{ fontSize: 16, fontVariationSettings: "'FILL' 1" }}>{ins.icon}</span>
+                <span className="px-1.5 py-0.5 rounded-full bg-[#C8553A]/10 text-[#C8553A] text-[9px] font-bold">{ins.badge}</span>
               </div>
-              <p className="text-[10px] text-[#1C1814]/40 mb-1">{ins.title}</p>
-              <p className="text-sm font-bold text-[#1C1814]">{ins.desc}</p>
-              <p className="text-[10px] text-[#1C1814]/30 mt-1">{ins.sub}</p>
+              <p className="text-[10px] text-[#6B655B] mb-1">{ins.title}</p>
+              <p className="text-sm font-bold text-[#15140F]">{ins.desc}</p>
+              <p className="text-[10px] text-[#A39B8B] mt-1">{ins.sub}</p>
             </motion.div>
           ))}
         </div>
@@ -178,17 +178,17 @@ export default function ProductAIInsights() {
       {/* Feature grid */}
       <section className="py-20 mx-auto max-w-6xl px-6">
         <div className="text-center mb-14">
-          <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight text-[#1C1814]">The full AI toolkit</h2>
-          <p className="mt-3 text-[#1C1814]/45">Every AI feature in one place, no prompt engineering required.</p>
+          <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight text-[#15140F]">The full AI toolkit</h2>
+          <p className="mt-3 text-[#6B655B]">Every AI feature in one place, no prompt engineering required.</p>
         </div>
         <div ref={featRef} className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
           {AI_FEATURES.map((f) => (
-            <div key={f.title} data-feat style={{ opacity: 0 }} className="rounded-2xl border border-white/[0.07] bg-[#111]/70 p-6 hover:border-[#7DD3C7]/20 transition-all duration-300 group">
-              <div className="w-10 h-10 rounded-xl bg-[#7DD3C7]/8 border border-[#7DD3C7]/12 flex items-center justify-center mb-4 group-hover:bg-[#7DD3C7]/15 transition-colors">
-                <span className="material-symbols-outlined text-[#7DD3C7]" style={{ fontSize: 18, fontVariationSettings: "'FILL' 1" }}>{f.icon}</span>
+            <div key={f.title} data-feat style={{ opacity: 0 }} className="rounded-2xl border border-[rgba(21,20,15,0.10)] bg-[#FFFFFF] p-6 hover:border-[#C8553A]/20 hover:bg-[#EFE9DC] transition-all duration-300 group">
+              <div className="w-10 h-10 rounded-xl bg-[#C8553A]/8 border border-[#C8553A]/12 flex items-center justify-center mb-4 group-hover:bg-[#C8553A]/15 transition-colors">
+                <span className="material-symbols-outlined text-[#C8553A]" style={{ fontSize: 18, fontVariationSettings: "'FILL' 1" }}>{f.icon}</span>
               </div>
-              <h3 className="text-sm font-bold text-[#1C1814] mb-2">{f.title}</h3>
-              <p className="text-sm text-[#1C1814]/45 leading-relaxed">{f.body}</p>
+              <h3 className="text-sm font-bold text-[#15140F] mb-2">{f.title}</h3>
+              <p className="text-sm text-[#6B655B] leading-relaxed">{f.body}</p>
             </div>
           ))}
         </div>

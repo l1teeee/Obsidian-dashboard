@@ -1,4 +1,4 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+﻿// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 /* eslint-disable react-hooks/refs */
 import { localPoint } from "@visx/event";
@@ -136,7 +136,7 @@ function DateTicker({ currentIndex, labels, visible }: { currentIndex: number; l
   useEffect(() => { if (currentMonthIndex >= 0) { const first = prevMonthIndexRef.current === -1; const changed = prevMonthIndexRef.current !== currentMonthIndex; if (first || changed) { monthY.set(-currentMonthIndex * TICKER_ITEM_HEIGHT); prevMonthIndexRef.current = currentMonthIndex; } } }, [currentMonthIndex, monthY]);
   if (!visible || labels.length === 0) return null;
   return (
-    <motion.div className="overflow-hidden rounded-full bg-zinc-900 px-4 py-1 text-[#1C1814] shadow-lg dark:bg-zinc-100 dark:text-zinc-900" layout transition={{ layout: { type: "spring", stiffness: 400, damping: 35 } }}>
+    <motion.div className="overflow-hidden rounded-full bg-zinc-900 px-4 py-1 text-[#15140F] shadow-lg dark:bg-zinc-100 dark:text-zinc-900" layout transition={{ layout: { type: "spring", stiffness: 400, damping: 35 } }}>
       <div className="relative h-6 overflow-hidden">
         <div className="flex items-center justify-center gap-1">
           <div className="relative h-6 overflow-hidden">
