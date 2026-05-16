@@ -89,28 +89,25 @@ export default function ProductDashboard() {
   return (
     <ProductShell>
       {/* Hero */}
-      <section className="relative pt-36 pb-20 overflow-hidden">
-        <div className="pointer-events-none absolute -top-20 left-1/2 -translate-x-1/2 w-[800px] h-[500px] rounded-full bg-[#C8553A]/[0.06] blur-[140px]" />
-        <div className="mx-auto max-w-5xl px-6 text-center relative">
+      <section className="pt-36 pb-20">
+        <div className="mx-auto max-w-5xl px-6 text-center">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-            <span className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#C8553A]/20 bg-[#C8553A]/8 px-4 py-1.5 text-[0.68rem] font-bold uppercase tracking-[0.22em] text-[#C8553A]">
+            <span className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#C8553A]/20 bg-[#C8553A]/8 px-4 py-1.5 text-[0.68rem] font-medium uppercase tracking-[0.18em] text-[#C8553A]">
               <span className="h-1.5 w-1.5 rounded-full bg-[#C8553A]" /> Product · Dashboard
             </span>
-            <h1 className="mt-5 text-5xl md:text-[4rem] font-extrabold leading-[0.96] tracking-[-0.04em] text-[#15140F]">
+            <h1 className="mt-5 text-[clamp(36px,5vw,60px)] font-medium leading-[1.08] tracking-[-0.035em] text-[#15140F]">
               Your social media,<br />
-              <span className="bg-gradient-to-r from-[#C8553A] via-[#f0dcff] to-inverse-primary bg-clip-text text-transparent">
-                finally under control.
-              </span>
+              <span className="text-[#C8553A]">finally under control.</span>
             </h1>
-            <p className="mt-6 text-lg font-light text-[#6B655B] max-w-xl mx-auto leading-relaxed">
+            <p className="mt-6 text-[15px] leading-[1.65] text-[#6B655B] max-w-xl mx-auto">
               One dashboard to see every metric, manage every post, and act on every insight — across all your platforms.
             </p>
             <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
-              <button onClick={() => navigate('/register')} className="rounded-full bg-[#C8553A] px-7 py-3 text-sm font-bold text-white hover:bg-[#A53F28] hover:shadow-[0_0_32px_rgba(200,85,58,0.4)] transition-all active:scale-[0.98]">
+              <button onClick={() => navigate('/register')} className="inline-flex items-center justify-center rounded-xl bg-[#C8553A] px-7 py-3 text-[14px] font-medium text-white hover:bg-[#A53F28] transition-all duration-200 active:scale-[0.98]">
                 Start for free
               </button>
-              <button onClick={() => navigate('/pricing')} className="rounded-full border border-[#D8D2C4] bg-[#FFFFFF] px-7 py-3 text-sm font-semibold text-[#3D3A30] hover:border-[#C8553A]/30 hover:bg-[#EFE9DC] transition-all">
-                See pricing →
+              <button onClick={() => navigate('/pricing')} className="inline-flex items-center justify-center rounded-xl border border-[#D8D2C4] px-7 py-3 text-[14px] font-medium text-[#3D3A30] hover:border-[#C8553A]/30 hover:bg-[#EFE9DC] transition-all duration-200">
+                See pricing
               </button>
             </div>
           </motion.div>
@@ -125,15 +122,12 @@ export default function ProductDashboard() {
               key={i}
               data-bento
               style={{ opacity: 0 }}
-              className={`${card.span} relative overflow-hidden rounded-3xl border p-7 flex flex-col gap-4 ${
+              className={`${card.span} rounded-2xl border p-7 flex flex-col gap-4 ${
                 card.accent
                   ? 'border-[#C8553A]/20 bg-[#EFE9DC]'
-                  : 'border-[rgba(21,20,15,0.10)] bg-[#FFFFFF]'
+                  : 'border-[rgba(21,20,15,0.10)] bg-[#FBF8F2]'
               }`}
             >
-              {card.accent && (
-                <div className="pointer-events-none absolute top-0 right-0 w-48 h-48 rounded-full bg-[#C8553A]/[0.08] blur-[60px]" />
-              )}
               <div className="w-11 h-11 rounded-2xl bg-[#C8553A]/10 border border-[#C8553A]/15 flex items-center justify-center shrink-0">
                 <span className="material-symbols-outlined text-[#C8553A]" style={{ fontSize: 20, fontVariationSettings: "'FILL' 1" }}>
                   {card.icon}
@@ -144,7 +138,7 @@ export default function ProductDashboard() {
                 <p className="text-sm text-[#6B655B] leading-relaxed">{card.desc}</p>
               </div>
               <div className="pt-3 border-t border-[rgba(21,20,15,0.08)]">
-                <span className="text-2xl font-extrabold text-[#15140F] tracking-tight">{card.stat}</span>
+                <span className="text-2xl font-semibold text-[#15140F] tracking-tight">{card.stat}</span>
                 <span className="ml-2 text-xs text-[#3D3A30]">{card.statLabel}</span>
               </div>
             </div>
@@ -156,12 +150,12 @@ export default function ProductDashboard() {
       <section className="py-20 mx-auto max-w-5xl px-6">
         <div className="text-center mb-14">
           <span className="text-[0.68rem] font-bold uppercase tracking-[0.22em] text-[#C8553A]">How it works</span>
-          <h2 className="mt-3 text-3xl md:text-4xl font-extrabold tracking-tight text-[#15140F]">Up and running in minutes</h2>
+          <h2 className="mt-3 text-[clamp(28px,4vw,44px)] font-medium tracking-[-0.03em] text-[#15140F]">Up and running in minutes</h2>
         </div>
         <div ref={stepsRef} className="grid md:grid-cols-3 gap-6">
           {STEPS.map((s) => (
-            <div key={s.n} data-step style={{ opacity: 0 }} className="rounded-3xl border border-[rgba(21,20,15,0.10)] bg-[#FFFFFF] p-8">
-              <span className="text-5xl font-extrabold text-[#C8553A]/20 leading-none block mb-4">{s.n}</span>
+            <div key={s.n} data-step style={{ opacity: 0 }} className="rounded-2xl border border-[rgba(21,20,15,0.10)] bg-[#FBF8F2] p-8">
+              <span className="text-5xl font-semibold text-[#C8553A]/20 leading-none block mb-4">{s.n}</span>
               <h3 className="text-base font-bold text-[#15140F] mb-2">{s.title}</h3>
               <p className="text-sm text-[#6B655B] leading-relaxed">{s.body}</p>
             </div>

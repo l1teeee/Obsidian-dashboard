@@ -79,23 +79,22 @@ export default function ProductIntegrations() {
   return (
     <ProductShell>
       {/* Hero */}
-      <section className="relative pt-36 pb-16 overflow-hidden">
-        <div className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[400px] rounded-full bg-[#C8553A]/[0.06] blur-[130px]" />
-        <div className="mx-auto max-w-5xl px-6 text-center relative">
+      <section className="pt-36 pb-16">
+        <div className="mx-auto max-w-5xl px-6 text-center">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-            <span className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#C8553A]/20 bg-[#C8553A]/8 px-4 py-1.5 text-[0.68rem] font-bold uppercase tracking-[0.22em] text-[#C8553A]">
+            <span className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#C8553A]/20 bg-[#C8553A]/8 px-4 py-1.5 text-[0.68rem] font-medium uppercase tracking-[0.18em] text-[#C8553A]">
               <span className="h-1.5 w-1.5 rounded-full bg-[#C8553A]" /> Product · Integrations
             </span>
-            <h1 className="mt-5 text-5xl md:text-[4rem] font-extrabold leading-[0.96] tracking-[-0.04em] text-[#15140F]">
+            <h1 className="mt-5 text-[clamp(36px,5vw,60px)] font-medium leading-[1.08] tracking-[-0.035em] text-[#15140F]">
               Connect the channels<br />
               <span className="text-[#C8553A]">your team already uses.</span>
             </h1>
-            <p className="mt-6 text-lg font-light text-[#6B655B] max-w-xl mx-auto leading-relaxed">
+            <p className="mt-6 text-[15px] leading-[1.65] text-[#6B655B] max-w-xl mx-auto">
               Instagram, LinkedIn, and Facebook — live today. More platforms are on the roadmap, and they connect in seconds.
             </p>
             <button
               onClick={() => navigate('/register')}
-              className="mt-8 rounded-full bg-[#C8553A] px-8 py-3.5 text-sm font-bold text-white hover:bg-[#A53F28] hover:shadow-[0_0_32px_rgba(200,85,58,0.4)] transition-all active:scale-[0.98]"
+              className="mt-8 inline-flex items-center justify-center rounded-xl bg-[#C8553A] px-8 py-3 text-[14px] font-medium text-white hover:bg-[#A53F28] transition-all duration-200 active:scale-[0.98]"
             >
               Connect your accounts
             </button>
@@ -113,12 +112,8 @@ export default function ProductIntegrations() {
                 key={p.name}
                 data-platform
                 style={{ opacity: 0 }}
-                className="group rounded-3xl border border-[rgba(21,20,15,0.10)] bg-[#FBF8F2] p-6 hover:border-[#C8553A]/20 hover:bg-[#EFE9DC] transition-all duration-300 relative overflow-hidden"
+                className="rounded-2xl border border-[rgba(21,20,15,0.10)] bg-[#FBF8F2] p-6 hover:border-[#C8553A]/20 hover:bg-[#EFE9DC] transition-all duration-300"
               >
-                <div
-                  className="pointer-events-none absolute top-0 right-0 w-24 h-24 rounded-full blur-[40px] opacity-0 group-hover:opacity-100 transition-opacity"
-                  style={{ backgroundColor: `${p.color}18` }}
-                />
                 <div className="flex items-start justify-between mb-4">
                   <div
                     className="w-12 h-12 rounded-2xl flex items-center justify-center border"
@@ -158,7 +153,7 @@ export default function ProductIntegrations() {
         <div className="mx-auto max-w-5xl px-6">
           <div className="text-center mb-12">
             <p className="text-[0.68rem] font-bold uppercase tracking-[0.2em] text-[#C8553A] mb-3">Setup</p>
-            <h2 className="text-3xl font-extrabold tracking-tight text-[#15140F]">Connected in 3 steps.</h2>
+            <h2 className="text-[clamp(24px,3.5vw,40px)] font-medium tracking-[-0.03em] text-[#15140F]">Connected in 3 steps.</h2>
             <p className="mt-2 text-[#6B655B] text-sm">No developers. No API keys. No headaches.</p>
           </div>
           <div className="grid md:grid-cols-3 gap-6">
@@ -184,7 +179,7 @@ export default function ProductIntegrations() {
       <section className="py-16 mx-auto max-w-5xl px-6">
         <div className="text-center mb-10">
           <p className="text-[0.68rem] font-bold uppercase tracking-[0.2em] text-[#C8553A] mb-3">Security</p>
-          <h2 className="text-3xl font-extrabold tracking-tight text-[#15140F]">Built with trust by default.</h2>
+          <h2 className="text-[clamp(24px,3.5vw,40px)] font-medium tracking-[-0.03em] text-[#15140F]">Built with trust by default.</h2>
           <p className="mt-3 text-[#6B655B] max-w-md mx-auto text-sm leading-relaxed">Connecting your social accounts should feel safe. Here is exactly how we handle your access.</p>
         </div>
         <div className="grid md:grid-cols-2 gap-4">
@@ -209,7 +204,7 @@ export default function ProductIntegrations() {
       <section className="py-16 border-t border-[rgba(21,20,15,0.08)] mx-auto max-w-5xl px-6">
         <div className="text-center mb-10">
           <p className="text-[0.68rem] font-bold uppercase tracking-[0.2em] text-[#C8553A] mb-3">Workflow</p>
-          <h2 className="text-3xl font-extrabold tracking-tight text-[#15140F]">Also works with your stack.</h2>
+          <h2 className="text-[clamp(24px,3.5vw,40px)] font-medium tracking-[-0.03em] text-[#15140F]">Also works with your stack.</h2>
           <p className="mt-3 text-[#6B655B] max-w-md mx-auto text-sm leading-relaxed">Beyond social networks — Vielinks connects to your existing workflow tools.</p>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">

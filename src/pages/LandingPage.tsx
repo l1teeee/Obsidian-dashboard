@@ -1,11 +1,13 @@
-import { useState, useRef, useLayoutEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { AnimatePresence, motion } from 'framer-motion';
+import { useState, useEffect, useRef, useLayoutEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useSEO } from '../hooks/useSEO';
 import SiteNav from '../components/landing/SiteNav';
+import ObsidianFooter from '../components/landing/ObsidianFooter';
 import { ContainerScroll } from '../components/ui/container-scroll-animation';
+import { WorkspaceFeatureGrid, type WorkspaceFeature } from '../components/landing/WorkspaceFeatureGrid';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -105,24 +107,26 @@ function Hero() {
     const ctx = gsap.context(() => {
       // Entrance
       const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
-      tl.fromTo('[data-h="eyebrow"]', { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.55 })
-        .fromTo('[data-h="title"]',   { opacity: 0, y: 52 }, { opacity: 1, y: 0, duration: 0.75 }, '-=0.35')
-        .fromTo('[data-h="sub"]',     { opacity: 0, y: 28 }, { opacity: 1, y: 0, duration: 0.55 }, '-=0.45')
-        .fromTo('[data-h="ctas"]',    { opacity: 0, y: 22 }, { opacity: 1, y: 0, duration: 0.5  }, '-=0.35')
-        .fromTo('[data-h="meta"]',    { opacity: 0 },         { opacity: 1,        duration: 0.4  }, '-=0.15')
-        .fromTo('[data-h="strip"]',   { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.5  }, '-=0.25');
+      tl.fromTo('[data-h="eyebrow"]', { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.5  })
+        .fromTo('[data-h="title"]',   { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.6  }, '-=0.3')
+        .fromTo('[data-h="sub"]',     { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.5  }, '-=0.38')
+        .fromTo('[data-h="ctas"]',    { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.45 }, '-=0.3')
+        .fromTo('[data-h="meta"]',    { opacity: 0 },         { opacity: 1,        duration: 0.35 }, '-=0.15')
+        .fromTo('[data-h="strip"]',   { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.45 }, '-=0.2');
 
-      gsap.to('[data-h="inner"]', {
-        opacity: 0,
-        y: -72,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: ref.current,
-          start: 'center top',
-          end: 'bottom top',
-          scrub: 1.5,
-        },
-      });
+      if (window.innerWidth > 768) {
+        gsap.to('[data-h="inner"]', {
+          opacity: 0,
+          y: -40,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: ref.current,
+            start: 'center top',
+            end: 'bottom top',
+            scrub: 1.5,
+          },
+        });
+      }
     }, ref);
     return () => ctx.revert();
   }, []);
@@ -141,10 +145,10 @@ function Hero() {
           Schedule, analyze, and collaborate across Instagram, LinkedIn, and Facebook — without switching tabs.
         </p>
         <div data-h="ctas" className="flex gap-3 justify-center mb-5">
-          <Link to="/register" className="inline-flex items-center gap-2 text-[14px] font-medium bg-[#C8553A] text-white px-5 py-2.5 rounded-xl hover:bg-[#A53F28] transition-all duration-200">
+          <Link to="/register" className="inline-flex items-center gap-2 text-[14px] font-medium bg-[#C8553A] text-white px-5 py-2.5 rounded-xl hover:bg-[#A53F28] active:scale-[0.97] transition-[background-color,transform] duration-150">
             Start free <IconArrow className="w-3.5 h-3.5" />
           </Link>
-          <a href="#features" className="inline-flex items-center gap-2 text-[14px] font-medium text-[#6B655B] px-5 py-2.5 rounded-xl hover:bg-[#EFE9DC] hover:text-[#15140F] transition-all duration-200">
+          <a href="#features" className="inline-flex items-center gap-2 text-[14px] font-medium text-[#6B655B] px-5 py-2.5 rounded-xl hover:bg-[#EFE9DC] hover:text-[#15140F] active:scale-[0.97] transition-[background-color,color,transform] duration-150">
             See the product
           </a>
         </div>
@@ -410,6 +414,15 @@ const URL_MAP: Record<string, string> = {
 
 function ProductPreview() {
   const [activeTab, setActiveTab] = useState('Dashboard');
+  const [isMobile, setIsMobile] = useState(false);
+  const prefersReducedMotion = useReducedMotion();
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth <= 768);
+    check();
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, []);
 
   const navItems = [
     { icon: <IconDashboard className="w-3.5 h-3.5" />, label: 'Dashboard'  },
@@ -434,65 +447,101 @@ function ProductPreview() {
     </div>
   );
 
-  return (
-    <ContainerScroll titleComponent={titleComponent}>
-      <div className="h-full flex flex-col bg-[#FBF8F2] overflow-hidden">
+  const appShell = (
+    <div className="h-full flex flex-col bg-[#FBF8F2] overflow-hidden">
+      {/* Browser chrome */}
+      <div className="flex items-center gap-2 px-4 py-2.5 border-b border-[#E7E0D0] bg-[#EFE9DC] shrink-0">
+        <span className="w-2.5 h-2.5 rounded-full bg-[#A39B8B] opacity-50" />
+        <span className="w-2.5 h-2.5 rounded-full bg-[#A39B8B] opacity-50" />
+        <span className="w-2.5 h-2.5 rounded-full bg-[#A39B8B] opacity-50" />
+        <span className="ml-3 font-mono text-[11px] text-[#6B655B]">{URL_MAP[activeTab]}</span>
+      </div>
 
-        {/* Browser chrome */}
-        <div className="flex items-center gap-2 px-4 py-2.5 border-b border-[#E7E0D0] bg-[#EFE9DC] shrink-0">
-          <span className="w-2.5 h-2.5 rounded-full bg-[#A39B8B] opacity-50" />
-          <span className="w-2.5 h-2.5 rounded-full bg-[#A39B8B] opacity-50" />
-          <span className="w-2.5 h-2.5 rounded-full bg-[#A39B8B] opacity-50" />
-          <span className="ml-3 font-mono text-[11px] text-[#6B655B] transition-all duration-200">{URL_MAP[activeTab]}</span>
+      {/* App layout */}
+      <div className="flex flex-1 overflow-hidden">
+        {/* Sidebar — desktop only */}
+        <div className="hidden md:flex flex-col w-44 shrink-0 border-r border-[#E7E0D0] bg-[#F6F2EA] p-3 gap-1">
+          <div className="flex items-center gap-2 px-2.5 pb-2.5 mb-1.5 border-b border-[#E7E0D0]">
+            <div className="w-5 h-5 rounded-md bg-[#C8553A] flex items-center justify-center shrink-0">
+              <span className="text-white text-[9px] font-black">V</span>
+            </div>
+            <span className="text-[12px] font-bold tracking-tight text-[#15140F]">Vielinks</span>
+          </div>
+          {navItems.map(item => (
+            <button
+              key={item.label}
+              onClick={() => setActiveTab(item.label)}
+              className={`flex items-center gap-2.5 px-2.5 py-2 text-[11.5px] rounded-[9px] text-left w-full transition-colors ${
+                activeTab === item.label
+                  ? 'bg-[#EFE9DC] text-[#15140F] font-medium'
+                  : 'text-[#6B655B] hover:bg-[#EFE9DC] hover:text-[#15140F]'
+              }`}
+            >
+              {item.icon} {item.label}
+            </button>
+          ))}
         </div>
 
-        {/* App layout */}
-        <div className="flex flex-1 overflow-hidden">
-
-          {/* Sidebar */}
-          <div className="hidden md:flex flex-col w-44 shrink-0 border-r border-[#E7E0D0] bg-[#F6F2EA] p-3 gap-1">
-            <div className="flex items-center gap-2 px-2.5 pb-2.5 mb-1.5 border-b border-[#E7E0D0]">
-              <div className="w-5 h-5 rounded-md bg-[#C8553A] flex items-center justify-center shrink-0">
-                <span className="text-white text-[9px] font-black">V</span>
-              </div>
-              <span className="text-[12px] font-bold tracking-tight text-[#15140F]">Vielinks</span>
-            </div>
-            {navItems.map(item => (
-              <button
-                key={item.label}
-                onClick={() => setActiveTab(item.label)}
-                className={`flex items-center gap-2.5 px-2.5 py-2 text-[11.5px] rounded-[9px] text-left w-full transition-colors ${
-                  activeTab === item.label
-                    ? 'bg-[#EFE9DC] text-[#15140F] font-medium'
-                    : 'text-[#6B655B] hover:bg-[#EFE9DC] hover:text-[#15140F]'
-                }`}
-              >
-                {item.icon} {item.label}
-              </button>
-            ))}
-          </div>
-
-          {/* Main content — switches by tab */}
-          <div className="flex-1 overflow-hidden relative">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={activeTab}
-                initial={{ opacity: 0, y: 6 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -6 }}
-                transition={{ duration: 0.18, ease: 'easeInOut' }}
-                className="h-full"
-              >
-                {activeTab === 'Dashboard'   && <DashboardContent />}
-                {activeTab === 'Calendar'    && <CalendarContent />}
-                {activeTab === 'Analytics'   && <AnalyticsContent />}
-                {activeTab === 'Platforms'   && <PlatformsContent />}
-                {activeTab === 'AI Insights' && <AiInsightsContent />}
-              </motion.div>
-            </AnimatePresence>
-          </div>
+        {/* Main content */}
+        <div className="flex-1 overflow-hidden relative">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeTab}
+              initial={{ opacity: 0, y: prefersReducedMotion ? 0 : 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: prefersReducedMotion ? 0 : -4 }}
+              transition={{ duration: prefersReducedMotion ? 0.1 : 0.16, ease: [0.23, 1, 0.32, 1] }}
+              className="h-full"
+            >
+              {activeTab === 'Dashboard'   && <DashboardContent />}
+              {activeTab === 'Calendar'    && <CalendarContent />}
+              {activeTab === 'Analytics'   && <AnalyticsContent />}
+              {activeTab === 'Platforms'   && <PlatformsContent />}
+              {activeTab === 'AI Insights' && <AiInsightsContent />}
+            </motion.div>
+          </AnimatePresence>
         </div>
       </div>
+    </div>
+  );
+
+  /* ── Mobile: static card, zero scroll hooks ── */
+  if (isMobile) {
+    return (
+      <section className="py-16 px-4">
+        <div className="text-center mb-8">
+          <span className="text-[11px] font-medium uppercase tracking-[0.18em] text-[#C8553A] mb-4 inline-block">
+            Live preview
+          </span>
+          <h2 className="text-[clamp(28px,8vw,40px)] leading-[1.1] tracking-[-0.04em] font-medium text-[#15140F] mb-4">
+            Your workspace,<br />
+            <em className="not-italic text-[#C8553A]">at a glance.</em>
+          </h2>
+          <p className="text-[15px] leading-[1.65] text-[#6B655B]">
+            Real metrics, real scheduling, real analytics — all in one clean interface.
+          </p>
+        </div>
+        <div className="border-4 border-[#2A2825] rounded-3xl bg-[#15140F] p-2 overflow-hidden">
+          <div className="rounded-2xl bg-[#FBF8F2] overflow-hidden" style={{ height: '420px' }}>
+            <div className="flex items-center gap-2 px-4 py-2.5 border-b border-[#E7E0D0] bg-[#EFE9DC]">
+              <span className="w-2.5 h-2.5 rounded-full bg-[#A39B8B] opacity-50" />
+              <span className="w-2.5 h-2.5 rounded-full bg-[#A39B8B] opacity-50" />
+              <span className="w-2.5 h-2.5 rounded-full bg-[#A39B8B] opacity-50" />
+              <span className="ml-3 font-mono text-[11px] text-[#6B655B]">app.vielinks.com/dashboard</span>
+            </div>
+            <div className="h-[calc(100%-41px)] overflow-hidden">
+              <DashboardContent />
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  /* ── Desktop: full scroll animation ── */
+  return (
+    <ContainerScroll titleComponent={titleComponent}>
+      {appShell}
     </ContainerScroll>
   );
 }
@@ -501,7 +550,7 @@ function ProductPreview() {
 
 function Features() {
   const ref = useRef<HTMLElement>(null);
-  const features = [
+  const features: WorkspaceFeature[] = [
     { icon: <IconCalendar className="w-4.5 h-4.5" />, title: 'Calendar that just plans', body: 'Drag posts between days. See the whole month in one view. Every platform on one timeline, color-coded but quiet.', route: '/product/scheduler' },
     { icon: <IconSparkle className="w-4.5 h-4.5" />, title: 'AI that drafts captions', body: "Stuck on a caption? Drop in the image and a brief, get three options in your tone. Edit, post, move on.", route: '/product/ai-insights' },
     { icon: <IconAnalytics className="w-4.5 h-4.5" />, title: 'Numbers, not dashboards', body: "What got reach, when. What got engagement, why. Per platform, per post, per week. No vanity metrics.", route: '/product/analytics' },
@@ -533,20 +582,20 @@ function Features() {
 
       const st = { trigger: ref.current, start: 'top 78%', once: true };
       gsap.fromTo('[data-f="head"]',
-        { opacity: 0, y: 36 },
-        { opacity: 1, y: 0, duration: 0.65, ease: 'power3.out', scrollTrigger: st }
+        { opacity: 0, y: 18 },
+        { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out', scrollTrigger: st }
       );
       gsap.fromTo('[data-f="card"]',
-        { opacity: 0, y: 40 },
-        { opacity: 1, y: 0, duration: 0.55, stagger: 0.08, ease: 'power3.out',
+        { opacity: 0, y: 18 },
+        { opacity: 1, y: 0, duration: 0.5, stagger: 0.07, ease: 'power3.out',
           scrollTrigger: { ...st, start: 'top 72%' } }
       );
 
       if (innerEl) {
         gsap.to(innerEl, {
           opacity: 0,
-          y: -60,
-          filter: 'blur(6px)',
+          y: -32,
+          filter: 'blur(2px)',
           ease: 'none',
           scrollTrigger: {
             trigger: ref.current,
@@ -572,27 +621,7 @@ function Features() {
             Fewer dashboards, fewer features that don't matter, fewer popups. The list, the calendar, the numbers, the AI when you want it.
           </p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-[rgba(21,20,15,0.10)] border border-border rounded-2xl overflow-hidden">
-          {features.map(f => (
-            <div key={f.title} data-f="card" className="group bg-[#F6F2EA] p-8 flex flex-col gap-3 transition-colors duration-300 ease-out hover:bg-[#C8553A]">
-              <div className="w-9 h-9 flex items-center justify-center rounded-[10px] bg-[#EFE9DC] text-[#15140F] mb-2 transition-colors duration-300 ease-out group-hover:bg-white/15 group-hover:text-white">
-                {f.icon}
-              </div>
-              <h3 className="text-[18px] font-semibold tracking-[-0.01em] text-[#15140F] transition-colors duration-300 ease-out group-hover:text-white">{f.title}</h3>
-              <p className="text-[14px] leading-[1.6] text-[#6B655B] transition-colors duration-300 ease-out group-hover:text-[#F6F2EA]">{f.body}</p>
-              {f.route && (
-                <Link
-                  to={f.route}
-                  onClick={e => e.stopPropagation()}
-                  className="mt-1 inline-flex items-center gap-1 text-[11px] font-medium tracking-wide text-[#A39B8B] transition-colors duration-300 ease-out group-hover:text-white/50 hover:!text-white/80 w-fit"
-                >
-                  Learn more
-                  <IconArrow className="w-2.5 h-2.5" />
-                </Link>
-              )}
-            </div>
-          ))}
-        </div>
+        <WorkspaceFeatureGrid features={features} />
       </div>
     </section>
   );
@@ -631,20 +660,20 @@ function Pricing() {
 
       const st = { trigger: ref.current, start: 'top 78%', once: true };
       gsap.fromTo('[data-pr="head"]',
-        { opacity: 0, y: 36 },
-        { opacity: 1, y: 0, duration: 0.65, ease: 'power3.out', scrollTrigger: st }
+        { opacity: 0, y: 18 },
+        { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out', scrollTrigger: st }
       );
       gsap.fromTo('[data-pr="card"]',
-        { opacity: 0, y: 44, scale: 0.97 },
-        { opacity: 1, y: 0, scale: 1, duration: 0.6, stagger: 0.1, ease: 'power3.out',
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, duration: 0.55, stagger: 0.08, ease: 'power3.out',
           scrollTrigger: { ...st, start: 'top 72%' } }
       );
 
       if (innerEl) {
         gsap.to(innerEl, {
           opacity: 0,
-          y: -60,
-          filter: 'blur(6px)',
+          y: -32,
+          filter: 'blur(2px)',
           ease: 'none',
           scrollTrigger: {
             trigger: ref.current,
@@ -675,14 +704,14 @@ function Pricing() {
             <div
               key={p.name}
               data-pr="card"
-              className={`group rounded-2xl p-8 flex flex-col gap-4 border transition-all duration-300 ease-out hover:-translate-y-1 ${p.featured ? 'bg-[#15140F] border-[#15140F] hover:border-[#C8553A] hover:shadow-[0_20px_50px_rgba(200,85,58,0.20)]' : 'bg-[#F6F2EA] border-border hover:border-[#C8553A] hover:bg-[#FBF8F2] hover:shadow-[0_18px_45px_rgba(21,20,15,0.10)]'}`}
+              className={`group rounded-2xl p-8 flex flex-col gap-4 border transition-[background-color,border-color,box-shadow,transform] duration-200 ease-out hover:-translate-y-1 ${p.featured ? 'bg-[#15140F] border-[#15140F] hover:border-[#C8553A] hover:shadow-[0_20px_50px_rgba(200,85,58,0.20)]' : 'bg-[#F6F2EA] border-border hover:border-[#C8553A] hover:bg-[#FBF8F2] hover:shadow-[0_18px_45px_rgba(21,20,15,0.10)]'}`}
             >
               <div className="text-[22px] font-medium tracking-[-0.02em]" style={{ color: p.featured ? '#F6F2EA' : '#15140F' }}>{p.name}</div>
               <div className="flex items-baseline gap-1.5">
                 <span className="text-[56px] font-medium tracking-[-0.04em] leading-none" style={{ color: p.featured ? '#F6F2EA' : '#15140F' }}>${p.price}</span>
                 <span className="text-[13px]" style={{ color: p.featured ? 'rgba(251,248,242,0.6)' : '#6B655B' }}>{p.unit}</span>
               </div>
-              <p className="text-[14px] leading-[1.5]" style={{ color: p.featured ? 'rgba(251,248,242,0.7)' : '#6B655B' }}>{p.desc}</p>
+              <p className="text-[14px] leading-normal" style={{ color: p.featured ? 'rgba(251,248,242,0.7)' : '#6B655B' }}>{p.desc}</p>
               <ul className="list-none flex flex-col gap-2 my-2">
                 {p.items.map(item => (
                   <li key={item} className="flex items-center gap-2.5 text-[14px]" style={{ color: p.featured ? 'rgba(251,248,242,0.85)' : '#3D3A30' }}>
@@ -691,7 +720,7 @@ function Pricing() {
                   </li>
                 ))}
               </ul>
-              <Link to="/register" className="mt-auto w-full inline-flex justify-center items-center text-[14px] font-medium px-[18px] py-2.5 rounded-[10px] transition-all duration-200 group-hover:-translate-y-0.5"
+              <Link to="/register" className="mt-auto w-full inline-flex justify-center items-center text-[14px] font-medium px-4.5 py-2.5 rounded-[10px] transition-[background-color,color,transform] duration-150 active:scale-[0.97] group-hover:-translate-y-0.5"
                 style={p.featured ? { background: '#C8553A', color: 'white' } : { background: '#15140F', color: '#F6F2EA' }}>
                 {p.cta}
               </Link>
@@ -739,20 +768,20 @@ function FAQ() {
 
       const st = { trigger: ref.current, start: 'top 80%', once: true };
       gsap.fromTo('[data-faq="head"]',
-        { opacity: 0, y: 32 },
-        { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out', scrollTrigger: st }
+        { opacity: 0, y: 16 },
+        { opacity: 1, y: 0, duration: 0.55, ease: 'power3.out', scrollTrigger: st }
       );
       gsap.fromTo('[data-faq="item"]',
-        { opacity: 0, x: -20 },
-        { opacity: 1, x: 0, duration: 0.45, stagger: 0.07, ease: 'power3.out',
+        { opacity: 0, y: 14 },
+        { opacity: 1, y: 0, duration: 0.45, stagger: 0.06, ease: 'power3.out',
           scrollTrigger: { ...st, start: 'top 75%' } }
       );
 
       if (innerEl) {
         gsap.to(innerEl, {
           opacity: 0,
-          y: -60,
-          filter: 'blur(6px)',
+          y: -32,
+          filter: 'blur(2px)',
           ease: 'none',
           scrollTrigger: {
             trigger: ref.current,
@@ -788,7 +817,7 @@ function FAQ() {
                 <IconChevron className={`w-4 h-4 shrink-0 ml-4 transition-transform duration-200 ${open === i ? 'rotate-180' : ''}`} />
               </div>
               <div
-                className="overflow-hidden transition-all duration-300 text-[15px] leading-[1.65] text-[#6B655B]"
+                className="overflow-hidden transition-[max-height,padding-top] duration-300 text-[15px] leading-[1.65] text-[#6B655B]"
                 style={{ maxHeight: open === i ? '200px' : '0', paddingTop: open === i ? '12px' : '0' }}
               >
                 {item.a}
@@ -828,9 +857,9 @@ function BigCTA() {
       }
 
       gsap.fromTo('[data-cta="box"]',
-        { opacity: 0, y: 48, scale: 0.95 },
+        { opacity: 0, y: 24 },
         {
-          opacity: 1, y: 0, scale: 1, duration: 0.85, ease: 'power3.out',
+          opacity: 1, y: 0, duration: 0.7, ease: 'power3.out',
           scrollTrigger: { trigger: ref.current, start: 'top 82%', once: true },
         }
       );
@@ -838,8 +867,8 @@ function BigCTA() {
       if (innerEl) {
         gsap.to(innerEl, {
           opacity: 0,
-          y: -60,
-          filter: 'blur(6px)',
+          y: -32,
+          filter: 'blur(2px)',
           ease: 'none',
           scrollTrigger: {
             trigger: ref.current,
@@ -885,81 +914,6 @@ function BigCTA() {
   );
 }
 
-// ─── Footer ───────────────────────────────────────────────────────────────────
-
-function Footer() {
-  const ref = useRef<HTMLElement>(null);
-  const navigate = useNavigate();
-  const cols = [
-    { heading: 'Product', links: [
-      { label: 'Calendar',     href: '/product/scheduler'    },
-      { label: 'Analytics',    href: '/product/analytics'    },
-      { label: 'AI Insights',  href: '/product/ai-insights'  },
-      { label: 'Integrations', href: '/product/integrations' },
-    ]},
-    { heading: 'Company', links: [
-      { label: 'Pricing',   href: '/pricing' },
-      { label: 'FAQ',       href: '/faq'     },
-      { label: 'Contact',   href: 'mailto:hello@vielinks.com' },
-    ]},
-    { heading: 'Legal', links: [
-      { label: 'Terms',    href: 'mailto:hello@vielinks.com?subject=Terms%20of%20service'  },
-      { label: 'Privacy',  href: 'mailto:hello@vielinks.com?subject=Privacy%20policy'      },
-      { label: 'Security', href: 'mailto:hello@vielinks.com?subject=Security%20question'   },
-    ]},
-  ];
-
-  useLayoutEffect(() => {
-    if (reduced()) return;
-    const ctx = gsap.context(() => {
-      gsap.fromTo('[data-ft="col"]',
-        { opacity: 0, y: 28 },
-        {
-          opacity: 1, y: 0, duration: 0.5, stagger: 0.09, ease: 'power3.out',
-          scrollTrigger: { trigger: ref.current, start: 'top 88%', once: true },
-        }
-      );
-    }, ref);
-    return () => ctx.revert();
-  }, []);
-
-  return (
-    <footer ref={ref} className="pt-24 pb-12 bg-[#15140F] text-[#F6F2EA]">
-      <div className="max-w-300 mx-auto px-8">
-        <div className="grid grid-cols-1 md:grid-cols-[2fr_1fr_1fr_1fr] gap-16 pb-16 border-b border-[rgba(251,248,242,0.12)]">
-          <div data-ft="col">
-            <p className="font-medium text-[28px] tracking-[-0.03em] mb-4">Vielinks</p>
-            <p className="text-[14px] leading-[1.6] max-w-[320px]" style={{ color: 'rgba(251,248,242,0.6)' }}>
-              One workspace for your posts. Schedule, analyze, collaborate — across Instagram, LinkedIn, and Facebook.
-            </p>
-          </div>
-          {cols.map(col => (
-            <div key={col.heading} data-ft="col">
-              <p className="text-[12px] font-medium uppercase tracking-[0.18em] mb-4" style={{ color: 'rgba(251,248,242,0.4)' }}>{col.heading}</p>
-              <ul className="list-none flex flex-col gap-2.5">
-                {col.links.map(link => (
-                  <li key={link.label}>
-                    {link.href.startsWith('mailto:') ? (
-                      <a href={link.href} className="text-[14px] transition-colors duration-200 hover:text-[#F6F2EA]" style={{ color: 'rgba(251,248,242,0.7)' }}>{link.label}</a>
-                    ) : (
-                      <button onClick={() => navigate(link.href)} className="text-[14px] transition-colors duration-200 hover:text-[#F6F2EA]" style={{ color: 'rgba(251,248,242,0.7)' }}>{link.label}</button>
-                    )}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
-        <div className="pt-8 flex flex-col sm:flex-row justify-between items-center gap-2 text-[12px]" style={{ color: 'rgba(251,248,242,0.4)' }}>
-          <span>© 2026 Vielinks. Made for teams who post on purpose.</span>
-          <span>v 2.0 · Rebrand draft</span>
-        </div>
-      </div>
-    </footer>
-  );
-}
-
-// ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default function LandingPage() {
   useSEO({
@@ -990,7 +944,7 @@ export default function LandingPage() {
         <FAQ />
         <BigCTA />
       </main>
-      <Footer />
+      <ObsidianFooter />
     </div>
   );
 }

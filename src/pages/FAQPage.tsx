@@ -1,7 +1,7 @@
 ﻿import { useNavigate } from 'react-router-dom';
 import { useSEO } from '../hooks/useSEO';
 import { motion } from 'framer-motion';
-import LandingNav from '@/components/landing/LandingNav';
+import SiteNav from '@/components/landing/SiteNav';
 import ObsidianFooter from '@/components/landing/ObsidianFooter';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 
@@ -142,10 +142,7 @@ export default function FAQPage() {
 
   return (
     <div className="min-h-screen bg-[#F6F2EA] text-[#15140F] overflow-x-hidden">
-      <LandingNav />
-
-      {/* Ambient glow */}
-      <div className="pointer-events-none fixed top-0 left-1/2 -translate-x-1/2 h-[380px] w-[700px] rounded-full bg-[#C8553A]/[0.04] blur-[120px]" />
+      <SiteNav />
 
       <main className="mx-auto max-w-[900px] px-6 md:px-12 pt-36 pb-28">
 
@@ -160,11 +157,8 @@ export default function FAQPage() {
             <span className="h-1.5 w-1.5 rounded-full bg-[#C8553A]" />
             Help center
           </span>
-          <h1 className="mt-5 text-5xl font-extrabold leading-[0.96] tracking-[-0.04em] text-[#15140F] md:text-[4rem]">
-            Frequently asked{' '}
-            <span className="bg-gradient-to-r from-[#c97cff] via-[#f0dcff] to-inverse-primary bg-clip-text text-transparent">
-              questions.
-            </span>
+          <h1 className="mt-5 text-[clamp(36px,5vw,60px)] font-medium leading-[1.08] tracking-[-0.035em] text-[#15140F]">
+            Frequently asked <span className="text-[#C8553A]">questions.</span>
           </h1>
           <p className="mt-5 text-[1rem] font-light leading-[1.8] text-[#15140F]/55 max-w-lg mx-auto">
             Everything you need to know about Vielinks. Can't find your answer?{' '}
@@ -183,7 +177,7 @@ export default function FAQPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.55, delay: 0.1 + gi * 0.07, ease: [0.25, 0.4, 0.25, 1] }}
-              className="rounded-[1.75rem] border border-border bg-[#FFFFFF] overflow-hidden"
+              className="rounded-2xl border border-border bg-[#FBF8F2] overflow-hidden"
             >
               {/* Category header */}
               <div className="flex items-center gap-3 border-b border-border px-8 py-5">
@@ -228,22 +222,22 @@ export default function FAQPage() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.7, ease: [0.25, 0.4, 0.25, 1] }}
-          className="mt-14 text-center rounded-[1.75rem] border border-[#C8553A]/12 bg-[#C8553A]/[0.04] px-10 py-10 backdrop-blur-xl"
+          className="mt-14 text-center rounded-2xl border border-[#E7E0D0] bg-[#F4E0D6] px-10 py-10"
         >
-          <h3 className="text-xl font-extrabold tracking-tight text-[#15140F]">Still have a question?</h3>
-          <p className="mt-2 text-[0.9rem] text-[#15140F]/50">
+          <h3 className="text-[18px] font-semibold tracking-[-0.01em] text-[#15140F]">Still have a question?</h3>
+          <p className="mt-2 text-[0.9rem] text-[#6B655B]">
             Our team responds within a few hours on business days.
           </p>
           <div className="mt-6 flex flex-col sm:flex-row items-center justify-center gap-3">
             <a
               href="mailto:hello@vielinks.com"
-              className="rounded-full bg-[#C8553A] px-8 py-3.5 text-sm font-bold text-[#0B0B0A] transition-all hover:shadow-[0_0_32px_rgba(200,85,58,0.35)]"
+              className="inline-flex items-center justify-center rounded-xl bg-[#C8553A] px-8 py-3 text-[14px] font-medium text-white transition-all duration-200 hover:bg-[#A53F28] active:scale-[0.98]"
             >
               Email us
             </a>
             <button
               onClick={() => navigate('/')}
-              className="rounded-full border border-white/[0.12] bg-white/[0.04] px-8 py-3.5 text-sm font-semibold text-[#15140F]/60 hover:border-[#C8553A]/30 hover:text-[#15140F]/80 transition-all"
+              className="inline-flex items-center justify-center rounded-xl border border-[#D8D2C4] px-8 py-3 text-[14px] font-medium text-[#3D3A30] hover:bg-[#EFE9DC] transition-all duration-200"
             >
               Back to home
             </button>

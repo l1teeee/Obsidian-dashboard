@@ -3,7 +3,7 @@ import { useSEO } from '../hooks/useSEO';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
-import LandingNav from '@/components/landing/LandingNav';
+import SiteNav from '@/components/landing/SiteNav';
 import ObsidianFooter from '@/components/landing/ObsidianFooter';
 import { PLANS, PlanCard, BillingToggle, type BillingPlan, type PlanDef } from '@/components/landing/PricingSection';
 import PlanSignupDialog from '@/components/landing/PlanSignupDialog';
@@ -110,7 +110,7 @@ function ComparisonTable() {
           <span className="h-1.5 w-1.5 rounded-full bg-[#C8553A]" />
           Full comparison
         </span>
-        <h2 className="mt-5 text-3xl font-extrabold tracking-[-0.03em] text-[#15140F] md:text-4xl">
+        <h2 className="mt-5 text-[clamp(24px,3.5vw,40px)] font-medium tracking-[-0.03em] text-[#15140F]">
           Everything, side by side.
         </h2>
         <p className="mt-3 text-[0.95rem] font-light text-[#3D3A30]">
@@ -118,7 +118,7 @@ function ComparisonTable() {
         </p>
       </div>
 
-      <div className="overflow-x-auto rounded-[2rem] border-border bg-[#EFE9DC]/70 backdrop-blur-xl">
+      <div className="overflow-x-auto rounded-2xl border border-[rgba(21,20,15,0.10)] bg-[#EFE9DC]">
         <table className="w-full border-collapse text-left">
           {/* Sticky column headers */}
           <thead>
@@ -152,7 +152,7 @@ function ComparisonTable() {
                 <tr key={`cat-${gi}`} className="border-t border-border">
                   <td
                     colSpan={5}
-                    className="py-4 pl-8 text-[0.65rem] font-extrabold uppercase tracking-[0.22em] text-[#C8553A]/60"
+                    className="py-4 pl-8 text-[0.65rem] font-semibold uppercase tracking-[0.22em] text-[#C8553A]/60"
                   >
                     {group.category}
                   </td>
@@ -195,14 +195,14 @@ const FAQS = [
 function FAQ() {
   return (
     <div className="mt-24 mx-auto max-w-[860px]">
-      <h3 className="mb-10 text-center text-2xl font-extrabold tracking-[-0.03em] text-[#15140F]">
+      <h3 className="mb-10 text-center text-[clamp(20px,3vw,28px)] font-medium tracking-[-0.03em] text-[#15140F]">
         Frequently asked questions
       </h3>
       <div className="grid gap-4 md:grid-cols-2">
         {FAQS.map((faq) => (
           <div
             key={faq.q}
-            className="rounded-2xl border-border bg-white/[0.02] p-6 backdrop-blur-sm"
+            className="rounded-2xl border border-[rgba(21,20,15,0.10)] bg-[#FBF8F2] p-6"
           >
             <p className="mb-2 text-[0.9rem] font-semibold text-[#15140F]">{faq.q}</p>
             <p className="text-[0.85rem] leading-[1.7] text-[#3D3A30]">{faq.a}</p>
@@ -227,7 +227,7 @@ export default function PricingPage() {
 
   return (
     <div className="min-h-screen bg-[#F6F2EA] text-[#15140F] overflow-x-hidden">
-      <LandingNav />
+      <SiteNav />
 
       <main className="mx-auto max-w-[1440px] px-6 md:px-12 pt-36 pb-28">
         {/* Hero */}
@@ -241,11 +241,8 @@ export default function PricingPage() {
             <span className="h-1.5 w-1.5 rounded-full bg-[#C8553A]" />
             Pricing
           </span>
-          <h1 className="mt-5 text-5xl font-extrabold leading-[0.96] tracking-[-0.04em] text-[#15140F] md:text-[4rem]">
-            Simple pricing.{' '}
-            <span className="text-[#C8553A]">
-              Clear plans.
-            </span>
+          <h1 className="mt-5 text-[clamp(36px,5vw,60px)] font-medium leading-[1.08] tracking-[-0.035em] text-[#15140F]">
+            Simple pricing. <span className="text-[#C8553A]">Clear plans.</span>
           </h1>
           <p className="mt-5 text-[1rem] font-light leading-[1.8] text-[#3D3A30] max-w-xl mx-auto">
             Start free, no credit card required. Every paid plan includes a 14-day free trial.

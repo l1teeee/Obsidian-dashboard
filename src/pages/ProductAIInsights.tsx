@@ -130,23 +130,22 @@ export default function ProductAIInsights() {
   return (
     <ProductShell>
       {/* Hero */}
-      <section className="relative pt-36 pb-16 overflow-hidden">
-        <div className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[400px] rounded-full bg-[#C8553A]/[0.06] blur-[130px]" />
-        <div className="mx-auto max-w-5xl px-6 text-center relative">
+      <section className="pt-36 pb-16">
+        <div className="mx-auto max-w-5xl px-6 text-center">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-            <span className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#C8553A]/20 bg-[#C8553A]/8 px-4 py-1.5 text-[0.68rem] font-bold uppercase tracking-[0.22em] text-[#C8553A]">
+            <span className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#C8553A]/20 bg-[#C8553A]/8 px-4 py-1.5 text-[0.68rem] font-medium uppercase tracking-[0.18em] text-[#C8553A]">
               <span className="h-1.5 w-1.5 rounded-full bg-[#C8553A]" /> Product · AI Insights
             </span>
-            <h1 className="mt-5 text-5xl md:text-[4rem] font-extrabold leading-[0.96] tracking-[-0.04em] text-[#15140F]">
+            <h1 className="mt-5 text-[clamp(36px,5vw,60px)] font-medium leading-[1.08] tracking-[-0.035em] text-[#15140F]">
               Turn performance<br />
               <span className="text-[#C8553A]">into the next best move.</span>
             </h1>
-            <p className="mt-6 text-lg font-light text-[#6B655B] max-w-xl mx-auto leading-relaxed">
+            <p className="mt-6 text-[15px] leading-[1.65] text-[#6B655B] max-w-xl mx-auto">
               AI that acts as an editorial assistant — not a content factory. Practical suggestions grounded in your real performance data.
             </p>
             <button
               onClick={() => navigate('/register')}
-              className="mt-8 rounded-full bg-[#C8553A] px-8 py-3.5 text-sm font-bold text-white hover:bg-[#A53F28] hover:shadow-[0_0_32px_rgba(200,85,58,0.4)] transition-all active:scale-[0.98]"
+              className="mt-8 inline-flex items-center justify-center rounded-xl bg-[#C8553A] px-8 py-3 text-[14px] font-medium text-white hover:bg-[#A53F28] transition-all duration-200 active:scale-[0.98]"
             >
               Try AI Insights free
             </button>
@@ -156,7 +155,7 @@ export default function ProductAIInsights() {
 
       {/* Caption generator demo */}
       <section className="py-12 mx-auto max-w-4xl px-6">
-        <div className="rounded-3xl border border-[rgba(21,20,15,0.10)] bg-[#FBF8F2] overflow-hidden">
+        <div className="rounded-2xl border border-[rgba(21,20,15,0.10)] bg-[#FBF8F2] overflow-hidden">
           <div className="px-6 py-4 border-b border-[rgba(21,20,15,0.08)] flex items-center gap-3">
             <span className="material-symbols-outlined text-[#C8553A]" style={{ fontSize: 18, fontVariationSettings: "'FILL' 1" }}>auto_awesome</span>
             <span className="text-sm font-bold text-[#15140F]">Caption assistant</span>
@@ -246,7 +245,7 @@ export default function ProductAIInsights() {
         <div className="mx-auto max-w-5xl px-6">
           <div className="text-center mb-10">
             <p className="text-[0.68rem] font-bold uppercase tracking-[0.2em] text-[#C8553A] mb-3">By platform</p>
-            <h2 className="text-3xl font-extrabold tracking-tight text-[#15140F]">Advice tailored to each channel.</h2>
+            <h2 className="text-[clamp(24px,3.5vw,40px)] font-medium tracking-[-0.03em] text-[#15140F]">Advice tailored to each channel.</h2>
             <p className="mt-3 text-[#6B655B] max-w-md mx-auto text-sm leading-relaxed">Instagram, LinkedIn, and Facebook have different audiences and algorithms. Your recommendations reflect that.</p>
           </div>
           <div className="grid md:grid-cols-3 gap-4">
@@ -277,7 +276,7 @@ export default function ProductAIInsights() {
         <div className="grid md:grid-cols-2 gap-10 items-center">
           <div>
             <p className="text-[0.68rem] font-bold uppercase tracking-[0.2em] text-[#C8553A] mb-3">Best-time engine</p>
-            <h2 className="text-3xl font-extrabold tracking-tight text-[#15140F] mb-4">Post when your audience is actually there.</h2>
+            <h2 className="text-[clamp(24px,3.5vw,40px)] font-medium tracking-[-0.03em] text-[#15140F] mb-4">Post when your audience is actually there.</h2>
             <p className="text-[#6B655B] text-sm leading-relaxed mb-6">
               The engine analyzes your follower activity patterns and cross-references them with platform-level data to find the windows that maximize reach for each account.
             </p>
@@ -309,7 +308,7 @@ export default function ProductAIInsights() {
               <span className="text-xs font-bold text-[#15140F]">This week's best slot</span>
             </div>
             <div className="rounded-xl border border-[#C8553A]/20 bg-[#F5EBE8] p-5 mb-4">
-              <p className="text-3xl font-extrabold text-[#C8553A]">Tuesday</p>
+              <p className="text-3xl font-semibold text-[#C8553A]">Tuesday</p>
               <p className="text-lg font-bold text-[#15140F]">9:15 AM</p>
               <p className="text-xs text-[#6B655B] mt-1">91% audience activity score</p>
             </div>
@@ -323,7 +322,7 @@ export default function ProductAIInsights() {
         <div className="mx-auto max-w-4xl px-6">
           <div className="text-center mb-10">
             <p className="text-[0.68rem] font-bold uppercase tracking-[0.2em] text-[#C8553A] mb-3">Weekly plan</p>
-            <h2 className="text-3xl font-extrabold tracking-tight text-[#15140F]">Seven days of clarity.</h2>
+            <h2 className="text-[clamp(24px,3.5vw,40px)] font-medium tracking-[-0.03em] text-[#15140F]">Seven days of clarity.</h2>
             <p className="mt-3 text-[#6B655B] max-w-md mx-auto text-sm leading-relaxed">Every Monday, Vielinks generates a focused action list based on last week's performance and upcoming opportunities.</p>
           </div>
           <div className="rounded-2xl border border-[rgba(21,20,15,0.10)] bg-[#FBF8F2] divide-y divide-[rgba(21,20,15,0.06)]">
@@ -348,7 +347,7 @@ export default function ProductAIInsights() {
       <section className="py-16 mx-auto max-w-5xl px-6">
         <div className="text-center mb-10">
           <p className="text-[0.68rem] font-bold uppercase tracking-[0.2em] text-[#C8553A] mb-3">Guardrails</p>
-          <h2 className="text-3xl font-extrabold tracking-tight text-[#15140F]">AI that works for you, not around you.</h2>
+          <h2 className="text-[clamp(24px,3.5vw,40px)] font-medium tracking-[-0.03em] text-[#15140F]">AI that works for you, not around you.</h2>
           <p className="mt-3 text-[#6B655B] max-w-md mx-auto text-sm leading-relaxed">Suggestions are a starting point. Your brand voice, review process, and judgment stay in control.</p>
         </div>
         <div className="grid md:grid-cols-3 gap-4">
@@ -370,7 +369,7 @@ export default function ProductAIInsights() {
       {/* Feature grid */}
       <section className="py-20 mx-auto max-w-6xl px-6">
         <div className="text-center mb-14">
-          <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight text-[#15140F]">The full AI toolkit</h2>
+          <h2 className="text-[clamp(24px,3.5vw,40px)] font-medium tracking-[-0.03em] text-[#15140F]">The full AI toolkit</h2>
           <p className="mt-3 text-[#6B655B]">Every AI feature in one place — no prompt engineering required.</p>
         </div>
         <div ref={featRef} className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">

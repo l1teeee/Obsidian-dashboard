@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import { useScroll, useTransform, useSpring, motion, type MotionValue } from "framer-motion";
+import { useScroll, useTransform, useSpring, motion, useReducedMotion, type MotionValue } from "framer-motion";
 
 export const ContainerScroll = ({
   titleComponent,
@@ -23,11 +23,12 @@ export const ContainerScroll = ({
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
+  const shouldReduceMotion = useReducedMotion();
   const scaleDimensions = () => (isMobile ? [0.7, 0.9] : [1.05, 1]);
 
-  const rotateRaw  = useTransform(scrollYProgress, [0, 1], [14, 0]);
+  const rotateRaw  = useTransform(scrollYProgress, [0, 1], shouldReduceMotion ? [0, 0] : [8, 0]);
   const rotate     = useSpring(rotateRaw, { stiffness: 60, damping: 22, mass: 0.4 });
-  const scale      = useTransform(scrollYProgress, [0, 1], scaleDimensions());
+  const scale      = useTransform(scrollYProgress, [0, 1], shouldReduceMotion ? [1, 1] : scaleDimensions());
   const opacity    = useTransform(fadeProgress, [0, 0.15, 0.85, 1], [0, 1, 1, 0]);
 
   return (
