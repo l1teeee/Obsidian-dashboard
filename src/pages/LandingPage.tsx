@@ -6,6 +6,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useSEO } from '../hooks/useSEO';
 import SiteNav from '../components/landing/SiteNav';
 import ObsidianFooter from '../components/landing/ObsidianFooter';
+import HeroBadge from '../components/landing/HeroBadge';
 import { ContainerScroll } from '../components/ui/container-scroll-animation';
 import { WorkspaceFeatureGrid, type WorkspaceFeature } from '../components/landing/WorkspaceFeatureGrid';
 
@@ -93,6 +94,41 @@ const IconFacebook = (p: React.SVGProps<SVGSVGElement>) => (
   </svg>
 );
 
+// ─── SectionTitleLink ─────────────────────────────────────────────────────────
+
+// Spring easing via CSS linear() — simulates a real spring without JS physics.
+// Overshoots by ~0.7% at 61% progress then settles, giving the arrow a
+// natural "alive" feel on a 4px translate without any bounce on opacity.
+const ARROW_SPRING =
+  'opacity 180ms ease, transform 420ms linear(0,0.006,0.025 2.8%,0.101 6.1%,0.539 18.9%,0.721 25%,0.849 31.1%,0.938 38.9%,0.968 44.4%,1.001 55.6%,1.007 61.1%,0.999 72.2%,1)';
+
+function SectionTitleLink({ children, to, ariaLabel }: { children: React.ReactNode; to: string; ariaLabel: string }) {
+  const prefersReducedMotion = useReducedMotion();
+  return (
+    <Link
+      to={to}
+      aria-label={ariaLabel}
+      className="group inline-flex items-center gap-2 text-[11px] font-medium uppercase tracking-[0.18em] text-[#C8553A] mb-3 rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C8553A]/30 focus-visible:ring-offset-2"
+    >
+      {children}
+      <svg
+        viewBox="0 0 12 12"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.7"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        className="w-2.5 h-2.5 shrink-0 opacity-40 translate-x-0 group-hover:opacity-100 group-hover:translate-x-1 group-focus-visible:opacity-100 group-focus-visible:translate-x-1"
+        style={{ transition: prefersReducedMotion ? 'none' : ARROW_SPRING }}
+        aria-hidden="true"
+      >
+        <line x1="1" y1="6" x2="11" y2="6" />
+        <polyline points="6.5 1.5 11 6 6.5 10.5" />
+      </svg>
+    </Link>
+  );
+}
+
 const reduced = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const PREVIEW_BARS = [32, 58, 41, 75, 53, 88, 67];
 const PREVIEW_DAYS = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
@@ -134,10 +170,9 @@ function Hero() {
   return (
     <section ref={ref} className="min-h-screen flex items-center text-center">
       <div data-h="inner" className="w-full max-w-300 mx-auto px-8 pt-16">
-        <span data-h="eyebrow" className="inline-flex items-center rounded-full bg-[#EFE9DC] px-4 py-2 text-[11px] font-medium uppercase tracking-[0.16em] text-[#6B655B] mb-6 shadow-[inset_0_1px_0_rgba(255,255,255,0.55)]">
-          <span className="mr-2 h-1.5 w-1.5 rounded-full bg-[#C8553A]" />
+        <HeroBadge data-h="eyebrow" className="mb-6">
           For social teams who care about craft
-        </span>
+        </HeroBadge>
         <h1 data-h="title" className="text-[clamp(44px,6.5vw,88px)] leading-[1.03] tracking-[-0.04em] text-[#15140F] max-w-225 mx-auto mb-5 font-medium">
           One workspace<br />for your <em className="not-italic text-[#C8553A]">posts.</em>
         </h1>
@@ -551,11 +586,11 @@ function ProductPreview() {
 function Features() {
   const ref = useRef<HTMLElement>(null);
   const features: WorkspaceFeature[] = [
-    { icon: <IconCalendar className="w-4.5 h-4.5" />, title: 'Calendar that just plans', body: 'Drag posts between days. See the whole month in one view. Every platform on one timeline, color-coded but quiet.', route: '/product/scheduler' },
-    { icon: <IconSparkle className="w-4.5 h-4.5" />, title: 'AI that drafts captions', body: "Stuck on a caption? Drop in the image and a brief, get three options in your tone. Edit, post, move on.", route: '/product/ai-insights' },
-    { icon: <IconAnalytics className="w-4.5 h-4.5" />, title: 'Numbers, not dashboards', body: "What got reach, when. What got engagement, why. Per platform, per post, per week. No vanity metrics.", route: '/product/analytics' },
-    { icon: <IconHub className="w-4.5 h-4.5" />, title: 'Three platforms, one tab', body: 'Instagram, LinkedIn, Facebook. Connect once, post everywhere, with previews that show what each network will actually render.', route: '/product/integrations' },
-    { icon: <IconClock className="w-4.5 h-4.5" />, title: 'Approval queues', body: 'A reviewer, a clock, a green checkmark. Drafts route to whoever needs to see them before they go out.', route: '/product/scheduler' },
+    { icon: <IconCalendar className="w-4.5 h-4.5" />, title: 'Calendar that just plans', body: 'Drag posts between days. See the whole month in one view. Every platform on one timeline, color-coded but quiet.', route: '/planner' },
+    { icon: <IconSparkle className="w-4.5 h-4.5" />, title: 'AI that drafts captions', body: "Stuck on a caption? Drop in the image and a brief, get three options in your tone. Edit, post, move on.", route: '/ai-studio' },
+    { icon: <IconAnalytics className="w-4.5 h-4.5" />, title: 'Numbers, not dashboards', body: "What got reach, when. What got engagement, why. Per platform, per post, per week. No vanity metrics.", route: '/insights' },
+    { icon: <IconHub className="w-4.5 h-4.5" />, title: 'Three platforms, one tab', body: 'Instagram, LinkedIn, Facebook. Connect once, post everywhere, with previews that show what each network will actually render.', route: '/connections' },
+    { icon: <IconClock className="w-4.5 h-4.5" />, title: 'Approval queues', body: 'A reviewer, a clock, a green checkmark. Drafts route to whoever needs to see them before they go out.', route: '/planner' },
     { icon: <IconLinkIcon className="w-4.5 h-4.5" />, title: 'Link in bio, but quiet', body: "A small, hosted page you can update from the same workspace. No third-party tools, no extra subscriptions.", route: null },
   ];
 
@@ -613,7 +648,7 @@ function Features() {
     <section ref={ref} id="features" className="py-24">
       <div data-f="inner" className="max-w-300 mx-auto px-8">
         <div data-f="head">
-          <span className="text-[11px] font-medium uppercase tracking-[0.18em] text-[#C8553A] mb-3 inline-block">The workspace</span>
+          <SectionTitleLink to="/overview" ariaLabel="View workspace details">The workspace</SectionTitleLink>
           <h2 className="text-[clamp(32px,4.5vw,52px)] leading-[1.1] tracking-[-0.035em] mb-3 max-w-180 font-medium text-[#15140F]">
             A tool that <em className="not-italic text-[#C8553A]">respects</em> your week.
           </h2>
@@ -691,7 +726,7 @@ function Pricing() {
     <section ref={ref} id="pricing" className="py-24 bg-[#FBF8F2]">
       <div data-pr="inner" className="max-w-300 mx-auto px-8">
         <div data-pr="head">
-          <span className="text-[11px] font-medium uppercase tracking-[0.18em] text-[#C8553A] mb-3 inline-block">Pricing</span>
+          <SectionTitleLink to="/pricing" ariaLabel="View pricing details">Pricing</SectionTitleLink>
           <h2 className="text-[clamp(32px,4.5vw,52px)] leading-[1.1] tracking-[-0.035em] mb-3 max-w-180 font-medium text-[#15140F]">
             Three plans. <em className="not-italic text-[#C8553A]">No surprises.</em>
           </h2>
@@ -799,7 +834,7 @@ function FAQ() {
     <section ref={ref} id="faq" className="py-24">
       <div data-faq="inner" className="max-w-300 mx-auto px-8">
         <div data-faq="head">
-          <span className="text-[11px] font-medium uppercase tracking-[0.18em] text-[#C8553A] mb-3 inline-block">Questions</span>
+          <SectionTitleLink to="/faq" ariaLabel="View frequently asked questions">Questions</SectionTitleLink>
           <h2 className="text-[clamp(32px,4.5vw,52px)] leading-[1.1] tracking-[-0.035em] mb-12 max-w-180 font-medium text-[#15140F]">
             Answered, <em className="not-italic text-[#C8553A]">without the fluff.</em>
           </h2>

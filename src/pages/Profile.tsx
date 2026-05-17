@@ -6,18 +6,17 @@ import ConnectedPlatformsList from '../components/profile/ConnectedPlatformsList
 import NotificationPrefs from '../components/profile/NotificationPrefs';
 import PlanCard from '../components/profile/PlanCard';
 import ActivityFeed from '../components/profile/ActivityFeed';
-import EditProfileModal      from '../components/profile/EditProfileModal';
-import AvatarCropModal       from '../components/profile/AvatarCropModal';
-import ChangePasswordModal   from '../components/profile/ChangePasswordModal';
+import EditProfileModal    from '../components/profile/EditProfileModal';
+import ChangePasswordModal from '../components/profile/ChangePasswordModal';
 import { useProfile } from '../hooks/useProfile';
 
 export default function Profile() {
   const navigate = useNavigate();
   const {
     profile, connectedPlatforms, activity, notifPrefs,
-    editOpen, setEditOpen, avatarOpen, setAvatarOpen,
+    editOpen, setEditOpen,
     passwordOpen, setPasswordOpen,
-    saveProfile, onAvatarUpdated, pageRef,
+    saveProfile, pageRef,
   } = useProfile();
 
   return (
@@ -27,13 +26,6 @@ export default function Profile() {
           data={profile}
           onSave={saveProfile}
           onClose={() => setEditOpen(false)}
-          onChangeAvatar={() => setAvatarOpen(true)}
-        />
-      )}
-      {avatarOpen && (
-        <AvatarCropModal
-          onSave={onAvatarUpdated}
-          onClose={() => setAvatarOpen(false)}
         />
       )}
       {passwordOpen && (
@@ -70,7 +62,7 @@ export default function Profile() {
           </div>
         ) : (
           <div className="p-6 md:p-10 max-w-6xl mx-auto space-y-8">
-            <ProfileHero profile={profile} onEdit={() => setEditOpen(true)} onChangeAvatar={() => setAvatarOpen(true)} />
+            <ProfileHero profile={profile} onEdit={() => setEditOpen(true)} />
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               <div className="lg:col-span-2 space-y-8">

@@ -481,11 +481,11 @@ export function ProductCTA() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
-  if (pathname === '/product/scheduler')    return <SchedulerCTA    navigate={navigate} />;
-  if (pathname === '/product/analytics')    return <AnalyticsCTA    navigate={navigate} />;
-  if (pathname === '/product/ai-insights')  return <AIInsightsCTA   navigate={navigate} />;
-  if (pathname === '/product/integrations') return <IntegrationsCTA navigate={navigate} />;
-  if (pathname === '/product/dashboard')    return <DashboardCTA    navigate={navigate} />;
+  if (pathname === '/planner')     return <SchedulerCTA    navigate={navigate} />;
+  if (pathname === '/insights')    return <AnalyticsCTA    navigate={navigate} />;
+  if (pathname === '/ai-studio')   return <AIInsightsCTA   navigate={navigate} />;
+  if (pathname === '/connections') return <IntegrationsCTA navigate={navigate} />;
+  if (pathname === '/overview')    return <DashboardCTA    navigate={navigate} />;
   return <DefaultCTA navigate={navigate} />;
 }
 

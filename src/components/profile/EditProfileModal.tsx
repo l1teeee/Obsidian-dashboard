@@ -2,15 +2,15 @@
 import { TIMEZONES } from '../../domain/entities/Profile';
 import type { ProfileData } from '../../domain/entities/Profile';
 import gsap from 'gsap';
+import InitialsAvatar from '../shared/InitialsAvatar';
 
 interface EditProfileModalProps {
-  data:          ProfileData;
-  onSave:        (d: ProfileData) => Promise<void>;
-  onClose:       () => void;
-  onChangeAvatar?: () => void;
+  data:    ProfileData;
+  onSave:  (d: ProfileData) => Promise<void>;
+  onClose: () => void;
 }
 
-export default function EditProfileModal({ data, onSave, onClose, onChangeAvatar }: EditProfileModalProps) {
+export default function EditProfileModal({ data, onSave, onClose }: EditProfileModalProps) {
   const [form,    setForm]    = useState<ProfileData>(data);
   const [saving,  setSaving]  = useState(false);
   const [error,   setError]   = useState<string | null>(null);
@@ -85,32 +85,10 @@ export default function EditProfileModal({ data, onSave, onClose, onChangeAvatar
 
         {/* Avatar */}
         <div className="px-8 pt-6 pb-2 flex items-center gap-4">
-          <button
-            type="button"
-            onClick={onChangeAvatar}
-            disabled={!onChangeAvatar}
-            className="relative w-16 h-16 rounded-2xl bg-gradient-to-tr from-[#C8553A] to-[#D6A86A] p-[2px] shrink-0 group disabled:cursor-default"
-          >
-            <div className="w-full h-full rounded-2xl bg-[#FBF8F2] overflow-hidden flex items-center justify-center">
-              {form.avatar_url
-                ? <img src={form.avatar_url} alt="Avatar" className="w-full h-full object-cover" />
-                : <span className="text-xl font-bold text-[#C8553A]">{(form.name || form.email).slice(0, 2).toUpperCase()}</span>
-              }
-            </div>
-            {onChangeAvatar && (
-              <div className="absolute inset-0 rounded-2xl bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                <span className="material-symbols-outlined text-[#15140F]" style={{ fontSize: 16 }}>photo_camera</span>
-              </div>
-            )}
-          </button>
+          <InitialsAvatar name={form.name || form.email} size="md" />
           <div>
             <p className="text-sm font-bold text-[#15140F] font-headline">{form.name || 'No name'}</p>
             <p className="text-xs text-[#6B655B] mt-0.5">{form.email}</p>
-            {onChangeAvatar && (
-              <button type="button" onClick={onChangeAvatar} className="text-[10px] text-[#C8553A] hover:text-[#e8b5ff] mt-1 transition-colors">
-                Change photo
-              </button>
-            )}
           </div>
         </div>
 

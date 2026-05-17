@@ -14,6 +14,7 @@ import { useLayout } from '../../contexts/LayoutContext';
 import { useWorkspace } from '../../contexts/WorkspaceContext';
 import { useAuth } from '../../hooks/useAuth';
 import Modal from '../shared/Modal';
+import InitialsAvatar from '../shared/InitialsAvatar';
 import AdminWelcomeModal, { shouldShowAdminWelcome } from '../shared/AdminWelcomeModal';
 import { getProfile } from '../../services/users.service';
 import type { UserPlan } from '../../types/users.types';
@@ -262,7 +263,6 @@ export default function Sidebar() {
   const [newName,     setNewName]     = useState('');
   const [logoutModal, setLogoutModal] = useState(false);
   const [displayName, setDisplayName] = useState<string>('');
-  const [avatarUrl,   setAvatarUrl]   = useState<string | null>(null);
   const [userPlan,    setUserPlan]    = useState<UserPlan | null>(null);
   const [isAdmin,     setIsAdmin]     = useState(false);
   const [isSuperAdmin, setIsSuperAdmin] = useState(false);
@@ -311,7 +311,6 @@ export default function Sidebar() {
     getProfile()
       .then(p => {
         setDisplayName(p.name ?? p.email);
-        setAvatarUrl(p.avatar_url ?? null);
         setUserPlan(p.plan ?? 'starter');
         setIsAdmin(!!p.is_admin);
         setIsSuperAdmin(!!p.is_superadmin);
@@ -706,14 +705,7 @@ export default function Sidebar() {
             menuOpen ? 'bg-[#C8553A]/10 border-[#C8553A]/30' : 'bg-[#EFE9DC] border-border hover:border-[#C8553A]/30 hover:bg-[#E7E0D0]',
           ].join(' ')}
         >
-          <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-[#C8553A] to-[#A53F28] p-[1.5px] shrink-0">
-            <div className="w-full h-full rounded-full bg-white overflow-hidden flex items-center justify-center">
-              {avatarUrl
-                ? <img src={avatarUrl} alt="Avatar" className="w-full h-full object-cover" />
-                : <span className="text-xs font-bold text-[#C8553A]">{displayName ? displayName[0].toUpperCase() : '?'}</span>
-              }
-            </div>
-          </div>
+          <InitialsAvatar name={displayName} size="sm" />
           <div className={`flex-1 overflow-hidden transition-all duration-300 text-left ${isOpen ? 'max-w-[120px] opacity-100' : 'max-w-0 opacity-0'}`}>
             <p className="text-sm font-bold text-[#15140F] leading-tight font-headline whitespace-nowrap">{displayName || '—'}</p>
             {userPlan === null

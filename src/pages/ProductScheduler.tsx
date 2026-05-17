@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import HeroBadge from '../components/landing/HeroBadge';
 import ProductShell from '../components/landing/ProductShell';
 import { WorkspaceFeatureGrid, type WorkspaceFeature } from '../components/landing/WorkspaceFeatureGrid';
 
@@ -145,9 +146,9 @@ export default function ProductScheduler() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
             >
-              <span className="text-[11px] font-medium uppercase tracking-[0.18em] text-[#C8553A] mb-5 inline-block">
-                Product · Calendar
-              </span>
+              <HeroBadge className="mb-5">
+                For teams who plan every post
+              </HeroBadge>
               <h1 className="text-[clamp(44px,6.5vw,88px)] leading-[1.03] tracking-[-0.04em] font-medium text-[#15140F] mb-5">
                 A calm calendar<br />
                 <em className="not-italic text-[#C8553A]">for every post.</em>

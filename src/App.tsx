@@ -4,7 +4,7 @@ import SessionWarningModal    from './components/shared/SessionWarningModal';
 import KickedOutModal         from './components/shared/KickedOutModal';
 import AccountDisabledModal   from './components/shared/AccountDisabledModal';
 import FacebookTokenModal, { FB_TOKEN_DISMISSED_KEY } from './components/shared/FacebookTokenModal';
-import { BrowserRouter, Routes, Route, useLocation, useNavigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import Lenis from 'lenis';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
@@ -104,7 +104,7 @@ function LenisProvider({ children }: { children: ReactNode }) {
 }
 
 const AUTH_PATHS = ['/', '/pricing', '/faq', '/login', '/register', '/check-email', '/forgot-password', '/reset-password', '/complete-profile', '/create-workspace',
-  '/product/dashboard', '/product/analytics', '/product/scheduler', '/product/ai-insights', '/product/integrations'];
+  '/overview', '/planner', '/insights', '/ai-studio', '/connections', '/product/dashboard', '/product/analytics', '/product/scheduler', '/product/ai-insights', '/product/integrations'];
 
 // Admin routes bypass WorkspaceGuard (admin doesn't need a workspace)
 const isAdminPath = (path: string) => path.startsWith('/admin');
@@ -304,11 +304,16 @@ export default function App() {
                 <Route path="/faq"     element={<FAQPage />} />
 
                 {/* Product pages — public */}
-                <Route path="/product/dashboard"    element={<ProductDashboard />} />
-                <Route path="/product/analytics"    element={<ProductAnalytics />} />
-                <Route path="/product/scheduler"    element={<ProductScheduler />} />
-                <Route path="/product/ai-insights"  element={<ProductAIInsights />} />
-                <Route path="/product/integrations" element={<ProductIntegrations />} />
+                <Route path="/overview"    element={<ProductDashboard />} />
+                <Route path="/planner"     element={<ProductScheduler />} />
+                <Route path="/insights"    element={<ProductAnalytics />} />
+                <Route path="/ai-studio"   element={<ProductAIInsights />} />
+                <Route path="/connections" element={<ProductIntegrations />} />
+                <Route path="/product/dashboard"    element={<Navigate to="/overview" replace />} />
+                <Route path="/product/analytics"    element={<Navigate to="/insights" replace />} />
+                <Route path="/product/scheduler"    element={<Navigate to="/planner" replace />} />
+                <Route path="/product/ai-insights"  element={<Navigate to="/ai-studio" replace />} />
+                <Route path="/product/integrations" element={<Navigate to="/connections" replace />} />
 
                 {/* Auth — public */}
                 <Route path="/login"        element={<LoginCard />} />

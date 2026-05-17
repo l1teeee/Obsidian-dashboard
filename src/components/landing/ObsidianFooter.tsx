@@ -8,10 +8,10 @@ gsap.registerPlugin(ScrollTrigger);
 
 const footerLinks = {
   Product: [
-    { label: 'Calendar', href: '/product/scheduler' },
-    { label: 'Analytics', href: '/product/analytics' },
-    { label: 'AI Insights', href: '/product/ai-insights' },
-    { label: 'Integrations', href: '/product/integrations' },
+    { label: 'Planner', href: '/planner' },
+    { label: 'Insights', href: '/insights' },
+    { label: 'AI Studio', href: '/ai-studio' },
+    { label: 'Connections', href: '/connections' },
   ],
   Company: [
     { label: 'Pricing', href: '/pricing' },

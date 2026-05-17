@@ -1,7 +1,5 @@
 ﻿
 import { useLayoutEffect, useRef, useState } from 'react';
-import NumberFlow from '@number-flow/react';
-import { AnimatePresence, motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -30,210 +28,136 @@ export type PlanDef = {
 // eslint-disable-next-line react-refresh/only-export-components
 export const PLANS: PlanDef[] = [
   {
-    id: 'free',
-    name: 'Free',
-    forWho: 'For individuals getting started',
-    desc: 'Explore Vielinks with no commitment. One account, core scheduling, and basic analytics.',
+    id: 'starter',
+    name: 'Starter',
+    forWho: 'One person, one workspace.',
+    desc: 'One person, one workspace, three connected accounts.',
     monthlyPrice: 0,
     annuallyPrice: 0,
     features: [
-      '1 social account connected',
-      '10 scheduled posts per month',
+      'Up to 30 posts / month',
       '7-day analytics window',
-      'Content calendar view',
-      'Community support',
+      'Email-only support',
     ],
-    cta: 'Get started free',
-    ctaRoute: '/register',
-  },
-  {
-    id: 'starter',
-    name: 'Starter',
-    forWho: 'For independent creators',
-    desc: 'Everything you need to grow your personal brand across multiple platforms.',
-    monthlyPrice: 29,
-    annuallyPrice: 290,
-    features: [
-      '3 social accounts connected',
-      '60 scheduled posts per month',
-      '30-day analytics dashboard',
-      'Content calendar view',
-      'AI caption suggestions (10/mo)',
-      'Email support',
-    ],
-    cta: 'Start free trial',
+    cta: 'Start free',
     ctaRoute: '/register',
   },
   {
     id: 'pro',
     name: 'Pro',
-    forWho: 'For teams & growing brands',
-    desc: 'Full analytics, unlimited scheduling, and AI-powered insights for teams that publish at scale.',
-    monthlyPrice: 79,
-    annuallyPrice: 790,
+    forWho: 'For teams of 2-8',
+    desc: 'For teams of 2-8 who post weekly across all three networks.',
+    monthlyPrice: 18,
+    annuallyPrice: 18,
     badge: 'Most Popular',
     accent: true,
     features: [
-      '10 social accounts connected',
-      'Unlimited scheduled posts',
-      '90-day analytics + performance reports',
-      'AI best-time scheduling engine',
-      'Unlimited AI caption drafting',
-      'Multi-workspace support (5 seats)',
-      'Priority support (4h response)',
+      'Unlimited posts',
+      'Full analytics history',
+      'AI caption drafts',
+      'Approval workflows',
     ],
-    cta: 'Start free trial',
+    cta: 'Start 14-day trial',
     ctaRoute: '/register',
-    note: 'Built for growing teams',
   },
   {
-    id: 'agency',
-    name: 'Agency',
-    forWho: 'For agencies & large brands',
-    desc: 'Custom workflows, white-label reporting, and dedicated support for complex operations.',
-    monthlyPrice: 149,
-    annuallyPrice: 1490,
+    id: 'studio',
+    name: 'Studio',
+    forWho: 'For agencies and in-house teams',
+    desc: 'For agencies and in-house teams managing multiple brands.',
+    monthlyPrice: 64,
+    annuallyPrice: 64,
     features: [
-      'Unlimited accounts & workspaces',
-      'Unlimited posts & team seats',
-      'Full analytics history + white-label PDF reports',
-      'API access & custom integrations',
-      'SSO & advanced permissions',
-      'Dedicated customer success manager',
+      'Everything in Pro',
+      'Multiple brand workspaces',
+      'Client review portals',
+      'Priority support',
     ],
-    cta: 'Contact sales',
-    ctaRoute: 'mailto:hello@vielinks.com?subject=Vielinks%20Agency%20plan',
+    cta: 'Talk to us',
+    ctaRoute: 'mailto:hello@vielinks.com?subject=Vielinks%20Studio%20plan',
   },
 ];
 
-function CheckIcon({ accent }: { accent?: boolean }) {
-  return (
-    <span className={cn(
-      'mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full',
-      accent ? 'bg-[#C8553A]/15 text-[#C8553A]' : 'bg-[#EFE9DC] text-on-surface-variant'
-    )}>
-      <svg className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth={2.4} viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-      </svg>
-    </span>
-  );
-}
-
-export function PlanCard({ plan, billing, onSelectPlan }: { plan: PlanDef; billing: BillingPlan; onSelectPlan?: (plan: PlanDef) => void }) {
+export function PlanCard({ plan, onSelectPlan }: { plan: PlanDef; billing?: BillingPlan; onSelectPlan?: (plan: PlanDef) => void }) {
   const navigate = useNavigate();
-  const price = billing === 'monthly' ? plan.monthlyPrice : plan.annuallyPrice;
-  const isFree = plan.id === 'free';
+  const isFreePlan = plan.monthlyPrice === 0;
+  const isFeatured = !!plan.accent;
 
   const handleCta = () => {
-    if (isFree) { navigate('/register'); return; }
-    if (plan.id === 'agency') {
-      window.location.href = plan.ctaRoute;
-      return;
-    }
+    if (isFreePlan) { navigate('/register'); return; }
+    if (plan.id === 'studio') { window.location.href = plan.ctaRoute; return; }
     onSelectPlan?.(plan);
   };
 
   return (
     <div className={cn(
-      'group relative flex flex-col overflow-hidden rounded-[2rem] border p-8 backdrop-blur-xl transition-all duration-500 hover:-translate-y-1',
-      plan.accent
-        ? 'border-[#C8553A]/35 bg-[#FFFFFF] shadow-[0_0_0_1px_rgba(200,85,58,0.12),0_30px_90px_rgba(200,85,58,0.16)]'
-        : 'border-[rgba(21,20,15,0.14)] bg-[#FFFFFF] hover:border-[#C8553A]/25 hover:bg-[#EFE9DC]'
+      'group rounded-2xl p-8 flex flex-col gap-4 border transition-[background-color,border-color,box-shadow,transform] duration-200 ease-out hover:-translate-y-1',
+      isFeatured
+        ? 'bg-[#15140F] border-[#15140F] hover:border-[#C8553A] hover:shadow-[0_20px_50px_rgba(200,85,58,0.20)]'
+        : 'bg-[#FBF8F2] border-[rgba(21,20,15,0.10)] hover:border-[#C8553A] hover:bg-[#F6F2EA] hover:shadow-[0_18px_45px_rgba(21,20,15,0.08)]'
     )}>
-      {/* Top sheen */}
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#E7E0D0] to-transparent" />
-
-      {/* Hover glow for accent */}
-      {plan.accent && (
-        <div
-          className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
-          style={{ background: 'radial-gradient(ellipse at top, rgba(200,85,58,0.09) 0%, transparent 65%)' }}
-        />
-      )}
-
-      {/* Badge row */}
-      <div className="mb-5 h-6">
+      {/* Plan name */}
+      <div
+        className="text-[22px] font-medium tracking-[-0.02em]"
+        style={{ color: isFeatured ? '#F6F2EA' : '#15140F' }}
+      >
+        {plan.name}
         {plan.badge && (
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-[#C8553A]/25 bg-[#C8553A]/12 px-3 py-1 text-[0.62rem] font-bold uppercase tracking-[0.16em] text-[#C8553A]">
-            <span className="h-1 w-1 rounded-full bg-[#C8553A]" />
-            {plan.badge}
+          <span className="ml-2 text-[10px] font-bold uppercase tracking-[0.14em] text-[#C8553A]">
+            · {plan.badge}
           </span>
         )}
       </div>
 
-      {/* For who + name */}
-      <p className="mb-1.5 text-[0.65rem] font-bold uppercase tracking-[0.18em] text-[#6B655B]">{plan.forWho}</p>
-      <h3 className="mb-2 text-xl font-extrabold tracking-tight text-[#15140F]">{plan.name}</h3>
-      <p className="mb-7 text-[0.875rem] leading-[1.65] text-on-surface-variant">{plan.desc}</p>
-
-      {/* Price with NumberFlow */}
-      <div className="mb-2">
-        {isFree ? (
-          <p className="text-5xl font-extrabold tracking-[-0.04em] text-[#15140F]">Free</p>
-        ) : (
-          <div className="flex items-end gap-1.5">
-            <NumberFlow
-              value={price ?? 0}
-              format={{ style: 'currency', currency: 'USD', minimumFractionDigits: 0, maximumFractionDigits: 0, currencyDisplay: 'narrowSymbol' }}
-              className="text-5xl font-extrabold tracking-[-0.04em] text-[#15140F]"
-            />
-            <span className="mb-2 text-sm font-medium text-[#6B655B]">
-              {billing === 'monthly' ? '/mo' : '/yr'}
-            </span>
-          </div>
+      {/* Price */}
+      <div className="flex items-baseline gap-1.5">
+        <span
+          className="text-[56px] font-medium tracking-[-0.04em] leading-none"
+          style={{ color: isFeatured ? '#F6F2EA' : '#15140F' }}
+        >
+          {isFreePlan ? 'Free' : `$${plan.monthlyPrice}`}
+        </span>
+        {!isFreePlan && (
+          <span className="text-[13px]" style={{ color: isFeatured ? 'rgba(251,248,242,0.6)' : '#6B655B' }}>
+            / user / mo
+          </span>
         )}
       </div>
 
-      {/* Billing note animated */}
-      <div className="h-7 overflow-hidden mb-5">
-        <AnimatePresence mode="wait">
-          <motion.p
-            key={billing}
-            initial={{ y: 14, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            exit={{ y: -14, opacity: 0 }}
-            transition={{ duration: 0.18, ease: 'easeOut' }}
-            className="text-[0.7rem] text-[#6B655B]"
+      {/* Description */}
+      <p
+        className="text-[14px] leading-normal"
+        style={{ color: isFeatured ? 'rgba(251,248,242,0.7)' : '#6B655B' }}
+      >
+        {plan.desc}
+      </p>
+
+      {/* Features */}
+      <ul className="list-none flex flex-col gap-2 my-2">
+        {plan.features.map((f) => (
+          <li
+            key={f}
+            className="flex items-center gap-2.5 text-[14px]"
+            style={{ color: isFeatured ? 'rgba(251,248,242,0.85)' : '#3D3A30' }}
           >
-            {isFree
-              ? 'Free forever · no card required'
-              : billing === 'monthly'
-              ? 'Billed monthly · cancel anytime'
-              : `Save ${billing === 'annually' ? '~17%' : ''} vs monthly`}
-          </motion.p>
-        </AnimatePresence>
-      </div>
+            <span className="w-1 h-1 rounded-full bg-current opacity-40 shrink-0" />
+            {f}
+          </li>
+        ))}
+      </ul>
 
       {/* CTA */}
       <button
         onClick={handleCta}
         className={cn(
-          'mb-2 w-full rounded-xl px-6 py-3.5 text-sm font-bold transition-all duration-300 active:scale-[0.98]',
-          plan.accent
-            ? 'bg-[#C8553A] text-white hover:bg-[#A53F28]'
-            : 'border border-[#D8D2C4] bg-[#FFFFFF] text-on-surface-variant hover:border-[#C8553A]/40 hover:bg-[#EFE9DC]'
+          'mt-auto w-full inline-flex justify-center items-center text-[14px] font-medium px-5 py-2.5 rounded-[10px] transition-[background-color,color,transform] duration-150 active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C8553A] focus-visible:ring-offset-2',
+          isFeatured
+            ? 'bg-[#C8553A] text-white hover:bg-[#A53F28] focus-visible:ring-offset-[#15140F]'
+            : 'bg-[#15140F] text-[#F6F2EA] hover:bg-[#2A2825] focus-visible:ring-offset-[#FBF8F2]'
         )}
       >
         {plan.cta}
       </button>
-
-      {plan.note && (
-        <p className="mb-4 text-center text-[0.62rem] text-[#6B655B]">{plan.note}</p>
-      )}
-      {!plan.note && <div className="mb-4 h-5" />}
-
-      {/* Divider */}
-      <div className="mb-5 h-px bg-[rgba(21,20,15,0.10)]" />
-
-      {/* Features */}
-      <ul className="mt-auto space-y-3.5">
-        {plan.features.map((f) => (
-          <li key={f} className="flex items-start gap-3">
-            <CheckIcon accent={plan.accent} />
-            <span className="text-[0.875rem] leading-snug text-on-surface-variant">{f}</span>
-          </li>
-        ))}
-      </ul>
     </div>
   );
 }
@@ -334,8 +258,8 @@ export default function PricingSection() {
           </div>
         </div>
 
-        {/* Cards — 4 columns */}
-        <div className="mt-12 grid gap-5 sm:grid-cols-2 xl:grid-cols-4 lg:items-start">
+        {/* Cards — 3 columns */}
+        <div className="mt-12 grid gap-5 sm:grid-cols-2 xl:grid-cols-3 lg:items-start">
           {PLANS.map((plan) => (
             <div key={plan.id} data-pr="card" style={{ opacity: 0 }}>
               <PlanCard plan={plan} billing={billing} onSelectPlan={setDialogPlan} />

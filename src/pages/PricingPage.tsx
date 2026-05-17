@@ -1,11 +1,11 @@
-﻿import { useState } from 'react';
+import { useState } from 'react';
 import { useSEO } from '../hooks/useSEO';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import SiteNav from '@/components/landing/SiteNav';
 import ObsidianFooter from '@/components/landing/ObsidianFooter';
-import { PLANS, PlanCard, BillingToggle, type BillingPlan, type PlanDef } from '@/components/landing/PricingSection';
+import { PLANS, PlanCard, type PlanDef } from '@/components/landing/PricingSection';
 import PlanSignupDialog from '@/components/landing/PlanSignupDialog';
 
 /* ── Comparison table data ───────────────────────────────── */
@@ -13,10 +13,9 @@ type CellValue = boolean | string;
 
 type FeatureRow = {
   label: string;
-  free: CellValue;
   starter: CellValue;
   pro: CellValue;
-  agency: CellValue;
+  studio: CellValue;
 };
 
 type FeatureGroup = {
@@ -26,58 +25,49 @@ type FeatureGroup = {
 
 const TABLE: FeatureGroup[] = [
   {
-    category: 'Core',
+    category: 'Publishing',
     rows: [
-      { label: 'Social accounts', free: '1', starter: '3', pro: '10', agency: 'Unlimited' },
-      { label: 'Scheduled posts / month', free: '10', starter: '60', pro: 'Unlimited', agency: 'Unlimited' },
-      { label: 'Content calendar', free: true, starter: true, pro: true, agency: true },
-      { label: 'Multi-workspace', free: false, starter: false, pro: true, agency: true },
-      { label: 'Team seats', free: '1', starter: '1', pro: '5', agency: 'Unlimited' },
+      { label: 'Connected accounts',    starter: '3',      pro: '10',           studio: 'Unlimited' },
+      { label: 'Posts / month',         starter: '30',     pro: 'Unlimited',    studio: 'Unlimited' },
+      { label: 'Content calendar',      starter: true,     pro: true,           studio: true },
+      { label: 'Approval workflows',    starter: false,    pro: true,           studio: true },
+      { label: 'Client review portals', starter: false,    pro: false,          studio: true },
     ],
   },
   {
     category: 'Analytics',
     rows: [
-      { label: 'Analytics window', free: '7 days', starter: '30 days', pro: '90 days', agency: 'Full history' },
-      { label: 'Per-post breakdown', free: false, starter: true, pro: true, agency: true },
-      { label: 'Cross-platform reports', free: false, starter: false, pro: true, agency: true },
-      { label: 'White-label PDF reports', free: false, starter: false, pro: false, agency: true },
-      { label: 'Competitor tracking', free: false, starter: false, pro: true, agency: true },
+      { label: 'Analytics history',      starter: '7 days', pro: 'Full history', studio: 'Full history' },
+      { label: 'Per-post breakdown',     starter: true,     pro: true,           studio: true },
+      { label: 'Cross-platform reports', starter: false,    pro: true,           studio: true },
+      { label: 'White-label reports',    starter: false,    pro: false,          studio: true },
+      { label: 'Rival monitoring',       starter: false,    pro: true,           studio: true },
     ],
   },
   {
-    category: 'AI Features',
+    category: 'AI',
     rows: [
-      { label: 'AI caption suggestions', free: false, starter: '10/mo', pro: 'Unlimited', agency: 'Unlimited' },
-      { label: 'Best-time posting engine', free: false, starter: false, pro: true, agency: true },
-      { label: 'Hashtag recommendations', free: false, starter: true, pro: true, agency: true },
-      { label: 'Content score prediction', free: false, starter: false, pro: true, agency: true },
+      { label: 'AI caption drafts',     starter: false,    pro: true,           studio: true },
+      { label: 'Best-time suggestions', starter: false,    pro: true,           studio: true },
+      { label: 'Brand voice settings',  starter: 'Basic',  pro: 'Advanced',     studio: 'Advanced' },
+      { label: 'Multi-language drafts', starter: false,    pro: true,           studio: true },
     ],
   },
   {
-    category: 'Integrations & API',
+    category: 'Team & Support',
     rows: [
-      { label: 'Instagram, LinkedIn, Facebook', free: true, starter: true, pro: true, agency: true },
-      { label: 'API access', free: false, starter: false, pro: false, agency: true },
-      { label: 'Custom integrations', free: false, starter: false, pro: false, agency: true },
-      { label: 'SSO & advanced permissions', free: false, starter: false, pro: false, agency: true },
-    ],
-  },
-  {
-    category: 'Support',
-    rows: [
-      { label: 'Support channel', free: 'Community', starter: 'Email', pro: 'Priority (4h)', agency: 'Dedicated CSM' },
-      { label: 'Onboarding assistance', free: false, starter: false, pro: true, agency: true },
-      { label: 'SLA guarantee', free: false, starter: false, pro: false, agency: true },
+      { label: 'Team size',   starter: '1 user',  pro: '2-8 users',    studio: 'Agencies / in-house' },
+      { label: 'Workspaces',  starter: '1',       pro: 'Multiple',     studio: 'Multiple brand workspaces' },
+      { label: 'Support',     starter: 'Email',   pro: 'Priority',     studio: 'Priority' },
+      { label: 'Onboarding',  starter: false,     pro: false,          studio: true },
     ],
   },
 ];
 
 const PLAN_COLS: Array<{ key: keyof FeatureRow; label: string; accent?: boolean }> = [
-  { key: 'free',    label: 'Free' },
   { key: 'starter', label: 'Starter' },
   { key: 'pro',     label: 'Pro', accent: true },
-  { key: 'agency',  label: 'Agency' },
+  { key: 'studio',  label: 'Studio' },
 ];
 
 function Cell({ value, accent }: { value: CellValue; accent?: boolean }) {
@@ -104,23 +94,21 @@ function Cell({ value, accent }: { value: CellValue; accent?: boolean }) {
 function ComparisonTable() {
   return (
     <div className="mt-24 mx-auto max-w-[1200px]">
-      {/* Section header */}
       <div className="mb-12 text-center">
         <span className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#C8553A]/20 bg-[#C8553A]/8 px-4 py-1.5 text-[0.68rem] font-bold uppercase tracking-[0.22em] text-[#C8553A]">
           <span className="h-1.5 w-1.5 rounded-full bg-[#C8553A]" />
-          Full comparison
+          Compare
         </span>
         <h2 className="mt-5 text-[clamp(24px,3.5vw,40px)] font-medium tracking-[-0.03em] text-[#15140F]">
           Everything, side by side.
         </h2>
         <p className="mt-3 text-[0.95rem] font-light text-[#3D3A30]">
-          Every feature across every plan — no surprises.
+          Every feature across every plan - no surprises.
         </p>
       </div>
 
       <div className="overflow-x-auto rounded-2xl border border-[rgba(21,20,15,0.10)] bg-[#EFE9DC]">
         <table className="w-full border-collapse text-left">
-          {/* Sticky column headers */}
           <thead>
             <tr className="border-b border-border">
               <th className="py-5 pl-8 pr-4 text-[0.7rem] font-bold uppercase tracking-[0.18em] text-[#6B655B] w-[260px]">
@@ -148,17 +136,15 @@ function ComparisonTable() {
           <tbody>
             {TABLE.map((group, gi) => (
               <>
-                {/* Category row */}
                 <tr key={`cat-${gi}`} className="border-t border-border">
                   <td
-                    colSpan={5}
+                    colSpan={4}
                     className="py-4 pl-8 text-[0.65rem] font-semibold uppercase tracking-[0.22em] text-[#C8553A]/60"
                   >
                     {group.category}
                   </td>
                 </tr>
 
-                {/* Feature rows */}
                 {group.rows.map((row, ri) => (
                   <tr
                     key={`${gi}-${ri}`}
@@ -186,8 +172,8 @@ function ComparisonTable() {
 
 /* ── FAQ strip ───────────────────────────────────────────── */
 const FAQS = [
-  { q: 'Can I change plans later?', a: 'Yes — upgrade or downgrade anytime from your workspace settings. Billing is prorated.' },
-  { q: 'Is there a free trial?', a: 'All paid plans include a 14-day free trial. No credit card required to start.' },
+  { q: 'Can I change plans later?', a: 'Yes - upgrade or downgrade anytime from your workspace settings. Billing is prorated.' },
+  { q: 'Is there a free trial?', a: 'Starter is free forever. Pro and Studio have a 14-day trial, no card required.' },
   { q: 'What counts as a social account?', a: 'Each connected Instagram, LinkedIn, or Facebook profile counts as one account.' },
   { q: 'Do you offer refunds?', a: 'Yes. If you cancel within 7 days of a charge, we will issue a full refund, no questions asked.' },
 ];
@@ -216,13 +202,12 @@ function FAQ() {
 /* ── Page ─────────────────────────────────────────────────── */
 export default function PricingPage() {
   useSEO({
-    title: 'Vielinks Pricing - Plans for Every Social Media Team',
-    description: 'Start free with 1 social account. Upgrade to Pro or Agency for unlimited posts, AI features, white-label reports, and competitor tracking.',
+    title: 'Vielinks Pricing - Three Plans. No Surprises.',
+    description: 'Starter is free forever. Pro at $18/user/mo for working teams. Studio at $64/user/mo for agencies. No contact-sales maze until Studio.',
     keywords: 'social media pricing, social scheduler cost, Instagram management pricing, LinkedIn tools cost',
   });
 
   const navigate    = useNavigate();
-  const [billing,    setBilling]    = useState<BillingPlan>('monthly');
   const [dialogPlan, setDialogPlan] = useState<PlanDef | null>(null);
 
   return (
@@ -232,9 +217,9 @@ export default function PricingPage() {
       <main className="mx-auto max-w-[1440px] px-6 md:px-12 pt-36 pb-28">
         {/* Hero */}
         <motion.div
-          initial={{ opacity: 0, y: 24, filter: 'blur(8px)' }}
-          animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-          transition={{ duration: 0.85, ease: [0.25, 0.4, 0.25, 1] }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: [0.25, 0.4, 0.25, 1] }}
           className="text-center mb-4"
         >
           <span className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#C8553A]/20 bg-[#C8553A]/8 px-4 py-1.5 text-[0.68rem] font-bold uppercase tracking-[0.22em] text-[#C8553A]">
@@ -242,40 +227,35 @@ export default function PricingPage() {
             Pricing
           </span>
           <h1 className="mt-5 text-[clamp(36px,5vw,60px)] font-medium leading-[1.08] tracking-[-0.035em] text-[#15140F]">
-            Simple pricing. <span className="text-[#C8553A]">Clear plans.</span>
+            Three plans. <span className="text-[#C8553A]">No surprises.</span>
           </h1>
           <p className="mt-5 text-[1rem] font-light leading-[1.8] text-[#3D3A30] max-w-xl mx-auto">
-            Start free, no credit card required. Every paid plan includes a 14-day free trial.
-            Upgrade, downgrade, or cancel anytime.
+            A free tier that's actually useful, a paid tier priced for working teams, and a studio tier for agencies. No contact-sales maze until the Studio plan.
           </p>
-          <BillingToggle
-            billing={billing}
-            onSwitch={() => setBilling(b => b === 'monthly' ? 'annually' : 'monthly')}
-          />
         </motion.div>
 
-        {/* Ambient glow */}
-        <div className="pointer-events-none fixed top-0 left-1/2 -translate-x-1/2 h-[400px] w-[700px] rounded-full bg-[#C8553A]/[0.04] blur-[120px]" />
+        {/* Ambient glow — desktop only, skipped on mobile to avoid GPU-heavy blur */}
+        <div className="pointer-events-none fixed top-0 left-1/2 -translate-x-1/2 hidden sm:block h-[400px] w-[700px] rounded-full bg-[#C8553A]/[0.04] blur-[120px]" />
 
         {/* Plan cards */}
         <motion.div
           initial={{ opacity: 0, y: 32 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2, ease: [0.25, 0.4, 0.25, 1] }}
-          className="relative mt-14 grid gap-5 sm:grid-cols-2 xl:grid-cols-4 lg:items-start"
+          className="relative mt-14 grid gap-5 sm:grid-cols-2 xl:grid-cols-3 lg:items-start"
         >
           {PLANS.map((plan) => (
-            <PlanCard key={plan.id} plan={plan} billing={billing} onSelectPlan={setDialogPlan} />
+            <PlanCard key={plan.id} plan={plan} billing="monthly" onSelectPlan={setDialogPlan} />
           ))}
         </motion.div>
 
         <p className="mt-8 text-center text-[0.8rem] text-[#6B655B]">
-          All plans include a 14-day free trial · Cancel anytime · No hidden fees
+          Starter is free forever · Pro and Studio include a 14-day trial · No hidden fees
         </p>
 
         <PlanSignupDialog
           plan={dialogPlan}
-          billing={billing}
+          billing="monthly"
           onClose={() => setDialogPlan(null)}
         />
 
@@ -287,25 +267,25 @@ export default function PricingPage() {
 
         {/* Bottom CTA */}
         <div className="mt-24 text-center">
-          <div className="inline-flex flex-col items-center gap-5 rounded-[2rem] border border-[#C8553A]/15 bg-[#C8553A]/[0.04] px-12 py-10 backdrop-blur-xl">
+          <div className="inline-flex flex-col items-center gap-5 rounded-[2rem] border border-[#C8553A]/15 bg-[#C8553A]/[0.04] px-12 py-10">
             <h3 className="text-2xl font-extrabold tracking-[-0.03em] text-[#15140F]">
               Still not sure which plan fits?
             </h3>
             <p className="text-[0.9rem] text-[#3D3A30] max-w-sm text-center">
-              Start with Free and upgrade when you are ready. Or contact us and we will recommend the right plan for your team.
+              Start with Starter - it's free forever. Upgrade to Pro when your team is ready, or talk to us about Studio.
             </p>
             <div className="flex flex-col sm:flex-row gap-3">
               <button
                 onClick={() => navigate('/register')}
-                className="rounded-full bg-[#C8553A] px-8 py-3.5 text-sm font-bold text-white hover:bg-[#A53F28] transition-all hover:shadow-[0_0_36px_rgba(200,85,58,0.28)]"
+                className="rounded-full bg-[#C8553A] px-8 py-3.5 text-sm font-bold text-white hover:bg-[#A53F28] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C8553A]"
               >
                 Start for free
               </button>
               <button
-                onClick={() => { window.location.href = 'mailto:hello@vielinks.com?subject=Vielinks%20plan%20recommendation'; }}
-                className="rounded-full border border-white/[0.12] bg-white/[0.04] px-8 py-3.5 text-sm font-semibold text-[#6B655B] hover:border-[#C8553A]/30 hover:text-[#15140F]/80 transition-all"
+                onClick={() => { window.location.href = 'mailto:hello@vielinks.com?subject=Vielinks%20Studio%20plan'; }}
+                className="rounded-full border border-[rgba(21,20,15,0.14)] bg-[#FBF8F2] px-8 py-3.5 text-sm font-semibold text-[#6B655B] hover:border-[#C8553A]/30 hover:text-[#15140F] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C8553A]"
               >
-                Contact sales
+                Contact us about Studio
               </button>
             </div>
           </div>

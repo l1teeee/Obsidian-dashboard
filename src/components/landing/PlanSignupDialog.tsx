@@ -12,7 +12,7 @@ interface PlanSignupDialogProps {
 const PLAN_ICONS: Record<string, string> = {
   starter: 'bolt',
   pro:     'auto_awesome',
-  agency:  'corporate_fare',
+  studio:  'corporate_fare',
 };
 
 export default function PlanSignupDialog({ plan, billing, onClose }: PlanSignupDialogProps) {

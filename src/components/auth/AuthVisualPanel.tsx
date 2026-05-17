@@ -35,7 +35,7 @@ export default function AuthVisualPanel({ side, variant = 'login' }: AuthVisualP
           muted
           loop
           playsInline
-          preload="auto"
+          preload="none"
           onError={(event) => {
             event.currentTarget.style.display = 'none';
           }}

@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import HeroBadge from '../components/landing/HeroBadge';
 import ProductShell from '../components/landing/ProductShell';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -82,9 +83,9 @@ export default function ProductIntegrations() {
       <section className="pt-36 pb-16">
         <div className="mx-auto max-w-5xl px-6 text-center">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-            <span className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#C8553A]/20 bg-[#C8553A]/8 px-4 py-1.5 text-[0.68rem] font-medium uppercase tracking-[0.18em] text-[#C8553A]">
-              <span className="h-1.5 w-1.5 rounded-full bg-[#C8553A]" /> Product · Integrations
-            </span>
+            <HeroBadge className="mb-5">
+              For teams who connect once
+            </HeroBadge>
             <h1 className="mt-5 text-[clamp(36px,5vw,60px)] font-medium leading-[1.08] tracking-[-0.035em] text-[#15140F]">
               Connect the channels<br />
               <span className="text-[#C8553A]">your team already uses.</span>

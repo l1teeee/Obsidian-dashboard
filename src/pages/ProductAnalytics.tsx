@@ -2,6 +2,7 @@ import { useSEO } from '../hooks/useSEO';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { AreaChart, Area, ResponsiveContainer, Tooltip } from 'recharts';
+import HeroBadge from '../components/landing/HeroBadge';
 import ProductShell from '../components/landing/ProductShell';
 import SocialBrandIcon from '../components/shared/SocialBrandIcon';
 import { WorkspaceFeatureGrid, type WorkspaceFeature } from '../components/landing/WorkspaceFeatureGrid';
@@ -89,9 +90,9 @@ export default function ProductAnalytics() {
       <section className="pt-36 pb-16">
         <div className="mx-auto max-w-5xl px-6 text-center">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.55, ease: [0.25, 0.4, 0.25, 1] }}>
-            <span className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#C8553A]/20 bg-[#C8553A]/8 px-4 py-1.5 text-[0.68rem] font-medium uppercase tracking-[0.18em] text-[#C8553A]">
-              <span className="h-1.5 w-1.5 rounded-full bg-[#C8553A]" /> Product · Analytics
-            </span>
+            <HeroBadge className="mb-5">
+              For teams who read the signal
+            </HeroBadge>
             <h1 className="mt-5 text-[clamp(36px,5vw,60px)] font-medium leading-[1.08] tracking-[-0.035em] text-[#15140F]">
               Know what is working<br />
               <span className="text-[#C8553A]">before the next post.</span>
@@ -342,7 +343,7 @@ export default function ProductAnalytics() {
             <p className="text-[14px] leading-[1.65] text-[#6B655B]">Everything you measure here feeds directly into Vielinks AI Insights — turning past performance into your next best action.</p>
           </div>
           <button
-            onClick={() => navigate('/product/ai-insights')}
+            onClick={() => navigate('/ai-studio')}
             className="shrink-0 rounded-xl border border-[#C8553A]/30 px-5 py-2.5 text-[12px] font-medium text-[#C8553A] hover:bg-[#C8553A] hover:text-white transition-all duration-200"
           >
             See AI Insights

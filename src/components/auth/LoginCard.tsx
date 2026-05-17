@@ -116,15 +116,12 @@ export default function LoginCard() {
       <button
         type="button"
         onClick={() => fadeNav('/')}
-        className="group absolute left-5 top-5 z-10 inline-flex h-10 cursor-pointer items-center gap-2 overflow-hidden rounded-full px-3 text-[13px] font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 sm:left-8 sm:top-8"
+        className="absolute left-5 top-5 z-10 inline-flex h-10 cursor-pointer items-center gap-2 rounded-full px-3 text-[13px] font-medium text-[#6B655B] transition-colors duration-200 hover:bg-[#EFE9DC] hover:text-[#15140F] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C8553A]/35 lg:text-white/85 lg:hover:bg-white/10 lg:hover:text-white sm:left-8 sm:top-8"
       >
-        <span className="absolute inset-0 rounded-full bg-white opacity-0 transition-opacity duration-200 group-hover:opacity-100" />
-        <span className="relative flex items-center gap-2 text-white/90 transition-colors duration-200 group-hover:text-[#15140F]">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="shrink-0">
-            <path d="M10 3L5 8L10 13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
-          Back to home
-        </span>
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="shrink-0">
+          <path d="M10 3L5 8L10 13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+        Back to home
       </button>
 
       <div className="flex min-h-dvh w-full">
