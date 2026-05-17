@@ -15,6 +15,7 @@ import { AuthProvider } from './contexts/AuthContext';
 import { WorkspaceProvider, useWorkspace } from './contexts/WorkspaceContext';
 import { useAuth } from './hooks/useAuth';
 import { apiFetch } from './lib/api';
+import ErrorBoundary  from './components/shared/ErrorBoundary';
 import ProtectedRoute from './components/shared/ProtectedRoute';
 import AdminRoute     from './components/shared/AdminRoute';
 import RouteTransition from './components/shared/RouteTransition';
@@ -296,6 +297,7 @@ export default function App() {
             <TransitionDetector onTrigger={triggerTransition} />
             <RouteTransition active={transition} onDone={doneTransition} />
             <WorkspaceGuard>
+              <ErrorBoundary>
               <Suspense fallback={<RouteFallback />}>
               <Routes>
                 {/* Landing page — public */}
@@ -376,6 +378,7 @@ export default function App() {
                 <Route path="*" element={<NotFound />} />
               </Routes>
               </Suspense>
+              </ErrorBoundary>
             </WorkspaceGuard>
           </BrowserRouter>
         </LenisProvider>

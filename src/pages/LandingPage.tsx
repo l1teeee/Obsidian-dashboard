@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useLayoutEffect } from 'react';
+import { useState, useEffect, useRef, useLayoutEffect, type ForwardRefExoticComponent } from 'react';
 import { Link } from 'react-router-dom';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import gsap from 'gsap';
@@ -8,7 +8,14 @@ import SiteNav from '../components/landing/SiteNav';
 import ObsidianFooter from '../components/landing/ObsidianFooter';
 import HeroBadge from '../components/landing/HeroBadge';
 import { ContainerScroll } from '../components/ui/container-scroll-animation';
-import { WorkspaceFeatureGrid, type WorkspaceFeature } from '../components/landing/WorkspaceFeatureGrid';
+import {
+  LayoutGridIcon,
+  SparklesIcon,
+  ChartColumnIcon,
+  ShareIcon,
+  LoaderCircleIcon,
+  LinkIcon,
+} from '@animateicons/react/lucide';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -59,18 +66,6 @@ const IconSparkle = (p: React.SVGProps<SVGSVGElement>) => (
   </svg>
 );
 
-const IconClock = (p: React.SVGProps<SVGSVGElement>) => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" {...p}>
-    <circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" />
-  </svg>
-);
-
-const IconLinkIcon = (p: React.SVGProps<SVGSVGElement>) => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" {...p}>
-    <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
-    <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
-  </svg>
-);
 
 const IconInstagram = (p: React.SVGProps<SVGSVGElement>) => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" {...p}>
@@ -583,15 +578,59 @@ function ProductPreview() {
 
 // ─── Features ────────────────────────────────────────────────────────────────
 
+type FeatureIconHandle = { startAnimation: () => void; stopAnimation: () => void };
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type FeatureItem = { Icon: ForwardRefExoticComponent<any>; title: string; body: string; route?: string | null };
+
+function FeatureCard({ feature }: { feature: FeatureItem }) {
+  const [hovered, setHovered] = useState(false);
+  const iconRef = useRef<FeatureIconHandle>(null);
+  const { Icon, title, body, route } = feature;
+
+  useEffect(() => {
+    if (hovered) iconRef.current?.startAnimation();
+    else iconRef.current?.stopAnimation();
+  }, [hovered]);
+
+  return (
+    <div
+      data-f="card"
+      className="group bg-[#F6F2EA] p-8 flex flex-col gap-3 transition-colors duration-200 ease-out hover:bg-[#C8553A]"
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+      <div className="w-9 h-9 flex items-center justify-center rounded-[10px] bg-[#EFE9DC] text-[#15140F] mb-2 transition-colors duration-200 ease-out group-hover:bg-white/15 group-hover:text-white">
+        <Icon ref={iconRef} size={18} />
+      </div>
+      <h3 className="text-[18px] font-semibold tracking-[-0.01em] text-[#15140F] transition-colors duration-200 ease-out group-hover:text-white">
+        {title}
+      </h3>
+      <p className="text-[14px] leading-[1.6] text-[#6B655B] transition-colors duration-200 ease-out group-hover:text-[#F6F2EA]">
+        {body}
+      </p>
+      {route && (
+        <Link
+          to={route}
+          onClick={e => e.stopPropagation()}
+          className="mt-1 inline-flex items-center gap-1 text-[11px] font-medium tracking-wide text-[#A39B8B] transition-[color,opacity,transform] duration-150 ease-out group-hover:text-white/50 hover:text-white/80! active:scale-[0.96] active:opacity-70 w-fit"
+        >
+          Learn more
+          <IconArrow className="w-2.5 h-2.5" />
+        </Link>
+      )}
+    </div>
+  );
+}
+
 function Features() {
   const ref = useRef<HTMLElement>(null);
-  const features: WorkspaceFeature[] = [
-    { icon: <IconCalendar className="w-4.5 h-4.5" />, title: 'Calendar that just plans', body: 'Drag posts between days. See the whole month in one view. Every platform on one timeline, color-coded but quiet.', route: '/planner' },
-    { icon: <IconSparkle className="w-4.5 h-4.5" />, title: 'AI that drafts captions', body: "Stuck on a caption? Drop in the image and a brief, get three options in your tone. Edit, post, move on.", route: '/ai-studio' },
-    { icon: <IconAnalytics className="w-4.5 h-4.5" />, title: 'Numbers, not dashboards', body: "What got reach, when. What got engagement, why. Per platform, per post, per week. No vanity metrics.", route: '/insights' },
-    { icon: <IconHub className="w-4.5 h-4.5" />, title: 'Three platforms, one tab', body: 'Instagram, LinkedIn, Facebook. Connect once, post everywhere, with previews that show what each network will actually render.', route: '/connections' },
-    { icon: <IconClock className="w-4.5 h-4.5" />, title: 'Approval queues', body: 'A reviewer, a clock, a green checkmark. Drafts route to whoever needs to see them before they go out.', route: '/planner' },
-    { icon: <IconLinkIcon className="w-4.5 h-4.5" />, title: 'Link in bio, but quiet', body: "A small, hosted page you can update from the same workspace. No third-party tools, no extra subscriptions.", route: null },
+  const featureItems: FeatureItem[] = [
+    { Icon: LayoutGridIcon,   title: 'Calendar that just plans', body: 'Drag posts between days. See the whole month in one view. Every platform on one timeline, color-coded but quiet.', route: '/planner' },
+    { Icon: SparklesIcon,     title: 'AI that drafts captions',  body: "Stuck on a caption? Drop in the image and a brief, get three options in your tone. Edit, post, move on.", route: '/ai-studio' },
+    { Icon: ChartColumnIcon,  title: 'Numbers, not dashboards',  body: "What got reach, when. What got engagement, why. Per platform, per post, per week. No vanity metrics.", route: '/insights' },
+    { Icon: ShareIcon,        title: 'Three platforms, one tab', body: 'Instagram, LinkedIn, Facebook. Connect once, post everywhere, with previews that show what each network will actually render.', route: '/connections' },
+    { Icon: LoaderCircleIcon, title: 'Approval queues',          body: 'A reviewer, a clock, a green checkmark. Drafts route to whoever needs to see them before they go out.', route: '/planner' },
+    { Icon: LinkIcon,         title: 'Link in bio, but quiet',   body: "A small, hosted page you can update from the same workspace. No third-party tools, no extra subscriptions.", route: null },
   ];
 
   useLayoutEffect(() => {
@@ -656,7 +695,9 @@ function Features() {
             Fewer dashboards, fewer features that don't matter, fewer popups. The list, the calendar, the numbers, the AI when you want it.
           </p>
         </div>
-        <WorkspaceFeatureGrid features={features} />
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-border border border-border rounded-2xl overflow-hidden">
+          {featureItems.map(f => <FeatureCard key={f.title} feature={f} />)}
+        </div>
       </div>
     </section>
   );

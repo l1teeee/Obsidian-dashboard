@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, type ForwardRefExoticComponent } from 'react';
 import { useSEO } from '../hooks/useSEO';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
@@ -6,7 +6,16 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import HeroBadge from '../components/landing/HeroBadge';
 import ProductShell from '../components/landing/ProductShell';
-import { WorkspaceFeatureGrid, type WorkspaceFeature } from '../components/landing/WorkspaceFeatureGrid';
+import {
+  MousePointerClickIcon,
+  LayoutListIcon,
+  UploadIcon,
+  CircleCheckBigIcon,
+  GlobeIcon,
+  SparklesIcon,
+  BellRingIcon,
+  ZapIcon,
+} from '@animateicons/react/lucide';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -52,55 +61,48 @@ const MsIcon = ({ name, size = 18, color }: { name: string; size?: number; color
   </span>
 );
 
-const RELIABILITY_FEATURES: WorkspaceFeature[] = [
-  {
-    icon: <MsIcon name="public" />,
-    title: 'Timezone-aware publishing',
-    body: 'Schedule once. Vielinks publishes in your audience\'s local timezone automatically — no manual conversion.',
-  },
-  {
-    icon: <MsIcon name="notifications_active" />,
-    title: 'Post-live confirmations',
-    body: 'Receive a notification the moment each post goes live across Instagram, LinkedIn, and Facebook.',
-  },
-  {
-    icon: <MsIcon name="refresh" />,
-    title: 'Failed-post recovery',
-    body: 'If a publish fails due to an API issue, Vielinks retries automatically and alerts your team.',
-  },
-];
+type FeatureIconHandle = { startAnimation: () => void; stopAnimation: () => void };
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type FeatureItem = { Icon: ForwardRefExoticComponent<any>; title: string; body: string };
 
-const CALENDAR_FEATURES: WorkspaceFeature[] = [
-  {
-    icon: <MsIcon name="drag_pan" />,
-    title: 'Drag and drop scheduling',
-    body: 'Rearrange posts by dragging them to any slot. The queue updates instantly across all platforms.',
-  },
-  {
-    icon: <MsIcon name="view_week" />,
-    title: 'Month, week, and list views',
-    body: 'Switch between views to get the overview you need — from big-picture planning to daily execution.',
-  },
-  {
-    icon: <MsIcon name="stack_group" />,
-    title: 'Bulk scheduling',
-    body: 'Upload a CSV or paste a content list to schedule a full month in a single session.',
-  },
-  {
-    icon: <MsIcon name="group" />,
-    title: 'Approval queues',
-    body: 'Drafts route to reviewers before anything goes live. Each role sees only what they need.',
-  },
-  {
-    icon: <MsIcon name="public" />,
-    title: 'Timezone-aware publishing',
-    body: 'Schedule once and Vielinks publishes at the right time for your audience, wherever they are.',
-  },
-  {
-    icon: <MsIcon name="auto_fix_high" />,
-    title: 'AI-suggested timing',
-    body: 'Our model analyzes your audience activity and suggests the best publishing window for each platform.',
-  },
+function FeatureCard({ feature }: { feature: FeatureItem }) {
+  const [hovered, setHovered] = useState(false);
+  const iconRef = useRef<FeatureIconHandle>(null);
+  const { Icon, title, body } = feature;
+
+  useEffect(() => {
+    if (hovered) iconRef.current?.startAnimation();
+    else iconRef.current?.stopAnimation();
+  }, [hovered]);
+
+  return (
+    <div
+      className="group bg-[#F6F2EA] p-8 flex flex-col gap-3 border-r border-b border-border transition-colors duration-200 ease-out hover:bg-[#C8553A]"
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+      <div className="w-9 h-9 flex items-center justify-center rounded-[10px] bg-[#EFE9DC] text-[#15140F] mb-2 transition-colors duration-200 ease-out group-hover:bg-white/15 group-hover:text-white">
+        <Icon ref={iconRef} size={18} />
+      </div>
+      <h3 className="text-[18px] font-semibold tracking-[-0.01em] text-[#15140F] transition-colors duration-200 ease-out group-hover:text-white">
+        {title}
+      </h3>
+      <p className="text-[14px] leading-[1.6] text-[#6B655B] transition-colors duration-200 ease-out group-hover:text-[#F6F2EA]">
+        {body}
+      </p>
+    </div>
+  );
+}
+
+const SCHEDULER_FEATURES: FeatureItem[] = [
+  { Icon: MousePointerClickIcon, title: 'Drag and drop scheduling',  body: 'Rearrange posts by dragging them to any slot. The queue updates instantly across all platforms.' },
+  { Icon: LayoutListIcon,        title: 'Month, week, and list views', body: 'Switch between views to get the overview you need — from big-picture planning to daily execution.' },
+  { Icon: UploadIcon,            title: 'Bulk scheduling',           body: 'Upload a CSV or paste a content list to schedule a full month in a single session.' },
+  { Icon: CircleCheckBigIcon,    title: 'Approval queues',           body: 'Drafts route to reviewers before anything goes live. Each role sees only what they need.' },
+  { Icon: GlobeIcon,             title: 'Timezone-aware publishing', body: "Schedule once. Vielinks publishes in your audience's local timezone automatically — no manual conversion." },
+  { Icon: SparklesIcon,          title: 'AI-suggested timing',       body: 'Our model analyzes your audience activity and suggests the best publishing window for each platform.' },
+  { Icon: BellRingIcon,          title: 'Post-live confirmations',   body: 'Receive a notification the moment each post goes live across Instagram, LinkedIn, and Facebook.' },
+  { Icon: ZapIcon,               title: 'Failed-post recovery',      body: 'If a publish fails due to an API issue, Vielinks retries automatically and alerts your team.' },
 ];
 
 export default function ProductScheduler() {
@@ -325,23 +327,7 @@ export default function ProductScheduler() {
           </div>
         </section>
 
-        {/* ── Publishing confidence ── */}
-        <section className="py-20 border-t border-[rgba(21,20,15,0.08)]" data-sched-section style={{ opacity: 0 }}>
-          <div className="mx-auto max-w-6xl px-6">
-            <div className="text-center mb-12">
-              <span className="text-[11px] font-medium uppercase tracking-[0.18em] text-[#C8553A] mb-3 inline-block">Reliability</span>
-              <h2 className="text-[clamp(32px,4.5vw,52px)] leading-[1.1] tracking-[-0.035em] font-medium text-[#15140F] mb-4">
-                Publish without anxiety.
-              </h2>
-              <p className="text-[15px] leading-[1.65] text-[#6B655B] max-w-md mx-auto">
-                Every post is confirmed, monitored, and recovered if something goes wrong.
-              </p>
-            </div>
-            <WorkspaceFeatureGrid features={RELIABILITY_FEATURES} />
-          </div>
-        </section>
-
-        {/* ── Workspace feature grid ── */}
+        {/* ── Workspace ── */}
         <section className="py-20 border-t border-[rgba(21,20,15,0.08)]" data-sched-section style={{ opacity: 0 }}>
           <div className="mx-auto max-w-6xl px-6">
             <div className="text-center mb-12">
@@ -350,10 +336,12 @@ export default function ProductScheduler() {
                 Built for serious publishers.
               </h2>
               <p className="text-[15px] leading-[1.65] text-[#6B655B] max-w-xl mx-auto">
-                Every tool you need to maintain a consistent publishing cadence across platforms.
+                Every tool you need to plan, approve, and publish reliably — from the first draft to the live confirmation.
               </p>
             </div>
-            <WorkspaceFeatureGrid features={CALENDAR_FEATURES} />
+            <div className="grid grid-cols-2 md:grid-cols-4 border-t border-l border-border rounded-2xl overflow-hidden">
+              {SCHEDULER_FEATURES.map(f => <FeatureCard key={f.title} feature={f} />)}
+            </div>
           </div>
         </section>
       </div>

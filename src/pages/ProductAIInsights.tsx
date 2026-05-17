@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, type ForwardRefExoticComponent } from 'react';
 import { useSEO } from '../hooks/useSEO';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
@@ -6,6 +6,15 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import HeroBadge from '../components/landing/HeroBadge';
 import ProductShell from '../components/landing/ProductShell';
+import SocialBrandIcon from '../components/shared/SocialBrandIcon';
+import {
+  SparklesIcon,
+  ZapIcon,
+  SearchIcon,
+  EyeIcon,
+  TrendingUpIcon,
+  GlobeIcon,
+} from '@animateicons/react/lucide';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -30,24 +39,17 @@ const CAPTIONS = [
   },
 ];
 
-const INSIGHTS = [
-  { icon: 'access_time',  title: 'Best time to post',      desc: 'Tuesday 9:15 AM',   sub: 'Your audience is most active then',  badge: 'Today' },
-  { icon: 'tag',          title: 'Trending hashtags',      desc: '#ContentMarketing', sub: '+240% volume this week',               badge: 'Hot'   },
-  { icon: 'article',      title: 'Optimal caption length', desc: '80–120 characters', sub: 'For Instagram based on your audience', badge: 'Tip'   },
-  { icon: 'grid_view',    title: 'Top content format',     desc: 'Carousel posts',    sub: '3x more saves than single images',    badge: 'Pro'   },
-];
-
 const PLATFORM_RECS = [
   {
-    name: 'Instagram', icon: 'camera_alt', color: '#E4405F',
+    id: 'instagram', name: 'Instagram', color: '#E4405F',
     recs: ['Post at 10 AM Tuesday', 'Carousel format for +3x saves', 'Keep captions under 110 characters'],
   },
   {
-    name: 'LinkedIn', icon: 'work', color: '#0a66c2',
+    id: 'linkedin', name: 'LinkedIn', color: '#0a66c2',
     recs: ['Post at 8 AM Wednesday', 'Long-form performs best here', 'Professional tone, first-person voice'],
   },
   {
-    name: 'Facebook', icon: 'thumb_up', color: '#1877f2',
+    id: 'facebook', name: 'Facebook', color: '#1877f2',
     recs: ['Post at 6 PM Thursday', 'Video drives 3x more reach', 'Ask a direct question to drive comments'],
   },
 ];
@@ -81,14 +83,49 @@ const GUARDRAILS = [
   },
 ];
 
-const AI_FEATURES = [
-  { icon: 'auto_fix_high',  title: 'Caption generator',      body: 'Generate platform-optimized captions in seconds. Tone-aware: professional for LinkedIn, direct for Instagram.' },
-  { icon: 'schedule',       title: 'Smart timing',           body: 'Models trained on millions of posts find the exact publishing window when your followers are most active.' },
-  { icon: 'tag',            title: 'Hashtag intelligence',   body: 'Ranked by relevance, volume, and competition — not guesswork. Updated weekly per platform.' },
-  { icon: 'image_search',   title: 'Visual scoring',         body: 'Upload an image and get a predicted engagement score before you publish it.' },
-  { icon: 'trending_up',    title: 'Growth recommendations', body: 'Weekly AI-generated action list: what to post, when to post, and why it will perform.' },
-  { icon: 'translate',      title: 'Multi-language support', body: 'Generate captions in 12+ languages to reach global audiences without a translator.' },
+type AIFeatureIconHandle = { startAnimation: () => void; stopAnimation: () => void };
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type AIFeatureItem = { Icon: ForwardRefExoticComponent<any>; title: string; body: string };
+
+const AI_FEATURES: AIFeatureItem[] = [
+  { Icon: SparklesIcon,   title: 'Caption generator',      body: 'Generate platform-optimized captions in seconds. Tone-aware: professional for LinkedIn, direct for Instagram.' },
+  { Icon: ZapIcon,        title: 'Smart timing',           body: 'Models trained on millions of posts find the exact publishing window when your followers are most active.' },
+  { Icon: SearchIcon,     title: 'Hashtag intelligence',   body: 'Ranked by relevance, volume, and competition — not guesswork. Updated weekly per platform.' },
+  { Icon: EyeIcon,        title: 'Visual scoring',         body: 'Upload an image and get a predicted engagement score before you publish it.' },
+  { Icon: TrendingUpIcon, title: 'Growth recommendations', body: 'Weekly AI-generated action list: what to post, when to post, and why it will perform.' },
+  { Icon: GlobeIcon,      title: 'Multi-language support', body: 'Generate captions in 12+ languages to reach global audiences without a translator.' },
 ];
+
+function AIFeatureCard({ feature }: { feature: AIFeatureItem }) {
+  const [hovered, setHovered] = useState(false);
+  const iconRef = useRef<AIFeatureIconHandle>(null);
+  const { Icon, title, body } = feature;
+
+  useEffect(() => {
+    if (hovered) iconRef.current?.startAnimation();
+    else iconRef.current?.stopAnimation();
+  }, [hovered]);
+
+  return (
+    <div
+      data-feat
+      style={{ opacity: 0 }}
+      className="group bg-[#F6F2EA] p-8 flex flex-col gap-3 border-r border-b border-border transition-colors duration-200 ease-out hover:bg-[#C8553A]"
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+      <div className="w-9 h-9 flex items-center justify-center rounded-[10px] bg-[#EFE9DC] text-[#15140F] mb-2 transition-colors duration-200 ease-out group-hover:bg-white/15 group-hover:text-white">
+        <Icon ref={iconRef} size={18} />
+      </div>
+      <h3 className="text-[18px] font-semibold tracking-[-0.01em] text-[#15140F] transition-colors duration-200 ease-out group-hover:text-white">
+        {title}
+      </h3>
+      <p className="text-[14px] leading-[1.6] text-[#6B655B] transition-colors duration-200 ease-out group-hover:text-[#F6F2EA]">
+        {body}
+      </p>
+    </div>
+  );
+}
 
 export default function ProductAIInsights() {
   useSEO({
@@ -97,7 +134,7 @@ export default function ProductAIInsights() {
     keywords: 'social media AI, AI captions, hashtag generator, best time to post, content recommendations',
   });
 
-  const navigate   = useNavigate();
+  const navigate    = useNavigate();
   const [activeCap, setActiveCap] = useState(0);
   const [typing, setTyping]       = useState(false);
   const featRef = useRef<HTMLDivElement>(null);
@@ -156,7 +193,7 @@ export default function ProductAIInsights() {
 
       {/* Caption generator demo */}
       <section className="py-12 mx-auto max-w-4xl px-6">
-        <div className="rounded-2xl border border-[rgba(21,20,15,0.10)] bg-[#FBF8F2] overflow-hidden">
+        <div className="rounded-2xl border border-border bg-[#FBF8F2] overflow-hidden">
           <div className="px-6 py-4 border-b border-[rgba(21,20,15,0.08)] flex items-center gap-3">
             <span className="material-symbols-outlined text-[#C8553A]" style={{ fontSize: 18, fontVariationSettings: "'FILL' 1" }}>auto_awesome</span>
             <span className="text-sm font-bold text-[#15140F]">Caption assistant</span>
@@ -177,7 +214,7 @@ export default function ProductAIInsights() {
               ))}
             </div>
           </div>
-          <div className="p-6 min-h-[140px] relative">
+          <div className="p-6 min-h-35 relative">
             <AnimatePresence mode="wait">
               {!typing && cap && (
                 <motion.p
@@ -217,27 +254,98 @@ export default function ProductAIInsights() {
         </div>
       </section>
 
-      {/* Live insight cards */}
+      {/* Live recommendations */}
       <section className="py-8 mx-auto max-w-5xl px-6">
-        <p className="text-[0.68rem] font-bold uppercase tracking-[0.2em] text-[#C8553A] mb-6 text-center">Live recommendations for your account</p>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-          {INSIGHTS.map((ins) => (
-            <motion.div
-              key={ins.title}
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="rounded-2xl border border-[rgba(21,20,15,0.10)] bg-[#FBF8F2] p-4"
-            >
-              <div className="flex items-center justify-between mb-3">
-                <span className="material-symbols-outlined text-[#C8553A]" style={{ fontSize: 16, fontVariationSettings: "'FILL' 1" }}>{ins.icon}</span>
-                <span className="px-1.5 py-0.5 rounded-full bg-[#C8553A]/10 text-[#C8553A] text-[9px] font-bold">{ins.badge}</span>
+        <div className="flex items-center gap-2.5 mb-6">
+          <span className="relative flex h-2 w-2 shrink-0">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#4F7A4A] opacity-75" />
+            <span className="relative inline-flex h-2 w-2 rounded-full bg-[#4F7A4A]" />
+          </span>
+          <p className="text-[0.68rem] font-bold uppercase tracking-[0.2em] text-[#C8553A]">Live recommendations for your account</p>
+          <span className="ml-auto text-[10px] text-[#A39B8B] shrink-0">Updated 2 min ago</span>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {/* Featured: Best time to post */}
+          <div className="rounded-2xl border border-border bg-[#FBF8F2] p-6 flex flex-col">
+            <div className="flex items-center justify-between mb-6">
+              <p className="text-[10px] font-medium text-[#6B655B] uppercase tracking-wide">Best time to post</p>
+              <span className="px-1.5 py-0.5 rounded-full bg-[#C8553A]/10 text-[#C8553A] text-[9px] font-bold">Today</span>
+            </div>
+            <div className="text-center mb-6">
+              <p className="text-[42px] font-bold leading-none text-[#15140F]">9:15</p>
+              <p className="text-base text-[#6B655B] mt-1">AM · Tuesday</p>
+            </div>
+            <div className="mt-auto">
+              <div className="flex gap-1 items-end h-10 mb-2">
+                {[
+                  { d: 'M', v: 62 }, { d: 'T', v: 91 }, { d: 'W', v: 74 },
+                  { d: 'T', v: 68 }, { d: 'F', v: 55 },
+                ].map((row, i) => (
+                  <div key={i} className="flex-1 flex flex-col items-center gap-1">
+                    <div
+                      className="w-full rounded-t"
+                      style={{ height: `${row.v}%`, backgroundColor: i === 1 ? '#C8553A' : '#EFE9DC' }}
+                    />
+                    <span className="text-[8px] text-[#A39B8B]">{row.d}</span>
+                  </div>
+                ))}
               </div>
-              <p className="text-[10px] text-[#6B655B] mb-1">{ins.title}</p>
-              <p className="text-sm font-bold text-[#15140F]">{ins.desc}</p>
-              <p className="text-[10px] text-[#A39B8B] mt-1">{ins.sub}</p>
-            </motion.div>
-          ))}
+              <p className="text-[10px] text-[#A39B8B]">Your audience is most active then</p>
+            </div>
+          </div>
+
+          {/* Right column */}
+          <div className="md:col-span-2 flex flex-col gap-4">
+            {/* Hashtag cloud */}
+            <div className="rounded-2xl border border-border bg-[#FBF8F2] p-5">
+              <div className="flex items-center justify-between mb-3">
+                <p className="text-[10px] font-medium text-[#6B655B] uppercase tracking-wide">Trending hashtags</p>
+                <span className="px-1.5 py-0.5 rounded-full bg-[#C8553A]/10 text-[#C8553A] text-[9px] font-bold">Hot</span>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {['#ContentMarketing', '#SocialMedia', '#Vielinks', '#Creator', '#DigitalMarketing', '#GrowthHacking'].map((tag) => (
+                  <span key={tag} className="px-2.5 py-1 rounded-full bg-[#EFE9DC] border border-[rgba(21,20,15,0.08)] text-[11px] font-medium text-[#15140F]">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+              <p className="text-[10px] text-[#A39B8B] mt-3">+240% volume this week · #ContentMarketing is breaking out</p>
+            </div>
+
+            {/* Bottom two stat cards */}
+            <div className="grid grid-cols-2 gap-4">
+              {/* Caption length */}
+              <div className="rounded-2xl border border-border bg-[#FBF8F2] p-5">
+                <div className="flex items-center justify-between mb-3">
+                  <p className="text-[10px] font-medium text-[#6B655B] uppercase tracking-wide">Caption length</p>
+                  <span className="px-1.5 py-0.5 rounded-full bg-[#C8553A]/10 text-[#C8553A] text-[9px] font-bold">Tip</span>
+                </div>
+                <p className="text-2xl font-bold text-[#15140F]">80-120</p>
+                <p className="text-[11px] text-[#6B655B] mt-0.5 mb-3">chars for Instagram</p>
+                <div className="flex gap-0.5">
+                  {Array.from({ length: 20 }).map((_, i) => (
+                    <div key={i} className={`h-1.5 flex-1 rounded-full ${i >= 6 && i <= 11 ? 'bg-[#C8553A]' : 'bg-[#EFE9DC]'}`} />
+                  ))}
+                </div>
+              </div>
+
+              {/* Top format */}
+              <div className="rounded-2xl border border-border bg-[#FBF8F2] p-5">
+                <div className="flex items-center justify-between mb-3">
+                  <p className="text-[10px] font-medium text-[#6B655B] uppercase tracking-wide">Top format</p>
+                  <span className="px-1.5 py-0.5 rounded-full bg-[#C8553A]/10 text-[#C8553A] text-[9px] font-bold">Pro</span>
+                </div>
+                <p className="text-2xl font-bold text-[#15140F]">Carousel</p>
+                <p className="text-[11px] text-[#6B655B] mt-0.5 mb-3">3x more saves</p>
+                <div className="flex gap-1 items-end h-8">
+                  {[30, 60, 100, 45, 20].map((h, i) => (
+                    <div key={i} className={`flex-1 rounded-sm ${i === 2 ? 'bg-[#C8553A]' : 'bg-[#EFE9DC]'}`} style={{ height: `${h}%` }} />
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -251,11 +359,9 @@ export default function ProductAIInsights() {
           </div>
           <div className="grid md:grid-cols-3 gap-4">
             {PLATFORM_RECS.map((p) => (
-              <div key={p.name} className="rounded-2xl border border-[rgba(21,20,15,0.10)] bg-[#FBF8F2] p-6">
+              <div key={p.name} className="rounded-2xl border border-border bg-[#FBF8F2] p-6">
                 <div className="flex items-center gap-3 mb-5">
-                  <div className="w-9 h-9 rounded-xl flex items-center justify-center" style={{ backgroundColor: `${p.color}18`, border: `1px solid ${p.color}28` }}>
-                    <span className="material-symbols-outlined" style={{ fontSize: 16, color: p.color, fontVariationSettings: "'FILL' 1" }}>{p.icon}</span>
-                  </div>
+                  <SocialBrandIcon platformId={p.id} size={24} color={p.color} />
                   <span className="text-sm font-bold text-[#15140F]">{p.name}</span>
                 </div>
                 <ul className="space-y-2.5">
@@ -303,7 +409,7 @@ export default function ProductAIInsights() {
               ))}
             </div>
           </div>
-          <div className="rounded-2xl border border-[rgba(21,20,15,0.10)] bg-[#FBF8F2] p-6">
+          <div className="rounded-2xl border border-border bg-[#FBF8F2] p-6">
             <div className="flex items-center gap-2 mb-4">
               <span className="material-symbols-outlined text-[#C8553A]" style={{ fontSize: 16, fontVariationSettings: "'FILL' 1" }}>access_time</span>
               <span className="text-xs font-bold text-[#15140F]">This week's best slot</span>
@@ -326,7 +432,7 @@ export default function ProductAIInsights() {
             <h2 className="text-[clamp(24px,3.5vw,40px)] font-medium tracking-[-0.03em] text-[#15140F]">Seven days of clarity.</h2>
             <p className="mt-3 text-[#6B655B] max-w-md mx-auto text-sm leading-relaxed">Every Monday, Vielinks generates a focused action list based on last week's performance and upcoming opportunities.</p>
           </div>
-          <div className="rounded-2xl border border-[rgba(21,20,15,0.10)] bg-[#FBF8F2] divide-y divide-[rgba(21,20,15,0.06)]">
+          <div className="rounded-2xl border border-border bg-[#FBF8F2] divide-y divide-[rgba(21,20,15,0.06)]">
             {WEEKLY_ACTIONS.map((item, i) => (
               <div key={i} className="flex items-center gap-4 px-6 py-4">
                 <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 ${item.done ? 'border-[#4F7A4A] bg-[#4F7A4A]' : 'border-[#D8D2C4]'}`}>
@@ -353,7 +459,7 @@ export default function ProductAIInsights() {
         </div>
         <div className="grid md:grid-cols-3 gap-4">
           {GUARDRAILS.map((g) => (
-            <div key={g.title} className="rounded-2xl border border-[rgba(21,20,15,0.10)] bg-[#FBF8F2] p-6">
+            <div key={g.title} className="rounded-2xl border border-border bg-[#FBF8F2] p-6">
               <div
                 className="w-10 h-10 rounded-xl flex items-center justify-center mb-4"
                 style={{ backgroundColor: `${g.color}12`, border: `1px solid ${g.color}22` }}
@@ -367,27 +473,14 @@ export default function ProductAIInsights() {
         </div>
       </section>
 
-      {/* Feature grid */}
+      {/* The full AI toolkit */}
       <section className="py-20 mx-auto max-w-6xl px-6">
         <div className="text-center mb-14">
           <h2 className="text-[clamp(24px,3.5vw,40px)] font-medium tracking-[-0.03em] text-[#15140F]">The full AI toolkit</h2>
           <p className="mt-3 text-[#6B655B]">Every AI feature in one place — no prompt engineering required.</p>
         </div>
-        <div ref={featRef} className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {AI_FEATURES.map((f) => (
-            <div
-              key={f.title}
-              data-feat
-              style={{ opacity: 0 }}
-              className="rounded-2xl border border-[rgba(21,20,15,0.10)] bg-[#FBF8F2] p-6 hover:border-[#C8553A]/20 hover:bg-[#EFE9DC] transition-all duration-300 group"
-            >
-              <div className="w-10 h-10 rounded-xl bg-[#C8553A]/8 border border-[#C8553A]/12 flex items-center justify-center mb-4 group-hover:bg-[#C8553A]/15 transition-colors">
-                <span className="material-symbols-outlined text-[#C8553A]" style={{ fontSize: 18, fontVariationSettings: "'FILL' 1" }}>{f.icon}</span>
-              </div>
-              <h3 className="text-sm font-bold text-[#15140F] mb-2">{f.title}</h3>
-              <p className="text-sm text-[#6B655B] leading-relaxed">{f.body}</p>
-            </div>
-          ))}
+        <div ref={featRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 border-t border-l border-border rounded-2xl overflow-hidden">
+          {AI_FEATURES.map(f => <AIFeatureCard key={f.title} feature={f} />)}
         </div>
       </section>
     </ProductShell>

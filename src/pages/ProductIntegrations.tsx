@@ -1,24 +1,31 @@
-import { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useSEO } from '../hooks/useSEO';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import {
+  LockIcon, type LockIconHandle,
+  SlidersHorizontalIcon,
+  ShieldXIcon,
+  EyeIcon,
+} from '@animateicons/react/lucide';
 import HeroBadge from '../components/landing/HeroBadge';
 import ProductShell from '../components/landing/ProductShell';
+import SocialBrandIcon from '../components/shared/SocialBrandIcon';
 
 gsap.registerPlugin(ScrollTrigger);
 
 const PLATFORMS = [
-  { name: 'Instagram',  icon: 'camera_alt',  color: '#E4405F', status: 'live',    desc: 'Feed posts, Reels, and Stories scheduling' },
-  { name: 'LinkedIn',   icon: 'work',         color: '#0a66c2', status: 'live',    desc: 'Posts, articles, and company pages' },
-  { name: 'Facebook',   icon: 'thumb_up',     color: '#1877f2', status: 'live',    desc: 'Pages, groups, and ad integration' },
-  { name: 'X / Twitter',icon: 'tag',          color: '#15140F', status: 'soon',    desc: 'Tweets, threads, and media posts' },
-  { name: 'TikTok',     icon: 'music_note',   color: '#ff0050', status: 'soon',    desc: 'Video scheduling and analytics' },
-  { name: 'YouTube',    icon: 'play_circle',  color: '#ff0000', status: 'soon',    desc: 'Shorts and long-form video posts' },
-  { name: 'Pinterest',  icon: 'push_pin',     color: '#e60023', status: 'roadmap', desc: 'Pins, boards, and idea pins' },
-  { name: 'Threads',    icon: 'forum',        color: '#6B655B', status: 'roadmap', desc: 'Text and media threads' },
-  { name: 'Bluesky',    icon: 'cloud',        color: '#0085ff', status: 'roadmap', desc: 'Decentralized social posts' },
+  { id: 'instagram', name: 'Instagram',   color: '#E4405F', status: 'live',    desc: 'Feed posts, Reels, and Stories scheduling' },
+  { id: 'linkedin',  name: 'LinkedIn',    color: '#0A66C2', status: 'live',    desc: 'Posts, articles, and company pages' },
+  { id: 'facebook',  name: 'Facebook',    color: '#1877F2', status: 'live',    desc: 'Pages, groups, and ad integration' },
+  { id: 'twitter',   name: 'X / Twitter', color: '#15140F', status: 'soon',    desc: 'Tweets, threads, and media posts' },
+  { id: 'tiktok',    name: 'TikTok',      color: '#010101', status: 'soon',    desc: 'Video scheduling and analytics' },
+  { id: 'youtube',   name: 'YouTube',     color: '#FF0000', status: 'soon',    desc: 'Shorts and long-form video posts' },
+  { id: 'pinterest', name: 'Pinterest',   color: '#E60023', status: 'roadmap', desc: 'Pins, boards, and idea pins' },
+  { id: 'threads',   name: 'Threads',     color: '#15140F', status: 'roadmap', desc: 'Text and media threads' },
+  { id: 'bluesky',   name: 'Bluesky',     color: '#0085FF', status: 'roadmap', desc: 'Decentralized social posts' },
 ];
 
 const STATUS_STYLE: Record<string, { label: string; color: string; bg: string; border: string }> = {
@@ -33,12 +40,45 @@ const HOW = [
   { icon: 'sync',  step: '03', title: 'Always in sync',       body: 'Account data, follower counts, and post performance sync automatically every hour.' },
 ];
 
-const SECURITY = [
-  { icon: 'lock',            title: 'OAuth 2.0 only',         body: 'We never ask for your password. Every connection goes through the platform\'s official OAuth flow.',  color: '#4A6A82' },
-  { icon: 'tune',            title: 'Minimal scopes',         body: 'We request only the permissions required to schedule and read analytics. Nothing more.',              color: '#4F7A4A' },
-  { icon: 'cancel',          title: 'Revoke anytime',         body: 'Disconnect any platform instantly from your dashboard or directly from the platform\'s own settings.', color: '#C8553A' },
-  { icon: 'history',         title: 'Access audit log',       body: 'Every permission grant and connection event is logged. Know exactly what was accessed and when.',      color: '#B7841E' },
+type SecurityIconHandle = LockIconHandle;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type SecurityFeatureItem = { Icon: React.ForwardRefExoticComponent<any>; title: string; body: string };
+
+const SECURITY_FEATURES: SecurityFeatureItem[] = [
+  { Icon: LockIcon,              title: 'OAuth 2.0 only',   body: "We never ask for your password. Every connection goes through the platform's official OAuth flow." },
+  { Icon: SlidersHorizontalIcon, title: 'Minimal scopes',   body: 'We request only the permissions required to schedule and read analytics. Nothing more.' },
+  { Icon: ShieldXIcon,           title: 'Revoke anytime',   body: "Disconnect any platform instantly from your dashboard or directly from the platform's own settings." },
+  { Icon: EyeIcon,               title: 'Access audit log', body: 'Every permission grant and connection event is logged. Know exactly what was accessed and when.' },
 ];
+
+function SecurityCard({ feature }: { feature: SecurityFeatureItem }) {
+  const [hovered, setHovered] = useState(false);
+  const iconRef = useRef<SecurityIconHandle>(null);
+  const { Icon, title, body } = feature;
+
+  useEffect(() => {
+    if (hovered) iconRef.current?.startAnimation();
+    else iconRef.current?.stopAnimation();
+  }, [hovered]);
+
+  return (
+    <div
+      className="group bg-[#F6F2EA] p-8 flex flex-col gap-3 transition-colors duration-200 ease-out hover:bg-[#C8553A]"
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+      <div className="w-9 h-9 flex items-center justify-center rounded-[10px] bg-[#EFE9DC] text-[#15140F] mb-2 transition-colors duration-200 ease-out group-hover:bg-white/15 group-hover:text-white">
+        <Icon ref={iconRef} size={18} />
+      </div>
+      <h3 className="text-[18px] font-semibold tracking-[-0.01em] text-[#15140F] transition-colors duration-200 ease-out group-hover:text-white">
+        {title}
+      </h3>
+      <p className="text-[14px] leading-[1.6] text-[#6B655B] transition-colors duration-200 ease-out group-hover:text-[#F6F2EA]">
+        {body}
+      </p>
+    </div>
+  );
+}
 
 const WORKFLOW = [
   { icon: 'webhook',       name: 'Webhooks',     desc: 'Receive real-time events when posts publish or fail.' },
@@ -105,7 +145,7 @@ export default function ProductIntegrations() {
 
       {/* Platform grid */}
       <section className="py-12 mx-auto max-w-6xl px-6">
-        <div data-grid className="grid grid-cols-2 md:grid-cols-3 gap-4">
+        <div data-grid className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           {PLATFORMS.map((p) => {
             const st = STATUS_STYLE[p.status];
             return (
@@ -113,19 +153,14 @@ export default function ProductIntegrations() {
                 key={p.name}
                 data-platform
                 style={{ opacity: 0 }}
-                className="rounded-2xl border border-[rgba(21,20,15,0.10)] bg-[#FBF8F2] p-6 hover:border-[#C8553A]/20 hover:bg-[#EFE9DC] transition-all duration-300"
+                className="rounded-2xl border border-[rgba(21,20,15,0.10)] bg-[#FBF8F2] p-6 transition-[background-color,border-color,transform] duration-200 ease-out hover:border-[#15140F]/20 hover:bg-[#F6F2EA] hover:-translate-y-0.5"
               >
                 <div className="flex items-start justify-between mb-4">
-                  <div
-                    className="w-12 h-12 rounded-2xl flex items-center justify-center border"
-                    style={{ backgroundColor: `${p.color}18`, borderColor: `${p.color}28` }}
-                  >
-                    <span className="material-symbols-outlined" style={{ fontSize: 22, color: p.color, fontVariationSettings: "'FILL' 1" }}>
-                      {p.icon}
-                    </span>
+                  <div className="flex h-10 w-10 items-center justify-center text-[#15140F]">
+                    <SocialBrandIcon platformId={p.id} size={26} color={p.color} />
                   </div>
                   <span
-                    className="px-2.5 py-1 rounded-full text-[10px] font-bold border"
+                    className="rounded-full border px-2.5 py-1 text-[10px] font-bold"
                     style={{ color: st.color, backgroundColor: st.bg, borderColor: st.border }}
                   >
                     {st.label}
@@ -183,20 +218,9 @@ export default function ProductIntegrations() {
           <h2 className="text-[clamp(24px,3.5vw,40px)] font-medium tracking-[-0.03em] text-[#15140F]">Built with trust by default.</h2>
           <p className="mt-3 text-[#6B655B] max-w-md mx-auto text-sm leading-relaxed">Connecting your social accounts should feel safe. Here is exactly how we handle your access.</p>
         </div>
-        <div className="grid md:grid-cols-2 gap-4">
-          {SECURITY.map((s) => (
-            <div key={s.title} className="flex gap-4 rounded-2xl border border-[rgba(21,20,15,0.10)] bg-[#FBF8F2] p-6">
-              <div
-                className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0"
-                style={{ backgroundColor: `${s.color}12`, border: `1px solid ${s.color}22` }}
-              >
-                <span className="material-symbols-outlined" style={{ fontSize: 18, color: s.color, fontVariationSettings: "'FILL' 1" }}>{s.icon}</span>
-              </div>
-              <div>
-                <h3 className="text-sm font-bold text-[#15140F] mb-1.5">{s.title}</h3>
-                <p className="text-sm text-[#6B655B] leading-relaxed">{s.body}</p>
-              </div>
-            </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-px bg-border border border-border rounded-2xl overflow-hidden">
+          {SECURITY_FEATURES.map((f) => (
+            <SecurityCard key={f.title} feature={f} />
           ))}
         </div>
       </section>

@@ -196,92 +196,30 @@ function AnalyticsCTA({ navigate }: { navigate: Nav }) {
   );
 }
 
-// ─── AI Insights CTA: flow diagram → brief → suggestion → review ──────────
+// ─── Integrations CTA: hub connection map ─────────────────────────────────
 function AIInsightsCTA({ navigate }: { navigate: Nav }) {
   return (
     <section className="border-t border-[rgba(21,20,15,0.08)] py-24 px-6">
-      <div className="mx-auto max-w-5xl">
-        {/* Flow: Brief → AI Suggestion → In review — visual leads */}
-        <div className="mb-14 flex flex-col gap-3 md:flex-row md:items-stretch md:gap-0">
-          {/* Step 1: Brief */}
-          <div className="flex-1 rounded-2xl border border-[rgba(21,20,15,0.10)] bg-[#FBF8F2] p-5">
-            <p className="mb-2 text-[10px] font-medium uppercase tracking-[0.16em] text-[#A39B8B]">Brief</p>
-            <p className="text-[13px] leading-[1.6] text-[#3D3A30]">
-              Launch post for a new content calendar, keep the voice calm and useful.
-            </p>
-          </div>
-
-          {/* Arrow — desktop only */}
-          <div className="hidden items-center justify-center px-3 text-[#D8D2C4] md:flex">
-            <MsIcon name="arrow_forward" size={16} />
-          </div>
-
-          {/* Step 2: AI suggestion */}
-          <div className="flex-1 rounded-2xl border border-[#C8553A]/20 bg-[#F4E0D6] p-5">
-            <div className="mb-2 flex items-center gap-1.5 text-[#C8553A]">
-              <MsIcon name="auto_awesome" size={13} />
-              <p className="text-[10px] font-medium uppercase tracking-[0.16em]">AI suggestion</p>
-            </div>
-            <p className="text-[13px] leading-[1.6] text-[#15140F]">
-              Show how the team can see the whole month before approving a single post.
-            </p>
-            <div className="mt-3 flex items-center gap-2">
-              <span className="text-[10px] text-[#A53F28]">Confidence: High</span>
-              <span className="h-1 w-1 rounded-full bg-[#D4A898]" />
-              <span className="text-[10px] text-[#A53F28]">Tone matched</span>
-            </div>
-          </div>
-
-          {/* Arrow — desktop only */}
-          <div className="hidden items-center justify-center px-3 text-[#D8D2C4] md:flex">
-            <MsIcon name="arrow_forward" size={16} />
-          </div>
-
-          {/* Step 3: Human review */}
-          <div className="flex-1 rounded-2xl border border-[#D8D2C4] bg-[#FBF8F2] p-5">
-            <div className="mb-2 flex items-center justify-between">
-              <p className="text-[10px] font-medium uppercase tracking-[0.16em] text-[#A39B8B]">In review</p>
-              <span className="rounded-full bg-[#B7841E]/10 px-2 py-0.5 text-[9px] font-medium text-[#B7841E]">
-                Awaiting
-              </span>
-            </div>
-            <p className="text-[13px] leading-[1.6] text-[#6B655B]">
-              Show how the team can see the whole month...
-            </p>
-            <div className="mt-3 flex gap-2">
-              <span className="cursor-default rounded-lg border border-[#4F7A4A]/20 bg-[#4F7A4A]/8 px-2.5 py-1 text-[10px] font-medium text-[#4F7A4A]">
-                Approve
-              </span>
-              <span className="cursor-default rounded-lg border border-[rgba(21,20,15,0.10)] px-2.5 py-1 text-[10px] font-medium text-[#6B655B]">
-                Edit
-              </span>
-            </div>
-          </div>
-        </div>
-
-        {/* Text + buttons — centered, below the flow */}
-        <div className="text-center">
-          <p className="mb-4 text-[11px] font-medium uppercase tracking-[0.18em] text-[#C8553A]">
-            Before the blank caption
-          </p>
-          <h2 className="mx-auto max-w-2xl text-[clamp(32px,4.5vw,54px)] font-medium leading-[1.08] tracking-[-0.035em] text-[#15140F]">
-            Let AI suggest the next move without taking over the voice.
-          </h2>
-          <p className="mx-auto mt-5 max-w-lg text-[15px] leading-[1.65] text-[#6B655B]">
-            Use your performance data, brand tone, and campaign context to shape caption drafts and content recommendations your team can still review.
-          </p>
-          <CTAButtons navigate={navigate} primaryLabel="Try AI Insights free" align="center" />
-          <p className="mt-5 text-[12px] text-[#A39B8B]">
-            Suggestions stay reviewable before anything is published.
-            <span className="ml-4 text-[11px] font-medium uppercase tracking-[0.14em] text-[#C8553A]">No card required</span>
-          </p>
-        </div>
+      <div className="mx-auto max-w-5xl text-center">
+        <p className="mb-4 text-[11px] font-medium uppercase tracking-[0.18em] text-[#C8553A]">
+          Before the blank caption
+        </p>
+        <h2 className="mx-auto max-w-2xl text-[clamp(32px,4.5vw,54px)] font-medium leading-[1.08] tracking-[-0.035em] text-[#15140F]">
+          Let AI suggest the next move without taking over the voice.
+        </h2>
+        <p className="mx-auto mt-5 max-w-lg text-[15px] leading-[1.65] text-[#6B655B]">
+          Use your performance data, brand tone, and campaign context to shape caption drafts and content recommendations your team can still review.
+        </p>
+        <CTAButtons navigate={navigate} primaryLabel="Try AI Insights free" align="center" />
+        <p className="mt-5 text-[12px] text-[#A39B8B]">
+          Suggestions stay reviewable before anything is published.
+          <span className="ml-4 text-[11px] font-medium uppercase tracking-[0.14em] text-[#C8553A]">No card required</span>
+        </p>
       </div>
     </section>
   );
 }
 
-// ─── Integrations CTA: hub connection map ─────────────────────────────────
 function IntegrationsCTA({ navigate }: { navigate: Nav }) {
   return (
     <section className="border-t border-[rgba(21,20,15,0.08)] py-24 px-6">
