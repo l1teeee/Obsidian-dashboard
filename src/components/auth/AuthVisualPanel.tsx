@@ -4,8 +4,8 @@ type AuthVisualPanelProps = {
 };
 
 const VIDEOS = [
-  { key: 'login', src: '/videos/auth-login.mp4' },
-  { key: 'register', src: '/videos/auth-register.mp4' },
+  { key: 'login', src: 'https://vielink-media-prod.s3.us-east-1.amazonaws.com/auth-login.mp4' },
+  { key: 'register', src: 'https://vielink-media-prod.s3.us-east-1.amazonaws.com/auth-register.mp4' },
 ] as const;
 
 export default function AuthVisualPanel({ side, variant = 'login' }: AuthVisualPanelProps) {
