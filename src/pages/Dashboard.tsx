@@ -1,211 +1,378 @@
-﻿import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { format, startOfWeek, endOfWeek, eachDayOfInterval, isToday } from 'date-fns';
 import TopBar from '../components/layout/TopBar';
-import KpiCard from '../components/dashboard/KpiCard';
-import PostCarousel from '../components/dashboard/PostCarousel';
 import RecentPostRow from '../components/dashboard/RecentPostRow';
+import ComposeDrawer from '../components/dashboard/ComposeDrawer';
 import { useDashboard } from '../hooks/useDashboard';
+import { PLATFORM_REGISTRY } from '../domain/entities/Platform';
+
+const HEADLINES = [
+  { pre: 'Plan a',        italic: 'quiet',    post: 'week ahead.' },
+  { pre: 'Make',          italic: 'today',    post: 'count.' },
+  { pre: 'Publish with',  italic: 'purpose',  post: 'this week.' },
+  { pre: 'Stay',          italic: 'consistent', post: 'this week.' },
+  { pre: 'A good day to', italic: 'create',   post: 'something.' },
+  { pre: 'Keep',          italic: 'going',    post: "— you're doing great." },
+  { pre: 'Rest well,',    italic: 'plan',     post: 'well.' },
+];
 
 export default function Dashboard() {
+  const [drawerOpen, setDrawerOpen] = useState(false);
+
   const {
-    kpiCards, upcoming, recentPosts, loaded, refreshing, refresh,
-    carouselIdx, setCarouselIdx, scrollCarousel, pageCount, visible, maxIdx,
-    heroRef, kpiRefs, countRefs, upcomingRefs, postRefs, carouselRef, containerRef,
+    kpiCards, upcoming, recentPosts, loaded,
+    heroRef, postRefs,
   } = useDashboard();
+
+  const today    = new Date();
+  const headline = HEADLINES[today.getDay() % HEADLINES.length];
+
+  const weekStart = startOfWeek(today, { weekStartsOn: 0 });
+  const weekDays  = eachDayOfInterval({ start: weekStart, end: endOfWeek(today, { weekStartsOn: 0 }) });
+
+  const nextUp           = upcoming[0] ?? null;
+  const scheduledCount   = kpiCards[2]?.display ?? String(upcoming.length);
+  const totalPostsCount  = kpiCards[3]?.display ?? '—';
+  const engagementRate   = kpiCards[1]?.display ?? '—';
 
   return (
     <div>
-      <TopBar
-        title="Workspace"
-        actions={
-          <Link
-            to="/composer"
-            className="inline-flex h-9 items-center gap-2 rounded-xl bg-[#15140F] px-4 text-sm font-bold text-[#F6F2EA] transition-all hover:bg-[#3D3A30] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C8553A]/70"
-          >
-            <span className="material-symbols-outlined" style={{ fontSize: 17, fontVariationSettings: "'FILL' 1" }}>add</span>
-            New Post
-          </Link>
-        }
-      />
+      <TopBar title="Home" />
 
       {!loaded ? (
-        /* ── Full dashboard skeleton ─────────────────────────────────────── */
-        <div className="p-4 md:p-8 space-y-6 md:space-y-8 max-w-[1600px] mx-auto animate-pulse">
-
-          {/* Hero skeleton */}
-          <div className="space-y-3">
-            <div className="h-10 w-72 bg-[#EFE9DC] rounded-2xl" />
-            <div className="h-4 w-96 bg-[#EFE9DC] rounded-xl" />
+        <div className="p-6 md:p-10 max-w-330 mx-auto space-y-8 animate-pulse">
+          <div className="space-y-4 pb-8 border-b border-[#15140F]/10">
+            <div className="h-3 w-40 bg-[#EFE9DC] rounded-full" />
+            <div className="h-14 w-96 bg-[#EFE9DC] rounded-2xl" />
+            <div className="h-4 w-72 bg-[#EFE9DC] rounded-xl" />
           </div>
-
-          {/* KPI skeleton */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            {Array.from({ length: 4 }).map((_, i) => (
-              <div key={i} className="surface-card p-6 space-y-4">
-                <div className="h-3 w-24 bg-[#E7E0D0] rounded-full" />
-                <div className="h-8 w-16 bg-[#E7E0D0] rounded-xl" />
-                <div className="h-1 w-full bg-[#E7E0D0] rounded-full" />
-              </div>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
+            {[0, 1, 2].map(i => (
+              <div key={i} className="surface-card h-64" />
             ))}
           </div>
-
-          {/* Upcoming skeleton */}
-          <div className="space-y-4">
-            <div className="h-5 w-48 bg-[#EFE9DC] rounded-xl" />
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              {Array.from({ length: 3 }).map((_, i) => (
-                <div key={i} className="surface-card p-5 space-y-3">
-                  <div className="flex justify-between">
-                    <div className="h-5 w-28 bg-[#E7E0D0] rounded-full" />
-                    <div className="h-5 w-6 bg-[#E7E0D0] rounded-lg" />
-                  </div>
-                  <div className="h-3 w-full bg-[#E7E0D0] rounded-full" />
-                  <div className="h-3 w-4/5 bg-[#E7E0D0] rounded-full" />
-                  <div className="h-0.5 w-8 bg-[#E7E0D0] rounded-full mt-2" />
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Recent Engagement skeleton */}
-          <div className="space-y-3">
-            <div className="h-6 w-48 bg-[#EFE9DC] rounded-xl mb-4" />
-            {Array.from({ length: 3 }).map((_, i) => (
-              <div key={i} className="surface-card p-4 flex gap-4 items-center">
-                <div className="w-20 h-20 rounded-2xl bg-[#E7E0D0] shrink-0" />
-                <div className="flex-1 space-y-2">
-                  <div className="h-3 w-16 bg-[#E7E0D0] rounded-full" />
-                  <div className="h-4 w-48 bg-[#E7E0D0] rounded-full" />
-                  <div className="h-3 w-24 bg-[#E7E0D0] rounded-full" />
-                </div>
-                <div className="flex gap-5 px-5 border-l border-[#15140F]/10">
-                  {Array.from({ length: 3 }).map((_, j) => (
-                    <div key={j} className="space-y-1 text-center">
-                      <div className="h-4 w-6 bg-[#E7E0D0] rounded mx-auto" />
-                      <div className="h-2 w-8 bg-[#E7E0D0] rounded-full mx-auto" />
-                    </div>
-                  ))}
-                </div>
-              </div>
+          <div className="grid grid-cols-7 border border-[#15140F]/10 rounded-2xl overflow-hidden">
+            {[0,1,2,3,4,5,6].map(i => (
+              <div key={i} className="min-h-28 bg-[#EFE9DC]/40 border-r border-[#15140F]/10 last:border-r-0" />
             ))}
           </div>
         </div>
       ) : (
-        /* ── Real content ────────────────────────────────────────────────── */
-        <div className="p-4 md:p-8 space-y-6 md:space-y-8 max-w-[1500px] mx-auto">
+        <div className="p-6 md:p-10 max-w-330 mx-auto space-y-8">
 
-          {/* Hero */}
-          <section ref={heroRef} className="flex flex-col gap-4 rounded-2xl border border-[#15140F]/18 bg-[#EFE9DC] p-5 md:flex-row md:items-center md:justify-between md:p-6">
+          {/* ── Home Head ─────────────────────────────────────────────────────── */}
+          <section
+            ref={heroRef}
+            className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between pb-8 border-b border-[#15140F]/10"
+          >
             <div>
-              <p className="mb-2 text-xs font-bold uppercase tracking-[0.14em] text-[#C8553A]">Workspace overview</p>
-              <h2 className="font-headline text-3xl font-extrabold tracking-normal text-[#15140F] md:text-4xl">
-                Plan, publish, and measure today.
-              </h2>
-              <p className="mt-2 max-w-2xl text-sm leading-6 text-[#3D3A30] md:text-base">
-                Review scheduled posts, recent engagement, and the actions that need attention.
+              <p className="font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-[#6B655B] mb-4">
+                {format(today, "EEEE '·' MMM d '·' yyyy").toUpperCase()}
+              </p>
+              <h1 className="font-headline text-[clamp(2.25rem,4vw,3.5rem)] font-medium tracking-[-0.032em] leading-[1.05] text-[#15140F]">
+                {headline.pre}{' '}
+                <em
+                  className="not-italic text-[#C8553A]"
+                  style={{ fontFamily: "'Instrument Serif', Georgia, 'Times New Roman', serif", fontStyle: 'italic' }}
+                >
+                  {headline.italic}
+                </em>
+                {' '}{headline.post}
+              </h1>
+              <p className="mt-3 text-sm text-[#6B655B] leading-relaxed max-w-xl">
+                {upcoming.length > 0
+                  ? `${upcoming.length} post${upcoming.length !== 1 ? 's' : ''} in the queue. Engagement is steady — a good moment to write something you'd actually want to read.`
+                  : 'No posts scheduled yet. Start by creating a new post and building your queue.'}
               </p>
             </div>
-            <Link
-              to="/calendar"
-              className="inline-flex h-10 items-center justify-center rounded-xl border border-[#15140F]/30 px-4 text-sm font-semibold text-[#3D3A30] transition-all hover:border-[#C8553A]/35 hover:text-[#15140F] md:shrink-0"
-            >
-              View calendar
-            </Link>
-          </section>
 
-          {/* KPI Row */}
-          <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            {kpiCards.map((kpi, i) => (
-              <KpiCard
-                key={kpi.label}
-                kpi={kpi}
-                cardRef={{ current: kpiRefs.current[i] ?? null } as React.RefObject<HTMLDivElement | null>}
-                countRef={{ current: countRefs.current[i] ?? null } as React.RefObject<HTMLSpanElement | null>}
-              />
-            ))}
-          </section>
-
-          {/* Upcoming Curation */}
-          <section>
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between mb-5">
-              <div>
-                <h3 className="font-headline text-xl md:text-2xl font-bold text-[#15140F] tracking-normal">Upcoming Curation</h3>
-                <p className="text-[#6B655B] text-sm mt-1">{upcoming.length} posts scheduled</p>
+            <div className="flex items-center gap-6 shrink-0">
+              <div className="text-center">
+                <p className="font-headline text-3xl font-bold text-[#C8553A]">{scheduledCount}</p>
+                <p className="font-mono text-[9px] uppercase tracking-[0.14em] text-[#6B655B] mt-0.5">Scheduled</p>
               </div>
-              <div className="flex items-center gap-3">
-                <Link to="/calendar" className="text-[#C8553A] text-sm font-semibold hover:text-[#15140F]">View Calendar</Link>
+              <div className="w-px h-8 bg-[#15140F]/10" />
+              <div className="text-center">
+                <p className="font-headline text-3xl font-bold text-[#15140F]">{totalPostsCount}</p>
+                <p className="font-mono text-[9px] uppercase tracking-[0.14em] text-[#6B655B] mt-0.5">Total Posts</p>
+              </div>
+              <div className="w-px h-8 bg-[#15140F]/10" />
+              <div className="text-center">
+                <p className="font-headline text-3xl font-bold text-[#15140F]">{engagementRate}</p>
+                <p className="font-mono text-[9px] uppercase tracking-[0.14em] text-[#6B655B] mt-0.5">Engagement</p>
               </div>
             </div>
+          </section>
 
-            {upcoming.length === 0 ? (
-              <div className="surface-card w-full flex flex-col items-center justify-center py-14 gap-2">
-                <span className="material-symbols-outlined text-[#15140F] text-4xl">event_note</span>
-                <p className="text-[#6B655B] text-sm">No scheduled posts.</p>
-                <Link to="/composer" className="text-sm font-semibold text-[#C8553A] hover:text-[#15140F] mt-1">Schedule a post</Link>
+          {/* ── Three-panel hero ──────────────────────────────────────────────── */}
+          <section className="grid grid-cols-1 lg:grid-cols-3 gap-4 items-start">
+
+            {/* Media preview — fixed 318px, platform label as overlay */}
+            <div
+              className="surface-card overflow-hidden relative"
+              style={{ height: '318px' }}
+            >
+              {nextUp ? (
+                <>
+                  {/* Image fills the full card */}
+                  <div className="absolute inset-0 bg-[#EFE9DC] flex items-center justify-center">
+                    {nextUp.mediaUrls?.[0] ? (
+                      <img
+                        src={nextUp.mediaUrls[0]}
+                        alt=""
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <span className="material-symbols-outlined text-[#A39B8B]" style={{ fontSize: 40 }}>image</span>
+                    )}
+                  </div>
+
+                  {/* Platform badge — overlay top-left */}
+                  <div className="absolute top-3 left-3 z-10 flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg"
+                    style={{
+                      background: 'rgba(21,20,15,0.45)',
+                      backdropFilter: 'blur(8px)',
+                      WebkitBackdropFilter: 'blur(8px)',
+                    }}
+                  >
+                    <span className="material-symbols-outlined text-white/80" style={{ fontSize: 11 }}>
+                      {PLATFORM_REGISTRY[nextUp.platform]?.icon ?? 'public'}
+                    </span>
+                    <span className="font-mono text-[9px] uppercase tracking-[0.14em] text-white font-bold">
+                      {nextUp.platform.toUpperCase()} · 1:1
+                    </span>
+                  </div>
+                </>
+              ) : (
+                <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-[#EFE9DC] p-6 text-center">
+                  <span className="material-symbols-outlined text-[#A39B8B]" style={{ fontSize: 36 }}>photo_library</span>
+                  <p className="text-sm text-[#6B655B]">No upcoming media</p>
+                  <Link to="/composer" className="text-xs font-semibold text-[#C8553A] hover:text-[#A53F28]">Schedule a post</Link>
+                </div>
+              )}
+            </div>
+
+            {/* Next Up */}
+            {nextUp ? (
+              <div className="surface-card p-6 flex flex-col gap-4" style={{ minHeight: '318px' }}>
+                <div className="flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#C8553A] animate-pulse" />
+                  <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#C8553A]">
+                    Next Up · {nextUp.date}
+                  </p>
+                </div>
+                <div className="flex-1">
+                  <h3 className="font-headline text-xl font-medium tracking-[-0.02em] text-[#15140F] leading-tight mb-2">
+                    {nextUp.caption?.slice(0, 55) || 'Untitled post'}
+                    {(nextUp.caption?.length ?? 0) > 55 ? '…' : ''}
+                  </h3>
+                  <p className="text-sm text-[#6B655B] leading-relaxed line-clamp-3">
+                    {nextUp.caption || 'No caption'}
+                  </p>
+                </div>
+                <div className="pt-4 border-t border-[#15140F]/8 flex items-center gap-2">
+                  <Link
+                    to={`/posts/${nextUp.id}`}
+                    className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#C8553A] text-white text-xs font-bold hover:bg-[#A53F28] transition-all"
+                  >
+                    <span className="material-symbols-outlined" style={{ fontSize: 13, fontVariationSettings: "'FILL' 1" }}>visibility</span>
+                    Preview
+                  </Link>
+                  <Link
+                    to={`/posts/${nextUp.id}`}
+                    className="inline-flex items-center px-4 py-2 rounded-xl border border-[#15140F]/18 text-xs font-semibold text-[#15140F] hover:border-[#C8553A]/30 transition-all"
+                  >
+                    Edit post
+                  </Link>
+                  <Link
+                    to="/calendar"
+                    className="inline-flex items-center gap-1 text-xs text-[#6B655B] hover:text-[#15140F] transition-colors ml-auto"
+                  >
+                    <span className="material-symbols-outlined" style={{ fontSize: 13 }}>schedule</span>
+                    Reschedule
+                  </Link>
+                </div>
               </div>
             ) : (
-              <PostCarousel
-                upcoming={upcoming}
-                carouselIdx={carouselIdx}
-                setCarouselIdx={setCarouselIdx}
-                scrollCarousel={scrollCarousel}
-                pageCount={pageCount}
-                visible={visible}
-                maxIdx={maxIdx}
-                carouselRef={carouselRef}
-                containerRef={containerRef}
-                upcomingRefs={upcomingRefs}
-              />
+              <div className="surface-card p-6 flex flex-col items-center justify-center gap-3 text-center">
+                <span className="material-symbols-outlined text-[#A39B8B]" style={{ fontSize: 32 }}>event_note</span>
+                <p className="text-sm font-medium text-[#15140F]">Nothing scheduled yet</p>
+                <p className="text-xs text-[#6B655B]">Your next post will appear here once scheduled.</p>
+                <Link to="/composer" className="text-sm font-semibold text-[#C8553A] hover:text-[#A53F28] mt-1">Schedule a post</Link>
+              </div>
             )}
+
+            {/* Compose shortcuts — flex-col stretch to 318px */}
+            <div className="flex flex-col gap-3" style={{ minHeight: '318px' }}>
+              {/* Compose CTA — grows to fill available space */}
+              <button
+                type="button"
+                onClick={() => setDrawerOpen(true)}
+                className="surface-card p-5 flex flex-col gap-2 text-left transition-all hover:bg-[#F4E0D6]/40 flex-1 cursor-pointer"
+                style={{ border: '1px solid rgba(200,85,58,0.22)', background: 'rgba(244,224,214,0.18)' }}
+              >
+                <div className="flex items-center gap-2">
+                  <div className="w-7 h-7 rounded-lg bg-[#C8553A] flex items-center justify-center shrink-0">
+                    <span className="material-symbols-outlined text-white" style={{ fontSize: 14, fontVariationSettings: "'FILL' 1" }}>add</span>
+                  </div>
+                  <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#C8553A] font-bold">Compose</p>
+                </div>
+                <p className="text-sm font-semibold text-[#15140F] leading-snug mt-1">Write something for tomorrow.</p>
+                <p className="text-[11px] text-[#6B655B] mt-0.5">Drafts auto-save · AI can help with caption</p>
+              </button>
+
+              {/* Generate caption */}
+              <button
+                type="button"
+                onClick={() => setDrawerOpen(true)}
+                className="surface-card p-4 flex items-center justify-between transition-all group text-left shrink-0 cursor-pointer hover:bg-[#EFE9DC] hover:border-[#C8553A]/25 active:scale-[0.99]"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-lg bg-[#EFE9DC] group-hover:bg-[#E7E0D0] flex items-center justify-center shrink-0 transition-colors">
+                    <span className="material-symbols-outlined text-[#6B655B] group-hover:text-[#C8553A] transition-colors" style={{ fontSize: 15 }}>auto_awesome</span>
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium text-[#15140F]">Generate a caption</p>
+                    <p className="text-[11px] text-[#6B655B]">Uses your brand voice</p>
+                  </div>
+                </div>
+                <span className="material-symbols-outlined text-[#A39B8B] group-hover:text-[#C8553A] group-hover:translate-x-0.5 transition-all" style={{ fontSize: 18 }}>chevron_right</span>
+              </button>
+
+              {/* Plan the week */}
+              <Link
+                to="/calendar"
+                className="surface-card p-4 flex items-center justify-between transition-all group shrink-0 cursor-pointer hover:bg-[#EFE9DC] hover:border-[#C8553A]/25 active:scale-[0.99]"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-lg bg-[#EFE9DC] group-hover:bg-[#E7E0D0] flex items-center justify-center shrink-0 transition-colors">
+                    <span className="material-symbols-outlined text-[#6B655B] group-hover:text-[#C8553A] transition-colors" style={{ fontSize: 15 }}>calendar_month</span>
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium text-[#15140F]">Plan the full week</p>
+                    <p className="text-[11px] text-[#6B655B]">
+                      {upcoming.length} post{upcoming.length !== 1 ? 's' : ''} this week
+                    </p>
+                  </div>
+                </div>
+                <span className="material-symbols-outlined text-[#A39B8B] group-hover:text-[#C8553A] group-hover:translate-x-0.5 transition-all" style={{ fontSize: 18 }}>chevron_right</span>
+              </Link>
+            </div>
           </section>
 
-          {/* Recent Engagement */}
-          <section className="space-y-4">
-            <div className="flex items-center justify-between mb-2">
-              <h3 className="font-headline text-2xl font-bold text-[#15140F] tracking-normal">Recent Engagement</h3>
-              <div className="flex items-center gap-2">
-                <button
-                  onClick={refresh}
-                  disabled={refreshing}
-                  title="Refresh metrics"
-                  className="flex h-9 items-center gap-1.5 rounded-xl border border-[#15140F]/25 px-3 text-sm font-semibold text-[#6B655B] transition-all hover:border-[#C8553A]/35 hover:text-[#15140F] disabled:opacity-50"
-                >
-                  <span
-                    className={`material-symbols-outlined ${refreshing ? 'animate-spin' : ''}`}
-                    style={{ fontSize: 14 }}
-                  >refresh</span>
-                  {refreshing ? 'Updating…' : 'Refresh'}
-                </button>
-                <Link to="/composer" className="hidden bg-[#15140F] text-[#F6F2EA] px-4 py-2 rounded-xl text-sm font-bold hover:bg-[#3D3A30] sm:inline-flex">
-                  New Post
-                </Link>
+          {/* ── This week ribbon ──────────────────────────────────────────────── */}
+          <section>
+            <div className="flex items-center justify-between mb-4">
+              <div>
+                <h2 className="font-headline text-lg font-bold text-[#15140F] tracking-[-0.01em]">This week</h2>
+                <p className="text-[11px] text-[#6B655B] mt-0.5">
+                  {format(weekStart, 'MMM d')} — {format(weekDays[6], 'd')} · {upcoming.length} post{upcoming.length !== 1 ? 's' : ''} scheduled
+                </p>
               </div>
+              <Link
+                to="/calendar"
+                className="text-xs font-semibold text-[#C8553A] hover:text-[#A53F28] flex items-center gap-1 transition-colors"
+              >
+                Open calendar
+                <span className="material-symbols-outlined" style={{ fontSize: 13 }}>arrow_forward</span>
+              </Link>
             </div>
-            <div className="space-y-3">
-              {recentPosts.length === 0 ? (
-                <div className="surface-card w-full flex flex-col items-center justify-center py-14 gap-2">
-                  <span className="material-symbols-outlined text-[#15140F] text-4xl">article</span>
-                  <p className="text-[#6B655B] text-sm">No published posts yet.</p>
-                  <Link to="/composer" className="text-sm font-semibold text-[#C8553A] hover:text-[#15140F] mt-1">Create your first post</Link>
-                </div>
-              ) : recentPosts.map((post, i) => (
+            <div className="grid grid-cols-7 border border-[#15140F]/10 rounded-2xl overflow-hidden">
+              {weekDays.map((day) => {
+                const dayPrefix = format(day, 'MMM d, ');
+                const dayPosts  = upcoming.filter(p => p.date.startsWith(dayPrefix));
+                const isCurrentDay = isToday(day);
+                return (
+                  <div
+                    key={day.toISOString()}
+                    className={[
+                      'min-h-28 p-2.5 border-r border-[#15140F]/10 last:border-r-0 flex flex-col',
+                      isCurrentDay ? 'bg-[#F4E0D6]/30' : '',
+                    ].join(' ')}
+                  >
+                    <div className="flex items-center justify-between mb-2">
+                      <p className="font-mono text-[9px] uppercase tracking-widest text-[#6B655B]">
+                        {format(day, 'EEE').toUpperCase()}
+                      </p>
+                      <span className={[
+                        'font-headline text-sm font-bold',
+                        isCurrentDay ? 'text-[#C8553A]' : 'text-[#15140F]',
+                      ].join(' ')}>
+                        {format(day, 'd')}
+                      </span>
+                    </div>
+                    <div className="flex flex-col gap-1 flex-1">
+                      {dayPosts.length === 0 ? (
+                        <span className="text-[#A39B8B] text-sm leading-none mt-1">–</span>
+                      ) : dayPosts.map(p => (
+                        <Link
+                          key={p.id}
+                          to={`/posts/${p.id}`}
+                          className="flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] bg-[#EFE9DC] border-l-2 truncate hover:bg-[#E7E0D0] transition-colors"
+                          style={{
+                            borderLeftColor:
+                              p.platform === 'instagram' ? '#E1306C'
+                              : p.platform === 'linkedin'  ? '#0A66C2'
+                              : '#1877F2',
+                          }}
+                        >
+                          <span className="truncate text-[#3D3A30]">{p.caption?.slice(0, 18) || 'Post'}</span>
+                          <span className="shrink-0 font-mono text-[9px] text-[#6B655B] ml-auto">
+                            {p.date.match(/\d+:\d+/)?.[0] ?? ''}
+                          </span>
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </section>
+
+          {/* ── Recent ────────────────────────────────────────────────────────── */}
+          <section className="space-y-3">
+            <div className="flex items-center justify-between mb-1">
+              <div>
+                <h2 className="font-headline text-lg font-bold text-[#15140F] tracking-[-0.01em]">Recent</h2>
+                <p className="text-[11px] text-[#6B655B] mt-0.5">Last few posts and drafts</p>
+              </div>
+              <Link
+                to="/posts"
+                className="text-xs font-semibold text-[#C8553A] hover:text-[#A53F28] flex items-center gap-1 transition-colors"
+              >
+                See insights
+                <span className="material-symbols-outlined" style={{ fontSize: 13 }}>arrow_forward</span>
+              </Link>
+            </div>
+            {recentPosts.length === 0 ? (
+              <div className="surface-card flex flex-col items-center justify-center py-12 gap-2">
+                <span className="material-symbols-outlined text-[#A39B8B]" style={{ fontSize: 36 }}>article</span>
+                <p className="text-sm text-[#6B655B]">No published posts yet.</p>
+                <Link to="/composer" className="text-sm font-semibold text-[#C8553A] hover:text-[#A53F28] mt-1">Create your first post</Link>
+              </div>
+            ) : (
+              recentPosts.map((post, i) => (
                 <RecentPostRow
                   key={post.id}
                   post={post}
                   rowRef={{ current: postRefs.current[i] ?? null } as React.RefObject<HTMLAnchorElement | null>}
                 />
-              ))}
-            </div>
+              ))
+            )}
           </section>
+
         </div>
       )}
+
+      <ComposeDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} />
 
       {/* FAB */}
       <div className="fixed bottom-5 right-5 z-50 mb-[env(safe-area-inset-bottom,0px)] sm:hidden">
         <Link
           to="/composer"
           aria-label="Create new post"
-          className="w-14 h-14 bg-[#15140F] text-[#F6F2EA] rounded-2xl shadow-[0_14px_32px_rgba(0,0,0,0.34)] flex items-center justify-center active:scale-95 transition-all"
+          className="w-14 h-14 bg-[#C8553A] text-white rounded-2xl shadow-[0_4px_20px_rgba(200,85,58,0.35)] flex items-center justify-center hover:bg-[#A53F28] active:scale-95 transition-all"
         >
           <span className="material-symbols-outlined text-2xl" style={{ fontVariationSettings: "'FILL' 1" }}>add</span>
         </Link>

@@ -76,7 +76,7 @@ function CalendarGrid({
               className={[
                 'h-8 w-8 mx-auto flex items-center justify-center rounded-full text-[12px] font-medium transition-all',
                 isSelected
-                  ? 'bg-[#C8553A] text-[#2f004d] font-bold'
+                  ? 'bg-[#C8553A] text-white font-bold'
                   : isPast
                   ? 'text-[#15140F] cursor-not-allowed'
                   : !isCurrentMonth

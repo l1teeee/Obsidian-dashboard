@@ -41,10 +41,10 @@ const CHANNEL_NAMES: Record<ChannelId, string> = {
 };
 
 const STATUS_META: Record<TrafficLight, { color: string; label: string }> = {
-  'too-short': { color: '#4c4450', label: 'Keep writing' },
-  'ideal':     { color: '#22c55e', label: 'Ideal'        },
-  'long':      { color: '#eab308', label: 'Long'         },
-  'too-long':  { color: '#ef4444', label: 'Too long'     },
+  'too-short': { color: '#A39B8B', label: 'Keep writing' },
+  'ideal':     { color: '#4F7A4A', label: 'Ideal'        },
+  'long':      { color: '#B7841E', label: 'Long'         },
+  'too-long':  { color: '#A8362A', label: 'Too long'     },
 };
 
 const MAX_IMAGE_BYTES = 2 * 1024 * 1024; // 2 MB — skip larger blobs to keep payload small
@@ -194,9 +194,9 @@ export default function CaptionEditor({
 
               {/* Token limit banner */}
               {!aiAllowed && (
-                <div className="flex items-start gap-2.5 px-3 py-2.5 rounded-xl bg-[#f97316]/8 border border-[#f97316]/20 mt-2">
-                  <span className="material-symbols-outlined text-[#f97316] shrink-0 mt-0.5" style={{ fontSize: 14, fontVariationSettings: "'FILL' 1" }}>warning</span>
-                  <p className="text-[10px] text-[#f97316]/90 leading-relaxed">
+                <div className="flex items-start gap-2.5 px-3 py-2.5 rounded-xl bg-[#B7841E]/8 border border-[#B7841E]/20 mt-2">
+                  <span className="material-symbols-outlined text-[#B7841E] shrink-0 mt-0.5" style={{ fontSize: 14, fontVariationSettings: "'FILL' 1" }}>warning</span>
+                  <p className="text-[10px] text-[#B7841E]/90 leading-relaxed">
                     Monthly AI token limit reached. Upgrade your plan to keep using AI features.
                   </p>
                 </div>
@@ -211,11 +211,11 @@ export default function CaptionEditor({
                         key={i}
                         src={item.previewUrl}
                         alt=""
-                        className="w-6 h-6 rounded-md object-cover border border-[#1c1b1b]"
+                        className="w-6 h-6 rounded-md object-cover border border-[#15140F]/15"
                       />
                     ))}
                     {imageItems.length > 3 && (
-                      <div className="w-6 h-6 rounded-md bg-[#C8553A]/20 border border-[#1c1b1b] flex items-center justify-center">
+                      <div className="w-6 h-6 rounded-md bg-[#C8553A]/20 border border-[#15140F]/15 flex items-center justify-center">
                         <span className="text-[8px] font-bold text-[#C8553A]">+{imageItems.length - 3}</span>
                       </div>
                     )}
@@ -254,11 +254,11 @@ export default function CaptionEditor({
 
               {/* Error */}
               {error && (
-                <div className="flex items-start gap-2.5 px-3 py-2.5 rounded-xl bg-[#ffb4ab]/8 border border-[#ffb4ab]/20">
-                  <span className="material-symbols-outlined text-[#ffb4ab] text-[13px] shrink-0 mt-0.5">
+                <div className="flex items-start gap-2.5 px-3 py-2.5 rounded-xl bg-[#A8362A]/8 border border-[#A8362A]/20">
+                  <span className="material-symbols-outlined text-[#A8362A] text-[13px] shrink-0 mt-0.5">
                     info
                   </span>
-                  <p className="flex-1 text-[10px] text-[#ffb4ab]/90 leading-relaxed">{error}</p>
+                  <p className="flex-1 text-[10px] text-[#A8362A]/90 leading-relaxed">{error}</p>
                 </div>
               )}
 
@@ -354,7 +354,7 @@ export default function CaptionEditor({
                         {pickedHashtags.length > 0 && (
                           <button
                             onClick={() => setPickedHashtags([])}
-                            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[10px] text-[#6B655B] hover:text-[#ffb4ab] hover:bg-[#ffb4ab]/8 transition-all"
+                            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[10px] text-[#6B655B] hover:text-[#A8362A] hover:bg-[#A8362A]/8 transition-all"
                           >
                             <span className="material-symbols-outlined" style={{ fontSize: 13 }}>deselect</span>
                             Clear
@@ -404,7 +404,7 @@ export default function CaptionEditor({
           <textarea
             value={caption}
             onChange={e => onCaptionChange(e.target.value)}
-            className="w-full h-28 bg-[#252424] border border-[#15140F]/20 rounded-xl p-3 text-sm text-[#15140F] focus:ring-2 focus:ring-[#C8553A]/20 focus:border-[#C8553A] outline-none transition-all placeholder:text-[#6B655B]/50 resize-none leading-relaxed"
+            className="w-full h-28 bg-[#F6F2EA] border border-[#15140F]/15 rounded-xl p-3 text-sm text-[#15140F] focus:ring-2 focus:ring-[#C8553A]/20 focus:border-[#C8553A] outline-none transition-all placeholder:text-[#A39B8B] resize-none leading-relaxed"
             placeholder="Write your caption…"
           />
         </div>

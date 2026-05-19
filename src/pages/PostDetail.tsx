@@ -208,7 +208,7 @@ export default function PostDetail() {
                   ) : (
                     <button
                       onClick={() => { setMenuOpen(false); setAction('deactivate'); }}
-                      className="flex items-center gap-3 w-full px-4 py-2.5 text-sm text-[#ffd166] hover:bg-[#ffd166]/8 transition-colors text-left"
+                      className="flex items-center gap-3 w-full px-4 py-2.5 text-sm text-[#B7841E] hover:bg-[#B7841E]/8 transition-colors text-left"
                     >
                       <span className="material-symbols-outlined" style={{ fontSize: 16 }}>pause_circle</span>
                       Deactivate
@@ -217,7 +217,7 @@ export default function PostDetail() {
                   <div className="h-px bg-[#15140F]/20 mx-3" />
                   <button
                     onClick={() => { setMenuOpen(false); setAction('delete'); }}
-                    className="flex items-center gap-3 w-full px-4 py-2.5 text-sm text-[#ffb4ab] hover:bg-[#ffb4ab]/8 transition-colors text-left"
+                    className="flex items-center gap-3 w-full px-4 py-2.5 text-sm text-[#A8362A] hover:bg-[#A8362A]/8 transition-colors text-left"
                   >
                     <span className="material-symbols-outlined" style={{ fontSize: 16 }}>delete_forever</span>
                     Delete
@@ -338,7 +338,7 @@ export default function PostDetail() {
                   href={apiPost.permalink}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-xs text-[#4F7A4A] hover:text-[#d4e25a] transition-colors truncate flex-1"
+                  className="text-xs text-[#4F7A4A] hover:text-[#3d6239] transition-colors truncate flex-1"
                 >
                   {apiPost.permalink}
                 </a>
@@ -373,10 +373,10 @@ export default function PostDetail() {
               onClick={() => setRemoveFromFacebook(v => !v)}
               className="flex items-center gap-2.5 mt-1"
             >
-              <div className={`w-4 h-4 rounded-[4px] border shrink-0 flex items-center justify-center transition-all ${removeFromFacebook ? 'bg-[#ffb4ab] border-[#ffb4ab]' : 'border-[#15140F]/50 bg-transparent'}`}>
+              <div className={`w-4 h-4 rounded-[4px] border shrink-0 flex items-center justify-center transition-all ${removeFromFacebook ? 'bg-[#C8553A] border-[#C8553A]' : 'border-[#15140F]/50 bg-transparent'}`}>
                 {removeFromFacebook && (
                   <svg width="9" height="9" viewBox="0 0 9 9" fill="none">
-                    <path d="M1 4.5L3.5 7L8 1.5" stroke="#2d0000" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M1 4.5L3.5 7L8 1.5" stroke="white" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
                 )}
               </div>

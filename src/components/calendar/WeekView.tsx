@@ -33,7 +33,7 @@ export default function WeekView({ current, posts }: WeekViewProps) {
             <p className="text-[10px] font-bold uppercase tracking-widest text-[#6B655B]">{format(day, 'EEE')}</p>
             <div className={[
               'w-8 h-8 rounded-full flex items-center justify-center mx-auto mt-1 text-sm font-bold',
-              isToday(day) ? 'bg-[#C8553A] text-[#2f004d]' : 'text-[#15140F]',
+              isToday(day) ? 'bg-[#C8553A] text-white' : 'text-[#15140F]',
             ].join(' ')}>
               {format(day, 'd')}
             </div>
@@ -41,7 +41,7 @@ export default function WeekView({ current, posts }: WeekViewProps) {
         ))}
       </div>
       {/* Post columns */}
-      <div className="grid grid-cols-7 min-h-[400px]">
+      <div className="grid grid-cols-7 min-h-100">
         {days.map((day) => {
           const dayPosts = postsForDay(posts, day);
           return (

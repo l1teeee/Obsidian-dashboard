@@ -17,7 +17,7 @@ function MediaCarousel({ images }: { images: string[] }) {
 
       {count > 1 && (
         <div className="absolute top-2 right-2 bg-black/60 rounded-full px-2 py-0.5">
-          <span className="text-[10px] font-bold text-[#15140F]">{current + 1}/{count}</span>
+          <span className="text-[10px] font-bold text-white">{current + 1}/{count}</span>
         </div>
       )}
 
@@ -26,7 +26,7 @@ function MediaCarousel({ images }: { images: string[] }) {
           onClick={() => setCurrent(i => i - 1)}
           className="absolute left-1.5 top-1/2 -translate-y-1/2 w-7 h-7 rounded-full bg-black/50 flex items-center justify-center hover:bg-black/70 transition-colors"
         >
-          <span className="material-symbols-outlined text-[#15140F] text-[16px]">chevron_left</span>
+          <span className="material-symbols-outlined text-white text-[16px]">chevron_left</span>
         </button>
       )}
       {count > 1 && current < count - 1 && (
@@ -34,7 +34,7 @@ function MediaCarousel({ images }: { images: string[] }) {
           onClick={() => setCurrent(i => i + 1)}
           className="absolute right-1.5 top-1/2 -translate-y-1/2 w-7 h-7 rounded-full bg-black/50 flex items-center justify-center hover:bg-black/70 transition-colors"
         >
-          <span className="material-symbols-outlined text-[#15140F] text-[16px]">chevron_right</span>
+          <span className="material-symbols-outlined text-white text-[16px]">chevron_right</span>
         </button>
       )}
 

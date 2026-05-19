@@ -59,7 +59,7 @@ export default function MonthView({ current, selected, onSelectDay, posts }: Mon
                 key={i}
                 onClick={() => onSelectDay(isSel ? selected! : day)}
                 className={[
-                  'min-h-[80px] md:min-h-[100px] p-2 border-b border-r border-[#15140F]/10 cursor-pointer transition-colors last:border-r-0',
+                  'min-h-20 md:min-h-25 p-2 border-b border-r border-[#15140F]/10 cursor-pointer transition-colors last:border-r-0',
                   !isCurrentM ? 'opacity-30' : '',
                   isSel ? 'bg-[#C8553A]/8' : 'hover:bg-[#EFE9DC]/60',
                 ].join(' ')}
@@ -67,7 +67,7 @@ export default function MonthView({ current, selected, onSelectDay, posts }: Mon
                 <div className="flex items-center justify-between mb-1.5">
                   <span className={[
                     'w-7 h-7 flex items-center justify-center rounded-full text-xs font-bold transition-all',
-                    isTdy ? 'bg-[#C8553A] text-[#2f004d]' : isSel ? 'text-[#C8553A]' : 'text-[#3D3A30]',
+                    isTdy ? 'bg-[#C8553A] text-white' : isSel ? 'text-[#C8553A]' : 'text-[#3D3A30]',
                   ].join(' ')}>
                     {format(day, 'd')}
                   </span>

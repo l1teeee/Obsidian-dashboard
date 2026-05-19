@@ -163,7 +163,7 @@ function GeneralSection() {
                   {m.role}
                 </span>
                 {m.role !== 'Owner' && (
-                  <button className="text-xs font-bold uppercase tracking-[0.12em] text-[#6B655B] hover:text-[#ffb4ab] border border-[#15140F]/20 hover:border-[#ffb4ab]/30 px-2.5 py-1 rounded-lg transition-colors">
+                  <button className="text-xs font-bold uppercase tracking-[0.12em] text-[#6B655B] hover:text-[#A8362A] border border-[#15140F]/20 hover:border-[#A8362A]/30 px-2.5 py-1 rounded-lg transition-colors">
                     Remove
                   </button>
                 )}
@@ -217,10 +217,10 @@ function GeneralSection() {
       </div>
 
       {/* Danger Zone */}
-      <div className="glass-card rounded-2xl border border-[#ffb4ab]/20 p-6">
+      <div className="surface-card rounded-2xl border border-[#A8362A]/20 p-6">
         <div className="flex items-center gap-2 mb-3">
-          <span className="material-symbols-outlined text-[#ffb4ab]" style={{ fontSize: 18 }}>warning</span>
-          <h3 className="text-sm font-bold text-[#ffb4ab]">Danger Zone</h3>
+          <span className="material-symbols-outlined text-[#A8362A]" style={{ fontSize: 18 }}>warning</span>
+          <h3 className="text-sm font-bold text-[#A8362A]">Danger Zone</h3>
         </div>
         <div className="flex items-start justify-between gap-4">
           <div>
@@ -232,7 +232,7 @@ function GeneralSection() {
           {!showDelete ? (
             <button
               onClick={() => setShowDelete(true)}
-              className="shrink-0 px-4 py-2 rounded-xl bg-[#ffb4ab]/10 border border-[#ffb4ab]/30 text-[#ffb4ab] text-xs font-bold hover:bg-[#ffb4ab]/20 transition-all whitespace-nowrap"
+              className="shrink-0 px-4 py-2 rounded-xl bg-[#A8362A]/10 border border-[#A8362A]/30 text-[#A8362A] text-xs font-bold hover:bg-[#A8362A]/20 transition-all whitespace-nowrap"
             >
               Delete Workspace
             </button>
@@ -243,7 +243,7 @@ function GeneralSection() {
               </button>
               <button
                 onClick={handleDelete}
-                className="px-4 py-2 rounded-xl bg-[#ffb4ab] text-[#15140F] text-xs font-bold hover:bg-[#ffccc7] transition-all"
+                className="px-4 py-2 rounded-xl bg-[#A8362A] text-white text-xs font-bold hover:bg-[#8a2820] transition-all"
               >
                 Confirm Delete
               </button>
@@ -385,7 +385,7 @@ function ProfileSection() {
           </div>
 
           {error && (
-            <p className="text-xs text-[#ffb4ab] px-3 py-2 rounded-xl bg-[#ffb4ab]/10 border border-[#ffb4ab]/20">{error}</p>
+            <p className="text-xs text-[#A8362A] px-3 py-2 rounded-xl bg-[#A8362A]/10 border border-[#A8362A]/20">{error}</p>
           )}
 
           <div className="flex items-center gap-3 pt-1">
@@ -672,7 +672,7 @@ function WorkspacesSection() {
                 )}
                 <button
                   onClick={() => setDeleteTarget(ws.id)}
-                  className="w-8 h-8 rounded-xl border border-[#15140F]/15 flex items-center justify-center text-[#6B655B] hover:text-[#ffb4ab] hover:border-[#ffb4ab]/30 hover:bg-[#ffb4ab]/5 transition-all"
+                  className="w-8 h-8 rounded-xl border border-[#15140F]/15 flex items-center justify-center text-[#6B655B] hover:text-[#A8362A] hover:border-[#A8362A]/30 hover:bg-[#A8362A]/5 transition-all"
                   title="Delete workspace"
                 >
                   <span className="material-symbols-outlined" style={{ fontSize: 16 }}>delete</span>
@@ -686,8 +686,8 @@ function WorkspacesSection() {
       {/* Delete confirmation modal */}
       <Modal open={!!deleteTarget} onClose={() => setDeleteTarget(null)} maxWidth="max-w-sm">
         <div className="p-8">
-          <div className="w-12 h-12 rounded-2xl bg-[#ffb4ab]/10 border border-[#ffb4ab]/20 flex items-center justify-center mb-5">
-            <span className="material-symbols-outlined text-[#ffb4ab]" style={{ fontSize: 22 }}>delete_forever</span>
+          <div className="w-12 h-12 rounded-2xl bg-[#A8362A]/10 border border-[#A8362A]/20 flex items-center justify-center mb-5">
+            <span className="material-symbols-outlined text-[#A8362A]" style={{ fontSize: 22 }}>delete_forever</span>
           </div>
           <h2 className="text-xl font-headline font-extrabold tracking-tight text-[#15140F] mb-1">Delete workspace?</h2>
           <p className="text-sm text-[#6B655B] mb-1">
@@ -698,7 +698,7 @@ function WorkspacesSection() {
           <div className="flex flex-col gap-2.5">
             <button
               onClick={confirmDelete}
-              className="w-full py-3 rounded-xl bg-[#ffb4ab] text-[#15140F] font-bold text-sm hover:bg-[#ffccc7] transition-all"
+              className="w-full py-3 rounded-xl bg-[#A8362A] text-white font-bold text-sm hover:bg-[#8a2820] transition-all"
             >
               Yes, delete it
             </button>

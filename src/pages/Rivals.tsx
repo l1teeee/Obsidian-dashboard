@@ -83,7 +83,7 @@ const PLATFORM_ICONS: Record<string, string> = {
   twitter:   'alternate_email',
 };
 const PLATFORM_COLORS: Record<string, string> = {
-  instagram: '#e4b9ff',
+  instagram: '#E1306C',
   linkedin:  '#7bb8f5',
   facebook:  '#74b9e4',
   twitter:   '#7cd5f5',
@@ -107,7 +107,7 @@ function StatPill({ label, value, mine, isMe }: { label: string; value: number; 
 }
 
 const PLATFORM_META: Record<Platform, { label: string; iconBg: string; color: string; bg: string }> = {
-  instagram: { label: 'Instagram', iconBg: 'linear-gradient(135deg,#f09433 0%,#e6683c 50%,#bc1888 100%)', color: '#e4b9ff', bg: '#e4b9ff18' },
+  instagram: { label: 'Instagram', iconBg: 'linear-gradient(135deg,#f09433 0%,#e6683c 50%,#bc1888 100%)', color: '#E1306C', bg: '#E1306C18' },
   facebook:  { label: 'Facebook',  iconBg: '#1877F2',                                                      color: '#74b9e4', bg: '#74b9e418' },
 };
 
@@ -133,7 +133,7 @@ function RivalCard({
         <button
           onClick={onDelete}
           title="Remove rival"
-          className="absolute top-4 right-4 w-7 h-7 rounded-xl flex items-center justify-center opacity-0 group-hover:opacity-100 bg-[#ffb4ab]/10 hover:bg-[#ffb4ab]/20 text-[#ffb4ab] transition-all duration-150"
+          className="absolute top-4 right-4 w-7 h-7 rounded-xl flex items-center justify-center opacity-0 group-hover:opacity-100 bg-[#A8362A]/10 hover:bg-[#A8362A]/20 text-[#A8362A] transition-all duration-150"
         >
           <span className="material-symbols-outlined" style={{ fontSize: 14 }}>close</span>
         </button>
@@ -222,7 +222,7 @@ interface MockProfile {
 
 const MOCK_SEARCH: Record<Platform, MockProfile[]> = {
   instagram: [
-    { id: 'ig1', name: 'BrandX Studio',      handle: '@brandxstudio',    initials: 'BX', color: '#e4b9ff' },
+    { id: 'ig1', name: 'BrandX Studio',      handle: '@brandxstudio',    initials: 'BX', color: '#E1306C' },
     { id: 'ig2', name: 'Nova Creative Co',   handle: '@novacreative',    initials: 'NC', color: '#4F7A4A' },
     { id: 'ig3', name: 'PixelFlow Agency',   handle: '@pixelflow',       initials: 'PF', color: '#7bb8f5' },
     { id: 'ig4', name: 'Bold Branding Lab',  handle: '@boldlab',         initials: 'BB', color: '#ff9d7b' },
@@ -234,7 +234,7 @@ const MOCK_SEARCH: Record<Platform, MockProfile[]> = {
   facebook: [
     { id: 'fb1', name: 'Novo Creative',       handle: '@novocreative',    initials: 'NC', color: '#74b9e4' },
     { id: 'fb2', name: 'Reach Digital',       handle: '@reachdigital',    initials: 'RD', color: '#4F7A4A' },
-    { id: 'fb3', name: 'Spark Agency',        handle: '@sparkagency',     initials: 'SA', color: '#e4b9ff' },
+    { id: 'fb3', name: 'Spark Agency',        handle: '@sparkagency',     initials: 'SA', color: '#E1306C' },
     { id: 'fb4', name: 'Hyper Content Lab',   handle: '@hypercontentlab', initials: 'HC', color: '#ff9d7b' },
     { id: 'fb5', name: 'Bloom Marketing',     handle: '@bloommarketing',  initials: 'BM', color: '#74d9b6' },
     { id: 'fb6', name: 'Focus Brand Studio',  handle: '@focusbrand',      initials: 'FB', color: '#7bb8f5' },
@@ -623,7 +623,7 @@ export default function Rivals() {
                 {[
                   { label: 'Rivals tracked',   value: rivals.length,  icon: 'groups',      color: '#C8553A' },
                   { label: 'Max follower gap',  value: fmtNum(rivals.length ? Math.max(...rivals.map(r => r.followers)) - MY_ACCOUNT.followers : 0), icon: 'trending_up', color: '#4F7A4A' },
-                  { label: 'Posts tracked',     value: TRACKED_POSTS.length, icon: 'article', color: '#e4b9ff' },
+                  { label: 'Posts tracked',     value: TRACKED_POSTS.length, icon: 'article', color: '#E1306C' },
                 ].map(k => (
                   <div key={k.label} className="glass-card rounded-3xl border border-[#15140F]/5 p-5 flex items-center gap-4 shadow-[0_0_40px_rgba(200,85,58,0.06)]">
                     <div className="w-10 h-10 rounded-2xl flex items-center justify-center shrink-0" style={{ background: `${k.color}18` }}>

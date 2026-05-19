@@ -94,7 +94,7 @@ export default function Posts() {
             </Tooltip>
             <Link
               to="/composer"
-              className="flex items-center gap-2 px-4 py-1.5 rounded-xl bg-[#C8553A] text-[#2f004d] text-xs font-bold hover:shadow-[0_0_20px_rgba(200,85,58,0.3)] transition-all active:scale-95"
+              className="flex items-center gap-2 px-4 py-1.5 rounded-xl bg-[#C8553A] text-white text-xs font-bold hover:bg-[#A53F28] transition-all active:scale-95"
             >
               <span className="material-symbols-outlined text-[14px]">add</span>
               New Post
@@ -126,13 +126,13 @@ export default function Posts() {
                 className={[
                   'px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5',
                   view === 'inactive'
-                    ? 'bg-[#ffd166]/10 text-[#ffd166] border border-[#ffd166]/25'
+                    ? 'bg-[#B7841E]/10 text-[#B7841E] border border-[#B7841E]/25'
                     : 'text-[#6B655B] hover:text-[#15140F]',
                 ].join(' ')}
               >
                 Inactive
                 {inactiveCount > 0 && (
-                  <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-full ${view === 'inactive' ? 'bg-[#ffd166]/20 text-[#ffd166]' : 'bg-[#15140F]/30 text-[#6B655B]'}`}>
+                  <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-full ${view === 'inactive' ? 'bg-[#B7841E]/20 text-[#B7841E]' : 'bg-[#15140F]/12 text-[#6B655B]'}`}>
                     {inactiveCount}
                   </span>
                 )}
@@ -222,7 +222,7 @@ export default function Posts() {
       <div className="fixed bottom-8 right-8 z-50">
         <Link
           to="/composer"
-          className="w-14 h-14 bg-[#C8553A] text-[#5e2388] rounded-full shadow-[0_0_20px_rgba(200,85,58,0.4)] flex items-center justify-center hover:scale-110 active:scale-95 transition-all"
+          className="w-14 h-14 bg-[#C8553A] text-white rounded-2xl shadow-[0_4px_20px_rgba(200,85,58,0.35)] flex items-center justify-center hover:bg-[#A53F28] active:scale-95 transition-all"
         >
           <span className="material-symbols-outlined text-2xl" style={{ fontVariationSettings: "'FILL' 1" }}>add</span>
         </Link>

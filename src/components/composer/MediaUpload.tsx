@@ -173,7 +173,7 @@ export default function MediaUpload({
     >
       {/* ── Drag-over overlay ── */}
       {isDragOver && (
-        <div className="absolute inset-0 z-20 rounded-2xl border-2 border-dashed border-[#C8553A] bg-[#131313]/80 backdrop-blur-sm flex flex-col items-center justify-center gap-3 pointer-events-none">
+        <div className="absolute inset-0 z-20 rounded-2xl border-2 border-dashed border-[#C8553A] bg-[#FBF8F2]/90 backdrop-blur-sm flex flex-col items-center justify-center gap-3 pointer-events-none">
           <div className="w-16 h-16 rounded-2xl bg-[#C8553A]/15 border border-[#C8553A]/30 flex items-center justify-center">
             <span className="material-symbols-outlined text-[#C8553A]" style={{ fontSize: 32, fontVariationSettings: "'FILL' 1" }}>cloud_upload</span>
           </div>
@@ -229,7 +229,7 @@ export default function MediaUpload({
                     }
                   }}
                   title="Reset AI generator"
-                  className="w-6 h-6 flex items-center justify-center rounded-full text-[#6B655B]/60 hover:text-red-400 hover:bg-red-400/10 transition-all active:scale-95"
+                  className="w-6 h-6 flex items-center justify-center rounded-full text-[#6B655B]/60 hover:text-[#A8362A] hover:bg-[#A8362A]/10 transition-all active:scale-95"
                 >
                   <span className="material-symbols-outlined text-[13px]">close</span>
                 </button>
@@ -240,14 +240,14 @@ export default function MediaUpload({
 
         {/* Size errors */}
         {sizeErrors.length > 0 && (
-          <div className="mx-3 mb-2 flex items-start gap-2 px-3 py-2.5 rounded-xl bg-[#ffb4ab]/8 border border-[#ffb4ab]/20">
-            <span className="material-symbols-outlined text-[#ffb4ab] shrink-0 mt-0.5" style={{ fontSize: 14 }}>error</span>
+          <div className="mx-3 mb-2 flex items-start gap-2 px-3 py-2.5 rounded-xl bg-[#A8362A]/8 border border-[#A8362A]/20">
+            <span className="material-symbols-outlined text-[#A8362A] shrink-0 mt-0.5" style={{ fontSize: 14 }}>error</span>
             <div className="flex-1 min-w-0">
               {sizeErrors.map((err, i) => (
-                <p key={i} className="text-[10px] text-[#ffb4ab] leading-relaxed">{err}</p>
+                <p key={i} className="text-[10px] text-[#A8362A] leading-relaxed">{err}</p>
               ))}
             </div>
-            <button onClick={() => setSizeErrors([])} className="shrink-0 text-[#ffb4ab]/50 hover:text-[#ffb4ab] transition-colors">
+            <button onClick={() => setSizeErrors([])} className="shrink-0 text-[#A8362A]/50 hover:text-[#A8362A] transition-colors">
               <span className="material-symbols-outlined" style={{ fontSize: 14 }}>close</span>
             </button>
           </div>
@@ -258,7 +258,7 @@ export default function MediaUpload({
 
       {/* ── Media carousel ── */}
       {hasMedia ? (
-        <div className="flex items-center gap-2 bg-[#161515] border border-[#15140F]/25 rounded-2xl px-3 py-3">
+        <div className="flex items-center gap-2 bg-[#EFE9DC] border border-[#15140F]/15 rounded-2xl px-3 py-3">
           {/* Scroll left */}
           <button
             onClick={() => scrollStrip('left')}
@@ -291,8 +291,8 @@ export default function MediaUpload({
                     {/* Skeleton shimmer */}
                     {showSkeleton && (
                       <div className="absolute inset-0 rounded-xl overflow-hidden">
-                        <div className="w-full h-full bg-[#252424] relative overflow-hidden">
-                          <div className="absolute inset-0 -translate-x-full animate-[shimmer_1.4s_infinite] bg-gradient-to-r from-transparent via-white/5 to-transparent" />
+                        <div className="w-full h-full bg-[#DDD8CE] relative overflow-hidden">
+                          <div className="absolute inset-0 -translate-x-full animate-[shimmer_1.4s_infinite] bg-gradient-to-r from-transparent via-white/30 to-transparent" />
                         </div>
                       </div>
                     )}
@@ -317,58 +317,58 @@ export default function MediaUpload({
 
                     {/* Video badge */}
                     {isVideo && !item.uploading && (
-                      <div className="absolute bottom-1 left-1 flex items-center gap-1 bg-black/60 rounded-md px-1.5 py-0.5">
-                        <span className="material-symbols-outlined text-[#15140F]" style={{ fontSize: 10, fontVariationSettings: "'FILL' 1" }}>play_arrow</span>
-                        <span className="text-[7px] font-bold text-[#15140F] uppercase tracking-wide">Video</span>
+                      <div className="absolute bottom-1 left-1 flex items-center gap-1 bg-[#15140F]/65 rounded-md px-1.5 py-0.5">
+                        <span className="material-symbols-outlined text-white" style={{ fontSize: 10, fontVariationSettings: "'FILL' 1" }}>play_arrow</span>
+                        <span className="text-[7px] font-bold text-white uppercase tracking-wide">Video</span>
                       </div>
                     )}
 
                     {/* Uploading overlay */}
                     {item.uploading && (
-                      <div className="absolute inset-0 bg-black/60 flex flex-col items-center justify-center gap-1">
-                        <span className="material-symbols-outlined text-[#15140F] text-[20px] animate-spin">progress_activity</span>
-                        <span className="text-[8px] text-[#15140F]/80 font-bold uppercase tracking-wider">Uploading…</span>
+                      <div className="absolute inset-0 bg-[#15140F]/65 flex flex-col items-center justify-center gap-1">
+                        <span className="material-symbols-outlined text-white text-[20px] animate-spin">progress_activity</span>
+                        <span className="text-[8px] text-white/80 font-bold uppercase tracking-wider">Uploading…</span>
                       </div>
                     )}
 
                     {/* Upload error overlay */}
                     {item.uploadError && !item.uploading && (
-                      <div className="absolute inset-0 bg-red-900/70 flex flex-col items-center justify-center gap-1 p-1">
-                        <span className="material-symbols-outlined text-red-300 text-[18px]">cloud_off</span>
-                        <span className="text-[7px] text-red-200 font-bold text-center leading-tight">Upload failed</span>
+                      <div className="absolute inset-0 bg-[#A8362A]/85 flex flex-col items-center justify-center gap-1 p-1">
+                        <span className="material-symbols-outlined text-white text-[18px]">cloud_off</span>
+                        <span className="text-[7px] text-white/90 font-bold text-center leading-tight">Upload failed</span>
                       </div>
                     )}
 
                     {/* AI badge */}
                     {item.isAIGenerated && !item.uploading && !item.uploadError && (
                       <div className="absolute bottom-1 left-1 w-[14px] h-[14px] rounded bg-[#C8553A]/90 flex items-center justify-center">
-                        <span className="material-symbols-outlined text-[#15140F]" style={{ fontSize: 9, fontVariationSettings: "'FILL' 1" }}>auto_awesome</span>
+                        <span className="material-symbols-outlined text-white" style={{ fontSize: 9, fontVariationSettings: "'FILL' 1" }}>auto_awesome</span>
                       </div>
                     )}
 
                     {/* Index badge */}
                     {!item.uploading && (
-                      <div className="absolute top-1 right-1 bg-black/50 rounded-full w-4 h-4 flex items-center justify-center">
-                        <span className="text-[8px] font-bold text-[#15140F]">{i + 1}</span>
+                      <div className="absolute top-1 right-1 bg-[#15140F]/55 rounded-full w-4 h-4 flex items-center justify-center">
+                        <span className="text-[8px] font-bold text-white">{i + 1}</span>
                       </div>
                     )}
 
                     {/* Hover overlay */}
                     {!item.uploading && (
-                      <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-between p-1.5">
+                      <div className="absolute inset-0 bg-[#15140F]/65 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-between p-1.5">
                         {isVideo ? (
                           /* Videos: play hint + delete */
                           <>
                             <div />
                             <div className="flex items-center justify-center gap-1">
                               <div className="w-7 h-7 rounded-lg bg-white/15 border border-white/25 flex items-center justify-center pointer-events-none">
-                                <span className="material-symbols-outlined text-[#15140F]" style={{ fontSize: 14, fontVariationSettings: "'FILL' 1" }}>play_arrow</span>
+                                <span className="material-symbols-outlined text-white" style={{ fontSize: 14, fontVariationSettings: "'FILL' 1" }}>play_arrow</span>
                               </div>
                               <button
                                 onClick={e => { e.stopPropagation(); onRemove(i); }}
-                                className="w-7 h-7 rounded-lg bg-red-500/25 border border-red-400/40 flex items-center justify-center hover:bg-red-500/50 transition-all"
+                                className="w-7 h-7 rounded-lg bg-[#A8362A]/35 border border-[#A8362A]/55 flex items-center justify-center hover:bg-[#A8362A]/60 transition-all"
                               >
-                                <span className="material-symbols-outlined text-red-300" style={{ fontSize: 14 }}>delete</span>
+                                <span className="material-symbols-outlined text-white" style={{ fontSize: 14 }}>delete</span>
                               </button>
                             </div>
                           </>
@@ -387,16 +387,16 @@ export default function MediaUpload({
                               <button
                                 onClick={e => { e.stopPropagation(); setEditingIndex(i); }}
                                 title="Edit with AI"
-                                className="w-7 h-7 rounded-lg bg-[#ffd166]/20 border border-[#ffd166]/40 flex items-center justify-center hover:bg-[#ffd166]/40 transition-all"
+                                className="w-7 h-7 rounded-lg bg-[#B7841E]/20 border border-[#B7841E]/40 flex items-center justify-center hover:bg-[#B7841E]/40 transition-all"
                               >
-                                <span className="material-symbols-outlined text-[#ffd166]" style={{ fontSize: 13 }}>edit</span>
+                                <span className="material-symbols-outlined text-[#B7841E]" style={{ fontSize: 13 }}>edit</span>
                               </button>
                               <button
                                 onClick={e => { e.stopPropagation(); onRemove(i); }}
                                 title="Remove"
-                                className="w-7 h-7 rounded-lg bg-red-500/20 border border-red-400/40 flex items-center justify-center hover:bg-red-500/45 transition-all"
+                                className="w-7 h-7 rounded-lg bg-[#A8362A]/30 border border-[#A8362A]/50 flex items-center justify-center hover:bg-[#A8362A]/55 transition-all"
                               >
-                                <span className="material-symbols-outlined text-red-300" style={{ fontSize: 13 }}>delete</span>
+                                <span className="material-symbols-outlined text-white" style={{ fontSize: 13 }}>delete</span>
                               </button>
                             </div>
                           </>
@@ -479,7 +479,7 @@ export default function MediaUpload({
             {/* Close */}
             <button
               onClick={() => setLightboxIndex(null)}
-              className="absolute top-3 right-3 z-10 w-8 h-8 rounded-full bg-black/60 backdrop-blur-sm flex items-center justify-center text-[#15140F]/70 hover:text-[#15140F] hover:bg-black/80 transition-all"
+              className="absolute top-3 right-3 z-10 w-8 h-8 rounded-full bg-[#15140F]/55 backdrop-blur-sm flex items-center justify-center text-white/80 hover:text-white hover:bg-[#15140F]/75 transition-all"
             >
               <span className="material-symbols-outlined text-[16px]">close</span>
             </button>
@@ -496,11 +496,11 @@ export default function MediaUpload({
 
             {/* Prompt row — AI generated only, collapsible */}
             {mediaItems[lightboxIndex].isAIGenerated && (
-              <div className="border-t border-[#15140F]/20 bg-[#161515]">
+              <div className="border-t border-[#15140F]/10 bg-[#F6F2EA]">
                 {/* Toggle row */}
                 <button
                   onClick={() => setShowPrompt(p => !p)}
-                  className="w-full flex items-center gap-2 px-4 py-2.5 hover:bg-[#FBF8F2] transition-colors text-left"
+                  className="w-full flex items-center gap-2 px-4 py-2.5 hover:bg-[#EFE9DC] transition-colors text-left"
                 >
                   <span className="material-symbols-outlined text-[#C8553A]/50 text-[13px] shrink-0" style={{ fontVariationSettings: "'FILL' 1" }}>auto_awesome</span>
                   <span className="flex-1 text-[10px] text-[#6B655B]/70 font-medium">
@@ -526,7 +526,7 @@ export default function MediaUpload({
                       </p>
                       <button
                         onClick={() => copyPrompt(mediaItems[lightboxIndex].prompt!)}
-                        className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-[#252424] border border-[#15140F]/25 text-[10px] font-semibold text-[#6B655B] hover:text-[#15140F] hover:border-[#15140F]/50 transition-all active:scale-[0.97]"
+                        className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-[#EFE9DC] border border-[#15140F]/15 text-[10px] font-semibold text-[#6B655B] hover:text-[#15140F] hover:border-[#15140F]/35 transition-all active:scale-[0.97]"
                       >
                         <span className="material-symbols-outlined text-[12px]" style={{ fontVariationSettings: promptCopied ? "'FILL' 1" : "'FILL' 0" }}>
                           {promptCopied ? 'check' : 'content_copy'}
@@ -550,14 +550,14 @@ export default function MediaUpload({
               </button>
               <button
                 onClick={() => { const idx = lightboxIndex; setLightboxIndex(null); setEditingIndex(idx); }}
-                className="flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl bg-[#ffd166]/10 border border-[#ffd166]/25 text-[#ffd166] text-[11px] font-bold hover:bg-[#ffd166]/20 transition-all active:scale-[0.98]"
+                className="flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl bg-[#C8553A]/10 border border-[#C8553A]/25 text-[#C8553A] text-[11px] font-bold hover:bg-[#C8553A]/20 transition-all active:scale-[0.98]"
               >
                 <span className="material-symbols-outlined text-[14px]">edit</span>
                 Edit with AI
               </button>
               <button
                 onClick={() => { const idx = lightboxIndex; setLightboxIndex(null); onRemove(idx); }}
-                className="flex items-center justify-center p-2.5 rounded-xl bg-red-500/8 border border-red-500/20 text-red-400 hover:bg-red-500/20 transition-all active:scale-[0.98]"
+                className="flex items-center justify-center p-2.5 rounded-xl bg-[#A8362A]/8 border border-[#A8362A]/20 text-[#A8362A] hover:bg-[#A8362A]/20 transition-all active:scale-[0.98]"
                 title="Remove"
               >
                 <span className="material-symbols-outlined text-[18px]">delete</span>

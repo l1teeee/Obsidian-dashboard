@@ -261,9 +261,9 @@ export default function AnalyzeModal({
 
           {/* Token limit banner */}
           {!aiAllowed && (
-            <div className="flex items-start gap-2.5 px-3 py-2.5 rounded-xl bg-[#f97316]/8 border border-[#f97316]/20">
-              <span className="material-symbols-outlined text-[#f97316] shrink-0 mt-0.5" style={{ fontSize: 14, fontVariationSettings: "'FILL' 1" }}>warning</span>
-              <p className="text-[10px] text-[#f97316]/90 leading-relaxed">
+            <div className="flex items-start gap-2.5 px-3 py-2.5 rounded-xl bg-[#B7841E]/8 border border-[#B7841E]/20">
+              <span className="material-symbols-outlined text-[#B7841E] shrink-0 mt-0.5" style={{ fontSize: 14, fontVariationSettings: "'FILL' 1" }}>warning</span>
+              <p className="text-[10px] text-[#B7841E]/90 leading-relaxed">
                 Monthly AI token limit reached. Upgrade your plan to analyze media with AI.
               </p>
             </div>
@@ -275,21 +275,21 @@ export default function AnalyzeModal({
               <p className="text-[10px] font-bold uppercase tracking-widest text-[#6B655B]/70">Media in this post</p>
               <div className="flex gap-2 flex-wrap">
                 {images.map((item, i) => (
-                  <div key={i} className="relative group w-16 h-16 rounded-xl overflow-hidden bg-[#252424] border border-[#15140F]/25">
+                  <div key={i} className="relative group w-16 h-16 rounded-xl overflow-hidden bg-[#EFE9DC] border border-[#15140F]/15">
                     <img src={item.previewUrl} alt="" className="w-full h-full object-cover" />
                     {item.isAIGenerated && (
                       <div className="absolute bottom-0.5 left-0.5 w-[13px] h-[13px] rounded bg-[#C8553A]/90 flex items-center justify-center">
-                        <span className="material-symbols-outlined text-[#15140F]" style={{ fontSize: 8, fontVariationSettings: "'FILL' 1" }}>auto_awesome</span>
+                        <span className="material-symbols-outlined text-white" style={{ fontSize: 8, fontVariationSettings: "'FILL' 1" }}>auto_awesome</span>
                       </div>
                     )}
                     {/* Hover: edit button */}
-                    <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                    <div className="absolute inset-0 bg-[#15140F]/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                       <button
                         onClick={() => { onRequestEditMedia(mediaItems.indexOf(item)); }}
                         title="Edit with AI"
-                        className="w-8 h-8 rounded-lg bg-[#ffd166]/20 border border-[#ffd166]/40 flex items-center justify-center hover:bg-[#ffd166]/40 transition-all"
+                        className="w-8 h-8 rounded-lg bg-[#B7841E]/20 border border-[#B7841E]/40 flex items-center justify-center hover:bg-[#B7841E]/40 transition-all"
                       >
-                        <span className="material-symbols-outlined text-[#ffd166]" style={{ fontSize: 15, fontVariationSettings: "'FILL' 1" }}>edit</span>
+                        <span className="material-symbols-outlined text-[#B7841E]" style={{ fontSize: 15, fontVariationSettings: "'FILL' 1" }}>edit</span>
                       </button>
                     </div>
                   </div>
@@ -307,7 +307,7 @@ export default function AnalyzeModal({
 
           {/* ── Scope selector ── */}
           {hasBothTypes && (
-            <div className="flex items-center gap-1 p-1 bg-[#252424] rounded-xl">
+            <div className="flex items-center gap-1 p-1 bg-[#EFE9DC] rounded-xl">
               {([
                 { value: 'images', label: 'Images',       icon: 'image'       },
                 { value: 'videos', label: 'Video frames', icon: 'play_circle' },
@@ -335,20 +335,20 @@ export default function AnalyzeModal({
             <div className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl bg-[#C8553A]/[0.06] border border-[#C8553A]/12">
               <div className="flex -space-x-1.5 shrink-0">
                 {scopedItems.slice(0, 4).map((item, i) => (
-                  <div key={i} className="relative w-8 h-8 rounded-lg overflow-hidden border-2 border-[#1c1b1b]">
+                  <div key={i} className="relative w-8 h-8 rounded-lg overflow-hidden border-2 border-[#15140F]/18">
                     {item.mediaType === 'video'
                       ? <video src={item.previewUrl} className="w-full h-full object-cover" muted playsInline preload="metadata" />
                       : <img src={item.previewUrl} alt="" className="w-full h-full object-cover" />
                     }
                     {item.mediaType === 'video' && (
-                      <div className="absolute inset-0 flex items-center justify-center bg-black/40">
-                        <span className="material-symbols-outlined text-[#15140F]" style={{ fontSize: 10 }}>play_arrow</span>
+                      <div className="absolute inset-0 flex items-center justify-center bg-[#15140F]/45">
+                        <span className="material-symbols-outlined text-white" style={{ fontSize: 10 }}>play_arrow</span>
                       </div>
                     )}
                   </div>
                 ))}
                 {scopedItems.length > 4 && (
-                  <div className="w-8 h-8 rounded-lg bg-[#C8553A]/20 border-2 border-[#1c1b1b] flex items-center justify-center">
+                  <div className="w-8 h-8 rounded-lg bg-[#C8553A]/20 border-2 border-[#15140F]/18 flex items-center justify-center">
                     <span className="text-[9px] font-bold text-[#C8553A]">+{scopedItems.length - 4}</span>
                   </div>
                 )}
@@ -396,11 +396,11 @@ export default function AnalyzeModal({
 
           {/* ── Error ── */}
           {!analysisLoading && analysisError && (
-            <div className="flex items-start gap-2.5 px-3.5 py-3 rounded-xl bg-red-500/8 border border-red-500/15">
-              <span className="material-symbols-outlined text-red-400 text-[15px] shrink-0 mt-0.5">error</span>
+            <div className="flex items-start gap-2.5 px-3.5 py-3 rounded-xl bg-[#A8362A]/8 border border-[#A8362A]/15">
+              <span className="material-symbols-outlined text-[#A8362A] text-[15px] shrink-0 mt-0.5">error</span>
               <div className="flex-1 min-w-0">
-                <p className="text-[11px] text-red-400 leading-relaxed">{analysisError}</p>
-                <button onClick={() => runAnalysis(analysisScope ?? (hasVideos ? 'videos' : 'images'))} className="mt-1.5 text-[10px] text-red-400/60 hover:text-red-400 underline transition-colors">
+                <p className="text-[11px] text-[#A8362A] leading-relaxed">{analysisError}</p>
+                <button onClick={() => runAnalysis(analysisScope ?? (hasVideos ? 'videos' : 'images'))} className="mt-1.5 text-[10px] text-[#A8362A]/60 hover:text-[#A8362A] underline transition-colors">
                   Try again
                 </button>
               </div>
@@ -421,7 +421,7 @@ export default function AnalyzeModal({
                       onClick={() => setPickedCaption(picked ? null : c)}
                       className={[
                         'w-full text-left p-3.5 rounded-xl transition-all text-sm leading-relaxed border',
-                        picked ? 'bg-[#C8553A]/12 border-[#C8553A]/40 text-[#15140F]' : 'text-[#3D3A30] border-transparent bg-[#252424] hover:bg-[#C8553A]/8 hover:border-[#C8553A]/15',
+                        picked ? 'bg-[#C8553A]/12 border-[#C8553A]/40 text-[#15140F]' : 'text-[#3D3A30] border-transparent bg-[#EFE9DC] hover:bg-[#C8553A]/8 hover:border-[#C8553A]/15',
                       ].join(' ')}
                     >
                       <div className="flex items-start gap-2.5">
@@ -443,7 +443,7 @@ export default function AnalyzeModal({
                     <p className="text-[10px] font-bold uppercase tracking-widest text-[#6B655B]/70">Hashtags</p>
                     <div className="flex gap-0.5">
                       <button onClick={() => setPickedHashtags(analysisResult.hashtags)} className="text-[9px] text-[#6B655B] hover:text-[#C8553A] transition-colors px-2 py-1 rounded-lg hover:bg-[#C8553A]/8">Select all</button>
-                      {pickedHashtags.length > 0 && <button onClick={() => setPickedHashtags([])} className="text-[9px] text-[#6B655B] hover:text-red-400 transition-colors px-2 py-1 rounded-lg hover:bg-red-400/8">Clear</button>}
+                      {pickedHashtags.length > 0 && <button onClick={() => setPickedHashtags([])} className="text-[9px] text-[#6B655B] hover:text-[#A8362A] transition-colors px-2 py-1 rounded-lg hover:bg-[#A8362A]/8">Clear</button>}
                     </div>
                   </div>
                   <div className="flex flex-wrap gap-1.5">

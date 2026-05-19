@@ -32,8 +32,8 @@ export default class ErrorBoundary extends Component<Props, State> {
       return (
         <div className="min-h-screen bg-[#F6F2EA] flex items-center justify-center p-8">
           <div className="bg-[#FBF8F2] rounded-3xl border border-border p-10 max-w-md w-full text-center space-y-5">
-            <div className="w-14 h-14 rounded-2xl bg-[#ffb4ab]/10 border border-[#ffb4ab]/20 flex items-center justify-center mx-auto">
-              <span className="material-symbols-outlined text-[#ffb4ab]" style={{ fontSize: 26 }}>
+            <div className="w-14 h-14 rounded-2xl bg-[#A8362A]/10 border border-[#A8362A]/20 flex items-center justify-center mx-auto">
+              <span className="material-symbols-outlined text-[#A8362A]" style={{ fontSize: 26 }}>
                 error
               </span>
             </div>

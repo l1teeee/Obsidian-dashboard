@@ -44,7 +44,7 @@ export default function CalendarNav({ navLabel, view, onBack, onForward, onToday
             className={[
               'px-4 py-1.5 rounded-lg text-xs font-bold capitalize transition-all',
               view === v
-                ? 'bg-[#C8553A] text-[#2f004d] shadow-[0_0_12px_rgba(200,85,58,0.2)]'
+                ? 'bg-[#C8553A] text-white shadow-[0_0_12px_rgba(200,85,58,0.2)]'
                 : 'text-[#6B655B] hover:text-[#15140F]',
             ].join(' ')}
           >

@@ -150,7 +150,7 @@ function PlanStep({
             isSame || loading
               ? 'bg-[#252323] text-[#15140F] cursor-not-allowed'
               : isDowngrade
-                ? 'bg-[#ffb4ab]/10 border border-[#ffb4ab]/30 text-[#ffb4ab] hover:bg-[#ffb4ab]/20'
+                ? 'bg-[#A8362A]/10 border border-[#A8362A]/30 text-[#A8362A] hover:bg-[#A8362A]/20'
                 : 'bg-[#C8553A] text-white shadow-[0_0_20px_rgba(200,85,58,0.25)] hover:shadow-[0_0_30px_rgba(200,85,58,0.4)] hover:bg-[#A53F28]',
           ].join(' ')}
         >
@@ -314,7 +314,7 @@ function CheckoutStep({
         </button>
 
         {error && (
-          <p className="text-xs text-[#ffb4ab] px-3 py-2 rounded-xl bg-[#ffb4ab]/10 border border-[#ffb4ab]/20 text-center">
+          <p className="text-xs text-[#A8362A] px-3 py-2 rounded-xl bg-[#A8362A]/10 border border-[#A8362A]/20 text-center">
             {error}
           </p>
         )}

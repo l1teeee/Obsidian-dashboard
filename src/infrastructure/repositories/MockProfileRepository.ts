@@ -27,7 +27,7 @@ const ACTIVITY: ActivityEntry[] = [
   { action: 'Scheduled 3 posts',  detail: 'Instagram · LinkedIn · Facebook',  time: '5 hours ago', icon: 'schedule',      color: '#C8553A' },
   { action: 'Connected platform', detail: 'Instagram reconnected',            time: 'Yesterday',   icon: 'link',          color: '#C8553A' },
   { action: 'Export report',      detail: 'Post #88291 analytics PDF',        time: '2 days ago',  icon: 'download',      color: '#988d9c' },
-  { action: 'Post failed',        detail: '"Tech Nostalgia: Why We Crave…"',  time: '3 days ago',  icon: 'error_outline', color: '#ffb4ab' },
+  { action: 'Post failed',        detail: '"Tech Nostalgia: Why We Crave…"',  time: '3 days ago',  icon: 'error_outline', color: '#A8362A' },
 ];
 
 const NOTIFICATION_PREFS: NotificationPref[] = [

@@ -87,7 +87,7 @@ export default function ChannelSelector({
                 className={[
                   'relative flex-1 flex items-center gap-3 py-3.5 px-4 rounded-2xl border transition-colors duration-150 select-none cursor-pointer text-sm font-medium',
                   active && isPreferred
-                    ? 'border-[#ffd166]/50 bg-[#ffd166]/8 text-[#15140F]'
+                    ? 'border-[#C8553A]/50 bg-[#C8553A]/8 text-[#15140F]'
                     : active
                       ? 'border-[#C8553A]/30 bg-[#C8553A]/8 text-[#15140F]'
                       : 'border-[#15140F]/15 bg-transparent text-[#6B655B] hover:border-[#15140F]/30 hover:text-[#15140F]',
@@ -103,7 +103,7 @@ export default function ChannelSelector({
                     style={{
                       fontSize: 14,
                       fontVariationSettings: "'FILL' 1",
-                      color: isPreferred ? '#ffd166' : '#4c4450',
+                      color: isPreferred ? '#C8553A' : '#6B655B',
                     }}
                   >
                     star
@@ -114,15 +114,15 @@ export default function ChannelSelector({
                 <span
                   className={[
                     'flex h-10 w-10 shrink-0 items-center justify-center rounded-xl transition-colors',
-                    active && isPreferred ? 'bg-[#ffd166]/15'
+                    active && isPreferred ? 'bg-[#C8553A]/15'
                     : active             ? 'bg-[#C8553A]/15'
                     :                      'bg-[#EFE9DC]',
                   ].join(' ')}
                 >
                   <span style={{
-                    color: active && isPreferred ? '#ffd166'
+                    color: active && isPreferred ? '#C8553A'
                          : active               ? '#C8553A'
-                         :                        '#4c4450',
+                         :                        '#6B655B',
                   }}>
                     {meta.icon}
                   </span>

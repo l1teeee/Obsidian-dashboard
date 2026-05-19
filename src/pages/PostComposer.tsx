@@ -287,7 +287,7 @@ export default function PostComposer() {
                     {isSavingDraft ? 'Saving…' : isUploadingMedia ? 'Uploading…' : 'Save Draft'}
                   </button>
                   {hasUploadErrors && (
-                    <span className="text-[9px] text-[#ffb4ab]/70 tracking-wide leading-none">
+                    <span className="text-[9px] text-[#A8362A]/70 tracking-wide leading-none">
                       upload failed
                     </span>
                   )}
@@ -300,7 +300,7 @@ export default function PostComposer() {
                     : hasUploadErrors ? 'Remove failed media before publishing'
                     : undefined
                   }
-                  className="flex items-center gap-2 text-sm font-semibold bg-[#C8553A] text-[#5e2388] rounded-xl px-4 md:px-6 py-2 shadow-[0_0_20px_rgba(200,85,58,0.2)] hover:shadow-[0_0_30px_rgba(200,85,58,0.4)] transition-all active:scale-95 disabled:opacity-60"
+                  className="flex items-center gap-2 text-sm font-semibold bg-[#C8553A] text-white rounded-xl px-4 md:px-6 py-2 shadow-[0_0_20px_rgba(200,85,58,0.2)] hover:shadow-[0_0_30px_rgba(200,85,58,0.4)] transition-all active:scale-95 disabled:opacity-60"
                 >
                   {isSubmitting
                     ? <><span className="material-symbols-outlined text-[14px] animate-spin">progress_activity</span> {isScheduleMode ? 'Scheduling…' : 'Publishing…'}</>
@@ -346,13 +346,13 @@ export default function PostComposer() {
 
                   {/* No-account warning */}
                   {unconnectedChannelNames.length > 0 && (
-                    <div className="flex items-start gap-3 px-4 py-3 rounded-2xl bg-[#ffd166]/8 border border-[#ffd166]/20">
-                      <span className="material-symbols-outlined text-[#ffd166] shrink-0 mt-0.5" style={{ fontSize: 16, fontVariationSettings: "'FILL' 1" }}>
+                    <div className="flex items-start gap-3 px-4 py-3 rounded-2xl bg-[#B7841E]/8 border border-[#B7841E]/20">
+                      <span className="material-symbols-outlined text-[#B7841E] shrink-0 mt-0.5" style={{ fontSize: 16, fontVariationSettings: "'FILL' 1" }}>
                         warning
                       </span>
                       <div>
-                        <p className="text-xs font-semibold text-[#ffd166]">No account connected</p>
-                        <p className="text-[10px] text-[#ffd166]/70 mt-0.5 leading-relaxed">
+                        <p className="text-xs font-semibold text-[#B7841E]">No account connected</p>
+                        <p className="text-[10px] text-[#B7841E]/70 mt-0.5 leading-relaxed">
                           <strong>{unconnectedChannelNames.join(', ')}</strong>{' '}
                           {unconnectedChannelNames.length > 1 ? 'have' : 'has'} no connected account.
                           You can save as draft but cannot publish or schedule.
@@ -405,11 +405,11 @@ export default function PostComposer() {
 
                   {/* Upload error notice */}
                   {hasUploadErrors && (
-                    <div className="flex items-start gap-2.5 px-3.5 py-2.5 rounded-xl bg-[#ffb4ab]/8 border border-[#ffb4ab]/20">
-                      <span className="material-symbols-outlined text-[#ffb4ab] shrink-0 mt-px" style={{ fontSize: 14 }}>
+                    <div className="flex items-start gap-2.5 px-3.5 py-2.5 rounded-xl bg-[#A8362A]/8 border border-[#A8362A]/20">
+                      <span className="material-symbols-outlined text-[#A8362A] shrink-0 mt-px" style={{ fontSize: 14 }}>
                         warning
                       </span>
-                      <p className="text-[11px] text-[#ffb4ab]/90 leading-relaxed">
+                      <p className="text-[11px] text-[#A8362A]/90 leading-relaxed">
                         One or more files failed to upload. Remove them and try again before saving.
                       </p>
                     </div>

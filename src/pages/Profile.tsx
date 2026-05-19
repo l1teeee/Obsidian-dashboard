@@ -75,18 +75,18 @@ export default function Profile() {
                 <PlanCard />
                 <ActivityFeed activity={activity} />
 
-                <div data-section className="bg-[#EFE9DC] rounded-3xl border border-[#ffb4ab]/10 overflow-hidden">
-                  <div className="px-6 py-5 border-b border-[#ffb4ab]/5 bg-[#ffb4ab]/5">
-                    <h3 className="font-headline font-bold text-[#ffb4ab] flex items-center gap-2 text-sm">
+                <div data-section className="surface-card overflow-hidden">
+                  <div className="px-6 py-5 border-b border-[#A8362A]/10 bg-[#A8362A]/5">
+                    <h3 className="font-headline font-bold text-[#A8362A] flex items-center gap-2 text-sm">
                       <span className="material-symbols-outlined text-[18px]">warning</span>
                       Danger Zone
                     </h3>
                   </div>
                   <div className="p-6 space-y-3">
-                    <button className="w-full py-2.5 rounded-xl border border-[#15140F]/20 text-[#6B655B] text-sm hover:border-[#ffb4ab]/30 hover:text-[#ffb4ab] transition-all">
+                    <button className="w-full py-2.5 rounded-xl border border-[#15140F]/20 text-[#6B655B] text-sm hover:border-[#A8362A]/30 hover:text-[#A8362A] transition-all">
                       Deactivate Account
                     </button>
-                    <button className="w-full py-2.5 rounded-xl border border-[#ffb4ab]/20 text-[#ffb4ab] text-sm hover:bg-[#ffb4ab]/10 transition-all">
+                    <button className="w-full py-2.5 rounded-xl border border-[#A8362A]/25 text-[#A8362A] text-sm hover:bg-[#A8362A]/8 transition-all">
                       Delete Account
                     </button>
                   </div>

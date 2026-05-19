@@ -75,7 +75,7 @@ export default function SchedulePicker({
           className={[
             'flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-xs font-bold transition-all',
             !isScheduleMode
-              ? 'bg-[#C8553A] text-[#2f004d] shadow-[0_0_16px_rgba(200,85,58,0.3)]'
+              ? 'bg-[#C8553A] text-white shadow-[0_0_16px_rgba(200,85,58,0.3)]'
               : 'text-[#6B655B] hover:text-[#15140F]',
           ].join(' ')}
         >
@@ -91,7 +91,7 @@ export default function SchedulePicker({
           className={[
             'flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-xs font-bold transition-all',
             isScheduleMode
-              ? 'bg-[#C8553A] text-[#2f004d] shadow-[0_0_16px_rgba(200,85,58,0.3)]'
+              ? 'bg-[#C8553A] text-white shadow-[0_0_16px_rgba(200,85,58,0.3)]'
               : 'text-[#6B655B] hover:text-[#15140F]',
           ].join(' ')}
         >
@@ -119,9 +119,9 @@ export default function SchedulePicker({
               <p className="text-[10px] text-[#C8553A]/80 font-medium">Time suggested by AI analysis</p>
             </div>
           ) : !aiAllowed ? (
-            <div className="flex items-start gap-2.5 px-3 py-2.5 rounded-xl bg-[#f97316]/8 border border-[#f97316]/20">
-              <span className="material-symbols-outlined text-[#f97316] shrink-0 mt-0.5" style={{ fontSize: 14, fontVariationSettings: "'FILL' 1" }}>warning</span>
-              <p className="text-[10px] text-[#f97316]/90 leading-relaxed">
+            <div className="flex items-start gap-2.5 px-3 py-2.5 rounded-xl bg-[#B7841E]/8 border border-[#B7841E]/20">
+              <span className="material-symbols-outlined text-[#B7841E] shrink-0 mt-0.5" style={{ fontSize: 14, fontVariationSettings: "'FILL' 1" }}>warning</span>
+              <p className="text-[10px] text-[#B7841E]/90 leading-relaxed">
                 Monthly AI token limit reached. Upgrade your plan to use AI schedule suggestions.
               </p>
             </div>
@@ -156,7 +156,7 @@ export default function SchedulePicker({
 
           {/* Error */}
           {error && (
-            <p className="text-[10px] text-[#ffb4ab] font-medium flex items-center gap-2 px-1">
+            <p className="text-[10px] text-[#A8362A] font-medium flex items-center gap-2 px-1">
               <span className="material-symbols-outlined text-[13px]">error</span>
               {error}
             </p>

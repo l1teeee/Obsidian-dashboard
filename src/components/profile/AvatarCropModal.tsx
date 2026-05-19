@@ -75,7 +75,7 @@ export default function AvatarCropModal({ onSave, onClose }: AvatarCropModalProp
 
   return (
     <div
-      className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[300] flex items-center justify-center p-4"
+      className="fixed inset-0 bg-black/80 backdrop-blur-sm z-300 flex items-center justify-center p-4"
       onMouseDown={e => { if (e.target === e.currentTarget) onClose(); }}
     >
       <div className="w-full max-w-md bg-[#FBF8F2] border border-[#15140F]/20 rounded-3xl shadow-[0_32px_80px_rgba(0,0,0,0.7)] overflow-hidden">
@@ -149,7 +149,7 @@ export default function AvatarCropModal({ onSave, onClose }: AvatarCropModalProp
           )}
 
           {error && (
-            <p className="text-xs text-[#ffb4ab] px-3 py-2 rounded-xl bg-[#ffb4ab]/10 border border-[#ffb4ab]/20">
+            <p className="text-xs text-[#A8362A] px-3 py-2 rounded-xl bg-[#A8362A]/10 border border-[#A8362A]/20">
               {error}
             </p>
           )}
@@ -167,7 +167,7 @@ export default function AvatarCropModal({ onSave, onClose }: AvatarCropModalProp
           <button
             onClick={() => { void handleSave(); }}
             disabled={saving || !imageUrl}
-            className="px-6 py-2.5 rounded-xl bg-[#C8553A] text-[#2f004d] text-sm font-bold shadow-[0_0_20px_rgba(200,85,58,0.25)] hover:shadow-[0_0_30px_rgba(200,85,58,0.45)] active:scale-95 transition-all disabled:opacity-60 flex items-center gap-2"
+            className="px-6 py-2.5 rounded-xl bg-[#C8553A] text-white text-sm font-bold hover:bg-[#A53F28] active:scale-95 transition-all disabled:opacity-60 flex items-center gap-2"
           >
             {saving
               ? <><span className="material-symbols-outlined text-[14px] animate-spin">progress_activity</span> Uploading…</>

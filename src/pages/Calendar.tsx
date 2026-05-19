@@ -21,7 +21,7 @@ export default function Calendar() {
         actions={
           <Link
             to="/composer"
-            className="flex items-center gap-2 px-4 py-1.5 rounded-xl bg-[#C8553A] text-[#2f004d] text-xs font-bold hover:shadow-[0_0_20px_rgba(200,85,58,0.3)] transition-all active:scale-95"
+            className="flex items-center gap-2 px-4 py-1.5 rounded-xl bg-[#C8553A] text-white text-xs font-bold hover:bg-[#A53F28] transition-all active:scale-95"
           >
             <span className="material-symbols-outlined text-[14px]">add</span>
             New Post

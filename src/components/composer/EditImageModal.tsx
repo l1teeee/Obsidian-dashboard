@@ -153,8 +153,8 @@ export default function EditImageModal({
         {/* ── Header ── */}
         <div className="flex items-center justify-between px-5 py-4 border-b border-[#15140F]/25">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-[#ffd166]/15 border border-[#ffd166]/20 flex items-center justify-center">
-              <span className="material-symbols-outlined text-[#ffd166]" style={{ fontSize: 18, fontVariationSettings: "'FILL' 1" }}>edit</span>
+            <div className="w-9 h-9 rounded-xl bg-[#B7841E]/15 border border-[#B7841E]/20 flex items-center justify-center">
+              <span className="material-symbols-outlined text-[#B7841E]" style={{ fontSize: 18, fontVariationSettings: "'FILL' 1" }}>edit</span>
             </div>
             <div>
               <h2 className="text-sm font-bold text-[#15140F] leading-none mb-0.5">
@@ -181,18 +181,18 @@ export default function EditImageModal({
             <div className="rounded-2xl overflow-hidden relative" style={{ aspectRatio: '4/3', maxHeight: 240 }}>
               {editLoading ? (
                 <>
-                  <div className="absolute inset-0 bg-[#252424] animate-pulse" />
-                  <div className="absolute inset-0 -translate-x-full animate-[shimmer_1.6s_ease-in-out_infinite] bg-gradient-to-r from-transparent via-white/5 to-transparent" />
+                  <div className="absolute inset-0 bg-[#DDD8CE] animate-pulse" />
+                  <div className="absolute inset-0 -translate-x-full animate-[shimmer_1.6s_ease-in-out_infinite] bg-gradient-to-r from-transparent via-[#15140F]/6 to-transparent" />
                 </>
               ) : (
-                <img src={item.previewUrl} alt="" className="w-full h-full object-contain bg-[#111]" />
+                <img src={item.previewUrl} alt="" className="w-full h-full object-contain bg-[#EFE9DC]" />
               )}
             </div>
 
             {/* Hint */}
-            <div className="flex items-start gap-2 px-3 py-2.5 rounded-xl bg-[#ffd166]/[0.06] border border-[#ffd166]/12">
-              <span className="material-symbols-outlined text-[#ffd166]/60 shrink-0 mt-0.5" style={{ fontSize: 13 }}>info</span>
-              <p className="text-[10px] text-[#ffd166]/70 leading-snug">
+            <div className="flex items-start gap-2 px-3 py-2.5 rounded-xl bg-[#B7841E]/[0.06] border border-[#B7841E]/12">
+              <span className="material-symbols-outlined text-[#B7841E]/60 shrink-0 mt-0.5" style={{ fontSize: 13 }}>info</span>
+              <p className="text-[10px] text-[#B7841E]/70 leading-snug">
                 Describe only what to change. Everything else will be preserved.
               </p>
             </div>
@@ -208,14 +208,14 @@ export default function EditImageModal({
                 placeholder='e.g. "Make the sky sunset colors"'
                 disabled={editLoading}
                 autoFocus
-                className="w-full bg-[#252424] border border-[#15140F]/30 rounded-xl px-4 py-3 text-sm text-[#15140F] placeholder:text-[#6B655B]/40 outline-none focus:border-[#ffd166]/40 transition-colors disabled:opacity-50"
+                className="w-full bg-[#F6F2EA] border border-[#15140F]/15 rounded-xl px-4 py-3 text-sm text-[#15140F] placeholder:text-[#A39B8B] outline-none focus:border-[#C8553A]/40 transition-colors disabled:opacity-50"
               />
             </div>
 
             {editError && (
-              <div className="flex items-start gap-2 px-3 py-2.5 rounded-xl bg-red-500/8 border border-red-500/15">
-                <span className="material-symbols-outlined text-red-400 text-[14px] shrink-0 mt-0.5">error</span>
-                <p className="text-[11px] text-red-400 leading-relaxed">{editError}</p>
+              <div className="flex items-start gap-2 px-3 py-2.5 rounded-xl bg-[#A8362A]/8 border border-[#A8362A]/15">
+                <span className="material-symbols-outlined text-[#A8362A] text-[14px] shrink-0 mt-0.5">error</span>
+                <p className="text-[11px] text-[#A8362A] leading-relaxed">{editError}</p>
               </div>
             )}
 
@@ -223,7 +223,7 @@ export default function EditImageModal({
             <button
               onClick={handleEdit}
               disabled={!editPrompt.trim() || editLoading}
-              className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-[#ffd166] text-[#1a1400] text-sm font-bold transition-all disabled:opacity-40 hover:brightness-110 active:scale-[0.99] disabled:cursor-not-allowed"
+              className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-[#C8553A] text-white text-sm font-bold transition-all disabled:opacity-40 hover:brightness-110 active:scale-[0.99] disabled:cursor-not-allowed"
             >
               <span className="material-symbols-outlined text-[16px]" style={{ fontVariationSettings: "'FILL' 1" }}>edit</span>
               Apply Edit
@@ -237,7 +237,7 @@ export default function EditImageModal({
         {screen === 'result' && editResult && (
           <div className="px-5 py-5 space-y-4">
             {/* Toggle tabs */}
-            <div className="flex gap-1 p-1 bg-[#252424] rounded-xl border border-[#15140F]/20">
+            <div className="flex gap-1 p-1 bg-[#EFE9DC] rounded-xl border border-[#15140F]/10">
               {(['original', 'edited'] as const).map(side => (
                 <button
                   key={side}
@@ -245,8 +245,8 @@ export default function EditImageModal({
                   className={`flex-1 flex items-center justify-center gap-1.5 py-2 rounded-[10px] text-[11px] font-bold uppercase tracking-wider transition-all ${
                     previewSide === side
                       ? side === 'edited'
-                        ? 'bg-[#ffd166]/20 text-[#ffd166]'
-                        : 'bg-white/10 text-[#15140F]'
+                        ? 'bg-[#B7841E]/20 text-[#B7841E]'
+                        : 'bg-[#EFE9DC] text-[#6B655B]'
                       : 'text-[#6B655B] hover:text-[#3D3A30]'
                   }`}
                 >
@@ -259,7 +259,7 @@ export default function EditImageModal({
             </div>
 
             {/* Image display */}
-            <div className="rounded-2xl overflow-hidden bg-[#111] flex items-center justify-center relative" style={{ aspectRatio: '4/3', maxHeight: 280 }}>
+            <div className="rounded-2xl overflow-hidden bg-[#EFE9DC] flex items-center justify-center relative" style={{ aspectRatio: '4/3', maxHeight: 280 }}>
               {/* Original */}
               <img
                 src={item.previewUrl}
@@ -275,7 +275,7 @@ export default function EditImageModal({
               {/* Label badge */}
               <div className={`absolute top-2 left-2 px-2 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider transition-all ${
                 previewSide === 'edited'
-                  ? 'bg-[#ffd166]/80 text-[#1a1400]'
+                  ? 'bg-[#C8553A]/80 text-white'
                   : 'bg-white/20 text-[#15140F] backdrop-blur-sm'
               }`}>
                 {previewSide === 'edited' ? 'Edited' : 'Original'}
@@ -289,8 +289,8 @@ export default function EditImageModal({
                   onClick={() => setShowPromptTip(p => !p)}
                   className={`w-8 h-8 rounded-full flex items-center justify-center transition-all border ${
                     showPromptTip
-                      ? 'bg-[#ffd166]/20 border-[#ffd166]/40 text-[#ffd166]'
-                      : 'bg-[#252424] border-[#15140F]/25 text-[#6B655B] hover:text-[#ffd166] hover:border-[#ffd166]/30'
+                      ? 'bg-[#B7841E]/20 border-[#B7841E]/40 text-[#B7841E]'
+                      : 'bg-[#EFE9DC] border-[#15140F]/20 text-[#6B655B] hover:text-[#B7841E] hover:border-[#B7841E]/30'
                   }`}
                   title="View instruction"
                 >
@@ -303,7 +303,7 @@ export default function EditImageModal({
                       <p className="text-[11px] text-[#15140F] italic leading-relaxed">"{editPrompt}"</p>
                       <button
                         onClick={copyInstruction}
-                        className="mt-2.5 flex items-center gap-1.5 text-[9px] font-semibold text-[#6B655B] hover:text-[#ffd166] transition-colors"
+                        className="mt-2.5 flex items-center gap-1.5 text-[9px] font-semibold text-[#6B655B] hover:text-[#B7841E] transition-colors"
                       >
                         <span className="material-symbols-outlined text-[11px]">{promptCopied ? 'check' : 'content_copy'}</span>
                         {promptCopied ? 'Copied!' : 'Copy'}
@@ -323,7 +323,7 @@ export default function EditImageModal({
               {/* Accept */}
               <button
                 onClick={handleAccept}
-                className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-[#ffd166] text-[#1a1400] text-sm font-bold transition-all hover:brightness-110 active:scale-[0.99]"
+                className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-[#C8553A] text-white text-sm font-bold transition-all hover:brightness-110 active:scale-[0.99]"
               >
                 <span className="material-symbols-outlined text-[16px]" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
                 Use edited version
@@ -332,7 +332,7 @@ export default function EditImageModal({
               {/* Try again */}
               <button
                 onClick={handleTryAgain}
-                className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl bg-[#252424] border border-[#15140F]/25 text-[#3D3A30] text-sm font-semibold hover:border-[#15140F]/50 hover:bg-[#2a2929] transition-all active:scale-[0.99]"
+                className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl bg-[#EFE9DC] border border-[#15140F]/15 text-[#3D3A30] text-sm font-semibold hover:border-[#15140F]/35 hover:bg-[#E5DFD5] transition-all active:scale-[0.99]"
               >
                 <span className="material-symbols-outlined text-[16px]">refresh</span>
                 Try different instruction

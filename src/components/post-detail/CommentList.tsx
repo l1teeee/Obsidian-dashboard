@@ -55,7 +55,7 @@ export default function CommentList({ comments, commentsCount }: CommentListProp
             className="flex-1 bg-transparent border-none focus:ring-0 text-sm px-4 text-[#15140F] placeholder:text-[#6B655B]/50 outline-none"
             placeholder="Write a response..."
           />
-          <button className="bg-[#C8553A] text-[#5e2388] w-10 h-10 rounded-xl flex items-center justify-center active:scale-90 transition-transform shrink-0">
+          <button className="bg-[#C8553A] text-white w-10 h-10 rounded-xl flex items-center justify-center active:scale-90 transition-transform shrink-0">
             <span className="material-symbols-outlined text-[18px]">send</span>
           </button>
         </div>

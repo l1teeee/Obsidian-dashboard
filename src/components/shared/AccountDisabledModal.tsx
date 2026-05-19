@@ -22,9 +22,9 @@ export default function AccountDisabledModal({ onClose }: Props) {
           visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
         }`}
       >
-        <div className="w-12 h-12 rounded-2xl bg-[#ffd166]/10 border border-[#ffd166]/20 flex items-center justify-center mb-5">
+        <div className="w-12 h-12 rounded-2xl bg-[#B7841E]/10 border border-[#B7841E]/20 flex items-center justify-center mb-5">
           <span
-            className="material-symbols-outlined text-[#ffd166]"
+            className="material-symbols-outlined text-[#B7841E]"
             style={{ fontSize: 22, fontVariationSettings: "'FILL' 1" }}
           >
             block
@@ -38,7 +38,7 @@ export default function AccountDisabledModal({ onClose }: Props) {
 
         <button
           onClick={onClose}
-          className="w-full py-2.5 rounded-xl bg-[#ffd166]/15 text-[#ffd166] text-sm font-bold hover:bg-[#ffd166]/25 transition-colors border border-[#ffd166]/20"
+          className="w-full py-2.5 rounded-xl bg-[#B7841E]/15 text-[#B7841E] text-sm font-bold hover:bg-[#B7841E]/25 transition-colors border border-[#B7841E]/20"
         >
           Back to login
         </button>

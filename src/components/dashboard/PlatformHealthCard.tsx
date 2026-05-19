@@ -29,7 +29,7 @@ export default function PlatformHealthCard({ platform: p, cardRef }: PlatformHea
           <div>
             <h4 className="font-bold text-[#15140F] text-sm">{p.name}</h4>
             <div className="flex items-center gap-1.5 mt-0.5">
-              <div className={`w-1.5 h-1.5 rounded-full ${ok ? 'bg-[#4F7A4A]' : 'bg-[#ffb4ab] animate-pulse'}`} />
+              <div className={`w-1.5 h-1.5 rounded-full ${ok ? 'bg-[#4F7A4A]' : 'bg-[#A8362A] animate-pulse'}`} />
               <span className="text-xs text-[#6B655B] uppercase tracking-[0.12em]">
                 {ok ? 'Connected' : 'Auth Expired'}
               </span>

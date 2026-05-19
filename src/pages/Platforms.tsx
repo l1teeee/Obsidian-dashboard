@@ -44,13 +44,8 @@ function ConnectionCard({ conn, disconnecting, syncingIg, selectingPage, hasInst
   return (
     <div
       data-platform-card
-      className="glass-card rounded-2xl p-5 border border-[#15140F]/10 hover:border-[#C8553A]/30 transition-all duration-500 group relative overflow-hidden"
+      className="surface-card p-5 hover:border-[#C8553A]/25 transition-all duration-300 group"
     >
-      {/* Glow */}
-      <div
-        className="absolute -top-16 -right-16 w-32 h-32 rounded-full blur-[48px] pointer-events-none opacity-20"
-        style={{ background: conn.platform === 'instagram' ? '#bc1888' : '#1877F2' }}
-      />
 
       {/* Header row */}
       <div className="flex items-center gap-3 mb-4">
@@ -223,7 +218,7 @@ function ConnectionCard({ conn, disconnecting, syncingIg, selectingPage, hasInst
         <button
           disabled={disconnecting === conn.id}
           onClick={() => onDisconnect(conn.id, conn.account_name)}
-          className="flex-1 py-2.5 rounded-lg text-xs transition-all active:scale-[0.98] border border-[#15140F]/30 text-[#6B655B] hover:bg-[#ffb4ab]/10 hover:border-[#ffb4ab]/20 hover:text-[#ffb4ab] disabled:opacity-50"
+          className="flex-1 py-2.5 rounded-lg text-xs transition-all active:scale-[0.98] border border-[#15140F]/30 text-[#6B655B] hover:bg-[#A8362A]/10 hover:border-[#A8362A]/20 hover:text-[#A8362A] disabled:opacity-50"
         >
           {disconnecting === conn.id ? 'Disconnecting…' : 'Disconnect'}
         </button>
@@ -298,27 +293,24 @@ export default function Platforms() {
         actions={
           <button
             onClick={() => setModalOpen(true)}
-            className="bg-[#e4b9ff] hover:bg-[#e2b5ff] text-[#2f004d] px-4 py-1.5 rounded-xl text-xs font-bold transition-all active:scale-95"
+            className="bg-[#C8553A] hover:bg-[#A53F28] text-white px-4 py-1.5 rounded-xl text-xs font-bold transition-all active:scale-95"
           >
             Add New Connection
           </button>
         }
       />
 
-      <main className="flex-1 p-10 bg-[#F6F2EA]" style={{ background: 'radial-gradient(circle at center, rgba(200,85,58,0.04) 0%, transparent 70%)' }}>
+      <main className="flex-1 p-8 md:p-10 bg-[#F6F2EA]">
 
         {/* Header */}
-        <header data-header-section className="mb-12 space-y-4">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#C8553A]/10 border border-[#C8553A]/20">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#C8553A]" />
-            <span className="text-[10px] uppercase tracking-widest font-bold text-[#C8553A]">
-              {connections.length > 0 ? `${connections.length} account${connections.length > 1 ? 's' : ''} connected` : 'No accounts connected'}
-            </span>
-          </div>
-          <h2 className="font-headline text-5xl font-extrabold tracking-tighter text-[#15140F] max-w-2xl leading-[1.1]">
-            Bridge your digital <span className="text-[#C8553A]">ecosystem.</span>
+        <header data-header-section className="mb-8 space-y-1">
+          <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-[#C8553A]">
+            {connections.length > 0 ? `${connections.length} account${connections.length > 1 ? 's' : ''} connected` : 'No accounts connected'}
+          </p>
+          <h2 className="font-headline text-2xl font-extrabold tracking-tight text-[#15140F]">
+            Platform Connections
           </h2>
-          <p className="text-[#3D3A30] max-w-lg text-lg leading-relaxed font-light">
+          <p className="text-[#6B655B] text-sm">
             Connect your Facebook and Instagram accounts to publish directly from this dashboard.
           </p>
         </header>
@@ -327,7 +319,7 @@ export default function Platforms() {
         {loading && (
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
             {[1, 2].map(i => (
-              <div key={i} className="glass-card rounded-3xl p-8 border border-[#15140F]/10 animate-pulse min-h-[280px]" />
+              <div key={i} className="surface-card p-8 animate-pulse min-h-70" />
             ))}
           </div>
         )}
@@ -508,7 +500,7 @@ export default function Platforms() {
                     }
                   }}
                   placeholder="e.g. 123456789012345"
-                  className="w-full bg-[#111] border border-[#15140F]/30 rounded-xl px-4 py-3 text-sm text-[#15140F] placeholder-[#15140F] focus:outline-none focus:border-[#1877F2]/50 font-mono"
+                  className="w-full bg-[#FBF8F2] border border-[#15140F]/20 rounded-xl px-4 py-3 text-sm text-[#15140F] placeholder:text-[#A39B8B] focus:outline-none focus:border-[#C8553A]/50 transition-all font-mono"
                   autoFocus
                 />
               </div>

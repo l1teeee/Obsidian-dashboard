@@ -14,7 +14,7 @@ export default function IGPreview({ caption, mediaPreviews, igAccountName }: IGP
   const next = () => setCurrent(i => (i + 1) % count);
 
   return (
-    <div className="w-full h-full bg-black flex flex-col pt-5">
+    <div className="w-full h-full bg-white flex flex-col pt-5">
       {/* Top bar */}
       <div className="px-4 pb-2 flex justify-between items-center shrink-0">
         <span className="text-[#15140F] font-bold text-base font-headline">Instagram</span>
@@ -28,7 +28,7 @@ export default function IGPreview({ caption, mediaPreviews, igAccountName }: IGP
         {/* Author row */}
         <div className="flex items-center gap-2 px-3 py-2">
           <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-yellow-400 via-red-500 to-purple-600 p-[1.5px] shrink-0">
-            <div className="w-full h-full rounded-full bg-black flex items-center justify-center">
+            <div className="w-full h-full rounded-full bg-white flex items-center justify-center">
               <span className="text-[#C8553A] text-[11px] font-bold">
                 {igAccountName ? igAccountName[0].toUpperCase() : 'I'}
               </span>
@@ -54,7 +54,7 @@ export default function IGPreview({ caption, mediaPreviews, igAccountName }: IGP
               {/* Counter badge */}
               {count > 1 && (
                 <div className="absolute top-2 right-2 bg-black/60 rounded-full px-2 py-0.5">
-                  <span className="text-[10px] font-bold text-[#15140F]">{current + 1}/{count}</span>
+                  <span className="text-[10px] font-bold text-white">{current + 1}/{count}</span>
                 </div>
               )}
 
@@ -64,7 +64,7 @@ export default function IGPreview({ caption, mediaPreviews, igAccountName }: IGP
                   onClick={prev}
                   className="absolute left-1.5 top-1/2 -translate-y-1/2 w-7 h-7 rounded-full bg-black/50 flex items-center justify-center hover:bg-black/70 transition-colors"
                 >
-                  <span className="material-symbols-outlined text-[#15140F] text-[16px]">chevron_left</span>
+                  <span className="material-symbols-outlined text-white text-[16px]">chevron_left</span>
                 </button>
               )}
               {count > 1 && current < count - 1 && (
@@ -72,7 +72,7 @@ export default function IGPreview({ caption, mediaPreviews, igAccountName }: IGP
                   onClick={next}
                   className="absolute right-1.5 top-1/2 -translate-y-1/2 w-7 h-7 rounded-full bg-black/50 flex items-center justify-center hover:bg-black/70 transition-colors"
                 >
-                  <span className="material-symbols-outlined text-[#15140F] text-[16px]">chevron_right</span>
+                  <span className="material-symbols-outlined text-white text-[16px]">chevron_right</span>
                 </button>
               )}
 
@@ -120,7 +120,7 @@ export default function IGPreview({ caption, mediaPreviews, igAccountName }: IGP
       </div>
 
       {/* Nav bar */}
-      <div className="h-12 border-t border-[#D8D2C4] flex justify-around items-center bg-black shrink-0">
+      <div className="h-12 border-t border-[#D8D2C4] flex justify-around items-center bg-white shrink-0">
         {['home', 'search', 'add_box', 'video_library'].map(icon => (
           <span key={icon} className="material-symbols-outlined text-[#15140F] text-[20px]">{icon}</span>
         ))}

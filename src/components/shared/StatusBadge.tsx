@@ -4,9 +4,9 @@ const STYLES: Record<PostStatus, string> = {
   published: 'bg-[#4F7A4A]/15 text-[#4F7A4A] border-[#4F7A4A]/20',
   scheduled: 'bg-[#C8553A]/15 text-[#C8553A] border-[#C8553A]/20',
   draft:     'bg-white/5 text-[#A39B8B] border-white/10',
-  failed:    'bg-[#ffb4ab]/15 text-[#ffb4ab] border-[#ffb4ab]/20',
-  inactive:  'bg-[#ffd166]/10 text-[#ffd166] border-[#ffd166]/20',
-  deleted:   'bg-[#ffb4ab]/10 text-[#ffb4ab]/60 border-[#ffb4ab]/10 line-through',
+  failed:    'bg-[#A8362A]/15 text-[#A8362A] border-[#A8362A]/20',
+  inactive:  'bg-[#B7841E]/10 text-[#B7841E] border-[#B7841E]/20',
+  deleted:   'bg-[#A8362A]/10 text-[#A8362A]/60 border-[#A8362A]/10 line-through',
 };
 
 interface StatusBadgeProps {

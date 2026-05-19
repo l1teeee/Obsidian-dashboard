@@ -10,7 +10,7 @@ const METRIC_STYLE: Record<string, { icon: string; color: string }> = {
   'Likes':       { icon: 'favorite',    color: '#ff6b9d' },
   'Comments':    { icon: 'chat_bubble', color: '#4F7A4A' },
   'Shares':      { icon: 'share',       color: '#4ecdc4' },
-  'Clicks':      { icon: 'ads_click',   color: '#ffd166' },
+  'Clicks':      { icon: 'ads_click',   color: '#B7841E' },
   'Eng. Rate':   { icon: 'trending_up', color: '#4F7A4A' },
 };
 

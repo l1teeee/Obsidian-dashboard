@@ -45,7 +45,7 @@ export default function PreviewPanel({
               onClick={() => onTabChange(ch.id)}
               className={`flex items-center gap-2 px-5 py-2 rounded-full text-xs font-bold transition-all ${
                 previewTab === ch.id
-                  ? 'bg-[#C8553A] text-[#5e2388] shadow-lg'
+                  ? 'bg-[#C8553A] text-white shadow-lg'
                   : 'text-[#6B655B] hover:text-[#15140F]'
               }`}
             >

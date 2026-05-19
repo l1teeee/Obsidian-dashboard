@@ -88,7 +88,7 @@ export default function ChangePasswordModal({ onClose }: ChangePasswordModalProp
   return (
     <div
       ref={overlayRef}
-      className="fixed inset-0 bg-black/70 backdrop-blur-sm z-[200] flex items-center justify-center p-4"
+      className="fixed inset-0 bg-black/70 backdrop-blur-sm z-200 flex items-center justify-center p-4"
       onMouseDown={e => { if (e.target === overlayRef.current) handleClose(); }}
     >
       <div
@@ -122,14 +122,14 @@ export default function ChangePasswordModal({ onClose }: ChangePasswordModalProp
                 value={confirm}
                 onChange={e => setConfirm(e.target.value)}
                 placeholder="••••••••"
-                className={`${inputCls} ${confirm && confirm !== next ? 'border-[#ffb4ab]/60' : ''}`}
+                className={`${inputCls} ${confirm && confirm !== next ? 'border-[#A8362A]/60' : ''}`}
                 disabled={saving || success}
               />
             </div>
           </div>
 
           {error && (
-            <p className="text-xs text-[#ffb4ab] px-3 py-2 rounded-xl bg-[#ffb4ab]/10 border border-[#ffb4ab]/20">
+            <p className="text-xs text-[#A8362A] px-3 py-2 rounded-xl bg-[#A8362A]/10 border border-[#A8362A]/20">
               {error}
             </p>
           )}
@@ -154,7 +154,7 @@ export default function ChangePasswordModal({ onClose }: ChangePasswordModalProp
           <button
             onClick={() => { void handleSave(); }}
             disabled={saving || success || !current || !next || !confirm}
-            className="px-6 py-2.5 rounded-xl bg-[#C8553A] text-[#2f004d] text-sm font-bold shadow-[0_0_20px_rgba(200,85,58,0.25)] hover:shadow-[0_0_30px_rgba(200,85,58,0.45)] active:scale-95 transition-all disabled:opacity-60 flex items-center gap-2"
+            className="px-6 py-2.5 rounded-xl bg-[#C8553A] text-white text-sm font-bold hover:bg-[#A53F28] active:scale-95 transition-all disabled:opacity-60 flex items-center gap-2"
           >
             {saving
               ? <><span className="material-symbols-outlined text-[14px] animate-spin">progress_activity</span> Saving…</>

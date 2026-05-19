@@ -314,7 +314,7 @@ export default function AIGeneratorModal({
           <>
             {/* Mode toggle */}
             <div className="px-5 pt-4 shrink-0">
-              <div className="flex gap-1 p-1 bg-[#252424] rounded-xl border border-[#15140F]/20">
+              <div className="flex gap-1 p-1 bg-[#EFE9DC] rounded-xl border border-[#15140F]/10">
                 {(['single', 'carousel'] as const).map(mode => (
                   <button
                     key={mode}
@@ -337,9 +337,9 @@ export default function AIGeneratorModal({
             <div className="flex-1 overflow-y-auto px-5 py-4 space-y-4 min-h-0">
               {/* Token limit banner */}
               {!aiAllowed && (
-                <div className="flex items-start gap-2.5 px-3 py-2.5 rounded-xl bg-[#f97316]/8 border border-[#f97316]/20">
-                  <span className="material-symbols-outlined text-[#f97316] shrink-0 mt-0.5" style={{ fontSize: 14, fontVariationSettings: "'FILL' 1" }}>warning</span>
-                  <p className="text-[10px] text-[#f97316]/90 leading-relaxed">
+                <div className="flex items-start gap-2.5 px-3 py-2.5 rounded-xl bg-[#B7841E]/8 border border-[#B7841E]/20">
+                  <span className="material-symbols-outlined text-[#B7841E] shrink-0 mt-0.5" style={{ fontSize: 14, fontVariationSettings: "'FILL' 1" }}>warning</span>
+                  <p className="text-[10px] text-[#B7841E]/90 leading-relaxed">
                     Monthly AI token limit reached. Upgrade your plan to generate more images.
                   </p>
                 </div>
@@ -357,7 +357,7 @@ export default function AIGeneratorModal({
                       onKeyDown={e => { if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) handleGenerate(); }}
                       placeholder="A serene mountain landscape at golden hour, cinematic lighting…"
                       disabled={genLoading}
-                      className="w-full bg-[#252424] border border-[#15140F]/30 rounded-xl px-4 py-3 text-sm text-[#15140F] placeholder:text-[#6B655B]/40 outline-none focus:border-[#C8553A]/50 transition-colors resize-none disabled:opacity-50 leading-relaxed"
+                      className="w-full bg-[#F6F2EA] border border-[#15140F]/15 rounded-xl px-4 py-3 text-sm text-[#15140F] placeholder:text-[#A39B8B] outline-none focus:border-[#C8553A]/50 transition-colors resize-none disabled:opacity-50 leading-relaxed"
                     />
                   </div>
                   <div className="space-y-1.5">
@@ -371,7 +371,7 @@ export default function AIGeneratorModal({
                           className={`flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl text-[10px] font-bold uppercase tracking-wider transition-all disabled:opacity-50 ${
                             size === opt.value
                               ? 'bg-[#C8553A]/20 text-[#C8553A] border border-[#C8553A]/30'
-                              : 'bg-[#252424] text-[#6B655B] border border-[#15140F]/20 hover:border-[#C8553A]/20 hover:text-[#3D3A30]'
+                              : 'bg-[#EFE9DC] text-[#6B655B] border border-[#15140F]/12 hover:border-[#C8553A]/20 hover:text-[#3D3A30]'
                           }`}
                         >
                           <span className="material-symbols-outlined" style={{ fontSize: 13 }}>{opt.icon}</span>
@@ -395,7 +395,7 @@ export default function AIGeneratorModal({
                       onKeyDown={e => { if (e.key === 'Enter') handleGenerateSlides(); }}
                       placeholder="What's this carousel about?"
                       disabled={genLoading}
-                      className="w-full bg-[#252424] border border-[#15140F]/30 rounded-xl px-4 py-3 text-sm text-[#15140F] placeholder:text-[#6B655B]/40 outline-none focus:border-[#C8553A]/50 transition-colors disabled:opacity-50"
+                      className="w-full bg-[#F6F2EA] border border-[#15140F]/15 rounded-xl px-4 py-3 text-sm text-[#15140F] placeholder:text-[#A39B8B] outline-none focus:border-[#C8553A]/50 transition-colors disabled:opacity-50"
                     />
                   </div>
 
@@ -409,8 +409,8 @@ export default function AIGeneratorModal({
                           disabled={genLoading}
                           className={`flex items-center gap-1 px-3 py-1.5 rounded-lg text-[10px] font-semibold transition-all disabled:opacity-50 ${
                             carouselStyle === p.value
-                              ? 'bg-[#C8553A] text-[#15140F] shadow-sm'
-                              : 'bg-[#252424] text-[#6B655B] border border-[#15140F]/20 hover:border-[#C8553A]/20 hover:text-[#3D3A30]'
+                              ? 'bg-[#C8553A] text-white shadow-sm'
+                              : 'bg-[#EFE9DC] text-[#6B655B] border border-[#15140F]/12 hover:border-[#C8553A]/20 hover:text-[#3D3A30]'
                           }`}
                         >
                           <span className="text-[11px] leading-none">{p.icon}</span>
@@ -421,13 +421,13 @@ export default function AIGeneratorModal({
                         onClick={() => { setShowCustomStyle(p => !p); if (CAROUSEL_STYLE_PRESETS.some(p => p.value === carouselStyle)) setCarouselStyle(''); }}
                         disabled={genLoading}
                         className={`w-8 h-[34px] rounded-lg text-sm font-bold transition-all disabled:opacity-50 ${
-                          showCustomStyle ? 'bg-[#C8553A]/20 text-[#C8553A] border border-[#C8553A]/35' : 'bg-[#252424] text-[#6B655B] border border-[#15140F]/20 hover:border-[#C8553A]/20 hover:text-[#3D3A30]'
+                          showCustomStyle ? 'bg-[#C8553A]/20 text-[#C8553A] border border-[#C8553A]/35' : 'bg-[#EFE9DC] text-[#6B655B] border border-[#15140F]/12 hover:border-[#C8553A]/20 hover:text-[#3D3A30]'
                         }`}
                       >+</button>
                     </div>
                     {showCustomStyle && (
                       <input type="text" value={carouselStyle} onChange={e => setCarouselStyle(e.target.value)} placeholder="Describe your own visual style…" autoFocus disabled={genLoading}
-                        className="w-full bg-[#252424] border border-[#15140F]/30 rounded-xl px-3 py-2.5 text-[11px] text-[#15140F] placeholder:text-[#6B655B]/40 outline-none focus:border-[#C8553A]/50 transition-colors disabled:opacity-50"
+                        className="w-full bg-[#F6F2EA] border border-[#15140F]/15 rounded-xl px-3 py-2.5 text-[11px] text-[#15140F] placeholder:text-[#A39B8B] outline-none focus:border-[#C8553A]/50 transition-colors disabled:opacity-50"
                       />
                     )}
                   </div>
@@ -439,7 +439,7 @@ export default function AIGeneratorModal({
                         {[2, 3, 4, 5, 6].map(n => (
                           <button key={n} onClick={() => { setCarouselCount(n); setCarouselSlides([]); }} disabled={genLoading}
                             className={`w-9 h-9 rounded-xl text-[12px] font-bold transition-all disabled:opacity-50 ${
-                              carouselCount === n ? 'bg-[#C8553A]/25 text-[#C8553A] border border-[#C8553A]/40' : 'bg-[#252424] text-[#6B655B] border border-[#15140F]/20 hover:border-[#C8553A]/20 hover:text-[#3D3A30]'
+                              carouselCount === n ? 'bg-[#C8553A]/25 text-[#C8553A] border border-[#C8553A]/40' : 'bg-[#EFE9DC] text-[#6B655B] border border-[#15140F]/12 hover:border-[#C8553A]/20 hover:text-[#3D3A30]'
                             }`}
                           >{n}</button>
                         ))}
@@ -447,7 +447,7 @@ export default function AIGeneratorModal({
                       <button
                         onClick={handleGenerateSlides}
                         disabled={!carouselTopic.trim() || slidesLoading || genLoading || !aiAllowed}
-                        className="ml-auto flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[#252424] border border-[#C8553A]/25 text-[#C8553A] text-[10px] font-bold uppercase tracking-wider disabled:opacity-40 hover:bg-[#C8553A]/10 hover:border-[#C8553A]/40 transition-all active:scale-[0.98]"
+                        className="ml-auto flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[#EFE9DC] border border-[#C8553A]/25 text-[#C8553A] text-[10px] font-bold uppercase tracking-wider disabled:opacity-40 hover:bg-[#C8553A]/10 hover:border-[#C8553A]/40 transition-all active:scale-[0.98]"
                       >
                         {slidesLoading ? <span className="material-symbols-outlined text-[13px] animate-spin">progress_activity</span> : <span className="material-symbols-outlined text-[13px]">auto_awesome</span>}
                         {slidesLoading ? 'Working…' : carouselSlides.length > 0 ? 'Regenerate' : 'Generate prompts'}
@@ -456,9 +456,9 @@ export default function AIGeneratorModal({
                   </div>
 
                   {slidesError && (
-                    <div className="flex items-center gap-2 px-3 py-2.5 rounded-xl bg-red-500/8 border border-red-500/15">
-                      <span className="material-symbols-outlined text-red-400 text-[14px]">error</span>
-                      <p className="text-[11px] text-red-400">{slidesError}</p>
+                    <div className="flex items-center gap-2 px-3 py-2.5 rounded-xl bg-[#A8362A]/8 border border-[#A8362A]/15">
+                      <span className="material-symbols-outlined text-[#A8362A] text-[14px]">error</span>
+                      <p className="text-[11px] text-[#A8362A]">{slidesError}</p>
                     </div>
                   )}
 
@@ -469,8 +469,8 @@ export default function AIGeneratorModal({
                         <span className="text-[9px] text-[#6B655B]/50">{carouselSlides.length} slides</span>
                       </div>
                       {carouselSlides.map((slide, i) => (
-                        <div key={i} className="rounded-xl border border-[#15140F]/25 bg-[#252424] overflow-hidden">
-                          <button type="button" onClick={() => toggleSlide(i)} className="w-full flex items-center gap-2 px-3 py-2.5 text-left hover:bg-[#2a2929] transition-colors">
+                        <div key={i} className="rounded-xl border border-[#15140F]/15 bg-[#EFE9DC] overflow-hidden">
+                          <button type="button" onClick={() => toggleSlide(i)} className="w-full flex items-center gap-2 px-3 py-2.5 text-left hover:bg-[#E5DFD5] transition-colors">
                             <span className="text-[10px] font-bold text-[#C8553A]/60 w-5 shrink-0 text-right">{i + 1}</span>
                             <span className="flex-1 text-[11px] text-[#3D3A30] truncate">{getSlideTitle(slide) || `Slide ${i + 1}`}</span>
                             <span className="material-symbols-outlined text-[#6B655B]/40 text-[16px] shrink-0 transition-transform duration-200" style={{ transform: expandedSlides.has(i) ? 'rotate(180deg)' : '' }}>expand_more</span>
@@ -480,7 +480,7 @@ export default function AIGeneratorModal({
                               <textarea value={slide} rows={1}
                                 onChange={e => { const u = [...carouselSlides]; u[i] = e.target.value; setCarouselSlides(u); e.target.style.height = 'auto'; e.target.style.height = `${e.target.scrollHeight}px`; }}
                                 ref={el => { if (el) { el.style.height = 'auto'; el.style.height = `${el.scrollHeight}px`; } }}
-                                className="w-full bg-[#1e1e1e] border border-[#15140F]/30 rounded-xl px-3 py-2 text-[11px] text-[#15140F] outline-none focus:border-[#C8553A]/50 transition-colors resize-none leading-relaxed overflow-hidden"
+                                className="w-full bg-[#F6F2EA] border border-[#15140F]/15 rounded-xl px-3 py-2 text-[11px] text-[#15140F] outline-none focus:border-[#C8553A]/50 transition-colors resize-none leading-relaxed overflow-hidden"
                               />
                             </div>
                           </div>
@@ -499,9 +499,9 @@ export default function AIGeneratorModal({
               )}
 
               {genError && (
-                <div className="flex items-start gap-2 px-3 py-2.5 rounded-xl bg-red-500/8 border border-red-500/15">
-                  <span className="material-symbols-outlined text-red-400 text-[14px] shrink-0 mt-0.5">error</span>
-                  <p className="text-[11px] text-red-400 leading-relaxed">{genError}</p>
+                <div className="flex items-start gap-2 px-3 py-2.5 rounded-xl bg-[#A8362A]/8 border border-[#A8362A]/15">
+                  <span className="material-symbols-outlined text-[#A8362A] text-[14px] shrink-0 mt-0.5">error</span>
+                  <p className="text-[11px] text-[#A8362A] leading-relaxed">{genError}</p>
                 </div>
               )}
             </div>
@@ -519,7 +519,7 @@ export default function AIGeneratorModal({
               <button
                 onClick={handleGenerate}
                 disabled={!canGenerate}
-                className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-[#C8553A] text-[#5e2388] text-sm font-bold uppercase tracking-wider hover:brightness-110 transition-all active:scale-[0.99] disabled:opacity-40 disabled:cursor-not-allowed"
+                className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-[#C8553A] text-white text-sm font-bold uppercase tracking-wider hover:brightness-110 transition-all active:scale-[0.99] disabled:opacity-40 disabled:cursor-not-allowed"
               >
                 <span className="material-symbols-outlined text-[16px]">auto_awesome</span>
                 {genMode === 'carousel' && filledSlides > 0
@@ -601,22 +601,22 @@ export default function AIGeneratorModal({
                 {/* Edit with AI */}
                 <button
                   onClick={() => setScreen('edit-preview')}
-                  className="w-full flex items-center gap-3 px-4 py-3.5 rounded-xl bg-[#252424] border border-[#ffd166]/20 hover:border-[#ffd166]/40 hover:bg-[#ffd166]/5 transition-all group text-left"
+                  className="w-full flex items-center gap-3 px-4 py-3.5 rounded-xl bg-[#EFE9DC] border border-[#B7841E]/20 hover:border-[#B7841E]/40 hover:bg-[#B7841E]/5 transition-all group text-left"
                 >
-                  <div className="w-9 h-9 rounded-xl bg-[#ffd166]/15 flex items-center justify-center shrink-0 group-hover:bg-[#ffd166]/25 transition-colors">
-                    <span className="material-symbols-outlined text-[#ffd166]" style={{ fontSize: 18, fontVariationSettings: "'FILL' 1" }}>edit</span>
+                  <div className="w-9 h-9 rounded-xl bg-[#B7841E]/15 flex items-center justify-center shrink-0 group-hover:bg-[#B7841E]/25 transition-colors">
+                    <span className="material-symbols-outlined text-[#B7841E]" style={{ fontSize: 18, fontVariationSettings: "'FILL' 1" }}>edit</span>
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-semibold text-[#15140F]">Edit with AI</p>
                     <p className="text-[10px] text-[#6B655B] mt-0.5">Modify specific elements — change colors, style, objects</p>
                   </div>
-                  <span className="material-symbols-outlined text-[#6B655B]/40 group-hover:text-[#ffd166]/60 transition-colors text-[18px]">chevron_right</span>
+                  <span className="material-symbols-outlined text-[#6B655B]/40 group-hover:text-[#B7841E]/60 transition-colors text-[18px]">chevron_right</span>
                 </button>
 
                 {/* Try another */}
                 <button
                   onClick={goBackToForm}
-                  className="w-full flex items-center gap-3 px-4 py-3.5 rounded-xl bg-[#252424] border border-[#15140F]/20 hover:border-[#15140F]/40 hover:bg-[#2a2929] transition-all group text-left"
+                  className="w-full flex items-center gap-3 px-4 py-3.5 rounded-xl bg-[#EFE9DC] border border-[#15140F]/15 hover:border-[#15140F]/30 hover:bg-[#E5DFD5] transition-all group text-left"
                 >
                   <div className="w-9 h-9 rounded-xl bg-[#988d9c]/10 flex items-center justify-center shrink-0 group-hover:bg-[#988d9c]/20 transition-colors">
                     <span className="material-symbols-outlined text-[#6B655B]" style={{ fontSize: 18 }}>refresh</span>
@@ -634,7 +634,7 @@ export default function AIGeneratorModal({
             <div className="px-5 py-4 border-t border-[#15140F]/25 shrink-0">
               <button
                 onClick={handleUseImage}
-                className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-[#C8553A] text-[#5e2388] text-sm font-bold uppercase tracking-wider hover:brightness-110 transition-all active:scale-[0.99]"
+                className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-[#C8553A] text-white text-sm font-bold uppercase tracking-wider hover:brightness-110 transition-all active:scale-[0.99]"
               >
                 <span className="material-symbols-outlined text-[16px]" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
                 Use this image
@@ -651,14 +651,14 @@ export default function AIGeneratorModal({
             <div className="flex-1 overflow-y-auto px-5 py-5 space-y-4 min-h-0">
               {/* Current image — floating */}
               <div className="relative flex items-center justify-center py-3">
-                <div className="absolute inset-0 rounded-2xl bg-[#ffd166]/5" />
+                <div className="absolute inset-0 rounded-2xl bg-[#B7841E]/5" />
                 {editLoading ? (
                   <div
                     className="relative rounded-2xl overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.5)] ring-1 ring-white/8"
                     style={{ maxHeight: 280, width: '100%', aspectRatio: '1 / 1' }}
                   >
-                    <div className="absolute inset-0 bg-[#252424] animate-pulse" />
-                    <div className="absolute inset-0 -translate-x-full animate-[shimmer_1.6s_ease-in-out_infinite] bg-gradient-to-r from-transparent via-white/5 to-transparent" />
+                    <div className="absolute inset-0 bg-[#DDD8CE] animate-pulse" />
+                    <div className="absolute inset-0 -translate-x-full animate-[shimmer_1.6s_ease-in-out_infinite] bg-gradient-to-r from-transparent via-[#15140F]/6 to-transparent" />
                   </div>
                 ) : (
                   <img
@@ -671,9 +671,9 @@ export default function AIGeneratorModal({
               </div>
 
               {/* Hint */}
-              <div className="flex items-start gap-2 px-3 py-2.5 rounded-xl bg-[#ffd166]/[0.06] border border-[#ffd166]/12">
-                <span className="material-symbols-outlined text-[#ffd166]/60 shrink-0 mt-0.5" style={{ fontSize: 13 }}>info</span>
-                <p className="text-[10px] text-[#ffd166]/70 leading-snug">
+              <div className="flex items-start gap-2 px-3 py-2.5 rounded-xl bg-[#B7841E]/[0.06] border border-[#B7841E]/12">
+                <span className="material-symbols-outlined text-[#B7841E]/60 shrink-0 mt-0.5" style={{ fontSize: 13 }}>info</span>
+                <p className="text-[10px] text-[#B7841E]/70 leading-snug">
                   Describe only what to change. Everything else will be preserved.
                 </p>
               </div>
@@ -689,14 +689,14 @@ export default function AIGeneratorModal({
                   placeholder='e.g. "Change the background to a city at night"'
                   disabled={editLoading}
                   autoFocus
-                  className="w-full bg-[#252424] border border-[#15140F]/30 rounded-xl px-4 py-3 text-sm text-[#15140F] placeholder:text-[#6B655B]/40 outline-none focus:border-[#ffd166]/40 transition-colors disabled:opacity-50"
+                  className="w-full bg-[#F6F2EA] border border-[#15140F]/15 rounded-xl px-4 py-3 text-sm text-[#15140F] placeholder:text-[#A39B8B] outline-none focus:border-[#C8553A]/40 transition-colors disabled:opacity-50"
                 />
               </div>
 
               {editError && (
-                <div className="flex items-start gap-2 px-3 py-2.5 rounded-xl bg-red-500/8 border border-red-500/15">
-                  <span className="material-symbols-outlined text-red-400 text-[14px] shrink-0 mt-0.5">error</span>
-                  <p className="text-[11px] text-red-400 leading-relaxed">{editError}</p>
+                <div className="flex items-start gap-2 px-3 py-2.5 rounded-xl bg-[#A8362A]/8 border border-[#A8362A]/15">
+                  <span className="material-symbols-outlined text-[#A8362A] text-[14px] shrink-0 mt-0.5">error</span>
+                  <p className="text-[11px] text-[#A8362A] leading-relaxed">{editError}</p>
                 </div>
               )}
             </div>
@@ -706,7 +706,7 @@ export default function AIGeneratorModal({
               <button
                 onClick={handleEditGenerated}
                 disabled={!editPrompt.trim() || editLoading}
-                className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-[#ffd166] text-[#1a1400] text-sm font-bold transition-all disabled:opacity-40 hover:brightness-110 active:scale-[0.99] disabled:cursor-not-allowed"
+                className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-[#C8553A] text-white text-sm font-bold transition-all disabled:opacity-40 hover:brightness-110 active:scale-[0.99] disabled:cursor-not-allowed"
               >
                 {editLoading ? (
                   <><span className="material-symbols-outlined text-[16px] animate-spin">progress_activity</span>Editing…</>

@@ -21,8 +21,8 @@ export default function SessionConflictModal({ onConfirm, onCancel, loading }: P
         className={`w-full max-w-sm bg-[#FBF8F2] border border-[#15140F]/20 rounded-3xl p-7 shadow-[0_24px_80px_rgba(0,0,0,0.7)] transition-all duration-300 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
       >
         {/* Icon */}
-        <div className="w-12 h-12 rounded-2xl bg-[#ffd166]/10 border border-[#ffd166]/20 flex items-center justify-center mb-5">
-          <span className="material-symbols-outlined text-[#ffd166]" style={{ fontSize: 22, fontVariationSettings: "'FILL' 1" }}>
+        <div className="w-12 h-12 rounded-2xl bg-[#B7841E]/10 border border-[#B7841E]/20 flex items-center justify-center mb-5">
+          <span className="material-symbols-outlined text-[#B7841E]" style={{ fontSize: 22, fontVariationSettings: "'FILL' 1" }}>
             lock_person
           </span>
         </div>
@@ -37,7 +37,7 @@ export default function SessionConflictModal({ onConfirm, onCancel, loading }: P
           <button
             onClick={onConfirm}
             disabled={loading}
-            className="w-full py-2.5 rounded-xl bg-[#ffd166] text-[#3d2a00] text-sm font-bold hover:bg-[#ffe08a] transition-colors disabled:opacity-50"
+            className="w-full py-2.5 rounded-xl bg-[#B7841E] text-white text-sm font-bold hover:bg-[#9a6d18] transition-colors disabled:opacity-50"
           >
             {loading ? 'Signing out…' : 'Sign out & continue'}
           </button>

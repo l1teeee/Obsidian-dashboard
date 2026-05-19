@@ -479,3 +479,91 @@ body { overflow-x: hidden; }
 .calendar-day:hover { background-color: #efe9dc; }
 
 /* Auth route transitions are driven by GSAP + the global Lenis instance. */
+
+/* ── Minimal Editorial utilities ─────────────────────────────────────────── */
+
+/* chart-card: elevated surface for charts and KPI blocks */
+.chart-card {
+  background: var(--surface-card);
+  border: 1px solid var(--surface-border);
+  border-radius: 14px;
+  padding: 22px;
+}
+
+/* page-tabs: editorial tab bar with terracotta underline on active */
+.page-tabs {
+  display: flex;
+  gap: 0;
+  border-bottom: 1px solid var(--surface-border);
+}
+.page-tabs [data-tab] {
+  padding: 0.5rem 1rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  transition: color 0.15s, border-color 0.15s;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.page-tabs [data-tab]:hover { color: var(--text-primary); }
+.page-tabs [data-tab][data-active] {
+  color: var(--brand-primary);
+  border-bottom-color: var(--brand-primary);
+}
+
+/* conn-card: platform connection card */
+.conn-card {
+  background: var(--surface-card);
+  border: 1px solid var(--surface-border-soft);
+  border-radius: 14px;
+  padding: 1.25rem;
+  transition: border-color 0.2s;
+}
+.conn-card:hover { border-color: rgba(200, 85, 58, 0.22); }
+
+/* add-card: dashed "add new" card */
+.add-card {
+  border: 1.5px dashed rgba(21, 20, 15, 0.18);
+  border-radius: 14px;
+  padding: 1.25rem;
+  transition: border-color 0.2s, background 0.2s;
+  cursor: pointer;
+}
+.add-card:hover {
+  border-color: rgba(200, 85, 58, 0.35);
+  background: rgba(200, 85, 58, 0.04);
+}
+
+/* editorial-head: page header with eyebrow + title */
+.editorial-head {
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--surface-border);
+  margin-bottom: 1.5rem;
+}
+.editorial-head .eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--brand-primary);
+  margin-bottom: 0.375rem;
+}
+
+/* form-block: settings/form section container */
+.form-block {
+  background: var(--surface-card);
+  border: 1px solid var(--surface-border-soft);
+  border-radius: 14px;
+  overflow: hidden;
+}
+.form-block-header {
+  background: var(--surface-bg);
+  border-bottom: 1px solid var(--surface-border);
+  padding: 0.875rem 1.25rem;
+}
+.form-block-body {
+  padding: 1.25rem;
+}

@@ -25,7 +25,7 @@ export default function DayPanel({ selected, posts, panelRef }: DayPanelProps) {
           <span className="text-xs text-[#6B655B]">{posts.length} post{posts.length !== 1 ? 's' : ''}</span>
           <Link
             to="/composer"
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#C8553A] text-[#2f004d] text-xs font-bold hover:shadow-[0_0_16px_rgba(200,85,58,0.4)] transition-all"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#C8553A] text-white text-xs font-bold hover:bg-[#A53F28] transition-all"
           >
             <span className="material-symbols-outlined text-[13px]">add</span>
             Schedule

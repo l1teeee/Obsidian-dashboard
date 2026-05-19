@@ -3,7 +3,7 @@
 const VARIANT_COLORS: Record<PostBenchmark['variant'], { text: string; barBg: string; barFill: string }> = {
   purple: { text: 'text-[#C8553A]', barBg: 'bg-[#C8553A]/30', barFill: 'bg-[#C8553A]' },
   green:  { text: 'text-[#4F7A4A]', barBg: 'bg-[#4F7A4A]/30', barFill: 'bg-[#4F7A4A]' },
-  red:    { text: 'text-[#ffb4ab]', barBg: 'bg-[#ffb4ab]/30', barFill: 'bg-[#ffb4ab]' },
+  red:    { text: 'text-[#A8362A]', barBg: 'bg-[#A8362A]/30', barFill: 'bg-[#A8362A]' },
 };
 
 interface BenchmarkBarProps {

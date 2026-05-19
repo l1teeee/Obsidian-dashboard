@@ -20,14 +20,14 @@ function NoAccountIcon({ platformName }: { platformName: string }) {
   return (
     <div className="relative group/noconn shrink-0">
       <span
-        className="material-symbols-outlined text-[#ffd166]"
+        className="material-symbols-outlined text-[#A8362A]"
         style={{ fontSize: 14, fontVariationSettings: "'FILL' 1" }}
       >
         info
       </span>
       {/* Tooltip */}
-      <div className="absolute left-5 top-1/2 -translate-y-1/2 z-30 hidden group-hover/noconn:block w-52 bg-[#FBF8F2] border border-[#ffd166]/25 rounded-xl px-3 py-2.5 shadow-[0_8px_30px_rgba(0,0,0,0.4)] pointer-events-none">
-        <p className="text-[10px] font-semibold text-[#ffd166] mb-0.5">Can't publish</p>
+      <div className="absolute left-5 top-1/2 -translate-y-1/2 z-30 hidden group-hover/noconn:block w-52 bg-[#FBF8F2] border border-[#A8362A]/25 rounded-xl px-3 py-2.5 shadow-[0_8px_30px_rgba(0,0,0,0.4)] pointer-events-none">
+        <p className="text-[10px] font-semibold text-[#A8362A] mb-0.5">Can't publish</p>
         <p className="text-[10px] text-[#3D3A30] leading-relaxed">
           No account connected for {platformName}. You can still save it as a draft.
         </p>
@@ -134,7 +134,7 @@ function ActionButtons({ post, view, onAction }: { post: CalendarPost; view: Pos
           <TooltipTrigger asChild>
             <button
               onClick={e => { e.stopPropagation(); e.preventDefault(); onAction('delete', post); }}
-              className="w-7 h-7 flex items-center justify-center rounded-lg border border-transparent text-[#6B655B] hover:bg-[#ffb4ab]/10 hover:border-[#ffb4ab]/20 hover:text-[#ffb4ab] transition-all"
+              className="w-7 h-7 flex items-center justify-center rounded-lg border border-transparent text-[#6B655B] hover:bg-[#A8362A]/10 hover:border-[#A8362A]/20 hover:text-[#A8362A] transition-all"
             >
               <span className="material-symbols-outlined" style={{ fontSize: 14 }}>delete_forever</span>
             </button>
@@ -160,7 +160,7 @@ function ActionButtons({ post, view, onAction }: { post: CalendarPost; view: Pos
             <TooltipTrigger asChild>
               <button
                 onClick={e => { e.stopPropagation(); e.preventDefault(); onAction('delete', post); }}
-                className="w-7 h-7 flex items-center justify-center rounded-lg border border-transparent text-[#6B655B] hover:bg-[#ffb4ab]/10 hover:border-[#ffb4ab]/20 hover:text-[#ffb4ab] transition-all"
+                className="w-7 h-7 flex items-center justify-center rounded-lg border border-transparent text-[#6B655B] hover:bg-[#A8362A]/10 hover:border-[#A8362A]/20 hover:text-[#A8362A] transition-all"
               >
                 <span className="material-symbols-outlined" style={{ fontSize: 14 }}>delete_forever</span>
               </button>
@@ -178,7 +178,7 @@ function ActionButtons({ post, view, onAction }: { post: CalendarPost; view: Pos
         {post.status === 'failed' && (
           <button
             onClick={e => { e.stopPropagation(); e.preventDefault(); onAction('retry', post); }}
-            className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-[#ffd166]/10 border border-[#ffd166]/20 text-[#ffd166] text-[10px] font-bold uppercase tracking-wider hover:bg-[#ffd166]/20 transition-all"
+            className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-[#B7841E]/10 border border-[#B7841E]/20 text-[#B7841E] text-[10px] font-bold uppercase tracking-wider hover:bg-[#B7841E]/20 transition-all"
           >
             <span className="material-symbols-outlined" style={{ fontSize: 12 }}>refresh</span>
             Retry
@@ -197,7 +197,7 @@ function ActionButtons({ post, view, onAction }: { post: CalendarPost; view: Pos
           <TooltipTrigger asChild>
             <button
               onClick={e => { e.stopPropagation(); e.preventDefault(); onAction('deactivate', post); }}
-              className="w-7 h-7 flex items-center justify-center rounded-lg border border-transparent text-[#6B655B] hover:bg-[#ffd166]/10 hover:border-[#ffd166]/20 hover:text-[#ffd166] transition-all"
+              className="w-7 h-7 flex items-center justify-center rounded-lg border border-transparent text-[#6B655B] hover:bg-[#B7841E]/10 hover:border-[#B7841E]/20 hover:text-[#B7841E] transition-all"
             >
               <span className="material-symbols-outlined" style={{ fontSize: 14 }}>pause_circle</span>
             </button>

@@ -50,8 +50,8 @@ export default function ConnectedPlatformsList({ platforms }: ConnectedPlatforms
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
-                  <div className={`w-1.5 h-1.5 rounded-full ${ok ? 'bg-[#4F7A4A]' : 'bg-[#ffb4ab] animate-pulse'}`} />
-                  <span className={`text-[10px] uppercase tracking-wider font-medium ${ok ? 'text-[#4F7A4A]' : 'text-[#ffb4ab]'}`}>
+                  <div className={`w-1.5 h-1.5 rounded-full ${ok ? 'bg-[#4F7A4A]' : 'bg-[#A8362A] animate-pulse'}`} />
+                  <span className={`text-[10px] uppercase tracking-wider font-medium ${ok ? 'text-[#4F7A4A]' : 'text-[#A8362A]'}`}>
                     {ok ? 'Connected' : p.status === 'needs-reauth' ? 'Needs Re-auth' : 'Disconnected'}
                   </span>
                 </div>

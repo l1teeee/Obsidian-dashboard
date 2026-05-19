@@ -18,10 +18,10 @@ interface ConfirmModalProps {
 }
 
 const VARIANT_STYLES: Record<Variant, { icon: string; btn: string; iconColor: string }> = {
-  danger:  { icon: 'delete_forever', iconColor: '#ffb4ab', btn: 'bg-[#ffb4ab] text-[#2d0000] hover:bg-[#ffc9c2]' },
-  warning: { icon: 'refresh',        iconColor: '#ffd166', btn: 'bg-[#ffd166] text-[#2d1800] hover:bg-[#ffe08a]' },
-  primary: { icon: 'send',           iconColor: '#C8553A', btn: 'bg-[#C8553A] text-[#2f004d] hover:bg-[#e3b5ff]' },
-  success: { icon: 'send',           iconColor: '#4F7A4A', btn: 'bg-[#4F7A4A] text-[#1a2000] hover:bg-[#d4e25a]' },
+  danger:  { icon: 'delete_forever', iconColor: '#A8362A', btn: 'bg-[#A8362A] text-white hover:bg-[#8a2820]' },
+  warning: { icon: 'refresh',        iconColor: '#B7841E', btn: 'bg-[#B7841E] text-white hover:bg-[#9a6d18]' },
+  primary: { icon: 'send',           iconColor: '#C8553A', btn: 'bg-[#C8553A] text-white hover:bg-[#A53F28]' },
+  success: { icon: 'send',           iconColor: '#4F7A4A', btn: 'bg-[#4F7A4A] text-white hover:bg-[#3d6239]' },
 };
 
 export default function ConfirmModal({

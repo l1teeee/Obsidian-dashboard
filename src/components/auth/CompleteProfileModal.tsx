@@ -84,7 +84,7 @@ const selectStyles: StylesConfig<SelectOption> = {
   clearIndicator: (base) => ({
     ...base,
     color:     'rgba(173,170,170,0.45)',
-    '&:hover': { color: '#ffb4ab' },
+    '&:hover': { color: '#A8362A' },
     padding:   '0 6px',
   }),
   noOptionsMessage: (base) => ({
