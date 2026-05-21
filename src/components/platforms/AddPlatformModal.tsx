@@ -1,4 +1,4 @@
-﻿import { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Modal from '../shared/Modal';
 import SocialBrandIcon from '../shared/SocialBrandIcon';
 
@@ -117,34 +117,34 @@ export default function AddPlatformModal({
     <Modal open={open} onClose={onClose} maxWidth="max-w-lg">
 
       {/* ── Header ─────────────────────────────────────────────────────────── */}
-      <div className="px-8 pt-8 pb-6 border-b border-[#15140F]/10">
+      <div className="px-8 pt-8 pb-6 border-b border-[#0F172A]/10">
         <div className="flex items-start justify-between">
           <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#C8553A]/10 border border-[#C8553A]/20 mb-3">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#111827]/10 border border-[#111827]/20 mb-3">
               {step !== 'list' && (
                 <button
                   onClick={goBack}
-                  className="flex items-center gap-1 text-[#C8553A] hover:text-[#15140F] transition-colors mr-0.5"
+                  className="flex items-center gap-1 text-[#111827] hover:text-[#0F172A] transition-colors mr-0.5"
                 >
                   <span className="material-symbols-outlined text-[14px]">arrow_back</span>
                 </button>
               )}
-              <span className="w-1.5 h-1.5 rounded-full bg-[#C8553A]" />
-              <span className="text-[10px] uppercase tracking-widest font-bold text-[#C8553A]">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#111827]" />
+              <span className="text-[10px] uppercase tracking-widest font-bold text-[#111827]">
                 {meta.badge}
               </span>
             </div>
-            <h2 className="font-headline text-2xl font-extrabold tracking-tight text-[#15140F]">
+            <h2 className="font-headline text-2xl font-extrabold tracking-tight text-[#0F172A]">
               {meta.title}
             </h2>
-            <p className="text-[#6B655B] text-sm mt-1">{meta.subtitle}</p>
+            <p className="text-[#64748B] text-sm mt-1">{meta.subtitle}</p>
           </div>
           <button
             onClick={onClose}
-            className="w-9 h-9 rounded-full border border-[#15140F]/20 flex items-center justify-center hover:bg-[#E7E0D0] transition-colors shrink-0 mt-1"
+            className="w-9 h-9 rounded-full border border-[#0F172A]/20 flex items-center justify-center hover:bg-[#E2E8F0] transition-colors shrink-0 mt-1"
             aria-label="Close"
           >
-            <span className="material-symbols-outlined text-[#6B655B] text-[18px]">close</span>
+            <span className="material-symbols-outlined text-[#64748B] text-[18px]">close</span>
           </button>
         </div>
       </div>
@@ -166,8 +166,8 @@ export default function AddPlatformModal({
                   key={platform.id}
                   className={`flex items-center justify-between p-4 rounded-2xl border transition-all duration-200 ${
                     disabled
-                      ? 'border-[#15140F]/10 bg-[#FBF8F2]/40 opacity-50 cursor-not-allowed'
-                      : 'border-[#15140F]/15 bg-[#FBF8F2]/60 hover:border-[#C8553A]/30 hover:bg-[#C8553A]/5 cursor-pointer group'
+                      ? 'border-[#0F172A]/10 bg-[#FFFFFF]/40 opacity-50 cursor-not-allowed'
+                      : 'border-[#0F172A]/15 bg-[#FFFFFF]/60 hover:border-[#111827]/30 hover:bg-[#111827]/5 cursor-pointer group'
                   }`}
                   onClick={() => {
                     if (disabled) return;
@@ -180,24 +180,24 @@ export default function AddPlatformModal({
                       <SocialBrandIcon platformId={platform.id} size={22} />
                     </div>
                     <div>
-                      <p className="text-sm font-bold text-[#15140F]">{platform.name}</p>
-                      <p className="text-[10px] text-[#6B655B]">{platform.description}</p>
+                      <p className="text-sm font-bold text-[#0F172A]">{platform.name}</p>
+                      <p className="text-[10px] text-[#64748B]">{platform.description}</p>
                     </div>
                   </div>
 
                   {platform.comingSoon ? (
-                    <span className="px-2 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider bg-[#15140F]/20 text-[#6B655B] shrink-0">
+                    <span className="px-2 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider bg-[#0F172A]/20 text-[#64748B] shrink-0">
                       Coming soon
                     </span>
                   ) : connected && !canAddMore ? (
-                    <span className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-[#4F7A4A] shrink-0">
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#4F7A4A]" />
+                    <span className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-[#047857] shrink-0">
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#047857]" />
                       Connected
                     </span>
                   ) : connecting ? (
-                    <span className="material-symbols-outlined text-[#6B655B] text-[18px] animate-spin shrink-0">progress_activity</span>
+                    <span className="material-symbols-outlined text-[#64748B] text-[18px] animate-spin shrink-0">progress_activity</span>
                   ) : (
-                    <span className="flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-[#6B655B] group-hover:text-[#C8553A] transition-colors shrink-0">
+                    <span className="flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-[#64748B] group-hover:text-[#111827] transition-colors shrink-0">
                       {connected ? 'Add page' : 'Connect'}
                       <span className="material-symbols-outlined text-[14px]">arrow_forward</span>
                     </span>
@@ -212,25 +212,25 @@ export default function AddPlatformModal({
         {step === 'instagram-type' && (
           <>
             {/* Business / Creator card */}
-            <div className="flex flex-col p-5 rounded-2xl border border-[#15140F]/15 bg-[#FBF8F2]/60 hover:border-[#C8553A]/30 hover:bg-[#C8553A]/5 transition-all group">
+            <div className="flex flex-col p-5 rounded-2xl border border-[#0F172A]/15 bg-[#FFFFFF]/60 hover:border-[#111827]/30 hover:bg-[#111827]/5 transition-all group">
               <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 rounded-xl bg-[#C8553A]/10 border border-[#C8553A]/15 flex items-center justify-center shrink-0">
-                  <span className="material-symbols-outlined text-[#C8553A] text-[20px]">storefront</span>
+                <div className="w-10 h-10 rounded-xl bg-[#111827]/10 border border-[#111827]/15 flex items-center justify-center shrink-0">
+                  <span className="material-symbols-outlined text-[#111827] text-[20px]">storefront</span>
                 </div>
                 <div>
-                  <p className="text-sm font-bold text-[#15140F]">Business or Creator</p>
-                  <p className="text-[10px] text-[#6B655B]">Professional Instagram account</p>
+                  <p className="text-sm font-bold text-[#0F172A]">Business or Creator</p>
+                  <p className="text-[10px] text-[#64748B]">Professional Instagram account</p>
                 </div>
               </div>
 
               <div className="space-y-2 mb-4">
                 {BUSINESS_FEATURES.map((f) => (
                   <div key={f.label} className="flex items-center gap-2.5">
-                    <span className={`material-symbols-outlined text-[14px] shrink-0 ${f.enabled ? 'text-[#4F7A4A]' : 'text-[#15140F]'}`}>
+                    <span className={`material-symbols-outlined text-[14px] shrink-0 ${f.enabled ? 'text-[#047857]' : 'text-[#0F172A]'}`}>
                       {f.enabled ? 'check_circle' : 'cancel'}
                     </span>
-                    <span className={`text-[11px] ${f.enabled ? 'text-[#3D3A30]' : 'text-[#15140F]'}`}>{f.label}</span>
-                    {f.note && <span className="text-[10px] text-[#15140F] ml-auto">{f.note}</span>}
+                    <span className={`text-[11px] ${f.enabled ? 'text-[#334155]' : 'text-[#0F172A]'}`}>{f.label}</span>
+                    {f.note && <span className="text-[10px] text-[#0F172A] ml-auto">{f.note}</span>}
                   </div>
                 ))}
               </div>
@@ -238,7 +238,7 @@ export default function AddPlatformModal({
               <button
                 onClick={() => handleConnectType('business')}
                 disabled={connecting}
-                className="w-full py-2.5 rounded-xl bg-[#C8553A]/10 border border-[#C8553A]/20 text-[#C8553A] text-xs font-bold uppercase tracking-wider hover:bg-[#C8553A]/20 transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
+                className="w-full py-2.5 rounded-xl bg-[#111827]/10 border border-[#111827]/20 text-[#111827] text-xs font-bold uppercase tracking-wider hover:bg-[#111827]/20 transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
               >
                 {connecting ? (
                   <span className="material-symbols-outlined text-[14px] animate-spin">progress_activity</span>
@@ -250,14 +250,14 @@ export default function AddPlatformModal({
             </div>
 
             {/* Personal card */}
-            <div className="flex flex-col p-5 rounded-2xl border border-[#15140F]/15 bg-[#FBF8F2]/60 hover:border-[#facc15]/20 hover:bg-[#facc15]/3 transition-all group">
+            <div className="flex flex-col p-5 rounded-2xl border border-[#0F172A]/15 bg-[#FFFFFF]/60 hover:border-[#facc15]/20 hover:bg-[#facc15]/3 transition-all group">
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-10 h-10 rounded-xl bg-[#facc15]/8 border border-[#facc15]/15 flex items-center justify-center shrink-0">
                   <span className="material-symbols-outlined text-[#facc15] text-[20px]">person</span>
                 </div>
                 <div>
-                  <p className="text-sm font-bold text-[#15140F]">Personal</p>
-                  <p className="text-[10px] text-[#6B655B]">Regular Instagram account</p>
+                  <p className="text-sm font-bold text-[#0F172A]">Personal</p>
+                  <p className="text-[10px] text-[#64748B]">Regular Instagram account</p>
                 </div>
                 <span className="ml-auto px-2 py-0.5 rounded-md text-[9px] font-bold uppercase tracking-wider bg-[#facc15]/10 text-[#facc15] shrink-0">
                   Limited
@@ -269,14 +269,14 @@ export default function AddPlatformModal({
                   <div key={f.label} className="flex items-center gap-2.5">
                     <span className={`material-symbols-outlined text-[14px] shrink-0 ${
                       f.enabled
-                        ? f.icon === 'star' ? 'text-[#facc15]' : 'text-[#4F7A4A]'
-                        : 'text-[#15140F]'
+                        ? f.icon === 'star' ? 'text-[#facc15]' : 'text-[#047857]'
+                        : 'text-[#0F172A]'
                     }`}>
                       {f.enabled ? (f.icon === 'star' ? 'tips_and_updates' : 'check_circle') : 'cancel'}
                     </span>
-                    <span className={`text-[11px] ${f.enabled ? 'text-[#3D3A30]' : 'text-[#15140F]'}`}>{f.label}</span>
+                    <span className={`text-[11px] ${f.enabled ? 'text-[#334155]' : 'text-[#0F172A]'}`}>{f.label}</span>
                     {f.note && (
-                      <span className={`text-[10px] ml-auto ${f.icon === 'star' ? 'text-[#facc15]' : 'text-[#15140F]'}`}>
+                      <span className={`text-[10px] ml-auto ${f.icon === 'star' ? 'text-[#facc15]' : 'text-[#0F172A]'}`}>
                         {f.note}
                       </span>
                     )}
@@ -302,15 +302,15 @@ export default function AddPlatformModal({
       </div>
 
       {/* ── Footer ─────────────────────────────────────────────────────────── */}
-      <div className="px-8 py-5 border-t border-[#15140F]/10 bg-[#FBF8F2]/30 flex items-center justify-between rounded-b-3xl">
-        <p className="text-[10px] text-[#6B655B]">
+      <div className="px-8 py-5 border-t border-[#0F172A]/10 bg-[#FFFFFF]/30 flex items-center justify-between rounded-b-3xl">
+        <p className="text-[10px] text-[#64748B]">
           {step === 'instagram-type'
             ? 'Powered by Instagram API · Meta Graph API v21.0'
             : 'Powered by Meta Graph API v21.0'}
         </p>
         <button
           onClick={onClose}
-          className="px-5 py-2 rounded-xl border border-[#15140F]/20 text-xs font-semibold text-[#3D3A30] hover:bg-[#E7E0D0] transition-colors"
+          className="px-5 py-2 rounded-xl border border-[#0F172A]/20 text-xs font-semibold text-[#334155] hover:bg-[#E2E8F0] transition-colors"
         >
           Cancel
         </button>

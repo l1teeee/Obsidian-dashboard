@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import * as React from "react";
 import * as RadioGroupPrimitive from "@radix-ui/react-radio-group";
@@ -20,7 +20,7 @@ const RadioGroupItem = React.forwardRef<
   <RadioGroupPrimitive.Item
     ref={ref}
     className={cn(
-      "aspect-square h-4 w-4 rounded-full border border-[#C8553A] text-[#C8553A] ring-offset-background focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C8553A] focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
+      "aspect-square h-4 w-4 rounded-full border border-[#111827] text-[#111827] ring-offset-background focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0E9F6E] focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
       className,
     )}
     {...props}

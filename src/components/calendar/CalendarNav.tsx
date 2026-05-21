@@ -1,4 +1,4 @@
-﻿import type { View } from '../../hooks/useCalendar';
+import type { View } from '../../hooks/useCalendar';
 
 interface CalendarNavProps {
   navLabel:     string;
@@ -16,27 +16,27 @@ export default function CalendarNav({ navLabel, view, onBack, onForward, onToday
       <div className="flex items-center gap-2">
         <button
           onClick={onBack}
-          className="w-8 h-8 flex items-center justify-center rounded-xl bg-[#EFE9DC] border border-[#15140F]/15 text-[#6B655B] hover:text-[#15140F] hover:border-[#C8553A]/30 transition-all"
+          className="w-8 h-8 flex items-center justify-center rounded-xl bg-[#F1F5F9] border border-[#0F172A]/15 text-[#64748B] hover:text-[#0F172A] hover:border-[#111827]/30 transition-all"
         >
           <span className="material-symbols-outlined" style={{ fontSize: 18 }}>chevron_left</span>
         </button>
         <button
           onClick={onToday}
-          className="px-3 py-1.5 rounded-xl bg-[#EFE9DC] border border-[#15140F]/15 text-xs font-bold text-[#6B655B] hover:text-[#15140F] hover:border-[#C8553A]/30 transition-all"
+          className="px-3 py-1.5 rounded-xl bg-[#F1F5F9] border border-[#0F172A]/15 text-xs font-bold text-[#64748B] hover:text-[#0F172A] hover:border-[#111827]/30 transition-all"
         >
           Today
         </button>
         <button
           onClick={onForward}
-          className="w-8 h-8 flex items-center justify-center rounded-xl bg-[#EFE9DC] border border-[#15140F]/15 text-[#6B655B] hover:text-[#15140F] hover:border-[#C8553A]/30 transition-all"
+          className="w-8 h-8 flex items-center justify-center rounded-xl bg-[#F1F5F9] border border-[#0F172A]/15 text-[#64748B] hover:text-[#0F172A] hover:border-[#111827]/30 transition-all"
         >
           <span className="material-symbols-outlined" style={{ fontSize: 18 }}>chevron_right</span>
         </button>
-        <h2 className="font-headline text-lg font-bold text-[#15140F] ml-2">{navLabel}</h2>
+        <h2 className="font-headline text-lg font-bold text-[#0F172A] ml-2">{navLabel}</h2>
       </div>
 
       {/* View switcher */}
-      <div className="flex bg-[#EFE9DC] rounded-xl p-1 border border-[#15140F]/10 self-start sm:self-auto">
+      <div className="flex bg-[#F1F5F9] rounded-xl p-1 border border-[#0F172A]/10 self-start sm:self-auto">
         {(['month', 'week', 'list'] as View[]).map(v => (
           <button
             key={v}
@@ -44,8 +44,8 @@ export default function CalendarNav({ navLabel, view, onBack, onForward, onToday
             className={[
               'px-4 py-1.5 rounded-lg text-xs font-bold capitalize transition-all',
               view === v
-                ? 'bg-[#C8553A] text-white shadow-[0_0_12px_rgba(200,85,58,0.2)]'
-                : 'text-[#6B655B] hover:text-[#15140F]',
+                ? 'bg-[#111827] text-white shadow-[0_0_12px_rgba(14,159,110,0.2)]'
+                : 'text-[#64748B] hover:text-[#0F172A]',
             ].join(' ')}
           >
             {v}

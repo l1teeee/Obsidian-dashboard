@@ -1,4 +1,4 @@
-﻿import { useRef, useState, useEffect } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import gsap from 'gsap';
 import * as postsService from '../services/posts.service';
 import * as metricsService from '../services/metrics.service';
@@ -88,7 +88,7 @@ function buildKpiCards(
       delta:    fbSummary ? `${fbSummary.impressions_30d.toLocaleString()} impressions` : null,
       positive: null,
       bar:      reach !== null ? Math.min(100, reach / 10) : null,
-      barColor: '#C8553A', glow: 'rgba(200,85,58,0.5)', type: 'bar',
+      barColor: '#111827', glow: 'rgba(14,159,110,0.5)', type: 'bar',
     },
     {
       label: 'Engagement Rate',

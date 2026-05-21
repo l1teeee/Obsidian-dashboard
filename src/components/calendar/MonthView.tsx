@@ -1,4 +1,4 @@
-﻿import { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { format, startOfMonth, endOfMonth, startOfWeek, endOfWeek, eachDayOfInterval, isSameDay, isSameMonth, isToday } from 'date-fns';
 import gsap from 'gsap';
 import type { CalendarPost } from '../../domain/entities/CalendarPost';
@@ -39,11 +39,11 @@ export default function MonthView({ current, selected, onSelectDay, posts }: Mon
 
   return (
     <div className="space-y-4">
-      <div className="bg-[#F6F2EA] rounded-3xl border border-[#15140F]/20 overflow-hidden">
+      <div className="bg-[#F8FAFC] rounded-3xl border border-[#0F172A]/20 overflow-hidden">
         {/* Day header row */}
-        <div className="grid grid-cols-7 border-b border-[#15140F]/15">
+        <div className="grid grid-cols-7 border-b border-[#0F172A]/15">
           {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(d => (
-            <div key={d} className="py-3 text-center text-[10px] font-bold uppercase tracking-widest text-[#6B655B]">{d}</div>
+            <div key={d} className="py-3 text-center text-[10px] font-bold uppercase tracking-widest text-[#64748B]">{d}</div>
           ))}
         </div>
         {/* Cells */}
@@ -59,20 +59,20 @@ export default function MonthView({ current, selected, onSelectDay, posts }: Mon
                 key={i}
                 onClick={() => onSelectDay(isSel ? selected! : day)}
                 className={[
-                  'min-h-20 md:min-h-25 p-2 border-b border-r border-[#15140F]/10 cursor-pointer transition-colors last:border-r-0',
+                  'min-h-20 md:min-h-25 p-2 border-b border-r border-[#0F172A]/10 cursor-pointer transition-colors last:border-r-0',
                   !isCurrentM ? 'opacity-30' : '',
-                  isSel ? 'bg-[#C8553A]/8' : 'hover:bg-[#EFE9DC]/60',
+                  isSel ? 'bg-[#111827]/8' : 'hover:bg-[#F1F5F9]/60',
                 ].join(' ')}
               >
                 <div className="flex items-center justify-between mb-1.5">
                   <span className={[
                     'w-7 h-7 flex items-center justify-center rounded-full text-xs font-bold transition-all',
-                    isTdy ? 'bg-[#C8553A] text-white' : isSel ? 'text-[#C8553A]' : 'text-[#3D3A30]',
+                    isTdy ? 'bg-[#111827] text-white' : isSel ? 'text-[#111827]' : 'text-[#334155]',
                   ].join(' ')}>
                     {format(day, 'd')}
                   </span>
                   {dayPosts.length > 0 && isCurrentM && (
-                    <span className="text-[9px] font-mono text-[#6B655B]">{dayPosts.length}</span>
+                    <span className="text-[9px] font-mono text-[#64748B]">{dayPosts.length}</span>
                   )}
                 </div>
                 <div className="space-y-0.5 hidden sm:block">
@@ -80,7 +80,7 @@ export default function MonthView({ current, selected, onSelectDay, posts }: Mon
                     <PostPill key={j} post={p} compact />
                   ))}
                   {dayPosts.length > 3 && (
-                    <p className="text-[9px] text-[#6B655B] pl-0.5">+{dayPosts.length - 3} more</p>
+                    <p className="text-[9px] text-[#64748B] pl-0.5">+{dayPosts.length - 3} more</p>
                   )}
                 </div>
                 <div className="flex gap-0.5 mt-1 sm:hidden">

@@ -1,4 +1,4 @@
-﻿interface PaginationProps {
+interface PaginationProps {
   page:     number;
   total:    number;
   limit:    number;
@@ -27,14 +27,14 @@ export default function Pagination({ page, total, limit, onPage, loading }: Pagi
   }
 
   return (
-    <div className="px-2 py-4 text-[#6B655B]">
+    <div className="px-2 py-4 text-[#64748B]">
 
       {/* Desktop */}
       <div className="hidden items-center justify-between sm:flex" aria-label="Pagination">
         <button
           onClick={() => onPage(page - 1)}
           disabled={page <= 1 || loading}
-          className="flex items-center gap-x-2 text-sm font-medium transition-colors duration-150 hover:text-[#C8553A] disabled:opacity-30 disabled:cursor-not-allowed"
+          className="flex items-center gap-x-2 text-sm font-medium transition-colors duration-150 hover:text-[#111827] disabled:opacity-30 disabled:cursor-not-allowed"
         >
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">
             <path fillRule="evenodd" d="M18 10a.75.75 0 01-.75.75H4.66l2.1 1.95a.75.75 0 11-1.02 1.1l-3.5-3.25a.75.75 0 010-1.1l3.5-3.25a.75.75 0 111.02 1.1l-2.1 1.95h12.59A.75.75 0 0118 10z" clipRule="evenodd" />
@@ -46,7 +46,7 @@ export default function Pagination({ page, total, limit, onPage, loading }: Pagi
           {pages.map((item, i) => (
             <li key={`${item}-${i}`} className="text-sm">
               {item === '…' ? (
-                <div className="px-2 py-1 text-[#15140F]">…</div>
+                <div className="px-2 py-1 text-[#0F172A]">…</div>
               ) : (
                 <button
                   onClick={() => onPage(item as number)}
@@ -55,8 +55,8 @@ export default function Pagination({ page, total, limit, onPage, loading }: Pagi
                   className={[
                     'px-3 py-2 rounded-xl font-medium transition-all duration-150 disabled:cursor-not-allowed',
                     page === item
-                      ? 'bg-[#C8553A]/15 text-[#C8553A] border border-[#C8553A]/30'
-                      : 'hover:text-[#C8553A] hover:bg-[#C8553A]/8 border border-transparent',
+                      ? 'bg-[#111827]/15 text-[#111827] border border-[#111827]/30'
+                      : 'hover:text-[#111827] hover:bg-[#111827]/8 border border-transparent',
                   ].join(' ')}
                 >
                   {item}
@@ -69,7 +69,7 @@ export default function Pagination({ page, total, limit, onPage, loading }: Pagi
         <button
           onClick={() => onPage(page + 1)}
           disabled={page >= totalPages || loading}
-          className="flex items-center gap-x-2 text-sm font-medium transition-colors duration-150 hover:text-[#C8553A] disabled:opacity-30 disabled:cursor-not-allowed"
+          className="flex items-center gap-x-2 text-sm font-medium transition-colors duration-150 hover:text-[#111827] disabled:opacity-30 disabled:cursor-not-allowed"
         >
           Next
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">
@@ -83,20 +83,20 @@ export default function Pagination({ page, total, limit, onPage, loading }: Pagi
         <button
           onClick={() => onPage(page - 1)}
           disabled={page <= 1 || loading}
-          className="px-3 py-1.5 border border-[#15140F]/30 rounded-xl bg-[#FBF8F2] hover:border-[#C8553A]/40 hover:text-[#C8553A] disabled:opacity-30 disabled:cursor-not-allowed transition-all duration-150"
+          className="px-3 py-1.5 border border-[#0F172A]/30 rounded-xl bg-[#FFFFFF] hover:border-[#111827]/40 hover:text-[#111827] disabled:opacity-30 disabled:cursor-not-allowed transition-all duration-150"
         >
           Previous
         </button>
 
-        <span className="px-3 py-1.5 border border-[#15140F]/20 rounded-xl bg-[#FBF8F2] text-[#6B655B]">
-          Page <span className="text-[#15140F] font-semibold">{page}</span> of{' '}
-          <span className="text-[#15140F] font-semibold">{totalPages}</span>
+        <span className="px-3 py-1.5 border border-[#0F172A]/20 rounded-xl bg-[#FFFFFF] text-[#64748B]">
+          Page <span className="text-[#0F172A] font-semibold">{page}</span> of{' '}
+          <span className="text-[#0F172A] font-semibold">{totalPages}</span>
         </span>
 
         <button
           onClick={() => onPage(page + 1)}
           disabled={page >= totalPages || loading}
-          className="px-3 py-1.5 border border-[#15140F]/30 rounded-xl bg-[#FBF8F2] hover:border-[#C8553A]/40 hover:text-[#C8553A] disabled:opacity-30 disabled:cursor-not-allowed transition-all duration-150"
+          className="px-3 py-1.5 border border-[#0F172A]/30 rounded-xl bg-[#FFFFFF] hover:border-[#111827]/40 hover:text-[#111827] disabled:opacity-30 disabled:cursor-not-allowed transition-all duration-150"
         >
           Next
         </button>

@@ -1,4 +1,4 @@
-﻿import * as React from "react";
+import * as React from "react";
 import { cn } from "@/lib/utils";
 
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
@@ -9,7 +9,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     <input
       type={type}
       className={cn(
-        "flex h-9 w-full rounded-lg border border-[rgba(21,20,15,0.14)] bg-white px-3 py-1 text-sm text-[#15140F] shadow-sm transition-colors placeholder:text-[#A39B8B] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C8553A]/40 focus-visible:border-[#C8553A]/40 disabled:cursor-not-allowed disabled:opacity-50",
+        "flex h-9 w-full rounded-lg border border-[rgba(15,23,42,0.14)] bg-white px-3 py-1 text-sm text-[#0F172A] shadow-sm transition-colors placeholder:text-[#94A3B8] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0E9F6E]/40 focus-visible:border-[#111827]/40 disabled:cursor-not-allowed disabled:opacity-50",
         className,
       )}
       ref={ref}

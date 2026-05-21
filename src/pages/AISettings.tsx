@@ -1,4 +1,4 @@
-﻿import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { useWorkspace } from '../contexts/WorkspaceContext';
 import { getAiSettings, saveAiSettings } from '../services/ai-settings.service';
@@ -37,20 +37,20 @@ function Field({
   label, icon, description, value, onChange, placeholder, editing, multiline = true, rows = 3,
 }: FieldProps) {
   const inputCls = [
-    'w-full bg-[#FBF8F2] border border-[#15140F]/30 rounded-2xl px-4 py-3 text-sm text-[#15140F]',
-    'focus:ring-2 focus:ring-[#C8553A]/20 focus:border-[#C8553A] outline-none transition-all',
-    'placeholder:text-[#6B655B]/40',
+    'w-full bg-[#FFFFFF] border border-[#0F172A]/30 rounded-2xl px-4 py-3 text-sm text-[#0F172A]',
+    'focus:ring-2 focus:ring-[#0E9F6E]/20 focus:border-[#111827] outline-none transition-all',
+    'placeholder:text-[#64748B]/40',
     multiline ? 'resize-none leading-relaxed' : '',
   ].join(' ');
 
   return (
     <div className="space-y-1.5">
       <div className="flex items-center gap-2">
-        <span className="material-symbols-outlined text-[#C8553A]" style={{ fontSize: 16 }}>{icon}</span>
-        <label className="text-[11px] font-bold uppercase tracking-widest text-[#6B655B]">{label}</label>
+        <span className="material-symbols-outlined text-[#111827]" style={{ fontSize: 16 }}>{icon}</span>
+        <label className="text-[11px] font-bold uppercase tracking-widest text-[#64748B]">{label}</label>
       </div>
       {editing && (
-        <p className="text-[11px] text-[#15140F] leading-relaxed pl-6">{description}</p>
+        <p className="text-[11px] text-[#0F172A] leading-relaxed pl-6">{description}</p>
       )}
 
       {editing ? (
@@ -75,9 +75,9 @@ function Field({
         /* Read-only display */
         <div className="pl-6">
           {value.trim() ? (
-            <p className="text-sm text-[#3D3A30] leading-relaxed whitespace-pre-wrap">{value}</p>
+            <p className="text-sm text-[#334155] leading-relaxed whitespace-pre-wrap">{value}</p>
           ) : (
-            <p className="text-sm text-[#15140F]/60 italic">Not configured</p>
+            <p className="text-sm text-[#0F172A]/60 italic">Not configured</p>
           )}
         </div>
       )}
@@ -281,18 +281,18 @@ export default function AISettings() {
       <div data-ai-section className="flex items-start justify-between gap-4">
         <div className="space-y-2">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-[#C8553A]/20 to-[#D6A86A]/20 border border-[#C8553A]/25 flex items-center justify-center shrink-0">
-              <span className="material-symbols-outlined text-[#C8553A]" style={{ fontSize: 20 }}>auto_awesome</span>
+            <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-[#111827]/20 to-[#D6A86A]/20 border border-[#111827]/25 flex items-center justify-center shrink-0">
+              <span className="material-symbols-outlined text-[#111827]" style={{ fontSize: 20 }}>auto_awesome</span>
             </div>
             <div>
-              <h1 className="text-2xl font-headline font-extrabold tracking-tight text-[#15140F]">AI Settings</h1>
-              <p className="text-xs text-[#6B655B]">Context ChatGPT uses when generating your captions</p>
+              <h1 className="text-2xl font-headline font-extrabold tracking-tight text-[#0F172A]">AI Settings</h1>
+              <p className="text-xs text-[#64748B]">Context ChatGPT uses when generating your captions</p>
             </div>
           </div>
           {active && (
             <div className="flex items-center gap-2 pl-13">
-              <span className="material-symbols-outlined text-[#C8553A]" style={{ fontSize: 13 }}>workspaces</span>
-              <span className="text-[11px] font-bold text-[#C8553A] uppercase tracking-widest">{active.name}</span>
+              <span className="material-symbols-outlined text-[#111827]" style={{ fontSize: 13 }}>workspaces</span>
+              <span className="text-[11px] font-bold text-[#111827] uppercase tracking-widest">{active.name}</span>
             </div>
           )}
         </div>
@@ -301,7 +301,7 @@ export default function AISettings() {
         {!loading && !editing && hasAnyData(saved) && (
           <button
             onClick={handleEdit}
-            className="flex items-center gap-2 px-4 py-2 rounded-xl border border-[#15140F]/30 text-sm font-semibold text-[#3D3A30] hover:text-[#15140F] hover:border-[#C8553A]/40 hover:bg-[#C8553A]/8 transition-all active:scale-[0.98] shrink-0"
+            className="flex items-center gap-2 px-4 py-2 rounded-xl border border-[#0F172A]/30 text-sm font-semibold text-[#334155] hover:text-[#0F172A] hover:border-[#111827]/40 hover:bg-[#111827]/8 transition-all active:scale-[0.98] shrink-0"
           >
             <span className="material-symbols-outlined" style={{ fontSize: 16 }}>edit</span>
             Edit
@@ -320,16 +320,16 @@ export default function AISettings() {
       {loading ? (
         <div className="space-y-6">
           {[1,2,3,4].map(i => (
-            <div key={i} className="h-24 rounded-2xl bg-[#FBF8F2] animate-pulse" />
+            <div key={i} className="h-24 rounded-2xl bg-[#FFFFFF] animate-pulse" />
           ))}
         </div>
       ) : (
         <>
           {sections.map(section => (
             <section key={section.title} data-ai-section className="space-y-5">
-              <div className="flex items-center gap-2 pb-1 border-b border-[#15140F]/15">
-                <span className="material-symbols-outlined text-[#C8553A]" style={{ fontSize: 14 }}>{section.icon}</span>
-                <h2 className="text-xs font-bold uppercase tracking-widest text-[#6B655B]">{section.title}</h2>
+              <div className="flex items-center gap-2 pb-1 border-b border-[#0F172A]/15">
+                <span className="material-symbols-outlined text-[#111827]" style={{ fontSize: 14 }}>{section.icon}</span>
+                <h2 className="text-xs font-bold uppercase tracking-widest text-[#64748B]">{section.title}</h2>
               </div>
 
               {section.fields.map(f => (
@@ -362,7 +362,7 @@ export default function AISettings() {
                   <button
                     onClick={handleCancel}
                     disabled={saving}
-                    className="px-5 py-2.5 rounded-xl border border-[#15140F]/20 text-sm font-semibold text-[#6B655B] hover:text-[#15140F] hover:bg-[#EFE9DC] transition-all disabled:opacity-40"
+                    className="px-5 py-2.5 rounded-xl border border-[#0F172A]/20 text-sm font-semibold text-[#64748B] hover:text-[#0F172A] hover:bg-[#F1F5F9] transition-all disabled:opacity-40"
                   >
                     Cancel
                   </button>
@@ -370,7 +370,7 @@ export default function AISettings() {
                 <button
                   onClick={handleSave}
                   disabled={saving || !active}
-                  className="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-[#C8553A] text-white font-bold text-sm hover:bg-[#A53F28] disabled:opacity-50 disabled:cursor-not-allowed transition-all active:scale-[0.98]"
+                  className="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-[#111827] text-white font-bold text-sm hover:bg-[#0B1220] disabled:opacity-50 disabled:cursor-not-allowed transition-all active:scale-[0.98]"
                 >
                   {saving ? (
                     <>

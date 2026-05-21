@@ -1,4 +1,4 @@
-﻿import type { IProfileRepository } from '../../domain/ports/IProfileRepository';
+import type { IProfileRepository } from '../../domain/ports/IProfileRepository';
 import type { ProfileData, ProfileStat, ConnectedPlatformEntry, ActivityEntry, NotificationPref } from '../../domain/entities/Profile';
 
 let currentProfile: ProfileData = {
@@ -23,11 +23,11 @@ const CONNECTED_PLATFORMS: ConnectedPlatformEntry[] = [
 ];
 
 const ACTIVITY: ActivityEntry[] = [
-  { action: 'Published post',     detail: '"The Future of Digital Curation"', time: '2 hours ago', icon: 'publish',       color: '#4F7A4A' },
-  { action: 'Scheduled 3 posts',  detail: 'Instagram · LinkedIn · Facebook',  time: '5 hours ago', icon: 'schedule',      color: '#C8553A' },
-  { action: 'Connected platform', detail: 'Instagram reconnected',            time: 'Yesterday',   icon: 'link',          color: '#C8553A' },
-  { action: 'Export report',      detail: 'Post #88291 analytics PDF',        time: '2 days ago',  icon: 'download',      color: '#988d9c' },
-  { action: 'Post failed',        detail: '"Tech Nostalgia: Why We Crave…"',  time: '3 days ago',  icon: 'error_outline', color: '#A8362A' },
+  { action: 'Published post',     detail: '"The Future of Digital Curation"', time: '2 hours ago', icon: 'publish',       color: '#047857' },
+  { action: 'Scheduled 3 posts',  detail: 'Instagram · LinkedIn · Facebook',  time: '5 hours ago', icon: 'schedule',      color: '#111827' },
+  { action: 'Connected platform', detail: 'Instagram reconnected',            time: 'Yesterday',   icon: 'link',          color: '#111827' },
+  { action: 'Export report',      detail: 'Post #88291 analytics PDF',        time: '2 days ago',  icon: 'download',      color: '#94A3B8' },
+  { action: 'Post failed',        detail: '"Tech Nostalgia: Why We Crave…"',  time: '3 days ago',  icon: 'error_outline', color: '#DC2626' },
 ];
 
 const NOTIFICATION_PREFS: NotificationPref[] = [

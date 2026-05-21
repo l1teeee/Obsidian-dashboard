@@ -1,25 +1,25 @@
-﻿import { Slot } from "@radix-ui/react-slot";
+import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
 import * as React from "react";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-medium transition-all outline-offset-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#C8553A]/70 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 active:scale-[0.97] active:brightness-90",
+  "inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-medium transition-all outline-offset-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#0E9F6E]/70 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 active:scale-[0.97] active:brightness-90",
   {
     variants: {
       variant: {
         default:
-          "bg-[#C8553A] text-white shadow-sm hover:bg-[#A53F28] hover:shadow-[0_0_24px_rgba(200,85,58,0.3)]",
+          "bg-[#111827] text-white shadow-sm hover:bg-[#0B1220] hover:shadow-[0_0_24px_rgba(14,159,110,0.3)]",
         destructive:
           "bg-red-600 text-white shadow-sm hover:bg-red-500",
         outline:
-          "border border-[rgba(21,20,15,0.14)] bg-transparent text-[#3D3A30] shadow-sm hover:bg-[#EFE9DC] hover:text-[#15140F] hover:border-[#C8553A]/30",
+          "border border-[rgba(15,23,42,0.14)] bg-transparent text-[#334155] shadow-sm hover:bg-[#F1F5F9] hover:text-[#0F172A] hover:border-[#111827]/30",
         secondary:
-          "bg-[#EFE9DC] text-[#3D3A30] shadow-sm hover:bg-[#E7E0D0]",
+          "bg-[#F1F5F9] text-[#334155] shadow-sm hover:bg-[#E2E8F0]",
         ghost:
-          "text-[#6B655B] hover:bg-[#EFE9DC] hover:text-[#15140F]",
+          "text-[#64748B] hover:bg-[#F1F5F9] hover:text-[#0F172A]",
         link:
-          "text-[#C8553A] underline-offset-4 hover:underline",
+          "text-[#111827] underline-offset-4 hover:underline",
       },
       size: {
         default: "h-9 px-4 py-2",

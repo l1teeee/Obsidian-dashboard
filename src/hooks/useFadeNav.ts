@@ -14,7 +14,7 @@ export function useFadeNav() {
       position: 'fixed',
       inset: '0',
       zIndex: '9999',
-      background: '#F6F2EA',
+      background: '#F8FAFC',
       opacity: '0',
       pointerEvents: 'all',
     });

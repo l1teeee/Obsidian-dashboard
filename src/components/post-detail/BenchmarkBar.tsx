@@ -1,9 +1,9 @@
-﻿import type { PostBenchmark } from '../../domain/entities/Post';
+import type { PostBenchmark } from '../../domain/entities/Post';
 
 const VARIANT_COLORS: Record<PostBenchmark['variant'], { text: string; barBg: string; barFill: string }> = {
-  purple: { text: 'text-[#C8553A]', barBg: 'bg-[#C8553A]/30', barFill: 'bg-[#C8553A]' },
-  green:  { text: 'text-[#4F7A4A]', barBg: 'bg-[#4F7A4A]/30', barFill: 'bg-[#4F7A4A]' },
-  red:    { text: 'text-[#A8362A]', barBg: 'bg-[#A8362A]/30', barFill: 'bg-[#A8362A]' },
+  purple: { text: 'text-[#111827]', barBg: 'bg-[#111827]/30', barFill: 'bg-[#111827]' },
+  green:  { text: 'text-[#047857]', barBg: 'bg-[#047857]/30', barFill: 'bg-[#047857]' },
+  red:    { text: 'text-[#DC2626]', barBg: 'bg-[#DC2626]/30', barFill: 'bg-[#DC2626]' },
 };
 
 interface BenchmarkBarProps {
@@ -16,7 +16,7 @@ export default function BenchmarkBar({ benchmark: b }: BenchmarkBarProps) {
   return (
     <div className="space-y-2">
       <div className="flex justify-between items-end text-[11px] font-mono">
-        <span className="text-[#6B655B] uppercase tracking-widest">{b.label}</span>
+        <span className="text-[#64748B] uppercase tracking-widest">{b.label}</span>
         <span className={colors.text}>{b.delta}</span>
       </div>
       <div className={`h-2 w-full ${colors.barBg} rounded-full overflow-hidden`}>

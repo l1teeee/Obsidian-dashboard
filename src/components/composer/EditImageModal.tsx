@@ -1,4 +1,4 @@
-﻿import { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { editImage } from '../../services/ai.service';
 import { uploadFile } from '../../services/media.service';
@@ -145,28 +145,28 @@ export default function EditImageModal({
       onClick={() => !editLoading && onClose()}
     >
       <div
-        className={`relative w-full max-w-md bg-[#FBF8F2] rounded-2xl shadow-2xl flex flex-col transition-all duration-200 ${
+        className={`relative w-full max-w-md bg-[#FFFFFF] rounded-2xl shadow-2xl flex flex-col transition-all duration-200 ${
           isVisible ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-[0.97] translate-y-3'
         }`}
         onClick={e => e.stopPropagation()}
       >
         {/* ── Header ── */}
-        <div className="flex items-center justify-between px-5 py-4 border-b border-[#15140F]/25">
+        <div className="flex items-center justify-between px-5 py-4 border-b border-[#0F172A]/25">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-[#B7841E]/15 border border-[#B7841E]/20 flex items-center justify-center">
-              <span className="material-symbols-outlined text-[#B7841E]" style={{ fontSize: 18, fontVariationSettings: "'FILL' 1" }}>edit</span>
+            <div className="w-9 h-9 rounded-xl bg-[#B45309]/15 border border-[#B45309]/20 flex items-center justify-center">
+              <span className="material-symbols-outlined text-[#B45309]" style={{ fontSize: 18, fontVariationSettings: "'FILL' 1" }}>edit</span>
             </div>
             <div>
-              <h2 className="text-sm font-bold text-[#15140F] leading-none mb-0.5">
+              <h2 className="text-sm font-bold text-[#0F172A] leading-none mb-0.5">
                 {screen === 'form' ? 'Edit Image' : 'Compare Result'}
               </h2>
-              <p className="text-[10px] text-[#6B655B]">DALL·E 2 inpainting</p>
+              <p className="text-[10px] text-[#64748B]">DALL·E 2 inpainting</p>
             </div>
           </div>
           <button
             onClick={() => !editLoading && onClose()}
             disabled={editLoading}
-            className="w-8 h-8 flex items-center justify-center rounded-xl text-[#6B655B] hover:text-[#15140F] hover:bg-white/8 transition-all disabled:opacity-30"
+            className="w-8 h-8 flex items-center justify-center rounded-xl text-[#64748B] hover:text-[#0F172A] hover:bg-white/8 transition-all disabled:opacity-30"
           >
             <span className="material-symbols-outlined text-[18px]">close</span>
           </button>
@@ -182,24 +182,24 @@ export default function EditImageModal({
               {editLoading ? (
                 <>
                   <div className="absolute inset-0 bg-[#DDD8CE] animate-pulse" />
-                  <div className="absolute inset-0 -translate-x-full animate-[shimmer_1.6s_ease-in-out_infinite] bg-gradient-to-r from-transparent via-[#15140F]/6 to-transparent" />
+                  <div className="absolute inset-0 -translate-x-full animate-[shimmer_1.6s_ease-in-out_infinite] bg-gradient-to-r from-transparent via-[#0F172A]/6 to-transparent" />
                 </>
               ) : (
-                <img src={item.previewUrl} alt="" className="w-full h-full object-contain bg-[#EFE9DC]" />
+                <img src={item.previewUrl} alt="" className="w-full h-full object-contain bg-[#F1F5F9]" />
               )}
             </div>
 
             {/* Hint */}
-            <div className="flex items-start gap-2 px-3 py-2.5 rounded-xl bg-[#B7841E]/[0.06] border border-[#B7841E]/12">
-              <span className="material-symbols-outlined text-[#B7841E]/60 shrink-0 mt-0.5" style={{ fontSize: 13 }}>info</span>
-              <p className="text-[10px] text-[#B7841E]/70 leading-snug">
+            <div className="flex items-start gap-2 px-3 py-2.5 rounded-xl bg-[#B45309]/[0.06] border border-[#B45309]/12">
+              <span className="material-symbols-outlined text-[#B45309]/60 shrink-0 mt-0.5" style={{ fontSize: 13 }}>info</span>
+              <p className="text-[10px] text-[#B45309]/70 leading-snug">
                 Describe only what to change. Everything else will be preserved.
               </p>
             </div>
 
             {/* Instruction */}
             <div className="space-y-1.5">
-              <label className="text-[10px] font-bold uppercase tracking-widest text-[#6B655B]/70">Instruction</label>
+              <label className="text-[10px] font-bold uppercase tracking-widest text-[#64748B]/70">Instruction</label>
               <input
                 type="text"
                 value={editPrompt}
@@ -208,14 +208,14 @@ export default function EditImageModal({
                 placeholder='e.g. "Make the sky sunset colors"'
                 disabled={editLoading}
                 autoFocus
-                className="w-full bg-[#F6F2EA] border border-[#15140F]/15 rounded-xl px-4 py-3 text-sm text-[#15140F] placeholder:text-[#A39B8B] outline-none focus:border-[#C8553A]/40 transition-colors disabled:opacity-50"
+                className="w-full bg-[#F8FAFC] border border-[#0F172A]/15 rounded-xl px-4 py-3 text-sm text-[#0F172A] placeholder:text-[#94A3B8] outline-none focus:border-[#111827]/40 transition-colors disabled:opacity-50"
               />
             </div>
 
             {editError && (
-              <div className="flex items-start gap-2 px-3 py-2.5 rounded-xl bg-[#A8362A]/8 border border-[#A8362A]/15">
-                <span className="material-symbols-outlined text-[#A8362A] text-[14px] shrink-0 mt-0.5">error</span>
-                <p className="text-[11px] text-[#A8362A] leading-relaxed">{editError}</p>
+              <div className="flex items-start gap-2 px-3 py-2.5 rounded-xl bg-[#DC2626]/8 border border-[#DC2626]/15">
+                <span className="material-symbols-outlined text-[#DC2626] text-[14px] shrink-0 mt-0.5">error</span>
+                <p className="text-[11px] text-[#DC2626] leading-relaxed">{editError}</p>
               </div>
             )}
 
@@ -223,7 +223,7 @@ export default function EditImageModal({
             <button
               onClick={handleEdit}
               disabled={!editPrompt.trim() || editLoading}
-              className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-[#C8553A] text-white text-sm font-bold transition-all disabled:opacity-40 hover:brightness-110 active:scale-[0.99] disabled:cursor-not-allowed"
+              className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-[#111827] text-white text-sm font-bold transition-all disabled:opacity-40 hover:brightness-110 active:scale-[0.99] disabled:cursor-not-allowed"
             >
               <span className="material-symbols-outlined text-[16px]" style={{ fontVariationSettings: "'FILL' 1" }}>edit</span>
               Apply Edit
@@ -237,7 +237,7 @@ export default function EditImageModal({
         {screen === 'result' && editResult && (
           <div className="px-5 py-5 space-y-4">
             {/* Toggle tabs */}
-            <div className="flex gap-1 p-1 bg-[#EFE9DC] rounded-xl border border-[#15140F]/10">
+            <div className="flex gap-1 p-1 bg-[#F1F5F9] rounded-xl border border-[#0F172A]/10">
               {(['original', 'edited'] as const).map(side => (
                 <button
                   key={side}
@@ -245,9 +245,9 @@ export default function EditImageModal({
                   className={`flex-1 flex items-center justify-center gap-1.5 py-2 rounded-[10px] text-[11px] font-bold uppercase tracking-wider transition-all ${
                     previewSide === side
                       ? side === 'edited'
-                        ? 'bg-[#B7841E]/20 text-[#B7841E]'
-                        : 'bg-[#EFE9DC] text-[#6B655B]'
-                      : 'text-[#6B655B] hover:text-[#3D3A30]'
+                        ? 'bg-[#B45309]/20 text-[#B45309]'
+                        : 'bg-[#F1F5F9] text-[#64748B]'
+                      : 'text-[#64748B] hover:text-[#334155]'
                   }`}
                 >
                   <span className="material-symbols-outlined" style={{ fontSize: 13 }}>
@@ -259,7 +259,7 @@ export default function EditImageModal({
             </div>
 
             {/* Image display */}
-            <div className="rounded-2xl overflow-hidden bg-[#EFE9DC] flex items-center justify-center relative" style={{ aspectRatio: '4/3', maxHeight: 280 }}>
+            <div className="rounded-2xl overflow-hidden bg-[#F1F5F9] flex items-center justify-center relative" style={{ aspectRatio: '4/3', maxHeight: 280 }}>
               {/* Original */}
               <img
                 src={item.previewUrl}
@@ -275,8 +275,8 @@ export default function EditImageModal({
               {/* Label badge */}
               <div className={`absolute top-2 left-2 px-2 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider transition-all ${
                 previewSide === 'edited'
-                  ? 'bg-[#C8553A]/80 text-white'
-                  : 'bg-white/20 text-[#15140F] backdrop-blur-sm'
+                  ? 'bg-[#111827]/80 text-white'
+                  : 'bg-white/20 text-[#0F172A] backdrop-blur-sm'
               }`}>
                 {previewSide === 'edited' ? 'Edited' : 'Original'}
               </div>
@@ -289,8 +289,8 @@ export default function EditImageModal({
                   onClick={() => setShowPromptTip(p => !p)}
                   className={`w-8 h-8 rounded-full flex items-center justify-center transition-all border ${
                     showPromptTip
-                      ? 'bg-[#B7841E]/20 border-[#B7841E]/40 text-[#B7841E]'
-                      : 'bg-[#EFE9DC] border-[#15140F]/20 text-[#6B655B] hover:text-[#B7841E] hover:border-[#B7841E]/30'
+                      ? 'bg-[#B45309]/20 border-[#B45309]/40 text-[#B45309]'
+                      : 'bg-[#F1F5F9] border-[#0F172A]/20 text-[#64748B] hover:text-[#B45309] hover:border-[#B45309]/30'
                   }`}
                   title="View instruction"
                 >
@@ -298,24 +298,24 @@ export default function EditImageModal({
                 </button>
                 {showPromptTip && (
                   <div className="absolute bottom-full left-0 mb-2 z-20 w-64">
-                    <div className="bg-[#E7E0D0] border border-[#15140F]/40 rounded-xl p-3 shadow-xl">
-                      <p className="text-[10px] font-bold uppercase tracking-widest text-[#6B655B]/60 mb-1.5">Instruction used</p>
-                      <p className="text-[11px] text-[#15140F] italic leading-relaxed">"{editPrompt}"</p>
+                    <div className="bg-[#E2E8F0] border border-[#0F172A]/40 rounded-xl p-3 shadow-xl">
+                      <p className="text-[10px] font-bold uppercase tracking-widest text-[#64748B]/60 mb-1.5">Instruction used</p>
+                      <p className="text-[11px] text-[#0F172A] italic leading-relaxed">"{editPrompt}"</p>
                       <button
                         onClick={copyInstruction}
-                        className="mt-2.5 flex items-center gap-1.5 text-[9px] font-semibold text-[#6B655B] hover:text-[#B7841E] transition-colors"
+                        className="mt-2.5 flex items-center gap-1.5 text-[9px] font-semibold text-[#64748B] hover:text-[#B45309] transition-colors"
                       >
                         <span className="material-symbols-outlined text-[11px]">{promptCopied ? 'check' : 'content_copy'}</span>
                         {promptCopied ? 'Copied!' : 'Copy'}
                       </button>
                     </div>
                     <div className="flex ml-3">
-                      <div className="w-2.5 h-2.5 bg-[#E7E0D0] border-b border-r border-[#15140F]/40 rotate-45 -mt-1.5" />
+                      <div className="w-2.5 h-2.5 bg-[#E2E8F0] border-b border-r border-[#0F172A]/40 rotate-45 -mt-1.5" />
                     </div>
                   </div>
                 )}
               </div>
-              <p className="text-[10px] text-[#6B655B]/60 italic truncate">"{editPrompt}"</p>
+              <p className="text-[10px] text-[#64748B]/60 italic truncate">"{editPrompt}"</p>
             </div>
 
             {/* Actions */}
@@ -323,7 +323,7 @@ export default function EditImageModal({
               {/* Accept */}
               <button
                 onClick={handleAccept}
-                className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-[#C8553A] text-white text-sm font-bold transition-all hover:brightness-110 active:scale-[0.99]"
+                className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-[#111827] text-white text-sm font-bold transition-all hover:brightness-110 active:scale-[0.99]"
               >
                 <span className="material-symbols-outlined text-[16px]" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
                 Use edited version
@@ -332,7 +332,7 @@ export default function EditImageModal({
               {/* Try again */}
               <button
                 onClick={handleTryAgain}
-                className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl bg-[#EFE9DC] border border-[#15140F]/15 text-[#3D3A30] text-sm font-semibold hover:border-[#15140F]/35 hover:bg-[#E5DFD5] transition-all active:scale-[0.99]"
+                className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl bg-[#F1F5F9] border border-[#0F172A]/15 text-[#334155] text-sm font-semibold hover:border-[#0F172A]/35 hover:bg-[#E5DFD5] transition-all active:scale-[0.99]"
               >
                 <span className="material-symbols-outlined text-[16px]">refresh</span>
                 Try different instruction
@@ -341,7 +341,7 @@ export default function EditImageModal({
               {/* Keep original */}
               <button
                 onClick={onClose}
-                className="w-full flex items-center justify-center gap-1.5 py-2 rounded-xl text-[11px] text-[#6B655B] hover:text-[#15140F] hover:bg-white/5 transition-all"
+                className="w-full flex items-center justify-center gap-1.5 py-2 rounded-xl text-[11px] text-[#64748B] hover:text-[#0F172A] hover:bg-white/5 transition-all"
               >
                 Keep original
               </button>

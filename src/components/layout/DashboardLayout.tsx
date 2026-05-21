@@ -1,4 +1,4 @@
-﻿import { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { Outlet } from 'react-router-dom';
 import gsap from 'gsap';
 import Sidebar from './Sidebar';
@@ -29,7 +29,7 @@ function Layout() {
   }, [active?.id]);
 
   return (
-    <div className="min-h-screen bg-[#F6F2EA]">
+    <div className="min-h-screen bg-[#F8FAFC]">
       <Sidebar />
 
       {/* Floating toggle bubble — sits on the right edge of the sidebar, desktop only */}
@@ -39,8 +39,8 @@ function Layout() {
         aria-expanded={isOpen}
         style={{ left: isOpen ? '224px' : '48px' }}
         className="hidden lg:flex fixed bottom-[130px] z-[60] w-8 h-8 rounded-full items-center justify-center
-          bg-white border border-border text-[#6B655B]
-          hover:bg-[#EFE9DC] hover:text-[#15140F] active:scale-95
+          bg-white border border-border text-[#64748B]
+          hover:bg-[#F1F5F9] hover:text-[#0F172A] active:scale-95
           transition-[left,transform,background-color,color] duration-300 ease-in-out"
         title={isOpen ? 'Colapsar sidebar' : 'Expandir sidebar'}
       >

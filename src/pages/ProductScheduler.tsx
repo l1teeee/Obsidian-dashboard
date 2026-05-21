@@ -38,17 +38,17 @@ const POSTS: Record<number, { platform: string; color: string; time: string; lab
 const PLATFORM_ICON: Record<string, string> = { ig: 'camera_alt', li: 'work', fb: 'thumb_up' };
 
 const STATUS_STYLE: Record<string, { color: string; bg: string }> = {
-  Draft:     { color: '#A39B8B', bg: '#EFE9DC' },
-  Review:    { color: '#B7841E', bg: '#FDF6E8' },
-  Approved:  { color: '#4F7A4A', bg: '#EBF2EA' },
-  Scheduled: { color: '#C8553A', bg: '#F5EBE8' },
+  Draft:     { color: '#94A3B8', bg: '#F1F5F9' },
+  Review:    { color: '#B45309', bg: '#FDF6E8' },
+  Approved:  { color: '#047857', bg: '#EBF2EA' },
+  Scheduled: { color: '#111827', bg: '#F5EBE8' },
 };
 
 const APPROVAL_STAGES = [
-  { key: 'draft',      label: 'Draft',      icon: 'edit_note',    color: '#A39B8B', bg: '#EFE9DC', border: '#D8D2C4' },
-  { key: 'review',    label: 'In review',  icon: 'rate_review',  color: '#B7841E', bg: '#FDF6E8', border: '#E8C97A' },
-  { key: 'approved',  label: 'Approved',   icon: 'check_circle', color: '#4F7A4A', bg: '#EBF2EA', border: '#A8C9A4' },
-  { key: 'scheduled', label: 'Scheduled',  icon: 'schedule',     color: '#C8553A', bg: '#F5EBE8', border: '#D4A898' },
+  { key: 'draft',      label: 'Draft',      icon: 'edit_note',    color: '#94A3B8', bg: '#F1F5F9', border: '#CBD5E1' },
+  { key: 'review',    label: 'In review',  icon: 'rate_review',  color: '#B45309', bg: '#FDF6E8', border: '#E8C97A' },
+  { key: 'approved',  label: 'Approved',   icon: 'check_circle', color: '#047857', bg: '#EBF2EA', border: '#A8C9A4' },
+  { key: 'scheduled', label: 'Scheduled',  icon: 'schedule',     color: '#111827', bg: '#F5EBE8', border: '#D4A898' },
 ];
 
 const MsIcon = ({ name, size = 18, color }: { name: string; size?: number; color?: string }) => (
@@ -77,17 +77,17 @@ function FeatureCard({ feature }: { feature: FeatureItem }) {
 
   return (
     <div
-      className="group bg-[#F6F2EA] p-8 flex flex-col gap-3 border-r border-b border-border transition-colors duration-200 ease-out hover:bg-[#C8553A]"
+      className="group bg-[#F8FAFC] p-8 flex flex-col gap-3 border-r border-b border-border transition-colors duration-200 ease-out hover:bg-[#111827]"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      <div className="w-9 h-9 flex items-center justify-center rounded-[10px] bg-[#EFE9DC] text-[#15140F] mb-2 transition-colors duration-200 ease-out group-hover:bg-white/15 group-hover:text-white">
+      <div className="w-9 h-9 flex items-center justify-center rounded-[10px] bg-[#F1F5F9] text-[#0F172A] mb-2 transition-colors duration-200 ease-out group-hover:bg-white/15 group-hover:text-white">
         <Icon ref={iconRef} size={18} />
       </div>
-      <h3 className="text-[18px] font-semibold tracking-[-0.01em] text-[#15140F] transition-colors duration-200 ease-out group-hover:text-white">
+      <h3 className="text-[18px] font-semibold tracking-[-0.01em] text-[#0F172A] transition-colors duration-200 ease-out group-hover:text-white">
         {title}
       </h3>
-      <p className="text-[14px] leading-[1.6] text-[#6B655B] transition-colors duration-200 ease-out group-hover:text-[#F6F2EA]">
+      <p className="text-[14px] leading-[1.6] text-[#64748B] transition-colors duration-200 ease-out group-hover:text-[#F8FAFC]">
         {body}
       </p>
     </div>
@@ -151,23 +151,23 @@ export default function ProductScheduler() {
               <HeroBadge className="mb-5">
                 For teams who plan every post
               </HeroBadge>
-              <h1 className="text-[clamp(44px,6.5vw,88px)] leading-[1.03] tracking-[-0.04em] font-medium text-[#15140F] mb-5">
+              <h1 className="text-[clamp(44px,6.5vw,88px)] leading-[1.03] tracking-[-0.04em] font-medium text-[#0F172A] mb-5">
                 A calm calendar<br />
-                <em className="not-italic text-[#C8553A]">for every post.</em>
+                <em className="not-italic text-[#111827]">for every post.</em>
               </h1>
-              <p className="text-[16px] leading-[1.65] text-[#6B655B] max-w-xl mx-auto mb-8">
+              <p className="text-[16px] leading-[1.65] text-[#64748B] max-w-xl mx-auto mb-8">
                 Drag posts between days, review what is ready, and publish across Instagram, LinkedIn, and Facebook without switching tabs.
               </p>
               <div className="flex gap-3 justify-center flex-wrap">
                 <button
                   onClick={() => navigate('/register')}
-                  className="inline-flex items-center text-[14px] font-medium bg-[#C8553A] text-white px-5 py-2.5 rounded-xl hover:bg-[#A53F28] transition-all duration-200 active:scale-[0.98]"
+                  className="inline-flex items-center text-[14px] font-medium bg-[#111827] text-white px-5 py-2.5 rounded-xl hover:bg-[#0B1220] transition-all duration-200 active:scale-[0.98]"
                 >
                   Start free
                 </button>
                 <button
                   onClick={() => navigate('/pricing')}
-                  className="inline-flex items-center text-[14px] font-medium text-[#6B655B] px-5 py-2.5 rounded-xl hover:bg-[#EFE9DC] hover:text-[#15140F] transition-all duration-200"
+                  className="inline-flex items-center text-[14px] font-medium text-[#64748B] px-5 py-2.5 rounded-xl hover:bg-[#F1F5F9] hover:text-[#0F172A] transition-all duration-200"
                 >
                   See pricing
                 </button>
@@ -180,52 +180,52 @@ export default function ProductScheduler() {
         <section className="pb-20 mx-auto max-w-5xl px-6" data-sched-section style={{ opacity: 0 }}>
           <div className="rounded-2xl border border-border overflow-hidden">
             {/* Browser chrome */}
-            <div className="flex items-center gap-2 px-4 py-2.5 border-b border-[rgba(21,20,15,0.08)] bg-[#EFE9DC]">
-              <span className="w-2.5 h-2.5 rounded-full bg-[#A39B8B] opacity-50" />
-              <span className="w-2.5 h-2.5 rounded-full bg-[#A39B8B] opacity-50" />
-              <span className="w-2.5 h-2.5 rounded-full bg-[#A39B8B] opacity-50" />
-              <span className="ml-3 font-mono text-[11px] text-[#6B655B]">app.vielinks.com/calendar</span>
+            <div className="flex items-center gap-2 px-4 py-2.5 border-b border-[rgba(15,23,42,0.08)] bg-[#F1F5F9]">
+              <span className="w-2.5 h-2.5 rounded-full bg-[#94A3B8] opacity-50" />
+              <span className="w-2.5 h-2.5 rounded-full bg-[#94A3B8] opacity-50" />
+              <span className="w-2.5 h-2.5 rounded-full bg-[#94A3B8] opacity-50" />
+              <span className="ml-3 font-mono text-[11px] text-[#64748B]">app.vielinks.com/calendar</span>
             </div>
 
             {/* Calendar header */}
-            <div className="bg-[#FBF8F2] px-6 py-4 border-b border-[rgba(21,20,15,0.08)] flex items-center justify-between flex-wrap gap-3">
+            <div className="bg-[#FFFFFF] px-6 py-4 border-b border-[rgba(15,23,42,0.08)] flex items-center justify-between flex-wrap gap-3">
               <div className="flex items-center gap-3">
-                <MsIcon name="calendar_month" size={18} color="#C8553A" />
-                <span className="text-[13px] font-medium text-[#15140F]">Content calendar</span>
+                <MsIcon name="calendar_month" size={18} color="#111827" />
+                <span className="text-[13px] font-medium text-[#0F172A]">Content calendar</span>
               </div>
               <div className="flex items-center gap-3">
-                <span className="hidden sm:flex items-center gap-2 text-[10px] text-[#A39B8B]">
+                <span className="hidden sm:flex items-center gap-2 text-[10px] text-[#94A3B8]">
                   <span className="w-2 h-2 rounded-full bg-[#E1306C] opacity-70" /> IG
                   <span className="w-2 h-2 rounded-full bg-[#0A66C2] opacity-70" /> LI
                   <span className="w-2 h-2 rounded-full bg-[#1877F2] opacity-70" /> FB
                 </span>
-                <span className="px-2.5 py-1 rounded-full bg-[#EFE9DC] text-on-surface-variant text-[11px] font-medium">April 2026</span>
+                <span className="px-2.5 py-1 rounded-full bg-[#F1F5F9] text-on-surface-variant text-[11px] font-medium">April 2026</span>
               </div>
             </div>
 
             {/* Day headers */}
-            <div className="bg-[#FBF8F2] grid grid-cols-7 border-b border-[rgba(21,20,15,0.06)]">
+            <div className="bg-[#FFFFFF] grid grid-cols-7 border-b border-[rgba(15,23,42,0.06)]">
               {DAYS.map(d => (
-                <div key={d} className="py-3 text-center text-[10px] font-medium uppercase tracking-widest text-[#A39B8B]">{d}</div>
+                <div key={d} className="py-3 text-center text-[10px] font-medium uppercase tracking-widest text-[#94A3B8]">{d}</div>
               ))}
             </div>
 
             {/* Calendar grid */}
-            <div className="grid grid-cols-7 gap-px bg-[rgba(21,20,15,0.06)]">
+            <div className="grid grid-cols-7 gap-px bg-[rgba(15,23,42,0.06)]">
               {Array.from({ length: 7 }).map((_, i) => {
                 const posts = POSTS[i] ?? [];
                 return (
                   <button
                     key={i}
                     type="button"
-                    className={`min-h-22 p-2 w-full text-left cursor-pointer transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C8553A]/25 focus-visible:ring-inset ${
-                      active === i ? 'bg-[#F4E0D6]' : 'bg-[#FBF8F2] hover:bg-[#F6F2EA]'
+                    className={`min-h-22 p-2 w-full text-left cursor-pointer transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0E9F6E]/25 focus-visible:ring-inset ${
+                      active === i ? 'bg-[#F4E0D6]' : 'bg-[#FFFFFF] hover:bg-[#F8FAFC]'
                     }`}
                     onClick={() => setActive(active === i ? null : i)}
                     aria-expanded={active === i}
                     aria-label={`Day ${i + 7}${POSTS[i] ? `, ${POSTS[i].length} post${POSTS[i].length !== 1 ? 's' : ''}` : ', no posts'}`}
                   >
-                    <span className="text-[10px] text-[#6B655B] font-medium block mb-1.5">{i + 7}</span>
+                    <span className="text-[10px] text-[#64748B] font-medium block mb-1.5">{i + 7}</span>
                     <div className="space-y-1">
                       {posts.map((p, j) => (
                         <div
@@ -251,7 +251,7 @@ export default function ProductScheduler() {
                   animate={{ height: 'auto', opacity: 1 }}
                   exit={{ height: 0, opacity: 0 }}
                   transition={{ duration: 0.22 }}
-                  className="overflow-hidden border-t border-[rgba(21,20,15,0.08)] bg-[#FBF8F2]"
+                  className="overflow-hidden border-t border-[rgba(15,23,42,0.08)] bg-[#FFFFFF]"
                 >
                   <div className="px-6 py-4 flex gap-3 flex-wrap">
                     {POSTS[active]?.map((p, j) => {
@@ -265,7 +265,7 @@ export default function ProductScheduler() {
                           <MsIcon name={PLATFORM_ICON[p.platform]} size={16} color={p.color} />
                           <div>
                             <p className="text-[12px] font-medium" style={{ color: p.color }}>{p.label}</p>
-                            <p className="text-[10px] text-[#6B655B]">{p.time} · {DAYS[active]}</p>
+                            <p className="text-[10px] text-[#64748B]">{p.time} · {DAYS[active]}</p>
                           </div>
                           <span
                             className="ml-1 px-2 py-0.5 rounded-full text-[9px] font-medium"
@@ -281,18 +281,18 @@ export default function ProductScheduler() {
               )}
             </AnimatePresence>
           </div>
-          <p className="text-center text-[11px] text-[#A39B8B] mt-3">Select a day to view posts</p>
+          <p className="text-center text-[11px] text-[#94A3B8] mt-3">Select a day to view posts</p>
         </section>
 
         {/* ── Approval workflow ── */}
-        <section className="py-20 border-t border-[rgba(21,20,15,0.08)]" data-sched-section style={{ opacity: 0 }}>
+        <section className="py-20 border-t border-[rgba(15,23,42,0.08)]" data-sched-section style={{ opacity: 0 }}>
           <div className="mx-auto max-w-5xl px-6">
             <div className="text-center mb-12">
-              <span className="text-[11px] font-medium uppercase tracking-[0.18em] text-[#C8553A] mb-3 inline-block">Approval workflow</span>
-              <h2 className="text-[clamp(32px,4.5vw,52px)] leading-[1.1] tracking-[-0.035em] font-medium text-[#15140F] mb-4">
+              <span className="text-[11px] font-medium uppercase tracking-[0.18em] text-[#111827] mb-3 inline-block">Approval workflow</span>
+              <h2 className="text-[clamp(32px,4.5vw,52px)] leading-[1.1] tracking-[-0.035em] font-medium text-[#0F172A] mb-4">
                 From draft to published, together.
               </h2>
-              <p className="text-[15px] leading-[1.65] text-[#6B655B] max-w-md mx-auto">
+              <p className="text-[15px] leading-[1.65] text-[#64748B] max-w-md mx-auto">
                 Move posts through a structured review process before anything goes live. No surprises.
               </p>
             </div>
@@ -308,34 +308,34 @@ export default function ProductScheduler() {
                     <span className="text-[11px] font-medium" style={{ color: stage.color }}>{stage.label}</span>
                   </div>
                   {i < APPROVAL_STAGES.length - 1 && (
-                    <span className="material-symbols-outlined text-[#D8D2C4] shrink-0 mx-1" aria-hidden="true" style={{ fontSize: 20 }}>chevron_right</span>
+                    <span className="material-symbols-outlined text-[#CBD5E1] shrink-0 mx-1" aria-hidden="true" style={{ fontSize: 20 }}>chevron_right</span>
                   )}
                 </div>
               ))}
             </div>
 
             <div className="mt-10 grid md:grid-cols-2 gap-4 max-w-2xl mx-auto">
-              <div className="rounded-2xl border border-border bg-[#FBF8F2] p-6">
-                <h3 className="text-[13px] font-semibold text-[#15140F] mb-2">Role-based access</h3>
-                <p className="text-[14px] leading-[1.6] text-[#6B655B]">Writers create drafts. Reviewers approve. Admins publish. Each role sees only what they need.</p>
+              <div className="rounded-2xl border border-border bg-[#FFFFFF] p-6">
+                <h3 className="text-[13px] font-semibold text-[#0F172A] mb-2">Role-based access</h3>
+                <p className="text-[14px] leading-[1.6] text-[#64748B]">Writers create drafts. Reviewers approve. Admins publish. Each role sees only what they need.</p>
               </div>
-              <div className="rounded-2xl border border-border bg-[#FBF8F2] p-6">
-                <h3 className="text-[13px] font-semibold text-[#15140F] mb-2">Comments and feedback</h3>
-                <p className="text-[14px] leading-[1.6] text-[#6B655B]">Leave inline comments on any post during review. Feedback stays attached to the content.</p>
+              <div className="rounded-2xl border border-border bg-[#FFFFFF] p-6">
+                <h3 className="text-[13px] font-semibold text-[#0F172A] mb-2">Comments and feedback</h3>
+                <p className="text-[14px] leading-[1.6] text-[#64748B]">Leave inline comments on any post during review. Feedback stays attached to the content.</p>
               </div>
             </div>
           </div>
         </section>
 
         {/* ── Workspace ── */}
-        <section className="py-20 border-t border-[rgba(21,20,15,0.08)]" data-sched-section style={{ opacity: 0 }}>
+        <section className="py-20 border-t border-[rgba(15,23,42,0.08)]" data-sched-section style={{ opacity: 0 }}>
           <div className="mx-auto max-w-6xl px-6">
             <div className="text-center mb-12">
-              <span className="text-[11px] font-medium uppercase tracking-[0.18em] text-[#C8553A] mb-3 inline-block">The workspace</span>
-              <h2 className="text-[clamp(32px,4.5vw,52px)] leading-[1.1] tracking-[-0.035em] font-medium text-[#15140F] mb-4">
+              <span className="text-[11px] font-medium uppercase tracking-[0.18em] text-[#111827] mb-3 inline-block">The workspace</span>
+              <h2 className="text-[clamp(32px,4.5vw,52px)] leading-[1.1] tracking-[-0.035em] font-medium text-[#0F172A] mb-4">
                 Built for serious publishers.
               </h2>
-              <p className="text-[15px] leading-[1.65] text-[#6B655B] max-w-xl mx-auto">
+              <p className="text-[15px] leading-[1.65] text-[#64748B] max-w-xl mx-auto">
                 Every tool you need to plan, approve, and publish reliably — from the first draft to the live confirmation.
               </p>
             </div>

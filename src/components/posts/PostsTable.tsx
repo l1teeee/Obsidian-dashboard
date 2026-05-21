@@ -1,4 +1,4 @@
-﻿import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { format } from 'date-fns';
 import type { CalendarPost } from '../../domain/entities/CalendarPost';
 import { PLATFORM_REGISTRY } from '../../domain/entities/Platform';
@@ -20,15 +20,15 @@ function NoAccountIcon({ platformName }: { platformName: string }) {
   return (
     <div className="relative group/noconn shrink-0">
       <span
-        className="material-symbols-outlined text-[#A8362A]"
+        className="material-symbols-outlined text-[#DC2626]"
         style={{ fontSize: 14, fontVariationSettings: "'FILL' 1" }}
       >
         info
       </span>
       {/* Tooltip */}
-      <div className="absolute left-5 top-1/2 -translate-y-1/2 z-30 hidden group-hover/noconn:block w-52 bg-[#FBF8F2] border border-[#A8362A]/25 rounded-xl px-3 py-2.5 shadow-[0_8px_30px_rgba(0,0,0,0.4)] pointer-events-none">
-        <p className="text-[10px] font-semibold text-[#A8362A] mb-0.5">Can't publish</p>
-        <p className="text-[10px] text-[#3D3A30] leading-relaxed">
+      <div className="absolute left-5 top-1/2 -translate-y-1/2 z-30 hidden group-hover/noconn:block w-52 bg-[#FFFFFF] border border-[#DC2626]/25 rounded-xl px-3 py-2.5 shadow-[0_8px_30px_rgba(0,0,0,0.4)] pointer-events-none">
+        <p className="text-[10px] font-semibold text-[#DC2626] mb-0.5">Can't publish</p>
+        <p className="text-[10px] text-[#334155] leading-relaxed">
           No account connected for {platformName}. You can still save it as a draft.
         </p>
       </div>
@@ -47,18 +47,18 @@ function PostsTableSkeleton() {
   return (
     <>
       {/* Desktop skeleton */}
-      <div className="glass-card rounded-3xl overflow-hidden border border-[#15140F]/5 hidden md:block">
+      <div className="glass-card rounded-3xl overflow-hidden border border-[#0F172A]/5 hidden md:block">
         <table className="w-full text-left">
           <thead>
-            <tr className="border-b border-[#15140F]/10">
+            <tr className="border-b border-[#0F172A]/10">
               {TABLE_HEADERS.map(h => (
-                <th key={h} className="px-6 py-4 text-[#6B655B] uppercase text-[10px] tracking-widest font-semibold bg-[#FBF8F2]/50">
+                <th key={h} className="px-6 py-4 text-[#64748B] uppercase text-[10px] tracking-widest font-semibold bg-[#FFFFFF]/50">
                   {h}
                 </th>
               ))}
             </tr>
           </thead>
-          <tbody className="divide-y divide-[#15140F]/5">
+          <tbody className="divide-y divide-[#0F172A]/5">
             {rows.map((_, i) => (
               <tr key={i} className="group">
                 {/* Content */}
@@ -105,7 +105,7 @@ function PostsTableSkeleton() {
       {/* Mobile skeleton */}
       <div className="md:hidden space-y-3">
         {rows.map((_, i) => (
-          <div key={i} className="glass-card rounded-2xl border border-[#15140F]/5 overflow-hidden">
+          <div key={i} className="glass-card rounded-2xl border border-[#0F172A]/5 overflow-hidden">
             <div className="flex items-center gap-4 p-4">
               <SkeletonCell className="w-10 h-10 rounded-xl shrink-0" />
               <div className="flex-1 space-y-2 min-w-0">
@@ -114,7 +114,7 @@ function PostsTableSkeleton() {
               </div>
               <SkeletonCell className="h-5 w-16 rounded-full shrink-0" />
             </div>
-            <div className="flex items-center gap-2 px-4 pb-3 border-t border-[#15140F]/5 pt-2">
+            <div className="flex items-center gap-2 px-4 pb-3 border-t border-[#0F172A]/5 pt-2">
               <SkeletonCell className="w-7 h-7 rounded-lg" />
             </div>
           </div>
@@ -134,7 +134,7 @@ function ActionButtons({ post, view, onAction }: { post: CalendarPost; view: Pos
           <TooltipTrigger asChild>
             <button
               onClick={e => { e.stopPropagation(); e.preventDefault(); onAction('delete', post); }}
-              className="w-7 h-7 flex items-center justify-center rounded-lg border border-transparent text-[#6B655B] hover:bg-[#A8362A]/10 hover:border-[#A8362A]/20 hover:text-[#A8362A] transition-all"
+              className="w-7 h-7 flex items-center justify-center rounded-lg border border-transparent text-[#64748B] hover:bg-[#DC2626]/10 hover:border-[#DC2626]/20 hover:text-[#DC2626] transition-all"
             >
               <span className="material-symbols-outlined" style={{ fontSize: 14 }}>delete_forever</span>
             </button>
@@ -151,7 +151,7 @@ function ActionButtons({ post, view, onAction }: { post: CalendarPost; view: Pos
         <div className="flex items-center gap-1.5">
           <button
             onClick={e => { e.stopPropagation(); e.preventDefault(); onAction('activate', post); }}
-            className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-[#4F7A4A]/10 border border-[#4F7A4A]/20 text-[#4F7A4A] text-[10px] font-bold uppercase tracking-wider hover:bg-[#4F7A4A]/20 transition-all"
+            className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-[#047857]/10 border border-[#047857]/20 text-[#047857] text-[10px] font-bold uppercase tracking-wider hover:bg-[#047857]/20 transition-all"
           >
             <span className="material-symbols-outlined" style={{ fontSize: 12 }}>play_circle</span>
             Activate
@@ -160,7 +160,7 @@ function ActionButtons({ post, view, onAction }: { post: CalendarPost; view: Pos
             <TooltipTrigger asChild>
               <button
                 onClick={e => { e.stopPropagation(); e.preventDefault(); onAction('delete', post); }}
-                className="w-7 h-7 flex items-center justify-center rounded-lg border border-transparent text-[#6B655B] hover:bg-[#A8362A]/10 hover:border-[#A8362A]/20 hover:text-[#A8362A] transition-all"
+                className="w-7 h-7 flex items-center justify-center rounded-lg border border-transparent text-[#64748B] hover:bg-[#DC2626]/10 hover:border-[#DC2626]/20 hover:text-[#DC2626] transition-all"
               >
                 <span className="material-symbols-outlined" style={{ fontSize: 14 }}>delete_forever</span>
               </button>
@@ -178,7 +178,7 @@ function ActionButtons({ post, view, onAction }: { post: CalendarPost; view: Pos
         {post.status === 'failed' && (
           <button
             onClick={e => { e.stopPropagation(); e.preventDefault(); onAction('retry', post); }}
-            className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-[#B7841E]/10 border border-[#B7841E]/20 text-[#B7841E] text-[10px] font-bold uppercase tracking-wider hover:bg-[#B7841E]/20 transition-all"
+            className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-[#B45309]/10 border border-[#B45309]/20 text-[#B45309] text-[10px] font-bold uppercase tracking-wider hover:bg-[#B45309]/20 transition-all"
           >
             <span className="material-symbols-outlined" style={{ fontSize: 12 }}>refresh</span>
             Retry
@@ -187,7 +187,7 @@ function ActionButtons({ post, view, onAction }: { post: CalendarPost; view: Pos
         {post.status === 'scheduled' && (
           <button
             onClick={e => { e.stopPropagation(); e.preventDefault(); onAction('publish', post); }}
-            className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-[#4F7A4A]/10 border border-[#4F7A4A]/20 text-[#4F7A4A] text-[10px] font-bold uppercase tracking-wider hover:bg-[#4F7A4A]/20 transition-all"
+            className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-[#047857]/10 border border-[#047857]/20 text-[#047857] text-[10px] font-bold uppercase tracking-wider hover:bg-[#047857]/20 transition-all"
           >
             <span className="material-symbols-outlined" style={{ fontSize: 12 }}>send</span>
             Publish
@@ -197,7 +197,7 @@ function ActionButtons({ post, view, onAction }: { post: CalendarPost; view: Pos
           <TooltipTrigger asChild>
             <button
               onClick={e => { e.stopPropagation(); e.preventDefault(); onAction('deactivate', post); }}
-              className="w-7 h-7 flex items-center justify-center rounded-lg border border-transparent text-[#6B655B] hover:bg-[#B7841E]/10 hover:border-[#B7841E]/20 hover:text-[#B7841E] transition-all"
+              className="w-7 h-7 flex items-center justify-center rounded-lg border border-transparent text-[#64748B] hover:bg-[#B45309]/10 hover:border-[#B45309]/20 hover:text-[#B45309] transition-all"
             >
               <span className="material-symbols-outlined" style={{ fontSize: 14 }}>pause_circle</span>
             </button>
@@ -214,11 +214,11 @@ export default function PostsTable({ posts, view, onAction, isLoading, connected
 
   if (posts.length === 0) {
     return (
-      <div className="glass-card rounded-3xl border border-[#15140F]/5 p-16 flex flex-col items-center justify-center gap-3">
-        <span className="material-symbols-outlined text-[#D8D2C4]" style={{ fontSize: 48 }}>
+      <div className="glass-card rounded-3xl border border-[#0F172A]/5 p-16 flex flex-col items-center justify-center gap-3">
+        <span className="material-symbols-outlined text-[#CBD5E1]" style={{ fontSize: 48 }}>
           {view === 'inactive' ? 'inventory_2' : 'article'}
         </span>
-        <p className="text-[#6B655B] text-sm">
+        <p className="text-[#64748B] text-sm">
           {view === 'inactive' ? 'No inactive posts.' : 'No posts found.'}
         </p>
       </div>
@@ -228,18 +228,18 @@ export default function PostsTable({ posts, view, onAction, isLoading, connected
   return (
     <>
       {/* Desktop table */}
-      <div className="glass-card rounded-3xl overflow-hidden border border-[#15140F]/5 hidden md:block">
+      <div className="glass-card rounded-3xl overflow-hidden border border-[#0F172A]/5 hidden md:block">
         <table className="w-full text-left">
           <thead>
-            <tr className="border-b border-[#15140F]/10">
+            <tr className="border-b border-[#0F172A]/10">
               {TABLE_HEADERS.map(h => (
-                <th key={h} className="px-6 py-4 text-[#6B655B] uppercase text-[10px] tracking-widest font-semibold bg-[#FBF8F2]/50">
+                <th key={h} className="px-6 py-4 text-[#64748B] uppercase text-[10px] tracking-widest font-semibold bg-[#FFFFFF]/50">
                   {h}
                 </th>
               ))}
             </tr>
           </thead>
-          <tbody className="divide-y divide-[#15140F]/5">
+          <tbody className="divide-y divide-[#0F172A]/5">
             {posts.map(post => {
               const p          = PLATFORM_REGISTRY[post.platform];
               const postHref   = post.status === 'draft'
@@ -249,7 +249,7 @@ export default function PostsTable({ posts, view, onAction, isLoading, connected
                 && !connectedPlatforms.has(post.platform)
                 && post.status !== 'published';
               return (
-                <tr key={post.id} className="hover:bg-[#15140F]/[0.05] transition-colors group">
+                <tr key={post.id} className="hover:bg-[#0F172A]/[0.05] transition-colors group">
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-3">
                       <Link to={postHref} className="flex items-center gap-3 min-w-0 flex-1">
@@ -257,10 +257,10 @@ export default function PostsTable({ posts, view, onAction, isLoading, connected
                           <SocialBrandIcon platformId={post.platform} size={14} />
                         </div>
                         <div className="min-w-0">
-                          <p className="text-sm font-semibold text-[#15140F] truncate max-w-[240px] group-hover:text-[#C8553A] transition-colors">
+                          <p className="text-sm font-semibold text-[#0F172A] truncate max-w-[240px] group-hover:text-[#111827] transition-colors">
                             {post.title}
                           </p>
-                          <p className="text-[10px] text-[#6B655B] font-mono uppercase">ID: {post.id}</p>
+                          <p className="text-[10px] text-[#64748B] font-mono uppercase">ID: {post.id}</p>
                         </div>
                       </Link>
                       {noAccount && <NoAccountIcon platformName={p.name} />}
@@ -269,7 +269,7 @@ export default function PostsTable({ posts, view, onAction, isLoading, connected
                   <td className="px-6 py-4">
                     <Link to={postHref} className="flex items-center gap-2">
                       <PlatformIcon platformId={post.platform} size={22} rounded="rounded-md" />
-                      <span className="text-xs text-[#3D3A30]">{p.name}</span>
+                      <span className="text-xs text-[#334155]">{p.name}</span>
                     </Link>
                   </td>
                   <td className="px-6 py-4">
@@ -277,10 +277,10 @@ export default function PostsTable({ posts, view, onAction, isLoading, connected
                       <StatusBadge status={post.status} />
                     </Link>
                   </td>
-                  <td className="px-6 py-4 font-mono text-sm text-[#3D3A30]">
+                  <td className="px-6 py-4 font-mono text-sm text-[#334155]">
                     {format(post.date, 'MMM d, yyyy')}
                   </td>
-                  <td className="px-6 py-4 font-mono text-sm text-[#6B655B]">
+                  <td className="px-6 py-4 font-mono text-sm text-[#64748B]">
                     {post.time}
                   </td>
                   <td className="px-6 py-4">
@@ -304,17 +304,17 @@ export default function PostsTable({ posts, view, onAction, isLoading, connected
             && !connectedPlatforms.has(post.platform)
             && post.status !== 'published';
           return (
-            <div key={post.id} className="glass-card rounded-2xl border border-[#15140F]/5 overflow-hidden">
+            <div key={post.id} className="glass-card rounded-2xl border border-[#0F172A]/5 overflow-hidden">
               <Link
                 to={postHref}
-                className="flex items-center gap-4 p-4 hover:bg-[#EFE9DC] transition-all"
+                className="flex items-center gap-4 p-4 hover:bg-[#F1F5F9] transition-all"
               >
                 <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style={{ background: p.color }}>
                   <SocialBrandIcon platformId={post.platform} size={16} />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-semibold text-[#15140F] truncate">{post.title}</p>
-                  <p className="text-[10px] text-[#6B655B] mt-0.5">
+                  <p className="text-sm font-semibold text-[#0F172A] truncate">{post.title}</p>
+                  <p className="text-[10px] text-[#64748B] mt-0.5">
                     {p.name} · {format(post.date, 'MMM d')} · {post.time}
                   </p>
                 </div>
@@ -323,7 +323,7 @@ export default function PostsTable({ posts, view, onAction, isLoading, connected
                   <StatusBadge status={post.status} size="xs" />
                 </div>
               </Link>
-              <div className="flex items-center gap-2 px-4 pb-3 border-t border-[#15140F]/5 pt-2">
+              <div className="flex items-center gap-2 px-4 pb-3 border-t border-[#0F172A]/5 pt-2">
                 <ActionButtons post={post} view={view} onAction={onAction} />
               </div>
             </div>

@@ -1,4 +1,4 @@
-﻿import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { sileo } from 'sileo';
 import { getPermissions, setPlanPermissions } from '../../services/admin.service';
 import type { SystemPermission, PlanPermissions } from '../../types/admin.types';
@@ -7,20 +7,20 @@ type PlanKey = keyof PlanPermissions;
 
 const PLANS: { key: PlanKey; label: string; color: string; bg: string }[] = [
   { key: 'free',       label: 'Free',       color: '#60a5fa', bg: '#60a5fa18' },
-  { key: 'starter',    label: 'Starter',    color: '#988d9c', bg: '#988d9c18' },
-  { key: 'pro',        label: 'Pro',        color: '#C8553A', bg: '#C8553A18' },
-  { key: 'enterprise', label: 'Enterprise', color: '#4F7A4A', bg: '#4F7A4A18' },
+  { key: 'starter',    label: 'Starter',    color: '#94A3B8', bg: '#94A3B818' },
+  { key: 'pro',        label: 'Pro',        color: '#111827', bg: '#11182718' },
+  { key: 'enterprise', label: 'Enterprise', color: '#047857', bg: '#04785718' },
 ];
 
 // Distinctive colors per category slot — cycles if there are more categories than colors
 const CAT_PALETTE = [
-  { color: '#C8553A', bg: '#C8553A12', icon: 'article' },
+  { color: '#111827', bg: '#11182712', icon: 'article' },
   { color: '#60a5fa', bg: '#60a5fa12', icon: 'monitoring' },
-  { color: '#4F7A4A', bg: '#4F7A4A12', icon: 'auto_awesome' },
+  { color: '#047857', bg: '#04785712', icon: 'auto_awesome' },
   { color: '#f97316', bg: '#f9731612', icon: 'workspaces' },
   { color: '#f472b6', bg: '#f472b612', icon: 'style' },
   { color: '#34d399', bg: '#34d39912', icon: 'hub' },
-  { color: '#a78bfa', bg: '#a78bfa12', icon: 'lock' },
+  { color: '#2563EB', bg: '#2563EB12', icon: 'lock' },
   { color: '#fb923c', bg: '#fb923c12', icon: 'tune' },
 ];
 
@@ -120,17 +120,17 @@ export default function AdminPermissions() {
   const lowerSearch = search.toLowerCase();
 
   return (
-    <div className="min-h-screen bg-[#F6F2EA] p-6 lg:p-8">
+    <div className="min-h-screen bg-[#F8FAFC] p-6 lg:p-8">
 
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-2xl font-headline font-extrabold text-[#15140F] tracking-tight mb-1">Plan Permissions</h1>
-        <p className="text-sm text-[#6B655B]">Configure which features each subscription plan can access.</p>
+        <h1 className="text-2xl font-headline font-extrabold text-[#0F172A] tracking-tight mb-1">Plan Permissions</h1>
+        <p className="text-sm text-[#64748B]">Configure which features each subscription plan can access.</p>
       </div>
 
       {loading ? (
         <div className="flex items-center justify-center h-64">
-          <span className="material-symbols-outlined text-[#15140F] animate-spin" style={{ fontSize: 28 }}>progress_activity</span>
+          <span className="material-symbols-outlined text-[#0F172A] animate-spin" style={{ fontSize: 28 }}>progress_activity</span>
         </div>
       ) : (
         <div className="flex flex-col gap-6">
@@ -147,7 +147,7 @@ export default function AdminPermissions() {
                     onClick={() => setActivePlan(plan.key)}
                     className={[
                       'relative px-5 py-2.5 rounded-xl text-sm font-bold font-headline tracking-tight transition-all duration-150 border',
-                      isActive ? '' : 'border-transparent text-[#6B655B] hover:text-[#15140F] hover:bg-white/[0.04]',
+                      isActive ? '' : 'border-transparent text-[#64748B] hover:text-[#0F172A] hover:bg-white/[0.04]',
                     ].join(' ')}
                     style={isActive ? { color: plan.color, backgroundColor: plan.bg, borderColor: plan.color + '50' } : {}}
                   >
@@ -162,7 +162,7 @@ export default function AdminPermissions() {
 
             {/* Save + counter */}
             <div className="flex items-center gap-3">
-              <span className="text-xs text-[#15140F]">
+              <span className="text-xs text-[#0F172A]">
                 {pending[activePlan].length} / {system.length} enabled
               </span>
               <button
@@ -182,15 +182,15 @@ export default function AdminPermissions() {
 
           {/* Search */}
           <div className="relative max-w-sm">
-            <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[#15140F]" style={{ fontSize: 16 }}>search</span>
+            <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[#0F172A]" style={{ fontSize: 16 }}>search</span>
             <input
               value={search}
               onChange={e => setSearch(e.target.value)}
               placeholder="Search permissions..."
-              className="w-full pl-9 pr-4 py-2.5 rounded-xl bg-[#F6F2EA] border border-[#15140F]/20 text-sm text-[#15140F] placeholder:text-[#15140F] focus:outline-none focus:border-[#15140F]/50 transition-all"
+              className="w-full pl-9 pr-4 py-2.5 rounded-xl bg-[#F8FAFC] border border-[#0F172A]/20 text-sm text-[#0F172A] placeholder:text-[#0F172A] focus:outline-none focus:border-[#0F172A]/50 transition-all"
             />
             {search && (
-              <button onClick={() => setSearch('')} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[#15140F] hover:text-[#15140F] transition-colors">
+              <button onClick={() => setSearch('')} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[#0F172A] hover:text-[#0F172A] transition-colors">
                 <span className="material-symbols-outlined" style={{ fontSize: 14 }}>close</span>
               </button>
             )}
@@ -208,7 +208,7 @@ export default function AdminPermissions() {
               return (
                 <div
                   key={category}
-                  className="rounded-2xl border bg-[#F6F2EA] overflow-hidden flex flex-col"
+                  className="rounded-2xl border bg-[#F8FAFC] overflow-hidden flex flex-col"
                   style={{ borderColor: cat.color + '28' }}
                 >
                   {/* Card header */}
@@ -226,7 +226,7 @@ export default function AdminPermissions() {
                         </span>
                       </div>
                       <div>
-                        <p className="text-sm font-bold font-headline text-[#15140F]">{category}</p>
+                        <p className="text-sm font-bold font-headline text-[#0F172A]">{category}</p>
                         <p className="text-[10px]" style={{ color: cat.color + 'bb' }}>
                           {enabledCount} / {keys.length} enabled
                         </p>
@@ -237,7 +237,7 @@ export default function AdminPermissions() {
                       className="text-[10px] font-semibold px-2.5 py-1 rounded-lg transition-all"
                       style={anyChecked
                         ? { color: cat.color, backgroundColor: cat.color + '18' }
-                        : { color: '#988d9c', backgroundColor: 'transparent' }
+                        : { color: '#94A3B8', backgroundColor: 'transparent' }
                       }
                     >
                       {allChecked ? 'Deselect all' : 'Select all'}
@@ -263,10 +263,10 @@ export default function AdminPermissions() {
                           ].join(' ')}
                         >
                           <div className="min-w-0 pr-4">
-                            <p className={['text-sm leading-tight transition-colors', isChecked ? 'text-[#15140F]' : 'text-[#6B655B]'].join(' ')}>
+                            <p className={['text-sm leading-tight transition-colors', isChecked ? 'text-[#0F172A]' : 'text-[#64748B]'].join(' ')}>
                               {perm.name}
                             </p>
-                            <p className="text-[10px] text-[#15140F] font-mono mt-0.5">{perm.key}</p>
+                            <p className="text-[10px] text-[#0F172A] font-mono mt-0.5">{perm.key}</p>
                           </div>
                           <Checkbox checked={isChecked} color={cat.color} />
                         </div>

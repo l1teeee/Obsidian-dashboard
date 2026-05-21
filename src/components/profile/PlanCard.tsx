@@ -1,4 +1,4 @@
-﻿import { useState } from 'react';
+import { useState } from 'react';
 import { getProfile } from '../../services/users.service';
 import { useEffect } from 'react';
 import type { UserPlan } from '../../types/users.types';
@@ -19,19 +19,19 @@ const PLAN_META: Record<UserPlan, {
   starter: {
     label:    'Starter',
     price:    'Free',
-    color:    '#988d9c',
+    color:    '#94A3B8',
     features: ['1 workspace', '10 posts/month', 'Basic analytics', '1 platform'],
   },
   pro: {
     label:    'Pro',
     price:    '$79/mo',
-    color:    '#C8553A',
+    color:    '#111827',
     features: ['10 accounts', 'Unlimited posts', 'AI best-time engine', 'Analytics export', 'Priority support (4h)'],
   },
   enterprise: {
     label:    'Enterprise',
     price:    '$149/mo',
-    color:    '#a78bfa',
+    color:    '#2563EB',
     features: ['Unlimited accounts', 'Unlimited posts', 'White-label reports', 'API access', 'Dedicated CSM'],
   },
 };
@@ -48,12 +48,12 @@ export default function PlanCard() {
 
   if (!plan) {
     return (
-      <div className="bg-[#EFE9DC] rounded-3xl border border-[#15140F]/10 p-6 animate-pulse">
-        <div className="h-4 w-20 bg-[#E7E0D0] rounded-full mb-3" />
-        <div className="h-7 w-16 bg-[#E7E0D0] rounded-full mb-4" />
+      <div className="bg-[#F1F5F9] rounded-3xl border border-[#0F172A]/10 p-6 animate-pulse">
+        <div className="h-4 w-20 bg-[#E2E8F0] rounded-full mb-3" />
+        <div className="h-7 w-16 bg-[#E2E8F0] rounded-full mb-4" />
         <div className="space-y-2">
           {Array.from({ length: 4 }).map((_, i) => (
-            <div key={i} className="h-3 bg-[#E7E0D0] rounded-full w-3/4" />
+            <div key={i} className="h-3 bg-[#E2E8F0] rounded-full w-3/4" />
           ))}
         </div>
       </div>
@@ -70,7 +70,7 @@ export default function PlanCard() {
         currentPlan={plan}
       />
 
-      <div data-section className="bg-[#EFE9DC] rounded-3xl border border-[#15140F]/10 overflow-hidden relative">
+      <div data-section className="bg-[#F1F5F9] rounded-3xl border border-[#0F172A]/10 overflow-hidden relative">
         {/* Ambient glow */}
         <div
           className="absolute top-0 right-0 w-48 h-48 blur-[70px] rounded-full pointer-events-none opacity-50"
@@ -81,8 +81,8 @@ export default function PlanCard() {
           {/* Header */}
           <div className="flex items-start justify-between mb-5">
             <div>
-              <p className="text-[10px] text-[#6B655B] uppercase tracking-widest mb-1">Current Plan</p>
-              <h3 className="font-headline text-2xl font-extrabold text-[#15140F] leading-none">{meta.label}</h3>
+              <p className="text-[10px] text-[#64748B] uppercase tracking-widest mb-1">Current Plan</p>
+              <h3 className="font-headline text-2xl font-extrabold text-[#0F172A] leading-none">{meta.label}</h3>
               <p className="text-xs mt-1" style={{ color: meta.color }}>{meta.price}</p>
             </div>
             <span
@@ -96,7 +96,7 @@ export default function PlanCard() {
           {/* Features */}
           <div className="space-y-2 mb-5">
             {meta.features.map(f => (
-              <div key={f} className="flex items-center gap-2 text-xs text-[#3D3A30]">
+              <div key={f} className="flex items-center gap-2 text-xs text-[#334155]">
                 <span
                   className="material-symbols-outlined text-[14px]"
                   style={{ color: meta.color, fontVariationSettings: "'FILL' 1" }}
@@ -110,8 +110,8 @@ export default function PlanCard() {
 
           {/* Renewal */}
           {plan !== 'starter' && (
-            <p className="text-[10px] text-[#6B655B] mb-4">
-              Renews <span className="text-[#15140F] font-medium">Apr 25, 2026</span>
+            <p className="text-[10px] text-[#64748B] mb-4">
+              Renews <span className="text-[#0F172A] font-medium">Apr 25, 2026</span>
             </p>
           )}
 

@@ -60,30 +60,30 @@ export default function ComposeDrawer({ open, onClose }: ComposeDrawerProps) {
       <div
         ref={overlayRef}
         onClick={handleClose}
-        className="absolute inset-0 bg-[#15140F]/42 backdrop-blur-[2px]"
+        className="absolute inset-0 bg-[#0F172A]/42 backdrop-blur-[2px]"
       />
 
       {/* Panel */}
       <div
         ref={panelRef}
-        className="relative z-10 flex flex-col bg-[#FBF8F2] border-l border-[#15140F]/10 shadow-[-28px_0_64px_rgba(21,20,15,0.12)]"
+        className="relative z-10 flex flex-col bg-[#FFFFFF] border-l border-[#0F172A]/10 shadow-[-28px_0_64px_rgba(15,23,42,0.12)]"
         style={{ width: '460px', maxWidth: '92vw', maxHeight: '100vh', overflowY: 'auto' }}
       >
 
         {/* Header */}
-        <div className="flex items-start justify-between px-6 pt-5 pb-4 border-b border-[#15140F]/8 shrink-0">
+        <div className="flex items-start justify-between px-6 pt-5 pb-4 border-b border-[#0F172A]/8 shrink-0">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-lg bg-[#F4E0D6] flex items-center justify-center">
-              <span className="material-symbols-outlined text-[#C8553A]" style={{ fontSize: 16, fontVariationSettings: "'FILL' 1" }}>add</span>
+              <span className="material-symbols-outlined text-[#111827]" style={{ fontSize: 16, fontVariationSettings: "'FILL' 1" }}>add</span>
             </div>
             <div>
-              <h2 className="font-headline text-base font-bold text-[#15140F] tracking-[-0.01em]">New post</h2>
-              <p className="text-[11px] text-[#A39B8B]">Draft · auto-saved</p>
+              <h2 className="font-headline text-base font-bold text-[#0F172A] tracking-[-0.01em]">New post</h2>
+              <p className="text-[11px] text-[#94A3B8]">Draft · auto-saved</p>
             </div>
           </div>
           <button
             onClick={handleClose}
-            className="w-8 h-8 flex items-center justify-center rounded-lg text-[#6B655B] hover:text-[#15140F] hover:bg-[#EFE9DC] transition-all"
+            className="w-8 h-8 flex items-center justify-center rounded-lg text-[#64748B] hover:text-[#0F172A] hover:bg-[#F1F5F9] transition-all"
           >
             <span className="material-symbols-outlined" style={{ fontSize: 18 }}>close</span>
           </button>
@@ -95,8 +95,8 @@ export default function ComposeDrawer({ open, onClose }: ComposeDrawerProps) {
           {/* WHERE TO POST */}
           <div className="px-6 pt-5 pb-4">
             <div className="flex items-center justify-between mb-3">
-              <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#6B655B] font-bold">Where to post</p>
-              <p className="text-[11px] text-[#A39B8B]">
+              <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#64748B] font-bold">Where to post</p>
+              <p className="text-[11px] text-[#94A3B8]">
                 {selectedPlatforms.length} selected
               </p>
             </div>
@@ -111,11 +111,11 @@ export default function ComposeDrawer({ open, onClose }: ComposeDrawerProps) {
                     className={[
                       'flex items-center gap-2 px-3 py-2.5 rounded-xl border text-sm font-medium transition-all',
                       active
-                        ? 'border-[#C8553A]/40 bg-[#F4E0D6]/40 text-[#15140F]'
-                        : 'border-[#15140F]/12 bg-white text-[#6B655B] hover:border-[#15140F]/20',
+                        ? 'border-[#111827]/40 bg-[#F4E0D6]/40 text-[#0F172A]'
+                        : 'border-[#0F172A]/12 bg-white text-[#64748B] hover:border-[#0F172A]/20',
                     ].join(' ')}
                   >
-                    <svg viewBox="0 0 24 24" className="shrink-0" style={{ width: 14, height: 14, fill: active ? p.color : '#A39B8B' }}>
+                    <svg viewBox="0 0 24 24" className="shrink-0" style={{ width: 14, height: 14, fill: active ? p.color : '#94A3B8' }}>
                       <path d={p.icon} />
                     </svg>
                     <span className="text-[12px]">{p.label}</span>
@@ -125,19 +125,19 @@ export default function ComposeDrawer({ open, onClose }: ComposeDrawerProps) {
             </div>
           </div>
 
-          <div className="h-px bg-[#15140F]/8 mx-6" />
+          <div className="h-px bg-[#0F172A]/8 mx-6" />
 
           {/* CAPTION */}
           <div className="px-6 pt-4 pb-3">
             <div className="flex items-center justify-between mb-2">
               <div className="flex items-center gap-1.5">
-                <span className="material-symbols-outlined text-[#C8553A]" style={{ fontSize: 13 }}>text_fields</span>
-                <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#6B655B] font-bold">Caption</p>
+                <span className="material-symbols-outlined text-[#111827]" style={{ fontSize: 13 }}>text_fields</span>
+                <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#64748B] font-bold">Caption</p>
               </div>
               <Link
                 to="/composer"
                 onClick={handleClose}
-                className="flex items-center gap-1 text-[11px] font-semibold text-[#C8553A] hover:text-[#A53F28] transition-colors"
+                className="flex items-center gap-1 text-[11px] font-semibold text-[#111827] hover:text-[#0B1220] transition-colors"
               >
                 <span className="material-symbols-outlined" style={{ fontSize: 12 }}>auto_awesome</span>
                 Write with AI
@@ -148,54 +148,54 @@ export default function ComposeDrawer({ open, onClose }: ComposeDrawerProps) {
               onChange={e => setCaption(e.target.value)}
               maxLength={maxChars}
               placeholder="What's the story? Plain over clever. Lead with the verb when you can."
-              className="w-full bg-[#F6F2EA] border border-[#15140F]/10 rounded-xl px-4 py-3 text-sm text-[#15140F] placeholder:text-[#A39B8B] resize-none outline-none focus:border-[#C8553A]/40 transition-colors leading-relaxed"
+              className="w-full bg-[#F8FAFC] border border-[#0F172A]/10 rounded-xl px-4 py-3 text-sm text-[#0F172A] placeholder:text-[#94A3B8] resize-none outline-none focus:border-[#111827]/40 transition-colors leading-relaxed"
               style={{ minHeight: '120px' }}
             />
             <div className="flex items-center justify-between mt-2 px-0.5">
-              <p className="text-[10px] text-[#A39B8B]">
+              <p className="text-[10px] text-[#94A3B8]">
                 {hashtagCount} hashtag{hashtagCount !== 1 ? 's' : ''} · {mentionCount} mention{mentionCount !== 1 ? 's' : ''}
               </p>
-              <p className={`text-[10px] font-mono ${charCount > maxChars * 0.9 ? 'text-[#B7841E]' : 'text-[#A39B8B]'}`}>
+              <p className={`text-[10px] font-mono ${charCount > maxChars * 0.9 ? 'text-[#B45309]' : 'text-[#94A3B8]'}`}>
                 {charCount} / {maxChars}
               </p>
             </div>
           </div>
 
-          <div className="h-px bg-[#15140F]/8 mx-6" />
+          <div className="h-px bg-[#0F172A]/8 mx-6" />
 
           {/* IMAGE OR VIDEO */}
           <div className="px-6 pt-4 pb-3">
             <div className="flex items-center justify-between mb-2">
               <div className="flex items-center gap-1.5">
-                <span className="material-symbols-outlined text-[#C8553A]" style={{ fontSize: 13 }}>image</span>
-                <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#6B655B] font-bold">Image or video</p>
+                <span className="material-symbols-outlined text-[#111827]" style={{ fontSize: 13 }}>image</span>
+                <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#64748B] font-bold">Image or video</p>
               </div>
               <Link
                 to="/composer"
                 onClick={handleClose}
-                className="flex items-center gap-1 text-[11px] font-semibold text-[#C8553A] hover:text-[#A53F28] transition-colors"
+                className="flex items-center gap-1 text-[11px] font-semibold text-[#111827] hover:text-[#0B1220] transition-colors"
               >
                 <span className="material-symbols-outlined" style={{ fontSize: 12 }}>auto_awesome</span>
                 Generate
               </Link>
             </div>
-            <div className="border border-dashed border-[#15140F]/18 rounded-xl p-6 flex flex-col items-center gap-2 bg-[#F6F2EA] hover:border-[#C8553A]/35 hover:bg-[#F4E0D6]/20 transition-all cursor-pointer">
-              <span className="material-symbols-outlined text-[#A39B8B]" style={{ fontSize: 22 }}>upload</span>
-              <p className="text-sm text-[#3D3A30]">
+            <div className="border border-dashed border-[#0F172A]/18 rounded-xl p-6 flex flex-col items-center gap-2 bg-[#F8FAFC] hover:border-[#111827]/35 hover:bg-[#F4E0D6]/20 transition-all cursor-pointer">
+              <span className="material-symbols-outlined text-[#94A3B8]" style={{ fontSize: 22 }}>upload</span>
+              <p className="text-sm text-[#334155]">
                 Drop or{' '}
-                <Link to="/composer" onClick={handleClose} className="text-[#C8553A] font-semibold hover:text-[#A53F28]">
+                <Link to="/composer" onClick={handleClose} className="text-[#111827] font-semibold hover:text-[#0B1220]">
                   browse
                 </Link>
               </p>
-              <p className="text-[10px] text-[#A39B8B]">PNG · JPG · MP4 up to 50 MB</p>
+              <p className="text-[10px] text-[#94A3B8]">PNG · JPG · MP4 up to 50 MB</p>
             </div>
           </div>
 
-          <div className="h-px bg-[#15140F]/8 mx-6" />
+          <div className="h-px bg-[#0F172A]/8 mx-6" />
 
           {/* WHEN */}
           <div className="px-6 pt-4 pb-3">
-            <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#6B655B] font-bold mb-3">When</p>
+            <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#64748B] font-bold mb-3">When</p>
             <div className="grid grid-cols-2 gap-2">
               <button
                 type="button"
@@ -203,14 +203,14 @@ export default function ComposeDrawer({ open, onClose }: ComposeDrawerProps) {
                 className={[
                   'flex items-center gap-2.5 px-4 py-3 rounded-xl border text-left transition-all',
                   mode === 'schedule'
-                    ? 'border-[#C8553A]/35 bg-[#F4E0D6]/30'
-                    : 'border-[#15140F]/12 bg-white hover:border-[#15140F]/20',
+                    ? 'border-[#111827]/35 bg-[#F4E0D6]/30'
+                    : 'border-[#0F172A]/12 bg-white hover:border-[#0F172A]/20',
                 ].join(' ')}
               >
-                <span className="material-symbols-outlined text-[#6B655B]" style={{ fontSize: 16 }}>schedule</span>
+                <span className="material-symbols-outlined text-[#64748B]" style={{ fontSize: 16 }}>schedule</span>
                 <div>
-                  <p className="text-sm font-semibold text-[#15140F]">Schedule</p>
-                  <p className="text-[10px] font-mono text-[#6B655B] mt-0.5">Today · 11:00 AM</p>
+                  <p className="text-sm font-semibold text-[#0F172A]">Schedule</p>
+                  <p className="text-[10px] font-mono text-[#64748B] mt-0.5">Today · 11:00 AM</p>
                 </div>
               </button>
               <button
@@ -219,54 +219,54 @@ export default function ComposeDrawer({ open, onClose }: ComposeDrawerProps) {
                 className={[
                   'flex items-center gap-2.5 px-4 py-3 rounded-xl border text-left transition-all',
                   mode === 'now'
-                    ? 'border-[#C8553A]/35 bg-[#F4E0D6]/30'
-                    : 'border-[#15140F]/12 bg-white hover:border-[#15140F]/20',
+                    ? 'border-[#111827]/35 bg-[#F4E0D6]/30'
+                    : 'border-[#0F172A]/12 bg-white hover:border-[#0F172A]/20',
                 ].join(' ')}
               >
-                <span className="material-symbols-outlined text-[#6B655B]" style={{ fontSize: 16 }}>bolt</span>
+                <span className="material-symbols-outlined text-[#64748B]" style={{ fontSize: 16 }}>bolt</span>
                 <div>
-                  <p className="text-sm font-semibold text-[#15140F]">Publish now</p>
-                  <p className="text-[10px] font-mono text-[#6B655B] mt-0.5">Goes live immediately</p>
+                  <p className="text-sm font-semibold text-[#0F172A]">Publish now</p>
+                  <p className="text-[10px] font-mono text-[#64748B] mt-0.5">Goes live immediately</p>
                 </div>
               </button>
             </div>
           </div>
 
-          <div className="h-px bg-[#15140F]/8 mx-6" />
+          <div className="h-px bg-[#0F172A]/8 mx-6" />
 
           {/* SHOW LIVE PREVIEW */}
           <button
             type="button"
             onClick={() => setPreviewOpen(v => !v)}
-            className="w-full flex items-center justify-between px-6 py-3.5 hover:bg-[#EFE9DC]/40 transition-colors text-left"
+            className="w-full flex items-center justify-between px-6 py-3.5 hover:bg-[#F1F5F9]/40 transition-colors text-left"
           >
             <div className="flex items-center gap-2">
-              <span className="material-symbols-outlined text-[#6B655B]" style={{ fontSize: 15 }}>preview</span>
-              <span className="text-sm text-[#3D3A30] font-medium">Show live preview</span>
+              <span className="material-symbols-outlined text-[#64748B]" style={{ fontSize: 15 }}>preview</span>
+              <span className="text-sm text-[#334155] font-medium">Show live preview</span>
             </div>
             <span
-              className="material-symbols-outlined text-[#A39B8B] transition-transform duration-200"
+              className="material-symbols-outlined text-[#94A3B8] transition-transform duration-200"
               style={{ fontSize: 18, transform: previewOpen ? 'rotate(180deg)' : 'rotate(0deg)' }}
             >
               expand_more
             </span>
           </button>
           {previewOpen && (
-            <div className="mx-6 mb-4 px-4 py-3 rounded-xl bg-[#EFE9DC] text-[11px] text-[#6B655B] text-center">
+            <div className="mx-6 mb-4 px-4 py-3 rounded-xl bg-[#F1F5F9] text-[11px] text-[#64748B] text-center">
               Preview available in the full composer.
-              <Link to="/composer" onClick={handleClose} className="ml-1 text-[#C8553A] font-semibold hover:text-[#A53F28]">Open it →</Link>
+              <Link to="/composer" onClick={handleClose} className="ml-1 text-[#111827] font-semibold hover:text-[#0B1220]">Open it →</Link>
             </div>
           )}
 
         </div>
 
         {/* Footer */}
-        <div className="shrink-0 border-t border-[#15140F]/8 bg-[#FBF8F2]">
+        <div className="shrink-0 border-t border-[#0F172A]/8 bg-[#FFFFFF]">
           <div className="px-6 py-3 flex items-center justify-between">
             <Link
               to="/composer"
               onClick={handleClose}
-              className="flex items-center gap-1.5 text-[12px] font-semibold text-[#6B655B] hover:text-[#15140F] transition-colors"
+              className="flex items-center gap-1.5 text-[12px] font-semibold text-[#64748B] hover:text-[#0F172A] transition-colors"
             >
               <span className="material-symbols-outlined" style={{ fontSize: 14 }}>draft</span>
               Save draft
@@ -274,7 +274,7 @@ export default function ComposeDrawer({ open, onClose }: ComposeDrawerProps) {
             <Link
               to="/composer"
               onClick={handleClose}
-              className="text-[11px] font-semibold text-[#C8553A] hover:text-[#A53F28] transition-colors border border-[#C8553A]/25 rounded-lg px-3 py-1.5 hover:border-[#C8553A]/50"
+              className="text-[11px] font-semibold text-[#111827] hover:text-[#0B1220] transition-colors border border-[#111827]/25 rounded-lg px-3 py-1.5 hover:border-[#111827]/50"
             >
               Configuración completa
             </Link>
@@ -283,7 +283,7 @@ export default function ComposeDrawer({ open, onClose }: ComposeDrawerProps) {
             <Link
               to="/composer"
               onClick={handleClose}
-              className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-[#C8553A] text-white text-sm font-bold hover:bg-[#A53F28] transition-all active:scale-[0.98]"
+              className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-[#111827] text-white text-sm font-bold hover:bg-[#0B1220] transition-all active:scale-[0.98]"
             >
               Schedule post
               <span className="material-symbols-outlined" style={{ fontSize: 16 }}>arrow_forward</span>

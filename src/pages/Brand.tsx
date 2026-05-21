@@ -1,4 +1,4 @@
-﻿import { useEffect, useRef, useState, useCallback } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import gsap from 'gsap';
 import { useWorkspace } from '../contexts/WorkspaceContext';
 
@@ -155,7 +155,7 @@ interface BrandData {
   referenceImageUrls: string[];
 }
 
-const DEFAULT_COLORS = deriveColorSystem('#C8553A');
+const DEFAULT_COLORS = deriveColorSystem('#111827');
 
 const EMPTY: BrandData = {
   name: '', handle: '', tagline: '', website: '',
@@ -202,9 +202,9 @@ function hasAnyData(d: BrandData) {
 
 function SectionHeader({ icon, title }: { icon: string; title: string }) {
   return (
-    <div className="flex items-center gap-2 pb-1 border-b border-[#15140F]/15">
-      <span className="material-symbols-outlined text-[#C8553A]" style={{ fontSize: 14 }}>{icon}</span>
-      <h2 className="text-xs font-bold uppercase tracking-widest text-[#6B655B]">{title}</h2>
+    <div className="flex items-center gap-2 pb-1 border-b border-[#0F172A]/15">
+      <span className="material-symbols-outlined text-[#111827]" style={{ fontSize: 14 }}>{icon}</span>
+      <h2 className="text-xs font-bold uppercase tracking-widest text-[#64748B]">{title}</h2>
     </div>
   );
 }
@@ -212,15 +212,15 @@ function SectionHeader({ icon, title }: { icon: string; title: string }) {
 function FieldLabel({ icon, label }: { icon: string; label: string }) {
   return (
     <div className="flex items-center gap-2">
-      <span className="material-symbols-outlined text-[#C8553A]" style={{ fontSize: 16 }}>{icon}</span>
-      <label className="text-[11px] font-bold uppercase tracking-widest text-[#6B655B]">{label}</label>
+      <span className="material-symbols-outlined text-[#111827]" style={{ fontSize: 16 }}>{icon}</span>
+      <label className="text-[11px] font-bold uppercase tracking-widest text-[#64748B]">{label}</label>
     </div>
   );
 }
 
 const inputCls =
-  'w-full bg-[#FBF8F2] border border-[#15140F]/30 rounded-2xl px-4 py-3 text-sm text-[#15140F] ' +
-  'focus:ring-2 focus:ring-[#C8553A]/20 focus:border-[#C8553A] outline-none transition-all placeholder:text-[#6B655B]/40';
+  'w-full bg-[#FFFFFF] border border-[#0F172A]/30 rounded-2xl px-4 py-3 text-sm text-[#0F172A] ' +
+  'focus:ring-2 focus:ring-[#0E9F6E]/20 focus:border-[#111827] outline-none transition-all placeholder:text-[#64748B]/40';
 
 interface PillsProps {
   options: { value: string; label: string }[];
@@ -233,8 +233,8 @@ function Pills({ options, value, onChange, editing }: PillsProps) {
   if (!editing) {
     const found = options.find(o => o.value === value);
     return (
-      <p className="text-sm text-[#3D3A30] pl-6">
-        {found ? found.label : <span className="text-[#15140F]/60 italic">Not configured</span>}
+      <p className="text-sm text-[#334155] pl-6">
+        {found ? found.label : <span className="text-[#0F172A]/60 italic">Not configured</span>}
       </p>
     );
   }
@@ -248,8 +248,8 @@ function Pills({ options, value, onChange, editing }: PillsProps) {
           className={[
             'px-3 py-1.5 rounded-xl text-xs font-semibold transition-all border',
             value === o.value
-              ? 'bg-[#C8553A]/15 border-[#C8553A]/40 text-[#C8553A]'
-              : 'bg-[#FBF8F2] border-[#15140F]/30 text-[#6B655B] hover:text-[#15140F] hover:border-[#15140F]/60',
+              ? 'bg-[#111827]/15 border-[#111827]/40 text-[#111827]'
+              : 'bg-[#FFFFFF] border-[#0F172A]/30 text-[#64748B] hover:text-[#0F172A] hover:border-[#0F172A]/60',
           ].join(' ')}
         >
           {o.label}
@@ -425,18 +425,18 @@ export default function Brand() {
       <div data-brand-section className="flex items-start justify-between gap-4">
         <div className="space-y-2">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-[#C8553A]/20 to-[#D6A86A]/20 border border-[#C8553A]/25 flex items-center justify-center shrink-0">
-              <span className="material-symbols-outlined text-[#C8553A]" style={{ fontSize: 20 }}>style</span>
+            <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-[#111827]/20 to-[#D6A86A]/20 border border-[#111827]/25 flex items-center justify-center shrink-0">
+              <span className="material-symbols-outlined text-[#111827]" style={{ fontSize: 20 }}>style</span>
             </div>
             <div>
-              <h1 className="text-2xl font-headline font-extrabold tracking-tight text-[#15140F]">Brand</h1>
-              <p className="text-xs text-[#6B655B]">Visual identity and voice the AI uses when generating your carousels</p>
+              <h1 className="text-2xl font-headline font-extrabold tracking-tight text-[#0F172A]">Brand</h1>
+              <p className="text-xs text-[#64748B]">Visual identity and voice the AI uses when generating your carousels</p>
             </div>
           </div>
           {active && (
             <div className="flex items-center gap-2 pl-13">
-              <span className="material-symbols-outlined text-[#C8553A]" style={{ fontSize: 13 }}>workspaces</span>
-              <span className="text-[11px] font-bold text-[#C8553A] uppercase tracking-widest">{active.name}</span>
+              <span className="material-symbols-outlined text-[#111827]" style={{ fontSize: 13 }}>workspaces</span>
+              <span className="text-[11px] font-bold text-[#111827] uppercase tracking-widest">{active.name}</span>
             </div>
           )}
         </div>
@@ -444,7 +444,7 @@ export default function Brand() {
         {!editing && hasAnyData(saved) && (
           <button
             onClick={handleEdit}
-            className="flex items-center gap-2 px-4 py-2 rounded-xl border border-[#15140F]/30 text-sm font-semibold text-[#3D3A30] hover:text-[#15140F] hover:border-[#C8553A]/40 hover:bg-[#C8553A]/8 transition-all active:scale-[0.98] shrink-0"
+            className="flex items-center gap-2 px-4 py-2 rounded-xl border border-[#0F172A]/30 text-sm font-semibold text-[#334155] hover:text-[#0F172A] hover:border-[#111827]/40 hover:bg-[#111827]/8 transition-all active:scale-[0.98] shrink-0"
           >
             <span className="material-symbols-outlined" style={{ fontSize: 16 }}>edit</span>
             Edit
@@ -469,7 +469,7 @@ export default function Brand() {
             <input type="text" value={form.name} onChange={e => setForm(p => ({ ...p, name: e.target.value }))}
               placeholder="e.g. Vielinks" className={inputCls} />
           ) : (
-            <p className="text-sm text-[#3D3A30] pl-6">{form.name || <span className="text-[#15140F]/60 italic">Not configured</span>}</p>
+            <p className="text-sm text-[#334155] pl-6">{form.name || <span className="text-[#0F172A]/60 italic">Not configured</span>}</p>
           )}
         </div>
 
@@ -479,7 +479,7 @@ export default function Brand() {
             <input type="text" value={form.handle} onChange={e => setForm(p => ({ ...p, handle: e.target.value }))}
               placeholder="@yourbrand" className={inputCls} />
           ) : (
-            <p className="text-sm text-[#3D3A30] pl-6">{form.handle || <span className="text-[#15140F]/60 italic">Not configured</span>}</p>
+            <p className="text-sm text-[#334155] pl-6">{form.handle || <span className="text-[#0F172A]/60 italic">Not configured</span>}</p>
           )}
         </div>
 
@@ -489,7 +489,7 @@ export default function Brand() {
             <input type="text" value={form.tagline} onChange={e => setForm(p => ({ ...p, tagline: e.target.value }))}
               placeholder="e.g. Content that converts." className={inputCls} />
           ) : (
-            <p className="text-sm text-[#3D3A30] pl-6">{form.tagline || <span className="text-[#15140F]/60 italic">Not configured</span>}</p>
+            <p className="text-sm text-[#334155] pl-6">{form.tagline || <span className="text-[#0F172A]/60 italic">Not configured</span>}</p>
           )}
         </div>
 
@@ -499,7 +499,7 @@ export default function Brand() {
             <input type="text" value={form.website} onChange={e => setForm(p => ({ ...p, website: e.target.value }))}
               placeholder="https://yourbrand.com" className={inputCls} />
           ) : (
-            <p className="text-sm text-[#3D3A30] pl-6">{form.website || <span className="text-[#15140F]/60 italic">Not configured</span>}</p>
+            <p className="text-sm text-[#334155] pl-6">{form.website || <span className="text-[#0F172A]/60 italic">Not configured</span>}</p>
           )}
         </div>
       </section>
@@ -512,7 +512,7 @@ export default function Brand() {
         <div className="space-y-3">
           <FieldLabel icon="image" label="Reference Images" />
           {editing && (
-            <p className="text-[11px] text-[#15140F] leading-relaxed pl-6">
+            <p className="text-[11px] text-[#0F172A] leading-relaxed pl-6">
               Upload logos, brand assets, or color reference images. The AI will extract your brand palette automatically.
             </p>
           )}
@@ -526,22 +526,22 @@ export default function Brand() {
               className={[
                 'relative rounded-2xl border-2 border-dashed transition-all p-6 text-center cursor-pointer',
                 dragging
-                  ? 'border-[#C8553A]/60 bg-[#C8553A]/8'
-                  : 'border-[#15140F]/30 bg-[#FBF8F2] hover:border-[#C8553A]/30 hover:bg-[#C8553A]/5',
+                  ? 'border-[#111827]/60 bg-[#111827]/8'
+                  : 'border-[#0F172A]/30 bg-[#FFFFFF] hover:border-[#111827]/30 hover:bg-[#111827]/5',
               ].join(' ')}
               onClick={() => document.getElementById('brand-img-input')?.click()}
             >
               <input id="brand-img-input" type="file" accept="image/*" multiple onChange={handleFileInput} className="hidden" />
               {extracting ? (
                 <div className="flex flex-col items-center gap-2 py-2">
-                  <span className="material-symbols-outlined text-[#C8553A] animate-spin" style={{ fontSize: 28 }}>progress_activity</span>
-                  <p className="text-xs text-[#6B655B]">Extracting colors…</p>
+                  <span className="material-symbols-outlined text-[#111827] animate-spin" style={{ fontSize: 28 }}>progress_activity</span>
+                  <p className="text-xs text-[#64748B]">Extracting colors…</p>
                 </div>
               ) : (
                 <div className="flex flex-col items-center gap-2 py-2">
-                  <span className="material-symbols-outlined text-[#15140F]" style={{ fontSize: 32 }}>upload_file</span>
-                  <p className="text-sm text-[#6B655B]">Drop images here or <span className="text-[#C8553A]">click to upload</span></p>
-                  <p className="text-[11px] text-[#15140F]">PNG, JPG, SVG, WebP</p>
+                  <span className="material-symbols-outlined text-[#0F172A]" style={{ fontSize: 32 }}>upload_file</span>
+                  <p className="text-sm text-[#64748B]">Drop images here or <span className="text-[#111827]">click to upload</span></p>
+                  <p className="text-[11px] text-[#0F172A]">PNG, JPG, SVG, WebP</p>
                 </div>
               )}
             </div>
@@ -551,7 +551,7 @@ export default function Brand() {
           {form.referenceImageUrls.length > 0 && (
             <div className="flex flex-wrap gap-2 pl-6">
               {form.referenceImageUrls.map((url, i) => (
-                <div key={i} className="relative group w-16 h-16 rounded-xl overflow-hidden border border-[#15140F]/30">
+                <div key={i} className="relative group w-16 h-16 rounded-xl overflow-hidden border border-[#0F172A]/30">
                   <img src={url} alt="" className="w-full h-full object-cover" />
                   {editing && (
                     <button
@@ -559,7 +559,7 @@ export default function Brand() {
                       onClick={() => removeImage(i)}
                       className="absolute inset-0 flex items-center justify-center bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity"
                     >
-                      <span className="material-symbols-outlined text-[#15140F]" style={{ fontSize: 18 }}>close</span>
+                      <span className="material-symbols-outlined text-[#0F172A]" style={{ fontSize: 18 }}>close</span>
                     </button>
                   )}
                 </div>
@@ -573,7 +573,7 @@ export default function Brand() {
           <div className="space-y-2">
             <FieldLabel icon="colorize" label="Extracted Palette" />
             {editing && (
-              <p className="text-[11px] text-[#15140F] pl-6">Click a color to use it as your primary brand color.</p>
+              <p className="text-[11px] text-[#0F172A] pl-6">Click a color to use it as your primary brand color.</p>
             )}
             <div className="flex flex-wrap gap-2 pl-6">
               {form.extractedColors.map(color => (
@@ -595,9 +595,9 @@ export default function Brand() {
             <div className="flex items-center gap-3 pl-6">
               <input
                 type="color"
-                value={isValidHex(hexInput) ? hexInput : '#C8553A'}
+                value={isValidHex(hexInput) ? hexInput : '#111827'}
                 onChange={e => applyPrimaryColor(e.target.value)}
-                className="w-10 h-10 rounded-xl border border-[#15140F]/30 bg-[#FBF8F2] cursor-pointer p-0.5"
+                className="w-10 h-10 rounded-xl border border-[#0F172A]/30 bg-[#FFFFFF] cursor-pointer p-0.5"
               />
               <input
                 type="text"
@@ -606,11 +606,11 @@ export default function Brand() {
                   setHexInput(e.target.value);
                   if (isValidHex(e.target.value)) applyPrimaryColor(e.target.value);
                 }}
-                placeholder="#C8553A"
-                className="w-36 bg-[#FBF8F2] border border-[#15140F]/30 rounded-xl px-3 py-2 text-sm font-mono text-[#15140F] focus:ring-2 focus:ring-[#C8553A]/20 focus:border-[#C8553A] outline-none transition-all"
+                placeholder="#111827"
+                className="w-36 bg-[#FFFFFF] border border-[#0F172A]/30 rounded-xl px-3 py-2 text-sm font-mono text-[#0F172A] focus:ring-2 focus:ring-[#0E9F6E]/20 focus:border-[#111827] outline-none transition-all"
               />
               {isValidHex(hexInput) && (
-                <p className="text-[11px] text-[#15140F]">Palette derived automatically</p>
+                <p className="text-[11px] text-[#0F172A]">Palette derived automatically</p>
               )}
             </div>
           ) : (
@@ -618,10 +618,10 @@ export default function Brand() {
               {form.primaryColor ? (
                 <>
                   <div className="w-7 h-7 rounded-full border border-white/10" style={{ background: form.primaryColor }} />
-                  <span className="text-sm font-mono text-[#3D3A30]">{form.primaryColor}</span>
+                  <span className="text-sm font-mono text-[#334155]">{form.primaryColor}</span>
                 </>
               ) : (
-                <p className="text-sm text-[#15140F]/60 italic">Not configured</p>
+                <p className="text-sm text-[#0F172A]/60 italic">Not configured</p>
               )}
             </div>
           )}
@@ -638,8 +638,8 @@ export default function Brand() {
                     className="w-10 h-10 rounded-xl border border-white/10 shadow-sm"
                     style={{ background: form.colors[key] }}
                   />
-                  <span className="text-[9px] text-[#15140F] uppercase tracking-wider text-center leading-tight">{label}</span>
-                  <span className="text-[9px] font-mono text-[#6B655B]/60">{form.colors[key]}</span>
+                  <span className="text-[9px] text-[#0F172A] uppercase tracking-wider text-center leading-tight">{label}</span>
+                  <span className="text-[9px] font-mono text-[#64748B]/60">{form.colors[key]}</span>
                 </div>
               ))}
             </div>
@@ -655,7 +655,7 @@ export default function Brand() {
         <div className="space-y-2">
           <FieldLabel icon="mood" label="Brand Tone" />
           {editing && (
-            <p className="text-[11px] text-[#15140F] pl-6">How should your content sound to your audience?</p>
+            <p className="text-[11px] text-[#0F172A] pl-6">How should your content sound to your audience?</p>
           )}
           {editing ? (
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 pl-6">
@@ -667,8 +667,8 @@ export default function Brand() {
                   className={[
                     'text-left px-3 py-2.5 rounded-2xl border transition-all',
                     form.voice.tone === t.value
-                      ? 'bg-[#C8553A]/12 border-[#C8553A]/40 text-[#15140F]'
-                      : 'bg-[#FBF8F2] border-[#15140F]/30 text-[#6B655B] hover:border-[#15140F]/60 hover:text-[#15140F]',
+                      ? 'bg-[#111827]/12 border-[#111827]/40 text-[#0F172A]'
+                      : 'bg-[#FFFFFF] border-[#0F172A]/30 text-[#64748B] hover:border-[#0F172A]/60 hover:text-[#0F172A]',
                   ].join(' ')}
                 >
                   <p className="text-xs font-bold capitalize">{t.label}</p>
@@ -680,14 +680,14 @@ export default function Brand() {
             <div className="pl-6">
               {selectedTone ? (
                 <div className="flex items-start gap-2">
-                  <div className="w-2 h-2 rounded-full bg-[#C8553A] mt-1.5 shrink-0" />
+                  <div className="w-2 h-2 rounded-full bg-[#111827] mt-1.5 shrink-0" />
                   <div>
-                    <p className="text-sm font-semibold text-[#3D3A30] capitalize">{selectedTone.label}</p>
-                    <p className="text-xs text-[#15140F]">{selectedTone.desc}</p>
+                    <p className="text-sm font-semibold text-[#334155] capitalize">{selectedTone.label}</p>
+                    <p className="text-xs text-[#0F172A]">{selectedTone.desc}</p>
                   </div>
                 </div>
               ) : (
-                <p className="text-sm text-[#15140F]/60 italic">Not configured</p>
+                <p className="text-sm text-[#0F172A]/60 italic">Not configured</p>
               )}
             </div>
           )}
@@ -697,7 +697,7 @@ export default function Brand() {
         <div className="space-y-1.5">
           <FieldLabel icon="notes" label="Tone Description" />
           {editing && (
-            <p className="text-[11px] text-[#15140F] pl-6">Describe your brand voice in detail. This is injected directly into the generation prompt.</p>
+            <p className="text-[11px] text-[#0F172A] pl-6">Describe your brand voice in detail. This is injected directly into the generation prompt.</p>
           )}
           {editing ? (
             <textarea
@@ -710,8 +710,8 @@ export default function Brand() {
           ) : (
             <div className="pl-6">
               {form.voice.toneDescription.trim()
-                ? <p className="text-sm text-[#3D3A30] whitespace-pre-wrap leading-relaxed">{form.voice.toneDescription}</p>
-                : <p className="text-sm text-[#15140F]/60 italic">Not configured</p>
+                ? <p className="text-sm text-[#334155] whitespace-pre-wrap leading-relaxed">{form.voice.toneDescription}</p>
+                : <p className="text-sm text-[#0F172A]/60 italic">Not configured</p>
               }
             </div>
           )}
@@ -786,7 +786,7 @@ export default function Brand() {
               className={inputCls}
             />
           ) : (
-            <p className="text-sm text-[#3D3A30] pl-6">{form.voice.ctaStyle || <span className="text-[#15140F]/60 italic">Not configured</span>}</p>
+            <p className="text-sm text-[#334155] pl-6">{form.voice.ctaStyle || <span className="text-[#0F172A]/60 italic">Not configured</span>}</p>
           )}
         </div>
       </section>
@@ -802,7 +802,7 @@ export default function Brand() {
               onChange={e => setContent('industry')(e.target.value)}
               placeholder="e.g. fitness, marketing, tech, wellness" className={inputCls} />
           ) : (
-            <p className="text-sm text-[#3D3A30] pl-6">{form.content.industry || <span className="text-[#15140F]/60 italic">Not configured</span>}</p>
+            <p className="text-sm text-[#334155] pl-6">{form.content.industry || <span className="text-[#0F172A]/60 italic">Not configured</span>}</p>
           )}
         </div>
 
@@ -814,14 +814,14 @@ export default function Brand() {
               placeholder="e.g. Founders and marketing managers at DTC brands, 25–40 y/o"
               className={inputCls} />
           ) : (
-            <p className="text-sm text-[#3D3A30] pl-6">{form.content.targetAudience || <span className="text-[#15140F]/60 italic">Not configured</span>}</p>
+            <p className="text-sm text-[#334155] pl-6">{form.content.targetAudience || <span className="text-[#0F172A]/60 italic">Not configured</span>}</p>
           )}
         </div>
 
         <div className="space-y-1.5">
           <FieldLabel icon="category" label="Content Pillars" />
           {editing && (
-            <p className="text-[11px] text-[#15140F] pl-6">The main topics your brand talks about, comma-separated.</p>
+            <p className="text-[11px] text-[#0F172A] pl-6">The main topics your brand talks about, comma-separated.</p>
           )}
           {editing ? (
             <input type="text" value={form.content.contentPillars}
@@ -829,14 +829,14 @@ export default function Brand() {
               placeholder="e.g. Social media tips, behind-the-scenes, product launches, client wins"
               className={inputCls} />
           ) : (
-            <p className="text-sm text-[#3D3A30] pl-6">{form.content.contentPillars || <span className="text-[#15140F]/60 italic">Not configured</span>}</p>
+            <p className="text-sm text-[#334155] pl-6">{form.content.contentPillars || <span className="text-[#0F172A]/60 italic">Not configured</span>}</p>
           )}
         </div>
 
         <div className="space-y-1.5">
           <FieldLabel icon="do_not_disturb_on" label="Avoid" />
           {editing && (
-            <p className="text-[11px] text-[#15140F] pl-6">Words, phrases, or topics the AI should never use.</p>
+            <p className="text-[11px] text-[#0F172A] pl-6">Words, phrases, or topics the AI should never use.</p>
           )}
           {editing ? (
             <textarea
@@ -849,8 +849,8 @@ export default function Brand() {
           ) : (
             <div className="pl-6">
               {form.content.avoid.trim()
-                ? <p className="text-sm text-[#3D3A30] whitespace-pre-wrap">{form.content.avoid}</p>
-                : <p className="text-sm text-[#15140F]/60 italic">Not configured</p>
+                ? <p className="text-sm text-[#334155] whitespace-pre-wrap">{form.content.avoid}</p>
+                : <p className="text-sm text-[#0F172A]/60 italic">Not configured</p>
               }
             </div>
           )}
@@ -864,7 +864,7 @@ export default function Brand() {
                 onChange={e => setContent('defaultCtaKeyword')(e.target.value)}
                 placeholder="e.g. INFO, GUIA, KIT" className={inputCls} />
             ) : (
-              <p className="text-sm text-[#3D3A30] pl-6">{form.content.defaultCtaKeyword || <span className="text-[#15140F]/60 italic">—</span>}</p>
+              <p className="text-sm text-[#334155] pl-6">{form.content.defaultCtaKeyword || <span className="text-[#0F172A]/60 italic">—</span>}</p>
             )}
           </div>
 
@@ -887,7 +887,7 @@ export default function Brand() {
             <button
               onClick={handleCancel}
               disabled={saving}
-              className="px-5 py-2.5 rounded-xl border border-[#15140F]/20 text-sm font-semibold text-[#6B655B] hover:text-[#15140F] hover:bg-[#EFE9DC] transition-all disabled:opacity-40"
+              className="px-5 py-2.5 rounded-xl border border-[#0F172A]/20 text-sm font-semibold text-[#64748B] hover:text-[#0F172A] hover:bg-[#F1F5F9] transition-all disabled:opacity-40"
             >
               Cancel
             </button>
@@ -895,7 +895,7 @@ export default function Brand() {
           <button
             onClick={handleSave}
             disabled={saving || !active}
-            className="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-[#C8553A] text-white font-bold text-sm hover:bg-[#A53F28] disabled:opacity-50 disabled:cursor-not-allowed transition-all active:scale-[0.98]"
+            className="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-[#111827] text-white font-bold text-sm hover:bg-[#0B1220] disabled:opacity-50 disabled:cursor-not-allowed transition-all active:scale-[0.98]"
           >
             {saving ? (
               <>

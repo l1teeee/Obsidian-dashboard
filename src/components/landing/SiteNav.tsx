@@ -31,7 +31,7 @@ export default function SiteNav() {
       ref={ref}
       className={`fixed top-0 left-0 right-0 z-50 w-full transition-[background-color,box-shadow] duration-200 ${
         scrolled
-          ? 'bg-[rgba(246,242,234,0.85)] backdrop-blur-xl shadow-[0_1px_0_rgba(21,20,15,0.06)]'
+          ? 'bg-[rgba(248,250,252,0.85)] backdrop-blur-xl shadow-[0_1px_0_rgba(15,23,42,0.06)]'
           : 'bg-transparent'
       }`}
     >
@@ -41,13 +41,13 @@ export default function SiteNav() {
           {scrolled ? (
             <button
               onClick={() => window.scrollTo({ top: 0, behavior: reduced() ? 'auto' : 'smooth' })}
-              className="font-medium text-[18px] text-[#15140F] tracking-[-0.02em]"
+              className="font-medium text-[18px] text-[#0F172A] tracking-[-0.02em]"
             >
               Vielinks
             </button>
           ) : (
             <Link to="/" className="flex items-center">
-              <span className="font-medium text-[18px] text-[#15140F] tracking-[-0.02em]">Vielinks</span>
+              <span className="font-medium text-[18px] text-[#0F172A] tracking-[-0.02em]">Vielinks</span>
             </Link>
           )}
         </div>
@@ -58,8 +58,8 @@ export default function SiteNav() {
             scrolled ? 'opacity-0 pointer-events-none' : 'opacity-100'
           }`}
         >
-          <Link to="/login"    className="inline-flex items-center text-[14px] font-medium text-[#3D3A30] px-[18px] py-2.5 rounded-[10px] hover:bg-[#EFE9DC] active:scale-[0.97] transition-[background-color,transform] duration-150">Sign in</Link>
-          <Link to="/register" className="inline-flex items-center text-[14px] font-medium bg-[#15140F] text-[#F6F2EA] px-[18px] py-2.5 rounded-[10px] hover:bg-[#3D3A30] active:scale-[0.97] transition-[background-color,transform] duration-150">Start free</Link>
+          <Link to="/login"    className="inline-flex items-center text-[14px] font-medium text-[#334155] px-[18px] py-2.5 rounded-[10px] hover:bg-[#F1F5F9] active:scale-[0.97] transition-[background-color,transform] duration-150">Sign in</Link>
+          <Link to="/register" className="inline-flex items-center text-[14px] font-medium bg-[#0F172A] text-[#F8FAFC] px-[18px] py-2.5 rounded-[10px] hover:bg-[#334155] active:scale-[0.97] transition-[background-color,transform] duration-150">Start free</Link>
         </div>
       </div>
     </nav>

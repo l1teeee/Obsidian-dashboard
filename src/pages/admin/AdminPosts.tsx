@@ -1,4 +1,4 @@
-﻿import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import * as adminService from '../../services/admin.service';
 import type { AdminPostRow } from '../../types/admin.types';
 import type { PageMeta } from '../../lib/api';
@@ -27,9 +27,9 @@ const PLATFORMS = ['instagram', 'facebook', 'linkedin', 'twitter', 'tiktok'];
 const STATUSES  = ['draft', 'scheduled', 'published', 'inactive', 'failed'];
 
 const STATUS_META: Record<string, { cls: string; icon: string; label: string }> = {
-  draft:     { cls: 'text-[#6B655B] bg-[#988d9c]/10 border-[#988d9c]/20',  icon: 'draft',        label: 'Draft'     },
+  draft:     { cls: 'text-[#64748B] bg-[#94A3B8]/10 border-[#94A3B8]/20',  icon: 'draft',        label: 'Draft'     },
   scheduled: { cls: 'text-[#60a5fa] bg-[#60a5fa]/10 border-[#60a5fa]/20',  icon: 'schedule',     label: 'Scheduled' },
-  published: { cls: 'text-[#4F7A4A] bg-[#4F7A4A]/10 border-[#4F7A4A]/20',  icon: 'check_circle', label: 'Published' },
+  published: { cls: 'text-[#047857] bg-[#047857]/10 border-[#047857]/20',  icon: 'check_circle', label: 'Published' },
   inactive:  { cls: 'text-[#f87171] bg-[#f87171]/10 border-[#f87171]/20',  icon: 'pause_circle', label: 'Inactive'  },
   failed:    { cls: 'text-[#fb923c] bg-[#fb923c]/10 border-[#fb923c]/20',  icon: 'error',        label: 'Failed'    },
 };
@@ -49,7 +49,7 @@ function fmtDate(d: string | Date) {
 }
 
 function PlatformBadge({ platform }: { platform: string }) {
-  const color = PLATFORM_COLORS[platform.toLowerCase()] ?? '#988d9c';
+  const color = PLATFORM_COLORS[platform.toLowerCase()] ?? '#94A3B8';
   return (
     <span
       className="px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wide border"
@@ -156,12 +156,12 @@ export default function AdminPosts() {
             <div className="w-2 h-2 rounded-full bg-[#f87171]" />
             <span className="text-[#f87171] text-xs uppercase tracking-widest font-bold">Admin</span>
           </div>
-          <h1 className="font-headline text-3xl font-extrabold tracking-tighter text-[#15140F]">Posts</h1>
-          {meta && <p className="text-[#6B655B] text-sm mt-1">{meta.total.toLocaleString()} total posts</p>}
+          <h1 className="font-headline text-3xl font-extrabold tracking-tighter text-[#0F172A]">Posts</h1>
+          {meta && <p className="text-[#64748B] text-sm mt-1">{meta.total.toLocaleString()} total posts</p>}
         </div>
         <button
           onClick={() => load(page, search, platform, status)}
-          className="flex items-center gap-1.5 px-4 py-2 rounded-full border border-[#15140F]/20 text-[#6B655B] hover:text-[#15140F] hover:border-[#15140F]/40 transition-all text-xs"
+          className="flex items-center gap-1.5 px-4 py-2 rounded-full border border-[#0F172A]/20 text-[#64748B] hover:text-[#0F172A] hover:border-[#0F172A]/40 transition-all text-xs"
         >
           <span className={`material-symbols-outlined ${loading ? 'animate-spin' : ''}`} style={{ fontSize: 14 }}>refresh</span>
           Refresh
@@ -180,7 +180,7 @@ export default function AdminPosts() {
                 onClick={() => handleStatus(s)}
                 className={[
                   'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold border transition-all',
-                  active ? m.cls : 'text-[#6B655B] bg-transparent border-[#15140F]/20 hover:border-[#15140F]/40 hover:text-[#15140F]',
+                  active ? m.cls : 'text-[#64748B] bg-transparent border-[#0F172A]/20 hover:border-[#0F172A]/40 hover:text-[#0F172A]',
                 ].join(' ')}
               >
                 <span className="material-symbols-outlined" style={{ fontSize: 13, fontVariationSettings: "'FILL' 1" }}>{m.icon}</span>
@@ -192,7 +192,7 @@ export default function AdminPosts() {
           {status && (
             <button
               onClick={() => handleStatus('')}
-              className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl text-xs text-[#15140F] border border-[#15140F]/15 hover:text-[#15140F] transition-all"
+              className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl text-xs text-[#0F172A] border border-[#0F172A]/15 hover:text-[#0F172A] transition-all"
             >
               <span className="material-symbols-outlined" style={{ fontSize: 13 }}>close</span>
               Clear filter
@@ -204,12 +204,12 @@ export default function AdminPosts() {
       {/* Filters row */}
       <div className="flex flex-wrap gap-3">
         <div className="relative min-w-[220px] max-w-xs flex-1">
-          <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[#6B655B]" style={{ fontSize: 16 }}>search</span>
+          <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[#64748B]" style={{ fontSize: 16 }}>search</span>
           <input
             value={search}
             onChange={e => handleSearch(e.target.value)}
             placeholder="Search by caption or owner..."
-            className="w-full bg-[#FBF8F2] border border-[#15140F]/20 rounded-xl py-2.5 pl-9 pr-4 text-sm text-[#15140F] placeholder:text-[#6B655B] focus:outline-none focus:border-[#C8553A]/40 transition-all"
+            className="w-full bg-[#FFFFFF] border border-[#0F172A]/20 rounded-xl py-2.5 pl-9 pr-4 text-sm text-[#0F172A] placeholder:text-[#64748B] focus:outline-none focus:border-[#111827]/40 transition-all"
           />
         </div>
 
@@ -222,7 +222,7 @@ export default function AdminPosts() {
                 'px-3 py-2 rounded-xl text-xs font-semibold transition-all border',
                 platform === p
                   ? 'bg-[#f87171]/10 border-[#f87171]/30 text-[#f87171]'
-                  : 'bg-transparent border-[#15140F]/20 text-[#6B655B] hover:text-[#15140F] hover:border-[#15140F]/40',
+                  : 'bg-transparent border-[#0F172A]/20 text-[#64748B] hover:text-[#0F172A] hover:border-[#0F172A]/40',
               ].join(' ')}
             >
               {p || 'All platforms'}
@@ -238,8 +238,8 @@ export default function AdminPosts() {
               className={[
                 'px-3 py-2 rounded-xl text-xs font-semibold transition-all border',
                 status === s
-                  ? 'bg-[#C8553A]/10 border-[#C8553A]/30 text-[#C8553A]'
-                  : 'bg-transparent border-[#15140F]/20 text-[#6B655B] hover:text-[#15140F] hover:border-[#15140F]/40',
+                  ? 'bg-[#111827]/10 border-[#111827]/30 text-[#111827]'
+                  : 'bg-transparent border-[#0F172A]/20 text-[#64748B] hover:text-[#0F172A] hover:border-[#0F172A]/40',
               ].join(' ')}
             >
               {s ? (STATUS_META[s]?.label ?? s) : 'All statuses'}
@@ -256,36 +256,36 @@ export default function AdminPosts() {
       )}
 
       {/* Table */}
-      <div className="glass-card rounded-3xl border border-[#15140F]/10 overflow-hidden">
+      <div className="glass-card rounded-3xl border border-[#0F172A]/10 overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-[#15140F]/10">
-                <th className="text-left px-5 py-4 text-[#6B655B] text-xs uppercase tracking-widest font-semibold">Platform</th>
-                <th className="text-left px-5 py-4 text-[#6B655B] text-xs uppercase tracking-widest font-semibold">Caption</th>
-                <th className="text-left px-5 py-4 text-[#6B655B] text-xs uppercase tracking-widest font-semibold">Status</th>
-                <th className="text-left px-5 py-4 text-[#6B655B] text-xs uppercase tracking-widest font-semibold">Owner</th>
-                <th className="text-left px-5 py-4 text-[#6B655B] text-xs uppercase tracking-widest font-semibold">Workspace</th>
-                <th className="text-right px-5 py-4 text-[#6B655B] text-xs uppercase tracking-widest font-semibold">Date</th>
-                <th className="text-center px-5 py-4 text-[#6B655B] text-xs uppercase tracking-widest font-semibold">Actions</th>
+              <tr className="border-b border-[#0F172A]/10">
+                <th className="text-left px-5 py-4 text-[#64748B] text-xs uppercase tracking-widest font-semibold">Platform</th>
+                <th className="text-left px-5 py-4 text-[#64748B] text-xs uppercase tracking-widest font-semibold">Caption</th>
+                <th className="text-left px-5 py-4 text-[#64748B] text-xs uppercase tracking-widest font-semibold">Status</th>
+                <th className="text-left px-5 py-4 text-[#64748B] text-xs uppercase tracking-widest font-semibold">Owner</th>
+                <th className="text-left px-5 py-4 text-[#64748B] text-xs uppercase tracking-widest font-semibold">Workspace</th>
+                <th className="text-right px-5 py-4 text-[#64748B] text-xs uppercase tracking-widest font-semibold">Date</th>
+                <th className="text-center px-5 py-4 text-[#64748B] text-xs uppercase tracking-widest font-semibold">Actions</th>
               </tr>
             </thead>
             <tbody>
               {loading ? (
                 Array.from({ length: 8 }).map((_, i) => (
-                  <tr key={i} className="border-b border-[#15140F]/5 animate-pulse">
-                    <td className="px-5 py-4"><div className="h-5 w-20 bg-[#E7E0D0] rounded-lg" /></td>
-                    <td className="px-5 py-4"><div className="h-3 w-48 bg-[#E7E0D0] rounded-full" /></td>
-                    <td className="px-5 py-4"><div className="h-5 w-24 bg-[#E7E0D0] rounded-lg" /></td>
-                    <td className="px-5 py-4"><div className="h-3 w-28 bg-[#E7E0D0] rounded-full" /></td>
-                    <td className="px-5 py-4"><div className="h-3 w-24 bg-[#E7E0D0] rounded-full" /></td>
-                    <td className="px-5 py-4"><div className="h-3 w-20 bg-[#E7E0D0] rounded-full ml-auto" /></td>
-                    <td className="px-5 py-4"><div className="h-6 w-24 bg-[#E7E0D0] rounded-lg mx-auto" /></td>
+                  <tr key={i} className="border-b border-[#0F172A]/5 animate-pulse">
+                    <td className="px-5 py-4"><div className="h-5 w-20 bg-[#E2E8F0] rounded-lg" /></td>
+                    <td className="px-5 py-4"><div className="h-3 w-48 bg-[#E2E8F0] rounded-full" /></td>
+                    <td className="px-5 py-4"><div className="h-5 w-24 bg-[#E2E8F0] rounded-lg" /></td>
+                    <td className="px-5 py-4"><div className="h-3 w-28 bg-[#E2E8F0] rounded-full" /></td>
+                    <td className="px-5 py-4"><div className="h-3 w-24 bg-[#E2E8F0] rounded-full" /></td>
+                    <td className="px-5 py-4"><div className="h-3 w-20 bg-[#E2E8F0] rounded-full ml-auto" /></td>
+                    <td className="px-5 py-4"><div className="h-6 w-24 bg-[#E2E8F0] rounded-lg mx-auto" /></td>
                   </tr>
                 ))
               ) : posts.length === 0 ? (
                 <tr>
-                  <td colSpan={7} className="px-6 py-16 text-center text-[#15140F]">
+                  <td colSpan={7} className="px-6 py-16 text-center text-[#0F172A]">
                     <span className="material-symbols-outlined text-4xl block mb-2">article</span>
                     No posts found
                   </td>
@@ -297,7 +297,7 @@ export default function AdminPosts() {
                     <tr
                       key={post.id}
                       className={[
-                        'border-b border-[#15140F]/5 transition-colors',
+                        'border-b border-[#0F172A]/5 transition-colors',
                         isInactive ? 'opacity-50 hover:opacity-70' : 'hover:bg-white/[0.02]',
                       ].join(' ')}
                     >
@@ -305,26 +305,26 @@ export default function AdminPosts() {
 
                       <td className="px-5 py-4 max-w-[240px]">
                         {post.caption
-                          ? <p className="text-[#3D3A30] text-xs truncate">{post.caption}</p>
-                          : <p className="text-[#15140F] text-xs italic">No caption</p>
+                          ? <p className="text-[#334155] text-xs truncate">{post.caption}</p>
+                          : <p className="text-[#0F172A] text-xs italic">No caption</p>
                         }
-                        <p className="text-[#15140F] text-[10px] mt-0.5 uppercase tracking-wide">{post.post_type}</p>
+                        <p className="text-[#0F172A] text-[10px] mt-0.5 uppercase tracking-wide">{post.post_type}</p>
                       </td>
 
                       <td className="px-5 py-4"><StatusBadge status={post.status} /></td>
 
-                      <td className="px-5 py-4 text-[#6B655B] text-xs">{post.owner_email}</td>
+                      <td className="px-5 py-4 text-[#64748B] text-xs">{post.owner_email}</td>
 
                       <td className="px-5 py-4">
                         <div className="flex items-center gap-1.5">
-                          <div className="w-4 h-4 rounded bg-gradient-to-tr from-[#C8553A]/40 to-[#D6A86A]/40 flex items-center justify-center shrink-0">
-                            <span className="material-symbols-outlined text-[#C8553A]" style={{ fontSize: 10 }}>workspaces</span>
+                          <div className="w-4 h-4 rounded bg-gradient-to-tr from-[#111827]/40 to-[#D6A86A]/40 flex items-center justify-center shrink-0">
+                            <span className="material-symbols-outlined text-[#111827]" style={{ fontSize: 10 }}>workspaces</span>
                           </div>
-                          <span className="text-[#3D3A30] text-xs">{post.workspace_name}</span>
+                          <span className="text-[#334155] text-xs">{post.workspace_name}</span>
                         </div>
                       </td>
 
-                      <td className="px-5 py-4 text-right text-[#6B655B] text-xs whitespace-nowrap">
+                      <td className="px-5 py-4 text-right text-[#64748B] text-xs whitespace-nowrap">
                         {post.published_at
                           ? fmtDate(post.published_at)
                           : post.scheduled_at
@@ -338,7 +338,7 @@ export default function AdminPosts() {
                           {isInactive ? (
                             <button
                               onClick={() => openConfirm({ post, action: 'activate' })}
-                              className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-[10px] font-bold text-[#4F7A4A] bg-[#4F7A4A]/8 border border-[#4F7A4A]/20 hover:bg-[#4F7A4A]/15 hover:border-[#4F7A4A]/35 transition-all whitespace-nowrap"
+                              className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-[10px] font-bold text-[#047857] bg-[#047857]/8 border border-[#047857]/20 hover:bg-[#047857]/15 hover:border-[#047857]/35 transition-all whitespace-nowrap"
                             >
                               <span className="material-symbols-outlined" style={{ fontSize: 11, fontVariationSettings: "'FILL' 1" }}>play_circle</span>
                               Activate
@@ -373,39 +373,39 @@ export default function AdminPosts() {
               'w-12 h-12 rounded-2xl flex items-center justify-center mb-5 border',
               isDeactivate
                 ? 'bg-[#f87171]/10 border-[#f87171]/20'
-                : 'bg-[#4F7A4A]/10 border-[#4F7A4A]/20',
+                : 'bg-[#047857]/10 border-[#047857]/20',
             ].join(' ')}>
               <span
                 className="material-symbols-outlined"
-                style={{ fontSize: 22, color: isDeactivate ? '#f87171' : '#4F7A4A', fontVariationSettings: "'FILL' 1" }}
+                style={{ fontSize: 22, color: isDeactivate ? '#f87171' : '#047857', fontVariationSettings: "'FILL' 1" }}
               >
                 {isDeactivate ? 'pause_circle' : 'play_circle'}
               </span>
             </div>
 
-            <h2 className="text-xl font-headline font-extrabold tracking-tight text-[#15140F] mb-1">
+            <h2 className="text-xl font-headline font-extrabold tracking-tight text-[#0F172A] mb-1">
               {isDeactivate ? 'Deactivate post?' : 'Activate post?'}
             </h2>
 
-            <p className="text-xs text-[#6B655B] mb-1">
-              <span className="text-[#3D3A30] font-semibold">{confirm.post.owner_email}</span>
+            <p className="text-xs text-[#64748B] mb-1">
+              <span className="text-[#334155] font-semibold">{confirm.post.owner_email}</span>
               {' · '}
               <span className="uppercase">{confirm.post.platform}</span>
             </p>
             {confirm.post.caption && (
-              <p className="text-xs text-[#15140F] truncate mb-3">{confirm.post.caption}</p>
+              <p className="text-xs text-[#0F172A] truncate mb-3">{confirm.post.caption}</p>
             )}
 
-            <p className="text-sm text-[#6B655B] mb-4">
+            <p className="text-sm text-[#64748B] mb-4">
               {isDeactivate
                 ? <>The post will be marked as <span className="text-[#f87171] font-semibold">inactive</span> and hidden from the user.</>
-                : <>The post will be restored as a <span className="text-[#4F7A4A] font-semibold">draft</span>. The user can review and republish it.</>
+                : <>The post will be restored as a <span className="text-[#047857] font-semibold">draft</span>. The user can review and republish it.</>
               }
             </p>
 
             {/* Reason selector */}
             <div className="mb-5">
-              <p className="text-[10px] font-bold text-[#6B655B] uppercase tracking-widest mb-2.5">
+              <p className="text-[10px] font-bold text-[#64748B] uppercase tracking-widest mb-2.5">
                 Reason <span className="text-[#f87171]">*</span>
               </p>
               <div className="flex flex-col gap-2">
@@ -418,15 +418,15 @@ export default function AdminPosts() {
                         reason === r
                           ? isDeactivate
                             ? 'border-[#f87171] bg-[#f87171]'
-                            : 'border-[#4F7A4A] bg-[#4F7A4A]'
-                          : 'border-[#15140F]/40 bg-transparent group-hover:border-[#988d9c]',
+                            : 'border-[#047857] bg-[#047857]'
+                          : 'border-[#0F172A]/40 bg-transparent group-hover:border-[#94A3B8]',
                       ].join(' ')}
                     >
                       {reason === r && <div className="w-1.5 h-1.5 rounded-full bg-white" />}
                     </div>
                     <span
                       onClick={() => setReason(r)}
-                      className={`text-sm transition-colors cursor-pointer ${reason === r ? 'text-[#15140F] font-medium' : 'text-[#6B655B] group-hover:text-[#3D3A30]'}`}
+                      className={`text-sm transition-colors cursor-pointer ${reason === r ? 'text-[#0F172A] font-medium' : 'text-[#64748B] group-hover:text-[#334155]'}`}
                     >
                       {r}
                     </span>
@@ -440,12 +440,12 @@ export default function AdminPosts() {
                   onChange={e => setCustomReason(e.target.value)}
                   placeholder="Describe the reason..."
                   rows={3}
-                  className="mt-3 w-full bg-[#FBF8F2] border border-[#15140F]/20 rounded-xl p-3 text-sm text-[#15140F] placeholder:text-[#15140F] focus:outline-none focus:border-[#C8553A]/40 resize-none transition-all"
+                  className="mt-3 w-full bg-[#FFFFFF] border border-[#0F172A]/20 rounded-xl p-3 text-sm text-[#0F172A] placeholder:text-[#0F172A] focus:outline-none focus:border-[#111827]/40 resize-none transition-all"
                 />
               )}
             </div>
 
-            <p className="text-xs text-[#15140F] mb-6 flex items-center gap-1.5">
+            <p className="text-xs text-[#0F172A] mb-6 flex items-center gap-1.5">
               <span className="material-symbols-outlined" style={{ fontSize: 13 }}>mail</span>
               An email with this reason will be sent to the user.
             </p>
@@ -457,8 +457,8 @@ export default function AdminPosts() {
                 className={[
                   'w-full py-3 rounded-xl font-bold text-sm transition-all disabled:opacity-40 disabled:cursor-not-allowed',
                   isDeactivate
-                    ? 'bg-[#f87171] text-[#15140F] hover:bg-[#fca5a5]'
-                    : 'bg-[#4F7A4A] text-[#1a1d00] hover:bg-[#d4e24f]',
+                    ? 'bg-[#f87171] text-[#0F172A] hover:bg-[#fca5a5]'
+                    : 'bg-[#047857] text-[#1a1d00] hover:bg-[#d4e24f]',
                 ].join(' ')}
               >
                 {working
@@ -469,7 +469,7 @@ export default function AdminPosts() {
               <button
                 onClick={() => setConfirm(null)}
                 disabled={working}
-                className="w-full py-3 rounded-xl border border-[#15140F]/20 text-sm font-semibold text-[#3D3A30] hover:bg-[#EFE9DC] hover:text-[#15140F] disabled:opacity-50 transition-all"
+                className="w-full py-3 rounded-xl border border-[#0F172A]/20 text-sm font-semibold text-[#334155] hover:bg-[#F1F5F9] hover:text-[#0F172A] disabled:opacity-50 transition-all"
               >
                 Cancel
               </button>

@@ -1,26 +1,26 @@
-﻿import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import * as adminService from '../../services/admin.service';
 import type { AdminEntry } from '../../services/admin.service';
 import type { AdminRole } from '../../types/admin.types';
 import Modal from '../../components/shared/Modal';
 
 const CAPABILITIES = [
-  { icon: 'monitoring',          label: 'Platform Overview',  desc: 'Real-time stats, charts, and top workspace rankings.', color: '#C8553A' },
+  { icon: 'monitoring',          label: 'Platform Overview',  desc: 'Real-time stats, charts, and top workspace rankings.', color: '#111827' },
   { icon: 'group',               label: 'User Management',    desc: 'Search, activate, and deactivate any user account.',   color: '#60a5fa' },
-  { icon: 'workspaces',          label: 'Workspace Control',  desc: 'Inspect and toggle the status of all workspaces.',     color: '#4F7A4A' },
+  { icon: 'workspaces',          label: 'Workspace Control',  desc: 'Inspect and toggle the status of all workspaces.',     color: '#047857' },
   { icon: 'article',             label: 'Post Moderation',    desc: 'Review, activate, or deactivate posts.',               color: '#fb923c' },
   { icon: 'admin_panel_settings', label: 'Admin Management',  desc: 'Add or remove platform administrators.',               color: '#f87171' },
 ] as const;
 
 const STATUS_CONFIG = {
   pending:  { label: 'Pending',  color: '#fb923c', bg: 'bg-[#fb923c]/10', border: 'border-[#fb923c]/20', icon: 'schedule' },
-  accepted: { label: 'Active',   color: '#4F7A4A', bg: 'bg-[#4F7A4A]/10', border: 'border-[#4F7A4A]/20', icon: 'check_circle' },
+  accepted: { label: 'Active',   color: '#047857', bg: 'bg-[#047857]/10', border: 'border-[#047857]/20', icon: 'check_circle' },
   rejected: { label: 'Rejected', color: '#f87171', bg: 'bg-[#f87171]/10', border: 'border-[#f87171]/20', icon: 'cancel' },
 };
 
 const ROLE_CONFIG = {
   superadmin: { label: 'Superadmin', color: '#f87171', bg: 'bg-[#f87171]/10 border-[#f87171]/20' },
-  admin:      { label: 'Admin',      color: '#C8553A', bg: 'bg-[#C8553A]/10 border-[#C8553A]/20' },
+  admin:      { label: 'Admin',      color: '#111827', bg: 'bg-[#111827]/10 border-[#111827]/20' },
 };
 
 function fmtDate(iso: string) {
@@ -106,12 +106,12 @@ export default function AdminAdmins() {
             <div className="w-2 h-2 rounded-full bg-[#f87171]" />
             <span className="text-[#f87171] text-xs uppercase tracking-widest font-bold">Admin</span>
           </div>
-          <h1 className="font-headline text-3xl font-extrabold tracking-tighter text-[#15140F]">Administrators</h1>
-          <p className="text-[#6B655B] text-sm mt-1">Manage who has admin access. Only superadmins can add or remove admins.</p>
+          <h1 className="font-headline text-3xl font-extrabold tracking-tighter text-[#0F172A]">Administrators</h1>
+          <p className="text-[#64748B] text-sm mt-1">Manage who has admin access. Only superadmins can add or remove admins.</p>
         </div>
         <button
           onClick={openAdd}
-          className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#f87171] text-[#15140F] text-sm font-bold shadow-[0_0_20px_rgba(248,113,113,0.2)] hover:shadow-[0_0_28px_rgba(248,113,113,0.35)] hover:bg-[#fca5a5] active:scale-95 transition-all"
+          className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#f87171] text-[#0F172A] text-sm font-bold shadow-[0_0_20px_rgba(248,113,113,0.2)] hover:shadow-[0_0_28px_rgba(248,113,113,0.35)] hover:bg-[#fca5a5] active:scale-95 transition-all"
         >
           <span className="material-symbols-outlined text-[16px]">person_add</span>
           Invite Administrator
@@ -126,28 +126,28 @@ export default function AdminAdmins() {
       )}
 
       {/* Capabilities */}
-      <div className="glass-card rounded-3xl border border-[#15140F]/10 overflow-hidden">
-        <div className="px-6 py-5 border-b border-[#15140F]/10 flex items-center gap-2">
+      <div className="glass-card rounded-3xl border border-[#0F172A]/10 overflow-hidden">
+        <div className="px-6 py-5 border-b border-[#0F172A]/10 flex items-center gap-2">
           <span className="material-symbols-outlined text-[#f87171] text-[18px]" style={{ fontVariationSettings: "'FILL' 1" }}>admin_panel_settings</span>
-          <h2 className="font-headline font-bold text-[#15140F]">Admin Capabilities</h2>
+          <h2 className="font-headline font-bold text-[#0F172A]">Admin Capabilities</h2>
           <div className="ml-auto flex items-center gap-3">
-            <span className="flex items-center gap-1.5 text-[10px] font-semibold text-[#C8553A]">
-              <span className="w-2 h-2 rounded-full bg-[#C8553A]" />Admin
+            <span className="flex items-center gap-1.5 text-[10px] font-semibold text-[#111827]">
+              <span className="w-2 h-2 rounded-full bg-[#111827]" />Admin
             </span>
             <span className="flex items-center gap-1.5 text-[10px] font-semibold text-[#f87171]">
               <span className="w-2 h-2 rounded-full bg-[#f87171]" />Superadmin + Admin Management
             </span>
           </div>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-0 divide-x divide-y divide-[#15140F]/10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-0 divide-x divide-y divide-[#0F172A]/10">
           {CAPABILITIES.map(cap => (
             <div key={cap.label} className="p-5 flex flex-col gap-3 hover:bg-white/[0.015] transition-colors">
               <div className="w-9 h-9 rounded-xl flex items-center justify-center" style={{ background: `${cap.color}18` }}>
                 <span className="material-symbols-outlined text-[18px]" style={{ color: cap.color, fontVariationSettings: "'FILL' 1" }}>{cap.icon}</span>
               </div>
               <div>
-                <p className="text-sm font-bold text-[#15140F] font-headline leading-tight">{cap.label}</p>
-                <p className="text-[11px] text-[#6B655B] mt-1 leading-relaxed">{cap.desc}</p>
+                <p className="text-sm font-bold text-[#0F172A] font-headline leading-tight">{cap.label}</p>
+                <p className="text-[11px] text-[#64748B] mt-1 leading-relaxed">{cap.desc}</p>
               </div>
             </div>
           ))}
@@ -155,31 +155,31 @@ export default function AdminAdmins() {
       </div>
 
       {/* Admins list */}
-      <div className="glass-card rounded-3xl border border-[#15140F]/10 overflow-hidden">
-        <div className="px-6 py-5 border-b border-[#15140F]/10 flex items-center justify-between">
+      <div className="glass-card rounded-3xl border border-[#0F172A]/10 overflow-hidden">
+        <div className="px-6 py-5 border-b border-[#0F172A]/10 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <span className="material-symbols-outlined text-[#f87171] text-[18px]">group</span>
-            <h2 className="font-headline font-bold text-[#15140F]">Invitations</h2>
+            <h2 className="font-headline font-bold text-[#0F172A]">Invitations</h2>
           </div>
-          {!loading && <span className="text-[11px] text-[#15140F] font-mono">{admins.length} total</span>}
+          {!loading && <span className="text-[11px] text-[#0F172A] font-mono">{admins.length} total</span>}
         </div>
 
-        <div className="divide-y divide-[#15140F]/8">
+        <div className="divide-y divide-[#0F172A]/8">
           {loading ? (
             Array.from({ length: 3 }).map((_, i) => (
               <div key={i} className="flex items-center gap-4 px-6 py-4 animate-pulse">
-                <div className="w-9 h-9 rounded-xl bg-[#E7E0D0] shrink-0" />
+                <div className="w-9 h-9 rounded-xl bg-[#E2E8F0] shrink-0" />
                 <div className="flex-1 space-y-2">
-                  <div className="h-3 w-40 bg-[#E7E0D0] rounded-full" />
-                  <div className="h-2.5 w-28 bg-[#E7E0D0] rounded-full" />
+                  <div className="h-3 w-40 bg-[#E2E8F0] rounded-full" />
+                  <div className="h-2.5 w-28 bg-[#E2E8F0] rounded-full" />
                 </div>
-                <div className="h-6 w-20 bg-[#E7E0D0] rounded-full" />
+                <div className="h-6 w-20 bg-[#E2E8F0] rounded-full" />
               </div>
             ))
           ) : admins.length === 0 ? (
             <div className="px-6 py-16 flex flex-col items-center gap-3 text-center">
-              <span className="material-symbols-outlined text-[#15140F] text-[40px]">admin_panel_settings</span>
-              <p className="text-[#6B655B] text-sm">No invitations yet.</p>
+              <span className="material-symbols-outlined text-[#0F172A] text-[40px]">admin_panel_settings</span>
+              <p className="text-[#64748B] text-sm">No invitations yet.</p>
             </div>
           ) : (
             admins.map(admin => {
@@ -191,14 +191,14 @@ export default function AdminAdmins() {
 
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 flex-wrap">
-                      <p className="text-sm font-semibold text-[#15140F] leading-tight truncate">{admin.name ?? admin.email}</p>
+                      <p className="text-sm font-semibold text-[#0F172A] leading-tight truncate">{admin.name ?? admin.email}</p>
                       <span className={`px-1.5 py-0.5 rounded-md border text-[9px] font-bold uppercase tracking-wider shrink-0 ${rl.bg}`} style={{ color: rl.color }}>
                         {rl.label}
                       </span>
                     </div>
-                    {admin.name && <p className="text-xs text-[#6B655B] truncate mt-0.5">{admin.email}</p>}
+                    {admin.name && <p className="text-xs text-[#64748B] truncate mt-0.5">{admin.email}</p>}
                     {admin.invited_by_name && (
-                      <p className="text-[10px] text-[#15140F] mt-0.5">Invited by {admin.invited_by_name}</p>
+                      <p className="text-[10px] text-[#0F172A] mt-0.5">Invited by {admin.invited_by_name}</p>
                     )}
                   </div>
 
@@ -209,9 +209,9 @@ export default function AdminAdmins() {
                   </div>
 
                   <div className="text-right shrink-0">
-                    <p className="text-[11px] text-[#15140F]">{fmtDate(admin.created_at)}</p>
+                    <p className="text-[11px] text-[#0F172A]">{fmtDate(admin.created_at)}</p>
                     {admin.responded_at && (
-                      <p className="text-[10px] text-[#15140F] mt-0.5">Responded {fmtDate(admin.responded_at)}</p>
+                      <p className="text-[10px] text-[#0F172A] mt-0.5">Responded {fmtDate(admin.responded_at)}</p>
                     )}
                   </div>
 
@@ -235,23 +235,23 @@ export default function AdminAdmins() {
           <div className="w-12 h-12 rounded-2xl bg-[#f87171]/10 border border-[#f87171]/20 flex items-center justify-center mb-5">
             <span className="material-symbols-outlined text-[#f87171]" style={{ fontSize: 22, fontVariationSettings: "'FILL' 1" }}>person_add</span>
           </div>
-          <h2 className="text-xl font-headline font-extrabold tracking-tight text-[#15140F] mb-1">Invite Administrator</h2>
-          <p className="text-sm text-[#6B655B] mb-6">An invitation email will be sent. The user must accept before gaining access.</p>
+          <h2 className="text-xl font-headline font-extrabold tracking-tight text-[#0F172A] mb-1">Invite Administrator</h2>
+          <p className="text-sm text-[#64748B] mb-6">An invitation email will be sent. The user must accept before gaining access.</p>
 
           {addOk ? (
-            <div className="flex items-center gap-3 px-4 py-3.5 rounded-2xl bg-[#4F7A4A]/10 border border-[#4F7A4A]/20 text-sm text-[#4F7A4A]">
+            <div className="flex items-center gap-3 px-4 py-3.5 rounded-2xl bg-[#047857]/10 border border-[#047857]/20 text-sm text-[#047857]">
               <span className="material-symbols-outlined text-[18px]" style={{ fontVariationSettings: "'FILL' 1" }}>mark_email_read</span>
               <div>
                 <p className="font-bold">Invitation sent</p>
-                <p className="text-[11px] text-[#4F7A4A]/70 mt-0.5">Waiting for {email} to accept.</p>
+                <p className="text-[11px] text-[#047857]/70 mt-0.5">Waiting for {email} to accept.</p>
               </div>
             </div>
           ) : (
             <form onSubmit={e => { void handleAdd(e); }} className="space-y-4">
               <div className="space-y-1.5">
-                <label className="text-[10px] text-[#6B655B] uppercase tracking-widest font-semibold">Email Address</label>
+                <label className="text-[10px] text-[#64748B] uppercase tracking-widest font-semibold">Email Address</label>
                 <div className="relative">
-                  <span className="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-[#15140F]" style={{ fontSize: 16 }}>mail</span>
+                  <span className="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-[#0F172A]" style={{ fontSize: 16 }}>mail</span>
                   <input
                     ref={emailRef}
                     type="email"
@@ -259,7 +259,7 @@ export default function AdminAdmins() {
                     onChange={e => { setEmail(e.target.value); setAddError(null); }}
                     placeholder="user@example.com"
                     disabled={adding}
-                    className="w-full bg-[#FBF8F2] border border-[#15140F]/30 rounded-xl pl-10 pr-4 py-3 text-sm text-[#15140F] placeholder:text-[#15140F] focus:outline-none focus:border-[#f87171]/50 focus:ring-1 focus:ring-[#f87171]/20 transition-all"
+                    className="w-full bg-[#FFFFFF] border border-[#0F172A]/30 rounded-xl pl-10 pr-4 py-3 text-sm text-[#0F172A] placeholder:text-[#0F172A] focus:outline-none focus:border-[#f87171]/50 focus:ring-1 focus:ring-[#f87171]/20 transition-all"
                   />
                 </div>
                 {addError && <p className="text-xs text-[#f87171] flex items-center gap-1.5 pt-0.5"><span className="material-symbols-outlined text-[13px]">error</span>{addError}</p>}
@@ -267,7 +267,7 @@ export default function AdminAdmins() {
 
               {/* Role selector */}
               <div className="space-y-1.5">
-                <label className="text-[10px] text-[#6B655B] uppercase tracking-widest font-semibold">Role</label>
+                <label className="text-[10px] text-[#64748B] uppercase tracking-widest font-semibold">Role</label>
                 <div className="grid grid-cols-2 gap-2">
                   {(['admin', 'superadmin'] as AdminRole[]).map(r => (
                     <button
@@ -279,8 +279,8 @@ export default function AdminAdmins() {
                         role === r
                           ? r === 'superadmin'
                             ? 'bg-[#f87171]/10 border-[#f87171]/40 text-[#f87171]'
-                            : 'bg-[#C8553A]/10 border-[#C8553A]/40 text-[#C8553A]'
-                          : 'bg-transparent border-[#15140F]/20 text-[#6B655B] hover:border-[#15140F]/40',
+                            : 'bg-[#111827]/10 border-[#111827]/40 text-[#111827]'
+                          : 'bg-transparent border-[#0F172A]/20 text-[#64748B] hover:border-[#0F172A]/40',
                       ].join(' ')}
                     >
                       <span className="text-xs font-bold capitalize">{r === 'superadmin' ? 'Superadmin' : 'Admin'}</span>
@@ -293,22 +293,22 @@ export default function AdminAdmins() {
               </div>
 
               {/* Capabilities preview */}
-              <div className="rounded-2xl border border-[#15140F]/15 bg-[#EFE9DC] p-4 space-y-2">
-                <p className="text-[10px] text-[#6B655B] uppercase tracking-widest font-semibold mb-2">They will be able to</p>
+              <div className="rounded-2xl border border-[#0F172A]/15 bg-[#F1F5F9] p-4 space-y-2">
+                <p className="text-[10px] text-[#64748B] uppercase tracking-widest font-semibold mb-2">They will be able to</p>
                 {CAPABILITIES.map(cap => (
                   <div key={cap.label} className="flex items-center gap-2.5">
                     <span className="material-symbols-outlined text-[13px]" style={{ color: cap.color, fontVariationSettings: "'FILL' 1" }}>{cap.icon}</span>
-                    <span className="text-xs text-[#3D3A30]">{cap.label}</span>
+                    <span className="text-xs text-[#334155]">{cap.label}</span>
                     {cap.label === 'Admin Management' && role !== 'superadmin' && (
-                      <span className="text-[10px] text-[#15140F] ml-auto">Superadmin only</span>
+                      <span className="text-[10px] text-[#0F172A] ml-auto">Superadmin only</span>
                     )}
                   </div>
                 ))}
               </div>
 
               <div className="flex gap-2.5 pt-1">
-                <button type="button" onClick={() => setAddOpen(false)} disabled={adding} className="flex-1 py-3 rounded-xl border border-[#15140F]/20 text-sm text-[#6B655B] hover:text-[#15140F] hover:bg-[#EFE9DC] transition-all disabled:opacity-50">Cancel</button>
-                <button type="submit" disabled={adding || !email.trim()} className="flex-1 py-3 rounded-xl bg-[#f87171] text-[#15140F] text-sm font-bold hover:bg-[#fca5a5] active:scale-95 transition-all disabled:opacity-50 flex items-center justify-center gap-2">
+                <button type="button" onClick={() => setAddOpen(false)} disabled={adding} className="flex-1 py-3 rounded-xl border border-[#0F172A]/20 text-sm text-[#64748B] hover:text-[#0F172A] hover:bg-[#F1F5F9] transition-all disabled:opacity-50">Cancel</button>
+                <button type="submit" disabled={adding || !email.trim()} className="flex-1 py-3 rounded-xl bg-[#f87171] text-[#0F172A] text-sm font-bold hover:bg-[#fca5a5] active:scale-95 transition-all disabled:opacity-50 flex items-center justify-center gap-2">
                   {adding
                     ? <><span className="material-symbols-outlined text-[14px] animate-spin">progress_activity</span> Sending…</>
                     : <><span className="material-symbols-outlined text-[14px]">send</span> Send Invitation</>
@@ -327,22 +327,22 @@ export default function AdminAdmins() {
             <div className="w-12 h-12 rounded-2xl bg-[#f87171]/10 border border-[#f87171]/20 flex items-center justify-center mb-5">
               <span className="material-symbols-outlined text-[#f87171]" style={{ fontSize: 22, fontVariationSettings: "'FILL' 1" }}>person_remove</span>
             </div>
-            <h2 className="text-xl font-headline font-extrabold tracking-tight text-[#15140F] mb-1">
+            <h2 className="text-xl font-headline font-extrabold tracking-tight text-[#0F172A] mb-1">
               {removeTarget.status === 'pending' ? 'Cancel invitation?' : 'Remove admin?'}
             </h2>
-            <p className="text-sm font-semibold text-[#15140F] mb-0.5">{removeTarget.name ?? removeTarget.email}</p>
-            {removeTarget.name && <p className="text-xs text-[#15140F] mb-5">{removeTarget.email}</p>}
-            <p className="text-sm text-[#6B655B] mb-7">
+            <p className="text-sm font-semibold text-[#0F172A] mb-0.5">{removeTarget.name ?? removeTarget.email}</p>
+            {removeTarget.name && <p className="text-xs text-[#0F172A] mb-5">{removeTarget.email}</p>}
+            <p className="text-sm text-[#64748B] mb-7">
               {removeTarget.status === 'pending'
                 ? 'The invitation link will be invalidated immediately.'
                 : 'They will lose all admin access immediately. Their user account stays active.'
               }
             </p>
             <div className="flex flex-col gap-2.5">
-              <button onClick={() => { void handleRemove(); }} disabled={removing} className="w-full py-3 rounded-xl bg-[#f87171] text-[#15140F] font-bold text-sm hover:bg-[#fca5a5] transition-all disabled:opacity-50 flex items-center justify-center gap-2">
+              <button onClick={() => { void handleRemove(); }} disabled={removing} className="w-full py-3 rounded-xl bg-[#f87171] text-[#0F172A] font-bold text-sm hover:bg-[#fca5a5] transition-all disabled:opacity-50 flex items-center justify-center gap-2">
                 {removing ? <><span className="material-symbols-outlined text-[14px] animate-spin">progress_activity</span> Removing…</> : 'Confirm'}
               </button>
-              <button onClick={() => setRemoveTarget(null)} disabled={removing} className="w-full py-3 rounded-xl border border-[#15140F]/20 text-sm font-semibold text-[#3D3A30] hover:bg-[#EFE9DC] hover:text-[#15140F] disabled:opacity-50 transition-all">Cancel</button>
+              <button onClick={() => setRemoveTarget(null)} disabled={removing} className="w-full py-3 rounded-xl border border-[#0F172A]/20 text-sm font-semibold text-[#334155] hover:bg-[#F1F5F9] hover:text-[#0F172A] disabled:opacity-50 transition-all">Cancel</button>
             </div>
           </div>
         )}

@@ -1,4 +1,4 @@
-﻿import type { RefObject } from 'react';
+import type { RefObject } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { PLATFORM_REGISTRY } from '../../domain/entities/Platform';
 import type { UpcomingPost } from '../../domain/entities/Post';
@@ -52,15 +52,15 @@ function UpcomingCard({
     <div
       ref={cardRef}
       onClick={() => navigate(`/posts/${item.id}`)}
-      className={`surface-card p-5 transition-all cursor-pointer hover:border-[#C8553A]/30 hover:bg-[#EFE9DC] ${className}`}
+      className={`surface-card p-5 transition-all cursor-pointer hover:border-[#111827]/30 hover:bg-[#F1F5F9] ${className}`}
     >
       {/* Header row — date + platform badge */}
       <div className="flex justify-between items-start mb-3">
-        <span className="bg-[#C8553A]/10 text-[#C8553A] px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-[0.12em]">
+        <span className="bg-[#111827]/10 text-[#111827] px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-[0.12em]">
           {item.date}
         </span>
         <div
-          className="w-6 h-6 rounded-md font-bold text-xs text-[#15140F] flex items-center justify-center shrink-0"
+          className="w-6 h-6 rounded-md font-bold text-xs text-[#0F172A] flex items-center justify-center shrink-0"
           style={{ background: p.color }}
         >
           {p.abbr}
@@ -90,22 +90,22 @@ function UpcomingCard({
           {/* Video badge */}
           {isVideo && (
             <div className="absolute bottom-1.5 left-1.5 flex items-center gap-1 bg-black/70 backdrop-blur-sm px-1.5 py-0.5 rounded-md">
-              <span className="material-symbols-outlined text-[#15140F]" style={{ fontSize: 9, fontVariationSettings: "'FILL' 1" }}>play_arrow</span>
-              <span className="text-xs font-bold text-[#15140F] uppercase tracking-wide">Video</span>
+              <span className="material-symbols-outlined text-[#0F172A]" style={{ fontSize: 9, fontVariationSettings: "'FILL' 1" }}>play_arrow</span>
+              <span className="text-xs font-bold text-[#0F172A] uppercase tracking-wide">Video</span>
             </div>
           )}
 
           {/* Multi-media count */}
           {isMulti && (
             <div className="absolute top-1.5 right-1.5 bg-black/60 backdrop-blur-sm px-1.5 py-0.5 rounded-md">
-              <span className="text-xs font-bold text-[#15140F]">+{item.mediaUrls.length - 1}</span>
+              <span className="text-xs font-bold text-[#0F172A]">+{item.mediaUrls.length - 1}</span>
             </div>
           )}
         </div>
       )}
 
       {/* Caption */}
-      <p className="text-[#3D3A30] text-sm line-clamp-3 italic leading-relaxed">
+      <p className="text-[#334155] text-sm line-clamp-3 italic leading-relaxed">
         {item.caption || 'No caption'}
       </p>
 
@@ -178,7 +178,7 @@ export default function PostCarousel({
             style={{
               width:      i === carouselIdx ? 20 : 6,
               height:     6,
-              background: i === carouselIdx ? '#C8553A' : 'rgba(73,72,71,0.68)',
+              background: i === carouselIdx ? '#111827' : 'rgba(73,72,71,0.68)',
             }}
           />
         ))}
@@ -190,7 +190,7 @@ export default function PostCarousel({
           onClick={() => scrollCarousel(-1)}
           disabled={carouselIdx === 0}
           aria-label="Previous upcoming posts"
-          className="w-8 h-8 rounded-full border border-[#15140F]/30 flex items-center justify-center text-[#6B655B] hover:text-[#15140F] hover:border-[#C8553A]/40 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+          className="w-8 h-8 rounded-full border border-[#0F172A]/30 flex items-center justify-center text-[#64748B] hover:text-[#0F172A] hover:border-[#111827]/40 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
         >
           <span className="material-symbols-outlined" style={{ fontSize: 16 }}>chevron_left</span>
         </button>
@@ -198,7 +198,7 @@ export default function PostCarousel({
           onClick={() => scrollCarousel(1)}
           disabled={carouselIdx >= maxIdx}
           aria-label="Next upcoming posts"
-          className="w-8 h-8 rounded-full border border-[#15140F]/30 flex items-center justify-center text-[#6B655B] hover:text-[#15140F] hover:border-[#C8553A]/40 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+          className="w-8 h-8 rounded-full border border-[#0F172A]/30 flex items-center justify-center text-[#64748B] hover:text-[#0F172A] hover:border-[#111827]/40 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
         >
           <span className="material-symbols-outlined" style={{ fontSize: 16 }}>chevron_right</span>
         </button>

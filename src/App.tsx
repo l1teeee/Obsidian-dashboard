@@ -252,12 +252,12 @@ function SessionGuard() {
 
 function RouteFallback() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-[#F6F2EA]">
+    <div className="flex min-h-screen items-center justify-center bg-[#F8FAFC]">
       <div className="flex items-center gap-1.5">
         {[0, 1, 2].map((i) => (
           <span
             key={i}
-            className="h-1.5 w-1.5 rounded-full bg-[#C8553A]"
+            className="h-1.5 w-1.5 rounded-full bg-[#0E9F6E]"
             style={{ animation: `dot-pulse 1.2s ease-in-out ${i * 0.2}s infinite` }}
           />
         ))}
@@ -279,11 +279,11 @@ export default function App() {
           <Toaster
             position="bottom-center"
             options={{
-              fill:   '#4F7A4A',
+              fill:   '#047857',
               styles: {
-                title:       'text-[#1a1f00]!',
-                description: 'text-[#3a4700]!',
-                badge:       'bg-[#1a1f00]! border-[#1a1f00]! text-[#4F7A4A]!',
+                title:       'text-[#0F172A]!',
+                description: 'text-[#334155]!',
+                badge:       'bg-[#052E1C]! border-[#052E1C]! text-[#0E9F6E]!',
               },
             }}
           />

@@ -1,4 +1,4 @@
-﻿import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import TopBar from '../components/layout/TopBar';
 import CalendarNav from '../components/calendar/CalendarNav';
 import PlatformFilter from '../components/calendar/PlatformFilter';
@@ -21,7 +21,7 @@ export default function Calendar() {
         actions={
           <Link
             to="/composer"
-            className="flex items-center gap-2 px-4 py-1.5 rounded-xl bg-[#C8553A] text-white text-xs font-bold hover:bg-[#A53F28] transition-all active:scale-95"
+            className="flex items-center gap-2 px-4 py-1.5 rounded-xl bg-[#111827] text-white text-xs font-bold hover:bg-[#0B1220] transition-all active:scale-95"
           >
             <span className="material-symbols-outlined text-[14px]">add</span>
             New Post
@@ -56,11 +56,11 @@ export default function Calendar() {
               {Array.from({ length: 5 }).map((_, i) => (
                 <div key={i} className="flex gap-4">
                   <div className="w-20 shrink-0 space-y-1.5 pt-1">
-                    <div className="h-3 w-10 bg-[#E7E0D0] rounded-full ml-auto" />
-                    <div className="h-8 w-8 bg-[#E7E0D0] rounded-xl ml-auto" />
+                    <div className="h-3 w-10 bg-[#E2E8F0] rounded-full ml-auto" />
+                    <div className="h-8 w-8 bg-[#E2E8F0] rounded-xl ml-auto" />
                   </div>
                   <div className="flex-1 space-y-2">
-                    <div className="h-14 bg-[#EFE9DC] rounded-2xl border border-[#15140F]/10" />
+                    <div className="h-14 bg-[#F1F5F9] rounded-2xl border border-[#0F172A]/10" />
                   </div>
                 </div>
               ))}

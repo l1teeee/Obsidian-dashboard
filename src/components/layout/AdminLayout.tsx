@@ -1,4 +1,4 @@
-﻿import { useState } from 'react';
+import { useState } from 'react';
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 import Modal from '../shared/Modal';
@@ -30,19 +30,19 @@ export default function AdminLayout() {
     open ? '' : 'justify-center',
     isActive
       ? 'text-[#f87171] bg-[#f87171]/10 font-semibold'
-      : 'text-[#6B655B] hover:text-[#15140F] hover:bg-white/[0.04] active:scale-[0.97]',
+      : 'text-[#64748B] hover:text-[#0F172A] hover:bg-white/[0.04] active:scale-[0.97]',
   ].join(' ');
 
   return (
-    <div className="min-h-screen bg-[#F6F2EA] flex">
+    <div className="min-h-screen bg-[#F8FAFC] flex">
       {/* Sidebar */}
       <aside className={[
-        'fixed top-0 left-0 h-full flex flex-col bg-[#F6F2EA] border-r border-[#15140F]/15 z-50 transition-all duration-300',
+        'fixed top-0 left-0 h-full flex flex-col bg-[#F8FAFC] border-r border-[#0F172A]/15 z-50 transition-all duration-300',
         open ? 'w-[220px]' : 'w-[56px]',
       ].join(' ')}>
 
         {/* Brand */}
-        <div className={['flex items-center gap-2.5 py-5 border-b border-[#15140F]/10', open ? 'px-4' : 'px-3 justify-center'].join(' ')}>
+        <div className={['flex items-center gap-2.5 py-5 border-b border-[#0F172A]/10', open ? 'px-4' : 'px-3 justify-center'].join(' ')}>
           <div className="w-7 h-7 rounded-lg bg-[#f87171]/15 border border-[#f87171]/25 flex items-center justify-center shrink-0">
             <span className="material-symbols-outlined text-[#f87171]" style={{ fontSize: 14, fontVariationSettings: "'FILL' 1" }}>
               shield
@@ -50,7 +50,7 @@ export default function AdminLayout() {
           </div>
           {open && (
             <div className="overflow-hidden">
-              <p className="text-xs font-extrabold text-[#15140F] font-headline leading-tight">Vielinks</p>
+              <p className="text-xs font-extrabold text-[#0F172A] font-headline leading-tight">Vielinks</p>
               <p className="text-[9px] text-[#f87171] uppercase tracking-[0.15em] font-bold">Admin Panel</p>
             </div>
           )}
@@ -82,7 +82,7 @@ export default function AdminLayout() {
         </nav>
 
         {/* Bottom */}
-        <div className="p-2 border-t border-[#15140F]/10 flex flex-col gap-0.5">
+        <div className="p-2 border-t border-[#0F172A]/10 flex flex-col gap-0.5">
           <NavLink
             to="/dashboard"
             title={!open ? 'Back to App' : undefined}
@@ -101,11 +101,11 @@ export default function AdminLayout() {
             {open && <span>Log out</span>}
           </button>
 
-          <div className="h-px bg-[#15140F]/15 my-0.5" />
+          <div className="h-px bg-[#0F172A]/15 my-0.5" />
 
           <button
             onClick={() => setOpen(v => !v)}
-            className={[linkCls(false), 'w-full text-left text-[#15140F] hover:text-[#6B655B]'].join(' ')}
+            className={[linkCls(false), 'w-full text-left text-[#0F172A] hover:text-[#64748B]'].join(' ')}
             title={open ? 'Collapse' : 'Expand'}
           >
             <span className="material-symbols-outlined shrink-0" style={{ fontSize: 18 }}>
@@ -127,18 +127,18 @@ export default function AdminLayout() {
           <div className="w-12 h-12 rounded-2xl bg-[#f87171]/10 border border-[#f87171]/20 flex items-center justify-center mb-5">
             <span className="material-symbols-outlined text-[#f87171]" style={{ fontSize: 22 }}>logout</span>
           </div>
-          <h2 className="text-xl font-headline font-extrabold tracking-tight text-[#15140F] mb-1">Log out?</h2>
-          <p className="text-sm text-[#6B655B] mb-7">You will be redirected to the login screen.</p>
+          <h2 className="text-xl font-headline font-extrabold tracking-tight text-[#0F172A] mb-1">Log out?</h2>
+          <p className="text-sm text-[#64748B] mb-7">You will be redirected to the login screen.</p>
           <div className="flex flex-col gap-2.5">
             <button
               onClick={() => { void confirmLogout(); }}
-              className="w-full py-3 rounded-xl bg-[#f87171] text-[#15140F] font-bold text-sm hover:bg-[#fca5a5] transition-all"
+              className="w-full py-3 rounded-xl bg-[#f87171] text-[#0F172A] font-bold text-sm hover:bg-[#fca5a5] transition-all"
             >
               Yes, log out
             </button>
             <button
               onClick={() => setLogoutModal(false)}
-              className="w-full py-3 rounded-xl border border-[#15140F]/20 text-sm font-semibold text-[#3D3A30] hover:bg-[#EFE9DC] hover:text-[#15140F] transition-all"
+              className="w-full py-3 rounded-xl border border-[#0F172A]/20 text-sm font-semibold text-[#334155] hover:bg-[#F1F5F9] hover:text-[#0F172A] transition-all"
             >
               Cancel
             </button>

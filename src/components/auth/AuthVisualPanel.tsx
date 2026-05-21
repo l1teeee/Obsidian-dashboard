@@ -17,10 +17,10 @@ export default function AuthVisualPanel({ side, variant = 'login' }: AuthVisualP
     <aside
       aria-hidden="true"
       data-auth-panel="visual"
-      className={`relative hidden overflow-hidden bg-[#EFE9DC] lg:m-6 lg:block lg:min-h-[calc(100dvh-3rem)] ${radius}`}
+      className={`relative hidden overflow-hidden bg-[#F1F5F9] lg:m-6 lg:block lg:min-h-[calc(100dvh-3rem)] ${radius}`}
     >
-      <div className="absolute inset-0 bg-[linear-gradient(135deg,#FBF8F2_0%,#EFE9DC_48%,#E0D8C8_100%)]" />
-      <div className="absolute inset-0 opacity-[0.22] [background-image:linear-gradient(rgba(21,20,15,0.08)_1px,transparent_1px),linear-gradient(90deg,rgba(21,20,15,0.08)_1px,transparent_1px)] [background-size:42px_42px]" />
+      <div className="absolute inset-0 bg-[linear-gradient(135deg,#FFFFFF_0%,#F1F5F9_48%,#CBD5E1_100%)]" />
+      <div className="absolute inset-0 opacity-[0.22] [background-image:linear-gradient(rgba(15,23,42,0.08)_1px,transparent_1px),linear-gradient(90deg,rgba(15,23,42,0.08)_1px,transparent_1px)] [background-size:42px_42px]" />
 
       {VIDEOS.map(({ key, src }) => (
         <video
@@ -44,8 +44,8 @@ export default function AuthVisualPanel({ side, variant = 'login' }: AuthVisualP
 
       {/* Dark overlay */}
       <div className="absolute inset-0 bg-black/40" />
-      <div className="absolute inset-0 bg-[#C8553A]/10 mix-blend-soft-light" />
-      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(21,20,15,0.04)_0%,rgba(21,20,15,0.22)_100%)]" />
+      <div className="absolute inset-0 bg-[#111827]/10 mix-blend-soft-light" />
+      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(15,23,42,0.04)_0%,rgba(15,23,42,0.22)_100%)]" />
       <div className="absolute inset-0 ring-1 ring-inset ring-white/45" />
     </aside>
   );

@@ -103,7 +103,7 @@ function SectionTitleLink({ children, to, ariaLabel }: { children: React.ReactNo
     <Link
       to={to}
       aria-label={ariaLabel}
-      className="group inline-flex items-center gap-2 text-[11px] font-medium uppercase tracking-[0.18em] text-[#C8553A] mb-3 rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C8553A]/30 focus-visible:ring-offset-2"
+      className="group inline-flex items-center gap-2 text-[11px] font-medium uppercase tracking-[0.18em] text-[#111827] mb-3 rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0E9F6E]/30 focus-visible:ring-offset-2"
     >
       {children}
       <svg
@@ -168,35 +168,35 @@ function Hero() {
         <HeroBadge data-h="eyebrow" className="mb-6">
           For social teams who care about craft
         </HeroBadge>
-        <h1 data-h="title" className="text-[clamp(44px,6.5vw,88px)] leading-[1.03] tracking-[-0.04em] text-[#15140F] max-w-225 mx-auto mb-5 font-medium">
-          One workspace<br />for your <em className="not-italic text-[#C8553A]">posts.</em>
+        <h1 data-h="title" className="text-[clamp(44px,6.5vw,88px)] leading-[1.03] tracking-[-0.04em] text-[#0F172A] max-w-225 mx-auto mb-5 font-medium">
+          One workspace<br />for your <em className="not-italic text-[#111827]">posts.</em>
         </h1>
-        <p data-h="sub" className="max-w-140 mx-auto mb-9 text-[16px] leading-[1.65] text-[#6B655B]">
+        <p data-h="sub" className="max-w-140 mx-auto mb-9 text-[16px] leading-[1.65] text-[#64748B]">
           Schedule, analyze, and collaborate across Instagram, LinkedIn, and Facebook — without switching tabs.
         </p>
         <div data-h="ctas" className="flex gap-3 justify-center mb-5">
-          <Link to="/register" className="inline-flex items-center gap-2 text-[14px] font-medium bg-[#C8553A] text-white px-5 py-2.5 rounded-xl hover:bg-[#A53F28] active:scale-[0.97] transition-[background-color,transform] duration-150">
+          <Link to="/register" className="inline-flex items-center gap-2 text-[14px] font-medium bg-[#111827] text-white px-5 py-2.5 rounded-xl hover:bg-[#0B1220] active:scale-[0.97] transition-[background-color,transform] duration-150">
             Start free <IconArrow className="w-3.5 h-3.5" />
           </Link>
-          <a href="#features" className="inline-flex items-center gap-2 text-[14px] font-medium text-[#6B655B] px-5 py-2.5 rounded-xl hover:bg-[#EFE9DC] hover:text-[#15140F] active:scale-[0.97] transition-[background-color,color,transform] duration-150">
+          <a href="#features" className="inline-flex items-center gap-2 text-[14px] font-medium text-[#64748B] px-5 py-2.5 rounded-xl hover:bg-[#F1F5F9] hover:text-[#0F172A] active:scale-[0.97] transition-[background-color,color,transform] duration-150">
             See the product
           </a>
         </div>
-        <p data-h="meta" className="text-[12px] text-[#A39B8B]">No card required · 14-day paid trial</p>
+        <p data-h="meta" className="text-[12px] text-[#94A3B8]">No card required · 14-day paid trial</p>
 
         <div data-h="strip" className="mt-14 flex flex-col items-center gap-3">
-          <span className="text-[10px] font-medium uppercase tracking-[0.18em] text-[#A39B8B]">Works with</span>
-          <div className="mt-2 flex flex-wrap items-center justify-center gap-x-7 gap-y-3 text-[11px] font-medium uppercase tracking-[0.16em] text-[#6B655B]">
-            <span className="group inline-flex items-center gap-2 transition-colors duration-200 hover:text-[#C8553A]">
-              <IconInstagram className="w-4 h-4 text-[#A39B8B] transition-colors duration-200 group-hover:text-[#C8553A]" /> Instagram
+          <span className="text-[10px] font-medium uppercase tracking-[0.18em] text-[#94A3B8]">Works with</span>
+          <div className="mt-2 flex flex-wrap items-center justify-center gap-x-7 gap-y-3 text-[11px] font-medium uppercase tracking-[0.16em] text-[#64748B]">
+            <span className="group inline-flex items-center gap-2 transition-colors duration-200 hover:text-[#111827]">
+              <IconInstagram className="w-4 h-4 text-[#94A3B8] transition-colors duration-200 group-hover:text-[#111827]" /> Instagram
             </span>
             <span className="hidden h-1 w-1 rounded-full bg-[#D8D0C0] sm:block" />
-            <span className="group inline-flex items-center gap-2 transition-colors duration-200 hover:text-[#C8553A]">
-              <IconLinkedIn className="w-4 h-4 text-[#A39B8B] transition-colors duration-200 group-hover:text-[#C8553A]" /> LinkedIn
+            <span className="group inline-flex items-center gap-2 transition-colors duration-200 hover:text-[#111827]">
+              <IconLinkedIn className="w-4 h-4 text-[#94A3B8] transition-colors duration-200 group-hover:text-[#111827]" /> LinkedIn
             </span>
             <span className="hidden h-1 w-1 rounded-full bg-[#D8D0C0] sm:block" />
-            <span className="group inline-flex items-center gap-2 transition-colors duration-200 hover:text-[#C8553A]">
-              <IconFacebook className="w-4 h-4 text-[#A39B8B] transition-colors duration-200 group-hover:text-[#C8553A]" /> Facebook
+            <span className="group inline-flex items-center gap-2 transition-colors duration-200 hover:text-[#111827]">
+              <IconFacebook className="w-4 h-4 text-[#94A3B8] transition-colors duration-200 group-hover:text-[#111827]" /> Facebook
             </span>
           </div>
         </div>
@@ -221,58 +221,58 @@ const CAL_EVENTS: Record<number, string[]> = {
 function DashboardContent() {
   return (
     <div className="p-3 md:p-4 flex flex-col gap-3 h-full overflow-auto">
-      <div className="flex items-center justify-between rounded-xl bg-[#EFE9DC] border border-[#15140F]/8 px-3.5 py-2.5 shrink-0">
+      <div className="flex items-center justify-between rounded-xl bg-[#F1F5F9] border border-[#0F172A]/8 px-3.5 py-2.5 shrink-0">
         <div>
-          <p className="text-[8.5px] font-bold uppercase tracking-[0.14em] text-[#C8553A] mb-0.5">Workspace overview</p>
-          <p className="text-[12px] font-semibold tracking-tight text-[#15140F]">Plan, publish, and measure today.</p>
+          <p className="text-[8.5px] font-bold uppercase tracking-[0.14em] text-[#111827] mb-0.5">Workspace overview</p>
+          <p className="text-[12px] font-semibold tracking-tight text-[#0F172A]">Plan, publish, and measure today.</p>
         </div>
       </div>
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 shrink-0">
         {([
-          { label: 'Total Reach', value: '2.4M', delta: '↑ 18.2%', positive: true,  type: 'bar',       bar: 72, barColor: '#4F7A4A' },
-          { label: 'Engagement',  value: '342K', delta: '↑ 12.4%', positive: true,  type: 'bar',       bar: 58, barColor: '#C8553A' },
+          { label: 'Total Reach', value: '2.4M', delta: '↑ 18.2%', positive: true,  type: 'bar',       bar: 72, barColor: '#047857' },
+          { label: 'Engagement',  value: '342K', delta: '↑ 12.4%', positive: true,  type: 'bar',       bar: 58, barColor: '#111827' },
           { label: 'Scheduled',   value: '28',   delta: 'this week',positive: null,  type: 'dots'                                   },
           { label: 'Platforms',   value: '3',                                        type: 'platforms'                              },
         ] as Array<{label:string;value:string;delta?:string;positive?:boolean|null;type:string;bar?:number;barColor?:string}>).map(k => (
-          <div key={k.label} className="bg-[#F6F2EA] border border-[#E7E0D0] rounded-xl px-3 py-2.5">
-            <p className="text-[8px] font-bold uppercase tracking-[0.14em] text-[#6B655B] mb-1.5">{k.label}</p>
+          <div key={k.label} className="bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl px-3 py-2.5">
+            <p className="text-[8px] font-bold uppercase tracking-[0.14em] text-[#64748B] mb-1.5">{k.label}</p>
             <div className="flex items-baseline gap-1.5 flex-wrap">
-              <span className="text-[16px] font-medium tracking-tight text-[#15140F]">{k.value}</span>
-              {k.delta && <span className={`text-[8.5px] font-semibold ${k.positive ? 'text-[#4F7A4A]' : 'text-[#6B655B]'}`}>{k.delta}</span>}
+              <span className="text-[16px] font-medium tracking-tight text-[#0F172A]">{k.value}</span>
+              {k.delta && <span className={`text-[8.5px] font-semibold ${k.positive ? 'text-[#047857]' : 'text-[#64748B]'}`}>{k.delta}</span>}
             </div>
-            {k.type === 'bar' && <div className="mt-2 h-[3px] w-full bg-[#D8D2C4] rounded-full overflow-hidden"><div className="h-full rounded-full" style={{ width: `${k.bar}%`, background: k.barColor }} /></div>}
-            {k.type === 'dots' && <div className="mt-2 flex gap-1">{Array.from({ length: 5 }, (_, j) => <div key={j} className="h-[3px] flex-1 rounded-full" style={{ background: j < 4 ? '#C8553A' : '#D8D2C4' }} />)}</div>}
+            {k.type === 'bar' && <div className="mt-2 h-[3px] w-full bg-[#CBD5E1] rounded-full overflow-hidden"><div className="h-full rounded-full" style={{ width: `${k.bar}%`, background: k.barColor }} /></div>}
+            {k.type === 'dots' && <div className="mt-2 flex gap-1">{Array.from({ length: 5 }, (_, j) => <div key={j} className="h-[3px] flex-1 rounded-full" style={{ background: j < 4 ? '#111827' : '#CBD5E1' }} />)}</div>}
             {k.type === 'platforms' && <div className="mt-2 flex gap-1.5">{([{abbr:'IG',c:'#E1306C'},{abbr:'LI',c:'#0A66C2'},{abbr:'FB',c:'#1877F2'}] as Array<{abbr:string;c:string}>).map(p=><div key={p.abbr} className="w-5 h-5 rounded-md flex items-center justify-center text-[7.5px] font-bold" style={{background:p.c+'33',color:p.c}}>{p.abbr}</div>)}</div>}
           </div>
         ))}
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-[1fr_200px] gap-2.5 flex-1 min-h-0">
-        <div className="bg-[#F6F2EA] border border-[#E7E0D0] rounded-xl p-3.5 flex flex-col gap-2.5 min-h-0">
+        <div className="bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl p-3.5 flex flex-col gap-2.5 min-h-0">
           <div className="flex justify-between items-baseline shrink-0">
-            <span className="text-[11px] font-medium text-[#15140F]">Weekly engagement</span>
-            <span className="text-[9.5px] text-[#6B655B]">Last 7 days</span>
+            <span className="text-[11px] font-medium text-[#0F172A]">Weekly engagement</span>
+            <span className="text-[9.5px] text-[#64748B]">Last 7 days</span>
           </div>
           <div className="flex gap-1.5 flex-1 items-end min-h-0">
             {PREVIEW_BARS.map((h, i) => <div key={i} className="flex-1 flex flex-col justify-end h-full"><div className="bg-[#F4E0D6] rounded-t-sm w-full" style={{ height: `${h}%` }} /></div>)}
           </div>
           <div className="flex gap-1.5 shrink-0">
-            {PREVIEW_DAYS.map((d, i) => <span key={i} className="flex-1 text-center text-[8.5px] font-medium text-[#A39B8B] uppercase">{d}</span>)}
+            {PREVIEW_DAYS.map((d, i) => <span key={i} className="flex-1 text-center text-[8.5px] font-medium text-[#94A3B8] uppercase">{d}</span>)}
           </div>
         </div>
         <div className="hidden lg:flex flex-col gap-2 min-h-0 overflow-auto">
-          <p className="text-[10.5px] font-semibold text-[#15140F] shrink-0">Upcoming</p>
+          <p className="text-[10.5px] font-semibold text-[#0F172A] shrink-0">Upcoming</p>
           {([
             { p:'IG', c:'#E1306C', title:'Product launch',    time:'Today · 2PM',    s:'Pending'  },
             { p:'LI', c:'#0A66C2', title:'Q2 highlights',     time:'Tomorrow · 9AM', s:'Approved' },
             { p:'FB', c:'#1877F2', title:'Behind the scenes',  time:'Wed · 6PM',      s:'Draft'    },
           ] as Array<{p:string;c:string;title:string;time:string;s:string}>).map(post => (
-            <div key={post.title} className="bg-[#F6F2EA] border border-[#E7E0D0] rounded-xl px-2.5 py-2">
+            <div key={post.title} className="bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl px-2.5 py-2">
               <div className="flex items-center justify-between mb-1">
                 <div className="w-4 h-4 rounded-[4px] flex items-center justify-center text-[7px] font-bold" style={{ background: post.c+'33', color: post.c }}>{post.p}</div>
-                <span className="text-[7.5px] font-medium text-[#6B655B] bg-[#EFE9DC] px-1.5 py-0.5 rounded-full">{post.s}</span>
+                <span className="text-[7.5px] font-medium text-[#64748B] bg-[#F1F5F9] px-1.5 py-0.5 rounded-full">{post.s}</span>
               </div>
-              <p className="text-[10.5px] font-medium text-[#15140F] leading-tight">{post.title}</p>
-              <p className="text-[8.5px] text-[#A39B8B] mt-0.5">{post.time}</p>
+              <p className="text-[10.5px] font-medium text-[#0F172A] leading-tight">{post.title}</p>
+              <p className="text-[8.5px] text-[#94A3B8] mt-0.5">{post.time}</p>
             </div>
           ))}
         </div>
@@ -287,13 +287,13 @@ function CalendarContent() {
     <div className="p-3 flex flex-col gap-2.5 h-full overflow-auto">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-1">
-          <button className="w-5 h-5 rounded-md bg-[#EFE9DC] flex items-center justify-center text-[#6B655B] text-[10px]">‹</button>
-          <span className="text-[11px] font-semibold text-[#15140F] px-2">May 2025</span>
-          <button className="w-5 h-5 rounded-md bg-[#EFE9DC] flex items-center justify-center text-[#6B655B] text-[10px]">›</button>
+          <button className="w-5 h-5 rounded-md bg-[#F1F5F9] flex items-center justify-center text-[#64748B] text-[10px]">‹</button>
+          <span className="text-[11px] font-semibold text-[#0F172A] px-2">May 2025</span>
+          <button className="w-5 h-5 rounded-md bg-[#F1F5F9] flex items-center justify-center text-[#64748B] text-[10px]">›</button>
         </div>
-        <div className="flex rounded-lg overflow-hidden border border-[#E7E0D0]">
+        <div className="flex rounded-lg overflow-hidden border border-[#E2E8F0]">
           {['Month', 'Week', 'List'].map((v, i) => (
-            <span key={v} className={`text-[8.5px] font-medium px-2 py-1 ${i === 0 ? 'bg-[#15140F] text-[#F6F2EA]' : 'text-[#6B655B] bg-[#F6F2EA]'}`}>{v}</span>
+            <span key={v} className={`text-[8.5px] font-medium px-2 py-1 ${i === 0 ? 'bg-[#0F172A] text-[#F8FAFC]' : 'text-[#64748B] bg-[#F8FAFC]'}`}>{v}</span>
           ))}
         </div>
       </div>
@@ -305,12 +305,12 @@ function CalendarContent() {
         ))}
       </div>
       <div className="grid grid-cols-7">
-        {['S','M','T','W','T','F','S'].map((d, i) => <div key={i} className="text-center text-[8px] font-semibold text-[#A39B8B] py-1">{d}</div>)}
+        {['S','M','T','W','T','F','S'].map((d, i) => <div key={i} className="text-center text-[8px] font-semibold text-[#94A3B8] py-1">{d}</div>)}
       </div>
       <div className="grid grid-cols-7 gap-[2px] flex-1">
         {calCells.map((day, i) => (
-          <div key={i} className={`min-h-6 p-[3px] rounded-md flex flex-col ${day === 15 ? 'bg-[#EFE9DC]' : ''}`}>
-            {day && <span className={`text-[8px] font-medium leading-none ${day === 15 ? 'text-[#C8553A]' : 'text-[#6B655B]'}`}>{day}</span>}
+          <div key={i} className={`min-h-6 p-[3px] rounded-md flex flex-col ${day === 15 ? 'bg-[#F1F5F9]' : ''}`}>
+            {day && <span className={`text-[8px] font-medium leading-none ${day === 15 ? 'text-[#111827]' : 'text-[#64748B]'}`}>{day}</span>}
             {day && CAL_EVENTS[day] && (
               <div className="flex gap-[2px] mt-[2px] flex-wrap">
                 {CAL_EVENTS[day].map((c, j) => <div key={j} className="w-1 h-1 rounded-full" style={{ background: c }} />)}
@@ -328,31 +328,31 @@ function AnalyticsContent() {
     <div className="p-3 flex flex-col gap-2.5 h-full overflow-auto">
       <div className="grid grid-cols-3 gap-2 shrink-0">
         {([
-          { label: 'Total Reach', value: '2.4M', delta: '↑ 18.2%', c: '#4F7A4A' },
-          { label: 'Engagements', value: '342K',  delta: '↑ 12.4%', c: '#C8553A' },
+          { label: 'Total Reach', value: '2.4M', delta: '↑ 18.2%', c: '#047857' },
+          { label: 'Engagements', value: '342K',  delta: '↑ 12.4%', c: '#111827' },
           { label: 'Avg Score',   value: '7.8',   delta: '↑ 0.4',   c: '#7C3AED' },
         ] as Array<{label:string;value:string;delta:string;c:string}>).map(k => (
-          <div key={k.label} className="bg-[#F6F2EA] border border-[#E7E0D0] rounded-xl px-2.5 py-2">
-            <p className="text-[7.5px] font-bold uppercase tracking-[0.14em] text-[#6B655B] mb-1">{k.label}</p>
-            <p className="text-[14px] font-semibold text-[#15140F] leading-none">{k.value}</p>
+          <div key={k.label} className="bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl px-2.5 py-2">
+            <p className="text-[7.5px] font-bold uppercase tracking-[0.14em] text-[#64748B] mb-1">{k.label}</p>
+            <p className="text-[14px] font-semibold text-[#0F172A] leading-none">{k.value}</p>
             <p className="text-[8px] font-semibold mt-1" style={{ color: k.c }}>{k.delta}</p>
           </div>
         ))}
       </div>
       <div className="grid grid-cols-[1fr_90px] gap-2 flex-1 min-h-0">
-        <div className="bg-[#F6F2EA] border border-[#E7E0D0] rounded-xl p-3 flex flex-col min-h-0">
+        <div className="bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl p-3 flex flex-col min-h-0">
           <div className="flex justify-between items-baseline mb-2 shrink-0">
-            <span className="text-[10px] font-medium text-[#15140F]">Reach over time</span>
-            <span className="text-[8px] text-[#6B655B]">30 days</span>
+            <span className="text-[10px] font-medium text-[#0F172A]">Reach over time</span>
+            <span className="text-[8px] text-[#64748B]">30 days</span>
           </div>
           <svg className="flex-1 w-full" viewBox="0 0 200 70" preserveAspectRatio="none">
             <defs>
               <linearGradient id="anaGrad" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#C8553A" stopOpacity="0.18" />
-                <stop offset="100%" stopColor="#C8553A" stopOpacity="0" />
+                <stop offset="0%" stopColor="#111827" stopOpacity="0.18" />
+                <stop offset="100%" stopColor="#111827" stopOpacity="0" />
               </linearGradient>
             </defs>
-            <path d="M0 55 C25 50,45 35,70 30 S100 18,125 16 S155 24,175 12 S190 6,200 5" fill="none" stroke="#C8553A" strokeWidth="1.5" strokeLinecap="round" />
+            <path d="M0 55 C25 50,45 35,70 30 S100 18,125 16 S155 24,175 12 S190 6,200 5" fill="none" stroke="#111827" strokeWidth="1.5" strokeLinecap="round" />
             <path d="M0 55 C25 50,45 35,70 30 S100 18,125 16 S155 24,175 12 S190 6,200 5 L200 70 L0 70Z" fill="url(#anaGrad)" />
           </svg>
         </div>
@@ -362,12 +362,12 @@ function AnalyticsContent() {
             { abbr:'LI', c:'#0A66C2', pct:24, reach:'580K' },
             { abbr:'FB', c:'#1877F2', pct:8,  reach:'210K' },
           ] as Array<{abbr:string;c:string;pct:number;reach:string}>).map(p => (
-            <div key={p.abbr} className="bg-[#F6F2EA] border border-[#E7E0D0] rounded-xl p-2 flex-1">
+            <div key={p.abbr} className="bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl p-2 flex-1">
               <div className="flex items-center gap-1 mb-1">
                 <div className="w-4 h-4 rounded-md flex items-center justify-center text-[6px] font-bold shrink-0" style={{ background: p.c+'22', color: p.c }}>{p.abbr}</div>
-                <span className="text-[8px] font-semibold text-[#15140F]">{p.reach}</span>
+                <span className="text-[8px] font-semibold text-[#0F172A]">{p.reach}</span>
               </div>
-              <div className="h-[2px] bg-[#E7E0D0] rounded-full overflow-hidden">
+              <div className="h-[2px] bg-[#E2E8F0] rounded-full overflow-hidden">
                 <div className="h-full rounded-full" style={{ width: `${p.pct}%`, background: p.c }} />
               </div>
             </div>
@@ -382,28 +382,28 @@ function PlatformsContent() {
   return (
     <div className="p-3 flex flex-col gap-2 h-full overflow-auto">
       <div className="flex items-center justify-between mb-0.5">
-        <span className="text-[11px] font-semibold text-[#15140F]">Connected platforms</span>
-        <span className="text-[8.5px] font-medium text-white bg-[#C8553A] px-2.5 py-1 rounded-lg">+ Connect</span>
+        <span className="text-[11px] font-semibold text-[#0F172A]">Connected platforms</span>
+        <span className="text-[8.5px] font-medium text-white bg-[#111827] px-2.5 py-1 rounded-lg">+ Connect</span>
       </div>
       {([
         { name:'acme_brand', platform:'Instagram', abbr:'IG', c:'#E1306C', type:'Business', followers:'12.4K' },
         { name:'Acme Corp',  platform:'LinkedIn',  abbr:'LI', c:'#0A66C2', type:'Company',  followers:'8.2K'  },
         { name:'Acme Brand', platform:'Facebook',  abbr:'FB', c:'#1877F2', type:'Page',     followers:'5.7K'  },
       ] as Array<{name:string;platform:string;abbr:string;c:string;type:string;followers:string}>).map(p => (
-        <div key={p.platform} className="bg-[#F6F2EA] border border-[#E7E0D0] rounded-xl p-2.5">
+        <div key={p.platform} className="bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl p-2.5">
           <div className="flex items-center gap-2 mb-2">
             <div className="w-7 h-7 rounded-xl flex items-center justify-center text-[8px] font-black text-white shrink-0" style={{ background: p.c }}>{p.abbr}</div>
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-1.5">
-                <p className="text-[10.5px] font-semibold text-[#15140F] truncate">{p.name}</p>
+                <p className="text-[10.5px] font-semibold text-[#0F172A] truncate">{p.name}</p>
                 <span className="text-[7px] font-bold px-1.5 py-0.5 rounded-full shrink-0" style={{ background: p.c+'18', color: p.c }}>Connected</span>
               </div>
-              <p className="text-[8px] text-[#6B655B]">{p.platform} · {p.type} · {p.followers} followers</p>
+              <p className="text-[8px] text-[#64748B]">{p.platform} · {p.type} · {p.followers} followers</p>
             </div>
           </div>
           <div className="flex gap-1.5">
-            <span className="text-[8px] text-[#6B655B] font-medium border border-[#E7E0D0] rounded-lg px-2 py-0.5">Reconnect</span>
-            <span className="text-[8px] text-[#C8553A] font-medium border border-[#E7E0D0] rounded-lg px-2 py-0.5">Disconnect</span>
+            <span className="text-[8px] text-[#64748B] font-medium border border-[#E2E8F0] rounded-lg px-2 py-0.5">Reconnect</span>
+            <span className="text-[8px] text-[#111827] font-medium border border-[#E2E8F0] rounded-lg px-2 py-0.5">Disconnect</span>
           </div>
         </div>
       ))}
@@ -421,13 +421,13 @@ function AiInsightsContent() {
   return (
     <div className="p-3 flex flex-col gap-2 h-full overflow-auto">
       <div className="flex items-center justify-between mb-0.5">
-        <span className="text-[11px] font-semibold text-[#15140F]">AI Configuration</span>
-        <span className="text-[8.5px] font-medium text-[#4F7A4A] bg-[#4F7A4A]/10 px-2 py-0.5 rounded-full">Ready</span>
+        <span className="text-[11px] font-semibold text-[#0F172A]">AI Configuration</span>
+        <span className="text-[8.5px] font-medium text-[#047857] bg-[#047857]/10 px-2 py-0.5 rounded-full">Ready</span>
       </div>
       {fields.map(f => (
-        <div key={f.label} className="bg-[#F6F2EA] border border-[#E7E0D0] rounded-xl p-2.5">
-          <p className="text-[7.5px] font-bold uppercase tracking-[0.14em] text-[#C8553A] mb-1">{f.label}</p>
-          <p className="text-[9.5px] text-[#3D3A30] leading-relaxed">{f.value}</p>
+        <div key={f.label} className="bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl p-2.5">
+          <p className="text-[7.5px] font-bold uppercase tracking-[0.14em] text-[#111827] mb-1">{f.label}</p>
+          <p className="text-[9.5px] text-[#334155] leading-relaxed">{f.value}</p>
         </div>
       ))}
     </div>
@@ -464,38 +464,38 @@ function ProductPreview() {
 
   const titleComponent = (
     <div className="max-w-2xl mx-auto px-4">
-      <span className="text-[11px] font-medium uppercase tracking-[0.18em] text-[#C8553A] mb-4 inline-block">
+      <span className="text-[11px] font-medium uppercase tracking-[0.18em] text-[#111827] mb-4 inline-block">
         Live preview
       </span>
-      <h2 className="text-[clamp(28px,4.5vw,52px)] leading-[1.1] tracking-[-0.04em] font-medium text-[#15140F] mb-4">
+      <h2 className="text-[clamp(28px,4.5vw,52px)] leading-[1.1] tracking-[-0.04em] font-medium text-[#0F172A] mb-4">
         Your workspace,<br />
-        <em className="not-italic text-[#C8553A]">at a glance.</em>
+        <em className="not-italic text-[#111827]">at a glance.</em>
       </h2>
-      <p className="text-[16px] leading-[1.65] text-[#6B655B]">
+      <p className="text-[16px] leading-[1.65] text-[#64748B]">
         Real metrics, real scheduling, real analytics — all in one clean interface.
       </p>
     </div>
   );
 
   const appShell = (
-    <div className="h-full flex flex-col bg-[#FBF8F2] overflow-hidden">
+    <div className="h-full flex flex-col bg-[#FFFFFF] overflow-hidden">
       {/* Browser chrome */}
-      <div className="flex items-center gap-2 px-4 py-2.5 border-b border-[#E7E0D0] bg-[#EFE9DC] shrink-0">
-        <span className="w-2.5 h-2.5 rounded-full bg-[#A39B8B] opacity-50" />
-        <span className="w-2.5 h-2.5 rounded-full bg-[#A39B8B] opacity-50" />
-        <span className="w-2.5 h-2.5 rounded-full bg-[#A39B8B] opacity-50" />
-        <span className="ml-3 font-mono text-[11px] text-[#6B655B]">{URL_MAP[activeTab]}</span>
+      <div className="flex items-center gap-2 px-4 py-2.5 border-b border-[#E2E8F0] bg-[#F1F5F9] shrink-0">
+        <span className="w-2.5 h-2.5 rounded-full bg-[#94A3B8] opacity-50" />
+        <span className="w-2.5 h-2.5 rounded-full bg-[#94A3B8] opacity-50" />
+        <span className="w-2.5 h-2.5 rounded-full bg-[#94A3B8] opacity-50" />
+        <span className="ml-3 font-mono text-[11px] text-[#64748B]">{URL_MAP[activeTab]}</span>
       </div>
 
       {/* App layout */}
       <div className="flex flex-1 overflow-hidden">
         {/* Sidebar — desktop only */}
-        <div className="hidden md:flex flex-col w-44 shrink-0 border-r border-[#E7E0D0] bg-[#F6F2EA] p-3 gap-1">
-          <div className="flex items-center gap-2 px-2.5 pb-2.5 mb-1.5 border-b border-[#E7E0D0]">
-            <div className="w-5 h-5 rounded-md bg-[#C8553A] flex items-center justify-center shrink-0">
+        <div className="hidden md:flex flex-col w-44 shrink-0 border-r border-[#E2E8F0] bg-[#F8FAFC] p-3 gap-1">
+          <div className="flex items-center gap-2 px-2.5 pb-2.5 mb-1.5 border-b border-[#E2E8F0]">
+            <div className="w-5 h-5 rounded-md bg-[#111827] flex items-center justify-center shrink-0">
               <span className="text-white text-[9px] font-black">V</span>
             </div>
-            <span className="text-[12px] font-bold tracking-tight text-[#15140F]">Vielinks</span>
+            <span className="text-[12px] font-bold tracking-tight text-[#0F172A]">Vielinks</span>
           </div>
           {navItems.map(item => (
             <button
@@ -503,8 +503,8 @@ function ProductPreview() {
               onClick={() => setActiveTab(item.label)}
               className={`flex items-center gap-2.5 px-2.5 py-2 text-[11.5px] rounded-[9px] text-left w-full transition-colors ${
                 activeTab === item.label
-                  ? 'bg-[#EFE9DC] text-[#15140F] font-medium'
-                  : 'text-[#6B655B] hover:bg-[#EFE9DC] hover:text-[#15140F]'
+                  ? 'bg-[#F1F5F9] text-[#0F172A] font-medium'
+                  : 'text-[#64748B] hover:bg-[#F1F5F9] hover:text-[#0F172A]'
               }`}
             >
               {item.icon} {item.label}
@@ -540,24 +540,24 @@ function ProductPreview() {
     return (
       <section className="py-16 px-4">
         <div className="text-center mb-8">
-          <span className="text-[11px] font-medium uppercase tracking-[0.18em] text-[#C8553A] mb-4 inline-block">
+          <span className="text-[11px] font-medium uppercase tracking-[0.18em] text-[#111827] mb-4 inline-block">
             Live preview
           </span>
-          <h2 className="text-[clamp(28px,8vw,40px)] leading-[1.1] tracking-[-0.04em] font-medium text-[#15140F] mb-4">
+          <h2 className="text-[clamp(28px,8vw,40px)] leading-[1.1] tracking-[-0.04em] font-medium text-[#0F172A] mb-4">
             Your workspace,<br />
-            <em className="not-italic text-[#C8553A]">at a glance.</em>
+            <em className="not-italic text-[#111827]">at a glance.</em>
           </h2>
-          <p className="text-[15px] leading-[1.65] text-[#6B655B]">
+          <p className="text-[15px] leading-[1.65] text-[#64748B]">
             Real metrics, real scheduling, real analytics — all in one clean interface.
           </p>
         </div>
-        <div className="border-4 border-[#2A2825] rounded-3xl bg-[#15140F] p-2 overflow-hidden">
-          <div className="rounded-2xl bg-[#FBF8F2] overflow-hidden" style={{ height: '420px' }}>
-            <div className="flex items-center gap-2 px-4 py-2.5 border-b border-[#E7E0D0] bg-[#EFE9DC]">
-              <span className="w-2.5 h-2.5 rounded-full bg-[#A39B8B] opacity-50" />
-              <span className="w-2.5 h-2.5 rounded-full bg-[#A39B8B] opacity-50" />
-              <span className="w-2.5 h-2.5 rounded-full bg-[#A39B8B] opacity-50" />
-              <span className="ml-3 font-mono text-[11px] text-[#6B655B]">app.vielinks.com/dashboard</span>
+        <div className="border-4 border-[#2A2825] rounded-3xl bg-[#0F172A] p-2 overflow-hidden">
+          <div className="rounded-2xl bg-[#FFFFFF] overflow-hidden" style={{ height: '420px' }}>
+            <div className="flex items-center gap-2 px-4 py-2.5 border-b border-[#E2E8F0] bg-[#F1F5F9]">
+              <span className="w-2.5 h-2.5 rounded-full bg-[#94A3B8] opacity-50" />
+              <span className="w-2.5 h-2.5 rounded-full bg-[#94A3B8] opacity-50" />
+              <span className="w-2.5 h-2.5 rounded-full bg-[#94A3B8] opacity-50" />
+              <span className="ml-3 font-mono text-[11px] text-[#64748B]">app.vielinks.com/dashboard</span>
             </div>
             <div className="h-[calc(100%-41px)] overflow-hidden">
               <DashboardContent />
@@ -595,24 +595,24 @@ function FeatureCard({ feature }: { feature: FeatureItem }) {
   return (
     <div
       data-f="card"
-      className="group bg-[#F6F2EA] p-8 flex flex-col gap-3 transition-colors duration-200 ease-out hover:bg-[#C8553A]"
+      className="group bg-[#F8FAFC] p-8 flex flex-col gap-3 transition-colors duration-200 ease-out hover:bg-[#111827]"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      <div className="w-9 h-9 flex items-center justify-center rounded-[10px] bg-[#EFE9DC] text-[#15140F] mb-2 transition-colors duration-200 ease-out group-hover:bg-white/15 group-hover:text-white">
+      <div className="w-9 h-9 flex items-center justify-center rounded-[10px] bg-[#F1F5F9] text-[#0F172A] mb-2 transition-colors duration-200 ease-out group-hover:bg-white/15 group-hover:text-white">
         <Icon ref={iconRef} size={18} />
       </div>
-      <h3 className="text-[18px] font-semibold tracking-[-0.01em] text-[#15140F] transition-colors duration-200 ease-out group-hover:text-white">
+      <h3 className="text-[18px] font-semibold tracking-[-0.01em] text-[#0F172A] transition-colors duration-200 ease-out group-hover:text-white">
         {title}
       </h3>
-      <p className="text-[14px] leading-[1.6] text-[#6B655B] transition-colors duration-200 ease-out group-hover:text-[#F6F2EA]">
+      <p className="text-[14px] leading-[1.6] text-[#64748B] transition-colors duration-200 ease-out group-hover:text-[#F8FAFC]">
         {body}
       </p>
       {route && (
         <Link
           to={route}
           onClick={e => e.stopPropagation()}
-          className="mt-1 inline-flex items-center gap-1 text-[11px] font-medium tracking-wide text-[#A39B8B] transition-[color,opacity,transform] duration-150 ease-out group-hover:text-white/50 hover:text-white/80! active:scale-[0.96] active:opacity-70 w-fit"
+          className="mt-1 inline-flex items-center gap-1 text-[11px] font-medium tracking-wide text-[#94A3B8] transition-[color,opacity,transform] duration-150 ease-out group-hover:text-white/50 hover:text-white/80! active:scale-[0.96] active:opacity-70 w-fit"
         >
           Learn more
           <IconArrow className="w-2.5 h-2.5" />
@@ -688,10 +688,10 @@ function Features() {
       <div data-f="inner" className="max-w-300 mx-auto px-8">
         <div data-f="head">
           <SectionTitleLink to="/overview" ariaLabel="View workspace details">The workspace</SectionTitleLink>
-          <h2 className="text-[clamp(32px,4.5vw,52px)] leading-[1.1] tracking-[-0.035em] mb-3 max-w-180 font-medium text-[#15140F]">
-            A tool that <em className="not-italic text-[#C8553A]">respects</em> your week.
+          <h2 className="text-[clamp(32px,4.5vw,52px)] leading-[1.1] tracking-[-0.035em] mb-3 max-w-180 font-medium text-[#0F172A]">
+            A tool that <em className="not-italic text-[#111827]">respects</em> your week.
           </h2>
-          <p className="text-[16px] leading-[1.65] text-[#6B655B] max-w-140 mb-12">
+          <p className="text-[16px] leading-[1.65] text-[#64748B] max-w-140 mb-12">
             Fewer dashboards, fewer features that don't matter, fewer popups. The list, the calendar, the numbers, the AI when you want it.
           </p>
         </div>
@@ -764,14 +764,14 @@ function Pricing() {
   }, []);
 
   return (
-    <section ref={ref} id="pricing" className="py-24 bg-[#FBF8F2]">
+    <section ref={ref} id="pricing" className="py-24 bg-[#FFFFFF]">
       <div data-pr="inner" className="max-w-300 mx-auto px-8">
         <div data-pr="head">
           <SectionTitleLink to="/pricing" ariaLabel="View pricing details">Pricing</SectionTitleLink>
-          <h2 className="text-[clamp(32px,4.5vw,52px)] leading-[1.1] tracking-[-0.035em] mb-3 max-w-180 font-medium text-[#15140F]">
-            Three plans. <em className="not-italic text-[#C8553A]">No surprises.</em>
+          <h2 className="text-[clamp(32px,4.5vw,52px)] leading-[1.1] tracking-[-0.035em] mb-3 max-w-180 font-medium text-[#0F172A]">
+            Three plans. <em className="not-italic text-[#111827]">No surprises.</em>
           </h2>
-          <p className="text-[16px] leading-[1.65] text-[#6B655B] max-w-140 mb-12">
+          <p className="text-[16px] leading-[1.65] text-[#64748B] max-w-140 mb-12">
             A free tier that's actually useful, a paid tier priced for working teams, and a studio tier for agencies. No "contact sales" until the studio plan.
           </p>
         </div>
@@ -780,24 +780,24 @@ function Pricing() {
             <div
               key={p.name}
               data-pr="card"
-              className={`group rounded-2xl p-8 flex flex-col gap-4 border transition-[background-color,border-color,box-shadow,transform] duration-200 ease-out hover:-translate-y-1 ${p.featured ? 'bg-[#15140F] border-[#15140F] hover:border-[#C8553A] hover:shadow-[0_20px_50px_rgba(200,85,58,0.20)]' : 'bg-[#F6F2EA] border-border hover:border-[#C8553A] hover:bg-[#FBF8F2] hover:shadow-[0_18px_45px_rgba(21,20,15,0.10)]'}`}
+              className={`group rounded-2xl p-8 flex flex-col gap-4 border transition-[background-color,border-color,box-shadow,transform] duration-200 ease-out hover:-translate-y-1 ${p.featured ? 'bg-[#0F172A] border-[#0F172A] hover:border-[#111827] hover:shadow-[0_20px_50px_rgba(14,159,110,0.20)]' : 'bg-[#F8FAFC] border-border hover:border-[#111827] hover:bg-[#FFFFFF] hover:shadow-[0_18px_45px_rgba(15,23,42,0.10)]'}`}
             >
-              <div className="text-[22px] font-medium tracking-[-0.02em]" style={{ color: p.featured ? '#F6F2EA' : '#15140F' }}>{p.name}</div>
+              <div className="text-[22px] font-medium tracking-[-0.02em]" style={{ color: p.featured ? '#F8FAFC' : '#0F172A' }}>{p.name}</div>
               <div className="flex items-baseline gap-1.5">
-                <span className="text-[56px] font-medium tracking-[-0.04em] leading-none" style={{ color: p.featured ? '#F6F2EA' : '#15140F' }}>${p.price}</span>
-                <span className="text-[13px]" style={{ color: p.featured ? 'rgba(251,248,242,0.6)' : '#6B655B' }}>{p.unit}</span>
+                <span className="text-[56px] font-medium tracking-[-0.04em] leading-none" style={{ color: p.featured ? '#F8FAFC' : '#0F172A' }}>${p.price}</span>
+                <span className="text-[13px]" style={{ color: p.featured ? 'rgba(255,255,255,0.6)' : '#64748B' }}>{p.unit}</span>
               </div>
-              <p className="text-[14px] leading-normal" style={{ color: p.featured ? 'rgba(251,248,242,0.7)' : '#6B655B' }}>{p.desc}</p>
+              <p className="text-[14px] leading-normal" style={{ color: p.featured ? 'rgba(255,255,255,0.7)' : '#64748B' }}>{p.desc}</p>
               <ul className="list-none flex flex-col gap-2 my-2">
                 {p.items.map(item => (
-                  <li key={item} className="flex items-center gap-2.5 text-[14px]" style={{ color: p.featured ? 'rgba(251,248,242,0.85)' : '#3D3A30' }}>
+                  <li key={item} className="flex items-center gap-2.5 text-[14px]" style={{ color: p.featured ? 'rgba(255,255,255,0.85)' : '#334155' }}>
                     <span className="w-1 h-1 rounded-full bg-current opacity-40 shrink-0" />
                     {item}
                   </li>
                 ))}
               </ul>
               <Link to="/register" className="mt-auto w-full inline-flex justify-center items-center text-[14px] font-medium px-4.5 py-2.5 rounded-[10px] transition-[background-color,color,transform] duration-150 active:scale-[0.97] group-hover:-translate-y-0.5"
-                style={p.featured ? { background: '#C8553A', color: 'white' } : { background: '#15140F', color: '#F6F2EA' }}>
+                style={p.featured ? { background: '#FFFFFF', color: '#0F172A' } : { background: '#0F172A', color: '#F8FAFC' }}>
                 {p.cta}
               </Link>
             </div>
@@ -876,8 +876,8 @@ function FAQ() {
       <div data-faq="inner" className="max-w-300 mx-auto px-8">
         <div data-faq="head">
           <SectionTitleLink to="/faq" ariaLabel="View frequently asked questions">Questions</SectionTitleLink>
-          <h2 className="text-[clamp(32px,4.5vw,52px)] leading-[1.1] tracking-[-0.035em] mb-12 max-w-180 font-medium text-[#15140F]">
-            Answered, <em className="not-italic text-[#C8553A]">without the fluff.</em>
+          <h2 className="text-[clamp(32px,4.5vw,52px)] leading-[1.1] tracking-[-0.035em] mb-12 max-w-180 font-medium text-[#0F172A]">
+            Answered, <em className="not-italic text-[#111827]">without the fluff.</em>
           </h2>
         </div>
         <div className="flex flex-col">
@@ -888,12 +888,12 @@ function FAQ() {
               className={`border-t border-border py-6 cursor-pointer ${i === items.length - 1 ? 'border-b' : ''}`}
               onClick={() => setOpen(open === i ? -1 : i)}
             >
-              <div className="flex justify-between items-center text-[17px] font-medium text-[#15140F]">
+              <div className="flex justify-between items-center text-[17px] font-medium text-[#0F172A]">
                 {item.q}
                 <IconChevron className={`w-4 h-4 shrink-0 ml-4 transition-transform duration-200 ${open === i ? 'rotate-180' : ''}`} />
               </div>
               <div
-                className="overflow-hidden transition-[max-height,padding-top] duration-300 text-[15px] leading-[1.65] text-[#6B655B]"
+                className="overflow-hidden transition-[max-height,padding-top] duration-300 text-[15px] leading-[1.65] text-[#64748B]"
                 style={{ maxHeight: open === i ? '200px' : '0', paddingTop: open === i ? '12px' : '0' }}
               >
                 {item.a}
@@ -961,25 +961,25 @@ function BigCTA() {
   return (
     <section ref={ref} className="py-14">
       <div data-cta="inner" className="max-w-300 mx-auto px-8">
-        <div data-cta="box" className="bg-[#15140F] text-[#F6F2EA] rounded-3xl px-8 md:px-16 py-20 text-center">
+        <div data-cta="box" className="bg-[#0F172A] text-[#F8FAFC] rounded-3xl px-8 md:px-16 py-20 text-center">
           <h2 className="text-[clamp(36px,5.5vw,64px)] leading-[1.05] tracking-[-0.04em] mb-5 font-medium">
-            Start the <em className="not-italic text-[#C8553A]">quiet</em> way.
+            Start the <em className="not-italic text-[#0E9F6E]">quiet</em> way.
           </h2>
-          <p className="text-[16px] max-w-120 mx-auto mb-7" style={{ color: 'rgba(251,248,242,0.7)' }}>
+          <p className="text-[16px] max-w-120 mx-auto mb-7" style={{ color: 'rgba(255,255,255,0.7)' }}>
             One workspace, three networks, fourteen days free. Cancel with one click.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Link
               to="/register"
               aria-label="Start free trial"
-              className="group inline-flex w-full sm:w-auto min-w-40 items-center justify-center gap-2 rounded-xl bg-[#C8553A] px-6 py-3.5 text-[15px] font-medium text-white transition-colors duration-200 hover:bg-[#A53F28] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F6F2EA] focus-visible:ring-offset-2 focus-visible:ring-offset-[#15140F]"
+              className="group inline-flex w-full sm:w-auto min-w-40 items-center justify-center gap-2 rounded-xl bg-[#FFFFFF] px-6 py-3.5 text-[15px] font-medium text-[#0F172A] transition-colors duration-200 hover:bg-[#F1F5F9] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F8FAFC] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0F172A]"
             >
               Start free <IconArrow className="w-3.5 h-3.5 transition-transform duration-200 group-hover:translate-x-0.5" />
             </Link>
             <a
               href="#pricing"
-              className="inline-flex w-full sm:w-auto min-w-40 items-center justify-center gap-2 rounded-xl px-6 py-3.5 text-[15px] font-medium transition-all duration-200 hover:bg-[rgba(251,248,242,0.07)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F6F2EA] focus-visible:ring-offset-2 focus-visible:ring-offset-[#15140F]"
-              style={{ color: 'rgba(251,248,242,0.7)' }}
+              className="inline-flex w-full sm:w-auto min-w-40 items-center justify-center gap-2 rounded-xl border border-[rgba(255,255,255,0.18)] px-6 py-3.5 text-[15px] font-medium transition-all duration-200 hover:bg-[rgba(255,255,255,0.07)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F8FAFC] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0F172A]"
+              style={{ color: 'rgba(255,255,255,0.7)' }}
             >
               See pricing
             </a>
@@ -1008,15 +1008,15 @@ export default function LandingPage() {
   });
 
   return (
-    <div className="min-h-screen w-full bg-[#F6F2EA] text-[#15140F] overflow-x-hidden">
+    <div className="min-h-screen w-full bg-[#F8FAFC] text-[#0F172A] overflow-x-hidden">
       <SiteNav />
       <main>
         <Hero />
         <ProductPreview />
         <Features />
-        <div className="h-20 bg-linear-to-b from-[#F6F2EA] to-[#FBF8F2]" />
+        <div className="h-20 bg-linear-to-b from-[#F8FAFC] to-[#FFFFFF]" />
         <Pricing />
-        <div className="h-20 bg-linear-to-b from-[#FBF8F2] to-[#F6F2EA]" />
+        <div className="h-20 bg-linear-to-b from-[#FFFFFF] to-[#F8FAFC]" />
         <FAQ />
         <BigCTA />
       </main>

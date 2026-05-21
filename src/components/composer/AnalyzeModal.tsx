@@ -1,4 +1,4 @@
-﻿import { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { analyzeImageForPost } from '../../services/ai.service';
 import type { AnalyzeImageResult } from '../../services/ai.service';
@@ -230,28 +230,28 @@ export default function AnalyzeModal({
       onClick={onClose}
     >
       <div
-        className={`relative w-full sm:max-w-lg bg-[#FBF8F2] rounded-t-2xl sm:rounded-2xl shadow-2xl flex flex-col max-h-[92vh] sm:max-h-[88vh] transition-all duration-200 ${
+        className={`relative w-full sm:max-w-lg bg-[#FFFFFF] rounded-t-2xl sm:rounded-2xl shadow-2xl flex flex-col max-h-[92vh] sm:max-h-[88vh] transition-all duration-200 ${
           isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
         }`}
         onClick={e => e.stopPropagation()}
       >
         {/* Drag handle (mobile) */}
         <div className="flex justify-center pt-2.5 pb-0 sm:hidden shrink-0">
-          <div className="w-10 h-1 rounded-full bg-[#15140F]/40" />
+          <div className="w-10 h-1 rounded-full bg-[#0F172A]/40" />
         </div>
 
         {/* ── Header ── */}
-        <div className="flex items-center justify-between px-5 py-4 border-b border-[#15140F]/25 shrink-0">
+        <div className="flex items-center justify-between px-5 py-4 border-b border-[#0F172A]/25 shrink-0">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-[#C8553A]/15 border border-[#C8553A]/20 flex items-center justify-center">
-              <span className="material-symbols-outlined text-[#C8553A]" style={{ fontSize: 18 }}>search</span>
+            <div className="w-9 h-9 rounded-xl bg-[#111827]/15 border border-[#111827]/20 flex items-center justify-center">
+              <span className="material-symbols-outlined text-[#111827]" style={{ fontSize: 18 }}>search</span>
             </div>
             <div>
-              <h2 className="text-sm font-bold text-[#15140F] leading-none mb-0.5">Visual Analysis</h2>
-              <p className="text-[10px] text-[#6B655B]">GPT-4o Vision</p>
+              <h2 className="text-sm font-bold text-[#0F172A] leading-none mb-0.5">Visual Analysis</h2>
+              <p className="text-[10px] text-[#64748B]">GPT-4o Vision</p>
             </div>
           </div>
-          <button onClick={onClose} disabled={analysisLoading} className="w-8 h-8 flex items-center justify-center rounded-xl text-[#6B655B] hover:text-[#15140F] hover:bg-white/8 transition-all disabled:opacity-30">
+          <button onClick={onClose} disabled={analysisLoading} className="w-8 h-8 flex items-center justify-center rounded-xl text-[#64748B] hover:text-[#0F172A] hover:bg-white/8 transition-all disabled:opacity-30">
             <span className="material-symbols-outlined text-[18px]">close</span>
           </button>
         </div>
@@ -261,9 +261,9 @@ export default function AnalyzeModal({
 
           {/* Token limit banner */}
           {!aiAllowed && (
-            <div className="flex items-start gap-2.5 px-3 py-2.5 rounded-xl bg-[#B7841E]/8 border border-[#B7841E]/20">
-              <span className="material-symbols-outlined text-[#B7841E] shrink-0 mt-0.5" style={{ fontSize: 14, fontVariationSettings: "'FILL' 1" }}>warning</span>
-              <p className="text-[10px] text-[#B7841E]/90 leading-relaxed">
+            <div className="flex items-start gap-2.5 px-3 py-2.5 rounded-xl bg-[#B45309]/8 border border-[#B45309]/20">
+              <span className="material-symbols-outlined text-[#B45309] shrink-0 mt-0.5" style={{ fontSize: 14, fontVariationSettings: "'FILL' 1" }}>warning</span>
+              <p className="text-[10px] text-[#B45309]/90 leading-relaxed">
                 Monthly AI token limit reached. Upgrade your plan to analyze media with AI.
               </p>
             </div>
@@ -272,31 +272,31 @@ export default function AnalyzeModal({
           {/* ── Media being analyzed — with edit buttons ── */}
           {images.length > 0 && onRequestEditMedia && (
             <div className="space-y-2">
-              <p className="text-[10px] font-bold uppercase tracking-widest text-[#6B655B]/70">Media in this post</p>
+              <p className="text-[10px] font-bold uppercase tracking-widest text-[#64748B]/70">Media in this post</p>
               <div className="flex gap-2 flex-wrap">
                 {images.map((item, i) => (
-                  <div key={i} className="relative group w-16 h-16 rounded-xl overflow-hidden bg-[#EFE9DC] border border-[#15140F]/15">
+                  <div key={i} className="relative group w-16 h-16 rounded-xl overflow-hidden bg-[#F1F5F9] border border-[#0F172A]/15">
                     <img src={item.previewUrl} alt="" className="w-full h-full object-cover" />
                     {item.isAIGenerated && (
-                      <div className="absolute bottom-0.5 left-0.5 w-[13px] h-[13px] rounded bg-[#C8553A]/90 flex items-center justify-center">
+                      <div className="absolute bottom-0.5 left-0.5 w-[13px] h-[13px] rounded bg-[#111827]/90 flex items-center justify-center">
                         <span className="material-symbols-outlined text-white" style={{ fontSize: 8, fontVariationSettings: "'FILL' 1" }}>auto_awesome</span>
                       </div>
                     )}
                     {/* Hover: edit button */}
-                    <div className="absolute inset-0 bg-[#15140F]/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                    <div className="absolute inset-0 bg-[#0F172A]/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                       <button
                         onClick={() => { onRequestEditMedia(mediaItems.indexOf(item)); }}
                         title="Edit with AI"
-                        className="w-8 h-8 rounded-lg bg-[#B7841E]/20 border border-[#B7841E]/40 flex items-center justify-center hover:bg-[#B7841E]/40 transition-all"
+                        className="w-8 h-8 rounded-lg bg-[#B45309]/20 border border-[#B45309]/40 flex items-center justify-center hover:bg-[#B45309]/40 transition-all"
                       >
-                        <span className="material-symbols-outlined text-[#B7841E]" style={{ fontSize: 15, fontVariationSettings: "'FILL' 1" }}>edit</span>
+                        <span className="material-symbols-outlined text-[#B45309]" style={{ fontSize: 15, fontVariationSettings: "'FILL' 1" }}>edit</span>
                       </button>
                     </div>
                   </div>
                 ))}
                 {images.length > 0 && (
                   <div className="flex items-center">
-                    <p className="text-[10px] text-[#6B655B]/50 leading-snug">
+                    <p className="text-[10px] text-[#64748B]/50 leading-snug">
                       Hover an image<br />to edit with AI
                     </p>
                   </div>
@@ -307,7 +307,7 @@ export default function AnalyzeModal({
 
           {/* ── Scope selector ── */}
           {hasBothTypes && (
-            <div className="flex items-center gap-1 p-1 bg-[#EFE9DC] rounded-xl">
+            <div className="flex items-center gap-1 p-1 bg-[#F1F5F9] rounded-xl">
               {([
                 { value: 'images', label: 'Images',       icon: 'image'       },
                 { value: 'videos', label: 'Video frames', icon: 'play_circle' },
@@ -319,8 +319,8 @@ export default function AnalyzeModal({
                   disabled={analysisLoading || !aiAllowed}
                   className={`flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-[10px] text-[10px] font-bold uppercase tracking-wider transition-all disabled:opacity-50 ${
                     analysisScope === opt.value
-                      ? 'bg-[#C8553A]/20 text-[#C8553A] border border-[#C8553A]/30'
-                      : 'text-[#6B655B] hover:text-[#15140F]'
+                      ? 'bg-[#111827]/20 text-[#111827] border border-[#111827]/30'
+                      : 'text-[#64748B] hover:text-[#0F172A]'
                   }`}
                 >
                   <span className="material-symbols-outlined" style={{ fontSize: 12 }}>{opt.icon}</span>
@@ -332,28 +332,28 @@ export default function AnalyzeModal({
 
           {/* ── Media thumbnails being analyzed ── */}
           {(analysisScope || !hasBothTypes) && scopedItems.length > 0 && (
-            <div className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl bg-[#C8553A]/[0.06] border border-[#C8553A]/12">
+            <div className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl bg-[#111827]/[0.06] border border-[#111827]/12">
               <div className="flex -space-x-1.5 shrink-0">
                 {scopedItems.slice(0, 4).map((item, i) => (
-                  <div key={i} className="relative w-8 h-8 rounded-lg overflow-hidden border-2 border-[#15140F]/18">
+                  <div key={i} className="relative w-8 h-8 rounded-lg overflow-hidden border-2 border-[#0F172A]/18">
                     {item.mediaType === 'video'
                       ? <video src={item.previewUrl} className="w-full h-full object-cover" muted playsInline preload="metadata" />
                       : <img src={item.previewUrl} alt="" className="w-full h-full object-cover" />
                     }
                     {item.mediaType === 'video' && (
-                      <div className="absolute inset-0 flex items-center justify-center bg-[#15140F]/45">
+                      <div className="absolute inset-0 flex items-center justify-center bg-[#0F172A]/45">
                         <span className="material-symbols-outlined text-white" style={{ fontSize: 10 }}>play_arrow</span>
                       </div>
                     )}
                   </div>
                 ))}
                 {scopedItems.length > 4 && (
-                  <div className="w-8 h-8 rounded-lg bg-[#C8553A]/20 border-2 border-[#15140F]/18 flex items-center justify-center">
-                    <span className="text-[9px] font-bold text-[#C8553A]">+{scopedItems.length - 4}</span>
+                  <div className="w-8 h-8 rounded-lg bg-[#111827]/20 border-2 border-[#0F172A]/18 flex items-center justify-center">
+                    <span className="text-[9px] font-bold text-[#111827]">+{scopedItems.length - 4}</span>
                   </div>
                 )}
               </div>
-              <p className="text-[10px] text-[#C8553A]/80 leading-tight">
+              <p className="text-[10px] text-[#111827]/80 leading-tight">
                 <span className="font-bold">{Math.min(scopedItems.length, 4)}</span>{' '}
                 {analysisScope === 'videos' ? 'video frame(s) sent to GPT-4o Vision' : 'image(s) analyzed by GPT-4o Vision'}
               </p>
@@ -363,8 +363,8 @@ export default function AnalyzeModal({
           {/* ── Select scope prompt ── */}
           {hasBothTypes && !analysisScope && !analysisLoading && (
             <div className="flex flex-col items-center gap-2 py-8">
-              <span className="material-symbols-outlined text-[#6B655B]/25 text-[36px]">perm_media</span>
-              <p className="text-sm text-[#6B655B]/60">Choose what to analyze above</p>
+              <span className="material-symbols-outlined text-[#64748B]/25 text-[36px]">perm_media</span>
+              <p className="text-sm text-[#64748B]/60">Choose what to analyze above</p>
             </div>
           )}
 
@@ -372,23 +372,23 @@ export default function AnalyzeModal({
           {analysisLoading && (
             <div className="space-y-3">
               <div className="flex items-center gap-2 px-1">
-                <span className="material-symbols-outlined text-[#C8553A] text-[14px] animate-spin">progress_activity</span>
-                <span className="text-[10px] text-[#C8553A]/70 font-medium">
+                <span className="material-symbols-outlined text-[#111827] text-[14px] animate-spin">progress_activity</span>
+                <span className="text-[10px] text-[#111827]/70 font-medium">
                   {analysisScope === 'videos' ? 'Extracting frames & analyzing…' : 'Analyzing your media…'}
                 </span>
               </div>
               <div className="space-y-2">
                 {[75, 90, 60].map((w, i) => (
-                  <div key={i} className="p-3.5 rounded-xl border border-[#C8553A]/8 bg-[#C8553A]/[0.04] space-y-2">
-                    <div className="h-2.5 rounded-full bg-[#C8553A]/10 animate-pulse" style={{ width: `${w}%`, animationDelay: `${i * 100}ms` }} />
-                    <div className="h-2.5 rounded-full bg-[#C8553A]/10 animate-pulse" style={{ width: `${w - 22}%`, animationDelay: `${i * 100 + 50}ms` }} />
-                    <div className="h-2.5 rounded-full bg-[#C8553A]/10 animate-pulse" style={{ width: `${w - 10}%`, animationDelay: `${i * 100 + 100}ms` }} />
+                  <div key={i} className="p-3.5 rounded-xl border border-[#111827]/8 bg-[#111827]/[0.04] space-y-2">
+                    <div className="h-2.5 rounded-full bg-[#111827]/10 animate-pulse" style={{ width: `${w}%`, animationDelay: `${i * 100}ms` }} />
+                    <div className="h-2.5 rounded-full bg-[#111827]/10 animate-pulse" style={{ width: `${w - 22}%`, animationDelay: `${i * 100 + 50}ms` }} />
+                    <div className="h-2.5 rounded-full bg-[#111827]/10 animate-pulse" style={{ width: `${w - 10}%`, animationDelay: `${i * 100 + 100}ms` }} />
                   </div>
                 ))}
               </div>
-              <div className="pt-1 border-t border-[#15140F]/15 flex flex-wrap gap-1.5">
+              <div className="pt-1 border-t border-[#0F172A]/15 flex flex-wrap gap-1.5">
                 {[40, 55, 48, 62, 38, 50, 44].map((w, i) => (
-                  <div key={i} className="h-7 rounded-full bg-[#C8553A]/8 animate-pulse" style={{ width: w, animationDelay: `${i * 70}ms` }} />
+                  <div key={i} className="h-7 rounded-full bg-[#111827]/8 animate-pulse" style={{ width: w, animationDelay: `${i * 70}ms` }} />
                 ))}
               </div>
             </div>
@@ -396,11 +396,11 @@ export default function AnalyzeModal({
 
           {/* ── Error ── */}
           {!analysisLoading && analysisError && (
-            <div className="flex items-start gap-2.5 px-3.5 py-3 rounded-xl bg-[#A8362A]/8 border border-[#A8362A]/15">
-              <span className="material-symbols-outlined text-[#A8362A] text-[15px] shrink-0 mt-0.5">error</span>
+            <div className="flex items-start gap-2.5 px-3.5 py-3 rounded-xl bg-[#DC2626]/8 border border-[#DC2626]/15">
+              <span className="material-symbols-outlined text-[#DC2626] text-[15px] shrink-0 mt-0.5">error</span>
               <div className="flex-1 min-w-0">
-                <p className="text-[11px] text-[#A8362A] leading-relaxed">{analysisError}</p>
-                <button onClick={() => runAnalysis(analysisScope ?? (hasVideos ? 'videos' : 'images'))} className="mt-1.5 text-[10px] text-[#A8362A]/60 hover:text-[#A8362A] underline transition-colors">
+                <p className="text-[11px] text-[#DC2626] leading-relaxed">{analysisError}</p>
+                <button onClick={() => runAnalysis(analysisScope ?? (hasVideos ? 'videos' : 'images'))} className="mt-1.5 text-[10px] text-[#DC2626]/60 hover:text-[#DC2626] underline transition-colors">
                   Try again
                 </button>
               </div>
@@ -412,7 +412,7 @@ export default function AnalyzeModal({
             <>
               {/* Captions */}
               <div className="space-y-1.5">
-                <p className="text-[10px] font-bold uppercase tracking-widest text-[#6B655B]/70 px-0.5">Captions — pick one</p>
+                <p className="text-[10px] font-bold uppercase tracking-widest text-[#64748B]/70 px-0.5">Captions — pick one</p>
                 {analysisResult.captions.map((c, i) => {
                   const picked = pickedCaption === c;
                   return (
@@ -421,11 +421,11 @@ export default function AnalyzeModal({
                       onClick={() => setPickedCaption(picked ? null : c)}
                       className={[
                         'w-full text-left p-3.5 rounded-xl transition-all text-sm leading-relaxed border',
-                        picked ? 'bg-[#C8553A]/12 border-[#C8553A]/40 text-[#15140F]' : 'text-[#3D3A30] border-transparent bg-[#EFE9DC] hover:bg-[#C8553A]/8 hover:border-[#C8553A]/15',
+                        picked ? 'bg-[#111827]/12 border-[#111827]/40 text-[#0F172A]' : 'text-[#334155] border-transparent bg-[#F1F5F9] hover:bg-[#111827]/8 hover:border-[#111827]/15',
                       ].join(' ')}
                     >
                       <div className="flex items-start gap-2.5">
-                        <span className={`material-symbols-outlined shrink-0 mt-0.5 transition-all ${picked ? 'text-[#C8553A]' : 'text-[#15140F]'}`}
+                        <span className={`material-symbols-outlined shrink-0 mt-0.5 transition-all ${picked ? 'text-[#111827]' : 'text-[#0F172A]'}`}
                           style={{ fontSize: 15, fontVariationSettings: picked ? "'FILL' 1" : "'FILL' 0" }}>
                           {picked ? 'radio_button_checked' : 'radio_button_unchecked'}
                         </span>
@@ -438,12 +438,12 @@ export default function AnalyzeModal({
 
               {/* Hashtags */}
               {analysisResult.hashtags.length > 0 && (
-                <div className="space-y-2.5 pt-2 border-t border-[#15140F]/15">
+                <div className="space-y-2.5 pt-2 border-t border-[#0F172A]/15">
                   <div className="flex items-center justify-between px-0.5">
-                    <p className="text-[10px] font-bold uppercase tracking-widest text-[#6B655B]/70">Hashtags</p>
+                    <p className="text-[10px] font-bold uppercase tracking-widest text-[#64748B]/70">Hashtags</p>
                     <div className="flex gap-0.5">
-                      <button onClick={() => setPickedHashtags(analysisResult.hashtags)} className="text-[9px] text-[#6B655B] hover:text-[#C8553A] transition-colors px-2 py-1 rounded-lg hover:bg-[#C8553A]/8">Select all</button>
-                      {pickedHashtags.length > 0 && <button onClick={() => setPickedHashtags([])} className="text-[9px] text-[#6B655B] hover:text-[#A8362A] transition-colors px-2 py-1 rounded-lg hover:bg-[#A8362A]/8">Clear</button>}
+                      <button onClick={() => setPickedHashtags(analysisResult.hashtags)} className="text-[9px] text-[#64748B] hover:text-[#111827] transition-colors px-2 py-1 rounded-lg hover:bg-[#111827]/8">Select all</button>
+                      {pickedHashtags.length > 0 && <button onClick={() => setPickedHashtags([])} className="text-[9px] text-[#64748B] hover:text-[#DC2626] transition-colors px-2 py-1 rounded-lg hover:bg-[#DC2626]/8">Clear</button>}
                     </div>
                   </div>
                   <div className="flex flex-wrap gap-1.5">
@@ -454,8 +454,8 @@ export default function AnalyzeModal({
                           className={[
                             'flex items-center gap-1 px-2.5 py-1.5 rounded-full border text-[10px] font-medium transition-all active:scale-95',
                             picked
-                              ? 'bg-[#C8553A]/20 border-[#C8553A]/50 text-[#C8553A]'
-                              : 'bg-[#C8553A]/5 border-[#C8553A]/12 text-[#C8553A]/60 hover:bg-[#C8553A]/12 hover:text-[#C8553A] hover:border-[#C8553A]/25',
+                              ? 'bg-[#111827]/20 border-[#111827]/50 text-[#111827]'
+                              : 'bg-[#111827]/5 border-[#111827]/12 text-[#111827]/60 hover:bg-[#111827]/12 hover:text-[#111827] hover:border-[#111827]/25',
                           ].join(' ')}
                         >
                           {picked && <span className="material-symbols-outlined" style={{ fontSize: 10, fontVariationSettings: "'FILL' 1" }}>check</span>}
@@ -468,22 +468,22 @@ export default function AnalyzeModal({
               )}
 
               {/* Best time */}
-              <div className="pt-2 border-t border-[#15140F]/15">
+              <div className="pt-2 border-t border-[#0F172A]/15">
                 <button
                   onClick={() => setApplyTime(p => !p)}
-                  className={`w-full text-left flex gap-3 rounded-xl border p-3.5 transition-all ${applyTime ? 'border-[#C8553A]/30 bg-[#C8553A]/[0.07]' : 'border-[#15140F]/20 bg-transparent opacity-55'}`}
+                  className={`w-full text-left flex gap-3 rounded-xl border p-3.5 transition-all ${applyTime ? 'border-[#111827]/30 bg-[#111827]/[0.07]' : 'border-[#0F172A]/20 bg-transparent opacity-55'}`}
                 >
-                  <div className={`flex h-9 w-9 items-center justify-center rounded-xl shrink-0 transition-colors ${applyTime ? 'bg-[#C8553A]/20' : 'bg-[#15140F]/20'}`}>
-                    <span className="material-symbols-outlined text-[#C8553A]" style={{ fontSize: 18, fontVariationSettings: "'FILL' 1" }}>schedule</span>
+                  <div className={`flex h-9 w-9 items-center justify-center rounded-xl shrink-0 transition-colors ${applyTime ? 'bg-[#111827]/20' : 'bg-[#0F172A]/20'}`}>
+                    <span className="material-symbols-outlined text-[#111827]" style={{ fontSize: 18, fontVariationSettings: "'FILL' 1" }}>schedule</span>
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-[9px] font-bold uppercase tracking-widest text-[#C8553A]/70 mb-0.5">Best time to post</p>
-                    <p className="text-sm font-semibold text-[#15140F] leading-tight">
+                    <p className="text-[9px] font-bold uppercase tracking-widest text-[#111827]/70 mb-0.5">Best time to post</p>
+                    <p className="text-sm font-semibold text-[#0F172A] leading-tight">
                       {formatBestTime(analysisResult.bestTime.hour, analysisResult.bestTime.minute, analysisResult.bestTime.dayOffset)}
                     </p>
-                    <p className="text-[10px] text-[#6B655B] mt-1 leading-relaxed">{analysisResult.bestTime.reason}</p>
+                    <p className="text-[10px] text-[#64748B] mt-1 leading-relaxed">{analysisResult.bestTime.reason}</p>
                   </div>
-                  <div className={`shrink-0 mt-1 w-4 h-4 rounded border flex items-center justify-center transition-all ${applyTime ? 'bg-[#C8553A] border-[#C8553A]' : 'bg-transparent border-[#15140F]/50'}`}>
+                  <div className={`shrink-0 mt-1 w-4 h-4 rounded border flex items-center justify-center transition-all ${applyTime ? 'bg-[#111827] border-[#111827]' : 'bg-transparent border-[#0F172A]/50'}`}>
                     {applyTime && <span className="material-symbols-outlined text-white" style={{ fontSize: 11, fontVariationSettings: "'FILL' 1, 'wght' 700" }}>check</span>}
                   </div>
                 </button>
@@ -494,11 +494,11 @@ export default function AnalyzeModal({
 
         {/* ── Footer ── */}
         {hasResults && !analysisLoading && (
-          <div className="px-5 py-4 border-t border-[#15140F]/25 shrink-0 space-y-2">
+          <div className="px-5 py-4 border-t border-[#0F172A]/25 shrink-0 space-y-2">
             <button
               onClick={handleApply}
               disabled={!pickedCaption && pickedHashtags.length === 0}
-              className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-[#C8553A] hover:bg-[#A53F28] text-white text-sm font-bold transition-all disabled:opacity-30 disabled:cursor-not-allowed active:scale-[0.99]"
+              className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-[#111827] hover:bg-[#0B1220] text-white text-sm font-bold transition-all disabled:opacity-30 disabled:cursor-not-allowed active:scale-[0.99]"
             >
               <span className="material-symbols-outlined" style={{ fontSize: 16, fontVariationSettings: "'FILL' 1" }}>check_circle</span>
               Apply to composer
@@ -515,7 +515,7 @@ export default function AnalyzeModal({
             <button
               onClick={() => runAnalysis(analysisScope ?? (hasVideos ? 'videos' : 'images'))}
               disabled={!aiAllowed}
-              className="w-full flex items-center justify-center gap-1.5 py-2 rounded-xl text-[10px] text-[#6B655B] hover:text-[#C8553A] hover:bg-[#C8553A]/8 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+              className="w-full flex items-center justify-center gap-1.5 py-2 rounded-xl text-[10px] text-[#64748B] hover:text-[#111827] hover:bg-[#111827]/8 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
             >
               <span className="material-symbols-outlined" style={{ fontSize: 13 }}>refresh</span>
               Re-analyze

@@ -74,18 +74,18 @@ function Cell({ value, accent }: { value: CellValue; accent?: boolean }) {
   if (typeof value === 'boolean') {
     return value ? (
       <span className={cn('flex h-6 w-6 mx-auto items-center justify-center rounded-full',
-        accent ? 'bg-[#C8553A]/15 text-[#C8553A]' : 'bg-[#EFE9DC] text-[#6B655B]'
+        accent ? 'bg-[#111827]/15 text-[#111827]' : 'bg-[#F1F5F9] text-[#64748B]'
       )}>
         <svg className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth={2.4} viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
         </svg>
       </span>
     ) : (
-      <span className="mx-auto block h-px w-4 bg-[#E7E0D0]" />
+      <span className="mx-auto block h-px w-4 bg-[#E2E8F0]" />
     );
   }
   return (
-    <span className={cn('text-[0.8rem] font-medium', accent ? 'text-[#C8553A]' : 'text-[#3D3A30]')}>
+    <span className={cn('text-[0.8rem] font-medium', accent ? 'text-[#111827]' : 'text-[#334155]')}>
       {value}
     </span>
   );
@@ -95,23 +95,23 @@ function ComparisonTable() {
   return (
     <div className="mt-24 mx-auto max-w-[1200px]">
       <div className="mb-12 text-center">
-        <span className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#C8553A]/20 bg-[#C8553A]/8 px-4 py-1.5 text-[0.68rem] font-bold uppercase tracking-[0.22em] text-[#C8553A]">
-          <span className="h-1.5 w-1.5 rounded-full bg-[#C8553A]" />
+        <span className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#111827]/20 bg-[#111827]/8 px-4 py-1.5 text-[0.68rem] font-bold uppercase tracking-[0.22em] text-[#111827]">
+          <span className="h-1.5 w-1.5 rounded-full bg-[#111827]" />
           Compare
         </span>
-        <h2 className="mt-5 text-[clamp(24px,3.5vw,40px)] font-medium tracking-[-0.03em] text-[#15140F]">
+        <h2 className="mt-5 text-[clamp(24px,3.5vw,40px)] font-medium tracking-[-0.03em] text-[#0F172A]">
           Everything, side by side.
         </h2>
-        <p className="mt-3 text-[0.95rem] font-light text-[#3D3A30]">
+        <p className="mt-3 text-[0.95rem] font-light text-[#334155]">
           Every feature across every plan - no surprises.
         </p>
       </div>
 
-      <div className="overflow-x-auto rounded-2xl border border-[rgba(21,20,15,0.10)] bg-[#EFE9DC]">
+      <div className="overflow-x-auto rounded-2xl border border-[rgba(15,23,42,0.10)] bg-[#F1F5F9]">
         <table className="w-full border-collapse text-left">
           <thead>
             <tr className="border-b border-border">
-              <th className="py-5 pl-8 pr-4 text-[0.7rem] font-bold uppercase tracking-[0.18em] text-[#6B655B] w-[260px]">
+              <th className="py-5 pl-8 pr-4 text-[0.7rem] font-bold uppercase tracking-[0.18em] text-[#64748B] w-[260px]">
                 Feature
               </th>
               {PLAN_COLS.map((col) => (
@@ -119,12 +119,12 @@ function ComparisonTable() {
                   key={col.key}
                   className={cn(
                     'py-5 px-6 text-center text-[0.82rem] font-bold tracking-tight',
-                    col.accent ? 'text-[#C8553A]' : 'text-[#3D3A30]'
+                    col.accent ? 'text-[#111827]' : 'text-[#334155]'
                   )}
                 >
                   {col.label}
                   {col.accent && (
-                    <span className="ml-2 rounded-full border border-[#C8553A]/22 bg-[#C8553A]/10 px-2 py-0.5 text-[0.52rem] font-bold uppercase text-[#C8553A]">
+                    <span className="ml-2 rounded-full border border-[#111827]/22 bg-[#111827]/10 px-2 py-0.5 text-[0.52rem] font-bold uppercase text-[#111827]">
                       Popular
                     </span>
                   )}
@@ -139,7 +139,7 @@ function ComparisonTable() {
                 <tr key={`cat-${gi}`} className="border-t border-border">
                   <td
                     colSpan={4}
-                    className="py-4 pl-8 text-[0.65rem] font-semibold uppercase tracking-[0.22em] text-[#C8553A]/60"
+                    className="py-4 pl-8 text-[0.65rem] font-semibold uppercase tracking-[0.22em] text-[#111827]/60"
                   >
                     {group.category}
                   </td>
@@ -150,10 +150,10 @@ function ComparisonTable() {
                     key={`${gi}-${ri}`}
                     className={cn(
                       'border-t border-border transition-colors',
-                      ri % 2 === 0 ? 'bg-transparent' : 'bg-[#FBF8F2]'
+                      ri % 2 === 0 ? 'bg-transparent' : 'bg-[#FFFFFF]'
                     )}
                   >
-                    <td className="py-4 pl-8 pr-4 text-[0.85rem] text-[#6B655B]">{row.label}</td>
+                    <td className="py-4 pl-8 pr-4 text-[0.85rem] text-[#64748B]">{row.label}</td>
                     {PLAN_COLS.map((col) => (
                       <td key={col.key} className="py-4 px-6 text-center">
                         <Cell value={row[col.key] as CellValue} accent={col.accent} />
@@ -181,17 +181,17 @@ const FAQS = [
 function FAQ() {
   return (
     <div className="mt-24 mx-auto max-w-[860px]">
-      <h3 className="mb-10 text-center text-[clamp(20px,3vw,28px)] font-medium tracking-[-0.03em] text-[#15140F]">
+      <h3 className="mb-10 text-center text-[clamp(20px,3vw,28px)] font-medium tracking-[-0.03em] text-[#0F172A]">
         Frequently asked questions
       </h3>
       <div className="grid gap-4 md:grid-cols-2">
         {FAQS.map((faq) => (
           <div
             key={faq.q}
-            className="rounded-2xl border border-[rgba(21,20,15,0.10)] bg-[#FBF8F2] p-6"
+            className="rounded-2xl border border-[rgba(15,23,42,0.10)] bg-[#FFFFFF] p-6"
           >
-            <p className="mb-2 text-[0.9rem] font-semibold text-[#15140F]">{faq.q}</p>
-            <p className="text-[0.85rem] leading-[1.7] text-[#3D3A30]">{faq.a}</p>
+            <p className="mb-2 text-[0.9rem] font-semibold text-[#0F172A]">{faq.q}</p>
+            <p className="text-[0.85rem] leading-[1.7] text-[#334155]">{faq.a}</p>
           </div>
         ))}
       </div>
@@ -211,7 +211,7 @@ export default function PricingPage() {
   const [dialogPlan, setDialogPlan] = useState<PlanDef | null>(null);
 
   return (
-    <div className="min-h-screen bg-[#F6F2EA] text-[#15140F] overflow-x-hidden">
+    <div className="min-h-screen bg-[#F8FAFC] text-[#0F172A] overflow-x-hidden">
       <SiteNav />
 
       <main className="mx-auto max-w-[1440px] px-6 md:px-12 pt-36 pb-28">
@@ -222,20 +222,20 @@ export default function PricingPage() {
           transition={{ duration: 0.6, ease: [0.25, 0.4, 0.25, 1] }}
           className="text-center mb-4"
         >
-          <span className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#C8553A]/20 bg-[#C8553A]/8 px-4 py-1.5 text-[0.68rem] font-bold uppercase tracking-[0.22em] text-[#C8553A]">
-            <span className="h-1.5 w-1.5 rounded-full bg-[#C8553A]" />
+          <span className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#111827]/20 bg-[#111827]/8 px-4 py-1.5 text-[0.68rem] font-bold uppercase tracking-[0.22em] text-[#111827]">
+            <span className="h-1.5 w-1.5 rounded-full bg-[#111827]" />
             Pricing
           </span>
-          <h1 className="mt-5 text-[clamp(36px,5vw,60px)] font-medium leading-[1.08] tracking-[-0.035em] text-[#15140F]">
-            Three plans. <span className="text-[#C8553A]">No surprises.</span>
+          <h1 className="mt-5 text-[clamp(36px,5vw,60px)] font-medium leading-[1.08] tracking-[-0.035em] text-[#0F172A]">
+            Three plans. <span className="text-[#111827]">No surprises.</span>
           </h1>
-          <p className="mt-5 text-[1rem] font-light leading-[1.8] text-[#3D3A30] max-w-xl mx-auto">
+          <p className="mt-5 text-[1rem] font-light leading-[1.8] text-[#334155] max-w-xl mx-auto">
             A free tier that's actually useful, a paid tier priced for working teams, and a studio tier for agencies. No contact-sales maze until the Studio plan.
           </p>
         </motion.div>
 
         {/* Ambient glow — desktop only, skipped on mobile to avoid GPU-heavy blur */}
-        <div className="pointer-events-none fixed top-0 left-1/2 -translate-x-1/2 hidden sm:block h-[400px] w-[700px] rounded-full bg-[#C8553A]/[0.04] blur-[120px]" />
+        <div className="pointer-events-none fixed top-0 left-1/2 -translate-x-1/2 hidden sm:block h-[400px] w-[700px] rounded-full bg-[#111827]/[0.04] blur-[120px]" />
 
         {/* Plan cards */}
         <motion.div
@@ -249,7 +249,7 @@ export default function PricingPage() {
           ))}
         </motion.div>
 
-        <p className="mt-8 text-center text-[0.8rem] text-[#6B655B]">
+        <p className="mt-8 text-center text-[0.8rem] text-[#64748B]">
           Starter is free forever · Pro and Studio include a 14-day trial · No hidden fees
         </p>
 
@@ -267,23 +267,23 @@ export default function PricingPage() {
 
         {/* Bottom CTA */}
         <div className="mt-24 text-center">
-          <div className="inline-flex flex-col items-center gap-5 rounded-[2rem] border border-[#C8553A]/15 bg-[#C8553A]/[0.04] px-12 py-10">
-            <h3 className="text-2xl font-extrabold tracking-[-0.03em] text-[#15140F]">
+          <div className="inline-flex flex-col items-center gap-5 rounded-[2rem] border border-[#111827]/15 bg-[#111827]/[0.04] px-12 py-10">
+            <h3 className="text-2xl font-extrabold tracking-[-0.03em] text-[#0F172A]">
               Still not sure which plan fits?
             </h3>
-            <p className="text-[0.9rem] text-[#3D3A30] max-w-sm text-center">
+            <p className="text-[0.9rem] text-[#334155] max-w-sm text-center">
               Start with Starter - it's free forever. Upgrade to Pro when your team is ready, or talk to us about Studio.
             </p>
             <div className="flex flex-col sm:flex-row gap-3">
               <button
                 onClick={() => navigate('/register')}
-                className="rounded-full bg-[#C8553A] px-8 py-3.5 text-sm font-bold text-white hover:bg-[#A53F28] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C8553A]"
+                className="rounded-full bg-[#111827] px-8 py-3.5 text-sm font-bold text-white hover:bg-[#0B1220] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0E9F6E]"
               >
                 Start for free
               </button>
               <button
                 onClick={() => { window.location.href = 'mailto:hello@vielinks.com?subject=Vielinks%20Studio%20plan'; }}
-                className="rounded-full border border-[rgba(21,20,15,0.14)] bg-[#FBF8F2] px-8 py-3.5 text-sm font-semibold text-[#6B655B] hover:border-[#C8553A]/30 hover:text-[#15140F] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C8553A]"
+                className="rounded-full border border-[rgba(15,23,42,0.14)] bg-[#FFFFFF] px-8 py-3.5 text-sm font-semibold text-[#64748B] hover:border-[#111827]/30 hover:text-[#0F172A] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0E9F6E]"
               >
                 Contact us about Studio
               </button>

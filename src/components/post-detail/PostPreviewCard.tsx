@@ -1,4 +1,4 @@
-﻿import { useCallback, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { PLATFORM_REGISTRY } from '../../domain/entities/Platform';
 import type { PlatformId } from '../../domain/entities/Platform';
 
@@ -37,7 +37,7 @@ export default function PostPreviewCard({ platform, caption, mediaUrls, date, st
   function next() { setCurrent(i => (i + 1) % urls.length); }
 
   return (
-    <div className="rounded-3xl overflow-hidden border border-[#15140F]/15 bg-[#161515] shadow-[0_0_60px_rgba(0,0,0,0.5)]">
+    <div className="rounded-3xl overflow-hidden border border-[#0F172A]/15 bg-[#161515] shadow-[0_0_60px_rgba(0,0,0,0.5)]">
 
       {/* ── Media area ── */}
       {hasMedia ? (
@@ -57,12 +57,12 @@ export default function PostPreviewCard({ platform, caption, mediaUrls, date, st
               style={{ background: p.color + '22' }}
             >
               <span
-                className="material-symbols-outlined text-[#6B655B]"
+                className="material-symbols-outlined text-[#64748B]"
                 style={{ fontSize: 32, fontVariationSettings: "'FILL' 0" }}
               >
                 broken_image
               </span>
-              <span className="text-[10px] text-[#6B655B]">Image unavailable</span>
+              <span className="text-[10px] text-[#64748B]">Image unavailable</span>
             </div>
           ) : (
             <img
@@ -77,8 +77,8 @@ export default function PostPreviewCard({ platform, caption, mediaUrls, date, st
           {/* Video type badge */}
           {currentIsVideo && (
             <div className="absolute top-3 left-3 flex items-center gap-1.5 bg-black/70 backdrop-blur-sm px-2.5 py-1 rounded-full border border-white/10">
-              <span className="material-symbols-outlined text-[#15140F]" style={{ fontSize: 12, fontVariationSettings: "'FILL' 1" }}>play_circle</span>
-              <span className="text-[10px] font-bold text-[#15140F] uppercase tracking-wide">Video</span>
+              <span className="material-symbols-outlined text-[#0F172A]" style={{ fontSize: 12, fontVariationSettings: "'FILL' 1" }}>play_circle</span>
+              <span className="text-[10px] font-bold text-[#0F172A] uppercase tracking-wide">Video</span>
             </div>
           )}
 
@@ -88,20 +88,20 @@ export default function PostPreviewCard({ platform, caption, mediaUrls, date, st
               {/* Prev */}
               <button
                 onClick={prev}
-                className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/60 backdrop-blur-sm border border-white/10 flex items-center justify-center text-[#15140F] hover:bg-black/80 transition-all"
+                className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/60 backdrop-blur-sm border border-white/10 flex items-center justify-center text-[#0F172A] hover:bg-black/80 transition-all"
               >
                 <span className="material-symbols-outlined text-[18px]">chevron_left</span>
               </button>
               {/* Next */}
               <button
                 onClick={next}
-                className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/60 backdrop-blur-sm border border-white/10 flex items-center justify-center text-[#15140F] hover:bg-black/80 transition-all"
+                className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/60 backdrop-blur-sm border border-white/10 flex items-center justify-center text-[#0F172A] hover:bg-black/80 transition-all"
               >
                 <span className="material-symbols-outlined text-[18px]">chevron_right</span>
               </button>
 
               {/* Counter badge */}
-              <div className="absolute top-3 right-3 bg-black/60 backdrop-blur-md px-2.5 py-1 rounded-full text-[10px] font-bold text-[#15140F] border border-white/10">
+              <div className="absolute top-3 right-3 bg-black/60 backdrop-blur-md px-2.5 py-1 rounded-full text-[10px] font-bold text-[#0F172A] border border-white/10">
                 {current + 1} / {urls.length}
               </div>
 
@@ -132,8 +132,8 @@ export default function PostPreviewCard({ platform, caption, mediaUrls, date, st
             className="absolute inset-0 opacity-5"
             style={{ background: `radial-gradient(circle at 30% 40%, ${p.color}, transparent 60%)` }}
           />
-          <p className="relative text-[#3D3A30] text-base leading-relaxed text-center line-clamp-[12] font-medium">
-            {caption ?? <span className="text-[#6B655B] italic">No caption</span>}
+          <p className="relative text-[#334155] text-base leading-relaxed text-center line-clamp-[12] font-medium">
+            {caption ?? <span className="text-[#64748B] italic">No caption</span>}
           </p>
         </div>
       )}
@@ -148,21 +148,21 @@ export default function PostPreviewCard({ platform, caption, mediaUrls, date, st
                 key={i}
                 onClick={() => setCurrent(i)}
                 className={`relative shrink-0 w-12 h-12 rounded-lg overflow-hidden border-2 transition-all ${
-                  i === current ? 'border-[#C8553A]' : 'border-transparent opacity-50 hover:opacity-80'
+                  i === current ? 'border-[#111827]' : 'border-transparent opacity-50 hover:opacity-80'
                 }`}
               >
                 {isVid ? (
                   <video src={url} className="w-full h-full object-cover" muted preload="metadata" />
                 ) : failedUrls.has(url) ? (
                   <div className="w-full h-full flex items-center justify-center bg-[#252424]">
-                    <span className="material-symbols-outlined text-[#15140F]" style={{ fontSize: 14 }}>broken_image</span>
+                    <span className="material-symbols-outlined text-[#0F172A]" style={{ fontSize: 14 }}>broken_image</span>
                   </div>
                 ) : (
                   <img src={url} className="w-full h-full object-cover" alt="" onError={() => handleImgError(url)} />
                 )}
                 {isVid && (
                   <div className="absolute inset-0 flex items-center justify-center bg-black/40">
-                    <span className="material-symbols-outlined text-[#15140F]" style={{ fontSize: 14, fontVariationSettings: "'FILL' 1" }}>play_arrow</span>
+                    <span className="material-symbols-outlined text-[#0F172A]" style={{ fontSize: 14, fontVariationSettings: "'FILL' 1" }}>play_arrow</span>
                   </div>
                 )}
               </button>
@@ -184,18 +184,18 @@ export default function PostPreviewCard({ platform, caption, mediaUrls, date, st
               {p.name}
             </span>
             {hasAnyVideo && (
-              <span className="shrink-0 text-[10px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-md text-[#6B655B] bg-[#252424]">
+              <span className="shrink-0 text-[10px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-md text-[#64748B] bg-[#252424]">
                 {urls.every(isVideoUrl) ? 'Video' : 'Mixed'}
               </span>
             )}
-            <span className="text-[10px] text-[#6B655B] truncate">{date}</span>
+            <span className="text-[10px] text-[#64748B] truncate">{date}</span>
           </div>
           {permalink && status === 'published' && (
             <a
               href={permalink}
               target="_blank"
               rel="noopener noreferrer"
-              className="shrink-0 flex items-center gap-1 text-[10px] font-semibold text-[#C8553A] hover:text-[#e8c4ff] transition-colors"
+              className="shrink-0 flex items-center gap-1 text-[10px] font-semibold text-[#111827] hover:text-[#e8c4ff] transition-colors"
             >
               <span className="material-symbols-outlined text-[12px]">open_in_new</span>
               View post
@@ -205,7 +205,7 @@ export default function PostPreviewCard({ platform, caption, mediaUrls, date, st
 
         {/* Caption */}
         {hasMedia && (
-          <p className={`text-sm leading-relaxed line-clamp-4 ${caption ? 'text-[#3D3A30]' : 'text-[#6B655B] italic'}`}>
+          <p className={`text-sm leading-relaxed line-clamp-4 ${caption ? 'text-[#334155]' : 'text-[#64748B] italic'}`}>
             {caption ?? 'No caption'}
           </p>
         )}

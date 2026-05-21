@@ -1,4 +1,4 @@
-﻿import { Component } from 'react';
+import { Component } from 'react';
 import type { ErrorInfo, ReactNode } from 'react';
 
 interface Props {
@@ -30,18 +30,18 @@ export default class ErrorBoundary extends Component<Props, State> {
       if (this.props.fallback) return this.props.fallback;
 
       return (
-        <div className="min-h-screen bg-[#F6F2EA] flex items-center justify-center p-8">
-          <div className="bg-[#FBF8F2] rounded-3xl border border-border p-10 max-w-md w-full text-center space-y-5">
-            <div className="w-14 h-14 rounded-2xl bg-[#A8362A]/10 border border-[#A8362A]/20 flex items-center justify-center mx-auto">
-              <span className="material-symbols-outlined text-[#A8362A]" style={{ fontSize: 26 }}>
+        <div className="min-h-screen bg-[#F8FAFC] flex items-center justify-center p-8">
+          <div className="bg-[#FFFFFF] rounded-3xl border border-border p-10 max-w-md w-full text-center space-y-5">
+            <div className="w-14 h-14 rounded-2xl bg-[#DC2626]/10 border border-[#DC2626]/20 flex items-center justify-center mx-auto">
+              <span className="material-symbols-outlined text-[#DC2626]" style={{ fontSize: 26 }}>
                 error
               </span>
             </div>
             <div>
-              <h2 className="font-headline text-xl font-extrabold text-[#15140F] tracking-tight mb-1">
+              <h2 className="font-headline text-xl font-extrabold text-[#0F172A] tracking-tight mb-1">
                 Something went wrong
               </h2>
-              <p className="text-sm text-[#6B655B]">
+              <p className="text-sm text-[#64748B]">
                 An unexpected error occurred. Try refreshing the page.
               </p>
               {import.meta.env.DEV && (
@@ -52,7 +52,7 @@ export default class ErrorBoundary extends Component<Props, State> {
             </div>
             <button
               onClick={() => window.location.reload()}
-              className="w-full py-3 rounded-xl bg-[#C8553A] text-white font-bold text-sm hover:bg-[#A53F28] transition-all"
+              className="w-full py-3 rounded-xl bg-[#111827] text-white font-bold text-sm hover:bg-[#0B1220] transition-all"
             >
               Reload page
             </button>

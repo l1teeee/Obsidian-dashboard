@@ -1,12 +1,12 @@
-﻿import type { PostStatus } from '../../domain/entities/Post';
+import type { PostStatus } from '../../domain/entities/Post';
 
 const STYLES: Record<PostStatus, string> = {
-  published: 'bg-[#4F7A4A]/15 text-[#4F7A4A] border-[#4F7A4A]/20',
-  scheduled: 'bg-[#C8553A]/15 text-[#C8553A] border-[#C8553A]/20',
-  draft:     'bg-white/5 text-[#A39B8B] border-white/10',
-  failed:    'bg-[#A8362A]/15 text-[#A8362A] border-[#A8362A]/20',
-  inactive:  'bg-[#B7841E]/10 text-[#B7841E] border-[#B7841E]/20',
-  deleted:   'bg-[#A8362A]/10 text-[#A8362A]/60 border-[#A8362A]/10 line-through',
+  published: 'bg-[#047857]/15 text-[#047857] border-[#047857]/20',
+  scheduled: 'bg-[#111827]/15 text-[#111827] border-[#111827]/20',
+  draft:     'bg-white/5 text-[#94A3B8] border-white/10',
+  failed:    'bg-[#DC2626]/15 text-[#DC2626] border-[#DC2626]/20',
+  inactive:  'bg-[#B45309]/10 text-[#B45309] border-[#B45309]/20',
+  deleted:   'bg-[#DC2626]/10 text-[#DC2626]/60 border-[#DC2626]/10 line-through',
 };
 
 interface StatusBadgeProps {

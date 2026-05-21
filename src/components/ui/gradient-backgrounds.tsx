@@ -1,4 +1,4 @@
-﻿import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 
 interface GradientBackgroundProps {
   className?: string;
@@ -12,7 +12,7 @@ interface GradientBackgroundProps {
 
 export function GradientBackground({
   className,
-  color = "#C8553A",
+  color = "#111827",
   position = "50% 90%",
   centerStop = "40%",
 }: GradientBackgroundProps) {
@@ -20,7 +20,7 @@ export function GradientBackground({
     <div
       className={cn("absolute inset-0 z-0 pointer-events-none", className)}
       style={{
-        background: `radial-gradient(125% 125% at ${position}, #F6F2EA ${centerStop}, ${color} 100%)`,
+        background: `radial-gradient(125% 125% at ${position}, #F8FAFC ${centerStop}, ${color} 100%)`,
       }}
     />
   );

@@ -1,4 +1,4 @@
-﻿import { Navigate, useLocation } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
 import { useEffect, useState, type ReactNode } from 'react';
 import { useAuth } from '../../hooks/useAuth';
 import { getProfile } from '../../services/users.service';
@@ -30,7 +30,7 @@ export default function AdminRoute({ children }: { children: ReactNode }) {
 
   if (isLoading || role === undefined) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-[#F6F2EA]">
+      <div className="flex min-h-screen items-center justify-center bg-[#F8FAFC]">
         <div className="h-6 w-6 animate-spin rounded-full border-2 border-[#f87171] border-t-transparent" />
       </div>
     );

@@ -1,4 +1,4 @@
-﻿import type { PlatformBreakdown } from '../../domain/entities/Analytics';
+import type { PlatformBreakdown } from '../../domain/entities/Analytics';
 import SocialBrandIcon from '../shared/SocialBrandIcon';
 
 interface PlatformStatCardProps {
@@ -12,32 +12,32 @@ function getCardBg(id: string): string {
   if (id === 'twitter')   return 'bg-[#000000]';
   if (id === 'tiktok')    return 'bg-gradient-to-br from-[#010101] via-[#69C9D0] to-[#EE1D52]';
   if (id === 'youtube')   return 'bg-[#FF0000]';
-  return 'bg-[#15140F]';
+  return 'bg-[#0F172A]';
 }
 
 export default function PlatformStatCard({ stat: p }: PlatformStatCardProps) {
   return (
-    <div data-platform-stat className="glass-card p-6 rounded-3xl border border-[#15140F]/5">
+    <div data-platform-stat className="glass-card p-6 rounded-3xl border border-[#0F172A]/5">
       <div className="flex items-center gap-3 mb-6">
         <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${getCardBg(p.platformId)}`}>
           <SocialBrandIcon platformId={p.platformId} size={18} />
         </div>
         <div>
-          <h4 className="font-bold text-sm text-[#15140F]">{p.name}</h4>
-          <p className="text-xs text-[#6B655B]">{p.handle}</p>
+          <h4 className="font-bold text-sm text-[#0F172A]">{p.name}</h4>
+          <p className="text-xs text-[#64748B]">{p.handle}</p>
         </div>
       </div>
       <div className="space-y-4">
         <div className="flex justify-between">
-          <span className="text-xs text-[#3D3A30]">Follower Growth</span>
-          <span className="text-xs font-mono text-[#C8553A]">{p.growthLabel}</span>
+          <span className="text-xs text-[#334155]">Follower Growth</span>
+          <span className="text-xs font-mono text-[#111827]">{p.growthLabel}</span>
         </div>
-        <div className="w-full h-1 bg-[#D8D2C4] rounded-full overflow-hidden">
-          <div data-stat-bar className="h-full bg-[#C8553A] rounded-full" style={{ width: `${p.barPct}%` }} />
+        <div className="w-full h-1 bg-[#CBD5E1] rounded-full overflow-hidden">
+          <div data-stat-bar className="h-full bg-[#111827] rounded-full" style={{ width: `${p.barPct}%` }} />
         </div>
         <div className="flex justify-between">
-          <span className="text-xs text-[#3D3A30]">Total Reach</span>
-          <span className="text-xs font-mono text-[#15140F]">{p.reach}</span>
+          <span className="text-xs text-[#334155]">Total Reach</span>
+          <span className="text-xs font-mono text-[#0F172A]">{p.reach}</span>
         </div>
       </div>
     </div>

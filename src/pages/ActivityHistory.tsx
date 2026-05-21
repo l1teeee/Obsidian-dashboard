@@ -1,4 +1,4 @@
-﻿import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import gsap from 'gsap';
 import TopBar from '../components/layout/TopBar';
@@ -59,7 +59,7 @@ export default function ActivityHistory() {
         actions={
           <button
             onClick={() => navigate(-1)}
-            className="flex items-center gap-1.5 text-sm text-[#6B655B] hover:text-[#15140F] transition-colors"
+            className="flex items-center gap-1.5 text-sm text-[#64748B] hover:text-[#0F172A] transition-colors"
           >
             <span className="material-symbols-outlined text-[16px]">arrow_back</span>
             Back
@@ -72,13 +72,13 @@ export default function ActivityHistory() {
         {/* Search + filters */}
         <div className="space-y-3">
           <div className="relative">
-            <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-[#15140F] text-[18px]">search</span>
+            <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-[#0F172A] text-[18px]">search</span>
             <input
               type="text"
               value={search}
               onChange={e => setSearch(e.target.value)}
               placeholder="Search activity..."
-              className="w-full bg-[#EFE9DC] border border-[#15140F]/20 rounded-2xl pl-11 pr-4 py-3 text-sm text-[#15140F] placeholder:text-[#15140F] focus:outline-none focus:border-[#C8553A]/40 focus:ring-1 focus:ring-[#C8553A]/15 transition-all"
+              className="w-full bg-[#F1F5F9] border border-[#0F172A]/20 rounded-2xl pl-11 pr-4 py-3 text-sm text-[#0F172A] placeholder:text-[#0F172A] focus:outline-none focus:border-[#111827]/40 focus:ring-1 focus:ring-[#0E9F6E]/15 transition-all"
             />
           </div>
 
@@ -88,8 +88,8 @@ export default function ActivityHistory() {
               className={[
                 'px-3 py-1.5 rounded-xl text-xs font-semibold transition-all border',
                 filter === 'all'
-                  ? 'bg-[#C8553A]/15 border-[#C8553A]/40 text-[#C8553A]'
-                  : 'bg-transparent border-[#15140F]/20 text-[#6B655B] hover:border-[#15140F]/40 hover:text-[#15140F]',
+                  ? 'bg-[#111827]/15 border-[#111827]/40 text-[#111827]'
+                  : 'bg-transparent border-[#0F172A]/20 text-[#64748B] hover:border-[#0F172A]/40 hover:text-[#0F172A]',
               ].join(' ')}
             >
               All
@@ -101,8 +101,8 @@ export default function ActivityHistory() {
                 className={[
                   'flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold transition-all border',
                   filter === icon
-                    ? 'bg-[#C8553A]/15 border-[#C8553A]/40 text-[#C8553A]'
-                    : 'bg-transparent border-[#15140F]/20 text-[#6B655B] hover:border-[#15140F]/40 hover:text-[#15140F]',
+                    ? 'bg-[#111827]/15 border-[#111827]/40 text-[#111827]'
+                    : 'bg-transparent border-[#0F172A]/20 text-[#64748B] hover:border-[#0F172A]/40 hover:text-[#0F172A]',
                 ].join(' ')}
               >
                 <span className="material-symbols-outlined text-[13px]">{icon}</span>
@@ -116,25 +116,25 @@ export default function ActivityHistory() {
         {loading ? (
           <div className="space-y-4">
             {Array.from({ length: 6 }).map((_, i) => (
-              <div key={i} className="h-16 rounded-2xl bg-[#EFE9DC] animate-pulse border border-[#15140F]/10" />
+              <div key={i} className="h-16 rounded-2xl bg-[#F1F5F9] animate-pulse border border-[#0F172A]/10" />
             ))}
           </div>
         ) : filtered.length === 0 ? (
           <div className="flex flex-col items-center gap-3 py-20 text-center">
-            <span className="material-symbols-outlined text-[#15140F] text-[48px]">history</span>
-            <p className="text-[#6B655B] text-sm">{search || filter !== 'all' ? 'No results match your filters.' : 'No activity yet.'}</p>
+            <span className="material-symbols-outlined text-[#0F172A] text-[48px]">history</span>
+            <p className="text-[#64748B] text-sm">{search || filter !== 'all' ? 'No results match your filters.' : 'No activity yet.'}</p>
           </div>
         ) : (
           <div className="space-y-6">
             {groups.map(({ date, entries }) => (
               <div key={date} data-group>
                 <div className="flex items-center gap-3 mb-3">
-                  <span className="text-[10px] text-[#15140F] uppercase tracking-widest font-semibold">{date}</span>
-                  <div className="flex-1 h-px bg-[#15140F]/15" />
-                  <span className="text-[10px] text-[#15140F]">{entries.length}</span>
+                  <span className="text-[10px] text-[#0F172A] uppercase tracking-widest font-semibold">{date}</span>
+                  <div className="flex-1 h-px bg-[#0F172A]/15" />
+                  <span className="text-[10px] text-[#0F172A]">{entries.length}</span>
                 </div>
 
-                <div className="bg-[#EFE9DC] rounded-2xl border border-[#15140F]/10 divide-y divide-[#15140F]/5 overflow-hidden">
+                <div className="bg-[#F1F5F9] rounded-2xl border border-[#0F172A]/10 divide-y divide-[#0F172A]/5 overflow-hidden">
                   {entries.map((item, i) => (
                     <div key={i} data-act-item className="flex gap-4 px-5 py-4 hover:bg-white/[0.02] transition-colors">
                       <div
@@ -145,10 +145,10 @@ export default function ActivityHistory() {
                       </div>
                       <div className="min-w-0 flex-1">
                         <div className="flex items-start justify-between gap-2">
-                          <p className="text-sm font-semibold text-[#15140F] leading-tight">{item.action}</p>
-                          <span className="text-[10px] text-[#15140F] uppercase tracking-wider shrink-0 mt-0.5">{item.time}</span>
+                          <p className="text-sm font-semibold text-[#0F172A] leading-tight">{item.action}</p>
+                          <span className="text-[10px] text-[#0F172A] uppercase tracking-wider shrink-0 mt-0.5">{item.time}</span>
                         </div>
-                        <p className="text-xs text-[#6B655B] mt-0.5 truncate">{item.detail}</p>
+                        <p className="text-xs text-[#64748B] mt-0.5 truncate">{item.detail}</p>
                       </div>
                     </div>
                   ))}
@@ -160,7 +160,7 @@ export default function ActivityHistory() {
 
         {/* Count footer */}
         {!loading && filtered.length > 0 && (
-          <p className="text-center text-[11px] text-[#15140F]">
+          <p className="text-center text-[11px] text-[#0F172A]">
             {filtered.length} {filtered.length === 1 ? 'event' : 'events'}{filter !== 'all' || search ? ' (filtered)' : ''}
           </p>
         )}

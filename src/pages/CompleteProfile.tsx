@@ -1,4 +1,4 @@
-﻿import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Select, { type StylesConfig } from 'react-select';
 import gsap from 'gsap';
@@ -35,21 +35,21 @@ const selectStyles: StylesConfig<SelectOption> = {
     ...base,
     backgroundColor:  '#ffffff',
     border:           state.isFocused
-      ? '1px solid rgba(200,85,58,0.45)'
-      : '1px solid rgba(21,20,15,0.20)',
+      ? '1px solid rgba(14,159,110,0.45)'
+      : '1px solid rgba(15,23,42,0.20)',
     borderRadius:     '0.875rem',
     padding:          '4px 4px',
     boxShadow:        state.isFocused
-      ? '0 0 0 3px rgba(200,85,58,0.12)'
+      ? '0 0 0 3px rgba(14,159,110,0.12)'
       : 'none',
     cursor:           'pointer',
     transition:       'all 200ms',
-    '&:hover': { borderColor: 'rgba(200,85,58,0.35)' },
+    '&:hover': { borderColor: 'rgba(14,159,110,0.35)' },
   }),
   menu: (base) => ({
     ...base,
-    backgroundColor: '#FBF8F2',
-    border:          '1px solid rgba(21,20,15,0.12)',
+    backgroundColor: '#FFFFFF',
+    border:          '1px solid rgba(15,23,42,0.12)',
     borderRadius:    '1rem',
     boxShadow:       '0 16px 48px rgba(0,0,0,0.12)',
     overflow:        'hidden',
@@ -63,19 +63,19 @@ const selectStyles: StylesConfig<SelectOption> = {
   option: (base, state) => ({
     ...base,
     backgroundColor: state.isSelected
-      ? 'rgba(200,85,58,0.12)'
+      ? 'rgba(14,159,110,0.12)'
       : state.isFocused
-        ? 'rgba(200,85,58,0.06)'
+        ? 'rgba(14,159,110,0.06)'
         : 'transparent',
-    color:           state.isSelected ? '#C8553A' : '#15140F',
+    color:           state.isSelected ? '#111827' : '#0F172A',
     borderRadius:    '0.5rem',
     cursor:          'pointer',
     fontSize:        '0.875rem',
     padding:         '8px 12px',
     transition:      'background 150ms',
   }),
-  singleValue:        (base) => ({ ...base, color: '#15140F', fontSize: '0.875rem' }),
-  input:              (base) => ({ ...base, color: '#15140F', fontSize: '0.875rem' }),
+  singleValue:        (base) => ({ ...base, color: '#0F172A', fontSize: '0.875rem' }),
+  input:              (base) => ({ ...base, color: '#0F172A', fontSize: '0.875rem' }),
   placeholder:        (base) => ({ ...base, color: 'rgba(113,101,126,0.50)', fontSize: '0.875rem' }),
   indicatorSeparator: ()    => ({ display: 'none' }),
   dropdownIndicator:  (base, state) => ({
@@ -83,7 +83,7 @@ const selectStyles: StylesConfig<SelectOption> = {
     color:      'rgba(98,83,111,0.6)',
     transition: 'transform 200ms',
     transform:  state.selectProps.menuIsOpen ? 'rotate(180deg)' : 'rotate(0deg)',
-    '&:hover':  { color: '#C8553A' },
+    '&:hover':  { color: '#111827' },
   }),
   clearIndicator: (base) => ({
     ...base,
@@ -101,7 +101,7 @@ const selectStyles: StylesConfig<SelectOption> = {
 
 // ─── Shared input class ───────────────────────────────────────────────────────
 
-const INPUT = 'w-full rounded-[0.875rem] border border-[#15140F]/20 bg-white px-4 py-3 text-sm text-[#15140F] placeholder:text-[#A39B8B]/50 transition-all duration-300 focus:border-[#C8553A]/40 focus:outline-none focus:ring-1 focus:ring-[#C8553A]/20';
+const INPUT = 'w-full rounded-[0.875rem] border border-[#0F172A]/20 bg-white px-4 py-3 text-sm text-[#0F172A] placeholder:text-[#94A3B8]/50 transition-all duration-300 focus:border-[#111827]/40 focus:outline-none focus:ring-1 focus:ring-[#0E9F6E]/20';
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
@@ -217,33 +217,33 @@ export default function CompleteProfile() {
       className="auth-bg relative flex min-h-screen items-center justify-center overflow-hidden px-4 py-16"
     >
       {/* Ambient orbs */}
-      <div data-orb="1" className="pointer-events-none absolute -left-32 -top-32 h-[500px] w-[500px] rounded-full bg-[#C8553A]/10 blur-[120px]" />
+      <div data-orb="1" className="pointer-events-none absolute -left-32 -top-32 h-[500px] w-[500px] rounded-full bg-[#111827]/10 blur-[120px]" />
       <div data-orb="2" className="pointer-events-none absolute -bottom-32 -right-32 h-[420px] w-[420px] rounded-full bg-inverse-primary/10 blur-[100px]" />
 
       {/* Card */}
-      <div className="relative w-full max-w-[480px] overflow-hidden rounded-[2rem] border border-[#15140F]/20 bg-[#FBF8F2]/80 p-10 shadow-[0_30px_120px_rgba(0,0,0,0.18)] backdrop-blur-2xl">
+      <div className="relative w-full max-w-[480px] overflow-hidden rounded-[2rem] border border-[#0F172A]/20 bg-[#FFFFFF]/80 p-10 shadow-[0_30px_120px_rgba(0,0,0,0.18)] backdrop-blur-2xl">
         {/* Top sheen */}
         <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent" />
 
         {/* Brand mark */}
         <div className="mb-8 flex items-center gap-2.5">
-          <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#C8553A]/15">
-            <div className="h-2.5 w-2.5 rounded-full bg-[#C8553A]" />
+          <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#111827]/15">
+            <div className="h-2.5 w-2.5 rounded-full bg-[#111827]" />
           </div>
-          <span className="font-headline text-base font-bold tracking-tight text-[#15140F]">
+          <span className="font-headline text-base font-bold tracking-tight text-[#0F172A]">
             Vielinks
           </span>
         </div>
 
         {/* Header */}
         <div className="mb-8 space-y-2">
-          <p data-cp-eyebrow className="text-[0.6875rem] font-semibold uppercase tracking-[0.24em] text-[#C8553A]/70">
+          <p data-cp-eyebrow className="text-[0.6875rem] font-semibold uppercase tracking-[0.24em] text-[#111827]/70">
             One last step
           </p>
-          <h1 data-cp-title className="font-headline text-2xl font-bold tracking-tight text-[#15140F]">
+          <h1 data-cp-title className="font-headline text-2xl font-bold tracking-tight text-[#0F172A]">
             Complete your profile
           </h1>
-          <p data-cp-title className="mt-1 text-sm text-[#A39B8B]/60 leading-relaxed">
+          <p data-cp-title className="mt-1 text-sm text-[#94A3B8]/60 leading-relaxed">
             Tell us a bit about yourself so we can personalize your experience.
           </p>
         </div>
@@ -252,7 +252,7 @@ export default function CompleteProfile() {
 
           {/* Full name */}
           <div data-cp-field className="space-y-2">
-            <label className="block text-[0.6875rem] font-semibold uppercase tracking-[0.18em] text-[#A39B8B]/60">
+            <label className="block text-[0.6875rem] font-semibold uppercase tracking-[0.18em] text-[#94A3B8]/60">
               Full name
             </label>
             <input
@@ -270,7 +270,7 @@ export default function CompleteProfile() {
 
           {/* Role */}
           <div data-cp-field className="space-y-2">
-            <label className="block text-[0.6875rem] font-semibold uppercase tracking-[0.18em] text-[#A39B8B]/60">
+            <label className="block text-[0.6875rem] font-semibold uppercase tracking-[0.18em] text-[#94A3B8]/60">
               Your role
             </label>
             <div className="grid grid-cols-2 gap-2">
@@ -283,8 +283,8 @@ export default function CompleteProfile() {
                   className={[
                     'px-3 py-2.5 rounded-2xl text-xs font-semibold text-left transition-all duration-200 border',
                     role === r
-                      ? 'bg-[#C8553A]/10 border-[#C8553A]/40 text-[#C8553A]'
-                      : 'bg-white border-[#15140F]/20 text-[#6B655B] hover:border-[#C8553A]/30 hover:text-[#15140F]',
+                      ? 'bg-[#111827]/10 border-[#111827]/40 text-[#111827]'
+                      : 'bg-white border-[#0F172A]/20 text-[#64748B] hover:border-[#111827]/30 hover:text-[#0F172A]',
                     r === 'Other' ? 'col-span-2' : '',
                   ].join(' ')}
                 >
@@ -308,7 +308,7 @@ export default function CompleteProfile() {
 
           {/* Country */}
           <div data-cp-field className="space-y-2">
-            <label className="block text-[0.6875rem] font-semibold uppercase tracking-[0.18em] text-[#A39B8B]/60">
+            <label className="block text-[0.6875rem] font-semibold uppercase tracking-[0.18em] text-[#94A3B8]/60">
               Country
             </label>
             <Select<SelectOption>
@@ -338,7 +338,7 @@ export default function CompleteProfile() {
             data-cp-btn
             type="submit"
             disabled={!canSubmit}
-            className="mt-2 w-full rounded-2xl bg-[#C8553A] px-6 py-3.5 text-sm font-bold text-white transition-all duration-300 hover:scale-[1.02] hover:bg-[#A53F28] hover:shadow-[0_0_40px_rgba(200,85,58,0.28)] active:scale-[0.98] disabled:opacity-40 disabled:pointer-events-none"
+            className="mt-2 w-full rounded-2xl bg-[#111827] px-6 py-3.5 text-sm font-bold text-white transition-all duration-300 hover:scale-[1.02] hover:bg-[#0B1220] hover:shadow-[0_0_40px_rgba(14,159,110,0.28)] active:scale-[0.98] disabled:opacity-40 disabled:pointer-events-none"
           >
             {loading ? (
               <span className="flex items-center justify-center gap-2">
@@ -367,10 +367,10 @@ export default function CompleteProfile() {
 
         {/* Text */}
         <div className="space-y-1.5">
-          <h2 className="text-lg font-extrabold text-[#15140F] tracking-tight">
+          <h2 className="text-lg font-extrabold text-[#0F172A] tracking-tight">
             Are you sure you want to leave?
           </h2>
-          <p className="text-sm text-[#6B655B] leading-relaxed">
+          <p className="text-sm text-[#64748B] leading-relaxed">
             You haven't completed your profile yet.<br />
             All progress will be lost if you go back.
           </p>
@@ -380,13 +380,13 @@ export default function CompleteProfile() {
         <div className="flex flex-col gap-2 w-full pt-1">
           <button
             onClick={() => setShowLeaveModal(false)}
-            className="w-full py-3 rounded-2xl bg-[#C8553A] text-white text-sm font-extrabold hover:bg-[#A53F28] active:scale-[0.98] transition-all shadow-[0_0_24px_rgba(200,85,58,0.25)]"
+            className="w-full py-3 rounded-2xl bg-[#111827] text-white text-sm font-extrabold hover:bg-[#0B1220] active:scale-[0.98] transition-all shadow-[0_0_24px_rgba(14,159,110,0.25)]"
           >
             Stay and finish
           </button>
           <button
             onClick={() => { completedRef.current = true; void logout().then(() => navigate('/login', { replace: true })); }}
-            className="w-full py-2.5 rounded-2xl text-[#6B655B] text-sm font-medium hover:text-[#15140F] transition-colors"
+            className="w-full py-2.5 rounded-2xl text-[#64748B] text-sm font-medium hover:text-[#0F172A] transition-colors"
           >
             Leave anyway
           </button>

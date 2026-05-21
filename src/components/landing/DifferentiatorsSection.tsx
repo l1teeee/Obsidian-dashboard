@@ -1,4 +1,4 @@
-﻿
+
 import { useLayoutEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -16,7 +16,7 @@ const workflowSteps = [
     title: 'Plan',
     body: 'Map every post, owner, and publish date across all platforms in one shared content calendar. Assign ownership before a single caption is written.',
     tag: 'One shared view',
-    accent: '#C8553A',
+    accent: '#111827',
   },
   {
     step: '02',
@@ -28,7 +28,7 @@ const workflowSteps = [
     title: 'Draft',
     body: 'Write captions with AI assist, adapt copy per platform, and tag posts for review — all without leaving the editor or switching tools.',
     tag: 'AI-powered writing',
-    accent: '#A53F28',
+    accent: '#0B1220',
   },
   {
     step: '03',
@@ -40,7 +40,7 @@ const workflowSteps = [
     title: 'Approve',
     body: 'Route content through your team with one-click approvals and comment threads. Nothing goes live until someone signs off.',
     tag: 'Team-gated publishing',
-    accent: '#C8553A',
+    accent: '#111827',
   },
   {
     step: '04',
@@ -52,7 +52,7 @@ const workflowSteps = [
     title: 'Report',
     body: 'Pull cross-platform performance data after every cycle. Know what drove reach, what fell flat, and what to repeat next week.',
     tag: 'Closed-loop analytics',
-    accent: '#C8553A',
+    accent: '#111827',
   },
 ];
 
@@ -125,9 +125,9 @@ export default function DifferentiatorsSection() {
 
   return (
     <section ref={sectionRef} id="Differentiators" className="relative overflow-hidden py-28 md:py-36">
-      <div className="pointer-events-none absolute right-[4%] top-20 h-80 w-80 rounded-full bg-[#C8553A]/[0.03] blur-[72px]" />
-      <div className="pointer-events-none absolute left-[3%] bottom-10 h-64 w-64 rounded-full bg-[#A53F28]/[0.025] blur-[64px]" />
-      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#E7E0D0] to-transparent" />
+      <div className="pointer-events-none absolute right-[4%] top-20 h-80 w-80 rounded-full bg-[#111827]/[0.03] blur-[72px]" />
+      <div className="pointer-events-none absolute left-[3%] bottom-10 h-64 w-64 rounded-full bg-[#0B1220]/[0.025] blur-[64px]" />
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#E2E8F0] to-transparent" />
 
       <div className="mx-auto max-w-[1440px] px-6 md:px-12">
 
@@ -136,23 +136,23 @@ export default function DifferentiatorsSection() {
           <span
             data-d="eyebrow"
             style={{ opacity: 0 }}
-            className="mb-5 inline-flex items-center gap-2 rounded-full border border-[rgba(21,20,15,0.14)] bg-[#FFFFFF] px-4 py-1.5 text-[0.68rem] font-bold uppercase tracking-[0.22em] text-[#6B655B]"
+            className="mb-5 inline-flex items-center gap-2 rounded-full border border-[rgba(15,23,42,0.14)] bg-[#FFFFFF] px-4 py-1.5 text-[0.68rem] font-bold uppercase tracking-[0.22em] text-[#64748B]"
           >
-            <span className="h-1.5 w-1.5 rounded-full bg-[#C8553A]" />
+            <span className="h-1.5 w-1.5 rounded-full bg-[#111827]" />
             Why Vielinks is different
           </span>
           <h2
             data-d="title"
             style={{ opacity: 0 }}
-            className="mt-5 text-4xl font-extrabold tracking-[-0.04em] leading-[0.96] text-[#15140F] md:text-5xl"
+            className="mt-5 text-4xl font-extrabold tracking-[-0.04em] leading-[0.96] text-[#0F172A] md:text-5xl"
           >
             A cleaner workflow.{' '}
-            <span className="text-[#C8553A]">Not just another tool.</span>
+            <span className="text-[#111827]">Not just another tool.</span>
           </h2>
           <p
             data-d="sub"
             style={{ opacity: 0 }}
-            className="mx-auto mt-5 max-w-lg text-[1rem] font-light leading-[1.8] text-[#15140F]/55"
+            className="mx-auto mt-5 max-w-lg text-[1rem] font-light leading-[1.8] text-[#0F172A]/55"
           >
             From first idea to final report, every step happens in one place. No tab switching, no copy-pasting, no guessing.
           </p>
@@ -162,12 +162,12 @@ export default function DifferentiatorsSection() {
         <div
           data-d="workflow"
           style={{ opacity: 0 }}
-          className="relative mb-10 overflow-hidden rounded-[2rem] border border-[rgba(21,20,15,0.16)] bg-[#FFFFFF] p-6 shadow-[0_20px_60px_rgba(21,20,15,0.08),0_0_0_1px_rgba(200,85,58,0.06)] md:p-8"
+          className="relative mb-10 overflow-hidden rounded-[2rem] border border-[rgba(15,23,42,0.16)] bg-[#FFFFFF] p-6 shadow-[0_20px_60px_rgba(15,23,42,0.08),0_0_0_1px_rgba(14,159,110,0.06)] md:p-8"
         >
-          <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#C8553A]/20 to-transparent" />
+          <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#0E9F6E]/20 to-transparent" />
 
           {/* "How it works" label */}
-          <p className="mb-6 text-[0.6rem] font-bold uppercase tracking-[0.24em] text-[#15140F]/40">How it works</p>
+          <p className="mb-6 text-[0.6rem] font-bold uppercase tracking-[0.24em] text-[#0F172A]/40">How it works</p>
 
           <div className="grid gap-3 md:grid-cols-4">
             {workflowSteps.map((item, index) => (
@@ -175,13 +175,13 @@ export default function DifferentiatorsSection() {
                 {/* Connector arrow between steps */}
                 {index < workflowSteps.length - 1 && (
                   <div className="pointer-events-none absolute right-[-10px] top-[22px] z-10 hidden md:flex items-center">
-                    <svg className="h-4 w-4 text-[rgba(21,20,15,0.18)]" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24">
+                    <svg className="h-4 w-4 text-[rgba(15,23,42,0.18)]" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
                     </svg>
                   </div>
                 )}
 
-                <div className="group flex h-full flex-col rounded-[1.25rem] border border-[rgba(21,20,15,0.12)] bg-[#FBF8F2] p-5 transition-all duration-300 hover:border-[rgba(200,85,58,0.30)] hover:bg-[#EFE9DC] hover:shadow-[0_8px_24px_rgba(200,85,58,0.08)]">
+                <div className="group flex h-full flex-col rounded-[1.25rem] border border-[rgba(15,23,42,0.12)] bg-[#FFFFFF] p-5 transition-all duration-300 hover:border-[rgba(14,159,110,0.30)] hover:bg-[#F1F5F9] hover:shadow-[0_8px_24px_rgba(14,159,110,0.08)]">
 
                   {/* Top row: step number + icon */}
                   <div className="mb-4 flex items-start justify-between">
@@ -196,7 +196,7 @@ export default function DifferentiatorsSection() {
                       {item.step}
                     </span>
                     <div
-                      className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-[rgba(21,20,15,0.10)] bg-[#FFFFFF] transition-colors duration-300 group-hover:border-[rgba(200,85,58,0.20)] group-hover:bg-[#EFE9DC]"
+                      className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-[rgba(15,23,42,0.10)] bg-[#FFFFFF] transition-colors duration-300 group-hover:border-[rgba(14,159,110,0.20)] group-hover:bg-[#F1F5F9]"
                       style={{ color: item.accent }}
                     >
                       {item.icon}
@@ -204,8 +204,8 @@ export default function DifferentiatorsSection() {
                   </div>
 
                   {/* Title + body */}
-                  <h3 className="mb-2 text-[0.95rem] font-extrabold tracking-tight text-[#15140F]">{item.title}</h3>
-                  <p className="mb-5 flex-1 text-[0.8rem] leading-[1.7] text-[#15140F]/55">{item.body}</p>
+                  <h3 className="mb-2 text-[0.95rem] font-extrabold tracking-tight text-[#0F172A]">{item.title}</h3>
+                  <p className="mb-5 flex-1 text-[0.8rem] leading-[1.7] text-[#0F172A]/55">{item.body}</p>
 
                   {/* Outcome tag */}
                   <span
@@ -232,32 +232,32 @@ export default function DifferentiatorsSection() {
               key={i}
               data-d="card"
               style={{ opacity: 0 }}
-              className="group relative flex flex-col overflow-hidden rounded-[1.5rem] border border-[rgba(21,20,15,0.14)] bg-[#FFFFFF] p-6 backdrop-blur-xl transition-all duration-500 hover:border-[#C8553A]/30 hover:bg-[#EFE9DC]"
+              className="group relative flex flex-col overflow-hidden rounded-[1.5rem] border border-[rgba(15,23,42,0.14)] bg-[#FFFFFF] p-6 backdrop-blur-xl transition-all duration-500 hover:border-[#111827]/30 hover:bg-[#F1F5F9]"
             >
-              <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#E7E0D0] to-transparent" />
+              <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#E2E8F0] to-transparent" />
 
               {/* Icon + badge */}
               <div className="mb-5 flex items-start justify-between">
-                <div className="flex h-11 w-11 items-center justify-center rounded-2xl border border-[rgba(21,20,15,0.10)] bg-[#EFE9DC] text-[#C8553A] transition-all duration-300 group-hover:bg-[#EFE9DC] group-hover:text-[#15140F]">
+                <div className="flex h-11 w-11 items-center justify-center rounded-2xl border border-[rgba(15,23,42,0.10)] bg-[#F1F5F9] text-[#111827] transition-all duration-300 group-hover:bg-[#F1F5F9] group-hover:text-[#0F172A]">
                   {d.icon}
                 </div>
-                <span className="rounded-full border border-[rgba(21,20,15,0.12)] bg-[#EFE9DC] px-2.5 py-0.5 text-[0.55rem] font-bold text-[#6B655B]">
+                <span className="rounded-full border border-[rgba(15,23,42,0.12)] bg-[#F1F5F9] px-2.5 py-0.5 text-[0.55rem] font-bold text-[#64748B]">
                   {d.badge}
                 </span>
               </div>
 
               {/* Content */}
-              <h3 className="mb-2 text-[0.95rem] font-bold tracking-tight text-[#15140F]">{d.title}</h3>
-              <p className="mb-6 flex-1 text-[0.875rem] leading-[1.75] text-[#15140F]/55">{d.body}</p>
+              <h3 className="mb-2 text-[0.95rem] font-bold tracking-tight text-[#0F172A]">{d.title}</h3>
+              <p className="mb-6 flex-1 text-[0.875rem] leading-[1.75] text-[#0F172A]/55">{d.body}</p>
 
               {/* Check mark footer */}
               <div className="flex items-center gap-2">
-                <div className="flex h-6 w-6 items-center justify-center rounded-full border border-[rgba(21,20,15,0.10)] bg-[#EFE9DC]">
-                  <svg className="h-3 w-3 text-[#C8553A]/70" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
+                <div className="flex h-6 w-6 items-center justify-center rounded-full border border-[rgba(15,23,42,0.10)] bg-[#F1F5F9]">
+                  <svg className="h-3 w-3 text-[#111827]/70" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                   </svg>
                 </div>
-                <span className="text-[0.65rem] font-semibold text-[#15140F]/35">Included in all plans</span>
+                <span className="text-[0.65rem] font-semibold text-[#0F172A]/35">Included in all plans</span>
               </div>
             </div>
           ))}

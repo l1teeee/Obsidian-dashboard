@@ -1,4 +1,4 @@
-﻿import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useSEO } from '../hooks/useSEO';
 import { motion } from 'framer-motion';
 import SiteNav from '@/components/landing/SiteNav';
@@ -141,7 +141,7 @@ export default function FAQPage() {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-[#F6F2EA] text-[#15140F] overflow-x-hidden">
+    <div className="min-h-screen bg-[#F8FAFC] text-[#0F172A] overflow-x-hidden">
       <SiteNav />
 
       <main className="mx-auto max-w-[900px] px-6 md:px-12 pt-36 pb-28">
@@ -153,16 +153,16 @@ export default function FAQPage() {
           transition={{ duration: 0.8, ease: [0.25, 0.4, 0.25, 1] }}
           className="mb-16 text-center"
         >
-          <span className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#C8553A]/18 bg-[#C8553A]/10 px-4 py-1.5 text-[0.68rem] font-bold uppercase tracking-[0.22em] text-[#C8553A]">
-            <span className="h-1.5 w-1.5 rounded-full bg-[#C8553A]" />
+          <span className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#111827]/18 bg-[#111827]/10 px-4 py-1.5 text-[0.68rem] font-bold uppercase tracking-[0.22em] text-[#111827]">
+            <span className="h-1.5 w-1.5 rounded-full bg-[#111827]" />
             Help center
           </span>
-          <h1 className="mt-5 text-[clamp(36px,5vw,60px)] font-medium leading-[1.08] tracking-[-0.035em] text-[#15140F]">
-            Frequently asked <span className="text-[#C8553A]">questions.</span>
+          <h1 className="mt-5 text-[clamp(36px,5vw,60px)] font-medium leading-[1.08] tracking-[-0.035em] text-[#0F172A]">
+            Frequently asked <span className="text-[#111827]">questions.</span>
           </h1>
-          <p className="mt-5 text-[1rem] font-light leading-[1.8] text-[#15140F]/55 max-w-lg mx-auto">
+          <p className="mt-5 text-[1rem] font-light leading-[1.8] text-[#0F172A]/55 max-w-lg mx-auto">
             Everything you need to know about Vielinks. Can't find your answer?{' '}
-            <a href="mailto:hello@vielinks.com" className="text-[#C8553A]/70 underline underline-offset-2 hover:text-[#C8553A] transition-colors">
+            <a href="mailto:hello@vielinks.com" className="text-[#111827]/70 underline underline-offset-2 hover:text-[#111827] transition-colors">
               Contact us
             </a>
             .
@@ -177,19 +177,19 @@ export default function FAQPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.55, delay: 0.1 + gi * 0.07, ease: [0.25, 0.4, 0.25, 1] }}
-              className="rounded-2xl border border-border bg-[#FBF8F2] overflow-hidden"
+              className="rounded-2xl border border-border bg-[#FFFFFF] overflow-hidden"
             >
               {/* Category header */}
               <div className="flex items-center gap-3 border-b border-border px-8 py-5">
-                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl border border-[#C8553A]/18 bg-[#C8553A]/10 text-[#C8553A]">
+                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl border border-[#111827]/18 bg-[#111827]/10 text-[#111827]">
                   <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" d={group.icon} />
                   </svg>
                 </div>
-                <h2 className="text-[0.8rem] font-bold uppercase tracking-[0.18em] text-[#15140F]/50">
+                <h2 className="text-[0.8rem] font-bold uppercase tracking-[0.18em] text-[#0F172A]/50">
                   {group.category}
                 </h2>
-                <span className="ml-auto rounded-full border border-border bg-[#EFE9DC] px-2.5 py-0.5 text-[0.6rem] font-semibold text-[#6B655B]">
+                <span className="ml-auto rounded-full border border-border bg-[#F1F5F9] px-2.5 py-0.5 text-[0.6rem] font-semibold text-[#64748B]">
                   {group.items.length}
                 </span>
               </div>
@@ -222,22 +222,22 @@ export default function FAQPage() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.7, ease: [0.25, 0.4, 0.25, 1] }}
-          className="mt-14 text-center rounded-2xl border border-[#E7E0D0] bg-[#F4E0D6] px-10 py-10"
+          className="mt-14 text-center rounded-2xl border border-[#E2E8F0] bg-[#F4E0D6] px-10 py-10"
         >
-          <h3 className="text-[18px] font-semibold tracking-[-0.01em] text-[#15140F]">Still have a question?</h3>
-          <p className="mt-2 text-[0.9rem] text-[#6B655B]">
+          <h3 className="text-[18px] font-semibold tracking-[-0.01em] text-[#0F172A]">Still have a question?</h3>
+          <p className="mt-2 text-[0.9rem] text-[#64748B]">
             Our team responds within a few hours on business days.
           </p>
           <div className="mt-6 flex flex-col sm:flex-row items-center justify-center gap-3">
             <a
               href="mailto:hello@vielinks.com"
-              className="inline-flex items-center justify-center rounded-xl bg-[#C8553A] px-8 py-3 text-[14px] font-medium text-white transition-all duration-200 hover:bg-[#A53F28] active:scale-[0.98]"
+              className="inline-flex items-center justify-center rounded-xl bg-[#111827] px-8 py-3 text-[14px] font-medium text-white transition-all duration-200 hover:bg-[#0B1220] active:scale-[0.98]"
             >
               Email us
             </a>
             <button
               onClick={() => navigate('/')}
-              className="inline-flex items-center justify-center rounded-xl border border-[#D8D2C4] px-8 py-3 text-[14px] font-medium text-[#3D3A30] hover:bg-[#EFE9DC] transition-all duration-200"
+              className="inline-flex items-center justify-center rounded-xl border border-[#CBD5E1] px-8 py-3 text-[14px] font-medium text-[#334155] hover:bg-[#F1F5F9] transition-all duration-200"
             >
               Back to home
             </button>

@@ -1,4 +1,4 @@
-﻿import { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { createChart, HistogramSeries, ColorType } from 'lightweight-charts';
 
 interface BarChartProps {
@@ -48,7 +48,7 @@ export default function BarChart({ barHeights, barDays }: BarChartProps) {
       autoSize: true,
       layout: {
         background: { type: ColorType.Solid, color: 'transparent' },
-        textColor: '#988d9c',
+        textColor: '#94A3B8',
         fontFamily: "'Courier New', monospace",
         fontSize: 11,
       },
@@ -88,7 +88,7 @@ export default function BarChart({ barHeights, barDays }: BarChartProps) {
         time:  dates[i],
         value: h,
         color: h === peak
-          ? 'rgba(200,85,58,0.85)'
+          ? 'rgba(14,159,110,0.85)'
           : 'rgba(107,47,160,0.7)',
       }))
     );
@@ -99,10 +99,10 @@ export default function BarChart({ barHeights, barDays }: BarChartProps) {
   }, [barHeights, barDays]);
 
   return (
-    <div data-chart className="glass-card p-8 rounded-3xl border border-[#15140F]/5">
+    <div data-chart className="glass-card p-8 rounded-3xl border border-[#0F172A]/5">
       <div className="mb-6">
-        <h3 className="text-xl font-headline font-bold tracking-tight text-[#15140F]">Daily Engagement</h3>
-        <p className="text-sm text-[#6B655B]">Weighted interaction score</p>
+        <h3 className="text-xl font-headline font-bold tracking-tight text-[#0F172A]">Daily Engagement</h3>
+        <p className="text-sm text-[#64748B]">Weighted interaction score</p>
       </div>
       <div ref={containerRef} style={{ height: 200 }} className="w-full" />
     </div>

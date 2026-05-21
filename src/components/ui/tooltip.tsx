@@ -1,4 +1,4 @@
-﻿import * as TooltipPrimitive from "@radix-ui/react-tooltip";
+import * as TooltipPrimitive from "@radix-ui/react-tooltip";
 import * as React from "react";
 import { cn } from "@/lib/utils";
 
@@ -17,7 +17,7 @@ const TooltipContent = React.forwardRef<
       ref={ref}
       sideOffset={sideOffset}
       className={cn(
-        "z-50 max-w-[200px] rounded-lg border border-transparent bg-[#15140F] px-2.5 py-1.5 text-xs font-medium text-[#F6F2EA] shadow-lg shadow-black/20",
+        "z-50 max-w-[200px] rounded-lg border border-transparent bg-[#0F172A] px-2.5 py-1.5 text-xs font-medium text-[#F8FAFC] shadow-lg shadow-black/20",
         "data-[state=delayed-open]:animate-tooltip-open",
         "data-[state=instant-open]:animate-tooltip-open",
         "data-[state=closed]:animate-tooltip-close",
@@ -27,7 +27,7 @@ const TooltipContent = React.forwardRef<
     >
       {props.children}
       {showArrow && (
-        <TooltipPrimitive.Arrow className="-my-px fill-[#15140F] drop-shadow-[0_1px_0_rgba(0,0,0,0.2)]" />
+        <TooltipPrimitive.Arrow className="-my-px fill-[#0F172A] drop-shadow-[0_1px_0_rgba(0,0,0,0.2)]" />
       )}
     </TooltipPrimitive.Content>
   </TooltipPrimitive.Portal>

@@ -54,75 +54,75 @@
   --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-smooth: cubic-bezier(0.25, 0.46, 0.45, 0.94);
 
-  /* Design System Colors — Vielinks Warm Ivory */
-  --color-primary:                  #c8553a;
-  --color-primary-container:        #f4e0d6;
-  --color-primary-fixed:            #f4e0d6;
-  --color-primary-fixed-dim:        #e8b8a4;
+  /* Design System Colors — Vielinks Obsidian Signal */
+  --color-primary:                  #111827;
+  --color-primary-container:        #E5E7EB;
+  --color-primary-fixed:            #E5E7EB;
+  --color-primary-fixed-dim:        #D1D5DB;
   --color-on-primary:               #ffffff;
-  --color-on-primary-container:     #5a1e0e;
-  --color-on-primary-fixed:         #3d1208;
-  --color-on-primary-fixed-variant: #a53f28;
-  --color-inverse-primary:          #a53f28;
+  --color-on-primary-container:     #030712;
+  --color-on-primary-fixed:         #030712;
+  --color-on-primary-fixed-variant: #0B1220;
+  --color-inverse-primary:          #0B1220;
 
-  --color-secondary:                #a53f28;
-  --color-secondary-container:      #f4e0d6;
-  --color-secondary-fixed:          #f4e0d6;
-  --color-secondary-fixed-dim:      #e8b8a4;
-  --color-on-secondary:             #ffffff;
-  --color-on-secondary-container:   #5a1e0e;
-  --color-on-secondary-fixed:       #3d1208;
-  --color-on-secondary-fixed-variant: #8a3520;
+  --color-secondary:                #0E9F6E;
+  --color-secondary-container:      #ECFDF5;
+  --color-secondary-fixed:          #ECFDF5;
+  --color-secondary-fixed-dim:      #A7F3D0;
+  --color-on-secondary:             #052E1C;
+  --color-on-secondary-container:   #052E1C;
+  --color-on-secondary-fixed:       #052E1C;
+  --color-on-secondary-fixed-variant: #047857;
 
-  --color-tertiary:                 #4a6a82;
-  --color-tertiary-container:       #e0e8ee;
-  --color-tertiary-fixed:           #e0e8ee;
-  --color-tertiary-fixed-dim:       #b8cdd9;
+  --color-tertiary:                 #2563EB;
+  --color-tertiary-container:       #EFF6FF;
+  --color-tertiary-fixed:           #EFF6FF;
+  --color-tertiary-fixed-dim:       #BFDBFE;
   --color-on-tertiary:              #ffffff;
-  --color-on-tertiary-container:    #1e3d52;
-  --color-on-tertiary-fixed:        #0d2636;
-  --color-on-tertiary-fixed-variant:#2d5068;
+  --color-on-tertiary-container:    #1E3A8A;
+  --color-on-tertiary-fixed:        #1E3A8A;
+  --color-on-tertiary-fixed-variant:#1D4ED8;
 
-  --color-surface:                  #f6f2ea;
-  --color-surface-dim:              #efe9dc;
-  --color-surface-bright:           #fbf8f2;
-  --color-surface-container-lowest: #fbf8f2;
-  --color-surface-container-low:    #efe9dc;
-  --color-surface-container:        #fbf8f2;
-  --color-surface-container-high:   #e7e0d0;
-  --color-surface-container-highest:#e0d8c8;
-  --color-surface-variant:          #e7e0d0;
-  --color-surface-tint:             #c8553a;
-  --color-inverse-surface:          #15140f;
-  --color-inverse-on-surface:       #f6f2ea;
+  --color-surface:                  #F8FAFC;
+  --color-surface-dim:              #F1F5F9;
+  --color-surface-bright:           #FFFFFF;
+  --color-surface-container-lowest: #FFFFFF;
+  --color-surface-container-low:    #F1F5F9;
+  --color-surface-container:        #FFFFFF;
+  --color-surface-container-high:   #E2E8F0;
+  --color-surface-container-highest:#CBD5E1;
+  --color-surface-variant:          #E2E8F0;
+  --color-surface-tint:             #111827;
+  --color-inverse-surface:          #0F172A;
+  --color-inverse-on-surface:       #F8FAFC;
 
-  --color-background:               #f6f2ea;
-  --color-on-background:            #15140f;
-  --color-on-surface:               #15140f;
-  --color-on-surface-variant:       #3D3A30;
+  --color-background:               #F8FAFC;
+  --color-on-background:            #0F172A;
+  --color-on-surface:               #0F172A;
+  --color-on-surface-variant:       #334155;
 
-  --color-outline:                  #A39B8B;
-  --color-outline-variant:          #d8d2c4;
+  --color-outline:                  #94A3B8;
+  --color-outline-variant:          #CBD5E1;
 
-  --color-error:                    #a8362a;
-  --color-error-container:          #fddbd8;
+  --color-error:                    #DC2626;
+  --color-error-container:          #FEE2E2;
   --color-on-error:                 #ffffff;
-  --color-on-error-container:       #5a0000;
+  --color-on-error-container:       #7F1D1D;
 
   /* Semantic aliases */
-  --color-card:                     #fbf8f2;
-  --color-card-foreground:          #15140f;
-  --color-popover:                  #fbf8f2;
-  --color-popover-foreground:       #15140f;
-  --color-muted:                    #e7e0d0;
-  --color-muted-foreground:         #A39B8B;
-  --color-accent:                   #c8553a;
-  --color-accent-foreground:        #15140f;
-  --color-border:                   rgba(21, 20, 15, 0.10);
-  --color-ring:                     rgba(200, 85, 58, 0.55);
-  --color-success:                  #4f7a4a;
-  --color-warning:                  #b7841e;
-  --color-info:                     #4a6a82;
+  --color-card:                     #FFFFFF;
+  --color-card-foreground:          #0F172A;
+  --color-popover:                  #FFFFFF;
+  --color-popover-foreground:       #0F172A;
+  --color-muted:                    #E2E8F0;
+  --color-muted-foreground:         #64748B;
+  --color-accent:                   #0E9F6E;
+  --color-accent-foreground:        #0F172A;
+  --color-border:                   rgba(15, 23, 42, 0.10);
+  --color-ring:                     rgba(14, 159, 110, 0.42);
+  --color-success:                  #047857;
+  --color-warning:                  #B45309;
+  --color-info:                     #2563EB;
 }
 
 /* Base */
@@ -130,29 +130,58 @@
 .font-mono     { font-family: var(--font-mono); }
 
 :root {
-  --surface-bg: #f6f2ea;
-  --surface-card: #fbf8f2;
-  --surface-card-raised: #efe9dc;
-  --surface-panel: #e7e0d0;
-  --surface-border: rgba(21, 20, 15, 0.10);
-  --surface-border-soft: rgba(21, 20, 15, 0.06);
-  --text-primary: #15140f;
-  --text-secondary: #3D3A30;
-  --text-muted: #A39B8B;
-  --brand-primary: #c8553a;
-  --brand-accent: #c8553a;
-  --state-success: #4f7a4a;
-  --state-warning: #b7841e;
-  --state-error: #a8362a;
+  --surface-bg: #F8FAFC;
+  --surface-card: #FFFFFF;
+  --surface-card-raised: #F1F5F9;
+  --surface-panel: #E2E8F0;
+  --surface-border: rgba(15, 23, 42, 0.10);
+  --surface-border-soft: rgba(15, 23, 42, 0.06);
+  --text-primary: #0F172A;
+  --text-secondary: #334155;
+  --text-muted: #64748B;
+  --brand-primary: #111827;
+  --brand-accent: #0E9F6E;
+  --state-success: #047857;
+  --state-warning: #B45309;
+  --state-error: #DC2626;
   --radius-control: 0.625rem;
   --radius-card: 1rem;
   --radius-panel: 1.25rem;
-  --shadow-card: 0 4px 0 rgba(21, 20, 15, 0.04), 0 18px 48px rgba(21, 20, 15, 0.08);
+  --shadow-card: 0 4px 0 rgba(15, 23, 42, 0.04), 0 18px 48px rgba(15, 23, 42, 0.08);
+
+  /* Vielinks brand tokens */
+  --vl-primary: #111827;
+  --vl-primary-hover: #0B1220;
+  --vl-signal-green: #0E9F6E;
+  --vl-success: #047857;
+  --vl-success-hover: #065F46;
+  --vl-success-soft: #ECFDF5;
+  --vl-info-blue: #2563EB;
+  --vl-info-soft: #EFF6FF;
+  --vl-warning: #B45309;
+  --vl-warning-soft: #FEF3C7;
+  --vl-error: #DC2626;
+  --vl-error-soft: #FEE2E2;
+  --vl-background: #F8FAFC;
+  --vl-card: #FFFFFF;
+  --vl-surface-raised: #F1F5F9;
+  --vl-divider: #E2E8F0;
+  --vl-divider-strong: #CBD5E1;
+  --vl-text-primary: #0F172A;
+  --vl-text-secondary: #334155;
+  --vl-text-muted: #64748B;
+  --vl-focus-ring: rgba(14, 159, 110, 0.28);
+  --vl-shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.06);
+  --vl-shadow-md: 0 8px 24px rgba(15, 23, 42, 0.08);
+  --vl-radius-sm: 8px;
+  --vl-radius-md: 12px;
+  --vl-radius-lg: 16px;
+  --vl-radius-xl: 24px;
 }
 
 html {
-  background: #f6f2ea;
-  color: #15140f;
+  background: #F8FAFC;
+  color: #0F172A;
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -161,14 +190,14 @@ html {
 body { overflow-x: hidden; }
 
 ::selection {
-  background: rgba(200, 85, 58, 0.25);
-  color: #15140f;
+  background: rgba(14, 159, 110, 0.18);
+  color: #0F172A;
 }
 
 /* Scrollbars */
 ::-webkit-scrollbar { width: 4px; height: 4px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: #d8d2c4; border-radius: 10px; }
+::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 10px; }
 
 /* Hide scrollbar but keep functionality */
 .scrollbar-hide::-webkit-scrollbar { display: none; }
@@ -176,9 +205,9 @@ body { overflow-x: hidden; }
 
 /* Landing page focus-visible */
 .landing-page :is(a, button, [role="button"], [role="tab"], [tabindex]:not([tabindex="-1"])):focus-visible {
-  outline: 2px solid #c8553a;
+  outline: 2px solid #0E9F6E;
   outline-offset: 3px;
-  box-shadow: 0 0 0 4px rgba(200, 85, 58, 0.18);
+  box-shadow: 0 0 0 4px rgba(14, 159, 110, 0.18);
   border-radius: 4px;
 }
 
@@ -225,7 +254,7 @@ body { overflow-x: hidden; }
   --chart-label: oklch(0.75 0.01 260);
 }
 
-/* ── react-datepicker warm theme ─────────────────────── */
+/* ── react-datepicker Obsidian Signal theme ─────────────────────── */
 
 @keyframes dpSlideDown {
   from { opacity: 0; transform: scale(0.96) translateY(-6px); }
@@ -249,29 +278,29 @@ body { overflow-x: hidden; }
 .react-datepicker-popper { z-index: 9999 !important; }
 
 .react-datepicker {
-  background: #fbf8f2 !important;
-  border: 1px solid rgba(21,20,15,0.10) !important;
+  background: #FFFFFF !important;
+  border: 1px solid rgba(15,23,42,0.10) !important;
   border-radius: 1.25rem !important;
   font-family: inherit !important;
-  box-shadow: 0 16px 48px rgba(21,20,15,0.12), 0 0 0 1px rgba(200,85,58,0.10) !important;
+  box-shadow: 0 16px 48px rgba(15,23,42,0.12), 0 0 0 1px rgba(14,159,110,0.10) !important;
   overflow: hidden !important;
 }
 .react-datepicker__triangle { display: none !important; }
 
 .react-datepicker__header {
-  background: #f6f2ea !important;
-  border-bottom: 1px solid rgba(21,20,15,0.08) !important;
+  background: #F8FAFC !important;
+  border-bottom: 1px solid rgba(15,23,42,0.08) !important;
   padding: 14px 0 10px !important;
   border-radius: 0 !important;
 }
 .react-datepicker__current-month {
-  color: #15140f !important;
+  color: #0F172A !important;
   font-weight: 600 !important;
   font-size: 13px !important;
   letter-spacing: -0.02em !important;
 }
 .react-datepicker__day-name {
-  color: #A39B8B !important;
+  color: #94A3B8 !important;
   font-size: 10px !important;
   font-weight: 600 !important;
   text-transform: uppercase !important;
@@ -279,7 +308,7 @@ body { overflow-x: hidden; }
   width: 2rem !important;
 }
 .react-datepicker__day {
-  color: #3D3A30 !important;
+  color: #334155 !important;
   border-radius: 0.5rem !important;
   width: 2rem !important;
   line-height: 2rem !important;
@@ -287,66 +316,66 @@ body { overflow-x: hidden; }
   transition: background 0.15s, color 0.15s !important;
 }
 .react-datepicker__day:hover:not(.react-datepicker__day--selected) {
-  background: rgba(200,85,58,0.14) !important;
-  color: #a53f28 !important;
+  background: rgba(14,159,110,0.10) !important;
+  color: #047857 !important;
 }
 .react-datepicker__day--selected,
 .react-datepicker__day--keyboard-selected {
-  background: #c8553a !important;
+  background: #111827 !important;
   color: #ffffff !important;
   font-weight: 600 !important;
 }
 .react-datepicker__day--today:not(.react-datepicker__day--selected) {
-  color: #a53f28 !important;
+  color: #047857 !important;
   font-weight: 600 !important;
-  background: rgba(200,85,58,0.10) !important;
+  background: rgba(14,159,110,0.08) !important;
 }
-.react-datepicker__day--outside-month { color: #d8d2c4 !important; }
-.react-datepicker__day--disabled { color: #e0d8c8 !important; cursor: not-allowed !important; }
+.react-datepicker__day--outside-month { color: #CBD5E1 !important; }
+.react-datepicker__day--disabled { color: #E2E8F0 !important; cursor: not-allowed !important; }
 
 .react-datepicker__navigation { top: 14px !important; }
 .react-datepicker__navigation-icon::before {
-  border-color: #A39B8B !important;
+  border-color: #94A3B8 !important;
   border-width: 2px 2px 0 0 !important;
 }
 .react-datepicker__navigation:hover .react-datepicker__navigation-icon::before {
-  border-color: #c8553a !important;
+  border-color: #111827 !important;
 }
 
 /* Time-only picker */
 .react-datepicker__time-container {
-  border-left: 1px solid rgba(21,20,15,0.08) !important;
+  border-left: 1px solid rgba(15,23,42,0.08) !important;
   width: 110px !important;
 }
 .react-datepicker__time-container .react-datepicker__time {
-  background: #fbf8f2 !important;
+  background: #FFFFFF !important;
   border-radius: 0 0 1.25rem 0 !important;
 }
 .react-datepicker__time-container .react-datepicker__time-box {
   width: 110px !important;
 }
 .react-datepicker__time-list-item {
-  color: #3D3A30 !important;
+  color: #334155 !important;
   font-size: 12px !important;
   border-radius: 0.4rem !important;
   transition: background 0.1s, color 0.1s !important;
 }
 .react-datepicker__time-list-item:hover {
-  background: rgba(200,85,58,0.14) !important;
-  color: #a53f28 !important;
+  background: rgba(14,159,110,0.10) !important;
+  color: #047857 !important;
 }
 .react-datepicker__time-list-item--selected {
-  background: #c8553a !important;
+  background: #111827 !important;
   color: #ffffff !important;
   font-weight: 600 !important;
 }
 .react-datepicker__header--time {
-  background: #f6f2ea !important;
-  border-bottom: 1px solid rgba(21,20,15,0.08) !important;
+  background: #F8FAFC !important;
+  border-bottom: 1px solid rgba(15,23,42,0.08) !important;
   padding: 10px 0 !important;
 }
 .react-datepicker-time__header {
-  color: #A39B8B !important;
+  color: #94A3B8 !important;
   font-size: 10px !important;
   font-weight: 600 !important;
   text-transform: uppercase !important;
@@ -368,15 +397,15 @@ body { overflow-x: hidden; }
 .auth-bg {
   background: linear-gradient(
     -45deg,
-    #f6f2ea 0%,
-    #fbf8f2 12%,
-    #f3efe4 25%,
-    #f8f5ed 37%,
-    #f6f2ea 50%,
-    #efe9dc 62%,
-    #f4f0e6 75%,
-    #f2ede2 87%,
-    #f6f2ea 100%
+    #F8FAFC 0%,
+    #FFFFFF 12%,
+    #F4F7FB 25%,
+    #F8FAFC 37%,
+    #F1F5F9 50%,
+    #EFF6FF 62%,
+    #F8FAFC 75%,
+    #F1F5F9 87%,
+    #F8FAFC 100%
   );
   background-size: 400% 400%;
   animation: authBgShift 20s ease infinite;
@@ -428,14 +457,14 @@ body { overflow-x: hidden; }
 
 /* Glass card utility */
 .glass-card {
-  background: rgba(251, 248, 242, 0.92);
+  background: rgba(255, 255, 255, 0.92);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   box-shadow: var(--shadow-card);
 }
 
 .glass-panel {
-  background: rgba(246, 242, 234, 0.95);
+  background: rgba(248, 250, 252, 0.95);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
 }
@@ -465,18 +494,18 @@ body { overflow-x: hidden; }
 .calendar-grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  border-top: 1px solid rgba(21, 20, 15, 0.10);
-  border-left: 1px solid rgba(21, 20, 15, 0.10);
+  border-top: 1px solid rgba(15, 23, 42, 0.10);
+  border-left: 1px solid rgba(15, 23, 42, 0.10);
 }
 
 .calendar-day {
   min-height: 120px;
-  border-right: 1px solid rgba(21, 20, 15, 0.10);
-  border-bottom: 1px solid rgba(21, 20, 15, 0.10);
+  border-right: 1px solid rgba(15, 23, 42, 0.10);
+  border-bottom: 1px solid rgba(15, 23, 42, 0.10);
   transition: background-color 0.2s ease;
 }
 
-.calendar-day:hover { background-color: #efe9dc; }
+.calendar-day:hover { background-color: #F1F5F9; }
 
 /* Auth route transitions are driven by GSAP + the global Lenis instance. */
 
@@ -490,7 +519,7 @@ body { overflow-x: hidden; }
   padding: 22px;
 }
 
-/* page-tabs: editorial tab bar with terracotta underline on active */
+/* page-tabs: editorial tab bar with primary underline on active */
 .page-tabs {
   display: flex;
   gap: 0;
@@ -521,19 +550,19 @@ body { overflow-x: hidden; }
   padding: 1.25rem;
   transition: border-color 0.2s;
 }
-.conn-card:hover { border-color: rgba(200, 85, 58, 0.22); }
+.conn-card:hover { border-color: rgba(14, 159, 110, 0.22); }
 
 /* add-card: dashed "add new" card */
 .add-card {
-  border: 1.5px dashed rgba(21, 20, 15, 0.18);
+  border: 1.5px dashed rgba(15, 23, 42, 0.18);
   border-radius: 14px;
   padding: 1.25rem;
   transition: border-color 0.2s, background 0.2s;
   cursor: pointer;
 }
 .add-card:hover {
-  border-color: rgba(200, 85, 58, 0.35);
-  background: rgba(200, 85, 58, 0.04);
+  border-color: rgba(14, 159, 110, 0.35);
+  background: rgba(14, 159, 110, 0.04);
 }
 
 /* editorial-head: page header with eyebrow + title */
@@ -548,7 +577,7 @@ body { overflow-x: hidden; }
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.14em;
-  color: var(--brand-primary);
+  color: var(--brand-accent);
   margin-bottom: 0.375rem;
 }
 

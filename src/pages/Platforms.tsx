@@ -1,4 +1,4 @@
-﻿import { useState, useRef } from 'react';
+import { useState, useRef } from 'react';
 import TopBar from '../components/layout/TopBar';
 import { usePlatforms, getTokenExpiryInfo } from '../hooks/usePlatforms';
 import SocialBrandIcon from '../components/shared/SocialBrandIcon';
@@ -9,7 +9,7 @@ function getIconBg(platform: string): string {
   switch (platform) {
     case 'instagram': return 'bg-gradient-to-tr from-[#f09433] via-[#e6683c] to-[#bc1888]';
     case 'facebook':  return 'bg-[#1877F2]';
-    default:          return 'bg-[#15140F]';
+    default:          return 'bg-[#0F172A]';
   }
 }
 
@@ -18,7 +18,7 @@ function getPlatformColor(platform: string): string {
     case 'facebook':  return '#1877F2';
     case 'instagram': return '#bc1888';
     case 'linkedin':  return '#0A66C2';
-    default:          return '#988d9c';
+    default:          return '#94A3B8';
   }
 }
 
@@ -44,7 +44,7 @@ function ConnectionCard({ conn, disconnecting, syncingIg, selectingPage, hasInst
   return (
     <div
       data-platform-card
-      className="surface-card p-5 hover:border-[#C8553A]/25 transition-all duration-300 group"
+      className="surface-card p-5 hover:border-[#111827]/25 transition-all duration-300 group"
     >
 
       {/* Header row */}
@@ -92,14 +92,14 @@ function ConnectionCard({ conn, disconnecting, syncingIg, selectingPage, hasInst
         {/* Permissions tooltip icon */}
         {conn.scopes && (
           <div className="relative group/perms shrink-0">
-            <button className="w-7 h-7 rounded-lg bg-[#15140F]/10 hover:bg-[#15140F]/25 flex items-center justify-center transition-colors">
-              <span className="material-symbols-outlined text-[#6B655B] text-[14px]">shield</span>
+            <button className="w-7 h-7 rounded-lg bg-[#0F172A]/10 hover:bg-[#0F172A]/25 flex items-center justify-center transition-colors">
+              <span className="material-symbols-outlined text-[#64748B] text-[14px]">shield</span>
             </button>
-            <div className="absolute right-0 top-full mt-2 w-52 bg-[#FBF8F2] border border-[#15140F]/30 rounded-xl p-3 shadow-xl z-10 hidden group-hover/perms:block">
-              <p className="text-[9px] uppercase tracking-widest font-bold text-[#6B655B] mb-2">Permissions</p>
+            <div className="absolute right-0 top-full mt-2 w-52 bg-[#FFFFFF] border border-[#0F172A]/30 rounded-xl p-3 shadow-xl z-10 hidden group-hover/perms:block">
+              <p className="text-[9px] uppercase tracking-widest font-bold text-[#64748B] mb-2">Permissions</p>
               <div className="flex flex-wrap gap-1">
                 {conn.scopes.split(',').map(scope => (
-                  <span key={scope} className="px-2 py-0.5 rounded-full bg-[#15140F]/20 text-[#3D3A30] text-[10px]">
+                  <span key={scope} className="px-2 py-0.5 rounded-full bg-[#0F172A]/20 text-[#334155] text-[10px]">
                     {scope.trim().replace(/_/g, ' ')}
                   </span>
                 ))}
@@ -173,13 +173,13 @@ function ConnectionCard({ conn, disconnecting, syncingIg, selectingPage, hasInst
       })()}
 
       {/* Account info */}
-      <div className="bg-[#FBF8F2] rounded-xl p-3 mb-4 space-y-2.5">
+      <div className="bg-[#FFFFFF] rounded-xl p-3 mb-4 space-y-2.5">
         <div className="flex items-center gap-2.5">
           {conn.account_picture ? (
             <img src={conn.account_picture} alt={conn.account_name} className="w-8 h-8 rounded-full object-cover shrink-0" />
           ) : (
             <div
-              className="w-8 h-8 rounded-full flex items-center justify-center shrink-0 text-[#15140F] text-xs font-bold"
+              className="w-8 h-8 rounded-full flex items-center justify-center shrink-0 text-[#0F172A] text-xs font-bold"
               style={conn.platform === 'instagram'
                 ? { background: 'linear-gradient(to top right, #833ab4, #fd1d1d)' }
                 : { background: '#1877F2' }
@@ -189,28 +189,28 @@ function ConnectionCard({ conn, disconnecting, syncingIg, selectingPage, hasInst
             </div>
           )}
           <div className="min-w-0">
-            <p className="text-[9px] uppercase tracking-widest font-bold text-[#15140F] leading-none mb-0.5">Account</p>
-            <p className="text-sm font-semibold text-[#15140F] truncate leading-none">{conn.account_name}</p>
+            <p className="text-[9px] uppercase tracking-widest font-bold text-[#0F172A] leading-none mb-0.5">Account</p>
+            <p className="text-sm font-semibold text-[#0F172A] truncate leading-none">{conn.account_name}</p>
           </div>
         </div>
 
         {conn.page_name && (
-          <div className="flex items-center gap-2.5 pt-2.5 border-t border-[#15140F]/20">
-            <div className="w-8 h-8 rounded-full bg-[#15140F]/15 flex items-center justify-center shrink-0">
-              <span className="material-symbols-outlined text-[#6B655B] text-[14px]">
+          <div className="flex items-center gap-2.5 pt-2.5 border-t border-[#0F172A]/20">
+            <div className="w-8 h-8 rounded-full bg-[#0F172A]/15 flex items-center justify-center shrink-0">
+              <span className="material-symbols-outlined text-[#64748B] text-[14px]">
                 {conn.platform === 'instagram' ? 'link' : 'pages'}
               </span>
             </div>
             <div className="min-w-0">
-              <p className="text-[9px] uppercase tracking-widest font-bold text-[#15140F] leading-none mb-0.5">
+              <p className="text-[9px] uppercase tracking-widest font-bold text-[#0F172A] leading-none mb-0.5">
                 {conn.platform === 'instagram' ? 'Via Page' : 'Page'}
               </p>
-              <p className="text-sm text-[#3D3A30] truncate leading-none">{conn.page_name}</p>
+              <p className="text-sm text-[#334155] truncate leading-none">{conn.page_name}</p>
             </div>
           </div>
         )}
 
-        <p className="font-mono text-[9px] text-[#15140F] pt-1">{formatExpiry(conn.token_expires_at)}</p>
+        <p className="font-mono text-[9px] text-[#0F172A] pt-1">{formatExpiry(conn.token_expires_at)}</p>
       </div>
 
       {/* Actions */}
@@ -218,7 +218,7 @@ function ConnectionCard({ conn, disconnecting, syncingIg, selectingPage, hasInst
         <button
           disabled={disconnecting === conn.id}
           onClick={() => onDisconnect(conn.id, conn.account_name)}
-          className="flex-1 py-2.5 rounded-lg text-xs transition-all active:scale-[0.98] border border-[#15140F]/30 text-[#6B655B] hover:bg-[#A8362A]/10 hover:border-[#A8362A]/20 hover:text-[#A8362A] disabled:opacity-50"
+          className="flex-1 py-2.5 rounded-lg text-xs transition-all active:scale-[0.98] border border-[#0F172A]/30 text-[#64748B] hover:bg-[#DC2626]/10 hover:border-[#DC2626]/20 hover:text-[#DC2626] disabled:opacity-50"
         >
           {disconnecting === conn.id ? 'Disconnecting…' : 'Disconnect'}
         </button>
@@ -268,16 +268,16 @@ export default function Platforms() {
 
       {/* OAuth connecting / syncing overlay */}
       {(connecting || (loading && new URLSearchParams(window.location.search).get('connected') === 'success')) && (
-        <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#F6F2EA]/80 backdrop-blur-sm">
-          <div className="flex flex-col items-center gap-5 px-8 py-10 rounded-3xl border border-[#15140F]/20 bg-[#FBF8F2]/90 shadow-2xl max-w-xs w-full text-center">
+        <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#F8FAFC]/80 backdrop-blur-sm">
+          <div className="flex flex-col items-center gap-5 px-8 py-10 rounded-3xl border border-[#0F172A]/20 bg-[#FFFFFF]/90 shadow-2xl max-w-xs w-full text-center">
             <div className="w-14 h-14 rounded-2xl bg-[#1877F2] flex items-center justify-center">
-              <span className="material-symbols-outlined text-[#15140F] text-[28px] animate-spin">progress_activity</span>
+              <span className="material-symbols-outlined text-[#0F172A] text-[28px] animate-spin">progress_activity</span>
             </div>
             <div>
-              <p className="font-headline text-base font-bold text-[#15140F] mb-1">
+              <p className="font-headline text-base font-bold text-[#0F172A] mb-1">
                 {connecting ? 'Redirecting to Facebook…' : 'Saving your connection…'}
               </p>
-              <p className="text-[#6B655B] text-xs leading-relaxed">
+              <p className="text-[#64748B] text-xs leading-relaxed">
                 {connecting
                   ? 'Complete the authorization on Facebook and you\'ll be brought back here.'
                   : 'Fetching your pages and updating your account.'}
@@ -293,24 +293,24 @@ export default function Platforms() {
         actions={
           <button
             onClick={() => setModalOpen(true)}
-            className="bg-[#C8553A] hover:bg-[#A53F28] text-white px-4 py-1.5 rounded-xl text-xs font-bold transition-all active:scale-95"
+            className="bg-[#111827] hover:bg-[#0B1220] text-white px-4 py-1.5 rounded-xl text-xs font-bold transition-all active:scale-95"
           >
             Add New Connection
           </button>
         }
       />
 
-      <main className="flex-1 p-8 md:p-10 bg-[#F6F2EA]">
+      <main className="flex-1 p-8 md:p-10 bg-[#F8FAFC]">
 
         {/* Header */}
         <header data-header-section className="mb-8 space-y-1">
-          <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-[#C8553A]">
+          <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-[#111827]">
             {connections.length > 0 ? `${connections.length} account${connections.length > 1 ? 's' : ''} connected` : 'No accounts connected'}
           </p>
-          <h2 className="font-headline text-2xl font-extrabold tracking-tight text-[#15140F]">
+          <h2 className="font-headline text-2xl font-extrabold tracking-tight text-[#0F172A]">
             Platform Connections
           </h2>
-          <p className="text-[#6B655B] text-sm">
+          <p className="text-[#64748B] text-sm">
             Connect your Facebook and Instagram accounts to publish directly from this dashboard.
           </p>
         </header>
@@ -337,8 +337,8 @@ export default function Platforms() {
                       <SocialBrandIcon platformId="facebook" size={16} />
                     </div>
                     <div>
-                      <h3 className="text-sm font-bold text-[#15140F] leading-none">Facebook Pages</h3>
-                      <p className="text-[10px] text-[#6B655B] mt-0.5">{fbConnections.length} pages connected</p>
+                      <h3 className="text-sm font-bold text-[#0F172A] leading-none">Facebook Pages</h3>
+                      <p className="text-[10px] text-[#64748B] mt-0.5">{fbConnections.length} pages connected</p>
                     </div>
                     <div className="flex-1 h-px bg-[#1877F2]/15 ml-2" />
                   </div>
@@ -371,8 +371,8 @@ export default function Platforms() {
                       <SocialBrandIcon platformId="instagram" size={16} />
                     </div>
                     <div>
-                      <h3 className="text-sm font-bold text-[#15140F] leading-none">Instagram Accounts</h3>
-                      <p className="text-[10px] text-[#6B655B] mt-0.5">{igConnections.length} accounts connected</p>
+                      <h3 className="text-sm font-bold text-[#0F172A] leading-none">Instagram Accounts</h3>
+                      <p className="text-[10px] text-[#64748B] mt-0.5">{igConnections.length} accounts connected</p>
                     </div>
                     <div className="flex-1 h-px bg-[#bc1888]/15 ml-2" />
                   </div>
@@ -417,14 +417,14 @@ export default function Platforms() {
               <div
                 data-add-card
                 onClick={() => setModalOpen(true)}
-                className="rounded-2xl p-5 border border-dashed border-[#15140F]/20 flex items-center gap-3 group hover:border-[#C8553A]/40 hover:bg-[#C8553A]/5 transition-all cursor-pointer"
+                className="rounded-2xl p-5 border border-dashed border-[#0F172A]/20 flex items-center gap-3 group hover:border-[#111827]/40 hover:bg-[#111827]/5 transition-all cursor-pointer"
               >
-                <div className="w-10 h-10 rounded-xl bg-[#EFE9DC] flex items-center justify-center group-hover:scale-110 transition-transform shrink-0">
-                  <span className="material-symbols-outlined text-[#6B655B] group-hover:text-[#C8553A] text-[20px]">add</span>
+                <div className="w-10 h-10 rounded-xl bg-[#F1F5F9] flex items-center justify-center group-hover:scale-110 transition-transform shrink-0">
+                  <span className="material-symbols-outlined text-[#64748B] group-hover:text-[#111827] text-[20px]">add</span>
                 </div>
                 <div>
-                  <h4 className="text-[#15140F] font-semibold text-sm">Add Platform</h4>
-                  <p className="text-[#6B655B] text-[11px]">Facebook & Instagram</p>
+                  <h4 className="text-[#0F172A] font-semibold text-sm">Add Platform</h4>
+                  <p className="text-[#64748B] text-[11px]">Facebook & Instagram</p>
                 </div>
               </div>
             </div>
@@ -434,8 +434,8 @@ export default function Platforms() {
 
         {/* Empty state */}
         {!loading && connections.length === 0 && (
-          <p className="text-center text-[#6B655B] text-sm mt-4">
-            No accounts connected yet. Click <span className="text-[#C8553A]">Add New Connection</span> to get started.
+          <p className="text-center text-[#64748B] text-sm mt-4">
+            No accounts connected yet. Click <span className="text-[#111827]">Add New Connection</span> to get started.
           </p>
         )}
       </main>
@@ -452,40 +452,40 @@ export default function Platforms() {
       {/* ── Facebook Page Setup Modal ─────────────────────────────────────────── */}
       {pageSetupConn && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
-          <div className="w-full max-w-md bg-[#FBF8F2] border border-[#15140F]/30 rounded-3xl shadow-2xl overflow-hidden">
+          <div className="w-full max-w-md bg-[#FFFFFF] border border-[#0F172A]/30 rounded-3xl shadow-2xl overflow-hidden">
             {/* Header */}
-            <div className="px-8 pt-8 pb-6 border-b border-[#15140F]/10">
+            <div className="px-8 pt-8 pb-6 border-b border-[#0F172A]/10">
               <div className="flex items-start justify-between">
                 <div>
                   <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#1877F2]/10 border border-[#1877F2]/20 mb-3">
                     <span className="w-1.5 h-1.5 rounded-full bg-[#1877F2]" />
                     <span className="text-[10px] uppercase tracking-widest font-bold text-[#1877F2]">Facebook Page</span>
                   </div>
-                  <h2 className="font-headline text-2xl font-extrabold tracking-tight text-[#15140F]">Link your Page</h2>
-                  <p className="text-[#6B655B] text-sm mt-1">Enter your Facebook Page ID to complete the connection.</p>
+                  <h2 className="font-headline text-2xl font-extrabold tracking-tight text-[#0F172A]">Link your Page</h2>
+                  <p className="text-[#64748B] text-sm mt-1">Enter your Facebook Page ID to complete the connection.</p>
                 </div>
                 <button
                   onClick={() => setPageSetupConn(null)}
-                  className="w-9 h-9 rounded-full border border-[#15140F]/20 flex items-center justify-center hover:bg-[#E7E0D0] transition-colors shrink-0 mt-1"
+                  className="w-9 h-9 rounded-full border border-[#0F172A]/20 flex items-center justify-center hover:bg-[#E2E8F0] transition-colors shrink-0 mt-1"
                 >
-                  <span className="material-symbols-outlined text-[#6B655B] text-[18px]">close</span>
+                  <span className="material-symbols-outlined text-[#64748B] text-[18px]">close</span>
                 </button>
               </div>
             </div>
 
             {/* Body */}
             <div className="px-8 py-6 space-y-4">
-              <div className="bg-[#FBF8F2] rounded-2xl p-4 border border-[#15140F]/10">
-                <p className="text-[10px] uppercase tracking-widest font-bold text-[#15140F] mb-2">Where to find your Page ID</p>
-                <p className="text-xs text-[#6B655B] leading-relaxed">
-                  Go to your Facebook Page, click <span className="text-[#15140F] font-medium">About</span>, scroll to
-                  <span className="text-[#15140F] font-medium"> Page transparency</span>, and copy the numeric Page ID.
-                  It looks like: <span className="font-mono text-[#C8553A]">123456789012345</span>
+              <div className="bg-[#FFFFFF] rounded-2xl p-4 border border-[#0F172A]/10">
+                <p className="text-[10px] uppercase tracking-widest font-bold text-[#0F172A] mb-2">Where to find your Page ID</p>
+                <p className="text-xs text-[#64748B] leading-relaxed">
+                  Go to your Facebook Page, click <span className="text-[#0F172A] font-medium">About</span>, scroll to
+                  <span className="text-[#0F172A] font-medium"> Page transparency</span>, and copy the numeric Page ID.
+                  It looks like: <span className="font-mono text-[#111827]">123456789012345</span>
                 </p>
               </div>
 
               <div>
-                <label className="text-[10px] uppercase tracking-widest font-bold text-[#6B655B] block mb-2">
+                <label className="text-[10px] uppercase tracking-widest font-bold text-[#64748B] block mb-2">
                   Facebook Page ID
                 </label>
                 <input
@@ -500,17 +500,17 @@ export default function Platforms() {
                     }
                   }}
                   placeholder="e.g. 123456789012345"
-                  className="w-full bg-[#FBF8F2] border border-[#15140F]/20 rounded-xl px-4 py-3 text-sm text-[#15140F] placeholder:text-[#A39B8B] focus:outline-none focus:border-[#C8553A]/50 transition-all font-mono"
+                  className="w-full bg-[#FFFFFF] border border-[#0F172A]/20 rounded-xl px-4 py-3 text-sm text-[#0F172A] placeholder:text-[#94A3B8] focus:outline-none focus:border-[#111827]/50 transition-all font-mono"
                   autoFocus
                 />
               </div>
             </div>
 
             {/* Footer */}
-            <div className="px-8 py-5 border-t border-[#15140F]/10 bg-[#FBF8F2]/30 flex items-center justify-end gap-3 rounded-b-3xl">
+            <div className="px-8 py-5 border-t border-[#0F172A]/10 bg-[#FFFFFF]/30 flex items-center justify-end gap-3 rounded-b-3xl">
               <button
                 onClick={() => setPageSetupConn(null)}
-                className="px-5 py-2 rounded-xl border border-[#15140F]/20 text-xs font-semibold text-[#3D3A30] hover:bg-[#E7E0D0] transition-colors"
+                className="px-5 py-2 rounded-xl border border-[#0F172A]/20 text-xs font-semibold text-[#334155] hover:bg-[#E2E8F0] transition-colors"
               >
                 Cancel
               </button>
@@ -521,7 +521,7 @@ export default function Platforms() {
                   setPageSetupConn(null);
                 }}
                 disabled={!pageIdInput.trim() || selectingPage}
-                className="px-5 py-2 rounded-xl bg-[#1877F2] text-[#15140F] text-xs font-bold uppercase tracking-wider hover:bg-[#1877F2]/85 transition-colors disabled:opacity-50 flex items-center gap-2"
+                className="px-5 py-2 rounded-xl bg-[#1877F2] text-[#0F172A] text-xs font-bold uppercase tracking-wider hover:bg-[#1877F2]/85 transition-colors disabled:opacity-50 flex items-center gap-2"
               >
                 {selectingPage && <span className="material-symbols-outlined text-[13px] animate-spin">progress_activity</span>}
                 Connect Page

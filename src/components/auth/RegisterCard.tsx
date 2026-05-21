@@ -48,7 +48,7 @@ export default function RegisterCard() {
   };
   const pwScore = Object.values(pwRules).filter(Boolean).length;
   const pwAllMet = pwScore === 5;
-  const pwBarColor = pwScore <= 2 ? '#A8362A' : pwScore === 3 ? '#B7841E' : pwScore === 4 ? '#C8553A' : '#4F7A4A';
+  const pwBarColor = pwScore <= 2 ? '#DC2626' : pwScore === 3 ? '#B45309' : pwScore === 4 ? '#111827' : '#047857';
 
   const handleGoogleRegister = useGoogleLogin({
     flow: 'auth-code',
@@ -95,11 +95,11 @@ export default function RegisterCard() {
   };
 
   return (
-    <div className="relative min-h-dvh overflow-x-hidden bg-[#FBF8F2] text-[#15140F]">
+    <div className="relative min-h-dvh overflow-x-hidden bg-[#FFFFFF] text-[#0F172A]">
       <button
         type="button"
         onClick={() => fadeNav('/')}
-        className="absolute left-5 top-5 z-10 inline-flex h-10 cursor-pointer items-center gap-2 rounded-full px-3 text-[13px] font-medium text-[#6B655B] transition-colors duration-200 hover:bg-[#EFE9DC] hover:text-[#15140F] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C8553A]/35 sm:left-8 sm:top-8"
+        className="absolute left-5 top-5 z-10 inline-flex h-10 cursor-pointer items-center gap-2 rounded-full px-3 text-[13px] font-medium text-[#64748B] transition-colors duration-200 hover:bg-[#F1F5F9] hover:text-[#0F172A] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0E9F6E]/35 sm:left-8 sm:top-8"
       >
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="shrink-0">
           <path d="M10 3L5 8L10 13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
@@ -112,26 +112,26 @@ export default function RegisterCard() {
           <div className="w-full lg:justify-self-stretch">
             <div
               data-auth-panel="form"
-              className="relative flex min-h-dvh w-full flex-col justify-center border-0 bg-[#FBF8F2] p-6 shadow-none sm:p-10 lg:rounded-l-[28px] lg:rounded-r-none"
+              className="relative flex min-h-dvh w-full flex-col justify-center border-0 bg-[#FFFFFF] p-6 shadow-none sm:p-10 lg:rounded-l-[28px] lg:rounded-r-none"
             >
               <div data-auth-form-inner className="mx-auto w-full max-w-[400px]">
               <div className="mb-7 flex items-center justify-between">
-                <span className="text-[18px] font-medium tracking-[-0.02em] text-[#15140F]">
+                <span className="text-[18px] font-medium tracking-[-0.02em] text-[#0F172A]">
                   Vielinks
                 </span>
-                <span className="text-[11px] font-medium uppercase tracking-[0.16em] text-[#A39B8B]">
+                <span className="text-[11px] font-medium uppercase tracking-[0.16em] text-[#94A3B8]">
                   {step === 'method' ? 'Sign up' : 'Email setup'}
                 </span>
               </div>
 
               <div className="mb-7">
-                <p className="mb-4 inline-flex rounded-full bg-[#EFE9DC] px-4 py-2 text-[11px] font-medium uppercase tracking-[0.16em] text-[#6B655B]">
+                <p className="mb-4 inline-flex rounded-full bg-[#F1F5F9] px-4 py-2 text-[11px] font-medium uppercase tracking-[0.16em] text-[#64748B]">
                   Get started
                 </p>
-                <h1 className="text-[clamp(32px,7vw,44px)] font-medium leading-[1.08] tracking-[-0.04em] text-[#15140F]">
+                <h1 className="text-[clamp(32px,7vw,44px)] font-medium leading-[1.08] tracking-[-0.04em] text-[#0F172A]">
                   Create your account
                 </h1>
-                <p className="mt-3 text-[15px] leading-[1.65] text-[#6B655B]">
+                <p className="mt-3 text-[15px] leading-[1.65] text-[#64748B]">
                   Start with Google or create a password-protected account.
                 </p>
               </div>
@@ -143,7 +143,7 @@ export default function RegisterCard() {
                       type="button"
                       onClick={() => handleGoogleRegister()}
                       disabled={googleLoading}
-                      className="flex w-full items-center justify-center gap-3 rounded-xl border border-border bg-[#FBF8F2] px-4 py-3 text-[14px] font-medium text-[#3D3A30] transition-colors duration-200 hover:border-[#A39B8B] hover:bg-[#F6F2EA] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C8553A]/35 disabled:pointer-events-none disabled:opacity-50"
+                      className="flex w-full items-center justify-center gap-3 rounded-xl border border-border bg-[#FFFFFF] px-4 py-3 text-[14px] font-medium text-[#334155] transition-colors duration-200 hover:border-[#94A3B8] hover:bg-[#F8FAFC] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0E9F6E]/35 disabled:pointer-events-none disabled:opacity-50"
                     >
                       <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
                         <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" />
@@ -156,7 +156,7 @@ export default function RegisterCard() {
 
                     <div className="flex items-center gap-3 py-1">
                       <div className="h-px flex-1 bg-border" />
-                      <span className="text-[11px] font-medium uppercase tracking-[0.16em] text-[#A39B8B]">or</span>
+                      <span className="text-[11px] font-medium uppercase tracking-[0.16em] text-[#94A3B8]">or</span>
                       <div className="h-px flex-1 bg-border" />
                     </div>
 
@@ -166,7 +166,7 @@ export default function RegisterCard() {
                         setError(null);
                         setStep('email');
                       }}
-                      className="flex w-full items-center justify-center gap-2.5 rounded-xl bg-[#15140F] px-4 py-3.5 text-[14px] font-medium text-[#F6F2EA] transition-colors duration-200 hover:bg-[#3D3A30] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C8553A]/35"
+                      className="flex w-full items-center justify-center gap-2.5 rounded-xl bg-[#0F172A] px-4 py-3.5 text-[14px] font-medium text-[#F8FAFC] transition-colors duration-200 hover:bg-[#334155] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0E9F6E]/35"
                     >
                       <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                         <rect x="2" y="4" width="20" height="16" rx="3" />
@@ -177,7 +177,7 @@ export default function RegisterCard() {
                   </div>
 
                   {error && (
-                    <p role="alert" aria-live="assertive" className="mt-4 rounded-xl border border-[#A8362A]/20 bg-[#FDDBD8] px-4 py-2.5 text-[13px] text-[#5A0000]">
+                    <p role="alert" aria-live="assertive" className="mt-4 rounded-xl border border-[#DC2626]/20 bg-[#FDDBD8] px-4 py-2.5 text-[13px] text-[#5A0000]">
                       {error}
                     </p>
                   )}
@@ -190,7 +190,7 @@ export default function RegisterCard() {
                       setError(null);
                       setStep('method');
                     }}
-                    className="mb-6 inline-flex h-9 items-center gap-2 rounded-full px-3 text-[13px] font-medium text-[#6B655B] transition-colors duration-200 hover:bg-[#EFE9DC] hover:text-[#15140F] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C8553A]/35"
+                    className="mb-6 inline-flex h-9 items-center gap-2 rounded-full px-3 text-[13px] font-medium text-[#64748B] transition-colors duration-200 hover:bg-[#F1F5F9] hover:text-[#0F172A] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0E9F6E]/35"
                   >
                     <svg width="15" height="15" viewBox="0 0 16 16" fill="none" className="shrink-0">
                       <path d="M10 3L5 8L10 13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
@@ -200,7 +200,7 @@ export default function RegisterCard() {
 
                   <form className="space-y-5" onSubmit={(e) => { void handleSubmit(e); }}>
                     <div className="space-y-2">
-                      <label htmlFor="register-email" className="block text-[11px] font-medium uppercase tracking-[0.16em] text-[#A39B8B]">
+                      <label htmlFor="register-email" className="block text-[11px] font-medium uppercase tracking-[0.16em] text-[#94A3B8]">
                         Email
                       </label>
                       <input
@@ -212,12 +212,12 @@ export default function RegisterCard() {
                         value={email}
                         onChange={e => setEmail(e.target.value)}
                         disabled={loading}
-                        className="w-full rounded-xl border border-border bg-[#F6F2EA] px-4 py-3.5 text-[14px] text-[#15140F] placeholder:text-[#A39B8B]/55 transition-colors duration-200 focus:border-[#C8553A] focus:outline-none focus:ring-2 focus:ring-[#C8553A]/15"
+                        className="w-full rounded-xl border border-border bg-[#F8FAFC] px-4 py-3.5 text-[14px] text-[#0F172A] placeholder:text-[#94A3B8]/55 transition-colors duration-200 focus:border-[#111827] focus:outline-none focus:ring-2 focus:ring-[#0E9F6E]/15"
                       />
                     </div>
 
                     <div className="space-y-2">
-                      <label htmlFor="register-password" className="block text-[11px] font-medium uppercase tracking-[0.16em] text-[#A39B8B]">
+                      <label htmlFor="register-password" className="block text-[11px] font-medium uppercase tracking-[0.16em] text-[#94A3B8]">
                         Password
                       </label>
                       <div className="relative">
@@ -231,14 +231,14 @@ export default function RegisterCard() {
                           onChange={e => setPassword(e.target.value)}
                           disabled={loading}
                           onCopy={e => e.preventDefault()}
-                          className="w-full rounded-xl border border-border bg-[#F6F2EA] px-4 py-3.5 pr-11 text-[14px] text-[#15140F] placeholder:text-[#A39B8B]/55 transition-colors duration-200 focus:border-[#C8553A] focus:outline-none focus:ring-2 focus:ring-[#C8553A]/15"
+                          className="w-full rounded-xl border border-border bg-[#F8FAFC] px-4 py-3.5 pr-11 text-[14px] text-[#0F172A] placeholder:text-[#94A3B8]/55 transition-colors duration-200 focus:border-[#111827] focus:outline-none focus:ring-2 focus:ring-[#0E9F6E]/15"
                         />
                         <button
                           type="button"
                           onClick={() => setShowPass(v => !v)}
                           aria-label={showPass ? 'Hide password' : 'Show password'}
                           aria-pressed={showPass}
-                          className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#A39B8B] transition-colors duration-200 hover:text-[#C8553A]"
+                          className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#94A3B8] transition-colors duration-200 hover:text-[#111827]"
                         >
                           <EyeIcon open={showPass} />
                         </button>
@@ -252,7 +252,7 @@ export default function RegisterCard() {
                             <div
                               key={i}
                               className="h-1 flex-1 rounded-full transition-colors duration-200"
-                              style={{ backgroundColor: i <= pwScore ? pwBarColor : '#E7E0D0' }}
+                              style={{ backgroundColor: i <= pwScore ? pwBarColor : '#E2E8F0' }}
                             />
                           ))}
                         </div>
@@ -264,7 +264,7 @@ export default function RegisterCard() {
                             ['number', 'One number'],
                             ['special', 'One special character'],
                           ] as [keyof typeof pwRules, string][]).map(([key, label]) => (
-                            <span key={key} className={`flex items-center gap-1.5 text-[12px] transition-colors duration-200 ${pwRules[key] ? 'text-[#4F7A4A]' : 'text-[#A39B8B]'}`}>
+                            <span key={key} className={`flex items-center gap-1.5 text-[12px] transition-colors duration-200 ${pwRules[key] ? 'text-[#047857]' : 'text-[#94A3B8]'}`}>
                               <span className="h-1.5 w-1.5 rounded-full bg-current opacity-60" />
                               {label}
                             </span>
@@ -274,7 +274,7 @@ export default function RegisterCard() {
                     )}
 
                     <div className="space-y-2">
-                      <label htmlFor="register-confirm" className="block text-[11px] font-medium uppercase tracking-[0.16em] text-[#A39B8B]">
+                      <label htmlFor="register-confirm" className="block text-[11px] font-medium uppercase tracking-[0.16em] text-[#94A3B8]">
                         Confirm password
                       </label>
                       <div className="relative">
@@ -288,14 +288,14 @@ export default function RegisterCard() {
                           onChange={e => setConfirm(e.target.value)}
                           disabled={loading}
                           onPaste={e => e.preventDefault()}
-                          className="w-full rounded-xl border border-border bg-[#F6F2EA] px-4 py-3.5 pr-11 text-[14px] text-[#15140F] placeholder:text-[#A39B8B]/55 transition-colors duration-200 focus:border-[#C8553A] focus:outline-none focus:ring-2 focus:ring-[#C8553A]/15"
+                          className="w-full rounded-xl border border-border bg-[#F8FAFC] px-4 py-3.5 pr-11 text-[14px] text-[#0F172A] placeholder:text-[#94A3B8]/55 transition-colors duration-200 focus:border-[#111827] focus:outline-none focus:ring-2 focus:ring-[#0E9F6E]/15"
                         />
                         <button
                           type="button"
                           onClick={() => setShowConfirm(v => !v)}
                           aria-label={showConfirm ? 'Hide confirm password' : 'Show confirm password'}
                           aria-pressed={showConfirm}
-                          className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#A39B8B] transition-colors duration-200 hover:text-[#C8553A]"
+                          className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#94A3B8] transition-colors duration-200 hover:text-[#111827]"
                         >
                           <EyeIcon open={showConfirm} />
                         </button>
@@ -303,7 +303,7 @@ export default function RegisterCard() {
                     </div>
 
                     {error && (
-                      <p role="alert" aria-live="assertive" className="rounded-xl border border-[#A8362A]/20 bg-[#FDDBD8] px-4 py-2.5 text-[13px] text-[#5A0000]">
+                      <p role="alert" aria-live="assertive" className="rounded-xl border border-[#DC2626]/20 bg-[#FDDBD8] px-4 py-2.5 text-[13px] text-[#5A0000]">
                         {error}
                       </p>
                     )}
@@ -311,7 +311,7 @@ export default function RegisterCard() {
                     <button
                       type="submit"
                       disabled={loading || !pwAllMet || password !== confirm}
-                      className="mt-2 w-full rounded-xl bg-[#15140F] px-6 py-3.5 text-[14px] font-medium text-[#F6F2EA] transition-colors duration-200 hover:bg-[#3D3A30] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C8553A]/35 disabled:pointer-events-none disabled:opacity-60"
+                      className="mt-2 w-full rounded-xl bg-[#0F172A] px-6 py-3.5 text-[14px] font-medium text-[#F8FAFC] transition-colors duration-200 hover:bg-[#334155] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0E9F6E]/35 disabled:pointer-events-none disabled:opacity-60"
                     >
                       {loading ? 'Creating account...' : 'Create account'}
                     </button>
@@ -319,7 +319,7 @@ export default function RegisterCard() {
                 </>
               )}
 
-              <p className="mt-6 text-center text-[13px] text-[#6B655B]">
+              <p className="mt-6 text-center text-[13px] text-[#64748B]">
                 Already have an account?{' '}
                 <Link
                   to="/login"
@@ -327,7 +327,7 @@ export default function RegisterCard() {
                     event.preventDefault();
                     authNav('/login');
                   }}
-                  className="font-medium text-[#C8553A] transition-colors duration-200 hover:text-[#A53F28]"
+                  className="font-medium text-[#111827] transition-colors duration-200 hover:text-[#0B1220]"
                 >
                   Sign in
                 </Link>

@@ -1,4 +1,4 @@
-﻿import { useState } from 'react';
+import { useState } from 'react';
 import DateTimePicker from '../shared/DateTimePicker';
 import { suggestScheduleTime } from '../../services/ai.service';
 import type { ChannelId } from '../../types/composer.types';
@@ -63,20 +63,20 @@ export default function SchedulePicker({
 
   return (
     <div data-editor-section className="space-y-3 pb-10">
-      <label className="text-[11px] uppercase tracking-widest text-[#6B655B] font-bold">
+      <label className="text-[11px] uppercase tracking-widest text-[#64748B] font-bold">
         Distribution
       </label>
 
       {/* Segment control */}
-      <div className="flex rounded-2xl bg-[#FBF8F2] border border-[#15140F]/20 p-1 gap-1">
+      <div className="flex rounded-2xl bg-[#FFFFFF] border border-[#0F172A]/20 p-1 gap-1">
         <button
           type="button"
           onClick={() => onScheduleToggle(false)}
           className={[
             'flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-xs font-bold transition-all',
             !isScheduleMode
-              ? 'bg-[#C8553A] text-white shadow-[0_0_16px_rgba(200,85,58,0.3)]'
-              : 'text-[#6B655B] hover:text-[#15140F]',
+              ? 'bg-[#111827] text-white shadow-[0_0_16px_rgba(14,159,110,0.3)]'
+              : 'text-[#64748B] hover:text-[#0F172A]',
           ].join(' ')}
         >
           <span className="material-symbols-outlined text-[15px]" style={{ fontVariationSettings: "'FILL' 1" }}>
@@ -91,8 +91,8 @@ export default function SchedulePicker({
           className={[
             'flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-xs font-bold transition-all',
             isScheduleMode
-              ? 'bg-[#C8553A] text-white shadow-[0_0_16px_rgba(200,85,58,0.3)]'
-              : 'text-[#6B655B] hover:text-[#15140F]',
+              ? 'bg-[#111827] text-white shadow-[0_0_16px_rgba(14,159,110,0.3)]'
+              : 'text-[#64748B] hover:text-[#0F172A]',
           ].join(' ')}
         >
           <span className="material-symbols-outlined text-[15px]">schedule</span>
@@ -114,14 +114,14 @@ export default function SchedulePicker({
 
           {/* Suggest time button — hidden when schedule came from AI analysis */}
           {timeFromAnalysis ? (
-            <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-[#C8553A]/8 border border-[#C8553A]/20">
-              <span className="material-symbols-outlined text-[#C8553A] text-[13px]" style={{ fontVariationSettings: "'FILL' 1" }}>auto_awesome</span>
-              <p className="text-[10px] text-[#C8553A]/80 font-medium">Time suggested by AI analysis</p>
+            <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-[#111827]/8 border border-[#111827]/20">
+              <span className="material-symbols-outlined text-[#111827] text-[13px]" style={{ fontVariationSettings: "'FILL' 1" }}>auto_awesome</span>
+              <p className="text-[10px] text-[#111827]/80 font-medium">Time suggested by AI analysis</p>
             </div>
           ) : !aiAllowed ? (
-            <div className="flex items-start gap-2.5 px-3 py-2.5 rounded-xl bg-[#B7841E]/8 border border-[#B7841E]/20">
-              <span className="material-symbols-outlined text-[#B7841E] shrink-0 mt-0.5" style={{ fontSize: 14, fontVariationSettings: "'FILL' 1" }}>warning</span>
-              <p className="text-[10px] text-[#B7841E]/90 leading-relaxed">
+            <div className="flex items-start gap-2.5 px-3 py-2.5 rounded-xl bg-[#B45309]/8 border border-[#B45309]/20">
+              <span className="material-symbols-outlined text-[#B45309] shrink-0 mt-0.5" style={{ fontSize: 14, fontVariationSettings: "'FILL' 1" }}>warning</span>
+              <p className="text-[10px] text-[#B45309]/90 leading-relaxed">
                 Monthly AI token limit reached. Upgrade your plan to use AI schedule suggestions.
               </p>
             </div>
@@ -130,7 +130,7 @@ export default function SchedulePicker({
               type="button"
               onClick={handleSuggest}
               disabled={suggesting}
-              className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl border border-[#C8553A]/25 bg-[#C8553A]/5 text-[#C8553A] text-xs font-bold hover:bg-[#C8553A]/10 hover:border-[#C8553A]/40 transition-all disabled:opacity-50"
+              className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl border border-[#111827]/25 bg-[#111827]/5 text-[#111827] text-xs font-bold hover:bg-[#111827]/10 hover:border-[#111827]/40 transition-all disabled:opacity-50"
             >
               {suggesting ? (
                 <>
@@ -148,7 +148,7 @@ export default function SchedulePicker({
 
           {/* AI suggestion reason */}
           {suggestion && (
-            <p className="text-[10px] text-[#4F7A4A] font-medium flex items-start gap-2 px-1">
+            <p className="text-[10px] text-[#047857] font-medium flex items-start gap-2 px-1">
               <span className="material-symbols-outlined text-[13px] shrink-0 mt-0.5">auto_awesome</span>
               {suggestion}
             </p>
@@ -156,7 +156,7 @@ export default function SchedulePicker({
 
           {/* Error */}
           {error && (
-            <p className="text-[10px] text-[#A8362A] font-medium flex items-center gap-2 px-1">
+            <p className="text-[10px] text-[#DC2626] font-medium flex items-center gap-2 px-1">
               <span className="material-symbols-outlined text-[13px]">error</span>
               {error}
             </p>

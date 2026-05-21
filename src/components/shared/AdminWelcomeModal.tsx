@@ -1,4 +1,4 @@
-﻿import Modal from './Modal';
+import Modal from './Modal';
 
 const CAPABILITIES = [
   { icon: 'monitoring',           label: 'Platform Overview',  desc: 'Estadísticas en tiempo real, gráficas y rankings de workspaces.' },
@@ -36,9 +36,9 @@ export default function AdminWelcomeModal({ userId, onClose }: Props) {
       <div className="p-8">
 
         {/* Icon */}
-        <div className="w-14 h-14 rounded-2xl bg-[#C8553A]/10 border border-[#C8553A]/20 flex items-center justify-center mb-6">
+        <div className="w-14 h-14 rounded-2xl bg-[#111827]/10 border border-[#111827]/20 flex items-center justify-center mb-6">
           <span
-            className="material-symbols-outlined text-[#C8553A]"
+            className="material-symbols-outlined text-[#111827]"
             style={{ fontSize: 28, fontVariationSettings: "'FILL' 1" }}
           >
             shield
@@ -46,10 +46,10 @@ export default function AdminWelcomeModal({ userId, onClose }: Props) {
         </div>
 
         {/* Title */}
-        <h2 className="text-2xl font-headline font-extrabold tracking-tight text-[#15140F] mb-1">
+        <h2 className="text-2xl font-headline font-extrabold tracking-tight text-[#0F172A] mb-1">
           Ahora eres administrador
         </h2>
-        <p className="text-sm text-[#6B655B] mb-6">
+        <p className="text-sm text-[#64748B] mb-6">
           Tu acceso de administrador en Vielinks está activo. Aquí tienes lo que puedes hacer:
         </p>
 
@@ -57,33 +57,33 @@ export default function AdminWelcomeModal({ userId, onClose }: Props) {
         <div className="space-y-2.5 mb-7">
           {CAPABILITIES.map(cap => (
             <div key={cap.label} className="flex items-start gap-3">
-              <div className="w-8 h-8 rounded-xl bg-[#C8553A]/10 border border-[#C8553A]/15 flex items-center justify-center shrink-0 mt-0.5">
+              <div className="w-8 h-8 rounded-xl bg-[#111827]/10 border border-[#111827]/15 flex items-center justify-center shrink-0 mt-0.5">
                 <span
-                  className="material-symbols-outlined text-[#C8553A]"
+                  className="material-symbols-outlined text-[#111827]"
                   style={{ fontSize: 15, fontVariationSettings: "'FILL' 1" }}
                 >
                   {cap.icon}
                 </span>
               </div>
               <div>
-                <p className="text-sm font-semibold text-[#15140F] leading-tight font-headline">{cap.label}</p>
-                <p className="text-xs text-[#6B655B] mt-0.5 leading-relaxed">{cap.desc}</p>
+                <p className="text-sm font-semibold text-[#0F172A] leading-tight font-headline">{cap.label}</p>
+                <p className="text-xs text-[#64748B] mt-0.5 leading-relaxed">{cap.desc}</p>
               </div>
             </div>
           ))}
         </div>
 
         {/* Tip */}
-        <div className="flex items-start gap-2.5 px-3.5 py-3 rounded-xl bg-[#C8553A]/5 border border-[#C8553A]/10 mb-6">
-          <span className="material-symbols-outlined text-[#C8553A] shrink-0 mt-0.5" style={{ fontSize: 14 }}>info</span>
-          <p className="text-xs text-[#6B655B] leading-relaxed">
-            Puedes acceder al panel de admin desde la sección <strong className="text-[#C8553A]">Admin</strong> en el sidebar izquierdo.
+        <div className="flex items-start gap-2.5 px-3.5 py-3 rounded-xl bg-[#111827]/5 border border-[#111827]/10 mb-6">
+          <span className="material-symbols-outlined text-[#111827] shrink-0 mt-0.5" style={{ fontSize: 14 }}>info</span>
+          <p className="text-xs text-[#64748B] leading-relaxed">
+            Puedes acceder al panel de admin desde la sección <strong className="text-[#111827]">Admin</strong> en el sidebar izquierdo.
           </p>
         </div>
 
         <button
           onClick={handleClose}
-          className="w-full py-3.5 rounded-xl bg-[#C8553A] text-white font-bold text-sm hover:bg-[#A53F28] active:scale-[0.98] transition-all"
+          className="w-full py-3.5 rounded-xl bg-[#111827] text-white font-bold text-sm hover:bg-[#0B1220] active:scale-[0.98] transition-all"
         >
           Entendido
         </button>

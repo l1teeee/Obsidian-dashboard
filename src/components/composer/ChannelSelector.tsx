@@ -1,4 +1,4 @@
-﻿import { LayoutGroup, motion } from 'framer-motion';
+import { LayoutGroup, motion } from 'framer-motion';
 import { CHANNELS } from '../../domain/entities/Composer';
 import type { ChannelId } from '../../types/composer.types';
 
@@ -62,10 +62,10 @@ export default function ChannelSelector({
   return (
     <div data-editor-section className="space-y-4">
       <div className="flex items-center justify-between">
-        <label className="text-[11px] uppercase tracking-widest text-[#6B655B] font-bold">
+        <label className="text-[11px] uppercase tracking-widest text-[#64748B] font-bold">
           Target Channels
         </label>
-        <span className="text-[10px] text-[#15140F]">
+        <span className="text-[10px] text-[#0F172A]">
           {selectedChannels.length === 0 ? 'None selected' : `${selectedChannels.length} selected`}
         </span>
       </div>
@@ -87,10 +87,10 @@ export default function ChannelSelector({
                 className={[
                   'relative flex-1 flex items-center gap-3 py-3.5 px-4 rounded-2xl border transition-colors duration-150 select-none cursor-pointer text-sm font-medium',
                   active && isPreferred
-                    ? 'border-[#C8553A]/50 bg-[#C8553A]/8 text-[#15140F]'
+                    ? 'border-[#111827]/50 bg-[#111827]/8 text-[#0F172A]'
                     : active
-                      ? 'border-[#C8553A]/30 bg-[#C8553A]/8 text-[#15140F]'
-                      : 'border-[#15140F]/15 bg-transparent text-[#6B655B] hover:border-[#15140F]/30 hover:text-[#15140F]',
+                      ? 'border-[#111827]/30 bg-[#111827]/8 text-[#0F172A]'
+                      : 'border-[#0F172A]/15 bg-transparent text-[#64748B] hover:border-[#0F172A]/30 hover:text-[#0F172A]',
                 ].join(' ')}
               >
                 {/* Star — absolute top-right, solo cuando activo */}
@@ -103,7 +103,7 @@ export default function ChannelSelector({
                     style={{
                       fontSize: 14,
                       fontVariationSettings: "'FILL' 1",
-                      color: isPreferred ? '#C8553A' : '#6B655B',
+                      color: isPreferred ? '#111827' : '#64748B',
                     }}
                   >
                     star
@@ -114,15 +114,15 @@ export default function ChannelSelector({
                 <span
                   className={[
                     'flex h-10 w-10 shrink-0 items-center justify-center rounded-xl transition-colors',
-                    active && isPreferred ? 'bg-[#C8553A]/15'
-                    : active             ? 'bg-[#C8553A]/15'
-                    :                      'bg-[#EFE9DC]',
+                    active && isPreferred ? 'bg-[#111827]/15'
+                    : active             ? 'bg-[#111827]/15'
+                    :                      'bg-[#F1F5F9]',
                   ].join(' ')}
                 >
                   <span style={{
-                    color: active && isPreferred ? '#C8553A'
-                         : active               ? '#C8553A'
-                         :                        '#6B655B',
+                    color: active && isPreferred ? '#111827'
+                         : active               ? '#111827'
+                         :                        '#64748B',
                   }}>
                     {meta.icon}
                   </span>
@@ -139,11 +139,11 @@ export default function ChannelSelector({
 
       {/* Instagram disclaimer */}
       {igActive && (
-        <div className="flex items-start gap-2 px-4 py-3 rounded-xl bg-[#15140F]/10 border border-[#15140F]/20">
-          <span className="material-symbols-outlined text-[#6B655B] mt-0.5 shrink-0" style={{ fontSize: 16 }}>info</span>
-          <p className="text-[11px] text-[#6B655B] leading-relaxed">
-            <span className="font-semibold text-[#3D3A30]">Instagram</span>
-            {igAccountName && <span className="text-[#C8553A]"> (@{igAccountName})</span>}
+        <div className="flex items-start gap-2 px-4 py-3 rounded-xl bg-[#0F172A]/10 border border-[#0F172A]/20">
+          <span className="material-symbols-outlined text-[#64748B] mt-0.5 shrink-0" style={{ fontSize: 16 }}>info</span>
+          <p className="text-[11px] text-[#64748B] leading-relaxed">
+            <span className="font-semibold text-[#334155]">Instagram</span>
+            {igAccountName && <span className="text-[#111827]"> (@{igAccountName})</span>}
             {' '}only supports images and videos. Text-only posts are not available on Instagram.
           </p>
         </div>

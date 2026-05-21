@@ -1,4 +1,4 @@
-﻿import { useState } from 'react';
+import { useState } from 'react';
 
 interface IGPreviewProps {
   caption:       string;
@@ -17,10 +17,10 @@ export default function IGPreview({ caption, mediaPreviews, igAccountName }: IGP
     <div className="w-full h-full bg-white flex flex-col pt-5">
       {/* Top bar */}
       <div className="px-4 pb-2 flex justify-between items-center shrink-0">
-        <span className="text-[#15140F] font-bold text-base font-headline">Instagram</span>
+        <span className="text-[#0F172A] font-bold text-base font-headline">Instagram</span>
         <div className="flex gap-4">
-          <span className="material-symbols-outlined text-[#15140F] text-[20px]">favorite</span>
-          <span className="material-symbols-outlined text-[#15140F] text-[20px]">send</span>
+          <span className="material-symbols-outlined text-[#0F172A] text-[20px]">favorite</span>
+          <span className="material-symbols-outlined text-[#0F172A] text-[20px]">send</span>
         </div>
       </div>
 
@@ -29,19 +29,19 @@ export default function IGPreview({ caption, mediaPreviews, igAccountName }: IGP
         <div className="flex items-center gap-2 px-3 py-2">
           <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-yellow-400 via-red-500 to-purple-600 p-[1.5px] shrink-0">
             <div className="w-full h-full rounded-full bg-white flex items-center justify-center">
-              <span className="text-[#C8553A] text-[11px] font-bold">
+              <span className="text-[#111827] text-[11px] font-bold">
                 {igAccountName ? igAccountName[0].toUpperCase() : 'I'}
               </span>
             </div>
           </div>
-          <span className="text-xs font-bold text-[#15140F] flex-1">
+          <span className="text-xs font-bold text-[#0F172A] flex-1">
             {igAccountName ?? 'your_account'}
           </span>
           <span className="text-[#0095f6] text-xs font-bold">Follow</span>
         </div>
 
         {/* Media carousel */}
-        <div className="w-full aspect-square bg-[#EFE9DC] relative overflow-hidden">
+        <div className="w-full aspect-square bg-[#F1F5F9] relative overflow-hidden">
           {count > 0 ? (
             <>
               <img
@@ -92,7 +92,7 @@ export default function IGPreview({ caption, mediaPreviews, igAccountName }: IGP
               )}
             </>
           ) : (
-            <div className="absolute inset-0 flex flex-col items-center justify-center gap-1 text-[#15140F]">
+            <div className="absolute inset-0 flex flex-col items-center justify-center gap-1 text-[#0F172A]">
               <span className="material-symbols-outlined text-[32px]">image</span>
               <span className="text-[9px] font-mono">No media</span>
             </div>
@@ -102,29 +102,29 @@ export default function IGPreview({ caption, mediaPreviews, igAccountName }: IGP
         {/* Actions */}
         <div className="flex justify-between items-center px-3 py-2.5">
           <div className="flex gap-3">
-            <span className="material-symbols-outlined text-[#15140F] text-[20px]">favorite</span>
-            <span className="material-symbols-outlined text-[#15140F] text-[20px]">mode_comment</span>
-            <span className="material-symbols-outlined text-[#15140F] text-[20px]">send</span>
+            <span className="material-symbols-outlined text-[#0F172A] text-[20px]">favorite</span>
+            <span className="material-symbols-outlined text-[#0F172A] text-[20px]">mode_comment</span>
+            <span className="material-symbols-outlined text-[#0F172A] text-[20px]">send</span>
           </div>
-          <span className="material-symbols-outlined text-[#15140F] text-[20px]">bookmark</span>
+          <span className="material-symbols-outlined text-[#0F172A] text-[20px]">bookmark</span>
         </div>
 
         {/* Caption */}
         <div className="px-3 pb-4 space-y-1">
-          <p className="text-[11px] leading-relaxed text-[#15140F]">
+          <p className="text-[11px] leading-relaxed text-[#0F172A]">
             <span className="font-bold">{igAccountName ?? 'your_account'} </span>
-            <span className="text-[#3D3A30]">{caption || 'Your caption will appear here...'}</span>
+            <span className="text-[#334155]">{caption || 'Your caption will appear here...'}</span>
           </p>
-          <p className="text-[9px] text-[#6B655B] uppercase font-medium">Just now</p>
+          <p className="text-[9px] text-[#64748B] uppercase font-medium">Just now</p>
         </div>
       </div>
 
       {/* Nav bar */}
-      <div className="h-12 border-t border-[#D8D2C4] flex justify-around items-center bg-white shrink-0">
+      <div className="h-12 border-t border-[#CBD5E1] flex justify-around items-center bg-white shrink-0">
         {['home', 'search', 'add_box', 'video_library'].map(icon => (
-          <span key={icon} className="material-symbols-outlined text-[#15140F] text-[20px]">{icon}</span>
+          <span key={icon} className="material-symbols-outlined text-[#0F172A] text-[20px]">{icon}</span>
         ))}
-        <div className="w-6 h-6 rounded-full bg-[#D8D2C4]" />
+        <div className="w-6 h-6 rounded-full bg-[#CBD5E1]" />
       </div>
     </div>
   );

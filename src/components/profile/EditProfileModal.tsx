@@ -1,4 +1,4 @@
-﻿import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { TIMEZONES } from '../../domain/entities/Profile';
 import type { ProfileData } from '../../domain/entities/Profile';
 import gsap from 'gsap';
@@ -43,11 +43,11 @@ export default function EditProfileModal({ data, onSave, onClose }: EditProfileM
     }
   };
 
-  const inputCls = 'w-full bg-[#FBF8F2] border border-[#15140F]/30 rounded-xl px-4 py-3 text-sm text-[#15140F] placeholder:text-[#6B655B]/40 focus:outline-none focus:border-[#C8553A]/60 focus:ring-1 focus:ring-[#C8553A]/20 transition-all';
+  const inputCls = 'w-full bg-[#FFFFFF] border border-[#0F172A]/30 rounded-xl px-4 py-3 text-sm text-[#0F172A] placeholder:text-[#64748B]/40 focus:outline-none focus:border-[#111827]/60 focus:ring-1 focus:ring-[#0E9F6E]/20 transition-all';
 
   const field = (label: string, key: keyof ProfileData, placeholder = '') => (
     <div className="space-y-1.5">
-      <label className="text-[10px] text-[#6B655B] uppercase tracking-widest font-semibold">{label}</label>
+      <label className="text-[10px] text-[#64748B] uppercase tracking-widest font-semibold">{label}</label>
       <input
         type="text"
         value={String(form[key] ?? '')}
@@ -66,18 +66,18 @@ export default function EditProfileModal({ data, onSave, onClose }: EditProfileM
     >
       <div
         ref={cardRef}
-        className="w-full max-w-lg bg-[#FBF8F2] border border-[#15140F]/20 rounded-3xl shadow-[0_32px_80px_rgba(0,0,0,0.7)] overflow-hidden"
+        className="w-full max-w-lg bg-[#FFFFFF] border border-[#0F172A]/20 rounded-3xl shadow-[0_32px_80px_rgba(0,0,0,0.7)] overflow-hidden"
       >
         {/* Header */}
-        <div className="px-8 py-5 border-b border-[#15140F]/10 flex items-center justify-between bg-[#EFE9DC]">
+        <div className="px-8 py-5 border-b border-[#0F172A]/10 flex items-center justify-between bg-[#F1F5F9]">
           <div>
-            <h2 className="font-headline font-bold text-[#15140F] text-lg">Edit Profile</h2>
-            <p className="text-xs text-[#6B655B] mt-0.5">Update your account information</p>
+            <h2 className="font-headline font-bold text-[#0F172A] text-lg">Edit Profile</h2>
+            <p className="text-xs text-[#64748B] mt-0.5">Update your account information</p>
           </div>
           <button
             onClick={handleClose}
             disabled={saving}
-            className="w-8 h-8 rounded-xl bg-[#E7E0D0] flex items-center justify-center text-[#6B655B] hover:text-[#15140F] hover:bg-[#D8D2C4] transition-all disabled:opacity-50"
+            className="w-8 h-8 rounded-xl bg-[#E2E8F0] flex items-center justify-center text-[#64748B] hover:text-[#0F172A] hover:bg-[#CBD5E1] transition-all disabled:opacity-50"
           >
             <span className="material-symbols-outlined" style={{ fontSize: 18 }}>close</span>
           </button>
@@ -87,8 +87,8 @@ export default function EditProfileModal({ data, onSave, onClose }: EditProfileM
         <div className="px-8 pt-6 pb-2 flex items-center gap-4">
           <InitialsAvatar name={form.name || form.email} size="md" />
           <div>
-            <p className="text-sm font-bold text-[#15140F] font-headline">{form.name || 'No name'}</p>
-            <p className="text-xs text-[#6B655B] mt-0.5">{form.email}</p>
+            <p className="text-sm font-bold text-[#0F172A] font-headline">{form.name || 'No name'}</p>
+            <p className="text-xs text-[#64748B] mt-0.5">{form.email}</p>
           </div>
         </div>
 
@@ -100,7 +100,7 @@ export default function EditProfileModal({ data, onSave, onClose }: EditProfileM
 
           {/* Email - readonly */}
           <div className="space-y-1.5">
-            <label className="text-[10px] text-[#6B655B] uppercase tracking-widest font-semibold">Email</label>
+            <label className="text-[10px] text-[#64748B] uppercase tracking-widest font-semibold">Email</label>
             <input
               type="email"
               value={form.email}
@@ -111,38 +111,38 @@ export default function EditProfileModal({ data, onSave, onClose }: EditProfileM
 
           {/* Timezone */}
           <div className="space-y-1.5">
-            <label className="text-[10px] text-[#6B655B] uppercase tracking-widest font-semibold">Timezone</label>
+            <label className="text-[10px] text-[#64748B] uppercase tracking-widest font-semibold">Timezone</label>
             <select
               value={form.timezone}
               onChange={e => setForm(prev => ({ ...prev, timezone: e.target.value }))}
               className={`${inputCls} appearance-none cursor-pointer`}
             >
               {TIMEZONES.map(tz => (
-                <option key={tz} value={tz} className="bg-[#FBF8F2]">{tz}</option>
+                <option key={tz} value={tz} className="bg-[#FFFFFF]">{tz}</option>
               ))}
             </select>
           </div>
 
           {error && (
-            <p className="text-xs text-[#A8362A] px-3 py-2 rounded-xl bg-[#A8362A]/10 border border-[#A8362A]/20">
+            <p className="text-xs text-[#DC2626] px-3 py-2 rounded-xl bg-[#DC2626]/10 border border-[#DC2626]/20">
               {error}
             </p>
           )}
         </div>
 
         {/* Footer */}
-        <div className="px-8 py-5 border-t border-[#15140F]/10 flex items-center justify-end gap-3 bg-[#EFE9DC]">
+        <div className="px-8 py-5 border-t border-[#0F172A]/10 flex items-center justify-end gap-3 bg-[#F1F5F9]">
           <button
             onClick={handleClose}
             disabled={saving}
-            className="px-5 py-2.5 rounded-xl border border-[#15140F]/30 text-sm text-[#6B655B] hover:text-[#15140F] hover:border-[#15140F]/60 transition-all disabled:opacity-50"
+            className="px-5 py-2.5 rounded-xl border border-[#0F172A]/30 text-sm text-[#64748B] hover:text-[#0F172A] hover:border-[#0F172A]/60 transition-all disabled:opacity-50"
           >
             Cancel
           </button>
           <button
             onClick={() => { void handleSave(); }}
             disabled={saving || !form.name.trim()}
-            className="px-6 py-2.5 rounded-xl bg-[#C8553A] text-white text-sm font-bold hover:bg-[#A53F28] active:scale-95 transition-all disabled:opacity-60 flex items-center gap-2"
+            className="px-6 py-2.5 rounded-xl bg-[#111827] text-white text-sm font-bold hover:bg-[#0B1220] active:scale-95 transition-all disabled:opacity-60 flex items-center gap-2"
           >
             {saving
               ? <><span className="material-symbols-outlined text-[14px] animate-spin">progress_activity</span> Saving…</>

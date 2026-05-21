@@ -1,4 +1,4 @@
-﻿import { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { createChart, AreaSeries, ColorType } from 'lightweight-charts';
 
 const data = [
@@ -24,7 +24,7 @@ export default function LineChart() {
       autoSize: true,
       layout: {
         background: { type: ColorType.Solid, color: 'transparent' },
-        textColor: '#988d9c',
+        textColor: '#94A3B8',
         fontFamily: "'Courier New', monospace",
         fontSize: 11,
       },
@@ -49,7 +49,7 @@ export default function LineChart() {
     });
 
     const impressionsSeries = chart.addSeries(AreaSeries, {
-      lineColor: '#4F7A4A',
+      lineColor: '#047857',
       topColor: 'rgba(197,210,71,0.15)',
       bottomColor: 'rgba(197,210,71,0)',
       lineWidth: 2,
@@ -58,9 +58,9 @@ export default function LineChart() {
     });
 
     const reachSeries = chart.addSeries(AreaSeries, {
-      lineColor: '#C8553A',
-      topColor: 'rgba(200,85,58,0.15)',
-      bottomColor: 'rgba(200,85,58,0)',
+      lineColor: '#111827',
+      topColor: 'rgba(14,159,110,0.15)',
+      bottomColor: 'rgba(14,159,110,0)',
       lineWidth: 2,
       priceLineVisible: false,
       lastValueVisible: false,
@@ -75,20 +75,20 @@ export default function LineChart() {
   }, []);
 
   return (
-    <div data-chart className="lg:col-span-2 glass-card p-8 rounded-3xl border border-[#15140F]/5 shadow-[0_0_40px_rgba(200,85,58,0.08)]">
+    <div data-chart className="lg:col-span-2 glass-card p-8 rounded-3xl border border-[#0F172A]/5 shadow-[0_0_40px_rgba(14,159,110,0.08)]">
       <div className="flex justify-between items-center mb-8">
         <div>
-          <h3 className="text-xl font-headline font-bold tracking-tight text-[#15140F]">Reach & Impressions</h3>
-          <p className="text-sm text-[#6B655B]">Aggregate visibility across all active platforms</p>
+          <h3 className="text-xl font-headline font-bold tracking-tight text-[#0F172A]">Reach & Impressions</h3>
+          <p className="text-sm text-[#64748B]">Aggregate visibility across all active platforms</p>
         </div>
         <div className="flex gap-4">
           <div className="flex items-center gap-2">
-            <div className="w-3 h-3 rounded-full bg-[#C8553A]" />
-            <span className="text-xs font-mono text-[#15140F]">Reach</span>
+            <div className="w-3 h-3 rounded-full bg-[#111827]" />
+            <span className="text-xs font-mono text-[#0F172A]">Reach</span>
           </div>
           <div className="flex items-center gap-2">
-            <div className="w-3 h-3 rounded-full bg-[#4F7A4A]" />
-            <span className="text-xs font-mono text-[#15140F]">Impressions</span>
+            <div className="w-3 h-3 rounded-full bg-[#047857]" />
+            <span className="text-xs font-mono text-[#0F172A]">Impressions</span>
           </div>
         </div>
       </div>

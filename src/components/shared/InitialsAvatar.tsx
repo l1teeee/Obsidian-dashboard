@@ -20,7 +20,7 @@ interface InitialsAvatarProps {
 export default function InitialsAvatar({ name, size = 'sm', className = '' }: InitialsAvatarProps) {
   const { wrap, text } = SIZES[size];
   return (
-    <div className={`${wrap} bg-[#C8553A] flex items-center justify-center shrink-0 ${className}`}>
+    <div className={`${wrap} bg-[#111827] flex items-center justify-center shrink-0 ${className}`}>
       <span className={`${text} font-bold text-white tracking-tight leading-none select-none`}>
         {getInitials(name)}
       </span>

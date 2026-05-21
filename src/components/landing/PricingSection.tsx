@@ -1,4 +1,4 @@
-﻿
+
 import { useLayoutEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import gsap from 'gsap';
@@ -93,17 +93,17 @@ export function PlanCard({ plan, onSelectPlan }: { plan: PlanDef; billing?: Bill
     <div className={cn(
       'group rounded-2xl p-8 flex flex-col gap-4 border transition-[background-color,border-color,box-shadow,transform] duration-200 ease-out hover:-translate-y-1',
       isFeatured
-        ? 'bg-[#15140F] border-[#15140F] hover:border-[#C8553A] hover:shadow-[0_20px_50px_rgba(200,85,58,0.20)]'
-        : 'bg-[#FBF8F2] border-[rgba(21,20,15,0.10)] hover:border-[#C8553A] hover:bg-[#F6F2EA] hover:shadow-[0_18px_45px_rgba(21,20,15,0.08)]'
+        ? 'bg-[#0F172A] border-[#0F172A] hover:border-[#111827] hover:shadow-[0_20px_50px_rgba(14,159,110,0.20)]'
+        : 'bg-[#FFFFFF] border-[rgba(15,23,42,0.10)] hover:border-[#111827] hover:bg-[#F8FAFC] hover:shadow-[0_18px_45px_rgba(15,23,42,0.08)]'
     )}>
       {/* Plan name */}
       <div
         className="text-[22px] font-medium tracking-[-0.02em]"
-        style={{ color: isFeatured ? '#F6F2EA' : '#15140F' }}
+        style={{ color: isFeatured ? '#F8FAFC' : '#0F172A' }}
       >
         {plan.name}
         {plan.badge && (
-          <span className="ml-2 text-[10px] font-bold uppercase tracking-[0.14em] text-[#C8553A]">
+          <span className="ml-2 text-[10px] font-bold uppercase tracking-[0.14em] text-[#111827]">
             · {plan.badge}
           </span>
         )}
@@ -113,12 +113,12 @@ export function PlanCard({ plan, onSelectPlan }: { plan: PlanDef; billing?: Bill
       <div className="flex items-baseline gap-1.5">
         <span
           className="text-[56px] font-medium tracking-[-0.04em] leading-none"
-          style={{ color: isFeatured ? '#F6F2EA' : '#15140F' }}
+          style={{ color: isFeatured ? '#F8FAFC' : '#0F172A' }}
         >
           {isFreePlan ? 'Free' : `$${plan.monthlyPrice}`}
         </span>
         {!isFreePlan && (
-          <span className="text-[13px]" style={{ color: isFeatured ? 'rgba(251,248,242,0.6)' : '#6B655B' }}>
+          <span className="text-[13px]" style={{ color: isFeatured ? 'rgba(255,255,255,0.6)' : '#64748B' }}>
             / user / mo
           </span>
         )}
@@ -127,7 +127,7 @@ export function PlanCard({ plan, onSelectPlan }: { plan: PlanDef; billing?: Bill
       {/* Description */}
       <p
         className="text-[14px] leading-normal"
-        style={{ color: isFeatured ? 'rgba(251,248,242,0.7)' : '#6B655B' }}
+        style={{ color: isFeatured ? 'rgba(255,255,255,0.7)' : '#64748B' }}
       >
         {plan.desc}
       </p>
@@ -138,7 +138,7 @@ export function PlanCard({ plan, onSelectPlan }: { plan: PlanDef; billing?: Bill
           <li
             key={f}
             className="flex items-center gap-2.5 text-[14px]"
-            style={{ color: isFeatured ? 'rgba(251,248,242,0.85)' : '#3D3A30' }}
+            style={{ color: isFeatured ? 'rgba(255,255,255,0.85)' : '#334155' }}
           >
             <span className="w-1 h-1 rounded-full bg-current opacity-40 shrink-0" />
             {f}
@@ -150,10 +150,10 @@ export function PlanCard({ plan, onSelectPlan }: { plan: PlanDef; billing?: Bill
       <button
         onClick={handleCta}
         className={cn(
-          'mt-auto w-full inline-flex justify-center items-center text-[14px] font-medium px-5 py-2.5 rounded-[10px] transition-[background-color,color,transform] duration-150 active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C8553A] focus-visible:ring-offset-2',
+          'mt-auto w-full inline-flex justify-center items-center text-[14px] font-medium px-5 py-2.5 rounded-[10px] transition-[background-color,color,transform] duration-150 active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0E9F6E] focus-visible:ring-offset-2',
           isFeatured
-            ? 'bg-[#C8553A] text-white hover:bg-[#A53F28] focus-visible:ring-offset-[#15140F]'
-            : 'bg-[#15140F] text-[#F6F2EA] hover:bg-[#2A2825] focus-visible:ring-offset-[#FBF8F2]'
+            ? 'bg-[#111827] text-white hover:bg-[#0B1220] focus-visible:ring-offset-[#0F172A]'
+            : 'bg-[#0F172A] text-[#F8FAFC] hover:bg-[#2A2825] focus-visible:ring-offset-[#FFFFFF]'
         )}
       >
         {plan.cta}
@@ -170,7 +170,7 @@ export function BillingToggle({ billing, onSwitch }: { billing: BillingPlan; onS
   return (
     <div className="flex items-center justify-center gap-4 mt-8">
       <span
-        className={cn('text-sm font-medium transition-colors cursor-pointer select-none', !isAnnually ? 'text-[#15140F]' : 'text-[#15140F]/40')}
+        className={cn('text-sm font-medium transition-colors cursor-pointer select-none', !isAnnually ? 'text-[#0F172A]' : 'text-[#0F172A]/40')}
         onClick={() => isAnnually && onSwitch()}
       >
         Monthly
@@ -182,12 +182,12 @@ export function BillingToggle({ billing, onSwitch }: { billing: BillingPlan; onS
       />
       <div className="flex items-center gap-2">
         <span
-          className={cn('text-sm font-medium transition-colors cursor-pointer select-none', isAnnually ? 'text-[#15140F]' : 'text-[#15140F]/40')}
+          className={cn('text-sm font-medium transition-colors cursor-pointer select-none', isAnnually ? 'text-[#0F172A]' : 'text-[#0F172A]/40')}
           onClick={() => !isAnnually && onSwitch()}
         >
           Annually
         </span>
-        <span className="rounded-full border border-[#C8553A]/20 bg-[#C8553A]/[0.08] px-2 py-0.5 text-[0.6rem] font-bold text-[#C8553A]">
+        <span className="rounded-full border border-[#111827]/20 bg-[#111827]/[0.08] px-2 py-0.5 text-[0.6rem] font-bold text-[#111827]">
           Save ~17%
         </span>
       </div>
@@ -235,22 +235,22 @@ export default function PricingSection() {
 
   return (
     <section ref={sectionRef} id="Pricing" className="relative overflow-hidden py-28 md:py-36">
-      <div data-pr="orb" style={{ opacity: 0 }} className="pointer-events-none absolute left-1/2 top-16 h-[480px] w-[700px] -translate-x-1/2 rounded-full bg-[#C8553A]/[0.05] blur-[120px]" />
+      <div data-pr="orb" style={{ opacity: 0 }} className="pointer-events-none absolute left-1/2 top-16 h-[480px] w-[700px] -translate-x-1/2 rounded-full bg-[#111827]/[0.05] blur-[120px]" />
 
       <div className="mx-auto max-w-[1440px] px-6 md:px-12">
         {/* Header */}
         <div className="mb-4 text-center">
-          <span data-pr="eyebrow" style={{ opacity: 0 }} className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#E7E0D0] bg-[#FFFFFF] px-4 py-1.5 text-[0.68rem] font-bold uppercase tracking-[0.22em] text-[#A39B8B]">
-            <span className="h-1.5 w-1.5 rounded-full bg-[#C8553A]" />
+          <span data-pr="eyebrow" style={{ opacity: 0 }} className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#E2E8F0] bg-[#FFFFFF] px-4 py-1.5 text-[0.68rem] font-bold uppercase tracking-[0.22em] text-[#94A3B8]">
+            <span className="h-1.5 w-1.5 rounded-full bg-[#111827]" />
             Pricing
           </span>
-          <h2 data-pr="title" style={{ opacity: 0 }} className="mx-auto mt-5 max-w-2xl text-4xl font-extrabold leading-[0.96] tracking-[-0.04em] text-[#15140F] sm:text-5xl md:text-[3.4rem]">
+          <h2 data-pr="title" style={{ opacity: 0 }} className="mx-auto mt-5 max-w-2xl text-4xl font-extrabold leading-[0.96] tracking-[-0.04em] text-[#0F172A] sm:text-5xl md:text-[3.4rem]">
             Simple pricing.{' '}
-            <span className="text-[#C8553A]">
+            <span className="text-[#111827]">
               Clear plans.
             </span>
           </h2>
-          <p data-pr="sub" style={{ opacity: 0 }} className="mt-5 text-[1rem] font-light leading-[1.8] text-[#6B655B]">
+          <p data-pr="sub" style={{ opacity: 0 }} className="mt-5 text-[1rem] font-light leading-[1.8] text-[#64748B]">
             Start free, no credit card required. Upgrade, downgrade, or cancel anytime.
           </p>
           <div data-pr="toggle" style={{ opacity: 0 }}>
@@ -273,11 +273,11 @@ export default function PricingSection() {
           onClose={() => setDialogPlan(null)}
         />
 
-        <p data-pr="note" style={{ opacity: 0 }} className="mt-10 text-center text-[0.8rem] text-[#6B655B]">
+        <p data-pr="note" style={{ opacity: 0 }} className="mt-10 text-center text-[0.8rem] text-[#64748B]">
           All plans include a 14-day free trial on paid features ·{' '}
           <button
             onClick={() => window.open('/pricing', '_self')}
-            className="text-[#C8553A]/70 underline underline-offset-2 hover:text-[#C8553A] transition-colors"
+            className="text-[#111827]/70 underline underline-offset-2 hover:text-[#111827] transition-colors"
           >
             Compare all features
           </button>

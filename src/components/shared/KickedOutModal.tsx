@@ -1,4 +1,4 @@
-﻿import { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 interface Props {
   onClose: () => void;
@@ -18,7 +18,7 @@ export default function KickedOutModal({ onClose }: Props) {
       }`}
     >
       <div
-        className={`w-full max-w-sm bg-[#FBF8F2] border border-[#15140F]/20 rounded-3xl p-7 shadow-[0_24px_80px_rgba(0,0,0,0.7)] transition-all duration-300 ${
+        className={`w-full max-w-sm bg-[#FFFFFF] border border-[#0F172A]/20 rounded-3xl p-7 shadow-[0_24px_80px_rgba(0,0,0,0.7)] transition-all duration-300 ${
           visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
         }`}
       >
@@ -32,8 +32,8 @@ export default function KickedOutModal({ onClose }: Props) {
           </span>
         </div>
 
-        <h2 className="text-[#15140F] font-bold text-lg mb-2">Signed out remotely</h2>
-        <p className="text-[#6B655B] text-sm mb-6 leading-relaxed">
+        <h2 className="text-[#0F172A] font-bold text-lg mb-2">Signed out remotely</h2>
+        <p className="text-[#64748B] text-sm mb-6 leading-relaxed">
           Your account was accessed from another device. You've been signed out for security.
         </p>
 

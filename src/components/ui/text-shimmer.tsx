@@ -1,4 +1,4 @@
-﻿import { cn } from '@/lib/utils';
+import { cn } from '@/lib/utils';
 
 interface TextShimmerProps {
   children: string;
@@ -17,7 +17,7 @@ export function TextShimmer({
     <span
       className={cn('inline-block bg-clip-text text-transparent', className)}
       style={{
-        backgroundImage: `linear-gradient(90deg, #A6A19A ${100 / (spread + 1)}%, #C8553A 50%, #A6A19A ${100 - 100 / (spread + 1)}%)`,
+        backgroundImage: `linear-gradient(90deg, #94A3B8 ${100 / (spread + 1)}%, #0E9F6E 50%, #94A3B8 ${100 - 100 / (spread + 1)}%)`,
         backgroundSize: '250% 100%',
         backgroundPosition: '100% center',
         animation: `shimmer ${duration}s linear infinite`,

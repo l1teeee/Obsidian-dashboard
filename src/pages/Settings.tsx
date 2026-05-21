@@ -1,4 +1,4 @@
-﻿import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import gsap from 'gsap';
 import TopBar from '../components/layout/TopBar';
@@ -31,9 +31,9 @@ const TIMEZONES = ['(GMT-08:00) Pacific Time [US]', '(GMT-05:00) Eastern Time [U
 
 function roleBadge(role: string) {
   const map: Record<string, string> = {
-    Owner:  'bg-[#C8553A]/15 text-[#C8553A] border-[#C8553A]/20',
-    Admin:  'bg-[#4F7A4A]/15 text-[#4F7A4A] border-[#4F7A4A]/20',
-    Member: 'bg-[#988d9c]/15 text-[#6B655B] border-[#988d9c]/20',
+    Owner:  'bg-[#111827]/15 text-[#111827] border-[#111827]/20',
+    Admin:  'bg-[#047857]/15 text-[#047857] border-[#047857]/20',
+    Member: 'bg-[#94A3B8]/15 text-[#64748B] border-[#94A3B8]/20',
   };
   return map[role] ?? map['Member'];
 }
@@ -74,43 +74,43 @@ function GeneralSection() {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-2xl font-headline font-extrabold tracking-tight text-[#15140F]">General Settings</h2>
-        <p className="text-[#6B655B] text-sm mt-1 max-w-xl">
+        <h2 className="text-2xl font-headline font-extrabold tracking-tight text-[#0F172A]">General Settings</h2>
+        <p className="text-[#64748B] text-sm mt-1 max-w-xl">
           Configure your workspace identity, manage your core team access, and review your current billing cycle.
         </p>
       </div>
 
       {/* Workspace Identity */}
-      <div className="glass-card rounded-2xl border border-[#15140F]/10 p-6">
+      <div className="glass-card rounded-2xl border border-[#0F172A]/10 p-6">
         <div className="flex items-start justify-between mb-5">
           <div>
-            <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-[#C8553A]/10 border border-[#C8553A]/20 mb-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#C8553A]" />
-              <span className="text-xs uppercase tracking-[0.14em] font-bold text-[#C8553A]">Workspace Identity</span>
+            <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-[#111827]/10 border border-[#111827]/20 mb-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#111827]" />
+              <span className="text-xs uppercase tracking-[0.14em] font-bold text-[#111827]">Workspace Identity</span>
             </div>
-            <p className="text-[#6B655B] text-xs">How your workspace appears to collaborators.</p>
+            <p className="text-[#64748B] text-xs">How your workspace appears to collaborators.</p>
           </div>
           {/* Logo placeholder */}
-          <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-[#C8553A] to-[#257A70] flex items-center justify-center shadow-[0_0_20px_rgba(200,85,58,0.24)] shrink-0">
-            <span className="material-symbols-outlined text-[#15140F]" style={{ fontSize: 24 }}>lens_blur</span>
+          <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-[#111827] to-[#257A70] flex items-center justify-center shadow-[0_0_20px_rgba(14,159,110,0.24)] shrink-0">
+            <span className="material-symbols-outlined text-[#0F172A]" style={{ fontSize: 24 }}>lens_blur</span>
           </div>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label className="block text-xs font-bold uppercase tracking-[0.14em] text-[#6B655B] mb-1.5">Workspace Name</label>
+            <label className="block text-xs font-bold uppercase tracking-[0.14em] text-[#64748B] mb-1.5">Workspace Name</label>
             <input
               value={wsName}
               onChange={e => setWsName(e.target.value)}
-              className="w-full bg-[#FBF8F2] border border-[#15140F]/30 rounded-xl px-3.5 py-2.5 text-[#15140F] text-sm placeholder:text-[#15140F] focus:outline-none focus:border-[#C8553A]/50 transition-all"
+              className="w-full bg-[#FFFFFF] border border-[#0F172A]/30 rounded-xl px-3.5 py-2.5 text-[#0F172A] text-sm placeholder:text-[#0F172A] focus:outline-none focus:border-[#111827]/50 transition-all"
             />
           </div>
           <div>
-            <label className="block text-xs font-bold uppercase tracking-[0.14em] text-[#6B655B] mb-1.5">Timezone</label>
+            <label className="block text-xs font-bold uppercase tracking-[0.14em] text-[#64748B] mb-1.5">Timezone</label>
             <select
               value={tz}
               onChange={e => setTz(e.target.value)}
-              className="w-full bg-[#FBF8F2] border border-[#15140F]/30 rounded-xl px-3.5 py-2.5 text-[#15140F] text-sm focus:outline-none focus:border-[#C8553A]/50 transition-all appearance-none cursor-pointer"
+              className="w-full bg-[#FFFFFF] border border-[#0F172A]/30 rounded-xl px-3.5 py-2.5 text-[#0F172A] text-sm focus:outline-none focus:border-[#111827]/50 transition-all appearance-none cursor-pointer"
             >
               {TIMEZONES.map(t => <option key={t} value={t}>{t}</option>)}
             </select>
@@ -120,12 +120,12 @@ function GeneralSection() {
         <div className="flex items-center gap-3 mt-5">
           <button
             onClick={handleSave}
-            className="px-5 py-2 rounded-xl bg-[#C8553A] text-white font-bold text-xs hover:bg-[#A53F28] transition-all"
+            className="px-5 py-2 rounded-xl bg-[#111827] text-white font-bold text-xs hover:bg-[#0B1220] transition-all"
           >
             Save Changes
           </button>
           {saved && (
-            <span className="flex items-center gap-1.5 text-xs text-[#4F7A4A] font-medium">
+            <span className="flex items-center gap-1.5 text-xs text-[#047857] font-medium">
               <span className="material-symbols-outlined" style={{ fontSize: 14 }}>check_circle</span>
               Saved
             </span>
@@ -134,13 +134,13 @@ function GeneralSection() {
       </div>
 
       {/* Team Management */}
-      <div className="glass-card rounded-2xl border border-[#15140F]/10 p-6">
+      <div className="glass-card rounded-2xl border border-[#0F172A]/10 p-6">
         <div className="flex items-center justify-between mb-5">
           <div>
-            <h3 className="text-base font-headline font-bold text-[#15140F]">Team Management</h3>
-            <p className="text-[#6B655B] text-xs mt-0.5">You have {TEAM_MEMBERS.length} active seats on this billing cycle.</p>
+            <h3 className="text-base font-headline font-bold text-[#0F172A]">Team Management</h3>
+            <p className="text-[#64748B] text-xs mt-0.5">You have {TEAM_MEMBERS.length} active seats on this billing cycle.</p>
           </div>
-          <button className="text-xs font-bold uppercase tracking-[0.12em] text-[#C8553A] hover:text-[#A53F28] transition-colors flex items-center gap-1">
+          <button className="text-xs font-bold uppercase tracking-[0.12em] text-[#111827] hover:text-[#0B1220] transition-colors flex items-center gap-1">
             Manage All Members
             <span className="material-symbols-outlined" style={{ fontSize: 13 }}>arrow_forward</span>
           </button>
@@ -148,14 +148,14 @@ function GeneralSection() {
 
         <div className="space-y-3">
           {TEAM_MEMBERS.map(m => (
-            <div key={m.email} className="flex items-center justify-between py-3 border-b border-[#15140F]/10 last:border-0">
+            <div key={m.email} className="flex items-center justify-between py-3 border-b border-[#0F172A]/10 last:border-0">
               <div className="flex items-center gap-3">
-                <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-[#15140F] to-[#2a2a2a] flex items-center justify-center shrink-0">
-                  <span className="text-xs font-bold text-[#15140F]">{m.name.split(' ').map(n => n[0]).join('')}</span>
+                <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-[#0F172A] to-[#2a2a2a] flex items-center justify-center shrink-0">
+                  <span className="text-xs font-bold text-[#0F172A]">{m.name.split(' ').map(n => n[0]).join('')}</span>
                 </div>
                 <div>
-                  <p className="text-sm font-semibold text-[#15140F]">{m.name}</p>
-                  <p className="text-xs text-[#6B655B] font-mono">{m.email}</p>
+                  <p className="text-sm font-semibold text-[#0F172A]">{m.name}</p>
+                  <p className="text-xs text-[#64748B] font-mono">{m.email}</p>
                 </div>
               </div>
               <div className="flex items-center gap-2">
@@ -163,7 +163,7 @@ function GeneralSection() {
                   {m.role}
                 </span>
                 {m.role !== 'Owner' && (
-                  <button className="text-xs font-bold uppercase tracking-[0.12em] text-[#6B655B] hover:text-[#A8362A] border border-[#15140F]/20 hover:border-[#A8362A]/30 px-2.5 py-1 rounded-lg transition-colors">
+                  <button className="text-xs font-bold uppercase tracking-[0.12em] text-[#64748B] hover:text-[#DC2626] border border-[#0F172A]/20 hover:border-[#DC2626]/30 px-2.5 py-1 rounded-lg transition-colors">
                     Remove
                   </button>
                 )}
@@ -172,7 +172,7 @@ function GeneralSection() {
           ))}
         </div>
 
-        <button className="mt-4 flex items-center gap-2 text-xs font-semibold text-[#6B655B] hover:text-[#15140F] border border-[#15140F]/20 hover:border-[#C8553A]/30 px-4 py-2 rounded-xl transition-all">
+        <button className="mt-4 flex items-center gap-2 text-xs font-semibold text-[#64748B] hover:text-[#0F172A] border border-[#0F172A]/20 hover:border-[#111827]/30 px-4 py-2 rounded-xl transition-all">
           <span className="material-symbols-outlined" style={{ fontSize: 15 }}>person_add</span>
           Invite Member
         </button>
@@ -181,35 +181,35 @@ function GeneralSection() {
       {/* Billing */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {/* Pro Tier */}
-        <div className="glass-card rounded-2xl border border-[#15140F]/10 p-6">
+        <div className="glass-card rounded-2xl border border-[#0F172A]/10 p-6">
           <div className="flex items-center gap-2 mb-4">
-            <span className="material-symbols-outlined text-[#4F7A4A]" style={{ fontSize: 18 }}>verified</span>
-            <span className="text-xs font-bold uppercase tracking-wider text-[#4F7A4A]">Pro Tier</span>
+            <span className="material-symbols-outlined text-[#047857]" style={{ fontSize: 18 }}>verified</span>
+            <span className="text-xs font-bold uppercase tracking-wider text-[#047857]">Pro Tier</span>
           </div>
           <div className="flex items-baseline gap-1 mb-1">
-            <span className="text-3xl font-headline font-extrabold text-[#15140F]">$129</span>
-            <span className="text-[#6B655B] text-sm font-mono">/mo</span>
+            <span className="text-3xl font-headline font-extrabold text-[#0F172A]">$129</span>
+            <span className="text-[#64748B] text-sm font-mono">/mo</span>
           </div>
-          <p className="text-xs text-[#6B655B] font-mono mb-4">Renews Dec 31, 2025</p>
-          <button className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-[0.12em] text-[#C8553A] hover:text-[#A53F28] transition-colors">
+          <p className="text-xs text-[#64748B] font-mono mb-4">Renews Dec 31, 2025</p>
+          <button className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-[0.12em] text-[#111827] hover:text-[#0B1220] transition-colors">
             Upgrade Plan
             <span className="material-symbols-outlined" style={{ fontSize: 13 }}>arrow_forward</span>
           </button>
         </div>
 
         {/* Payment Method */}
-        <div className="glass-card rounded-2xl border border-[#15140F]/10 p-6">
-          <p className="text-xs font-bold uppercase tracking-[0.14em] text-[#6B655B] mb-4">Payment Method</p>
+        <div className="glass-card rounded-2xl border border-[#0F172A]/10 p-6">
+          <p className="text-xs font-bold uppercase tracking-[0.14em] text-[#64748B] mb-4">Payment Method</p>
           <div className="flex items-center gap-3 mb-4">
-            <div className="w-10 h-7 rounded-md bg-[#FBF8F2] border border-[#15140F]/30 flex items-center justify-center">
-              <span className="material-symbols-outlined text-[#C8553A]" style={{ fontSize: 16 }}>credit_card</span>
+            <div className="w-10 h-7 rounded-md bg-[#FFFFFF] border border-[#0F172A]/30 flex items-center justify-center">
+              <span className="material-symbols-outlined text-[#111827]" style={{ fontSize: 16 }}>credit_card</span>
             </div>
             <div>
-              <p className="text-sm font-bold text-[#15140F] font-mono">•••• •••• •••• 4242</p>
-              <p className="text-xs text-[#6B655B]">Expires 08/27</p>
+              <p className="text-sm font-bold text-[#0F172A] font-mono">•••• •••• •••• 4242</p>
+              <p className="text-xs text-[#64748B]">Expires 08/27</p>
             </div>
           </div>
-          <button className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-[0.12em] text-[#6B655B] hover:text-[#15140F] transition-colors">
+          <button className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-[0.12em] text-[#64748B] hover:text-[#0F172A] transition-colors">
             <span className="material-symbols-outlined" style={{ fontSize: 13 }}>edit</span>
             Edit Details
           </button>
@@ -217,33 +217,33 @@ function GeneralSection() {
       </div>
 
       {/* Danger Zone */}
-      <div className="surface-card rounded-2xl border border-[#A8362A]/20 p-6">
+      <div className="surface-card rounded-2xl border border-[#DC2626]/20 p-6">
         <div className="flex items-center gap-2 mb-3">
-          <span className="material-symbols-outlined text-[#A8362A]" style={{ fontSize: 18 }}>warning</span>
-          <h3 className="text-sm font-bold text-[#A8362A]">Danger Zone</h3>
+          <span className="material-symbols-outlined text-[#DC2626]" style={{ fontSize: 18 }}>warning</span>
+          <h3 className="text-sm font-bold text-[#DC2626]">Danger Zone</h3>
         </div>
         <div className="flex items-start justify-between gap-4">
           <div>
-            <p className="text-sm font-semibold text-[#15140F]">Delete this workspace</p>
-            <p className="text-[11px] text-[#6B655B] mt-1 max-w-sm">
+            <p className="text-sm font-semibold text-[#0F172A]">Delete this workspace</p>
+            <p className="text-[11px] text-[#64748B] mt-1 max-w-sm">
               Once you delete a workspace, there is no going back. Please be certain before proceeding with this permanent action.
             </p>
           </div>
           {!showDelete ? (
             <button
               onClick={() => setShowDelete(true)}
-              className="shrink-0 px-4 py-2 rounded-xl bg-[#A8362A]/10 border border-[#A8362A]/30 text-[#A8362A] text-xs font-bold hover:bg-[#A8362A]/20 transition-all whitespace-nowrap"
+              className="shrink-0 px-4 py-2 rounded-xl bg-[#DC2626]/10 border border-[#DC2626]/30 text-[#DC2626] text-xs font-bold hover:bg-[#DC2626]/20 transition-all whitespace-nowrap"
             >
               Delete Workspace
             </button>
           ) : (
             <div className="flex items-center gap-2 shrink-0">
-              <button onClick={() => setShowDelete(false)} className="px-3 py-2 rounded-xl border border-[#15140F]/20 text-xs text-[#6B655B] hover:text-[#15140F] transition-colors">
+              <button onClick={() => setShowDelete(false)} className="px-3 py-2 rounded-xl border border-[#0F172A]/20 text-xs text-[#64748B] hover:text-[#0F172A] transition-colors">
                 Cancel
               </button>
               <button
                 onClick={handleDelete}
-                className="px-4 py-2 rounded-xl bg-[#A8362A] text-white text-xs font-bold hover:bg-[#8a2820] transition-all"
+                className="px-4 py-2 rounded-xl bg-[#DC2626] text-white text-xs font-bold hover:bg-[#8a2820] transition-all"
               >
                 Confirm Delete
               </button>
@@ -263,7 +263,7 @@ const PROFILE_ROLES = [
   'Freelancer', 'Business Owner', 'Other',
 ];
 
-const INPUT_CLS = 'w-full bg-[#FBF8F2] border border-[#15140F]/30 rounded-xl px-3.5 py-2.5 text-[#15140F] text-sm placeholder:text-[#15140F] focus:outline-none focus:border-[#C8553A]/50 transition-all';
+const INPUT_CLS = 'w-full bg-[#FFFFFF] border border-[#0F172A]/30 rounded-xl px-3.5 py-2.5 text-[#0F172A] text-sm placeholder:text-[#0F172A] focus:outline-none focus:border-[#111827]/50 transition-all';
 
 function ProfileSection() {
   const [profile, setProfile] = useState<UserProfile | null>(null);
@@ -312,20 +312,20 @@ function ProfileSection() {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-2xl font-headline font-extrabold tracking-tight text-[#15140F]">Profile</h2>
-        <p className="text-[#6B655B] text-sm mt-1 max-w-xl">Update your personal information and role.</p>
+        <h2 className="text-2xl font-headline font-extrabold tracking-tight text-[#0F172A]">Profile</h2>
+        <p className="text-[#64748B] text-sm mt-1 max-w-xl">Update your personal information and role.</p>
       </div>
 
-      <div className="glass-card rounded-2xl border border-[#15140F]/10 p-6">
+      <div className="glass-card rounded-2xl border border-[#0F172A]/10 p-6">
         {/* Avatar + quick info */}
-        <div className="flex items-center gap-4 mb-6 pb-5 border-b border-[#15140F]/10">
-          <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-[#C8553A] to-[#257A70] flex items-center justify-center shadow-[0_0_20px_rgba(200,85,58,0.24)] shrink-0">
-            <span className="text-xl font-bold text-[#15140F]">{initials}</span>
+        <div className="flex items-center gap-4 mb-6 pb-5 border-b border-[#0F172A]/10">
+          <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-[#111827] to-[#257A70] flex items-center justify-center shadow-[0_0_20px_rgba(14,159,110,0.24)] shrink-0">
+            <span className="text-xl font-bold text-[#0F172A]">{initials}</span>
           </div>
           <div className="min-w-0">
-            <p className="text-[#15140F] font-bold text-base truncate">{profile?.name ?? 'No name set'}</p>
-            <p className="text-xs text-[#6B655B] font-mono truncate">{profile?.email}</p>
-            {profile?.role && <p className="text-xs text-[#15140F] mt-0.5 truncate capitalize">{profile.role}</p>}
+            <p className="text-[#0F172A] font-bold text-base truncate">{profile?.name ?? 'No name set'}</p>
+            <p className="text-xs text-[#64748B] font-mono truncate">{profile?.email}</p>
+            {profile?.role && <p className="text-xs text-[#0F172A] mt-0.5 truncate capitalize">{profile.role}</p>}
           </div>
         </div>
 
@@ -333,7 +333,7 @@ function ProfileSection() {
           {/* Name + Country */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-bold uppercase tracking-[0.14em] text-[#6B655B] mb-1.5">Full Name</label>
+              <label className="block text-xs font-bold uppercase tracking-[0.14em] text-[#64748B] mb-1.5">Full Name</label>
               <input
                 value={name}
                 onChange={e => setName(e.target.value)}
@@ -342,7 +342,7 @@ function ProfileSection() {
               />
             </div>
             <div>
-              <label className="block text-xs font-bold uppercase tracking-[0.14em] text-[#6B655B] mb-1.5">Country</label>
+              <label className="block text-xs font-bold uppercase tracking-[0.14em] text-[#64748B] mb-1.5">Country</label>
               <input
                 value={country}
                 onChange={e => setCountry(e.target.value)}
@@ -354,7 +354,7 @@ function ProfileSection() {
 
           {/* Email readonly */}
           <div>
-            <label className="block text-xs font-bold uppercase tracking-[0.14em] text-[#6B655B] mb-1.5">Email</label>
+            <label className="block text-xs font-bold uppercase tracking-[0.14em] text-[#64748B] mb-1.5">Email</label>
             <input
               value={profile?.email ?? ''}
               readOnly
@@ -364,7 +364,7 @@ function ProfileSection() {
 
           {/* Role chips */}
           <div>
-            <label className="block text-xs font-bold uppercase tracking-[0.14em] text-[#6B655B] mb-2">Your Role</label>
+            <label className="block text-xs font-bold uppercase tracking-[0.14em] text-[#64748B] mb-2">Your Role</label>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
               {PROFILE_ROLES.map(r => (
                 <button
@@ -374,8 +374,8 @@ function ProfileSection() {
                   className={[
                     'px-3 py-2 rounded-xl text-xs font-semibold text-left transition-all border',
                     role === r
-                      ? 'bg-[#C8553A]/15 border-[#C8553A]/40 text-[#C8553A]'
-                      : 'bg-[#FBF8F2] border-[#15140F]/20 text-[#6B655B] hover:border-[#C8553A]/25 hover:text-[#15140F]',
+                      ? 'bg-[#111827]/15 border-[#111827]/40 text-[#111827]'
+                      : 'bg-[#FFFFFF] border-[#0F172A]/20 text-[#64748B] hover:border-[#111827]/25 hover:text-[#0F172A]',
                   ].join(' ')}
                 >
                   {r}
@@ -385,21 +385,21 @@ function ProfileSection() {
           </div>
 
           {error && (
-            <p className="text-xs text-[#A8362A] px-3 py-2 rounded-xl bg-[#A8362A]/10 border border-[#A8362A]/20">{error}</p>
+            <p className="text-xs text-[#DC2626] px-3 py-2 rounded-xl bg-[#DC2626]/10 border border-[#DC2626]/20">{error}</p>
           )}
 
           <div className="flex items-center gap-3 pt-1">
             <button
               onClick={() => { void handleSave(); }}
               disabled={saving || !name.trim()}
-              className="px-5 py-2 rounded-xl bg-[#C8553A] text-white font-bold text-xs hover:bg-[#A53F28] transition-all disabled:opacity-50 flex items-center gap-1.5"
+              className="px-5 py-2 rounded-xl bg-[#111827] text-white font-bold text-xs hover:bg-[#0B1220] transition-all disabled:opacity-50 flex items-center gap-1.5"
             >
               {saving
                 ? <><span className="material-symbols-outlined text-[12px] animate-spin">progress_activity</span> Saving…</>
                 : 'Save Changes'}
             </button>
             {saved && (
-              <span className="flex items-center gap-1.5 text-xs text-[#4F7A4A] font-medium">
+              <span className="flex items-center gap-1.5 text-xs text-[#047857] font-medium">
                 <span className="material-symbols-outlined" style={{ fontSize: 14 }}>check_circle</span>
                 Saved
               </span>
@@ -423,19 +423,19 @@ const BILLING_PLAN_INFO: Record<UserPlan, { label: string; price: string; color:
   starter: {
     label:    'Starter',
     price:    'Free',
-    color:    '#988d9c',
+    color:    '#94A3B8',
     features: ['1 social account', '10 scheduled posts/mo', '7-day analytics', 'Community support'],
   },
   pro: {
     label:    'Pro',
     price:    '$79/mo',
-    color:    '#C8553A',
+    color:    '#111827',
     features: ['10 accounts', 'Unlimited posts', 'AI best-time engine', 'Priority support (4h)'],
   },
   enterprise: {
     label:    'Enterprise',
     price:    '$149/mo',
-    color:    '#a78bfa',
+    color:    '#2563EB',
     features: ['Unlimited accounts', 'White-label PDF reports', 'API access', 'Dedicated CSM'],
   },
 };
@@ -461,11 +461,11 @@ function BillingSection() {
     return (
       <div className="space-y-6">
         <div>
-          <h2 className="text-2xl font-headline font-extrabold tracking-tight text-[#15140F]">Billing & Subscription</h2>
+          <h2 className="text-2xl font-headline font-extrabold tracking-tight text-[#0F172A]">Billing & Subscription</h2>
         </div>
-        <div className="glass-card rounded-2xl border border-[#15140F]/10 p-6 animate-pulse">
-          <div className="h-4 w-24 bg-[#E7E0D0] rounded-full mb-3" />
-          <div className="h-7 w-20 bg-[#E7E0D0] rounded-full" />
+        <div className="glass-card rounded-2xl border border-[#0F172A]/10 p-6 animate-pulse">
+          <div className="h-4 w-24 bg-[#E2E8F0] rounded-full mb-3" />
+          <div className="h-7 w-20 bg-[#E2E8F0] rounded-full" />
         </div>
       </div>
     );
@@ -476,22 +476,22 @@ function BillingSection() {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-2xl font-headline font-extrabold tracking-tight text-[#15140F]">Billing & Subscription</h2>
-        <p className="text-[#6B655B] text-sm mt-1 max-w-xl">Manage your plan and payment details.</p>
+        <h2 className="text-2xl font-headline font-extrabold tracking-tight text-[#0F172A]">Billing & Subscription</h2>
+        <p className="text-[#64748B] text-sm mt-1 max-w-xl">Manage your plan and payment details.</p>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {/* Current plan card */}
-        <div className="glass-card rounded-2xl border border-[#15140F]/10 p-6 relative overflow-hidden">
+        <div className="glass-card rounded-2xl border border-[#0F172A]/10 p-6 relative overflow-hidden">
           <div
             className="absolute top-0 right-0 w-40 h-40 blur-[70px] rounded-full pointer-events-none opacity-40"
             style={{ backgroundColor: `${info.color}33` }}
           />
           <div className="relative">
             <div className="flex items-start justify-between mb-4">
-              <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-[#C8553A]/10 border border-[#C8553A]/20">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#C8553A]" />
-                <span className="text-xs uppercase tracking-[0.14em] font-bold text-[#C8553A]">Current Plan</span>
+              <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-[#111827]/10 border border-[#111827]/20">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#111827]" />
+                <span className="text-xs uppercase tracking-[0.14em] font-bold text-[#111827]">Current Plan</span>
               </div>
               <span
                 className="px-2.5 py-1 rounded-lg border text-xs font-bold uppercase tracking-[0.12em]"
@@ -500,11 +500,11 @@ function BillingSection() {
                 Active
               </span>
             </div>
-            <h3 className="text-2xl font-extrabold text-[#15140F] mb-0.5">{info.label}</h3>
+            <h3 className="text-2xl font-extrabold text-[#0F172A] mb-0.5">{info.label}</h3>
             <p className="text-sm font-bold mb-5" style={{ color: info.color }}>{info.price}</p>
             <div className="space-y-2 mb-5">
               {info.features.map(f => (
-                <div key={f} className="flex items-center gap-2 text-xs text-[#3D3A30]">
+                <div key={f} className="flex items-center gap-2 text-xs text-[#334155]">
                   <span
                     className="material-symbols-outlined text-[13px]"
                     style={{ color: info.color, fontVariationSettings: "'FILL' 1" }}
@@ -528,15 +528,15 @@ function BillingSection() {
         </div>
 
         {/* Payment method */}
-        <div className="glass-card rounded-2xl border border-[#15140F]/10 p-6">
-          <p className="text-xs font-bold uppercase tracking-[0.14em] text-[#6B655B] mb-4">Payment Method</p>
+        <div className="glass-card rounded-2xl border border-[#0F172A]/10 p-6">
+          <p className="text-xs font-bold uppercase tracking-[0.14em] text-[#64748B] mb-4">Payment Method</p>
           {plan === 'starter' ? (
             <div className="flex flex-col items-center justify-center py-8 text-center gap-2">
-              <span className="material-symbols-outlined text-[#15140F]" style={{ fontSize: 28 }}>credit_card_off</span>
-              <p className="text-xs text-[#15140F] leading-relaxed">No payment required<br/>on the free plan.</p>
+              <span className="material-symbols-outlined text-[#0F172A]" style={{ fontSize: 28 }}>credit_card_off</span>
+              <p className="text-xs text-[#0F172A] leading-relaxed">No payment required<br/>on the free plan.</p>
               <button
                 onClick={() => setDialogOpen(true)}
-                className="mt-2 text-xs font-bold uppercase tracking-[0.12em] text-[#C8553A] hover:text-[#A53F28] transition-colors flex items-center gap-1"
+                className="mt-2 text-xs font-bold uppercase tracking-[0.12em] text-[#111827] hover:text-[#0B1220] transition-colors flex items-center gap-1"
               >
                 Upgrade now
                 <span className="material-symbols-outlined" style={{ fontSize: 13 }}>arrow_forward</span>
@@ -545,15 +545,15 @@ function BillingSection() {
           ) : (
             <>
               <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-7 rounded-md bg-[#FBF8F2] border border-[#15140F]/30 flex items-center justify-center">
-                  <span className="material-symbols-outlined text-[#C8553A]" style={{ fontSize: 16 }}>credit_card</span>
+                <div className="w-10 h-7 rounded-md bg-[#FFFFFF] border border-[#0F172A]/30 flex items-center justify-center">
+                  <span className="material-symbols-outlined text-[#111827]" style={{ fontSize: 16 }}>credit_card</span>
                 </div>
                 <div>
-                  <p className="text-sm font-bold text-[#15140F] font-mono">•••• •••• •••• 4242</p>
-                  <p className="text-xs text-[#6B655B]">Expires 08/27</p>
+                  <p className="text-sm font-bold text-[#0F172A] font-mono">•••• •••• •••• 4242</p>
+                  <p className="text-xs text-[#64748B]">Expires 08/27</p>
                 </div>
               </div>
-              <button className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-[0.12em] text-[#6B655B] hover:text-[#15140F] transition-colors">
+              <button className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-[0.12em] text-[#64748B] hover:text-[#0F172A] transition-colors">
                 <span className="material-symbols-outlined" style={{ fontSize: 13 }}>edit</span>
                 Update Card
               </button>
@@ -599,18 +599,18 @@ function WorkspacesSection() {
     <div className="space-y-6">
       <div className="flex items-start justify-between">
         <div>
-          <h2 className="text-2xl font-headline font-extrabold tracking-tight text-[#15140F]">Workspaces</h2>
-          <p className="text-[#6B655B] text-sm mt-1">Switch between workspaces or create a new one.</p>
+          <h2 className="text-2xl font-headline font-extrabold tracking-tight text-[#0F172A]">Workspaces</h2>
+          <p className="text-[#64748B] text-sm mt-1">Switch between workspaces or create a new one.</p>
         </div>
         {atLimit ? (
-          <div className="flex items-center gap-1.5 px-4 py-2 rounded-xl border border-[#15140F]/20 text-xs text-[#15140F] cursor-not-allowed select-none">
+          <div className="flex items-center gap-1.5 px-4 py-2 rounded-xl border border-[#0F172A]/20 text-xs text-[#0F172A] cursor-not-allowed select-none">
             <span className="material-symbols-outlined" style={{ fontSize: 14 }}>lock</span>
             Limit reached (5/5)
           </div>
         ) : (
           <button
             onClick={() => setShowForm(v => !v)}
-            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#C8553A]/10 border border-[#C8553A]/20 text-[#C8553A] text-xs font-bold hover:bg-[#C8553A]/20 transition-all"
+            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#111827]/10 border border-[#111827]/20 text-[#111827] text-xs font-bold hover:bg-[#111827]/20 transition-all"
           >
             <span className="material-symbols-outlined" style={{ fontSize: 15 }}>add</span>
             New Workspace
@@ -619,22 +619,22 @@ function WorkspacesSection() {
       </div>
 
       {showForm && (
-        <form onSubmit={handleCreate} className="glass-card rounded-2xl border border-[#C8553A]/20 p-5 flex gap-3">
+        <form onSubmit={handleCreate} className="glass-card rounded-2xl border border-[#111827]/20 p-5 flex gap-3">
           <input
             autoFocus
             value={newName}
             onChange={e => setNewName(e.target.value)}
             placeholder="Workspace name…"
-            className="flex-1 bg-[#FBF8F2] border border-[#15140F]/30 rounded-xl px-3.5 py-2.5 text-[#15140F] text-sm placeholder:text-[#15140F] focus:outline-none focus:border-[#C8553A]/50 transition-all"
+            className="flex-1 bg-[#FFFFFF] border border-[#0F172A]/30 rounded-xl px-3.5 py-2.5 text-[#0F172A] text-sm placeholder:text-[#0F172A] focus:outline-none focus:border-[#111827]/50 transition-all"
           />
           <button
             type="submit"
             disabled={!newName.trim()}
-            className="px-5 py-2 rounded-xl bg-[#C8553A] text-white font-bold text-xs disabled:opacity-40 hover:bg-[#A53F28] transition-all"
+            className="px-5 py-2 rounded-xl bg-[#111827] text-white font-bold text-xs disabled:opacity-40 hover:bg-[#0B1220] transition-all"
           >
             Create
           </button>
-          <button type="button" onClick={() => setShowForm(false)} className="px-3 py-2 rounded-xl border border-[#15140F]/20 text-xs text-[#6B655B] hover:text-[#15140F] transition-colors">
+          <button type="button" onClick={() => setShowForm(false)} className="px-3 py-2 rounded-xl border border-[#0F172A]/20 text-xs text-[#64748B] hover:text-[#0F172A] transition-colors">
             Cancel
           </button>
         </form>
@@ -644,35 +644,35 @@ function WorkspacesSection() {
         {workspaces.map(ws => {
           const isActive = ws.id === active?.id;
           return (
-            <div key={ws.id} className={`glass-card rounded-2xl border p-5 flex items-center justify-between gap-3 transition-all ${isActive ? 'border-[#C8553A]/30 bg-[#C8553A]/5' : 'border-[#15140F]/10'}`}>
+            <div key={ws.id} className={`glass-card rounded-2xl border p-5 flex items-center justify-between gap-3 transition-all ${isActive ? 'border-[#111827]/30 bg-[#111827]/5' : 'border-[#0F172A]/10'}`}>
               <div className="flex items-center gap-3 min-w-0">
-                <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${isActive ? 'bg-gradient-to-tr from-[#C8553A] to-[#257A70]' : 'bg-[#E7E0D0]'}`}>
-                  <span className="material-symbols-outlined text-[#15140F]" style={{ fontSize: 18 }}>workspaces</span>
+                <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${isActive ? 'bg-gradient-to-tr from-[#111827] to-[#257A70]' : 'bg-[#E2E8F0]'}`}>
+                  <span className="material-symbols-outlined text-[#0F172A]" style={{ fontSize: 18 }}>workspaces</span>
                 </div>
                 <div className="min-w-0">
-                  <p className="text-sm font-bold text-[#15140F] truncate">{ws.name}</p>
-                  <p className="text-xs text-[#6B655B] font-mono">
+                  <p className="text-sm font-bold text-[#0F172A] truncate">{ws.name}</p>
+                  <p className="text-xs text-[#64748B] font-mono">
                     Created {new Date(ws.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
                   </p>
                 </div>
               </div>
               <div className="flex items-center gap-2 shrink-0">
                 {isActive ? (
-                  <span className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-[0.12em] text-[#4F7A4A]">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#4F7A4A]" />
+                  <span className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-[0.12em] text-[#047857]">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#047857]" />
                     Active
                   </span>
                 ) : (
                   <button
                     onClick={() => switchWorkspace(ws.id)}
-                    className="px-3.5 py-1.5 rounded-xl border border-[#15140F]/20 text-xs text-[#6B655B] hover:text-[#15140F] hover:border-[#C8553A]/30 transition-all"
+                    className="px-3.5 py-1.5 rounded-xl border border-[#0F172A]/20 text-xs text-[#64748B] hover:text-[#0F172A] hover:border-[#111827]/30 transition-all"
                   >
                     Switch
                   </button>
                 )}
                 <button
                   onClick={() => setDeleteTarget(ws.id)}
-                  className="w-8 h-8 rounded-xl border border-[#15140F]/15 flex items-center justify-center text-[#6B655B] hover:text-[#A8362A] hover:border-[#A8362A]/30 hover:bg-[#A8362A]/5 transition-all"
+                  className="w-8 h-8 rounded-xl border border-[#0F172A]/15 flex items-center justify-center text-[#64748B] hover:text-[#DC2626] hover:border-[#DC2626]/30 hover:bg-[#DC2626]/5 transition-all"
                   title="Delete workspace"
                 >
                   <span className="material-symbols-outlined" style={{ fontSize: 16 }}>delete</span>
@@ -686,25 +686,25 @@ function WorkspacesSection() {
       {/* Delete confirmation modal */}
       <Modal open={!!deleteTarget} onClose={() => setDeleteTarget(null)} maxWidth="max-w-sm">
         <div className="p-8">
-          <div className="w-12 h-12 rounded-2xl bg-[#A8362A]/10 border border-[#A8362A]/20 flex items-center justify-center mb-5">
-            <span className="material-symbols-outlined text-[#A8362A]" style={{ fontSize: 22 }}>delete_forever</span>
+          <div className="w-12 h-12 rounded-2xl bg-[#DC2626]/10 border border-[#DC2626]/20 flex items-center justify-center mb-5">
+            <span className="material-symbols-outlined text-[#DC2626]" style={{ fontSize: 22 }}>delete_forever</span>
           </div>
-          <h2 className="text-xl font-headline font-extrabold tracking-tight text-[#15140F] mb-1">Delete workspace?</h2>
-          <p className="text-sm text-[#6B655B] mb-1">
+          <h2 className="text-xl font-headline font-extrabold tracking-tight text-[#0F172A] mb-1">Delete workspace?</h2>
+          <p className="text-sm text-[#64748B] mb-1">
             You're about to permanently delete{' '}
-            <span className="text-[#15140F] font-semibold">"{targetName}"</span>.
+            <span className="text-[#0F172A] font-semibold">"{targetName}"</span>.
           </p>
-          <p className="text-xs text-[#6B655B]/70 mb-7">This action cannot be undone.</p>
+          <p className="text-xs text-[#64748B]/70 mb-7">This action cannot be undone.</p>
           <div className="flex flex-col gap-2.5">
             <button
               onClick={confirmDelete}
-              className="w-full py-3 rounded-xl bg-[#A8362A] text-white font-bold text-sm hover:bg-[#8a2820] transition-all"
+              className="w-full py-3 rounded-xl bg-[#DC2626] text-white font-bold text-sm hover:bg-[#8a2820] transition-all"
             >
               Yes, delete it
             </button>
             <button
               onClick={() => setDeleteTarget(null)}
-              className="w-full py-3 rounded-xl border border-[#15140F]/20 text-sm font-semibold text-[#3D3A30] hover:bg-[#EFE9DC] hover:text-[#15140F] transition-all"
+              className="w-full py-3 rounded-xl border border-[#0F172A]/20 text-sm font-semibold text-[#334155] hover:bg-[#F1F5F9] hover:text-[#0F172A] transition-all"
             >
               Cancel
             </button>
@@ -720,12 +720,12 @@ function StubSection({ title, description, icon }: { title: string; description:
   return (
     <div className="space-y-4">
       <div>
-        <h2 className="text-2xl font-headline font-extrabold tracking-tight text-[#15140F]">{title}</h2>
-        <p className="text-[#6B655B] text-sm mt-1">{description}</p>
+        <h2 className="text-2xl font-headline font-extrabold tracking-tight text-[#0F172A]">{title}</h2>
+        <p className="text-[#64748B] text-sm mt-1">{description}</p>
       </div>
-      <div className="glass-card rounded-2xl border border-[#15140F]/10 p-12 flex flex-col items-center justify-center text-center gap-4">
-        <span className="material-symbols-outlined text-[#15140F]" style={{ fontSize: 40 }}>{icon}</span>
-        <p className="text-[#15140F] text-sm font-mono">Coming soon</p>
+      <div className="glass-card rounded-2xl border border-[#0F172A]/10 p-12 flex flex-col items-center justify-center text-center gap-4">
+        <span className="material-symbols-outlined text-[#0F172A]" style={{ fontSize: 40 }}>{icon}</span>
+        <p className="text-[#0F172A] text-sm font-mono">Coming soon</p>
       </div>
     </div>
   );
@@ -758,7 +758,7 @@ export default function Settings() {
       <div className="flex min-h-[calc(100vh-60px)]">
 
         {/* Settings left nav */}
-        <aside className="w-52 shrink-0 border-r border-[#15140F]/10 py-6 px-3 hidden md:flex flex-col gap-1">
+        <aside className="w-52 shrink-0 border-r border-[#0F172A]/10 py-6 px-3 hidden md:flex flex-col gap-1">
           {NAV.map(({ id, icon, label }) => (
             <button
               key={id}
@@ -766,8 +766,8 @@ export default function Settings() {
               className={[
                 'flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-headline tracking-tight transition-all text-left',
                 section === id
-                  ? 'text-[#C8553A] bg-[#C8553A]/10 font-semibold'
-                  : 'text-[#6B655B] hover:text-[#15140F] hover:bg-[#EFE9DC]',
+                  ? 'text-[#111827] bg-[#111827]/10 font-semibold'
+                  : 'text-[#64748B] hover:text-[#0F172A] hover:bg-[#F1F5F9]',
               ].join(' ')}
             >
               <span

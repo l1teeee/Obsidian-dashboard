@@ -1,4 +1,4 @@
-﻿import { useState } from 'react';
+import { useState } from 'react';
 import Modal from '../shared/Modal';
 import type { SocialConnection } from '../../types/platforms.types';
 
@@ -30,12 +30,12 @@ export default function FacebookPageSelectModal({ open, pages, onSelect, onClose
             </svg>
           </div>
           <div>
-            <h2 className="text-base font-bold text-[#15140F] leading-none">Select Facebook Page</h2>
-            <p className="text-[11px] text-[#6B655B] mt-0.5">Choose which page to publish this post to</p>
+            <h2 className="text-base font-bold text-[#0F172A] leading-none">Select Facebook Page</h2>
+            <p className="text-[11px] text-[#64748B] mt-0.5">Choose which page to publish this post to</p>
           </div>
         </div>
 
-        <div className="my-5 h-px bg-[#15140F]/20" />
+        <div className="my-5 h-px bg-[#0F172A]/20" />
 
         {/* Pages list */}
         <div className="space-y-2.5 mb-6">
@@ -49,7 +49,7 @@ export default function FacebookPageSelectModal({ open, pages, onSelect, onClose
                   'w-full flex items-center gap-3 p-3.5 rounded-2xl border transition-all text-left',
                   isSelected
                     ? 'border-[#1877F2]/50 bg-[#1877F2]/8'
-                    : 'border-[#15140F]/20 bg-[#FBF8F2] hover:border-[#15140F]/40',
+                    : 'border-[#0F172A]/20 bg-[#FFFFFF] hover:border-[#0F172A]/40',
                 ].join(' ')}
               >
                 {/* Avatar */}
@@ -60,21 +60,21 @@ export default function FacebookPageSelectModal({ open, pages, onSelect, onClose
                     className="w-10 h-10 rounded-full object-cover shrink-0"
                   />
                 ) : (
-                  <div className="w-10 h-10 rounded-full bg-[#1877F2] flex items-center justify-center shrink-0 text-[#15140F] text-sm font-bold">
+                  <div className="w-10 h-10 rounded-full bg-[#1877F2] flex items-center justify-center shrink-0 text-[#0F172A] text-sm font-bold">
                     {(page.page_name?.[0] ?? page.account_name?.[0] ?? 'F').toUpperCase()}
                   </div>
                 )}
 
                 {/* Info */}
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-semibold text-[#15140F] truncate leading-none mb-1">
+                  <p className="text-sm font-semibold text-[#0F172A] truncate leading-none mb-1">
                     {page.page_name || page.account_name}
                   </p>
                   {page.page_name && page.account_name && page.page_name !== page.account_name && (
-                    <p className="text-[10px] text-[#6B655B] truncate leading-none">{page.account_name}</p>
+                    <p className="text-[10px] text-[#64748B] truncate leading-none">{page.account_name}</p>
                   )}
                   {page.page_id && (
-                    <p className="font-mono text-[9px] text-[#15140F] mt-0.5">ID: {page.page_id}</p>
+                    <p className="font-mono text-[9px] text-[#0F172A] mt-0.5">ID: {page.page_id}</p>
                   )}
                 </div>
 
@@ -82,7 +82,7 @@ export default function FacebookPageSelectModal({ open, pages, onSelect, onClose
                 <div
                   className={[
                     'w-4 h-4 rounded-full border-2 shrink-0 flex items-center justify-center transition-all',
-                    isSelected ? 'border-[#1877F2]' : 'border-[#15140F]/40',
+                    isSelected ? 'border-[#1877F2]' : 'border-[#0F172A]/40',
                   ].join(' ')}
                 >
                   {isSelected && (
@@ -98,14 +98,14 @@ export default function FacebookPageSelectModal({ open, pages, onSelect, onClose
         <div className="flex gap-3">
           <button
             onClick={onClose}
-            className="flex-1 py-2.5 rounded-xl border border-[#15140F]/30 text-sm text-[#6B655B] hover:text-[#15140F] transition-colors"
+            className="flex-1 py-2.5 rounded-xl border border-[#0F172A]/30 text-sm text-[#64748B] hover:text-[#0F172A] transition-colors"
           >
             Cancel
           </button>
           <button
             onClick={handleConfirm}
             disabled={!selectedId}
-            className="flex-1 py-2.5 rounded-xl bg-[#1877F2] text-[#15140F] text-sm font-semibold hover:bg-[#1877F2]/90 transition-all active:scale-[0.98] disabled:opacity-50 truncate px-3"
+            className="flex-1 py-2.5 rounded-xl bg-[#1877F2] text-[#0F172A] text-sm font-semibold hover:bg-[#1877F2]/90 transition-all active:scale-[0.98] disabled:opacity-50 truncate px-3"
           >
             Publish to {selectedPage?.page_name || selectedPage?.account_name || 'Page'}
           </button>

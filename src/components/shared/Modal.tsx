@@ -1,4 +1,4 @@
-﻿import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 
 interface ModalProps {
@@ -68,7 +68,7 @@ export default function Modal({ open, onClose, children, maxWidth = 'max-w-lg' }
       />
       <div
         ref={panelRef}
-        className={`relative z-10 w-full ${maxWidth} bg-[#FBF8F2] rounded-3xl border border-border shadow-2xl shadow-black/20`}
+        className={`relative z-10 w-full ${maxWidth} bg-[#FFFFFF] rounded-3xl border border-border shadow-2xl shadow-black/20`}
       >
         {children}
       </div>

@@ -1,4 +1,4 @@
-﻿import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { sileo } from 'sileo';
 import {
   getRoles, createRole, updateRole, deleteRole,
@@ -9,7 +9,7 @@ import type { CustomRole, RoleUser, SystemPermission } from '../../types/admin.t
 import { getPermissions } from '../../services/admin.service';
 import Modal from '../../components/shared/Modal';
 
-const PRESET_COLORS = ['#6366f1', '#f87171', '#34d399', '#fbbf24', '#60a5fa', '#a78bfa', '#f472b6', '#2dd4bf'];
+const PRESET_COLORS = ['#6366f1', '#f87171', '#34d399', '#fbbf24', '#60a5fa', '#2563EB', '#f472b6', '#2dd4bf'];
 
 function groupByCategory(perms: SystemPermission[]): [string, SystemPermission[]][] {
   const map = new Map<string, SystemPermission[]>();
@@ -165,12 +165,12 @@ export default function AdminRoles() {
   const showPanel = isCreating || selectedId !== null;
 
   return (
-    <div className="min-h-screen bg-[#F6F2EA] p-6 lg:p-8">
+    <div className="min-h-screen bg-[#F8FAFC] p-6 lg:p-8">
       {/* Header */}
       <div className="mb-6 flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-headline font-extrabold text-[#15140F] tracking-tight mb-1">Custom Roles</h1>
-          <p className="text-sm text-[#6B655B]">Create roles with specific permissions and assign them to users.</p>
+          <h1 className="text-2xl font-headline font-extrabold text-[#0F172A] tracking-tight mb-1">Custom Roles</h1>
+          <p className="text-sm text-[#64748B]">Create roles with specific permissions and assign them to users.</p>
         </div>
         <button
           onClick={startCreate}
@@ -183,17 +183,17 @@ export default function AdminRoles() {
 
       {loading ? (
         <div className="flex items-center justify-center h-64">
-          <span className="material-symbols-outlined text-[#15140F] animate-spin" style={{ fontSize: 28 }}>progress_activity</span>
+          <span className="material-symbols-outlined text-[#0F172A] animate-spin" style={{ fontSize: 28 }}>progress_activity</span>
         </div>
       ) : (
         <div className="flex gap-5 items-start">
           {/* Left: role list */}
           <div className="w-64 shrink-0 flex flex-col gap-2">
             {roles.length === 0 && !isCreating && (
-              <div className="rounded-2xl border border-[#15140F]/15 bg-[#F6F2EA] p-5 text-center">
-                <span className="material-symbols-outlined text-[#15140F] block mb-2" style={{ fontSize: 28 }}>badge</span>
-                <p className="text-sm text-[#15140F]">No roles yet.</p>
-                <p className="text-xs text-[#15140F]/60 mt-1">Click "New Role" to create one.</p>
+              <div className="rounded-2xl border border-[#0F172A]/15 bg-[#F8FAFC] p-5 text-center">
+                <span className="material-symbols-outlined text-[#0F172A] block mb-2" style={{ fontSize: 28 }}>badge</span>
+                <p className="text-sm text-[#0F172A]">No roles yet.</p>
+                <p className="text-xs text-[#0F172A]/60 mt-1">Click "New Role" to create one.</p>
               </div>
             )}
             {roles.map(role => {
@@ -206,16 +206,16 @@ export default function AdminRoles() {
                     'w-full text-left rounded-xl border px-4 py-3 transition-all',
                     active
                       ? 'border-[#f87171]/25 bg-[#f87171]/08'
-                      : 'border-[#15140F]/15 bg-[#F6F2EA] hover:border-[#15140F]/30 hover:bg-white/[0.02]',
+                      : 'border-[#0F172A]/15 bg-[#F8FAFC] hover:border-[#0F172A]/30 hover:bg-white/[0.02]',
                   ].join(' ')}
                 >
                   <div className="flex items-center gap-2.5 mb-1">
                     <span className="w-2.5 h-2.5 rounded-full shrink-0" style={{ backgroundColor: role.color ?? '#6366f1' }} />
-                    <span className="text-sm font-semibold text-[#15140F] truncate">{role.name}</span>
+                    <span className="text-sm font-semibold text-[#0F172A] truncate">{role.name}</span>
                   </div>
                   <div className="flex items-center justify-between pl-5">
-                    <span className="text-xs text-[#15140F] truncate">{role.description ?? 'No description'}</span>
-                    <span className="text-xs text-[#6B655B] shrink-0 ml-2">{role.user_count} users</span>
+                    <span className="text-xs text-[#0F172A] truncate">{role.description ?? 'No description'}</span>
+                    <span className="text-xs text-[#64748B] shrink-0 ml-2">{role.user_count} users</span>
                   </div>
                 </button>
               );
@@ -224,15 +224,15 @@ export default function AdminRoles() {
 
           {/* Right: editor panel */}
           {!showPanel ? (
-            <div className="flex-1 rounded-2xl border border-[#15140F]/10 bg-[#F6F2EA] flex flex-col items-center justify-center h-64">
+            <div className="flex-1 rounded-2xl border border-[#0F172A]/10 bg-[#F8FAFC] flex flex-col items-center justify-center h-64">
               <span className="material-symbols-outlined text-[#2a2a2a] mb-3" style={{ fontSize: 40 }}>manage_accounts</span>
-              <p className="text-sm text-[#15140F]">Select a role to edit or create a new one.</p>
+              <p className="text-sm text-[#0F172A]">Select a role to edit or create a new one.</p>
             </div>
           ) : (
-            <div className="flex-1 rounded-2xl border border-[#15140F]/15 bg-[#F6F2EA] overflow-hidden">
+            <div className="flex-1 rounded-2xl border border-[#0F172A]/15 bg-[#F8FAFC] overflow-hidden">
               {/* Panel header */}
-              <div className="flex items-center justify-between px-6 py-4 border-b border-[#15140F]/15">
-                <h2 className="text-base font-headline font-bold text-[#15140F]">
+              <div className="flex items-center justify-between px-6 py-4 border-b border-[#0F172A]/15">
+                <h2 className="text-base font-headline font-bold text-[#0F172A]">
                   {isCreating ? 'Create Role' : 'Edit Role'}
                 </h2>
                 {!isCreating && (
@@ -250,28 +250,28 @@ export default function AdminRoles() {
                 {/* Name + Description */}
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs font-semibold text-[#6B655B] mb-2 uppercase tracking-wider">Name</label>
+                    <label className="block text-xs font-semibold text-[#64748B] mb-2 uppercase tracking-wider">Name</label>
                     <input
                       value={form.name}
                       onChange={e => setForm(p => ({ ...p, name: e.target.value }))}
                       placeholder="e.g. Content Manager"
-                      className="w-full bg-[#111] border border-[#15140F]/20 rounded-xl px-3.5 py-2.5 text-sm text-[#15140F] placeholder-[#15140F] focus:outline-none focus:border-[#f87171]/40 transition-colors"
+                      className="w-full bg-[#111] border border-[#0F172A]/20 rounded-xl px-3.5 py-2.5 text-sm text-[#0F172A] placeholder-[#0F172A] focus:outline-none focus:border-[#f87171]/40 transition-colors"
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold text-[#6B655B] mb-2 uppercase tracking-wider">Description</label>
+                    <label className="block text-xs font-semibold text-[#64748B] mb-2 uppercase tracking-wider">Description</label>
                     <input
                       value={form.description}
                       onChange={e => setForm(p => ({ ...p, description: e.target.value }))}
                       placeholder="Optional description"
-                      className="w-full bg-[#111] border border-[#15140F]/20 rounded-xl px-3.5 py-2.5 text-sm text-[#15140F] placeholder-[#15140F] focus:outline-none focus:border-[#f87171]/40 transition-colors"
+                      className="w-full bg-[#111] border border-[#0F172A]/20 rounded-xl px-3.5 py-2.5 text-sm text-[#0F172A] placeholder-[#0F172A] focus:outline-none focus:border-[#f87171]/40 transition-colors"
                     />
                   </div>
                 </div>
 
                 {/* Color */}
                 <div>
-                  <label className="block text-xs font-semibold text-[#6B655B] mb-2 uppercase tracking-wider">Color</label>
+                  <label className="block text-xs font-semibold text-[#64748B] mb-2 uppercase tracking-wider">Color</label>
                   <div className="flex items-center gap-2">
                     {PRESET_COLORS.map(c => (
                       <button
@@ -290,12 +290,12 @@ export default function AdminRoles() {
 
                 {/* Permissions */}
                 <div>
-                  <label className="block text-xs font-semibold text-[#6B655B] mb-3 uppercase tracking-wider">Permissions</label>
+                  <label className="block text-xs font-semibold text-[#64748B] mb-3 uppercase tracking-wider">Permissions</label>
                   <div className="space-y-3">
                     {groups.map(([category, perms]) => (
-                      <div key={category} className="rounded-xl border border-[#15140F]/12 overflow-hidden">
+                      <div key={category} className="rounded-xl border border-[#0F172A]/12 overflow-hidden">
                         <div className="px-4 py-2 bg-[#111]/50 flex items-center justify-between">
-                          <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#15140F]">{category}</span>
+                          <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#0F172A]">{category}</span>
                           <button
                             onClick={() => {
                               const keys = perms.map(p => p.key);
@@ -307,12 +307,12 @@ export default function AdminRoles() {
                                   : [...new Set([...prev.permissions, ...keys])],
                               }));
                             }}
-                            className="text-[10px] text-[#15140F] hover:text-[#6B655B] transition-colors"
+                            className="text-[10px] text-[#0F172A] hover:text-[#64748B] transition-colors"
                           >
                             {perms.every(p => form.permissions.includes(p.key)) ? 'Uncheck all' : 'Check all'}
                           </button>
                         </div>
-                        <div className="divide-y divide-[#15140F]/08">
+                        <div className="divide-y divide-[#0F172A]/08">
                           {perms.map(perm => {
                             const checked = form.permissions.includes(perm.key);
                             return (
@@ -326,13 +326,13 @@ export default function AdminRoles() {
                                     'w-4 h-4 rounded border flex items-center justify-center shrink-0 transition-all cursor-pointer',
                                     checked
                                       ? 'bg-[#f87171]/20 border-[#f87171]/50'
-                                      : 'border-[#15140F]/30 hover:border-[#15140F]/60',
+                                      : 'border-[#0F172A]/30 hover:border-[#0F172A]/60',
                                   ].join(' ')}
                                 >
                                   {checked && <span className="material-symbols-outlined text-[#f87171]" style={{ fontSize: 11, fontVariationSettings: "'FILL' 1" }}>check</span>}
                                 </span>
-                                <span className="text-sm text-[#3D3A30]">{perm.name}</span>
-                                <span className="text-xs text-[#15140F] ml-auto font-mono">{perm.key}</span>
+                                <span className="text-sm text-[#334155]">{perm.name}</span>
+                                <span className="text-xs text-[#0F172A] ml-auto font-mono">{perm.key}</span>
                               </label>
                             );
                           })}
@@ -345,9 +345,9 @@ export default function AdminRoles() {
                 {/* Assigned users (only in edit mode) */}
                 {!isCreating && selectedId && (
                   <div>
-                    <label className="block text-xs font-semibold text-[#6B655B] mb-3 uppercase tracking-wider">
+                    <label className="block text-xs font-semibold text-[#64748B] mb-3 uppercase tracking-wider">
                       Assigned Users
-                      {roleUsers.length > 0 && <span className="ml-2 text-[#15140F]">({roleUsers.length})</span>}
+                      {roleUsers.length > 0 && <span className="ml-2 text-[#0F172A]">({roleUsers.length})</span>}
                     </label>
 
                     {/* Search */}
@@ -359,27 +359,27 @@ export default function AdminRoles() {
                           void searchUsers(e.target.value);
                         }}
                         placeholder="Search users by name or email..."
-                        className="w-full bg-[#111] border border-[#15140F]/20 rounded-xl pl-9 pr-3.5 py-2.5 text-sm text-[#15140F] placeholder-[#15140F] focus:outline-none focus:border-[#f87171]/40 transition-colors"
+                        className="w-full bg-[#111] border border-[#0F172A]/20 rounded-xl pl-9 pr-3.5 py-2.5 text-sm text-[#0F172A] placeholder-[#0F172A] focus:outline-none focus:border-[#f87171]/40 transition-colors"
                       />
-                      <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[#15140F]" style={{ fontSize: 16 }}>
+                      <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[#0F172A]" style={{ fontSize: 16 }}>
                         {searching ? 'progress_activity' : 'search'}
                       </span>
                       {searchResults.length > 0 && (
-                        <div className="absolute top-full mt-1.5 left-0 right-0 bg-[#161616] border border-[#15140F]/20 rounded-xl shadow-2xl z-20 overflow-hidden">
+                        <div className="absolute top-full mt-1.5 left-0 right-0 bg-[#161616] border border-[#0F172A]/20 rounded-xl shadow-2xl z-20 overflow-hidden">
                           {searchResults.map(u => (
                             <button
                               key={u.id}
                               onClick={() => { void assignUser(u); }}
-                              className="w-full text-left flex items-center gap-3 px-4 py-3 hover:bg-white/[0.04] transition-colors border-b border-[#15140F]/10 last:border-0"
+                              className="w-full text-left flex items-center gap-3 px-4 py-3 hover:bg-white/[0.04] transition-colors border-b border-[#0F172A]/10 last:border-0"
                             >
-                              <div className="w-7 h-7 rounded-full bg-[#15140F]/20 flex items-center justify-center shrink-0">
-                                <span className="text-xs font-bold text-[#6B655B]">{(u.name ?? u.email)[0].toUpperCase()}</span>
+                              <div className="w-7 h-7 rounded-full bg-[#0F172A]/20 flex items-center justify-center shrink-0">
+                                <span className="text-xs font-bold text-[#64748B]">{(u.name ?? u.email)[0].toUpperCase()}</span>
                               </div>
                               <div className="min-w-0">
-                                <p className="text-sm text-[#15140F] truncate">{u.name ?? u.email}</p>
-                                {u.name && <p className="text-xs text-[#15140F] truncate">{u.email}</p>}
+                                <p className="text-sm text-[#0F172A] truncate">{u.name ?? u.email}</p>
+                                {u.name && <p className="text-xs text-[#0F172A] truncate">{u.email}</p>}
                               </div>
-                              <span className="material-symbols-outlined text-[#15140F] ml-auto shrink-0" style={{ fontSize: 16 }}>person_add</span>
+                              <span className="material-symbols-outlined text-[#0F172A] ml-auto shrink-0" style={{ fontSize: 16 }}>person_add</span>
                             </button>
                           ))}
                         </div>
@@ -389,33 +389,33 @@ export default function AdminRoles() {
                     {/* User list */}
                     {loadingUsers ? (
                       <div className="h-10 flex items-center justify-center">
-                        <span className="material-symbols-outlined text-[#15140F] animate-spin" style={{ fontSize: 20 }}>progress_activity</span>
+                        <span className="material-symbols-outlined text-[#0F172A] animate-spin" style={{ fontSize: 20 }}>progress_activity</span>
                       </div>
                     ) : roleUsers.length === 0 ? (
-                      <p className="text-sm text-[#15140F] text-center py-4">No users assigned yet.</p>
+                      <p className="text-sm text-[#0F172A] text-center py-4">No users assigned yet.</p>
                     ) : (
                       <div className="space-y-1.5">
                         {roleUsers.map(u => (
                           <div
                             key={u.id}
-                            className="flex items-center gap-3 px-4 py-2.5 rounded-xl bg-[#111] border border-[#15140F]/12"
+                            className="flex items-center gap-3 px-4 py-2.5 rounded-xl bg-[#111] border border-[#0F172A]/12"
                           >
-                            <div className="w-7 h-7 rounded-full bg-[#15140F]/20 flex items-center justify-center shrink-0">
-                              <span className="text-xs font-bold text-[#6B655B]">{(u.name ?? u.email)[0].toUpperCase()}</span>
+                            <div className="w-7 h-7 rounded-full bg-[#0F172A]/20 flex items-center justify-center shrink-0">
+                              <span className="text-xs font-bold text-[#64748B]">{(u.name ?? u.email)[0].toUpperCase()}</span>
                             </div>
                             <div className="min-w-0 flex-1">
-                              <p className="text-sm text-[#15140F] truncate">{u.name ?? u.email}</p>
-                              {u.name && <p className="text-xs text-[#15140F] truncate">{u.email}</p>}
+                              <p className="text-sm text-[#0F172A] truncate">{u.name ?? u.email}</p>
+                              {u.name && <p className="text-xs text-[#0F172A] truncate">{u.email}</p>}
                             </div>
                             <span className={[
                               'text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md',
-                              u.plan === 'pro' ? 'bg-[#a78bfa]/15 text-[#a78bfa]' :
+                              u.plan === 'pro' ? 'bg-[#2563EB]/15 text-[#2563EB]' :
                               u.plan === 'enterprise' ? 'bg-[#f87171]/15 text-[#f87171]' :
-                              'bg-[#15140F]/20 text-[#6B655B]',
+                              'bg-[#0F172A]/20 text-[#64748B]',
                             ].join(' ')}>{u.plan || 'starter'}</span>
                             <button
                               onClick={() => { void unassignUser(u.id); }}
-                              className="text-[#15140F] hover:text-[#f87171] transition-colors ml-1"
+                              className="text-[#0F172A] hover:text-[#f87171] transition-colors ml-1"
                             >
                               <span className="material-symbols-outlined" style={{ fontSize: 16 }}>close</span>
                             </button>
@@ -431,7 +431,7 @@ export default function AdminRoles() {
                   <button
                     onClick={() => { void handleSave(); }}
                     disabled={saving}
-                    className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#f87171] text-[#15140F] text-sm font-bold hover:bg-[#fca5a5] disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                    className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#f87171] text-[#0F172A] text-sm font-bold hover:bg-[#fca5a5] disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                   >
                     {saving && <span className="material-symbols-outlined animate-spin" style={{ fontSize: 16 }}>progress_activity</span>}
                     {isCreating ? 'Create Role' : 'Save Changes'}
@@ -449,15 +449,15 @@ export default function AdminRoles() {
           <div className="w-11 h-11 rounded-2xl bg-[#f87171]/10 border border-[#f87171]/20 flex items-center justify-center mb-5">
             <span className="material-symbols-outlined text-[#f87171]" style={{ fontSize: 20 }}>delete</span>
           </div>
-          <h2 className="text-lg font-headline font-extrabold text-[#15140F] mb-1">Delete Role?</h2>
-          <p className="text-sm text-[#6B655B] mb-6">
-            This will delete <strong className="text-[#15140F]">{selectedRole?.name}</strong> and remove it from all assigned users. This cannot be undone.
+          <h2 className="text-lg font-headline font-extrabold text-[#0F172A] mb-1">Delete Role?</h2>
+          <p className="text-sm text-[#64748B] mb-6">
+            This will delete <strong className="text-[#0F172A]">{selectedRole?.name}</strong> and remove it from all assigned users. This cannot be undone.
           </p>
           <div className="flex flex-col gap-2.5">
-            <button onClick={() => { void handleDelete(); }} className="w-full py-3 rounded-xl bg-[#f87171] text-[#15140F] font-bold text-sm hover:bg-[#fca5a5] transition-all">
+            <button onClick={() => { void handleDelete(); }} className="w-full py-3 rounded-xl bg-[#f87171] text-[#0F172A] font-bold text-sm hover:bg-[#fca5a5] transition-all">
               Yes, delete role
             </button>
-            <button onClick={() => setDeleteModal(false)} className="w-full py-3 rounded-xl border border-[#15140F]/20 text-sm font-semibold text-[#3D3A30] hover:bg-[#EFE9DC] hover:text-[#15140F] transition-all">
+            <button onClick={() => setDeleteModal(false)} className="w-full py-3 rounded-xl border border-[#0F172A]/20 text-sm font-semibold text-[#334155] hover:bg-[#F1F5F9] hover:text-[#0F172A] transition-all">
               Cancel
             </button>
           </div>

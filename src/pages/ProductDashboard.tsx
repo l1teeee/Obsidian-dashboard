@@ -1,4 +1,4 @@
-﻿import { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useSEO } from '../hooks/useSEO';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
@@ -96,18 +96,18 @@ export default function ProductDashboard() {
             <HeroBadge className="mb-5">
               For teams who keep work in view
             </HeroBadge>
-            <h1 className="mt-5 text-[clamp(36px,5vw,60px)] font-medium leading-[1.08] tracking-[-0.035em] text-[#15140F]">
+            <h1 className="mt-5 text-[clamp(36px,5vw,60px)] font-medium leading-[1.08] tracking-[-0.035em] text-[#0F172A]">
               Your social media,<br />
-              <span className="text-[#C8553A]">finally under control.</span>
+              <span className="text-[#111827]">finally under control.</span>
             </h1>
-            <p className="mt-6 text-[15px] leading-[1.65] text-[#6B655B] max-w-xl mx-auto">
+            <p className="mt-6 text-[15px] leading-[1.65] text-[#64748B] max-w-xl mx-auto">
               One dashboard to see every metric, manage every post, and act on every insight — across all your platforms.
             </p>
             <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
-              <button onClick={() => navigate('/register')} className="inline-flex items-center justify-center rounded-xl bg-[#C8553A] px-7 py-3 text-[14px] font-medium text-white hover:bg-[#A53F28] transition-all duration-200 active:scale-[0.98]">
+              <button onClick={() => navigate('/register')} className="inline-flex items-center justify-center rounded-xl bg-[#111827] px-7 py-3 text-[14px] font-medium text-white hover:bg-[#0B1220] transition-all duration-200 active:scale-[0.98]">
                 Start for free
               </button>
-              <button onClick={() => navigate('/pricing')} className="inline-flex items-center justify-center rounded-xl border border-[#D8D2C4] px-7 py-3 text-[14px] font-medium text-[#3D3A30] hover:border-[#C8553A]/30 hover:bg-[#EFE9DC] transition-all duration-200">
+              <button onClick={() => navigate('/pricing')} className="inline-flex items-center justify-center rounded-xl border border-[#CBD5E1] px-7 py-3 text-[14px] font-medium text-[#334155] hover:border-[#111827]/30 hover:bg-[#F1F5F9] transition-all duration-200">
                 See pricing
               </button>
             </div>
@@ -125,22 +125,22 @@ export default function ProductDashboard() {
               style={{ opacity: 0 }}
               className={`${card.span} rounded-2xl border p-7 flex flex-col gap-4 ${
                 card.accent
-                  ? 'border-[#C8553A]/20 bg-[#EFE9DC]'
-                  : 'border-[rgba(21,20,15,0.10)] bg-[#FBF8F2]'
+                  ? 'border-[#111827]/20 bg-[#F1F5F9]'
+                  : 'border-[rgba(15,23,42,0.10)] bg-[#FFFFFF]'
               }`}
             >
-              <div className="w-11 h-11 rounded-2xl bg-[#C8553A]/10 border border-[#C8553A]/15 flex items-center justify-center shrink-0">
-                <span className="material-symbols-outlined text-[#C8553A]" style={{ fontSize: 20, fontVariationSettings: "'FILL' 1" }}>
+              <div className="w-11 h-11 rounded-2xl bg-[#111827]/10 border border-[#111827]/15 flex items-center justify-center shrink-0">
+                <span className="material-symbols-outlined text-[#111827]" style={{ fontSize: 20, fontVariationSettings: "'FILL' 1" }}>
                   {card.icon}
                 </span>
               </div>
               <div className="flex-1">
-                <h3 className="text-base font-bold text-[#15140F] mb-1">{card.title}</h3>
-                <p className="text-sm text-[#6B655B] leading-relaxed">{card.desc}</p>
+                <h3 className="text-base font-bold text-[#0F172A] mb-1">{card.title}</h3>
+                <p className="text-sm text-[#64748B] leading-relaxed">{card.desc}</p>
               </div>
-              <div className="pt-3 border-t border-[rgba(21,20,15,0.08)]">
-                <span className="text-2xl font-semibold text-[#15140F] tracking-tight">{card.stat}</span>
-                <span className="ml-2 text-xs text-[#3D3A30]">{card.statLabel}</span>
+              <div className="pt-3 border-t border-[rgba(15,23,42,0.08)]">
+                <span className="text-2xl font-semibold text-[#0F172A] tracking-tight">{card.stat}</span>
+                <span className="ml-2 text-xs text-[#334155]">{card.statLabel}</span>
               </div>
             </div>
           ))}
@@ -150,15 +150,15 @@ export default function ProductDashboard() {
       {/* How it works */}
       <section className="py-20 mx-auto max-w-5xl px-6">
         <div className="text-center mb-14">
-          <span className="text-[0.68rem] font-bold uppercase tracking-[0.22em] text-[#C8553A]">How it works</span>
-          <h2 className="mt-3 text-[clamp(28px,4vw,44px)] font-medium tracking-[-0.03em] text-[#15140F]">Up and running in minutes</h2>
+          <span className="text-[0.68rem] font-bold uppercase tracking-[0.22em] text-[#111827]">How it works</span>
+          <h2 className="mt-3 text-[clamp(28px,4vw,44px)] font-medium tracking-[-0.03em] text-[#0F172A]">Up and running in minutes</h2>
         </div>
         <div ref={stepsRef} className="grid md:grid-cols-3 gap-6">
           {STEPS.map((s) => (
-            <div key={s.n} data-step style={{ opacity: 0 }} className="rounded-2xl border border-[rgba(21,20,15,0.10)] bg-[#FBF8F2] p-8">
-              <span className="text-5xl font-semibold text-[#C8553A]/20 leading-none block mb-4">{s.n}</span>
-              <h3 className="text-base font-bold text-[#15140F] mb-2">{s.title}</h3>
-              <p className="text-sm text-[#6B655B] leading-relaxed">{s.body}</p>
+            <div key={s.n} data-step style={{ opacity: 0 }} className="rounded-2xl border border-[rgba(15,23,42,0.10)] bg-[#FFFFFF] p-8">
+              <span className="text-5xl font-semibold text-[#111827]/20 leading-none block mb-4">{s.n}</span>
+              <h3 className="text-base font-bold text-[#0F172A] mb-2">{s.title}</h3>
+              <p className="text-sm text-[#64748B] leading-relaxed">{s.body}</p>
             </div>
           ))}
         </div>

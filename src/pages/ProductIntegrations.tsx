@@ -20,18 +20,18 @@ const PLATFORMS = [
   { id: 'instagram', name: 'Instagram',   color: '#E4405F', status: 'live',    desc: 'Feed posts, Reels, and Stories scheduling' },
   { id: 'linkedin',  name: 'LinkedIn',    color: '#0A66C2', status: 'live',    desc: 'Posts, articles, and company pages' },
   { id: 'facebook',  name: 'Facebook',    color: '#1877F2', status: 'live',    desc: 'Pages, groups, and ad integration' },
-  { id: 'twitter',   name: 'X / Twitter', color: '#15140F', status: 'soon',    desc: 'Tweets, threads, and media posts' },
+  { id: 'twitter',   name: 'X / Twitter', color: '#0F172A', status: 'soon',    desc: 'Tweets, threads, and media posts' },
   { id: 'tiktok',    name: 'TikTok',      color: '#010101', status: 'soon',    desc: 'Video scheduling and analytics' },
   { id: 'youtube',   name: 'YouTube',     color: '#FF0000', status: 'soon',    desc: 'Shorts and long-form video posts' },
   { id: 'pinterest', name: 'Pinterest',   color: '#E60023', status: 'roadmap', desc: 'Pins, boards, and idea pins' },
-  { id: 'threads',   name: 'Threads',     color: '#15140F', status: 'roadmap', desc: 'Text and media threads' },
+  { id: 'threads',   name: 'Threads',     color: '#0F172A', status: 'roadmap', desc: 'Text and media threads' },
   { id: 'bluesky',   name: 'Bluesky',     color: '#0085FF', status: 'roadmap', desc: 'Decentralized social posts' },
 ];
 
 const STATUS_STYLE: Record<string, { label: string; color: string; bg: string; border: string }> = {
-  live:    { label: 'Live',    color: '#4F7A4A', bg: '#EBF2EA', border: '#A8C9A4' },
-  soon:    { label: 'Coming',  color: '#B7841E', bg: '#FDF6E8', border: '#E8C97A' },
-  roadmap: { label: 'Roadmap', color: '#6B655B', bg: '#EFE9DC', border: '#D8D2C4' },
+  live:    { label: 'Live',    color: '#047857', bg: '#EBF2EA', border: '#A8C9A4' },
+  soon:    { label: 'Coming',  color: '#B45309', bg: '#FDF6E8', border: '#E8C97A' },
+  roadmap: { label: 'Roadmap', color: '#64748B', bg: '#F1F5F9', border: '#CBD5E1' },
 };
 
 const HOW = [
@@ -63,17 +63,17 @@ function SecurityCard({ feature }: { feature: SecurityFeatureItem }) {
 
   return (
     <div
-      className="group bg-[#F6F2EA] p-8 flex flex-col gap-3 transition-colors duration-200 ease-out hover:bg-[#C8553A]"
+      className="group bg-[#F8FAFC] p-8 flex flex-col gap-3 transition-colors duration-200 ease-out hover:bg-[#111827]"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      <div className="w-9 h-9 flex items-center justify-center rounded-[10px] bg-[#EFE9DC] text-[#15140F] mb-2 transition-colors duration-200 ease-out group-hover:bg-white/15 group-hover:text-white">
+      <div className="w-9 h-9 flex items-center justify-center rounded-[10px] bg-[#F1F5F9] text-[#0F172A] mb-2 transition-colors duration-200 ease-out group-hover:bg-white/15 group-hover:text-white">
         <Icon ref={iconRef} size={18} />
       </div>
-      <h3 className="text-[18px] font-semibold tracking-[-0.01em] text-[#15140F] transition-colors duration-200 ease-out group-hover:text-white">
+      <h3 className="text-[18px] font-semibold tracking-[-0.01em] text-[#0F172A] transition-colors duration-200 ease-out group-hover:text-white">
         {title}
       </h3>
-      <p className="text-[14px] leading-[1.6] text-[#6B655B] transition-colors duration-200 ease-out group-hover:text-[#F6F2EA]">
+      <p className="text-[14px] leading-[1.6] text-[#64748B] transition-colors duration-200 ease-out group-hover:text-[#F8FAFC]">
         {body}
       </p>
     </div>
@@ -126,16 +126,16 @@ export default function ProductIntegrations() {
             <HeroBadge className="mb-5">
               For teams who connect once
             </HeroBadge>
-            <h1 className="mt-5 text-[clamp(36px,5vw,60px)] font-medium leading-[1.08] tracking-[-0.035em] text-[#15140F]">
+            <h1 className="mt-5 text-[clamp(36px,5vw,60px)] font-medium leading-[1.08] tracking-[-0.035em] text-[#0F172A]">
               Connect the channels<br />
-              <span className="text-[#C8553A]">your team already uses.</span>
+              <span className="text-[#111827]">your team already uses.</span>
             </h1>
-            <p className="mt-6 text-[15px] leading-[1.65] text-[#6B655B] max-w-xl mx-auto">
+            <p className="mt-6 text-[15px] leading-[1.65] text-[#64748B] max-w-xl mx-auto">
               Instagram, LinkedIn, and Facebook — live today. More platforms are on the roadmap, and they connect in seconds.
             </p>
             <button
               onClick={() => navigate('/register')}
-              className="mt-8 inline-flex items-center justify-center rounded-xl bg-[#C8553A] px-8 py-3 text-[14px] font-medium text-white hover:bg-[#A53F28] transition-all duration-200 active:scale-[0.98]"
+              className="mt-8 inline-flex items-center justify-center rounded-xl bg-[#111827] px-8 py-3 text-[14px] font-medium text-white hover:bg-[#0B1220] transition-all duration-200 active:scale-[0.98]"
             >
               Connect your accounts
             </button>
@@ -153,10 +153,10 @@ export default function ProductIntegrations() {
                 key={p.name}
                 data-platform
                 style={{ opacity: 0 }}
-                className="rounded-2xl border border-[rgba(21,20,15,0.10)] bg-[#FBF8F2] p-6 transition-[background-color,border-color,transform] duration-200 ease-out hover:border-[#15140F]/20 hover:bg-[#F6F2EA] hover:-translate-y-0.5"
+                className="rounded-2xl border border-[rgba(15,23,42,0.10)] bg-[#FFFFFF] p-6 transition-[background-color,border-color,transform] duration-200 ease-out hover:border-[#0F172A]/20 hover:bg-[#F8FAFC] hover:-translate-y-0.5"
               >
                 <div className="flex items-start justify-between mb-4">
-                  <div className="flex h-10 w-10 items-center justify-center text-[#15140F]">
+                  <div className="flex h-10 w-10 items-center justify-center text-[#0F172A]">
                     <SocialBrandIcon platformId={p.id} size={26} color={p.color} />
                   </div>
                   <span
@@ -166,8 +166,8 @@ export default function ProductIntegrations() {
                     {st.label}
                   </span>
                 </div>
-                <h3 className="text-base font-bold text-[#15140F] mb-1">{p.name}</h3>
-                <p className="text-xs text-[#6B655B]">{p.desc}</p>
+                <h3 className="text-base font-bold text-[#0F172A] mb-1">{p.name}</h3>
+                <p className="text-xs text-[#64748B]">{p.desc}</p>
               </div>
             );
           })}
@@ -176,7 +176,7 @@ export default function ProductIntegrations() {
         {/* Legend */}
         <div className="flex flex-wrap items-center justify-center gap-6 mt-8">
           {Object.entries(STATUS_STYLE).map(([, val]) => (
-            <span key={val.label} className="flex items-center gap-2 text-xs text-[#6B655B]">
+            <span key={val.label} className="flex items-center gap-2 text-xs text-[#64748B]">
               <span className="w-2 h-2 rounded-full" style={{ backgroundColor: val.color }} />
               {val.label}
             </span>
@@ -185,25 +185,25 @@ export default function ProductIntegrations() {
       </section>
 
       {/* How connecting works */}
-      <section className="py-16 border-y border-[rgba(21,20,15,0.08)]" ref={howRef}>
+      <section className="py-16 border-y border-[rgba(15,23,42,0.08)]" ref={howRef}>
         <div className="mx-auto max-w-5xl px-6">
           <div className="text-center mb-12">
-            <p className="text-[0.68rem] font-bold uppercase tracking-[0.2em] text-[#C8553A] mb-3">Setup</p>
-            <h2 className="text-[clamp(24px,3.5vw,40px)] font-medium tracking-[-0.03em] text-[#15140F]">Connected in 3 steps.</h2>
-            <p className="mt-2 text-[#6B655B] text-sm">No developers. No API keys. No headaches.</p>
+            <p className="text-[0.68rem] font-bold uppercase tracking-[0.2em] text-[#111827] mb-3">Setup</p>
+            <h2 className="text-[clamp(24px,3.5vw,40px)] font-medium tracking-[-0.03em] text-[#0F172A]">Connected in 3 steps.</h2>
+            <p className="mt-2 text-[#64748B] text-sm">No developers. No API keys. No headaches.</p>
           </div>
           <div className="grid md:grid-cols-3 gap-6">
             {HOW.map((h) => (
               <div key={h.step} data-how style={{ opacity: 0 }} className="flex gap-4">
                 <div className="shrink-0">
-                  <div className="w-10 h-10 rounded-xl bg-[#C8553A]/10 border border-[#C8553A]/15 flex items-center justify-center">
-                    <span className="material-symbols-outlined text-[#C8553A]" style={{ fontSize: 18, fontVariationSettings: "'FILL' 1" }}>{h.icon}</span>
+                  <div className="w-10 h-10 rounded-xl bg-[#111827]/10 border border-[#111827]/15 flex items-center justify-center">
+                    <span className="material-symbols-outlined text-[#111827]" style={{ fontSize: 18, fontVariationSettings: "'FILL' 1" }}>{h.icon}</span>
                   </div>
                 </div>
                 <div>
-                  <span className="text-[10px] font-bold text-[#C8553A]/60 uppercase tracking-widest">{h.step}</span>
-                  <h3 className="text-sm font-bold text-[#15140F] mt-0.5 mb-1">{h.title}</h3>
-                  <p className="text-xs text-[#6B655B] leading-relaxed">{h.body}</p>
+                  <span className="text-[10px] font-bold text-[#111827]/60 uppercase tracking-widest">{h.step}</span>
+                  <h3 className="text-sm font-bold text-[#0F172A] mt-0.5 mb-1">{h.title}</h3>
+                  <p className="text-xs text-[#64748B] leading-relaxed">{h.body}</p>
                 </div>
               </div>
             ))}
@@ -214,9 +214,9 @@ export default function ProductIntegrations() {
       {/* Security */}
       <section className="py-16 mx-auto max-w-5xl px-6">
         <div className="text-center mb-10">
-          <p className="text-[0.68rem] font-bold uppercase tracking-[0.2em] text-[#C8553A] mb-3">Security</p>
-          <h2 className="text-[clamp(24px,3.5vw,40px)] font-medium tracking-[-0.03em] text-[#15140F]">Built with trust by default.</h2>
-          <p className="mt-3 text-[#6B655B] max-w-md mx-auto text-sm leading-relaxed">Connecting your social accounts should feel safe. Here is exactly how we handle your access.</p>
+          <p className="text-[0.68rem] font-bold uppercase tracking-[0.2em] text-[#111827] mb-3">Security</p>
+          <h2 className="text-[clamp(24px,3.5vw,40px)] font-medium tracking-[-0.03em] text-[#0F172A]">Built with trust by default.</h2>
+          <p className="mt-3 text-[#64748B] max-w-md mx-auto text-sm leading-relaxed">Connecting your social accounts should feel safe. Here is exactly how we handle your access.</p>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-px bg-border border border-border rounded-2xl overflow-hidden">
           {SECURITY_FEATURES.map((f) => (
@@ -226,11 +226,11 @@ export default function ProductIntegrations() {
       </section>
 
       {/* Workflow integrations */}
-      <section className="py-16 border-t border-[rgba(21,20,15,0.08)] mx-auto max-w-5xl px-6">
+      <section className="py-16 border-t border-[rgba(15,23,42,0.08)] mx-auto max-w-5xl px-6">
         <div className="text-center mb-10">
-          <p className="text-[0.68rem] font-bold uppercase tracking-[0.2em] text-[#C8553A] mb-3">Workflow</p>
-          <h2 className="text-[clamp(24px,3.5vw,40px)] font-medium tracking-[-0.03em] text-[#15140F]">Also works with your stack.</h2>
-          <p className="mt-3 text-[#6B655B] max-w-md mx-auto text-sm leading-relaxed">Beyond social networks — Vielinks connects to your existing workflow tools.</p>
+          <p className="text-[0.68rem] font-bold uppercase tracking-[0.2em] text-[#111827] mb-3">Workflow</p>
+          <h2 className="text-[clamp(24px,3.5vw,40px)] font-medium tracking-[-0.03em] text-[#0F172A]">Also works with your stack.</h2>
+          <p className="mt-3 text-[#64748B] max-w-md mx-auto text-sm leading-relaxed">Beyond social networks — Vielinks connects to your existing workflow tools.</p>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {WORKFLOW.map((a) => (
@@ -239,13 +239,13 @@ export default function ProductIntegrations() {
               initial={{ opacity: 0, y: 12 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="rounded-2xl border border-[rgba(21,20,15,0.10)] bg-[#FBF8F2] p-5 text-center hover:border-[#C8553A]/20 hover:bg-[#EFE9DC] transition-all duration-300 group"
+              className="rounded-2xl border border-[rgba(15,23,42,0.10)] bg-[#FFFFFF] p-5 text-center hover:border-[#111827]/20 hover:bg-[#F1F5F9] transition-all duration-300 group"
             >
-              <div className="w-10 h-10 rounded-xl bg-[#C8553A]/8 border border-[#C8553A]/12 flex items-center justify-center mb-3 mx-auto group-hover:bg-[#C8553A]/15 transition-colors">
-                <span className="material-symbols-outlined text-[#C8553A]" style={{ fontSize: 18, fontVariationSettings: "'FILL' 1" }}>{a.icon}</span>
+              <div className="w-10 h-10 rounded-xl bg-[#111827]/8 border border-[#111827]/12 flex items-center justify-center mb-3 mx-auto group-hover:bg-[#111827]/15 transition-colors">
+                <span className="material-symbols-outlined text-[#111827]" style={{ fontSize: 18, fontVariationSettings: "'FILL' 1" }}>{a.icon}</span>
               </div>
-              <p className="text-sm font-bold text-[#15140F] mb-1">{a.name}</p>
-              <p className="text-[11px] text-[#6B655B] leading-snug">{a.desc}</p>
+              <p className="text-sm font-bold text-[#0F172A] mb-1">{a.name}</p>
+              <p className="text-[11px] text-[#64748B] leading-snug">{a.desc}</p>
             </motion.div>
           ))}
         </div>

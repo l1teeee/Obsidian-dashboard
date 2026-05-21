@@ -1,4 +1,4 @@
-﻿import { useState } from 'react';
+import { useState } from 'react';
 
 interface LIPreviewProps {
   caption:       string;
@@ -71,9 +71,9 @@ export default function LIPreview({ caption, mediaPreviews }: LIPreviewProps) {
         <div className="bg-white mx-2 mt-2 rounded-xl border border-[#e0e0e0] overflow-hidden">
           {/* Author row */}
           <div className="flex items-start gap-2 p-3">
-            <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-[#C8553A] to-[#D6A86A] p-[1.5px] shrink-0">
+            <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-[#111827] to-[#D6A86A] p-[1.5px] shrink-0">
               <div className="w-full h-full rounded-full bg-white flex items-center justify-center">
-                <span className="material-symbols-outlined text-[#C8553A] text-[13px]">person</span>
+                <span className="material-symbols-outlined text-[#111827] text-[13px]">person</span>
               </div>
             </div>
             <div className="min-w-0 flex-1">

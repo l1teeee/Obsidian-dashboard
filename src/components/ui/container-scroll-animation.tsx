@@ -63,9 +63,9 @@ export const Card = ({
 }) => (
   <motion.div
     style={{ rotateX: rotate, scale }}
-    className="max-w-5xl mx-auto h-[30rem] md:h-[40rem] w-full border-4 border-[#2A2825] p-2 md:p-5 bg-[#15140F] rounded-[30px]"
+    className="max-w-5xl mx-auto h-[30rem] md:h-[40rem] w-full border-4 border-[#2A2825] p-2 md:p-5 bg-[#0F172A] rounded-[30px]"
   >
-    <div className="h-full w-full overflow-hidden rounded-2xl bg-[#FBF8F2]">
+    <div className="h-full w-full overflow-hidden rounded-2xl bg-[#FFFFFF]">
       {children}
     </div>
   </motion.div>

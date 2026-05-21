@@ -1,4 +1,4 @@
-﻿import { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 interface SessionWarningModalProps {
   visible:     boolean;   // drives both enter and exit animation
@@ -36,25 +36,25 @@ export default function SessionWarningModal({
 
       {/* Card — fades in + slides up */}
       <div
-        className="relative w-full max-w-sm bg-[#FBF8F2] border border-border rounded-3xl shadow-[0_40px_100px_rgba(0,0,0,0.18)] overflow-hidden transition-all duration-500 ease-out"
+        className="relative w-full max-w-sm bg-[#FFFFFF] border border-border rounded-3xl shadow-[0_40px_100px_rgba(0,0,0,0.18)] overflow-hidden transition-all duration-500 ease-out"
         style={{
           opacity:   visible ? 1 : 0,
           transform: visible ? 'translateY(0) scale(1)' : 'translateY(24px) scale(0.97)',
         }}
       >
         {/* Top glow */}
-        <div className="absolute -top-20 left-1/2 -translate-x-1/2 w-64 h-40 bg-[#C8553A]/10 blur-[60px] rounded-full pointer-events-none" />
+        <div className="absolute -top-20 left-1/2 -translate-x-1/2 w-64 h-40 bg-[#111827]/10 blur-[60px] rounded-full pointer-events-none" />
 
         <div className="relative p-8 flex flex-col items-center text-center gap-5">
 
           {/* Circular countdown */}
           <div className="relative w-20 h-20">
             <svg className="w-full h-full -rotate-90" viewBox="0 0 80 80">
-              <circle cx="40" cy="40" r="34" fill="none" stroke="#E7E0D0" strokeWidth="5" />
+              <circle cx="40" cy="40" r="34" fill="none" stroke="#E2E8F0" strokeWidth="5" />
               <circle
                 cx="40" cy="40" r="34"
                 fill="none"
-                stroke={countdown <= 10 ? '#ff6b6b' : '#C8553A'}
+                stroke={countdown <= 10 ? '#ff6b6b' : '#111827'}
                 strokeWidth="5"
                 strokeLinecap="round"
                 strokeDasharray={`${2 * Math.PI * 34}`}
@@ -64,7 +64,7 @@ export default function SessionWarningModal({
             </svg>
             <div className="absolute inset-0 flex items-center justify-center">
               <span className={`text-2xl font-black font-mono tabular-nums transition-colors duration-300 ${
-                countdown <= 10 ? 'text-[#ff6b6b]' : 'text-[#15140F]'
+                countdown <= 10 ? 'text-[#ff6b6b]' : 'text-[#0F172A]'
               }`}>
                 {countdown}
               </span>
@@ -73,8 +73,8 @@ export default function SessionWarningModal({
 
           {/* Text */}
           <div className="space-y-1.5">
-            <h2 className="text-lg font-extrabold text-[#15140F] tracking-tight">Still there?</h2>
-            <p className="text-sm text-[#6B655B] leading-relaxed">
+            <h2 className="text-lg font-extrabold text-[#0F172A] tracking-tight">Still there?</h2>
+            <p className="text-sm text-[#64748B] leading-relaxed">
               Your session will expire due to inactivity.
               <br />
               Keep it active or you'll be signed out.
@@ -85,13 +85,13 @@ export default function SessionWarningModal({
           <div className="flex flex-col gap-2 w-full pt-1">
             <button
               onClick={onKeepAlive}
-              className="w-full py-3 rounded-2xl bg-[#C8553A] text-white text-sm font-extrabold hover:bg-[#A53F28] active:scale-[0.98] transition-all shadow-[0_0_24px_rgba(200,85,58,0.25)]"
+              className="w-full py-3 rounded-2xl bg-[#111827] text-white text-sm font-extrabold hover:bg-[#0B1220] active:scale-[0.98] transition-all shadow-[0_0_24px_rgba(14,159,110,0.25)]"
             >
               Keep session active
             </button>
             <button
               onClick={onLogout}
-              className="w-full py-2.5 rounded-2xl text-[#6B655B] text-sm font-medium hover:text-[#15140F] transition-colors"
+              className="w-full py-2.5 rounded-2xl text-[#64748B] text-sm font-medium hover:text-[#0F172A] transition-colors"
             >
               Sign out
             </button>
