@@ -163,14 +163,14 @@ function Hero() {
 
   return (
     <section ref={ref} className="min-h-screen flex items-center text-center">
-      <div data-h="inner" className="w-full max-w-300 mx-auto px-8 pt-16">
-<h1 data-h="title" className="text-[clamp(44px,6.5vw,88px)] leading-[1.03] tracking-[-0.04em] text-[#0F172A] max-w-225 mx-auto mb-5 font-medium">
+      <div data-h="inner" className="w-full max-w-300 mx-auto px-6 pt-10 sm:px-8 sm:pt-16">
+        <h1 data-h="title" className="text-3xl sm:text-5xl md:text-[clamp(44px,6.5vw,88px)] leading-[1.08] sm:leading-[1.03] tracking-[-0.03em] sm:tracking-[-0.04em] text-[#0F172A] max-w-225 mx-auto mb-4 sm:mb-5 font-medium">
           One workspace<br />for your <em className="not-italic text-[#111827]">posts.</em>
         </h1>
-        <p data-h="sub" className="max-w-140 mx-auto mb-9 text-[16px] leading-[1.65] text-[#64748B]">
+        <p data-h="sub" className="max-w-140 mx-auto mb-6 sm:mb-9 text-[14px] sm:text-[16px] leading-[1.65] text-[#64748B]">
           Schedule, analyze, and collaborate across Instagram, LinkedIn, and Facebook — without switching tabs.
         </p>
-        <div data-h="ctas" className="flex gap-3 justify-center mb-5">
+        <div data-h="ctas" className="flex gap-2 sm:gap-3 justify-center mb-4 sm:mb-5">
           <Link to="/register" className="inline-flex items-center gap-2 text-[14px] font-medium bg-[#111827] text-white px-5 py-2.5 rounded-xl hover:bg-[#0B1220] active:scale-[0.97] transition-[background-color,transform] duration-150">
             Start free <IconArrow className="w-3.5 h-3.5" />
           </Link>
