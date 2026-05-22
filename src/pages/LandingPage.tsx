@@ -6,7 +6,6 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useSEO } from '../hooks/useSEO';
 import SiteNav from '../components/landing/SiteNav';
 import ObsidianFooter from '../components/landing/ObsidianFooter';
-import HeroBadge from '../components/landing/HeroBadge';
 import { ContainerScroll } from '../components/ui/container-scroll-animation';
 import {
   LayoutGridIcon,
