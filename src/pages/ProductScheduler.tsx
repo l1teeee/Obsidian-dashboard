@@ -339,7 +339,7 @@ export default function ProductScheduler() {
                 Every tool you need to plan, approve, and publish reliably — from the first draft to the live confirmation.
               </p>
             </div>
-            <div className="grid grid-cols-2 md:grid-cols-4 border-t border-l border-border rounded-2xl overflow-hidden">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 border-t border-l border-border rounded-2xl overflow-hidden">
               {SCHEDULER_FEATURES.map(f => <FeatureCard key={f.title} feature={f} />)}
             </div>
           </div>
