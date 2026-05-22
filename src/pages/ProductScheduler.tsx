@@ -297,18 +297,18 @@ export default function ProductScheduler() {
               </p>
             </div>
 
-            <div className="flex flex-col md:flex-row items-center justify-center gap-2 md:gap-0 overflow-x-auto pb-2">
+            <div className="flex flex-col md:flex-row items-center justify-center gap-2 md:gap-0 w-full">
               {APPROVAL_STAGES.map((stage, i) => (
-                <div key={stage.key} className="flex items-center gap-2 md:gap-0 shrink-0">
+                <div key={stage.key} className="flex flex-col md:flex-row items-center gap-2 md:gap-0 w-full md:w-auto shrink-0">
                   <div
-                    className="flex flex-col items-center gap-2 px-6 py-5 rounded-2xl border w-36"
+                    className="flex flex-col items-center gap-2 px-6 py-5 rounded-2xl border w-full md:w-36"
                     style={{ backgroundColor: stage.bg, borderColor: stage.border }}
                   >
                     <MsIcon name={stage.icon} size={20} color={stage.color} />
                     <span className="text-[11px] font-medium" style={{ color: stage.color }}>{stage.label}</span>
                   </div>
                   {i < APPROVAL_STAGES.length - 1 && (
-                    <span className="material-symbols-outlined text-[#CBD5E1] shrink-0 mx-1" aria-hidden="true" style={{ fontSize: 20 }}>chevron_right</span>
+                    <span className="material-symbols-outlined text-[#CBD5E1] shrink-0 mx-1 rotate-90 md:rotate-0" aria-hidden="true" style={{ fontSize: 20 }}>chevron_right</span>
                   )}
                 </div>
               ))}
