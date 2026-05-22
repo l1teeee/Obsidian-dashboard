@@ -19,9 +19,9 @@ const footerLinks = {
     { label: 'Contact', href: 'mailto:hello@vielinks.com' },
   ],
   Legal: [
-    { label: 'Terms', href: 'mailto:hello@vielinks.com?subject=Terms%20of%20service' },
-    { label: 'Privacy', href: 'mailto:hello@vielinks.com?subject=Privacy%20policy' },
-    { label: 'Security', href: 'mailto:hello@vielinks.com?subject=Security%20question' },
+    { label: 'Terms', href: '/terms' },
+    { label: 'Privacy', href: '/privacy' },
+    { label: 'Security', href: '/security' },
   ],
 };
 

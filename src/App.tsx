@@ -26,6 +26,9 @@ const LandingPage    = lazy(() => import('./pages/LandingPage'));
 const PricingPage    = lazy(() => import('./pages/PricingPage'));
 const NotFound       = lazy(() => import('./pages/NotFound'));
 const FAQPage        = lazy(() => import('./pages/FAQPage'));
+const TermsPage      = lazy(() => import('./pages/TermsPage'));
+const PrivacyPage    = lazy(() => import('./pages/PrivacyPage'));
+const SecurityPage   = lazy(() => import('./pages/SecurityPage'));
 const LoginCard      = lazy(() => import('./components/auth/LoginCard'));
 const RegisterCard   = lazy(() => import('./components/auth/RegisterCard'));
 const CheckEmail      = lazy(() => import('./pages/CheckEmail'));
@@ -104,7 +107,7 @@ function LenisProvider({ children }: { children: ReactNode }) {
   return <>{children}</>;
 }
 
-const AUTH_PATHS = ['/', '/pricing', '/faq', '/login', '/register', '/check-email', '/forgot-password', '/reset-password', '/complete-profile', '/create-workspace',
+const AUTH_PATHS = ['/', '/pricing', '/faq', '/terms', '/privacy', '/security', '/login', '/register', '/check-email', '/forgot-password', '/reset-password', '/complete-profile', '/create-workspace',
   '/overview', '/planner', '/insights', '/ai-studio', '/connections', '/product/dashboard', '/product/analytics', '/product/scheduler', '/product/ai-insights', '/product/integrations'];
 
 // Admin routes bypass WorkspaceGuard (admin doesn't need a workspace)
@@ -303,7 +306,10 @@ export default function App() {
                 {/* Landing page — public */}
                 <Route path="/" element={<LandingPage />} />
                 <Route path="/pricing" element={<PricingPage />} />
-                <Route path="/faq"     element={<FAQPage />} />
+                <Route path="/faq"      element={<FAQPage />} />
+                <Route path="/terms"    element={<TermsPage />} />
+                <Route path="/privacy"  element={<PrivacyPage />} />
+                <Route path="/security" element={<SecurityPage />} />
 
                 {/* Product pages — public */}
                 <Route path="/overview"    element={<ProductDashboard />} />
