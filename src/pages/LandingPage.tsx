@@ -165,10 +165,7 @@ function Hero() {
   return (
     <section ref={ref} className="min-h-screen flex items-center text-center">
       <div data-h="inner" className="w-full max-w-300 mx-auto px-8 pt-16">
-        <HeroBadge data-h="eyebrow" className="mb-6">
-          For social teams who care about craft
-        </HeroBadge>
-        <h1 data-h="title" className="text-[clamp(44px,6.5vw,88px)] leading-[1.03] tracking-[-0.04em] text-[#0F172A] max-w-225 mx-auto mb-5 font-medium">
+<h1 data-h="title" className="text-[clamp(44px,6.5vw,88px)] leading-[1.03] tracking-[-0.04em] text-[#0F172A] max-w-225 mx-auto mb-5 font-medium">
           One workspace<br />for your <em className="not-italic text-[#111827]">posts.</em>
         </h1>
         <p data-h="sub" className="max-w-140 mx-auto mb-9 text-[16px] leading-[1.65] text-[#64748B]">
