@@ -132,7 +132,7 @@ export default function LoginCard() {
             {/* Card */}
             <div
               data-auth-panel="form"
-              className="relative flex min-h-dvh w-full flex-col justify-center border-0 bg-[#FFFFFF] p-6 shadow-none sm:p-10 lg:rounded-l-none lg:rounded-r-[28px]"
+              className="relative flex min-h-dvh w-full flex-col justify-center border-0 bg-[#FFFFFF] px-6 pt-20 pb-6 shadow-none sm:px-10 sm:pt-20 sm:pb-10 lg:p-10 lg:rounded-l-none lg:rounded-r-[28px]"
             >
               <div data-auth-form-inner className="mx-auto w-full max-w-[400px]">
               <div className="mb-7 flex items-center justify-between">
