@@ -200,12 +200,7 @@ export default function ProductAnalytics() {
             {PLATFORMS_OVERVIEW.map((p) => (
               <div key={p.name} className="rounded-2xl border border-[rgba(15,23,42,0.10)] bg-[#FFFFFF] p-6">
                 <div className="flex items-center gap-3 mb-5">
-                  <div
-                    className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0"
-                    style={{ backgroundColor: `${p.color}18`, border: `1px solid ${p.color}28` }}
-                  >
-                    <SocialBrandIcon platformId={p.platformId} size={18} color={p.color} />
-                  </div>
+                  <SocialBrandIcon platformId={p.platformId} size={22} color={p.color} />
                   <span className="text-sm font-semibold text-[#0F172A]">{p.name}</span>
                 </div>
                 <div className="space-y-3">
@@ -253,12 +248,7 @@ export default function ProductAnalytics() {
               className={`grid grid-cols-[1fr_auto_auto] sm:grid-cols-[1fr_auto_auto_auto] gap-4 items-center px-6 py-4 ${i < TOP_POSTS.length - 1 ? 'border-b border-[rgba(15,23,42,0.06)]' : ''}`}
             >
               <div className="flex items-center gap-3 min-w-0">
-                <div
-                  className="w-7 h-7 rounded-lg shrink-0 flex items-center justify-center"
-                  style={{ backgroundColor: `${p.color}18` }}
-                >
-                  <SocialBrandIcon platformId={p.platformId} size={13} color={p.color} />
-                </div>
+                <SocialBrandIcon platformId={p.platformId} size={16} color={p.color} />
                 <span className="text-[13px] text-[#0F172A] font-medium truncate">{p.label}</span>
               </div>
               <span className="text-[13px] font-semibold text-[#0F172A] w-16 text-right tabular-nums">{p.reach}</span>
