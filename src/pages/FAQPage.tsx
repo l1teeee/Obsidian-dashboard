@@ -237,7 +237,7 @@ export default function FAQPage() {
             </a>
             <button
               onClick={() => navigate('/')}
-              className="inline-flex items-center justify-center rounded-xl border border-[#CBD5E1] px-8 py-3 text-[14px] font-medium text-[#334155] hover:bg-[#F1F5F9] transition-all duration-200"
+              className="inline-flex items-center justify-center rounded-xl border border-[#E2E8F0] bg-white px-8 py-3 text-[14px] font-medium text-[#0F172A] hover:bg-[#F8FAFC] hover:border-[#CBD5E1] transition-all duration-200"
             >
               Back to home
             </button>
