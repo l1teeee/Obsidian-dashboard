@@ -1,12 +1,11 @@
 import { useState, useEffect, useRef, useLayoutEffect, type ForwardRefExoticComponent } from 'react';
 import { Link } from 'react-router-dom';
-import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
+import { useReducedMotion } from 'framer-motion';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useSEO } from '../hooks/useSEO';
 import SiteNav from '../components/landing/SiteNav';
 import ObsidianFooter from '../components/landing/ObsidianFooter';
-import { ContainerScroll } from '../components/ui/container-scroll-animation';
 import {
   LayoutGridIcon,
   SparklesIcon,
@@ -29,62 +28,6 @@ const IconArrow = (p: React.SVGProps<SVGSVGElement>) => (
 const IconChevron = (p: React.SVGProps<SVGSVGElement>) => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...p}>
     <polyline points="6 9 12 15 18 9" />
-  </svg>
-);
-
-const IconDashboard = (p: React.SVGProps<SVGSVGElement>) => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" {...p}>
-    <rect x="3" y="3" width="7" height="7" /><rect x="14" y="3" width="7" height="7" />
-    <rect x="3" y="14" width="7" height="7" /><rect x="14" y="14" width="7" height="7" />
-  </svg>
-);
-
-const IconCalendar = (p: React.SVGProps<SVGSVGElement>) => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" {...p}>
-    <rect x="3" y="4" width="18" height="18" rx="2" />
-    <line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" />
-  </svg>
-);
-
-const IconAnalytics = (p: React.SVGProps<SVGSVGElement>) => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" {...p}>
-    <line x1="18" y1="20" x2="18" y2="10" /><line x1="12" y1="20" x2="12" y2="4" /><line x1="6" y1="20" x2="6" y2="14" />
-  </svg>
-);
-
-const IconHub = (p: React.SVGProps<SVGSVGElement>) => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" {...p}>
-    <circle cx="18" cy="5" r="3" /><circle cx="6" cy="12" r="3" /><circle cx="18" cy="19" r="3" />
-    <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" /><line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
-  </svg>
-);
-
-const IconSparkle = (p: React.SVGProps<SVGSVGElement>) => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" {...p}>
-    <path d="M12 3l1.9 5.8a2 2 0 0 0 1.3 1.3L21 12l-5.8 1.9a2 2 0 0 0-1.3 1.3L12 21l-1.9-5.8a2 2 0 0 0-1.3-1.3L3 12l5.8-1.9a2 2 0 0 0 1.3-1.3z" />
-  </svg>
-);
-
-
-const IconInstagram = (p: React.SVGProps<SVGSVGElement>) => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" {...p}>
-    <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
-    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
-    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
-  </svg>
-);
-
-const IconLinkedIn = (p: React.SVGProps<SVGSVGElement>) => (
-  <svg viewBox="0 0 24 24" fill="currentColor" {...p}>
-    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
-    <rect x="2" y="9" width="4" height="12" />
-    <circle cx="4" cy="4" r="2" />
-  </svg>
-);
-
-const IconFacebook = (p: React.SVGProps<SVGSVGElement>) => (
-  <svg viewBox="0 0 24 24" fill="currentColor" {...p}>
-    <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
   </svg>
 );
 
@@ -124,8 +67,6 @@ function SectionTitleLink({ children, to, ariaLabel }: { children: React.ReactNo
 }
 
 const reduced = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-const PREVIEW_BARS = [32, 58, 41, 75, 53, 88, 67];
-const PREVIEW_DAYS = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
 
 // ─── Hero ─────────────────────────────────────────────────────────────────────
 
@@ -142,7 +83,8 @@ function Hero() {
         .fromTo('[data-h="sub"]',     { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.5  }, '-=0.38')
         .fromTo('[data-h="ctas"]',    { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.45 }, '-=0.3')
         .fromTo('[data-h="meta"]',    { opacity: 0 },         { opacity: 1,        duration: 0.35 }, '-=0.15')
-        .fromTo('[data-h="strip"]',   { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.45 }, '-=0.2');
+        .fromTo('[data-h="strip"]',   { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.45 }, '-=0.2')
+        .fromTo('[data-h="preview"]', { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.55 }, '-=0.36');
 
       if (window.innerWidth > 768) {
         gsap.to('[data-h="inner"]', {
@@ -162,39 +104,35 @@ function Hero() {
   }, []);
 
   return (
-    <section ref={ref} className="min-h-screen flex items-center text-center sm:text-left">
-      <div data-h="inner" className="w-full max-w-300 mx-auto px-6 pt-10 sm:px-8 sm:pt-16">
-        <h1 data-h="title" className="text-3xl sm:text-5xl md:text-[clamp(44px,6.5vw,88px)] leading-[1.08] sm:leading-[1.03] tracking-[-0.03em] sm:tracking-[-0.04em] text-[#0F172A] max-w-225 mx-auto sm:mx-0 mb-4 sm:mb-5 font-medium">
-          One workspace<br />for your <em className="not-italic text-[#111827]">posts.</em>
-        </h1>
-        <p data-h="sub" className="max-w-140 mx-auto sm:mx-0 mb-6 sm:mb-9 text-[14px] sm:text-[16px] leading-[1.65] text-[#64748B]">
-          Schedule, analyze, and collaborate across Instagram, LinkedIn, and Facebook — without switching tabs.
-        </p>
-        <div data-h="ctas" className="flex gap-2 sm:gap-3 justify-center sm:justify-start mb-4 sm:mb-5">
-          <Link to="/register" className="inline-flex items-center gap-2 text-[14px] font-medium bg-[#111827] text-white px-5 py-2.5 rounded-xl hover:bg-[#0B1220] active:scale-[0.97] transition-[background-color,transform] duration-150">
-            Start free <IconArrow className="w-3.5 h-3.5" />
-          </Link>
-          <a href="#features" className="inline-flex items-center gap-2 text-[14px] font-medium text-[#64748B] px-5 py-2.5 rounded-xl hover:bg-[#F1F5F9] hover:text-[#0F172A] active:scale-[0.97] transition-[background-color,color,transform] duration-150">
-            See the product
-          </a>
-        </div>
-        <p data-h="meta" className="text-[12px] text-[#94A3B8]">No card required · 14-day paid trial</p>
-
-        <div data-h="strip" className="mt-14 flex flex-col items-center gap-3">
-          <span className="text-[10px] font-medium uppercase tracking-[0.18em] text-[#94A3B8]">Works with</span>
-          <div className="mt-2 flex flex-wrap items-center justify-center gap-x-7 gap-y-3 text-[11px] font-medium uppercase tracking-[0.16em] text-[#64748B]">
-            <span className="group inline-flex items-center gap-2 transition-colors duration-200 hover:text-[#111827]">
-              <IconInstagram className="w-4 h-4 text-[#94A3B8] transition-colors duration-200 group-hover:text-[#111827]" /> Instagram
-            </span>
-            <span className="hidden h-1 w-1 rounded-full bg-[#D8D0C0] sm:block" />
-            <span className="group inline-flex items-center gap-2 transition-colors duration-200 hover:text-[#111827]">
-              <IconLinkedIn className="w-4 h-4 text-[#94A3B8] transition-colors duration-200 group-hover:text-[#111827]" /> LinkedIn
-            </span>
-            <span className="hidden h-1 w-1 rounded-full bg-[#D8D0C0] sm:block" />
-            <span className="group inline-flex items-center gap-2 transition-colors duration-200 hover:text-[#111827]">
-              <IconFacebook className="w-4 h-4 text-[#94A3B8] transition-colors duration-200 group-hover:text-[#111827]" /> Facebook
-            </span>
+    <section ref={ref} className="min-h-screen flex items-center pt-24 pb-18 sm:pt-28 sm:pb-24">
+      <div data-h="inner" className="grid w-full max-w-300 mx-auto items-center gap-12 px-6 sm:px-8 lg:grid-cols-[minmax(0,1fr)_minmax(390px,520px)] lg:gap-16 xl:gap-20">
+        <div className="text-center sm:text-left">
+          <h1 data-h="title" className="mx-auto mb-5 max-w-120 text-[44px] font-medium leading-[1.04] tracking-normal text-[#0F172A] sm:mx-0 sm:max-w-150 sm:text-[64px] sm:leading-[1.02] md:text-[78px] xl:text-[88px]">
+            Plan, approve, publish.
+          </h1>
+          <p data-h="sub" className="mx-auto mb-7 max-w-112 text-[15px] leading-[1.7] text-[#64748B] sm:mx-0 sm:mb-9 sm:text-[16px]">
+            Plan social posts across three channels.
+          </p>
+          <div data-h="ctas" className="mb-4 flex flex-wrap justify-center gap-2 sm:justify-start sm:gap-3">
+            <Link to="/register" className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-[#111827] px-5 text-[14px] font-medium text-white transition-[background-color,transform] duration-150 hover:bg-[#0B1220] active:scale-[0.97]">
+              Start free <IconArrow className="h-3.5 w-3.5" />
+            </Link>
+            <a href="#product" className="hidden min-h-11 items-center justify-center rounded-xl px-5 text-[14px] font-medium text-[#64748B] transition-[background-color,color,transform] duration-150 hover:bg-[#F1F5F9] hover:text-[#0F172A] active:scale-[0.97] lg:inline-flex">
+              See the product
+            </a>
           </div>
+          <p data-h="meta" className="text-[12px] text-[#94A3B8]">No card required · 14-day free trial</p>
+          <p data-h="strip" className="mx-auto mt-9 max-w-80 text-[12px] leading-relaxed text-[#94A3B8] sm:mx-0 sm:mt-12 sm:max-w-none sm:text-left">
+            Works with <span className="font-medium text-[#64748B]">Instagram</span>
+            <span className="mx-1.5 text-[#CBD5E1]">·</span>
+            <span className="font-medium text-[#64748B]">LinkedIn</span>
+            <span className="mx-1.5 text-[#CBD5E1]">·</span>
+            <span className="font-medium text-[#64748B]">Facebook</span>
+          </p>
+        </div>
+
+        <div id="product" data-h="preview" className="hidden justify-center lg:flex lg:justify-end">
+          <ProductPreview />
         </div>
       </div>
     </section>
@@ -203,375 +141,82 @@ function Hero() {
 
 // ─── Product Preview ──────────────────────────────────────────────────────────
 
-const CAL_EVENTS: Record<number, string[]> = {
-  5:  ['#E1306C'],
-  8:  ['#0A66C2'],
-  12: ['#E1306C', '#1877F2'],
-  15: ['#0A66C2'],
-  19: ['#E1306C'],
-  22: ['#1877F2'],
-  26: ['#0A66C2', '#E1306C'],
-  29: ['#1877F2'],
+type PreviewPost = {
+  day: string;
+  platform: 'Instagram' | 'LinkedIn' | 'Facebook';
+  title: string;
+  status: 'Scheduled' | 'Needs approval' | 'Published' | 'Draft';
 };
 
-function DashboardContent() {
-  return (
-    <div className="p-3 md:p-4 flex flex-col gap-3 h-full overflow-auto">
-      <div className="flex items-center justify-between rounded-xl bg-[#F1F5F9] border border-[#0F172A]/8 px-3.5 py-2.5 shrink-0">
-        <div>
-          <p className="text-[8.5px] font-bold uppercase tracking-[0.14em] text-[#111827] mb-0.5">Workspace overview</p>
-          <p className="text-[12px] font-semibold tracking-tight text-[#0F172A]">Plan, publish, and measure today.</p>
-        </div>
-      </div>
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 shrink-0">
-        {([
-          { label: 'Total Reach', value: '2.4M', delta: '↑ 18.2%', positive: true,  type: 'bar',       bar: 72, barColor: '#047857' },
-          { label: 'Engagement',  value: '342K', delta: '↑ 12.4%', positive: true,  type: 'bar',       bar: 58, barColor: '#111827' },
-          { label: 'Scheduled',   value: '28',   delta: 'this week',positive: null,  type: 'dots'                                   },
-          { label: 'Platforms',   value: '3',                                        type: 'platforms'                              },
-        ] as Array<{label:string;value:string;delta?:string;positive?:boolean|null;type:string;bar?:number;barColor?:string}>).map(k => (
-          <div key={k.label} className="bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl px-3 py-2.5">
-            <p className="text-[8px] font-bold uppercase tracking-[0.14em] text-[#64748B] mb-1.5">{k.label}</p>
-            <div className="flex items-baseline gap-1.5 flex-wrap">
-              <span className="text-[16px] font-medium tracking-tight text-[#0F172A]">{k.value}</span>
-              {k.delta && <span className={`text-[8.5px] font-semibold ${k.positive ? 'text-[#047857]' : 'text-[#64748B]'}`}>{k.delta}</span>}
-            </div>
-            {k.type === 'bar' && <div className="mt-2 h-[3px] w-full bg-[#CBD5E1] rounded-full overflow-hidden"><div className="h-full rounded-full" style={{ width: `${k.bar}%`, background: k.barColor }} /></div>}
-            {k.type === 'dots' && <div className="mt-2 flex gap-1">{Array.from({ length: 5 }, (_, j) => <div key={j} className="h-[3px] flex-1 rounded-full" style={{ background: j < 4 ? '#111827' : '#CBD5E1' }} />)}</div>}
-            {k.type === 'platforms' && <div className="mt-2 flex gap-1.5">{([{abbr:'IG',c:'#E1306C'},{abbr:'LI',c:'#0A66C2'},{abbr:'FB',c:'#1877F2'}] as Array<{abbr:string;c:string}>).map(p=><div key={p.abbr} className="w-5 h-5 rounded-md flex items-center justify-center text-[7.5px] font-bold" style={{background:p.c+'33',color:p.c}}>{p.abbr}</div>)}</div>}
-          </div>
-        ))}
-      </div>
-      <div className="grid grid-cols-1 lg:grid-cols-[1fr_200px] gap-2.5 flex-1 min-h-0">
-        <div className="bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl p-3.5 flex flex-col gap-2.5 min-h-0">
-          <div className="flex justify-between items-baseline shrink-0">
-            <span className="text-[11px] font-medium text-[#0F172A]">Weekly engagement</span>
-            <span className="text-[9.5px] text-[#64748B]">Last 7 days</span>
-          </div>
-          <div className="flex gap-1.5 flex-1 items-end min-h-0">
-            {PREVIEW_BARS.map((h, i) => <div key={i} className="flex-1 flex flex-col justify-end h-full"><div className="bg-[#F4E0D6] rounded-t-sm w-full" style={{ height: `${h}%` }} /></div>)}
-          </div>
-          <div className="flex gap-1.5 shrink-0">
-            {PREVIEW_DAYS.map((d, i) => <span key={i} className="flex-1 text-center text-[8.5px] font-medium text-[#94A3B8] uppercase">{d}</span>)}
-          </div>
-        </div>
-        <div className="hidden lg:flex flex-col gap-2 min-h-0 overflow-auto">
-          <p className="text-[10.5px] font-semibold text-[#0F172A] shrink-0">Upcoming</p>
-          {([
-            { p:'IG', c:'#E1306C', title:'Product launch',    time:'Today · 2PM',    s:'Pending'  },
-            { p:'LI', c:'#0A66C2', title:'Q2 highlights',     time:'Tomorrow · 9AM', s:'Approved' },
-            { p:'FB', c:'#1877F2', title:'Behind the scenes',  time:'Wed · 6PM',      s:'Draft'    },
-          ] as Array<{p:string;c:string;title:string;time:string;s:string}>).map(post => (
-            <div key={post.title} className="bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl px-2.5 py-2">
-              <div className="flex items-center justify-between mb-1">
-                <div className="w-4 h-4 rounded-[4px] flex items-center justify-center text-[7px] font-bold" style={{ background: post.c+'33', color: post.c }}>{post.p}</div>
-                <span className="text-[7.5px] font-medium text-[#64748B] bg-[#F1F5F9] px-1.5 py-0.5 rounded-full">{post.s}</span>
-              </div>
-              <p className="text-[10.5px] font-medium text-[#0F172A] leading-tight">{post.title}</p>
-              <p className="text-[8.5px] text-[#94A3B8] mt-0.5">{post.time}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}
+const previewPosts: PreviewPost[] = [
+  { day: 'Mon', platform: 'Instagram', title: 'Launch teaser', status: 'Scheduled' },
+  { day: 'Tue', platform: 'LinkedIn', title: 'Founder story', status: 'Needs approval' },
+  { day: 'Wed', platform: 'Facebook', title: 'Campaign post', status: 'Published' },
+  { day: 'Fri', platform: 'Instagram', title: 'Behind the scenes', status: 'Draft' },
+];
 
-function CalendarContent() {
-  const calCells = [...Array(4).fill(null), ...Array.from({ length: 31 }, (_, i) => i + 1)];
-  return (
-    <div className="p-3 flex flex-col gap-2.5 h-full overflow-auto">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-1">
-          <button className="w-5 h-5 rounded-md bg-[#F1F5F9] flex items-center justify-center text-[#64748B] text-[10px]">‹</button>
-          <span className="text-[11px] font-semibold text-[#0F172A] px-2">May 2025</span>
-          <button className="w-5 h-5 rounded-md bg-[#F1F5F9] flex items-center justify-center text-[#64748B] text-[10px]">›</button>
-        </div>
-        <div className="flex rounded-lg overflow-hidden border border-[#E2E8F0]">
-          {['Month', 'Week', 'List'].map((v, i) => (
-            <span key={v} className={`text-[8.5px] font-medium px-2 py-1 ${i === 0 ? 'bg-[#0F172A] text-[#F8FAFC]' : 'text-[#64748B] bg-[#F8FAFC]'}`}>{v}</span>
-          ))}
-        </div>
-      </div>
-      <div className="flex gap-1.5">
-        {([{label:'IG',c:'#E1306C'},{label:'LI',c:'#0A66C2'},{label:'FB',c:'#1877F2'}] as Array<{label:string;c:string}>).map(p => (
-          <div key={p.label} className="flex items-center gap-1 px-2 py-0.5 rounded-full text-[8px] font-medium border" style={{ borderColor: p.c+'40', color: p.c, background: p.c+'12' }}>
-            <span className="w-1 h-1 rounded-full shrink-0" style={{ background: p.c }} />{p.label}
-          </div>
-        ))}
-      </div>
-      <div className="grid grid-cols-7">
-        {['S','M','T','W','T','F','S'].map((d, i) => <div key={i} className="text-center text-[8px] font-semibold text-[#94A3B8] py-1">{d}</div>)}
-      </div>
-      <div className="grid grid-cols-7 gap-[2px] flex-1">
-        {calCells.map((day, i) => (
-          <div key={i} className={`min-h-6 p-[3px] rounded-md flex flex-col ${day === 15 ? 'bg-[#F1F5F9]' : ''}`}>
-            {day && <span className={`text-[8px] font-medium leading-none ${day === 15 ? 'text-[#111827]' : 'text-[#64748B]'}`}>{day}</span>}
-            {day && CAL_EVENTS[day] && (
-              <div className="flex gap-[2px] mt-[2px] flex-wrap">
-                {CAL_EVENTS[day].map((c, j) => <div key={j} className="w-1 h-1 rounded-full" style={{ background: c }} />)}
-              </div>
-            )}
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
+const previewMetrics = [
+  { value: '12', label: 'scheduled posts' },
+  { value: '3', label: 'pending approvals' },
+  { value: '8', label: 'team comments' },
+];
 
-function AnalyticsContent() {
-  return (
-    <div className="p-3 flex flex-col gap-2.5 h-full overflow-auto">
-      <div className="grid grid-cols-3 gap-2 shrink-0">
-        {([
-          { label: 'Total Reach', value: '2.4M', delta: '↑ 18.2%', c: '#047857' },
-          { label: 'Engagements', value: '342K',  delta: '↑ 12.4%', c: '#111827' },
-          { label: 'Avg Score',   value: '7.8',   delta: '↑ 0.4',   c: '#7C3AED' },
-        ] as Array<{label:string;value:string;delta:string;c:string}>).map(k => (
-          <div key={k.label} className="bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl px-2.5 py-2">
-            <p className="text-[7.5px] font-bold uppercase tracking-[0.14em] text-[#64748B] mb-1">{k.label}</p>
-            <p className="text-[14px] font-semibold text-[#0F172A] leading-none">{k.value}</p>
-            <p className="text-[8px] font-semibold mt-1" style={{ color: k.c }}>{k.delta}</p>
-          </div>
-        ))}
-      </div>
-      <div className="grid grid-cols-[1fr_90px] gap-2 flex-1 min-h-0">
-        <div className="bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl p-3 flex flex-col min-h-0">
-          <div className="flex justify-between items-baseline mb-2 shrink-0">
-            <span className="text-[10px] font-medium text-[#0F172A]">Reach over time</span>
-            <span className="text-[8px] text-[#64748B]">30 days</span>
-          </div>
-          <svg className="flex-1 w-full" viewBox="0 0 200 70" preserveAspectRatio="none">
-            <defs>
-              <linearGradient id="anaGrad" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#111827" stopOpacity="0.18" />
-                <stop offset="100%" stopColor="#111827" stopOpacity="0" />
-              </linearGradient>
-            </defs>
-            <path d="M0 55 C25 50,45 35,70 30 S100 18,125 16 S155 24,175 12 S190 6,200 5" fill="none" stroke="#111827" strokeWidth="1.5" strokeLinecap="round" />
-            <path d="M0 55 C25 50,45 35,70 30 S100 18,125 16 S155 24,175 12 S190 6,200 5 L200 70 L0 70Z" fill="url(#anaGrad)" />
-          </svg>
-        </div>
-        <div className="flex flex-col gap-1.5">
-          {([
-            { abbr:'IG', c:'#E1306C', pct:68, reach:'1.6M' },
-            { abbr:'LI', c:'#0A66C2', pct:24, reach:'580K' },
-            { abbr:'FB', c:'#1877F2', pct:8,  reach:'210K' },
-          ] as Array<{abbr:string;c:string;pct:number;reach:string}>).map(p => (
-            <div key={p.abbr} className="bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl p-2 flex-1">
-              <div className="flex items-center gap-1 mb-1">
-                <div className="w-4 h-4 rounded-md flex items-center justify-center text-[6px] font-bold shrink-0" style={{ background: p.c+'22', color: p.c }}>{p.abbr}</div>
-                <span className="text-[8px] font-semibold text-[#0F172A]">{p.reach}</span>
-              </div>
-              <div className="h-[2px] bg-[#E2E8F0] rounded-full overflow-hidden">
-                <div className="h-full rounded-full" style={{ width: `${p.pct}%`, background: p.c }} />
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}
+const platformStyles: Record<PreviewPost['platform'], string> = {
+  Instagram: 'border-[#E1306C]/20 bg-[#E1306C]/8 text-[#9D174D]',
+  LinkedIn: 'border-[#0A66C2]/20 bg-[#0A66C2]/8 text-[#075985]',
+  Facebook: 'border-[#1877F2]/20 bg-[#1877F2]/8 text-[#1D4ED8]',
+};
 
-function PlatformsContent() {
-  return (
-    <div className="p-3 flex flex-col gap-2 h-full overflow-auto">
-      <div className="flex items-center justify-between mb-0.5">
-        <span className="text-[11px] font-semibold text-[#0F172A]">Connected platforms</span>
-        <span className="text-[8.5px] font-medium text-white bg-[#111827] px-2.5 py-1 rounded-lg">+ Connect</span>
-      </div>
-      {([
-        { name:'acme_brand', platform:'Instagram', abbr:'IG', c:'#E1306C', type:'Business', followers:'12.4K' },
-        { name:'Acme Corp',  platform:'LinkedIn',  abbr:'LI', c:'#0A66C2', type:'Company',  followers:'8.2K'  },
-        { name:'Acme Brand', platform:'Facebook',  abbr:'FB', c:'#1877F2', type:'Page',     followers:'5.7K'  },
-      ] as Array<{name:string;platform:string;abbr:string;c:string;type:string;followers:string}>).map(p => (
-        <div key={p.platform} className="bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl p-2.5">
-          <div className="flex items-center gap-2 mb-2">
-            <div className="w-7 h-7 rounded-xl flex items-center justify-center text-[8px] font-black text-white shrink-0" style={{ background: p.c }}>{p.abbr}</div>
-            <div className="flex-1 min-w-0">
-              <div className="flex items-center gap-1.5">
-                <p className="text-[10.5px] font-semibold text-[#0F172A] truncate">{p.name}</p>
-                <span className="text-[7px] font-bold px-1.5 py-0.5 rounded-full shrink-0" style={{ background: p.c+'18', color: p.c }}>Connected</span>
-              </div>
-              <p className="text-[8px] text-[#64748B]">{p.platform} · {p.type} · {p.followers} followers</p>
-            </div>
-          </div>
-          <div className="flex gap-1.5">
-            <span className="text-[8px] text-[#64748B] font-medium border border-[#E2E8F0] rounded-lg px-2 py-0.5">Reconnect</span>
-            <span className="text-[8px] text-[#111827] font-medium border border-[#E2E8F0] rounded-lg px-2 py-0.5">Disconnect</span>
-          </div>
-        </div>
-      ))}
-    </div>
-  );
-}
-
-function AiInsightsContent() {
-  const fields = [
-    { label: 'Brand Persona',    value: 'A bold, modern brand that champions creativity for visual storytellers.' },
-    { label: 'Brand Voice',      value: 'Conversational, inspiring, confident — never corporate or jargon-heavy.' },
-    { label: 'Target Audience',  value: 'Creative professionals, 25-40, primarily Instagram and LinkedIn.' },
-    { label: 'Content Pillars',  value: 'Education · Inspiration · Behind-the-scenes · Product showcases' },
-  ];
-  return (
-    <div className="p-3 flex flex-col gap-2 h-full overflow-auto">
-      <div className="flex items-center justify-between mb-0.5">
-        <span className="text-[11px] font-semibold text-[#0F172A]">AI Configuration</span>
-        <span className="text-[8.5px] font-medium text-[#047857] bg-[#047857]/10 px-2 py-0.5 rounded-full">Ready</span>
-      </div>
-      {fields.map(f => (
-        <div key={f.label} className="bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl p-2.5">
-          <p className="text-[7.5px] font-bold uppercase tracking-[0.14em] text-[#111827] mb-1">{f.label}</p>
-          <p className="text-[9.5px] text-[#334155] leading-relaxed">{f.value}</p>
-        </div>
-      ))}
-    </div>
-  );
-}
-
-const URL_MAP: Record<string, string> = {
-  Dashboard:    'app.vielinks.com/dashboard',
-  Calendar:     'app.vielinks.com/calendar',
-  Analytics:    'app.vielinks.com/analytics',
-  Platforms:    'app.vielinks.com/platforms',
-  'AI Insights':'app.vielinks.com/ai-insights',
+const statusStyles: Record<PreviewPost['status'], string> = {
+  Scheduled: 'bg-[#F1F5F9] text-[#334155]',
+  'Needs approval': 'bg-[#FEF3C7] text-[#92400E]',
+  Published: 'bg-[#ECFDF5] text-[#047857]',
+  Draft: 'bg-[#F8FAFC] text-[#64748B]',
 };
 
 function ProductPreview() {
-  const [activeTab, setActiveTab] = useState('Dashboard');
-  const [isMobile, setIsMobile] = useState(false);
-  const prefersReducedMotion = useReducedMotion();
-
-  useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth <= 768);
-    check();
-    window.addEventListener('resize', check);
-    return () => window.removeEventListener('resize', check);
-  }, []);
-
-  const navItems = [
-    { icon: <IconDashboard className="w-3.5 h-3.5" />, label: 'Dashboard'  },
-    { icon: <IconCalendar  className="w-3.5 h-3.5" />, label: 'Calendar'   },
-    { icon: <IconAnalytics className="w-3.5 h-3.5" />, label: 'Analytics'  },
-    { icon: <IconHub       className="w-3.5 h-3.5" />, label: 'Platforms'  },
-    { icon: <IconSparkle   className="w-3.5 h-3.5" />, label: 'AI Insights'},
-  ];
-
-  const titleComponent = (
-    <div className="max-w-2xl mx-auto px-4">
-      <span className="text-[11px] font-medium uppercase tracking-[0.18em] text-[#111827] mb-4 inline-block">
-        Live preview
-      </span>
-      <h2 className="text-[clamp(28px,4.5vw,52px)] leading-[1.1] tracking-[-0.04em] font-medium text-[#0F172A] mb-4">
-        Your workspace,<br />
-        <em className="not-italic text-[#111827]">at a glance.</em>
-      </h2>
-      <p className="text-[16px] leading-[1.65] text-[#64748B]">
-        Real metrics, real scheduling, real analytics — all in one clean interface.
-      </p>
-    </div>
-  );
-
-  const appShell = (
-    <div className="h-full flex flex-col bg-[#FFFFFF] overflow-hidden">
-      {/* Browser chrome */}
-      <div className="flex items-center gap-2 px-4 py-2.5 border-b border-[#E2E8F0] bg-[#F1F5F9] shrink-0">
-        <span className="w-2.5 h-2.5 rounded-full bg-[#94A3B8] opacity-50" />
-        <span className="w-2.5 h-2.5 rounded-full bg-[#94A3B8] opacity-50" />
-        <span className="w-2.5 h-2.5 rounded-full bg-[#94A3B8] opacity-50" />
-        <span className="ml-3 font-mono text-[11px] text-[#64748B]">{URL_MAP[activeTab]}</span>
-      </div>
-
-      {/* App layout */}
-      <div className="flex flex-1 overflow-hidden">
-        {/* Sidebar — desktop only */}
-        <div className="hidden md:flex flex-col w-44 shrink-0 border-r border-[#E2E8F0] bg-[#F8FAFC] p-3 gap-1">
-          <div className="flex items-center gap-2 px-2.5 pb-2.5 mb-1.5 border-b border-[#E2E8F0]">
-            <div className="w-5 h-5 rounded-md bg-[#111827] flex items-center justify-center shrink-0">
-              <span className="text-white text-[9px] font-black">V</span>
-            </div>
-            <span className="text-[12px] font-bold tracking-tight text-[#0F172A]">Vielinks</span>
-          </div>
-          {navItems.map(item => (
-            <button
-              key={item.label}
-              onClick={() => setActiveTab(item.label)}
-              className={`flex items-center gap-2.5 px-2.5 py-2 text-[11.5px] rounded-[9px] text-left w-full transition-colors ${
-                activeTab === item.label
-                  ? 'bg-[#F1F5F9] text-[#0F172A] font-medium'
-                  : 'text-[#64748B] hover:bg-[#F1F5F9] hover:text-[#0F172A]'
-              }`}
-            >
-              {item.icon} {item.label}
-            </button>
-          ))}
-        </div>
-
-        {/* Main content */}
-        <div className="flex-1 overflow-hidden relative">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={activeTab}
-              initial={{ opacity: 0, y: prefersReducedMotion ? 0 : 6 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: prefersReducedMotion ? 0 : -4 }}
-              transition={{ duration: prefersReducedMotion ? 0.1 : 0.16, ease: [0.23, 1, 0.32, 1] }}
-              className="h-full"
-            >
-              {activeTab === 'Dashboard'   && <DashboardContent />}
-              {activeTab === 'Calendar'    && <CalendarContent />}
-              {activeTab === 'Analytics'   && <AnalyticsContent />}
-              {activeTab === 'Platforms'   && <PlatformsContent />}
-              {activeTab === 'AI Insights' && <AiInsightsContent />}
-            </motion.div>
-          </AnimatePresence>
-        </div>
-      </div>
-    </div>
-  );
-
-  /* ── Mobile: static card, zero scroll hooks ── */
-  if (isMobile) {
-    return (
-      <section className="py-16 px-4">
-        <div className="text-center mb-8">
-          <span className="text-[11px] font-medium uppercase tracking-[0.18em] text-[#111827] mb-4 inline-block">
-            Live preview
-          </span>
-          <h2 className="text-[clamp(28px,8vw,40px)] leading-[1.1] tracking-[-0.04em] font-medium text-[#0F172A] mb-4">
-            Your workspace,<br />
-            <em className="not-italic text-[#111827]">at a glance.</em>
-          </h2>
-          <p className="text-[15px] leading-[1.65] text-[#64748B]">
-            Real metrics, real scheduling, real analytics — all in one clean interface.
-          </p>
-        </div>
-        <div className="border-4 border-[#2A2825] rounded-3xl bg-[#0F172A] p-2 overflow-hidden">
-          <div className="rounded-2xl bg-[#FFFFFF] overflow-hidden" style={{ height: '420px' }}>
-            <div className="flex items-center gap-2 px-4 py-2.5 border-b border-[#E2E8F0] bg-[#F1F5F9]">
-              <span className="w-2.5 h-2.5 rounded-full bg-[#94A3B8] opacity-50" />
-              <span className="w-2.5 h-2.5 rounded-full bg-[#94A3B8] opacity-50" />
-              <span className="w-2.5 h-2.5 rounded-full bg-[#94A3B8] opacity-50" />
-              <span className="ml-3 font-mono text-[11px] text-[#64748B]">app.vielinks.com/dashboard</span>
-            </div>
-            <div className="h-[calc(100%-41px)] overflow-hidden">
-              <DashboardContent />
-            </div>
-          </div>
-        </div>
-      </section>
-    );
-  }
-
-  /* ── Desktop: full scroll animation ── */
   return (
-    <ContainerScroll titleComponent={titleComponent}>
-      {appShell}
-    </ContainerScroll>
+    <aside className="relative w-full max-w-130 overflow-hidden rounded-3xl border border-[#111827]/12 bg-white p-4 shadow-[0_30px_90px_rgba(17,24,39,0.12)] ring-1 ring-[#111827]/5 sm:p-5 lg:p-6" aria-label="Vielinks product preview">
+      <div className="absolute inset-x-0 top-0 h-1.5 bg-[#111827]" />
+      <div className="mb-5 flex items-start justify-between gap-4">
+        <div>
+          <p className="mb-2 text-[11px] font-bold uppercase tracking-[0.16em] text-[#111827]">Weekly plan</p>
+          <h2 className="text-[22px] font-medium leading-tight tracking-normal text-[#0F172A] sm:text-[24px]">Content workspace</h2>
+        </div>
+        <div className="rounded-full border border-[#111827]/10 bg-[#F8FAFC] px-3 py-2 text-right shadow-[0_1px_0_rgba(17,24,39,0.05)]">
+          <span className="block text-[14px] font-semibold tabular-nums text-[#111827]">+18%</span>
+          <span className="block text-[11px] text-[#64748B]">engagement</span>
+        </div>
+      </div>
+
+      <div className="mb-4 grid grid-cols-3 gap-2 sm:gap-3">
+        {previewMetrics.map(metric => (
+          <div key={metric.label} className="rounded-2xl border border-[#111827]/8 bg-[#F8FAFC] px-3 py-3">
+            <strong className="block text-[21px] font-medium leading-none tabular-nums text-[#0F172A]">{metric.value}</strong>
+            <span className="mt-1.5 block text-[11px] leading-snug text-[#64748B]">{metric.label}</span>
+          </div>
+        ))}
+      </div>
+
+      <div className="flex flex-col gap-2.5">
+        {previewPosts.map(post => (
+          <article key={`${post.day}-${post.title}`} className="grid grid-cols-[36px_1fr] gap-3 rounded-2xl border border-[#111827]/8 bg-white p-3 shadow-[0_1px_0_rgba(17,24,39,0.04)] sm:grid-cols-[42px_1fr_auto] sm:items-center">
+            <div className="text-[12px] font-bold uppercase text-[#94A3B8]">{post.day}</div>
+            <div className="min-w-0">
+              <span className={`mb-1.5 inline-flex rounded-full border px-2 py-0.5 text-[9px] font-bold uppercase tracking-[0.12em] ${platformStyles[post.platform]}`}>
+                {post.platform}
+              </span>
+              <strong className="block overflow-hidden text-ellipsis whitespace-nowrap text-[14px] font-medium leading-tight text-[#0F172A]">{post.title}</strong>
+            </div>
+            <span className={`col-start-2 w-fit rounded-full px-2.5 py-1 text-[11px] font-semibold sm:col-start-auto ${statusStyles[post.status]}`}>
+              {post.status}
+            </span>
+          </article>
+        ))}
+      </div>
+    </aside>
   );
 }
-
 // ─── Features ────────────────────────────────────────────────────────────────
 
 type FeatureIconHandle = { startAnimation: () => void; stopAnimation: () => void };
@@ -989,8 +634,8 @@ function BigCTA() {
 
 export default function LandingPage() {
   useSEO({
-    title: 'Vielinks — One workspace for your posts',
-    description: 'Manage Instagram, LinkedIn, and Facebook from one dashboard. Schedule posts, track analytics, and grow your audience with AI-powered insights.',
+    title: 'Vielinks — Plan, approve, and publish posts',
+    description: 'Plan, approve, publish, and measure Instagram, LinkedIn, and Facebook posts from one clean workspace.',
     keywords: 'social media management, post scheduler, social analytics, content calendar, Instagram, LinkedIn, Facebook',
     jsonLd: {
       '@context': 'https://schema.org',
@@ -998,7 +643,7 @@ export default function LandingPage() {
       name: 'Vielinks',
       applicationCategory: 'Social Networking Application',
       operatingSystem: 'Web',
-      description: 'Social media management dashboard for managing multiple platforms from one place.',
+      description: 'Workspace for planning, approving, publishing, and measuring social posts across Instagram, LinkedIn, and Facebook.',
       offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
     },
   });
@@ -1008,7 +653,6 @@ export default function LandingPage() {
       <SiteNav />
       <main>
         <Hero />
-        <ProductPreview />
         <Features />
         <div className="h-20 bg-linear-to-b from-[#F8FAFC] to-[#FFFFFF]" />
         <Pricing />

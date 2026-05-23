@@ -35,7 +35,7 @@ export default function SiteNav() {
           : 'bg-transparent'
       }`}
     >
-      <div className="max-w-[1440px] mx-auto px-8 flex items-center h-16 relative">
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-8 flex items-center h-16 relative">
         {/* Vielinks — left when not scrolled, centered when scrolled */}
         <div className={`transition-[transform] duration-200 ${scrolled ? 'absolute left-1/2 -translate-x-1/2' : ''}`}>
           {scrolled ? (
@@ -58,8 +58,8 @@ export default function SiteNav() {
             scrolled ? 'opacity-0 pointer-events-none' : 'opacity-100'
           }`}
         >
-          <Link to="/login"    className="inline-flex items-center text-[14px] font-medium text-[#334155] px-[18px] py-2.5 rounded-[10px] hover:bg-[#F1F5F9] active:scale-[0.97] transition-[background-color,transform] duration-150">Sign in</Link>
-          <Link to="/register" className="inline-flex items-center text-[14px] font-medium bg-[#0F172A] text-[#F8FAFC] px-[18px] py-2.5 rounded-[10px] hover:bg-[#334155] active:scale-[0.97] transition-[background-color,transform] duration-150">Start free</Link>
+          <Link to="/login"    className="inline-flex items-center text-[14px] font-medium text-[#334155] px-3 py-2.5 rounded-[10px] hover:bg-[#F1F5F9] active:scale-[0.97] transition-[background-color,transform] duration-150 sm:px-[18px]">Sign in</Link>
+          <Link to="/register" className="hidden items-center text-[14px] font-medium bg-[#0F172A] text-[#F8FAFC] px-[18px] py-2.5 rounded-[10px] hover:bg-[#334155] active:scale-[0.97] transition-[background-color,transform] duration-150 sm:inline-flex">Start free</Link>
         </div>
       </div>
     </nav>
