@@ -1,8 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { useSEO } from '../hooks/useSEO';
 import { motion } from 'framer-motion';
-import SiteNav from '@/components/landing/SiteNav';
-import ObsidianFooter from '@/components/landing/ObsidianFooter';
+import PublicShell from '@/components/landing/PublicShell';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 
 type FAQItem = { id: string; q: string; a: string };
@@ -141,9 +140,7 @@ export default function FAQPage() {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] text-[#0F172A] overflow-x-hidden">
-      <SiteNav />
-
+    <PublicShell>
       <main className="mx-auto max-w-[900px] px-6 md:px-12 pt-36 pb-28">
 
         {/* Hero */}
@@ -245,8 +242,6 @@ export default function FAQPage() {
         </motion.div>
 
       </main>
-
-      <ObsidianFooter />
-    </div>
+    </PublicShell>
   );
 }

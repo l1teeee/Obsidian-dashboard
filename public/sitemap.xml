@@ -7,19 +7,19 @@
   <!-- Public pages -->
   <url>
     <loc>https://www.vielinks.com/</loc>
-    <lastmod>2025-01-01</lastmod>
+    <lastmod>2026-05-31</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.vielinks.com/pricing</loc>
-    <lastmod>2025-01-01</lastmod>
+    <lastmod>2026-05-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://www.vielinks.com/faq</loc>
-    <lastmod>2025-01-01</lastmod>
+    <lastmod>2026-05-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -27,31 +27,31 @@
   <!-- Product pages -->
   <url>
     <loc>https://www.vielinks.com/overview</loc>
-    <lastmod>2025-01-01</lastmod>
+    <lastmod>2026-05-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.vielinks.com/insights</loc>
-    <lastmod>2025-01-01</lastmod>
+    <lastmod>2026-05-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://www.vielinks.com/planner</loc>
-    <lastmod>2025-01-01</lastmod>
+    <lastmod>2026-05-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://www.vielinks.com/ai-studio</loc>
-    <lastmod>2025-01-01</lastmod>
+    <lastmod>2026-05-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://www.vielinks.com/connections</loc>
-    <lastmod>2025-01-01</lastmod>
+    <lastmod>2026-05-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>

@@ -6,6 +6,7 @@ import HeroBadge from '../components/landing/HeroBadge';
 import ProductShell from '../components/landing/ProductShell';
 import SocialBrandIcon from '../components/shared/SocialBrandIcon';
 import { WorkspaceFeatureGrid, type WorkspaceFeature } from '../components/landing/WorkspaceFeatureGrid';
+import { Eye, ThumbsUp, Send, TrendingDown, BarChart2, ArrowLeftRight, FileText, Bell, Users, Activity, Mail, Share2 } from 'lucide-react';
 
 const CHART_DATA = [
   { d: 'Mon', reach: 1200, eng: 340 },
@@ -18,10 +19,10 @@ const CHART_DATA = [
 ];
 
 const METRICS = [
-  { icon: 'visibility',    label: 'Total Reach',    value: '2.4M', change: '+18%',  up: true  },
-  { icon: 'thumb_up',      label: 'Avg Engagement', value: '6.8%', change: '+3.2%', up: true  },
-  { icon: 'schedule_send', label: 'Posts Published', value: '148',  change: '+22',   up: true  },
-  { icon: 'trending_down', label: 'Unfollow Rate',   value: '0.4%', change: '-0.1%', up: false },
+  { Icon: Eye,          label: 'Total Reach',    value: '2.4M', change: '+18%',  up: true  },
+  { Icon: ThumbsUp,     label: 'Avg Engagement', value: '6.8%', change: '+3.2%', up: true  },
+  { Icon: Send,         label: 'Posts Published', value: '148',  change: '+22',   up: true  },
+  { Icon: TrendingDown, label: 'Unfollow Rate',   value: '0.4%', change: '-0.1%', up: false },
 ];
 
 const PLATFORMS_OVERVIEW = [
@@ -36,40 +37,34 @@ const TOP_POSTS = [
   { platformId: 'facebook',  color: '#1877F2', label: 'Community Q&A thread', reach: '15.2K', eng: '5.4%', saves: '340'  },
 ];
 
-const MsIcon = ({ name }: { name: string }) => (
-  <span className="material-symbols-outlined" aria-hidden="true" style={{ fontSize: 18, fontVariationSettings: "'FILL' 1" }}>
-    {name}
-  </span>
-);
-
 const ANALYTICS_FEATURES: WorkspaceFeature[] = [
   {
-    icon: <MsIcon name="bar_chart" />,
+    icon: <BarChart2 size={18} aria-hidden="true" />,
     title: '90-day history',
     body: 'Scroll back through three months of data to spot trends, seasonality, and growth milestones.',
   },
   {
-    icon: <MsIcon name="compare_arrows" />,
+    icon: <ArrowLeftRight size={18} aria-hidden="true" />,
     title: 'Cross-platform compare',
     body: 'See Instagram vs LinkedIn vs Facebook side by side. Know where to focus your energy.',
   },
   {
-    icon: <MsIcon name="picture_as_pdf" />,
+    icon: <FileText size={18} aria-hidden="true" />,
     title: 'White-label PDF reports',
     body: 'Export clean branded reports in one click. Ready for clients and stakeholders.',
   },
   {
-    icon: <MsIcon name="notifications" />,
+    icon: <Bell size={18} aria-hidden="true" />,
     title: 'Performance alerts',
     body: 'Get notified when a post spikes, an account drops, or you hit a follower milestone.',
   },
   {
-    icon: <MsIcon name="person_search" />,
+    icon: <Users size={18} aria-hidden="true" />,
     title: 'Audience breakdown',
     body: 'Understand who is engaging — by age, location, and device. Create content they actually want.',
   },
   {
-    icon: <MsIcon name="radar" />,
+    icon: <Activity size={18} aria-hidden="true" />,
     title: 'Rival monitoring',
     body: 'Track competitor accounts and benchmark your performance against similar creators.',
   },
@@ -133,9 +128,7 @@ export default function ProductAnalytics() {
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
               {METRICS.map((m) => (
                 <div key={m.label} className="rounded-xl border border-[rgba(15,23,42,0.08)] bg-[#F8FAFC] p-4">
-                  <span className="material-symbols-outlined text-[#111827] mb-2 block" style={{ fontSize: 18, fontVariationSettings: "'FILL' 1" }}>
-                    {m.icon}
-                  </span>
+                  <m.Icon size={18} className="text-[#111827] mb-2" aria-hidden="true" />
                   <p className="text-xl font-semibold text-[#0F172A] tabular-nums">{m.value}</p>
                   <p className="text-[11px] text-[#64748B] mt-0.5 leading-snug">{m.label}</p>
                   <span className={`mt-2 inline-block text-[10px] font-medium px-1.5 py-0.5 rounded-md ${m.up ? 'text-[#047857] bg-[#047857]/10' : 'text-[#111827] bg-[#111827]/10'}`}>
@@ -272,13 +265,13 @@ export default function ProductAnalytics() {
               </p>
               <div className="space-y-3">
                 {[
-                  { icon: 'picture_as_pdf', label: 'PDF export',  desc: 'Branded reports, no Vielinks logo' },
-                  { icon: 'mail',           label: 'Email digest', desc: 'Scheduled weekly or monthly'       },
-                  { icon: 'share',          label: 'Share link',   desc: 'Read-only link to live dashboard'  },
+                  { Icon: FileText, label: 'PDF export',  desc: 'Branded reports, no Vielinks logo' },
+                  { Icon: Mail,     label: 'Email digest', desc: 'Scheduled weekly or monthly'       },
+                  { Icon: Share2,   label: 'Share link',   desc: 'Read-only link to live dashboard'  },
                 ].map((item) => (
                   <div key={item.label} className="flex items-center gap-3">
                     <div className="w-8 h-8 rounded-lg bg-[#111827]/8 border border-[#111827]/12 flex items-center justify-center shrink-0">
-                      <span className="material-symbols-outlined text-[#111827]" style={{ fontSize: 15, fontVariationSettings: "'FILL' 1" }}>{item.icon}</span>
+                      <item.Icon size={15} className="text-[#111827]" aria-hidden="true" />
                     </div>
                     <div>
                       <span className="text-[12px] font-semibold text-[#0F172A]">{item.label}</span>

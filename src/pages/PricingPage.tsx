@@ -3,8 +3,7 @@ import { useSEO } from '../hooks/useSEO';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
-import SiteNav from '@/components/landing/SiteNav';
-import ObsidianFooter from '@/components/landing/ObsidianFooter';
+import PublicShell from '@/components/landing/PublicShell';
 import { PLANS, PlanCard, type PlanDef } from '@/components/landing/PricingSection';
 import PlanSignupDialog from '@/components/landing/PlanSignupDialog';
 
@@ -211,9 +210,7 @@ export default function PricingPage() {
   const [dialogPlan, setDialogPlan] = useState<PlanDef | null>(null);
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] text-[#0F172A] overflow-x-hidden">
-      <SiteNav />
-
+    <PublicShell>
       <main className="mx-auto max-w-[1440px] px-6 md:px-12 pt-36 pb-28">
         {/* Hero */}
         <motion.div
@@ -291,8 +288,6 @@ export default function PricingPage() {
           </div>
         </div>
       </main>
-
-      <ObsidianFooter />
-    </div>
+    </PublicShell>
   );
 }

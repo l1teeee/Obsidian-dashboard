@@ -1,8 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useSEO } from '../hooks/useSEO';
-import SiteNav from '@/components/landing/SiteNav';
-import ObsidianFooter from '@/components/landing/ObsidianFooter';
+import PublicShell from '@/components/landing/PublicShell';
 
 const LAST_REVIEWED = 'May 22, 2026';
 
@@ -177,9 +176,7 @@ export default function SecurityPage() {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] text-[#0F172A] overflow-x-hidden">
-      <SiteNav />
-
+    <PublicShell>
       <main className="mx-auto max-w-[900px] px-6 md:px-12 pt-36 pb-28">
 
         {/* Hero */}
@@ -270,8 +267,6 @@ export default function SecurityPage() {
         </motion.div>
 
       </main>
-
-      <ObsidianFooter />
-    </div>
+    </PublicShell>
   );
 }

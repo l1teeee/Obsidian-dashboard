@@ -6,6 +6,8 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import HeroBadge from '../components/landing/HeroBadge';
 import ProductShell from '../components/landing/ProductShell';
+import SocialBrandIcon from '../components/shared/SocialBrandIcon';
+import { CalendarDays, PenLine, ClipboardList, CheckCircle2, Clock, ChevronRight } from 'lucide-react';
 import {
   MousePointerClickIcon,
   LayoutListIcon,
@@ -35,7 +37,7 @@ const POSTS: Record<number, { platform: string; color: string; time: string; lab
   ],
 };
 
-const PLATFORM_ICON: Record<string, string> = { ig: 'camera_alt', li: 'work', fb: 'thumb_up' };
+const PLATFORM_ID: Record<string, string> = { ig: 'instagram', li: 'linkedin', fb: 'facebook' };
 
 const STATUS_STYLE: Record<string, { color: string; bg: string }> = {
   Draft:     { color: '#94A3B8', bg: '#F1F5F9' },
@@ -45,21 +47,11 @@ const STATUS_STYLE: Record<string, { color: string; bg: string }> = {
 };
 
 const APPROVAL_STAGES = [
-  { key: 'draft',      label: 'Draft',      icon: 'edit_note',    color: '#94A3B8', bg: '#F1F5F9', border: '#CBD5E1' },
-  { key: 'review',    label: 'In review',  icon: 'rate_review',  color: '#B45309', bg: '#FDF6E8', border: '#E8C97A' },
-  { key: 'approved',  label: 'Approved',   icon: 'check_circle', color: '#047857', bg: '#EBF2EA', border: '#A8C9A4' },
-  { key: 'scheduled', label: 'Scheduled',  icon: 'schedule',     color: '#111827', bg: '#F5EBE8', border: '#D4A898' },
+  { key: 'draft',      label: 'Draft',      Icon: PenLine,       color: '#94A3B8', bg: '#F1F5F9', border: '#CBD5E1' },
+  { key: 'review',    label: 'In review',  Icon: ClipboardList, color: '#B45309', bg: '#FDF6E8', border: '#E8C97A' },
+  { key: 'approved',  label: 'Approved',   Icon: CheckCircle2,  color: '#047857', bg: '#EBF2EA', border: '#A8C9A4' },
+  { key: 'scheduled', label: 'Scheduled',  Icon: Clock,         color: '#111827', bg: '#F5EBE8', border: '#D4A898' },
 ];
-
-const MsIcon = ({ name, size = 18, color }: { name: string; size?: number; color?: string }) => (
-  <span
-    className="material-symbols-outlined"
-    aria-hidden="true"
-    style={{ fontSize: size, color, fontVariationSettings: "'FILL' 1" }}
-  >
-    {name}
-  </span>
-);
 
 type FeatureIconHandle = { startAnimation: () => void; stopAnimation: () => void };
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -190,7 +182,7 @@ export default function ProductScheduler() {
             {/* Calendar header */}
             <div className="bg-[#FFFFFF] px-6 py-4 border-b border-[rgba(15,23,42,0.08)] flex items-center justify-between flex-wrap gap-3">
               <div className="flex items-center gap-3">
-                <MsIcon name="calendar_month" size={18} color="#111827" />
+                <CalendarDays size={18} color="#111827" aria-hidden="true" />
                 <span className="text-[13px] font-medium text-[#0F172A]">Content calendar</span>
               </div>
               <div className="flex items-center gap-3">
@@ -233,7 +225,7 @@ export default function ProductScheduler() {
                           className="flex items-center gap-1 rounded-md px-1.5 py-1"
                           style={{ backgroundColor: `${p.color}15`, border: `1px solid ${p.color}28` }}
                         >
-                          <MsIcon name={PLATFORM_ICON[p.platform]} size={10} color={p.color} />
+                          <SocialBrandIcon platformId={PLATFORM_ID[p.platform]} size={10} color={p.color} />
                           <span className="text-[9px] font-medium truncate" style={{ color: p.color }}>{p.time}</span>
                         </div>
                       ))}
@@ -262,7 +254,7 @@ export default function ProductScheduler() {
                           className="flex items-center gap-3 px-4 py-2.5 rounded-xl border"
                           style={{ borderColor: `${p.color}28`, backgroundColor: `${p.color}0d` }}
                         >
-                          <MsIcon name={PLATFORM_ICON[p.platform]} size={16} color={p.color} />
+                          <SocialBrandIcon platformId={PLATFORM_ID[p.platform]} size={16} color={p.color} />
                           <div>
                             <p className="text-[12px] font-medium" style={{ color: p.color }}>{p.label}</p>
                             <p className="text-[10px] text-[#64748B]">{p.time} · {DAYS[active]}</p>
@@ -304,11 +296,11 @@ export default function ProductScheduler() {
                     className="flex flex-col items-center gap-2 px-6 py-5 rounded-2xl border w-full md:w-36"
                     style={{ backgroundColor: stage.bg, borderColor: stage.border }}
                   >
-                    <MsIcon name={stage.icon} size={20} color={stage.color} />
+                    <stage.Icon size={20} color={stage.color} aria-hidden="true" />
                     <span className="text-[11px] font-medium" style={{ color: stage.color }}>{stage.label}</span>
                   </div>
                   {i < APPROVAL_STAGES.length - 1 && (
-                    <span className="material-symbols-outlined text-[#CBD5E1] shrink-0 mx-1 rotate-90 md:rotate-0" aria-hidden="true" style={{ fontSize: 20 }}>chevron_right</span>
+                    <ChevronRight size={20} className="text-[#CBD5E1] shrink-0 mx-1 rotate-90 md:rotate-0" aria-hidden="true" />
                   )}
                 </div>
               ))}

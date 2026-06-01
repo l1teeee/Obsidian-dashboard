@@ -6,6 +6,7 @@ interface SEOConfig {
   type?: 'website' | 'article' | 'profile';
   url?: string;
   image?: string;
+  imageAlt?: string;
   keywords?: string;
   jsonLd?: Record<string, unknown>;
 }
@@ -19,6 +20,7 @@ export function useSEO({
   type = 'website',
   url,
   image = DEFAULT_IMAGE,
+  imageAlt = 'Vielinks social media planning workspace preview',
   keywords,
   jsonLd,
 }: SEOConfig) {
@@ -37,10 +39,21 @@ export function useSEO({
       el.content = content;
     };
 
+    const pageUrl = url || `${BASE_URL}${window.location.pathname}`;
+
     setMeta('description', description);
+    setMeta('robots', 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1');
     if (keywords) {
       setMeta('keywords', keywords);
     }
+
+    let canonical = document.querySelector('link[rel="canonical"]') as HTMLLinkElement;
+    if (!canonical) {
+      canonical = document.createElement('link');
+      canonical.rel = 'canonical';
+      document.head.appendChild(canonical);
+    }
+    canonical.href = pageUrl;
 
     // Open Graph tags
     const setOG = (property: string, content: string) => {
@@ -54,10 +67,17 @@ export function useSEO({
     };
 
     setOG('og:type', type);
+    setOG('og:site_name', 'Vielinks');
+    setOG('og:locale', 'en_US');
     setOG('og:title', title);
     setOG('og:description', description);
     setOG('og:image', image);
-    setOG('og:url', url || `${BASE_URL}${window.location.pathname}`);
+    setOG('og:image:secure_url', image);
+    setOG('og:image:type', 'image/png');
+    setOG('og:image:width', '1200');
+    setOG('og:image:height', '630');
+    setOG('og:image:alt', imageAlt);
+    setOG('og:url', pageUrl);
 
     // Twitter tags
     const setTwitter = (name: string, content: string) => {
@@ -71,9 +91,12 @@ export function useSEO({
     };
 
     setTwitter('twitter:card', 'summary_large_image');
+    setTwitter('twitter:domain', 'vielinks.com');
+    setTwitter('twitter:url', pageUrl);
     setTwitter('twitter:title', title);
     setTwitter('twitter:description', description);
     setTwitter('twitter:image', image);
+    setTwitter('twitter:image:alt', imageAlt);
 
     // JSON-LD structured data
     if (jsonLd) {
@@ -86,5 +109,5 @@ export function useSEO({
       }
       script.textContent = JSON.stringify(jsonLd);
     }
-  }, [title, description, type, url, image, keywords, jsonLd]);
+  }, [title, description, type, url, image, imageAlt, keywords, jsonLd]);
 }
