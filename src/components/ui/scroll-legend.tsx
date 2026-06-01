@@ -17,18 +17,20 @@ export function ScrollLegend({ items, className }: ScrollLegendProps) {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    const firstEl = document.getElementById(items[0]?.id ?? '');
-    const showThreshold = firstEl ? firstEl.offsetTop - window.innerHeight * 0.6 : 300;
-
     const handleScroll = () => {
-      const y = window.scrollY;
+      const firstEl = document.getElementById(items[0]?.id ?? '');
 
-      setVisible(y > showThreshold);
+      // Show legend when first tracked section is within 90% of viewport height from top
+      if (firstEl) {
+        setVisible(firstEl.getBoundingClientRect().top < window.innerHeight * 0.9);
+      } else {
+        setVisible(window.scrollY > 300);
+      }
 
-      const scrollPos = y + 120;
+      // Active = last section whose top edge has passed 40% down the viewport
       for (let i = items.length - 1; i >= 0; i--) {
         const el = document.getElementById(items[i].id);
-        if (el && el.offsetTop <= scrollPos) {
+        if (el && el.getBoundingClientRect().top <= window.innerHeight * 0.4) {
           setActiveSection(items[i].id);
           return;
         }
