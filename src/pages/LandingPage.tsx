@@ -1,12 +1,20 @@
 import { useState, useEffect, useRef, useLayoutEffect, type ForwardRefExoticComponent } from 'react';
 import { Link } from 'react-router-dom';
-import { useReducedMotion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useSEO } from '../hooks/useSEO';
-import SiteNav from '../components/landing/SiteNav';
-import ObsidianFooter from '../components/landing/ObsidianFooter';
+import { scrollToId } from '../components/landing/SiteNav';
+import PublicShell from '../components/landing/PublicShell';
+import { ContainerScroll } from '../components/ui/container-scroll-animation';
+import { AuroraBackground } from '../components/ui/aurora-background';
+import { ScrollLegend } from '../components/ui/scroll-legend';
+import SmoothScrollSections from '../components/ui/smooth-scroll';
 import {
+  LayoutListIcon,
+  CircleCheckIcon,
+  SendIcon,
+  TrendingUpIcon,
   LayoutGridIcon,
   SparklesIcon,
   ChartColumnIcon,
@@ -28,6 +36,27 @@ const IconArrow = (p: React.SVGProps<SVGSVGElement>) => (
 const IconChevron = (p: React.SVGProps<SVGSVGElement>) => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...p}>
     <polyline points="6 9 12 15 18 9" />
+  </svg>
+);
+
+const IconCalSm = (p: React.SVGProps<SVGSVGElement>) => (
+  <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" {...p}>
+    <rect x="1" y="2.5" width="12" height="10" rx="2" /><path d="M1 6h12" /><path d="M4.5 1v3" /><path d="M9.5 1v3" />
+  </svg>
+);
+const IconClockSm = (p: React.SVGProps<SVGSVGElement>) => (
+  <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" {...p}>
+    <circle cx="7" cy="7" r="6" /><path d="M7 4v3l2 2" />
+  </svg>
+);
+const IconLayersSm = (p: React.SVGProps<SVGSVGElement>) => (
+  <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" {...p}>
+    <path d="M7 1l6 3-6 3-6-3z" /><path d="M1 7l6 3 6-3" /><path d="M1 10l6 3 6-3" />
+  </svg>
+);
+const IconCheckSm = (p: React.SVGProps<SVGSVGElement>) => (
+  <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" {...p}>
+    <path d="M2 7l4 4 6-6" />
   </svg>
 );
 
@@ -73,65 +102,123 @@ const reduced = () => window.matchMedia('(prefers-reduced-motion: reduce)').matc
 function Hero() {
   const ref = useRef<HTMLElement>(null);
 
-  useLayoutEffect(() => {
-    if (reduced()) return;
-    const ctx = gsap.context(() => {
-      // Entrance
-      const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
-      tl.fromTo('[data-h="eyebrow"]', { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.5  })
-        .fromTo('[data-h="title"]',   { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.6  }, '-=0.3')
-        .fromTo('[data-h="sub"]',     { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.5  }, '-=0.38')
-        .fromTo('[data-h="ctas"]',    { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.45 }, '-=0.3')
-        .fromTo('[data-h="meta"]',    { opacity: 0 },         { opacity: 1,        duration: 0.35 }, '-=0.15')
-        .fromTo('[data-h="strip"]',   { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.45 }, '-=0.2')
-        .fromTo('[data-h="preview"]', { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.55 }, '-=0.36');
-
-      if (window.innerWidth > 768) {
-        gsap.to('[data-h="inner"]', {
-          opacity: 0,
-          y: -40,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: ref.current,
-            start: 'center top',
-            end: 'bottom top',
-            scrub: 1.5,
-          },
-        });
-      }
-    }, ref);
-    return () => ctx.revert();
-  }, []);
+  return (
+    <AuroraBackground className="min-h-[100svh] bg-white px-6 pt-28 pb-16 sm:px-8 sm:pt-32">
+      <motion.section
+        initial={{ opacity: 0, y: 28 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
+        className="mx-auto flex w-full max-w-5xl flex-col items-center text-center"
+      >
+        <p className="mb-5 text-[11px] font-medium uppercase tracking-[0.18em] text-[#64748B]">
+          Social publishing workspace
+        </p>
+        <h1 className="max-w-4xl text-[clamp(56px,10vw,132px)] font-medium leading-[0.92] tracking-[-0.055em] text-[#0F172A]">
+          Vielinks.
+        </h1>
+        <p className="mt-7 max-w-2xl text-[16px] leading-[1.75] text-[#475569] sm:text-[18px]">
+          Plan, approve, publish, and measure posts for Instagram, LinkedIn, and Facebook from one quiet workspace.
+        </p>
+        <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
+          <Link
+            to="/register"
+            className="inline-flex min-h-11 min-w-36 items-center justify-center rounded-md bg-[#111827] px-5 text-[14px] font-medium text-white transition-[background-color,transform] duration-150 hover:bg-[#0B1220] active:scale-[0.98]"
+          >
+            Start free
+          </Link>
+          <button
+            type="button"
+            onClick={() => scrollToId('features')}
+            className="inline-flex min-h-11 min-w-36 items-center justify-center rounded-md border border-[#CBD5E1] bg-white/70 px-5 text-[14px] font-medium text-[#334155] transition-[background-color,border-color,transform] duration-150 hover:border-[#94A3B8] hover:bg-white active:scale-[0.98]"
+          >
+            View product
+          </button>
+        </div>
+        <ProductPreview />
+      </motion.section>
+    </AuroraBackground>
+  );
 
   return (
     <section ref={ref} className="min-h-screen flex items-center pt-24 pb-18 sm:pt-28 sm:pb-24">
-      <div data-h="inner" className="grid w-full max-w-300 mx-auto items-center gap-12 px-6 sm:px-8 lg:grid-cols-[minmax(0,1fr)_minmax(390px,520px)] lg:gap-16 xl:gap-20">
+      <div data-h="inner" className="grid w-full max-w-310 mx-auto items-center gap-12 px-6 sm:px-8 lg:grid-cols-[minmax(0,0.92fr)_minmax(420px,560px)] lg:gap-16 xl:gap-20">
         <div className="text-center sm:text-left">
-          <h1 data-h="title" className="mx-auto mb-5 max-w-120 text-[44px] font-medium leading-[1.04] tracking-normal text-[#0F172A] sm:mx-0 sm:max-w-150 sm:text-[64px] sm:leading-[1.02] md:text-[78px] xl:text-[88px]">
-            Plan, approve, publish.
+
+          <h1 data-h="title" className="mx-auto mb-5 max-w-130 text-[44px] font-medium leading-[1.04] tracking-normal text-[#0F172A] sm:mx-0 sm:max-w-165 sm:text-[64px] sm:leading-[1.02] md:text-[76px] xl:text-[86px]">
+            A cleaner way to run <span className="text-[#0E9F6E]">every post.</span>
           </h1>
-          <p data-h="sub" className="mx-auto mb-7 max-w-112 text-[15px] leading-[1.7] text-[#64748B] sm:mx-0 sm:mb-9 sm:text-[16px]">
-            Plan social posts across three channels.
+
+          <p data-h="sub" className="mx-auto mb-4 max-w-118 text-[15px] leading-[1.7] text-[#64748B] sm:mx-0 sm:text-[16px]">
+            Vielinks keeps your calendar, approvals, captions, and analytics in one calm workspace for Instagram, LinkedIn, and Facebook.
           </p>
+
+          {/* Social proof */}
+          <div data-h="proof" className="mb-7 flex items-center justify-center gap-2.5 sm:justify-start sm:mb-9">
+            <div className="flex -space-x-1.5">
+              {[
+                { bg: '#6366F1', init: 'M' },
+                { bg: '#EC4899', init: 'S' },
+                { bg: '#F59E0B', init: 'K' },
+                { bg: '#10B981', init: 'J' },
+                { bg: '#3B82F6', init: 'A' },
+              ].map(({ bg, init }) => (
+                <div key={init} className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border-2 border-white text-[9px] font-bold text-white" style={{ background: bg }}>
+                  {init}
+                </div>
+              ))}
+            </div>
+            <span className="text-[13px] text-[#64748B]">
+              Calendar, approvals, publishing, analytics
+            </span>
+          </div>
+
+          {/* CTAs */}
           <div data-h="ctas" className="mb-4 flex flex-wrap justify-center gap-2 sm:justify-start sm:gap-3">
-            <Link to="/register" className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-[#111827] px-5 text-[14px] font-medium text-white transition-[background-color,transform] duration-150 hover:bg-[#0B1220] active:scale-[0.97]">
+            <Link
+              to="/register"
+              className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-gradient-to-br from-[#111827] to-[#0a2a1a] px-5 text-[14px] font-medium text-white shadow-[0_2px_12px_rgba(15,23,42,0.22)] transition-[opacity,transform] duration-150 hover:opacity-90 active:scale-[0.97]"
+            >
               Start free <IconArrow className="h-3.5 w-3.5" />
             </Link>
-            <a href="#product" className="hidden min-h-11 items-center justify-center rounded-xl px-5 text-[14px] font-medium text-[#64748B] transition-[background-color,color,transform] duration-150 hover:bg-[#F1F5F9] hover:text-[#0F172A] active:scale-[0.97] lg:inline-flex">
+            <button
+              onClick={() => scrollToId('features')}
+              className="hidden min-h-11 items-center justify-center rounded-xl border border-[#CBD5E1] px-5 text-[14px] font-medium text-[#64748B] transition-[background-color,color,border-color,transform] duration-150 hover:border-[#94A3B8] hover:bg-[#F1F5F9] hover:text-[#0F172A] active:scale-[0.97] lg:inline-flex"
+            >
               See the product
-            </a>
+            </button>
           </div>
+
           <p data-h="meta" className="text-[12px] text-[#94A3B8]">No card required · 14-day free trial</p>
-          <p data-h="strip" className="mx-auto mt-9 max-w-80 text-[12px] leading-relaxed text-[#94A3B8] sm:mx-0 sm:mt-12 sm:max-w-none sm:text-left">
-            Works with <span className="font-medium text-[#64748B]">Instagram</span>
-            <span className="mx-1.5 text-[#CBD5E1]">·</span>
-            <span className="font-medium text-[#64748B]">LinkedIn</span>
-            <span className="mx-1.5 text-[#CBD5E1]">·</span>
-            <span className="font-medium text-[#64748B]">Facebook</span>
-          </p>
+
+          {/* Stats strip — 4 items */}
+          <div data-h="strip" className="mx-auto mt-9 grid max-w-96 grid-cols-4 overflow-hidden rounded-2xl border border-[#0F172A]/10 bg-white text-left shadow-[0_1px_0_rgba(15,23,42,0.04)] sm:mx-0 sm:mt-12">
+            {[
+              { value: '3', label: 'channels',   Icon: IconCalSm   },
+              { value: '14', label: 'trial days', Icon: IconClockSm },
+              { value: '1', label: 'workspace',   Icon: IconLayersSm },
+              { value: 'Free', label: 'to start', Icon: IconCheckSm },
+            ].map(({ value, label, Icon }) => (
+              <div key={label} className="border-r border-[#0F172A]/8 px-3 py-3 last:border-r-0">
+                <Icon className="mb-1.5 h-3 w-3 text-[#94A3B8]" />
+                <strong className="block text-[16px] font-medium leading-none text-[#0F172A]">{value}</strong>
+                <span className="mt-1 block text-[10px] text-[#64748B]">{label}</span>
+              </div>
+            ))}
+          </div>
+
+          {/* Works with */}
+          <div data-h="logos" className="mt-5 flex flex-wrap items-center justify-center gap-x-2 gap-y-1 sm:justify-start sm:mt-6">
+            <span className="text-[11px] font-medium uppercase tracking-[0.14em] text-[#94A3B8]">Works with</span>
+            <span className="text-[#94A3B8]">·</span>
+            {['Instagram', 'LinkedIn', 'Facebook'].map((name, i, arr) => (
+              <span key={name} className="text-[12px] font-medium text-[#64748B]">
+                {name}{i < arr.length - 1 ? <span className="ml-2 text-[#94A3B8]">·</span> : null}
+              </span>
+            ))}
+          </div>
         </div>
 
-        <div id="product" data-h="preview" className="hidden justify-center lg:flex lg:justify-end">
+        <div id="product" data-h="preview" className="flex justify-center lg:justify-end">
           <ProductPreview />
         </div>
       </div>
@@ -139,82 +226,225 @@ function Hero() {
   );
 }
 
-// ─── Product Preview ──────────────────────────────────────────────────────────
+// ─── Post Composer Preview ────────────────────────────────────────────────────
 
-type PreviewPost = {
-  day: string;
-  platform: 'Instagram' | 'LinkedIn' | 'Facebook';
-  title: string;
-  status: 'Scheduled' | 'Needs approval' | 'Published' | 'Draft';
-};
+const COMPOSER_POSTS = [
+  {
+    platform: 'Instagram',
+    color: '#E1306C',
+    caption: 'Plan content in one calendar before it goes live.',
+    day: 'Calendar',
+    time: 'Planning',
+    status: 'Scheduled',
+  },
+  {
+    platform: 'LinkedIn',
+    color: '#0A66C2',
+    caption: 'Review drafts with your team before publishing.',
+    day: 'Approval',
+    time: 'Review',
+    status: 'Needs approval',
+  },
+  {
+    platform: 'Facebook',
+    color: '#1877F2',
+    caption: 'Publish and measure posts across connected channels.',
+    day: 'Publishing',
+    time: 'Analytics',
+    status: 'Draft',
+  },
+] as const;
 
-const previewPosts: PreviewPost[] = [
-  { day: 'Mon', platform: 'Instagram', title: 'Launch teaser', status: 'Scheduled' },
-  { day: 'Tue', platform: 'LinkedIn', title: 'Founder story', status: 'Needs approval' },
-  { day: 'Wed', platform: 'Facebook', title: 'Campaign post', status: 'Published' },
-  { day: 'Fri', platform: 'Instagram', title: 'Behind the scenes', status: 'Draft' },
+const STATUS_STYLES = {
+  'Scheduled':     'bg-[#F1F5F9] text-[#334155]',
+  'Needs approval':'bg-[#FEF3C7] text-[#92400E]',
+  'Draft':         'bg-[#F8FAFC] text-[#64748B]',
+} as const;
+
+const HERO_FEATURES = [
+  { name: 'Calendar',   Icon: LayoutListIcon,  body: 'Plan posts before the week fills up.'     },
+  { name: 'Approval',   Icon: CircleCheckIcon, body: 'Review drafts before anything goes live.' },
+  { name: 'Publishing', Icon: SendIcon,        body: 'Send content to the connected channels.'  },
+  { name: 'Analytics',  Icon: TrendingUpIcon,  body: 'Read post performance in context.'        },
 ];
 
-const previewMetrics = [
-  { value: '12', label: 'scheduled posts' },
-  { value: '3', label: 'pending approvals' },
-  { value: '8', label: 'team comments' },
-];
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function HeroFeatureCard({ name, Icon, body }: { name: string; Icon: ForwardRefExoticComponent<any>; body: string }) {
+  const iconRef = useRef<FeatureIconHandle>(null);
+  const [hovered, setHovered] = useState(false);
 
-const platformStyles: Record<PreviewPost['platform'], string> = {
-  Instagram: 'border-[#E1306C]/20 bg-[#E1306C]/8 text-[#9D174D]',
-  LinkedIn: 'border-[#0A66C2]/20 bg-[#0A66C2]/8 text-[#075985]',
-  Facebook: 'border-[#1877F2]/20 bg-[#1877F2]/8 text-[#1D4ED8]',
-};
+  useEffect(() => {
+    if (hovered) iconRef.current?.startAnimation();
+    else iconRef.current?.stopAnimation();
+  }, [hovered]);
 
-const statusStyles: Record<PreviewPost['status'], string> = {
-  Scheduled: 'bg-[#F1F5F9] text-[#334155]',
-  'Needs approval': 'bg-[#FEF3C7] text-[#92400E]',
-  Published: 'bg-[#ECFDF5] text-[#047857]',
-  Draft: 'bg-[#F8FAFC] text-[#64748B]',
-};
+  return (
+    <div
+      className="group bg-[#F8FAFC] p-6 flex flex-col gap-3 transition-colors duration-200 ease-out hover:bg-[#111827]"
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+      <div className="w-9 h-9 flex items-center justify-center rounded-[10px] bg-[#F1F5F9] text-[#0F172A] mb-1 transition-colors duration-200 ease-out group-hover:bg-white/15 group-hover:text-white">
+        <Icon ref={iconRef} size={18} />
+      </div>
+      <h3 className="text-[15px] font-semibold tracking-[-0.01em] text-[#0F172A] transition-colors duration-200 ease-out group-hover:text-white">
+        {name}
+      </h3>
+      <p className="text-[13px] leading-[1.6] text-[#64748B] transition-colors duration-200 ease-out group-hover:text-[#F8FAFC]">
+        {body}
+      </p>
+    </div>
+  );
+}
 
 function ProductPreview() {
   return (
-    <aside className="relative w-full max-w-130 overflow-hidden rounded-3xl border border-[#111827]/12 bg-white p-4 shadow-[0_30px_90px_rgba(17,24,39,0.12)] ring-1 ring-[#111827]/5 sm:p-5 lg:p-6" aria-label="Vielinks product preview">
-      <div className="absolute inset-x-0 top-0 h-1.5 bg-[#111827]" />
-      <div className="mb-5 flex items-start justify-between gap-4">
-        <div>
-          <p className="mb-2 text-[11px] font-bold uppercase tracking-[0.16em] text-[#111827]">Weekly plan</p>
-          <h2 className="text-[22px] font-medium leading-tight tracking-normal text-[#0F172A] sm:text-[24px]">Content workspace</h2>
-        </div>
-        <div className="rounded-full border border-[#111827]/10 bg-[#F8FAFC] px-3 py-2 text-right shadow-[0_1px_0_rgba(17,24,39,0.05)]">
-          <span className="block text-[14px] font-semibold tabular-nums text-[#111827]">+18%</span>
-          <span className="block text-[11px] text-[#64748B]">engagement</span>
-        </div>
+    <div className="mt-12 w-full max-w-3xl grid grid-cols-2 sm:grid-cols-4 gap-px bg-[#E2E8F0] border border-[#E2E8F0] rounded-2xl overflow-hidden text-left">
+      {HERO_FEATURES.map(f => <HeroFeatureCard key={f.name} {...f} />)}
+    </div>
+  );
+
+  const [active, setActive] = useState(0);
+  const [typed, setTyped] = useState(0);
+  const [visible, setVisible] = useState(true);
+
+  const post = COMPOSER_POSTS[active];
+
+  useEffect(() => { setTyped(0); }, [active]);
+
+  useEffect(() => {
+    if (typed >= post.caption.length) return;
+    const t = setTimeout(() => setTyped(n => n + 1), 26);
+    return () => clearTimeout(t);
+  }, [typed, post.caption.length]);
+
+  useEffect(() => {
+    let nextTimer: ReturnType<typeof setTimeout>;
+    const hideTimer = setTimeout(() => {
+      setVisible(false);
+      nextTimer = setTimeout(() => {
+        setActive(a => (a + 1) % COMPOSER_POSTS.length);
+        setVisible(true);
+      }, 350);
+    }, 5200);
+    return () => { clearTimeout(hideTimer); clearTimeout(nextTimer); };
+  }, [active]);
+
+  return (
+    <div className="relative w-full max-w-130">
+      {/* Floating metric */}
+      <div
+        data-h="floating"
+        className="absolute -top-3 right-3 z-10 rounded-2xl border border-[#0F172A]/10 bg-white px-3.5 py-2.5 shadow-[0_8px_28px_rgba(17,24,39,0.14)] sm:-right-4"
+      >
+        <p className="text-[10px] font-medium uppercase tracking-[0.1em] text-[#94A3B8]">This week</p>
+        <p className="mt-0.5 text-[13px] font-semibold text-[#0F172A]">
+          Plan · approve · publish
+        </p>
       </div>
 
-      <div className="mb-4 grid grid-cols-3 gap-2 sm:gap-3">
-        {previewMetrics.map(metric => (
-          <div key={metric.label} className="rounded-2xl border border-[#111827]/8 bg-[#F8FAFC] px-3 py-3">
-            <strong className="block text-[21px] font-medium leading-none tabular-nums text-[#0F172A]">{metric.value}</strong>
-            <span className="mt-1.5 block text-[11px] leading-snug text-[#64748B]">{metric.label}</span>
+      <div
+        className="relative w-full overflow-hidden rounded-3xl border border-[#111827]/12 bg-white shadow-[0_40px_100px_rgba(17,24,39,0.16),0_8px_32px_rgba(17,24,39,0.08)] ring-1 ring-[#111827]/6"
+        aria-label="Vielinks post composer"
+      >
+        {/* Accent bar — transitions color with platform */}
+        <div
+          className="h-1.5 w-full transition-[background-color] duration-500"
+          style={{ background: post.color }}
+        />
+
+        <div className="p-5 lg:p-6">
+          {/* Header */}
+          <div className="mb-4 flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#0F172A] text-[10px] font-bold text-white">J</div>
+              <span className="text-[13px] font-medium text-[#0F172A]">Jul's workspace</span>
+            </div>
+            <div className="flex items-center gap-1.5">
+              {COMPOSER_POSTS.map((p, i) => (
+                <div
+                  key={p.platform}
+                  className="h-1.5 rounded-full transition-all duration-500"
+                  style={{ width: i === active ? '18px' : '6px', background: i === active ? post.color : '#E2E8F0' }}
+                />
+              ))}
+            </div>
           </div>
-        ))}
-      </div>
 
-      <div className="flex flex-col gap-2.5">
-        {previewPosts.map(post => (
-          <article key={`${post.day}-${post.title}`} className="grid grid-cols-[36px_1fr] gap-3 rounded-2xl border border-[#111827]/8 bg-white p-3 shadow-[0_1px_0_rgba(17,24,39,0.04)] sm:grid-cols-[42px_1fr_auto] sm:items-center">
-            <div className="text-[12px] font-bold uppercase text-[#94A3B8]">{post.day}</div>
-            <div className="min-w-0">
-              <span className={`mb-1.5 inline-flex rounded-full border px-2 py-0.5 text-[9px] font-bold uppercase tracking-[0.12em] ${platformStyles[post.platform]}`}>
+          {/* Animated content block */}
+          <div
+            style={{
+              opacity: visible ? 1 : 0,
+              transform: visible ? 'translateY(0)' : 'translateY(8px)',
+              transition: 'opacity 0.35s ease, transform 0.35s ease',
+            }}
+          >
+            {/* Platform + AI label */}
+            <div className="mb-3 flex items-center gap-2">
+              <span
+                className="rounded-full border px-2.5 py-1 text-[11px] font-bold uppercase tracking-[0.1em]"
+                style={{ borderColor: `${post.color}35`, background: `${post.color}0D`, color: post.color }}
+              >
                 {post.platform}
               </span>
-              <strong className="block overflow-hidden text-ellipsis whitespace-nowrap text-[14px] font-medium leading-tight text-[#0F172A]">{post.title}</strong>
+              <span className="flex items-center gap-1 text-[11px] text-[#94A3B8]">
+                <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" className="h-3 w-3">
+                  <path d="M6 1l1.2 3.5H11L8.1 6.6l1.1 3.4L6 8.2l-3.2 1.8 1.1-3.4L1 4.5h3.8z" />
+                </svg>
+                AI draft
+              </span>
             </div>
-            <span className={`col-start-2 w-fit rounded-full px-2.5 py-1 text-[11px] font-semibold sm:col-start-auto ${statusStyles[post.status]}`}>
-              {post.status}
-            </span>
-          </article>
-        ))}
+
+            {/* Image placeholder */}
+            <div
+              className="mb-4 flex h-28 w-full items-center justify-center rounded-2xl transition-[background-color,border-color] duration-500"
+              style={{ background: `${post.color}0C`, border: `1px solid ${post.color}22` }}
+            >
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" className="h-9 w-9 transition-[color] duration-500" style={{ color: `${post.color}55` }}>
+                <rect x="3" y="3" width="18" height="18" rx="3" />
+                <circle cx="8.5" cy="8.5" r="1.5" />
+                <polyline points="21 15 16 10 5 21" />
+              </svg>
+            </div>
+
+            {/* Caption with typing cursor */}
+            <div className="mb-4 min-h-[76px] rounded-2xl border border-[#0F172A]/8 bg-[#F8FAFC] px-4 py-3">
+              <p className="text-[13px] leading-[1.65] text-[#334155]">
+                {post.caption.slice(0, typed)}
+                {typed < post.caption.length && (
+                  <span className="ml-px inline-block h-[14px] w-[2px] translate-y-[2px] animate-pulse rounded-sm bg-[#0E9F6E]" />
+                )}
+              </p>
+            </div>
+
+            {/* Schedule row */}
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-1.5 text-[12px] text-[#64748B]">
+                <IconClockSm className="h-3.5 w-3.5 text-[#94A3B8]" />
+                {post.day} · {post.time}
+              </div>
+              <span className={`rounded-full px-2.5 py-1 text-[11px] font-semibold ${STATUS_STYLES[post.status]}`}>
+                {post.status}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        {/* Bottom bar */}
+        <div className="flex items-center justify-between border-t border-[#0F172A]/6 bg-[#F8FAFC] px-5 py-3 lg:px-6">
+          <div className="flex items-center gap-1.5 text-[12px] text-[#94A3B8]">
+            <span className="h-1.5 w-1.5 rounded-full bg-[#0E9F6E]" />
+            3 accounts connected
+          </div>
+          <div
+            className="rounded-xl px-3.5 py-1.5 text-[12px] font-medium text-white transition-[background-color] duration-500"
+            style={{ background: post.color }}
+          >
+            Schedule →
+          </div>
+        </div>
       </div>
-    </aside>
+    </div>
   );
 }
 // ─── Features ────────────────────────────────────────────────────────────────
@@ -547,6 +777,7 @@ function FAQ() {
   );
 }
 
+
 // ─── BigCTA ───────────────────────────────────────────────────────────────────
 
 function BigCTA() {
@@ -617,13 +848,13 @@ function BigCTA() {
             >
               Start free <IconArrow className="w-3.5 h-3.5 transition-transform duration-200 group-hover:translate-x-0.5" />
             </Link>
-            <a
-              href="#pricing"
+            <button
+              onClick={() => scrollToId('pricing')}
               className="inline-flex w-full sm:w-auto min-w-40 items-center justify-center gap-2 rounded-xl border border-[rgba(255,255,255,0.18)] px-6 py-3.5 text-[15px] font-medium transition-all duration-200 hover:bg-[rgba(255,255,255,0.07)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F8FAFC] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0F172A]"
               style={{ color: 'rgba(255,255,255,0.7)' }}
             >
               See pricing
-            </a>
+            </button>
           </div>
         </div>
       </div>
@@ -631,6 +862,354 @@ function BigCTA() {
   );
 }
 
+
+// ─── Dashboard Preview (static) ───────────────────────────────────────────────
+
+const DASH_WEEK_DAYS = [
+  { day: 'SUN', date: '31', posts: [] as { caption: string; platform: string }[] },
+  { day: 'MON', date: '1',  posts: [{ caption: 'Launch teaser',    platform: 'instagram' }] },
+  { day: 'TUE', date: '2',  posts: [] as { caption: string; platform: string }[] },
+  { day: 'WED', date: '3',  posts: [{ caption: 'Industry insights', platform: 'linkedin'  }] },
+  { day: 'THU', date: '4',  posts: [] as { caption: string; platform: string }[] },
+  { day: 'FRI', date: '5',  posts: [{ caption: 'Weekend promo',     platform: 'facebook'  }] },
+  { day: 'SAT', date: '6',  posts: [] as { caption: string; platform: string }[] },
+];
+
+const DASH_RECENT = [
+  { initial: 'C', color: '#1877F2', caption: 'Cada paso que das hacia tus metas es una victoria. Mantente enfocado y r', date: 'Apr 30, 10:36 PM' },
+  { initial: 'P', color: '#1877F2', caption: 'Primera prueba de subida',  date: 'Apr 30, 6:51 PM'  },
+  { initial: 'H', color: '#1877F2', caption: 'Hola a todos',              date: 'Apr 29, 2:15 PM'  },
+];
+
+const pColor = (p: string) => p === 'instagram' ? '#E1306C' : p === 'linkedin' ? '#0A66C2' : '#1877F2';
+
+type DashSection = 'dashboard' | 'posts' | 'calendar' | 'insights' | 'configure';
+const SECTION_TITLE: Record<DashSection, string> = { dashboard: 'Home', posts: 'Posts', calendar: 'Calendar', insights: 'Insights', configure: 'Configure' };
+
+function DashboardPreview() {
+  const [active, setActive] = useState<DashSection>('dashboard');
+
+  const SBtn = ({ id, icon, label, sub }: { id: DashSection; icon: string; label: string; sub?: boolean }) => (
+    <button onClick={() => setActive(id)} className={`w-full flex items-center gap-2 rounded-lg text-left transition-colors duration-150 ${sub ? 'px-3 py-1 ml-5' : 'px-3 py-1.5'} ${active === id ? 'bg-[#F1F5F9]' : 'hover:bg-[#F8FAFC]'}`}>
+      <span className={`material-symbols-outlined ${active === id ? 'text-[#0F172A]' : 'text-[#94A3B8]'}`} style={{ fontSize: sub ? 12 : 15 }}>{icon}</span>
+      <span className={`${sub ? 'text-[10px]' : 'text-[11px] font-medium'} ${active === id ? 'text-[#0F172A]' : 'text-[#64748B]'}`}>{label}</span>
+    </button>
+  );
+
+  return (
+    <div className="h-full w-full flex overflow-hidden bg-[#F8FAFC] select-none text-[#0F172A]">
+
+      {/* ── Sidebar ── */}
+      <aside className="flex flex-col w-36 shrink-0 border-r border-[#0F172A]/8 bg-white overflow-hidden">
+        <div className="px-4 py-3 border-b border-[#0F172A]/8">
+          <span className="font-bold text-[13px] tracking-[-0.02em]">Vielinks</span>
+        </div>
+        <div className="px-3 py-2 border-b border-[#0F172A]/8">
+          <div className="flex items-center gap-2 px-2 py-1.5 rounded-lg bg-[#F8FAFC]">
+            <div className="w-5 h-5 rounded-md bg-[#0F172A] flex items-center justify-center shrink-0">
+              <span className="text-white font-bold" style={{ fontSize: 9 }}>P</span>
+            </div>
+            <span className="text-[11px] font-medium truncate">prueba</span>
+          </div>
+        </div>
+        <nav className="flex-1 px-2 py-3 flex flex-col gap-0.5 overflow-hidden">
+          <SBtn id="dashboard" icon="dashboard"      label="Dashboard" />
+          <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg pointer-events-none">
+            <span className="material-symbols-outlined text-[#94A3B8]" style={{ fontSize: 15 }}>edit_note</span>
+            <span className="text-[11px] font-medium text-[#94A3B8]">Publish</span>
+          </div>
+          <div className="flex flex-col gap-0.5">
+            <SBtn id="posts"    icon="article"        label="Posts"    sub />
+            <SBtn id="calendar" icon="calendar_month" label="Calendar" sub />
+          </div>
+          <SBtn id="insights"  icon="monitoring" label="Insights"  />
+          <SBtn id="configure" icon="settings"   label="Configure" />
+        </nav>
+        <div className="px-3 py-2.5 border-t border-[#0F172A]/8 flex items-center gap-2">
+          <div className="w-6 h-6 rounded-full bg-[#0F172A] flex items-center justify-center shrink-0">
+            <span className="text-white font-bold" style={{ fontSize: 7 }}>JM</span>
+          </div>
+          <div className="min-w-0">
+            <p className="text-[9px] font-semibold truncate">Julian Mendez</p>
+            <p className="text-[8px] text-[#94A3B8] uppercase tracking-wide">Starter Plan</p>
+          </div>
+        </div>
+      </aside>
+
+      {/* ── Main ── */}
+      <div className="flex-1 flex flex-col overflow-hidden">
+        <div className="flex items-center justify-between px-5 py-2.5 border-b border-[#0F172A]/8 bg-white shrink-0 pointer-events-none">
+          <span className="font-bold text-[13px] tracking-[-0.01em]">{SECTION_TITLE[active]}</span>
+          <span className="material-symbols-outlined text-[#94A3B8]" style={{ fontSize: 18 }}>notifications</span>
+        </div>
+
+        <div className="flex-1 overflow-y-auto px-5 py-4">
+
+          {/* ── Dashboard ── */}
+          {active === 'dashboard' && (
+            <div className="space-y-4">
+              <div className="flex items-end justify-between pb-3 border-b border-[#0F172A]/8">
+                <div>
+                  <p className="text-[9px] font-mono font-bold uppercase tracking-[0.16em] text-[#64748B] mb-1.5">SUNDAY · MAY 31 · 2026</p>
+                  <h1 className="text-[20px] font-medium tracking-[-0.03em] leading-[1.1]">
+                    Plan a <em className="not-italic" style={{ fontFamily: "'Instrument Serif',Georgia,serif", fontStyle: 'italic' }}>quiet</em> week ahead.
+                  </h1>
+                  <p className="text-[10px] text-[#64748B] mt-1 max-w-xs leading-relaxed">3 posts in the queue. Engagement is steady.</p>
+                </div>
+                <div className="flex items-center gap-4 shrink-0">
+                  {[['3','Scheduled'],['21','Total Posts'],['—','Engagement']].map(([v,l],i) => (
+                    <div key={l} className="flex items-center gap-4">
+                      {i > 0 && <div className="w-px h-6 bg-[#0F172A]/10" />}
+                      <div className="text-center">
+                        <p className="text-[20px] font-bold leading-none">{v}</p>
+                        <p className="text-[8px] font-mono uppercase tracking-[0.12em] text-[#64748B] mt-0.5">{l}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className="grid grid-cols-3 gap-3">
+                <div className="rounded-2xl border border-[#0F172A]/10 overflow-hidden relative bg-[#111827]" style={{ height: 160 }}>
+                  <div className="absolute inset-0" style={{ background: 'radial-gradient(circle at 45% 55%,#4facfe 0%,#00f2fe 20%,#43e97b 40%,#f093fb 65%,#0F172A 85%)', opacity: 0.85 }} />
+                  <div className="absolute top-2 left-2 flex items-center gap-1 px-2 py-1 rounded-md" style={{ background: 'rgba(15,23,42,0.55)', backdropFilter: 'blur(6px)' }}>
+                    <span className="material-symbols-outlined text-white/80" style={{ fontSize: 9 }}>public</span>
+                    <span className="font-mono text-[7px] text-white font-bold uppercase tracking-wider">FACEBOOK · 1:1</span>
+                  </div>
+                </div>
+                <div className="rounded-2xl border border-[#0F172A]/10 bg-white p-4 flex flex-col gap-2" style={{ height: 160 }}>
+                  <div className="flex items-center gap-1.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#111827]" />
+                    <span className="text-[8px] font-mono uppercase tracking-[0.1em] text-[#111827]">Next Up · Sep 23</span>
+                  </div>
+                  <h3 className="text-[11px] font-medium leading-tight">Un viaje hacia la luna comienza con una visión clara...</h3>
+                  <p className="text-[10px] text-[#64748B] leading-relaxed line-clamp-2 flex-1">Cuando miramos más allá de lo visible, descubrimos un universo lleno de posibilidades...</p>
+                  <div className="flex items-center gap-1.5 pt-1.5 border-t border-[#0F172A]/8">
+                    <span className="px-2 py-1 rounded-lg bg-[#111827] text-white text-[8px] font-bold">Preview</span>
+                    <span className="px-2 py-1 rounded-lg border border-[#0F172A]/15 text-[8px] font-semibold">Edit post</span>
+                  </div>
+                </div>
+                <div className="flex flex-col gap-2" style={{ height: 160 }}>
+                  <div className="flex-1 rounded-2xl border p-3 flex flex-col gap-1" style={{ borderColor: 'rgba(14,159,110,0.22)', background: 'rgba(14,159,110,0.10)' }}>
+                    <div className="flex items-center gap-1.5">
+                      <div className="w-5 h-5 rounded-md bg-[#111827] flex items-center justify-center">
+                        <span className="material-symbols-outlined text-white" style={{ fontSize: 11, fontVariationSettings: "'FILL' 1" }}>add</span>
+                      </div>
+                      <span className="text-[8px] font-mono font-bold uppercase text-[#111827]">Compose</span>
+                    </div>
+                    <p className="text-[10px] font-semibold">Write something for tomorrow.</p>
+                    <p className="text-[9px] text-[#64748B]">AI can help with caption</p>
+                  </div>
+                  {[['auto_awesome','Generate caption','Brand voice'],['calendar_month','Plan the week','3 posts']].map(([ic,t,s]) => (
+                    <div key={t} className="rounded-2xl border border-[#0F172A]/10 bg-white px-3 py-2 flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <span className="material-symbols-outlined text-[#64748B]" style={{ fontSize: 12 }}>{ic}</span>
+                        <div><p className="text-[9px] font-medium">{t}</p><p className="text-[8px] text-[#64748B]">{s}</p></div>
+                      </div>
+                      <span className="material-symbols-outlined text-[#94A3B8]" style={{ fontSize: 13 }}>chevron_right</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className="grid grid-cols-7 border border-[#0F172A]/10 rounded-xl overflow-hidden">
+                {DASH_WEEK_DAYS.map(({ day, date, posts }) => (
+                  <div key={day} className={`min-h-[70px] p-1.5 border-r border-[#0F172A]/10 last:border-r-0 flex flex-col ${date==='31' ? 'bg-[#F4E0D6]/30' : ''}`}>
+                    <div className="flex items-center justify-between mb-1">
+                      <span className="text-[7px] font-mono uppercase tracking-widest text-[#64748B]">{day}</span>
+                      <span className="text-[9px] font-bold">{date}</span>
+                    </div>
+                    {posts.length === 0 ? <span className="text-[#94A3B8] text-[10px]">–</span> : posts.map((p,j) => (
+                      <div key={j} className="px-1 py-0.5 rounded text-[8px] bg-[#F1F5F9] truncate" style={{ borderLeft:`2px solid ${pColor(p.platform)}` }}>
+                        <span className="truncate text-[#334155]">{p.caption.slice(0,12)}</span>
+                      </div>
+                    ))}
+                  </div>
+                ))}
+              </div>
+              <div className="space-y-1.5">
+                {DASH_RECENT.map((post,i) => (
+                  <div key={i} className="flex items-center gap-2.5 rounded-xl border border-[#0F172A]/8 bg-white px-3 py-2">
+                    <div className="w-7 h-7 rounded-xl flex items-center justify-center text-white font-bold shrink-0 text-[11px]" style={{ background: post.color }}>{post.initial}</div>
+                    <span className="text-[8px] font-bold px-1.5 py-0.5 rounded-full text-white shrink-0" style={{ background: '#10B981' }}>PUBLISHED</span>
+                    <p className="text-[10px] text-[#334155] truncate flex-1">{post.caption}</p>
+                    <span className="text-[8px] text-[#94A3B8] shrink-0">{post.date}</span>
+                    {[['0','Likes'],['—','Cmts'],['0','Shares']].map(([v,l]) => (
+                      <div key={l} className="text-center shrink-0"><p className="text-[9px] font-bold">{v}</p><p className="text-[7px] text-[#94A3B8] uppercase">{l}</p></div>
+                    ))}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* ── Posts ── */}
+          {active === 'posts' && (
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <h2 className="text-[13px] font-bold">All posts</h2>
+                <span className="px-2.5 py-1.5 rounded-lg bg-[#0F172A] text-white text-[9px] font-bold pointer-events-none">+ New post</span>
+              </div>
+              <div className="flex gap-1">
+                {['All','Published','Scheduled','Draft','Needs approval'].map((tab,i) => (
+                  <span key={tab} className={`px-2.5 py-1 rounded-full text-[9px] font-medium ${i===0 ? 'bg-[#0F172A] text-white' : 'bg-[#F1F5F9] text-[#64748B]'}`}>{tab}</span>
+                ))}
+              </div>
+              {[
+                { init:'C', color:'#1877F2', pl:'facebook',  cap:'Cada paso que das hacia tus metas es una victoria…',   st:'published',      date:'Apr 30, 10:36 PM', lk:24, cm:3  },
+                { init:'L', color:'#0A66C2', pl:'linkedin',  cap:'Industry insights for Q2 2026 — what changed and why', st:'scheduled',      date:'Jun 1, 09:00 AM',  lk:0,  cm:0  },
+                { init:'S', color:'#E1306C', pl:'instagram', cap:'Sunday recap — a quiet week full of good decisions',    st:'draft',          date:'Jun 5',            lk:0,  cm:0  },
+                { init:'P', color:'#1877F2', pl:'facebook',  cap:'Primera prueba de subida al calendario',               st:'published',      date:'Apr 30, 6:51 PM',  lk:8,  cm:1  },
+                { init:'B', color:'#0A66C2', pl:'linkedin',  cap:'Behind the scenes — a week with the team',            st:'needs approval', date:'Jun 3',            lk:0,  cm:0  },
+              ].map((p,i) => {
+                const stStyle: Record<string,string> = { published:'bg-[#ECFDF5] text-[#047857]', scheduled:'bg-[#F1F5F9] text-[#334155]', draft:'bg-[#F8FAFC] text-[#94A3B8]', 'needs approval':'bg-[#FEF3C7] text-[#92400E]' };
+                return (
+                  <div key={i} className="flex items-center gap-2.5 rounded-xl border border-[#0F172A]/8 bg-white px-3 py-2.5">
+                    <div className="w-8 h-8 rounded-xl flex items-center justify-center text-white font-bold shrink-0 text-[11px]" style={{ background: p.color }}>{p.init}</div>
+                    <span className="material-symbols-outlined text-[#94A3B8] shrink-0" style={{ fontSize: 13 }}>{p.pl==='instagram'?'photo_camera':p.pl==='linkedin'?'work':'thumb_up'}</span>
+                    <p className="text-[10px] text-[#334155] truncate flex-1">{p.cap}</p>
+                    <span className={`text-[8px] font-bold px-2 py-0.5 rounded-full shrink-0 ${stStyle[p.st]}`}>{p.st.toUpperCase()}</span>
+                    <span className="text-[8px] text-[#94A3B8] shrink-0 w-24 text-right">{p.date}</span>
+                    <div className="flex gap-3 shrink-0">
+                      {[['favorite',p.lk],['comment',p.cm]].map(([ic,v]) => (
+                        <div key={String(ic)} className="flex items-center gap-0.5">
+                          <span className="material-symbols-outlined text-[#94A3B8]" style={{ fontSize: 10 }}>{ic}</span>
+                          <span className="text-[9px] text-[#64748B]">{v}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+
+          {/* ── Calendar ── */}
+          {active === 'calendar' && (
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <div><h2 className="text-[13px] font-bold">Content calendar</h2><p className="text-[9px] text-[#64748B]">June 2026</p></div>
+                <div className="flex items-center gap-2">
+                  <span className="flex items-center gap-1.5 text-[9px] text-[#94A3B8]">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#E1306C]"/> IG
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#0A66C2]"/> LI
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#1877F2]"/> FB
+                  </span>
+                  <span className="px-2.5 py-1.5 rounded-lg bg-[#0F172A] text-white text-[9px] font-bold pointer-events-none">+ New post</span>
+                </div>
+              </div>
+              <div className="grid grid-cols-7 bg-[#F8FAFC] rounded-xl overflow-hidden border border-[#0F172A]/10">
+                {['SUN','MON','TUE','WED','THU','FRI','SAT'].map(d => (
+                  <div key={d} className="py-2 text-center text-[8px] font-mono font-bold uppercase tracking-widest text-[#94A3B8] border-b border-[#0F172A]/8">{d}</div>
+                ))}
+                {[
+                  {d:1,posts:[]},{d:2,posts:[{p:'instagram',t:'10:00'}]},{d:3,posts:[]},
+                  {d:4,posts:[{p:'linkedin',t:'09:00'}]},{d:5,posts:[]},{d:6,posts:[{p:'facebook',t:'18:00'},{p:'instagram',t:'20:00'}]},{d:7,posts:[]},
+                  {d:8,posts:[]},{d:9,posts:[{p:'instagram',t:'11:00'}]},{d:10,posts:[]},
+                  {d:11,posts:[{p:'linkedin',t:'08:30'}]},{d:12,posts:[]},{d:13,posts:[{p:'facebook',t:'15:00'}]},{d:14,posts:[{p:'instagram',t:'12:00'}]},
+                ].map(({d,posts}) => (
+                  <div key={d} className="min-h-[72px] p-2 border-r border-b border-[#0F172A]/8 last:border-r-0 bg-white">
+                    <span className="text-[9px] font-bold text-[#64748B] block mb-1">{d}</span>
+                    <div className="space-y-0.5">
+                      {posts.map((pp,j) => (
+                        <div key={j} className="flex items-center gap-1 px-1 py-0.5 rounded text-[8px]" style={{ background:`${pColor(pp.p)}15`, borderLeft:`2px solid ${pColor(pp.p)}` }}>
+                          <span className="font-medium truncate" style={{ color:pColor(pp.p) }}>{pp.t}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* ── Insights ── */}
+          {active === 'insights' && (
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <h2 className="text-[13px] font-bold">Insights</h2>
+                <span className="px-2.5 py-1 rounded-full bg-[#F1F5F9] text-[9px] font-medium text-[#64748B]">Last 30 days</span>
+              </div>
+              <div className="grid grid-cols-4 gap-3">
+                {[['4,218','Total reach','+12%'],['6.2%','Avg engagement','+0.8%'],['12,045','Impressions','+18%'],['87','New followers','+5%']].map(([v,l,d]) => (
+                  <div key={l} className="rounded-2xl border border-[#0F172A]/10 bg-white p-3">
+                    <p className="text-[18px] font-bold leading-none mb-1">{v}</p>
+                    <p className="text-[9px] text-[#64748B]">{l}</p>
+                    <p className="text-[8px] font-semibold text-[#047857] mt-1">{d}</p>
+                  </div>
+                ))}
+              </div>
+              <div className="rounded-2xl border border-[#0F172A]/10 bg-white p-4">
+                <h3 className="text-[11px] font-bold mb-3">Platform performance</h3>
+                <div className="space-y-2.5">
+                  {[['Instagram','#E1306C',45],['LinkedIn','#0A66C2',35],['Facebook','#1877F2',20]].map(([n,c,pct]) => (
+                    <div key={String(n)} className="flex items-center gap-3">
+                      <span className="text-[9px] font-medium w-16 shrink-0 text-[#334155]">{n}</span>
+                      <div className="flex-1 h-2 rounded-full bg-[#F1F5F9] overflow-hidden">
+                        <div className="h-full rounded-full" style={{ width:`${pct}%`, background:String(c) }} />
+                      </div>
+                      <span className="text-[9px] font-semibold w-8 text-right text-[#64748B]">{pct}%</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className="space-y-1.5">
+                <h3 className="text-[11px] font-bold mb-2">Top posts this month</h3>
+                {[['#E1306C','Product launch reel','1,240 reach','8.4%'],['#0A66C2','Industry insights Q2','980 reach','7.1%'],['#1877F2','Community spotlight','760 reach','5.9%']].map(([c,t,r,e]) => (
+                  <div key={String(t)} className="flex items-center gap-2.5 rounded-xl border border-[#0F172A]/8 bg-white px-3 py-2">
+                    <div className="w-2 h-8 rounded-full shrink-0" style={{ background:String(c) }} />
+                    <p className="text-[10px] font-medium text-[#334155] flex-1">{t}</p>
+                    <span className="text-[9px] text-[#64748B]">{r}</span>
+                    <span className="text-[9px] font-bold text-[#047857]">{e}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* ── Configure ── */}
+          {active === 'configure' && (
+            <div className="space-y-4">
+              <h2 className="text-[13px] font-bold">Platform connections</h2>
+              <div className="space-y-2">
+                {[
+                  { name:'Instagram', handle:'@mitienda.mx',      color:'#E1306C', icon:'photo_camera' },
+                  { name:'LinkedIn',  handle:'Alejandro Mendez',   color:'#0A66C2', icon:'work'         },
+                  { name:'Facebook',  handle:'Prueba Page',        color:'#1877F2', icon:'thumb_up'     },
+                ].map(({name,handle,color,icon}) => (
+                  <div key={name} className="flex items-center gap-3 rounded-2xl border border-[#0F172A]/10 bg-white px-4 py-3">
+                    <div className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0" style={{ background:`${color}15` }}>
+                      <span className="material-symbols-outlined" style={{ fontSize:18, color }}>{icon}</span>
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-[11px] font-semibold">{name}</p>
+                      <p className="text-[9px] text-[#64748B]">{handle}</p>
+                    </div>
+                    <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#ECFDF5]">
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#10B981]" />
+                      <span className="text-[8px] font-bold text-[#047857]">Connected</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <div className="rounded-2xl border border-[#0F172A]/10 bg-white divide-y divide-[#0F172A]/8 overflow-hidden">
+                <div className="text-[10px] font-bold text-[#64748B] uppercase tracking-widest px-4 py-2.5 bg-[#F8FAFC]">Workspace settings</div>
+                {[['Timezone','America/Mexico_City','language'],['Default language','Spanish','translate'],['Post notifications','Enabled','notifications']].map(([l,v,ic]) => (
+                  <div key={String(l)} className="flex items-center justify-between px-4 py-2.5">
+                    <div className="flex items-center gap-2">
+                      <span className="material-symbols-outlined text-[#94A3B8]" style={{ fontSize:13 }}>{ic}</span>
+                      <span className="text-[10px] font-medium">{l}</span>
+                    </div>
+                    <span className="text-[10px] text-[#64748B]">{v}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export default function LandingPage() {
   useSEO({
@@ -649,18 +1228,42 @@ export default function LandingPage() {
   });
 
   return (
-    <div className="min-h-screen w-full bg-[#F8FAFC] text-[#0F172A] overflow-x-hidden">
-      <SiteNav />
+    <PublicShell>
+      <ScrollLegend
+        items={[
+          { id: 'how-it-works', name: 'How it works' },
+          { id: 'features',     name: 'Features'     },
+          { id: 'pricing',      name: 'Pricing'      },
+          { id: 'faq',          name: 'FAQ'           },
+        ]}
+      />
       <main>
         <Hero />
+        <div className="h-24 bg-linear-to-b from-[#FFFFFF] to-[#F8FAFC]" />
+        <ContainerScroll
+          titleComponent={
+            <div className="text-center">
+              <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-[#64748B] mb-4">The workspace</p>
+              <h2 className="text-[clamp(28px,4vw,52px)] leading-[1.08] tracking-[-0.035em] font-medium text-[#0F172A] mb-4">
+                Every post.<br />
+                <em className="not-italic text-[#64748B] font-normal">One workspace.</em>
+              </h2>
+              <p className="text-[15px] leading-[1.65] text-[#64748B] max-w-lg mx-auto">
+                Plan the week, review what is ready, and publish across three platforms without switching tabs.
+              </p>
+            </div>
+          }
+        >
+          <DashboardPreview />
+        </ContainerScroll>
         <Features />
         <div className="h-20 bg-linear-to-b from-[#F8FAFC] to-[#FFFFFF]" />
         <Pricing />
         <div className="h-20 bg-linear-to-b from-[#FFFFFF] to-[#F8FAFC]" />
         <FAQ />
+        <SmoothScrollSections />
         <BigCTA />
       </main>
-      <ObsidianFooter />
-    </div>
+    </PublicShell>
   );
 }

@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import { useScroll, useTransform, useSpring, motion, useReducedMotion, type MotionValue } from "framer-motion";
+import { useScroll, useTransform, motion, useReducedMotion, type MotionValue } from "framer-motion"; // motion used by Card
 
 export const ContainerScroll = ({
   titleComponent,
@@ -10,10 +10,6 @@ export const ContainerScroll = ({
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: containerRef });
-  const { scrollYProgress: fadeProgress } = useScroll({
-    target: containerRef,
-    offset: ["start 0.9", "end 0.1"],
-  });
   const [isMobile, setIsMobile] = React.useState(false);
 
   React.useEffect(() => {
@@ -26,22 +22,20 @@ export const ContainerScroll = ({
   const shouldReduceMotion = useReducedMotion();
   const scaleDimensions = () => (isMobile ? [0.7, 0.9] : [1.05, 1]);
 
-  const rotateRaw  = useTransform(scrollYProgress, [0, 1], shouldReduceMotion ? [0, 0] : [8, 0]);
-  const rotate     = useSpring(rotateRaw, { stiffness: 60, damping: 22, mass: 0.4 });
-  const scale      = useTransform(scrollYProgress, [0, 1], shouldReduceMotion ? [1, 1] : scaleDimensions());
-  const opacity    = useTransform(fadeProgress, [0, 0.15, 0.85, 1], [0, 1, 1, 0]);
+  const rotate = useTransform(scrollYProgress, [0, 1], shouldReduceMotion ? [0, 0] : [20, 0]);
+  const scale  = useTransform(scrollYProgress, [0, 1], shouldReduceMotion ? [1, 1] : scaleDimensions());
 
   return (
     <div
-      className="h-[56rem] md:h-[74rem] flex items-center justify-center relative p-2 md:p-14 overflow-hidden"
+      className="h-[60rem] md:h-[80rem] flex items-center justify-center relative p-2 md:p-20 bg-[#F8FAFC]"
       ref={containerRef}
     >
-      <motion.div className="py-8 md:py-32 w-full relative" style={{ perspective: "1200px", opacity }}>
+      <div className="py-10 md:py-40 w-full relative" style={{ perspective: "1000px" }}>
         <Header titleComponent={titleComponent} />
         <Card rotate={rotate} scale={scale}>
           {children}
         </Card>
-      </motion.div>
+      </div>
     </div>
   );
 };
@@ -62,8 +56,14 @@ export const Card = ({
   children: React.ReactNode;
 }) => (
   <motion.div
-    style={{ rotateX: rotate, scale }}
-    className="max-w-5xl mx-auto h-[30rem] md:h-[40rem] w-full border-4 border-[#2A2825] p-2 md:p-5 bg-[#0F172A] rounded-[30px]"
+    style={{
+      rotateX: rotate,
+      scale,
+      willChange: "transform",
+      backfaceVisibility: "hidden",
+      WebkitBackfaceVisibility: "hidden",
+    }}
+    className="max-w-5xl -mt-12 mx-auto h-[30rem] md:h-[40rem] w-full border-4 border-[#2A2825] p-2 md:p-5 bg-[#0F172A] rounded-[30px]"
   >
     <div className="h-full w-full overflow-hidden rounded-2xl bg-[#FFFFFF]">
       {children}

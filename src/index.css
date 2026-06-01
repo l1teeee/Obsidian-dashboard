@@ -11,6 +11,11 @@
   to   { background-position: 0% center; }
 }
 
+@keyframes aurora {
+  from { background-position: 50% 50%, 50% 50%; }
+  to   { background-position: 350% 50%, 350% 50%; }
+}
+
 @keyframes accordion-down {
   from { height: 0; }
   to   { height: var(--radix-accordion-content-height); }
@@ -34,6 +39,7 @@
   --animate-accordion-up:   accordion-up    0.22s ease-out;
   --animate-tooltip-open:   tooltip-open  0.14s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   --animate-tooltip-close:  tooltip-close 0.10s ease-in forwards;
+  --animate-aurora: aurora 60s linear infinite;
 }
 
 @theme {
