@@ -106,7 +106,7 @@ export default function ObsidianFooter() {
 
         <div className="flex flex-col items-center justify-between gap-2 pt-8 text-[12px] text-[rgba(255,255,255,0.4)] sm:flex-row">
           <span>&copy; 2026 Vielinks. Made for teams who post on purpose.</span>
-          <span>v2.0</span>
+          <span>Designed &amp; built by <span className="text-[rgba(255,255,255,0.55)]">Numen Agency</span></span>
         </div>
       </div>
     </footer>
