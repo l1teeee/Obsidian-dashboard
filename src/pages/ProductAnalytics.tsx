@@ -6,7 +6,7 @@ import HeroBadge from '../components/landing/HeroBadge';
 import ProductShell from '../components/landing/ProductShell';
 import SocialBrandIcon from '../components/shared/SocialBrandIcon';
 import { WorkspaceFeatureGrid, type WorkspaceFeature } from '../components/landing/WorkspaceFeatureGrid';
-import { Eye, ThumbsUp, Send, TrendingDown, BarChart2, ArrowLeftRight, FileText, Bell, Users, Activity, Mail, Share2 } from 'lucide-react';
+import { Eye, ThumbsUp, Send, TrendingDown, BarChart2, ArrowLeftRight, FileText, Bell, Users, Activity, Mail, Share2, Sparkles } from 'lucide-react';
 
 const CHART_DATA = [
   { d: 'Mon', reach: 1200, eng: 340 },
@@ -286,7 +286,7 @@ export default function ProductAnalytics() {
             <div className="rounded-2xl border border-[rgba(15,23,42,0.10)] bg-[#FFFFFF] p-6">
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-2">
-                  <span className="material-symbols-outlined text-[#111827]" style={{ fontSize: 15, fontVariationSettings: "'FILL' 1" }}>picture_as_pdf</span>
+                  <FileText size={15} className="text-[#111827]" aria-hidden="true" />
                   <span className="text-[12px] font-semibold text-[#0F172A]">Monthly Report · April 2026</span>
                 </div>
                 <span className="text-[9px] font-semibold uppercase tracking-[0.14em] text-[#94A3B8] border border-[rgba(15,23,42,0.10)] rounded-full px-2 py-0.5">Example</span>
@@ -319,7 +319,7 @@ export default function ProductAnalytics() {
       <section className="py-12 mx-auto max-w-5xl px-6">
         <div className="rounded-2xl border border-[#111827]/20 bg-[#F5EBE8] p-6 md:p-8 flex flex-col md:flex-row items-start md:items-center gap-5">
           <div className="w-10 h-10 rounded-xl bg-[#111827]/15 border border-[#111827]/20 flex items-center justify-center shrink-0">
-            <span className="material-symbols-outlined text-[#111827]" style={{ fontSize: 20, fontVariationSettings: "'FILL' 1" }}>auto_fix_high</span>
+            <Sparkles size={20} className="text-[#111827]" aria-hidden="true" />
           </div>
           <div className="flex-1">
             <p className="text-[14px] font-semibold text-[#0F172A] mb-1">Your data powers AI Insights</p>

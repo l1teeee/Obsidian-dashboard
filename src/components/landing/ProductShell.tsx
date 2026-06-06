@@ -1,5 +1,6 @@
 import { type ReactNode } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { Network, Lock, RefreshCw, Bell, Check } from 'lucide-react';
 import SiteNav from './SiteNav';
 import ObsidianFooter from './ObsidianFooter';
 
@@ -9,15 +10,6 @@ interface ProductShellProps {
 
 type Nav = ReturnType<typeof useNavigate>;
 
-const MsIcon = ({ name, size = 18, color }: { name: string; size?: number; color?: string }) => (
-  <span
-    className="material-symbols-outlined"
-    aria-hidden="true"
-    style={{ fontSize: size, color, fontVariationSettings: "'FILL' 1" }}
-  >
-    {name}
-  </span>
-);
 
 function CTAButtons({
   navigate,
@@ -237,7 +229,7 @@ function IntegrationsCTA({ navigate }: { navigate: Nav }) {
               <div className="h-px flex-1 bg-[#CBD5E1] opacity-50" />
               {/* Center hub */}
               <div className="flex h-16 w-16 shrink-0 flex-col items-center justify-center rounded-2xl border border-[#111827]/24 bg-[#F4E0D6] text-[#111827]">
-                <MsIcon name="hub" size={22} />
+                <Network size={22} aria-hidden="true" />
                 <span className="font-mono text-[8px]">Vielinks</span>
               </div>
               <div className="h-px flex-1 bg-[#CBD5E1] opacity-50" />
@@ -265,12 +257,12 @@ function IntegrationsCTA({ navigate }: { navigate: Nav }) {
             {/* Status strip */}
             <div className="mt-8 grid grid-cols-3 gap-3 text-center">
               {[
-                { icon: 'lock',          label: 'OAuth 2.0',  sub: 'No password stored' },
-                { icon: 'sync',          label: 'Auto-sync',  sub: 'Every hour'          },
-                { icon: 'notifications', label: 'Alerts',     sub: 'When issues arise'   },
+                { Icon: Lock,      label: 'OAuth 2.0',  sub: 'No password stored' },
+                { Icon: RefreshCw, label: 'Auto-sync',  sub: 'Every hour'          },
+                { Icon: Bell,      label: 'Alerts',     sub: 'When issues arise'   },
               ].map(s => (
                 <div key={s.label} className="rounded-xl border border-[rgba(15,23,42,0.08)] bg-[#FFFFFF] px-3 py-3">
-                  <MsIcon name={s.icon} size={14} color="#111827" />
+                  <s.Icon size={14} color="#111827" aria-hidden="true" />
                   <p className="mt-1 text-[11px] font-semibold text-[#0F172A]">{s.label}</p>
                   <p className="text-[9px] text-[#94A3B8]">{s.sub}</p>
                 </div>
@@ -371,7 +363,7 @@ function DashboardCTA({ navigate }: { navigate: Nav }) {
                       t.done ? 'border-[#047857] bg-[#047857]' : 'border-[#CBD5E1]'
                     }`}
                   >
-                    {t.done && <MsIcon name="check" size={9} color="white" />}
+                    {t.done && <Check size={9} color="white" aria-hidden="true" />}
                   </div>
                   <span
                     className={`text-[11px] leading-snug ${
