@@ -832,31 +832,49 @@ function BigCTA() {
   }, []);
 
   return (
-    <section ref={ref} className="py-14">
+    <section ref={ref} className="py-24 bg-[#F8FAFC]">
       <div data-cta="inner" className="max-w-300 mx-auto px-8">
-        <div data-cta="box" className="bg-[#0F172A] text-[#F8FAFC] rounded-3xl px-8 md:px-16 py-20 text-center">
-          <h2 className="text-[clamp(36px,5.5vw,64px)] leading-[1.05] tracking-[-0.04em] mb-5 font-medium">
-            Start the <em className="not-italic text-[#0E9F6E]">quiet</em> way.
-          </h2>
-          <p className="text-[16px] max-w-120 mx-auto mb-7" style={{ color: 'rgba(255,255,255,0.7)' }}>
-            One workspace, three networks, fourteen days free. Cancel with one click.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <Link
-              to="/register"
-              aria-label="Start free trial"
-              className="group inline-flex w-full sm:w-auto min-w-40 items-center justify-center gap-2 rounded-xl bg-[#FFFFFF] px-6 py-3.5 text-[15px] font-medium text-[#0F172A] transition-colors duration-200 hover:bg-[#F1F5F9] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F8FAFC] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0F172A]"
-            >
-              Start free <IconArrow className="w-3.5 h-3.5 transition-transform duration-200 group-hover:translate-x-0.5" />
-            </Link>
-            <button
-              onClick={() => scrollToId('pricing')}
-              className="inline-flex w-full sm:w-auto min-w-40 items-center justify-center gap-2 rounded-xl border border-[rgba(255,255,255,0.18)] px-6 py-3.5 text-[15px] font-medium transition-all duration-200 hover:bg-[rgba(255,255,255,0.07)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F8FAFC] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0F172A]"
-              style={{ color: 'rgba(255,255,255,0.7)' }}
-            >
-              See pricing
-            </button>
+        <div data-cta="box" className="relative text-center">
+          {/* Top rule */}
+          <div className="absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent via-[#CBD5E1] to-transparent" />
+
+          <div className="pt-16 pb-16">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-muted-foreground mb-6">
+              Ready when you are
+            </p>
+            <h2 className="text-[clamp(40px,6vw,72px)] leading-[1.02] tracking-[-0.04em] mb-6 font-medium text-[#0F172A]">
+              Start the <em className="not-italic text-[#0E9F6E]">quiet</em> way.
+            </h2>
+            <p className="text-[17px] leading-[1.7] max-w-120 mx-auto mb-10 text-muted-foreground font-light">
+              One workspace, three networks, fourteen days free. Cancel with one click.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-3 justify-center">
+              <Link
+                to="/register"
+                aria-label="Start free trial"
+                className="group inline-flex w-full sm:w-auto min-w-44 items-center justify-center gap-2 rounded-xl bg-[#0F172A] px-7 py-4 text-[15px] font-medium text-[#F8FAFC] transition-colors duration-200 hover:bg-[#1E293B] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0F172A] focus-visible:ring-offset-2"
+              >
+                Start free <IconArrow className="w-3.5 h-3.5 transition-transform duration-200 group-hover:translate-x-0.5" />
+              </Link>
+              <button
+                onClick={() => scrollToId('pricing')}
+                className="inline-flex w-full sm:w-auto min-w-44 items-center justify-center gap-2 rounded-xl border border-[#CBD5E1] bg-[#FFFFFF] px-7 py-4 text-[15px] font-medium text-on-surface-variant transition-all duration-200 hover:bg-[#F1F5F9] hover:border-outline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0F172A] focus-visible:ring-offset-2"
+              >
+                See pricing
+              </button>
+            </div>
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
+              {['14-day free trial', 'No credit card required', 'Cancel anytime'].map((t) => (
+                <span key={t} className="flex items-center gap-1.5 text-[0.72rem] text-outline">
+                  <span className="h-1 w-1 rounded-full bg-[#CBD5E1]" />
+                  {t}
+                </span>
+              ))}
+            </div>
           </div>
+
+          {/* Bottom rule */}
+          <div className="absolute inset-x-0 bottom-0 h-px bg-linear-to-r from-transparent via-[#CBD5E1] to-transparent" />
         </div>
       </div>
     </section>
