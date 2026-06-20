@@ -1,73 +1,52 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { CreditCard, Calendar, Lock, Check, ArrowLeft } from 'lucide-react';
-import { Input } from '../components/ui/input';
-import { Label } from '../components/ui/label';
+import { Check, ArrowLeft } from 'lucide-react';
+import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
+import { apiFetch } from '../lib/api';
+import { getPaypalPlanId } from '../services/paypal.service';
 
 interface PendingPlan {
   planId:  string;
-  billing: 'monthly' | 'annually';
+  billing: 'annually';
   price:   number;
   name:    string;
 }
 
 const PLAN_FEATURES: Record<string, string[]> = {
-  starter: ['3 social accounts', '60 scheduled posts/mo', 'AI caption suggestions', 'Email support'],
-  pro:     ['10 social accounts', 'Unlimited posts', 'AI best-time engine', 'Priority support (4h)'],
-  agency:  ['Unlimited accounts', 'White-label PDF reports', 'API access', 'Dedicated CSM'],
+  starter: ['Up to 30 posts / month', '7-day analytics window', 'Email-only support'],
+  pro:     ['Unlimited posts', 'Full analytics history', 'AI caption drafts', 'Approval workflows'],
+  studio:  ['Everything in Pro', 'Multiple brand workspaces', 'Client review portals', 'Priority support'],
 };
 
 const PLAN_ICON: Record<string, string> = {
   starter: 'bolt',
   pro:     'auto_awesome',
-  agency:  'corporate_fare',
+  studio:  'corporate_fare',
 };
-
-function formatCardNumber(v: string) {
-  return v.replace(/\D/g, '').replace(/(.{4})/g, '$1 ').trim().slice(0, 19);
-}
-function formatExpiry(v: string) {
-  const d = v.replace(/\D/g, '').slice(0, 4);
-  return d.length > 2 ? `${d.slice(0, 2)}/${d.slice(2)}` : d;
-}
 
 type Step = 'form' | 'success';
 
 export default function Checkout() {
   const navigate = useNavigate();
-  const [plan,   setPlan]   = useState<PendingPlan | null>(null);
-  const [step,   setStep]   = useState<Step>('form');
-
-  const [cardNumber, setCardNumber] = useState('');
-  const [expiry,     setExpiry]     = useState('');
-  const [cvc,        setCvc]        = useState('');
-  const [name,       setName]       = useState('');
-  const [loading,    setLoading]    = useState(false);
+  const [plan,        setPlan]        = useState<PendingPlan | null>(null);
+  const [step,        setStep]        = useState<Step>('form');
+  const [paypalError, setPaypalError] = useState<string | null>(null);
 
   useEffect(() => {
     const raw = sessionStorage.getItem('pending_plan');
     if (!raw) { navigate('/dashboard', { replace: true }); return; }
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     try { setPlan(JSON.parse(raw) as PendingPlan); }
     catch { navigate('/dashboard', { replace: true }); }
   }, [navigate]);
-
-  const handlePay = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    await new Promise(r => setTimeout(r, 1600));
-    sessionStorage.removeItem('pending_plan');
-    setLoading(false);
-    setStep('success');
-  };
 
   const goToDashboard = () => navigate('/dashboard', { replace: true });
 
   if (!plan) return null;
 
-  const features = PLAN_FEATURES[plan.planId] ?? [];
-  const icon     = PLAN_ICON[plan.planId] ?? 'star';
+  const features    = PLAN_FEATURES[plan.planId] ?? [];
+  const icon        = PLAN_ICON[plan.planId] ?? 'star';
+  const annualTotal = plan.price * 12;
 
   return (
     <div className="auth-bg min-h-screen flex items-center justify-center p-6 relative overflow-hidden">
@@ -98,7 +77,6 @@ export default function Checkout() {
               </button>
 
               <div className="relative flex-1 flex flex-col">
-                {/* Plan header */}
                 <div className="w-14 h-14 rounded-2xl bg-[#111827]/10 border border-[#111827]/20 flex items-center justify-center mb-5">
                   <span
                     className="material-symbols-outlined text-[#111827]"
@@ -113,13 +91,12 @@ export default function Checkout() {
 
                 <div className="flex items-baseline gap-1.5 mb-1">
                   <span className="text-4xl font-extrabold text-[#0F172A]">${plan.price}</span>
-                  <span className="text-sm text-[#64748B]">/{plan.billing === 'monthly' ? 'month' : 'year'}</span>
+                  <span className="text-sm text-[#64748B]">/ mo</span>
                 </div>
                 <p className="text-[11px] text-[#64748B] mb-6">
-                  {plan.billing === 'monthly' ? 'Billed monthly · cancel anytime' : 'Billed annually · ~17% savings'}
+                  Billed annually · ${annualTotal} / yr
                 </p>
 
-                {/* Features */}
                 <div className="space-y-2.5 mb-auto">
                   {features.map(f => (
                     <div key={f} className="flex items-center gap-2.5">
@@ -131,11 +108,10 @@ export default function Checkout() {
                   ))}
                 </div>
 
-                {/* Trust badges */}
                 <div className="mt-8 pt-5 border-t border-border grid grid-cols-2 gap-3">
                   {[
                     { icon: 'shield', text: 'SSL encrypted' },
-                    { icon: 'undo',   text: '7-day refund' },
+                    { icon: 'undo',   text: 'Cancel anytime' },
                   ].map(b => (
                     <div key={b.text} className="flex items-center gap-1.5 text-[11px] text-[#334155]">
                       <span className="material-symbols-outlined text-[#64748B]" style={{ fontSize: 14 }}>{b.icon}</span>
@@ -146,121 +122,61 @@ export default function Checkout() {
               </div>
             </div>
 
-            {/* ── Right: Payment form ── */}
+            {/* ── Right: PayPal ── */}
             <div className="p-8 flex flex-col">
               <div className="mb-6">
-                <h2 className="text-lg font-bold text-[#0F172A]">Payment details</h2>
-                <p className="text-xs text-[#64748B] mt-0.5">Complete your purchase securely</p>
+                <h2 className="text-lg font-bold text-[#0F172A]">Complete your subscription</h2>
+                <p className="text-xs text-[#64748B] mt-0.5">Annual billing · cancel anytime</p>
               </div>
 
-              {/* Payment method tabs */}
-              <div className="grid grid-cols-3 gap-2 mb-6">
-                {['card', 'paypal', 'apple'].map((m, i) => (
-                  <button
-                    key={m}
-                    className={[
-                      'h-11 flex items-center justify-center rounded-xl border text-xs font-semibold transition-all',
-                      i === 0
-                        ? 'border-[#111827]/40 bg-[#111827]/8 text-[#111827]'
-                        : 'border-border bg-white text-[#64748B] hover:border-[#111827]/30 hover:text-[#0F172A]',
-                    ].join(' ')}
-                  >
-                    {m === 'card'   && <CreditCard size={16} />}
-                    {m === 'paypal' && <span className="font-bold italic text-sm">Pay</span>}
-                    {m === 'apple'  && <span className="font-semibold text-sm">Pay</span>}
-                  </button>
-                ))}
+              <div className="flex items-center justify-between px-4 py-3 rounded-xl bg-[#111827]/5 border border-[#111827]/10 mb-6">
+                <div>
+                  <p className="text-xs text-[#64748B]">Total today</p>
+                  <p className="text-[10px] text-[#334155]">14-day free trial then billed annually</p>
+                </div>
+                <span className="text-xl font-extrabold text-[#0F172A]">${annualTotal} / yr</span>
               </div>
 
-              <form onSubmit={handlePay} className="flex flex-col gap-4 flex-1">
-                {/* Card number */}
-                <div className="space-y-1.5">
-                  <Label className="text-[#64748B] text-xs">Card number</Label>
-                  <div className="relative">
-                    <Input
-                      placeholder="0000 0000 0000 0000"
-                      value={cardNumber}
-                      onChange={e => setCardNumber(formatCardNumber(e.target.value))}
-                      className="pl-9"
-                      required
-                    />
-                    <CreditCard size={14} className="absolute left-3 top-2.5 text-[#64748B]" />
-                  </div>
-                </div>
+              <PayPalScriptProvider
+                options={{
+                  clientId: import.meta.env.VITE_PAYPAL_CLIENT_ID as string,
+                  vault:    true,
+                  intent:   'subscription',
+                }}
+              >
+                <PayPalButtons
+                  style={{ layout: 'vertical', color: 'black', shape: 'rect', label: 'subscribe' }}
+                  createSubscription={(_data, actions) =>
+                    actions.subscription.create({ plan_id: getPaypalPlanId(plan.planId) })
+                  }
+                  onApprove={async (data) => {
+                    setPaypalError(null);
+                    try {
+                      await apiFetch('/payments/paypal/subscription', {
+                        method: 'POST',
+                        body:   JSON.stringify({
+                          subscriptionId: data.subscriptionID,
+                          planId:         plan.planId,
+                        }),
+                      });
+                      sessionStorage.removeItem('pending_plan');
+                      setStep('success');
+                    } catch {
+                      setPaypalError('There was a problem confirming your subscription. Please contact support.');
+                    }
+                  }}
+                  onError={() =>
+                    setPaypalError('Something went wrong with PayPal. Please try again.')
+                  }
+                  onCancel={() =>
+                    setPaypalError('Payment cancelled. Click the PayPal button to try again.')
+                  }
+                />
+              </PayPalScriptProvider>
 
-                {/* Expiry + CVC */}
-                <div className="grid grid-cols-2 gap-3">
-                  <div className="space-y-1.5">
-                    <Label className="text-[#64748B] text-xs">Expiry date</Label>
-                    <div className="relative">
-                      <Input
-                        placeholder="MM/YY"
-                        value={expiry}
-                        onChange={e => setExpiry(formatExpiry(e.target.value))}
-                        className="pl-9"
-                        required
-                      />
-                      <Calendar size={14} className="absolute left-3 top-2.5 text-[#64748B]" />
-                    </div>
-                  </div>
-                  <div className="space-y-1.5">
-                    <Label className="text-[#64748B] text-xs">CVC</Label>
-                    <div className="relative">
-                      <Input
-                        placeholder="123"
-                        value={cvc}
-                        onChange={e => setCvc(e.target.value.replace(/\D/g, '').slice(0, 3))}
-                        className="pl-9"
-                        required
-                      />
-                      <Lock size={14} className="absolute left-3 top-2.5 text-[#64748B]" />
-                    </div>
-                  </div>
-                </div>
-
-                {/* Cardholder */}
-                <div className="space-y-1.5">
-                  <Label className="text-[#64748B] text-xs">Cardholder name</Label>
-                  <Input
-                    placeholder="John Doe"
-                    value={name}
-                    onChange={e => setName(e.target.value)}
-                    required
-                  />
-                </div>
-
-                {/* Summary */}
-                <div className="flex items-center justify-between px-4 py-3 rounded-xl bg-[#111827]/5 border border-[#111827]/10 mt-auto">
-                  <div>
-                    <p className="text-xs text-[#64748B]">Total today</p>
-                    <p className="text-[10px] text-[#334155]">14-day free trial then billed</p>
-                  </div>
-                  <span className="text-xl font-extrabold text-[#0F172A]">${plan.price}</span>
-                </div>
-
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className="w-full py-3 rounded-xl bg-[#111827] text-white font-bold text-sm hover:bg-[#0B1220] shadow-[0_0_24px_rgba(14,159,110,0.25)] hover:shadow-[0_0_36px_rgba(14,159,110,0.35)] transition-all active:scale-[0.98] disabled:opacity-70 flex items-center justify-center gap-2"
-                >
-                  {loading ? (
-                    <>
-                      <span className="material-symbols-outlined text-[14px] animate-spin">progress_activity</span>
-                      Processing…
-                    </>
-                  ) : (
-                    <>
-                      <Lock size={13} />
-                      Pay ${plan.price} — Start {plan.name}
-                    </>
-                  )}
-                </button>
-
-                <p className="text-center text-[10px] text-[#64748B] flex items-center justify-center gap-1">
-                  <Lock size={9} />
-                  Payments secured by 256-bit SSL encryption
-                </p>
-              </form>
+              {paypalError && (
+                <p className="mt-4 text-sm text-red-500 text-center">{paypalError}</p>
+              )}
             </div>
           </motion.div>
         ) : (
@@ -278,7 +194,7 @@ export default function Checkout() {
             <p className="text-[#64748B] text-sm mb-2">
               <span className="text-[#111827] font-semibold">{plan.name}</span> plan activated.
             </p>
-            <p className="text-[#334155] text-xs mb-8">Your first charge of ${plan.price} starts after your 14-day trial.</p>
+            <p className="text-[#334155] text-xs mb-8">Your subscription is active. Welcome to Vielinks!</p>
             <button
               onClick={goToDashboard}
               className="px-8 py-3 rounded-xl bg-[#111827] text-white font-bold text-sm hover:bg-[#0B1220] transition-all active:scale-[0.98]"
