@@ -580,9 +580,9 @@ function Features() {
 function Pricing() {
   const ref = useRef<HTMLElement>(null);
   const plans = [
-    { name: 'Starter', price: 0, unit: '/ forever', desc: 'One person, one workspace, three connected accounts.', items: ['Up to 30 posts / month', '7-day analytics window', 'Email-only support'], cta: 'Start free', featured: false },
-    { name: 'Pro', price: 18, unit: '/ user / mo', desc: 'For teams of 2–8 who post weekly across all three networks.', items: ['Unlimited posts', 'Full analytics history', 'AI caption drafts', 'Approval workflows'], cta: 'Start 14-day trial', featured: true },
-    { name: 'Studio', price: 64, unit: '/ user / mo', desc: 'For agencies and in-house teams managing multiple brands.', items: ['Everything in Pro', 'Multiple brand workspaces', 'Client review portals', 'Priority support'], cta: 'Talk to us', featured: false },
+    { name: 'Starter', price: 10, unit: '/ mo', desc: 'One person, one workspace, three connected accounts.', items: ['Up to 30 posts / month', '7-day analytics window', 'Email-only support'], cta: 'Subscribe now', featured: false },
+    { name: 'Pro', price: 15, unit: '/ mo', desc: 'For teams of 2–8 who post weekly across all three networks.', items: ['Unlimited posts', 'Full analytics history', 'AI caption drafts', 'Approval workflows'], cta: 'Subscribe now', featured: true },
+    { name: 'Studio', price: 25, unit: '/ mo', desc: 'For agencies and in-house teams managing multiple brands.', items: ['Everything in Pro', 'Multiple brand workspaces', 'Client review portals', 'Priority support'], cta: 'Subscribe now', featured: false },
   ];
 
   useLayoutEffect(() => {
@@ -644,7 +644,7 @@ function Pricing() {
             Three plans. <em className="not-italic text-[#111827]">No surprises.</em>
           </h2>
           <p className="text-[16px] leading-[1.65] text-[#64748B] max-w-140 mb-12">
-            A free tier that's actually useful, a paid tier priced for working teams, and a studio tier for agencies. No "contact sales" until the studio plan.
+            Three plans, all billed annually. Built for solo creators, growing teams, and agencies. No hidden fees, cancel anytime.
           </p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -668,7 +668,7 @@ function Pricing() {
                   </li>
                 ))}
               </ul>
-              <Link to="/register" className="mt-auto w-full inline-flex justify-center items-center text-[14px] font-medium px-4.5 py-2.5 rounded-[10px] transition-[background-color,color,transform] duration-150 active:scale-[0.97] group-hover:-translate-y-0.5"
+              <Link to="/pricing" className="mt-auto w-full inline-flex justify-center items-center text-[14px] font-medium px-4.5 py-2.5 rounded-[10px] transition-[background-color,color,transform] duration-150 active:scale-[0.97] group-hover:-translate-y-0.5"
                 style={p.featured ? { background: '#FFFFFF', color: '#0F172A' } : { background: '#0F172A', color: '#F8FAFC' }}>
                 {p.cta}
               </Link>
