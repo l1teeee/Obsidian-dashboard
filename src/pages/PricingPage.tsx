@@ -242,7 +242,7 @@ export default function PricingPage() {
           className="relative mt-14 grid gap-5 sm:grid-cols-2 xl:grid-cols-3 lg:items-start"
         >
           {PLANS.map((plan) => (
-            <PlanCard key={plan.id} plan={plan} billing="monthly" onSelectPlan={setDialogPlan} />
+            <PlanCard key={plan.id} plan={plan} onSelectPlan={setDialogPlan} />
           ))}
         </motion.div>
 
