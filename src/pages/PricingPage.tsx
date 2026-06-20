@@ -172,7 +172,7 @@ function ComparisonTable() {
 /* ── FAQ strip ───────────────────────────────────────────── */
 const FAQS = [
   { q: 'Can I change plans later?', a: 'Yes - upgrade or downgrade anytime from your workspace settings. Billing is prorated.' },
-  { q: 'Is there a free trial?', a: 'Starter is free forever. Pro and Studio have a 14-day trial, no card required.' },
+  { q: 'Is there a free trial?', a: 'All plans start with a 14-day free trial. Starter is $10/mo, Pro is $15/mo, Studio is $25/mo, all billed annually.' },
   { q: 'What counts as a social account?', a: 'Each connected Instagram, LinkedIn, or Facebook profile counts as one account.' },
   { q: 'Do you offer refunds?', a: 'Yes. If you cancel within 7 days of a charge, we will issue a full refund, no questions asked.' },
 ];
@@ -202,7 +202,7 @@ function FAQ() {
 export default function PricingPage() {
   useSEO({
     title: 'Vielinks Pricing - Three Plans. No Surprises.',
-    description: 'Starter is free forever. Pro at $18/user/mo for working teams. Studio at $64/user/mo for agencies. No contact-sales maze until Studio.',
+    description: 'Three plans billed annually. Starter at $10/mo, Pro at $15/mo, Studio at $25/mo. Cancel anytime.',
     keywords: 'social media pricing, social scheduler cost, Instagram management pricing, LinkedIn tools cost',
   });
 
@@ -227,7 +227,7 @@ export default function PricingPage() {
             Three plans. <span className="text-[#111827]">No surprises.</span>
           </h1>
           <p className="mt-5 text-[1rem] font-light leading-[1.8] text-[#334155] max-w-xl mx-auto">
-            A free tier that's actually useful, a paid tier priced for working teams, and a studio tier for agencies. No contact-sales maze until the Studio plan.
+            Three plans, all billed annually. Built for solo creators, growing teams, and agencies. No hidden fees, cancel anytime.
           </p>
         </motion.div>
 
@@ -247,7 +247,7 @@ export default function PricingPage() {
         </motion.div>
 
         <p className="mt-8 text-center text-[0.8rem] text-[#64748B]">
-          Starter is free forever · Pro and Studio include a 14-day trial · No hidden fees
+          All plans include a 14-day free trial · Billed annually · Cancel anytime
         </p>
 
         <PlanSignupDialog
@@ -268,14 +268,14 @@ export default function PricingPage() {
               Still not sure which plan fits?
             </h3>
             <p className="text-[0.9rem] text-[#334155] max-w-sm text-center">
-              Start with Starter - it's free forever. Upgrade to Pro when your team is ready, or talk to us about Studio.
+              Start your 14-day free trial today. No setup fees, cancel anytime.
             </p>
             <div className="flex flex-col sm:flex-row gap-3">
               <button
                 onClick={() => navigate('/register')}
                 className="rounded-full bg-[#111827] px-8 py-3.5 text-sm font-bold text-white hover:bg-[#0B1220] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0E9F6E]"
               >
-                Start for free
+                Start free trial
               </button>
               <button
                 onClick={() => { window.location.href = 'mailto:hello@vielinks.com?subject=Vielinks%20Studio%20plan'; }}

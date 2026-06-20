@@ -151,6 +151,10 @@ export default function Checkout() {
                   }
                   onApprove={async (data) => {
                     setPaypalError(null);
+                    if (!data.subscriptionID) {
+                      setPaypalError('Subscription ID missing. Please try again.');
+                      return;
+                    }
                     try {
                       await apiFetch('/payments/paypal/subscription', {
                         method: 'POST',
