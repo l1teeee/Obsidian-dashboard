@@ -252,7 +252,6 @@ export default function PricingPage() {
 
         <PlanSignupDialog
           plan={dialogPlan}
-          billing="monthly"
           onClose={() => setDialogPlan(null)}
         />
 

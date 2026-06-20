@@ -1,11 +1,10 @@
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Check, X } from 'lucide-react';
-import type { PlanDef, BillingPlan } from './PricingSection';
+import type { PlanDef } from './PricingSection';
 
 interface PlanSignupDialogProps {
   plan:    PlanDef | null;
-  billing: BillingPlan;
   onClose: () => void;
 }
 
@@ -15,15 +14,15 @@ const PLAN_ICONS: Record<string, string> = {
   studio:  'corporate_fare',
 };
 
-export default function PlanSignupDialog({ plan, billing, onClose }: PlanSignupDialogProps) {
+export default function PlanSignupDialog({ plan, onClose }: PlanSignupDialogProps) {
   const navigate = useNavigate();
-  const price    = plan ? (billing === 'monthly' ? plan.monthlyPrice : plan.annuallyPrice) : 0;
+  const price    = plan?.annuallyPrice ?? 0;
 
   const storePlan = () => {
     if (!plan) return;
     sessionStorage.setItem('pending_plan', JSON.stringify({
       planId:  plan.id,
-      billing,
+      billing: 'annually',
       price,
       name:    plan.name,
     }));
@@ -94,10 +93,10 @@ export default function PlanSignupDialog({ plan, billing, onClose }: PlanSignupD
                 {/* Price */}
                 <div className="flex items-baseline gap-1.5 mb-1">
                   <span className="text-4xl font-extrabold text-[#0F172A] tracking-tight">${price}</span>
-                  <span className="text-sm text-[#94A3B8]">/{billing === 'monthly' ? 'mo' : 'yr'}</span>
+                  <span className="text-sm text-[#94A3B8]">/ mo</span>
                 </div>
                 <p className="text-[11px] text-[#94A3B8] mb-5">
-                  {billing === 'monthly' ? 'Billed monthly · cancel anytime' : 'Billed annually · ~17% off'}
+                  Billed annually · ${price * 12} / yr · cancel anytime
                 </p>
 
                 {/* Features (first 4) */}
