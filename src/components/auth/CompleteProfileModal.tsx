@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import Select, { type StylesConfig } from 'react-select';
 import { apiFetch } from '../../lib/api';
 import { useAuth } from '../../hooks/useAuth';
+import { COUNTRIES } from '../../data/countries';
 
 // ─── Roles ────────────────────────────────────────────────────────────────────
 
@@ -114,10 +115,17 @@ export default function CompleteProfileModal() {
   const [role,        setRole]        = useState('');
   const [customRole,  setCustomRole]  = useState('');
   const [country,     setCountry]     = useState<SelectOption | null>(null);
-  const [countries,   setCountries]   = useState<SelectOption[]>([]);
-  const [loadingCtry, setLoadingCtry] = useState(true);
   const [loading,     setLoading]     = useState(false);
   const [error,       setError]       = useState<string | null>(null);
+
+  // Country options built once from the local list
+  const countries = useMemo<SelectOption[]>(
+    () =>
+      COUNTRIES
+        .map(c => ({ value: c.name, label: `${c.flag}  ${c.name}` }))
+        .sort((a, b) => a.value.localeCompare(b.value)),
+    [],
+  );
 
   useEffect(() => {
     const id = requestAnimationFrame(() => setVisible(true));
@@ -127,26 +135,6 @@ export default function CompleteProfileModal() {
   const isOtherRole = role === 'Other';
   const finalRole   = isOtherRole ? customRole.trim() : role;
   const canSubmit   = name.trim() && finalRole && country && !loading;
-
-  // Fetch countries from REST Countries API
-  useEffect(() => {
-    fetch('https://restcountries.com/v3.1/all?fields=name,flag')
-      .then(r => r.json())
-      .then((data: Array<{ name: { common: string }; flag: string }>) => {
-        const opts = data
-          .map(c => ({
-            value: c.name.common,
-            label: `${c.flag}  ${c.name.common}`,
-          }))
-          .sort((a, b) => a.value.localeCompare(b.value));
-        setCountries(opts);
-      })
-      .catch(() => {
-        // If API fails, leave empty — user can retry or we show a note
-        setError('Could not load countries. Check your connection and refresh.');
-      })
-      .finally(() => setLoadingCtry(false));
-  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -272,11 +260,9 @@ export default function CompleteProfileModal() {
               options={countries}
               value={country}
               onChange={opt => setCountry(opt)}
-              isLoading={loadingCtry}
               isDisabled={loading}
               placeholder="Search your country…"
               noOptionsMessage={() => 'No countries found'}
-              loadingMessage={() => 'Loading countries…'}
               menuPlacement="auto"
               styles={selectStyles}
               isClearable
