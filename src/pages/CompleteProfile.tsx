@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Select, { type StylesConfig } from 'react-select';
 import gsap from 'gsap';
@@ -6,6 +6,7 @@ import { useGSAP } from '../hooks/useGSAP';
 import { apiFetch } from '../lib/api';
 import { useAuth } from '../hooks/useAuth';
 import Modal from '../components/shared/Modal';
+import { COUNTRIES } from '../data/countries';
 
 // ─── Roles ────────────────────────────────────────────────────────────────────
 
@@ -113,11 +114,18 @@ export default function CompleteProfile() {
   const [role,        setRole]        = useState('');
   const [customRole,  setCustomRole]  = useState('');
   const [country,     setCountry]     = useState<SelectOption | null>(null);
-  const [countries,   setCountries]   = useState<SelectOption[]>([]);
-  const [loadingCtry, setLoadingCtry] = useState(true);
   const [loading,     setLoading]     = useState(false);
   const [error,       setError]       = useState<string | null>(null);
   const [profileDone, setProfileDone] = useState(false);
+
+  // Country options built once from the local list
+  const countries = useMemo<SelectOption[]>(
+    () =>
+      COUNTRIES
+        .map(c => ({ value: c.name, label: `${c.flag}  ${c.name}` }))
+        .sort((a, b) => a.value.localeCompare(b.value)),
+    [],
+  );
 
   const isOtherRole  = role === 'Other';
   const finalRole    = isOtherRole ? customRole.trim() : role;
@@ -158,22 +166,6 @@ export default function CompleteProfile() {
       navigate('/create-workspace');
     }
   }, [profileDone, user, navigate]);
-
-  // Fetch countries
-  useEffect(() => {
-    fetch('https://restcountries.com/v3.1/all?fields=name,flag')
-      .then(r => r.json())
-      .then((data: Array<{ name: { common: string }; flag: string }>) => {
-        const opts = data
-          .map(c => ({ value: c.name.common, label: `${c.flag}  ${c.name.common}` }))
-          .sort((a, b) => a.value.localeCompare(b.value));
-        setCountries(opts);
-      })
-      .catch(() => {
-        setError('Could not load countries. Check your connection and refresh.');
-      })
-      .finally(() => setLoadingCtry(false));
-  }, []);
 
   const containerRef = useGSAP<HTMLDivElement>(() => {
     gsap.to('[data-orb="1"]', { x: 14, y: -10, duration: 4.8, repeat: -1, yoyo: true, ease: 'sine.inOut' });
@@ -315,11 +307,9 @@ export default function CompleteProfile() {
               options={countries}
               value={country}
               onChange={opt => setCountry(opt)}
-              isLoading={loadingCtry}
               isDisabled={loading}
               placeholder="Search your country…"
               noOptionsMessage={() => 'No countries found'}
-              loadingMessage={() => 'Loading countries…'}
               menuPlacement="auto"
               menuPortalTarget={document.body}
               menuPosition="fixed"
